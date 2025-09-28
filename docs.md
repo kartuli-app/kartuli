@@ -92,6 +92,20 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - **Exercise**: Interactive practice activities within lessons
 - **Vocabulary**: Georgian words and phrases with translations
 - **Cultural Context**: Georgian cultural information integrated into language learning
+- **Content Pack**: Bundled dataset for a native → target language pair, including metadata, letters, words, modules, and lessons
+- **Module**: Themed collection of items (letters or words) defined in a content pack
+- **Lesson**: Curated subset of module items (4–10) used for structured practice
+- **Letter Item**: Alphabet entry with glyph, names, transliteration, media, and usage hints
+- **Word Item**: Vocabulary entry with target term, transliteration, media, and example sentences
+
+### Tracking & Gamification Terms
+- **Tracking Data**: Raw gameplay records stored locally, including per-item stats, per-game summaries, and global aggregates
+- **Correct Round**: Individual gameplay round completed accurately for a given item
+- **Incorrect Round**: Individual gameplay round completed inaccurately for a given item
+- **Mastery Threshold**: Number of correct rounds required to mark an item as mastered (letters ≈ 3–5, words ≈ 5–8)
+- **Item Mastery**: Binary status indicating whether an item has met the mastery threshold
+- **Global Level**: Progress tier determined by total mastered items, emphasizing early alphabet completion
+- **Assets**: Shared media files (images, audio) referenced by items across content packs
 
 ---
 
@@ -143,6 +157,13 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - **Cultural Context**: Include Georgian culture and context in lessons
 - **Community-driven**: Future plans for user-generated content
 
+### Learning System Architecture
+- **Content packs** bundle data for each native → target language pair, keeping the platform offline-first
+- **Pack structure**: metadata, letters, words, modules, and lessons; items are dictionaries for O(1) lookup, while modules/lessons are ordered arrays to preserve author intent
+- **Shared assets**: Images and audio live outside individual packs and are referenced by path
+- **Runtime generation**: Groups and games are created dynamically at runtime, not stored in packs
+- **Further reading**: See the [learning system specification](./learning-system.md) for schema details and an example pack
+
 ---
 
 ## Technical Approach
@@ -185,3 +206,10 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) format for a
 - `feat(auth): add Google and Facebook social login`
 - `fix(pwa): resolve offline sync issue`
 - `chore: update dependencies`
+
+### Tracking and Gamification
+- **Offline-first tracking**: Raw user activity stays on-device, capturing per-item stats (games played, correct/incorrect rounds), per-game summaries, and global aggregates (time spent, wins)
+- **Decoupled systems**: Tracking data powers gamification, letting us adjust mastery thresholds without migrating historical data
+- **Item mastery**: Letters require roughly 3–5 correct rounds, words 5–8; once mastered, items remain mastered
+- **Global progression**: Levels unlock as users master more items, emphasizing early alphabet mastery before vocabulary expansion
+- **Customization**: Optional points or visual rewards can sit on top of the foundational tracking data without affecting mastery logic
