@@ -17,6 +17,10 @@
   - [6.5 Gamification](#65-gamification)
   - [6.6 Analytics (PostHog)](#66-analytics-posthog)
 - [7. Technology & Delivery](#7-technology--delivery)
+  - [7.1 Technology Philosophy](#71-technology-philosophy)
+  - [7.2 Infrastructure Stack](#72-infrastructure-stack)
+  - [7.3 Data Flow Architecture](#73-data-flow-architecture)
+  - [7.4 Development Conventions](#74-development-conventions)
 
 ---
 
@@ -634,10 +638,13 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 
 ## 7. Technology & Delivery
 
-### Technology Philosophy
-- Prefer managed solutions and providers whenever possible
-- Prioritize serverless architecture to minimize operational overhead and costs
-- Continuously optimize infrastructure to delay monetization needs
+### 7.1 Technology Philosophy
+- **Free-tier first**: Leverage free tiers of managed services to minimize operational costs
+- **Serverless architecture**: Use Vercel + Next.js for zero-maintenance backend scaling
+- **Offline-first design**: Local storage as primary, cloud sync as enhancement
+- **Managed services**: Prefer fully managed solutions over self-hosted infrastructure
+- **Cost optimization**: Continuously optimize to delay monetization needs
+- **Reliability focus**: Multiple monitoring layers (Sentry + New Relic) for better uptime
 
 ### Key Requirements
 - Offline capability at the core of the experience
@@ -647,13 +654,70 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 - Cost-optimized infrastructure choices
 - Privacy-compliant analytics with user consent
 
-### Infrastructure Components
-- **Supabase**: User progress data storage and synchronization for registered users
-- **PostHog**: Analytics and user behavior tracking (with consent)
-- **Local Storage**: Primary data storage for offline-first functionality
+### 7.2 Infrastructure Stack
+
+#### Core Platform
+- **Next.js**: React framework with serverless functions for backend logic
+- **Vercel**: Hosting, deployment, and serverless function execution
 - **PWA**: Progressive Web App architecture for cross-platform compatibility
 
-### Development Conventions
+#### Data & Storage
+- **Local Storage**: Primary data storage for offline-first functionality
+- **Supabase**: 
+  - Main database for user data and progress
+  - Authentication service (social login)
+  - User progress synchronization for registered users
+  - Favorites and user preferences storage
+
+#### Analytics & Monitoring
+- **PostHog**: User behavior analytics and event tracking (with consent)
+- **Sentry**: Error tracking and performance monitoring
+- **New Relic**: Application performance monitoring and uptime tracking
+
+#### CDN & Communication
+- **Cloudflare**: 
+  - CDN for static assets and content delivery
+  - Domain management and DNS
+  - Email services for newsletters and notifications
+
+#### Development & Operations
+- **GitHub**: Code repository, version control, and CI/CD
+- **GitHub Actions**: Automated workflows for deployment and asset management
+
+#### Cost Optimization Strategy
+All services utilize **free tiers** to minimize operational costs:
+- Vercel: Free tier for hosting and serverless functions
+- Supabase: Free tier for database and auth
+- PostHog: Free tier for analytics
+- Cloudflare: Free tier for CDN and basic services
+- Sentry: Free tier for error tracking
+- New Relic: Free tier for monitoring
+- GitHub: Free for public repositories
+
+### 7.3 Data Flow Architecture
+
+**User Progress Flow:**
+1. **Local Storage** → Primary data storage (offline-first)
+2. **Consolidation** → Merge raw entries when >20 entries
+3. **Supabase Sync** → Push consolidated data for registered users (every 5 minutes)
+4. **PostHog Analytics** → Send events with user consent (immediately if online, queued if offline)
+
+**Authentication Flow:**
+1. **Anonymous Users** → Local storage only with client-generated ID
+2. **Social Login** → Supabase Auth (Google, Facebook)
+3. **Data Linking** → Optional merge of anonymous data with registered account
+
+**Content Delivery:**
+1. **Static Assets** → Cloudflare CDN for images, audio, content packs
+2. **App Code** → Vercel deployment with Next.js PWA
+3. **Database** → Supabase for user data and progress
+
+**Monitoring & Analytics:**
+1. **Error Tracking** → Sentry for application errors
+2. **Performance** → New Relic for uptime and performance metrics
+3. **User Behavior** → PostHog for engagement analytics (consent-based)
+
+### 7.4 Development Conventions
 We use [Conventional Commits](https://www.conventionalcommits.org/) format for all commits:
 
 ```
