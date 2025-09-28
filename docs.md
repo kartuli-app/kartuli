@@ -13,8 +13,9 @@
   - [6.1 Purpose](#61-purpose)
   - [6.2 Data Model](#62-data-model)
   - [6.3 Example Content Pack – en-ka v0.1](#63-example-content-pack--en-ka-v01)
-  - [6.4 Tracking](#64-tracking)
+  - [6.4 User Progress Tracking](#64-user-progress-tracking)
   - [6.5 Gamification](#65-gamification)
+  - [6.6 Analytics (PostHog)](#66-analytics-posthog)
 - [7. Technology & Delivery](#7-technology--delivery)
 
 ---
@@ -125,6 +126,19 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - **Item Mastery**: Binary status indicating whether an item has met the mastery threshold
 - **Global Level**: Progress tier determined by total mastered items, emphasizing early alphabet completion
 - **Assets**: Shared media files (images, audio) referenced by items across content packs
+- **Consolidation**: Process of merging multiple raw game entries into summarized records when threshold is exceeded (>20 entries)
+- **Client-Generated ID**: Unique device identifier created locally for anonymous tracking and optional account linking
+- **Sync Interval**: Configurable time period (default 5 minutes) for pushing consolidated data to cloud storage
+
+### Analytics Terms
+- **Analytics**: Optional user behavior tracking for app usage analysis, separate from progress tracking
+- **PostHog**: Third-party analytics platform used for event tracking and user behavior analysis
+- **Analytics Consent**: User permission required before sending any analytics events to external services
+- **Event Categories**: Grouped analytics events (Acquisition, Activation/Engagement, Retention/Business Metrics)
+- **Funnel Analysis**: Tracking user progression through key app flows (landing → app → lesson → game)
+- **Anonymous Analytics**: Device-level tracking without personal data, using client-generated ID only
+- **Data Export**: User's right to receive their tracked data in portable format (JSON/CSV)
+- **Data Deletion**: User's right to have their tracked data permanently removed from all systems
 
 ---
 
@@ -444,19 +458,53 @@ Assets (images, audio) are shared across all packs. Runtime concepts (groups, ga
 }
 ```
 
-### 6.4 Tracking
+### 6.4 User Progress Tracking
+
 The tracking system stores raw user data locally to remain offline-first and decoupled from gamification rules, enabling flexible mastery and level calculations.
 
-**Tracked metrics**
-- **Per game (incremental entry)**: Append a record after each session containing:
-  - `items`: dictionary keyed by item id, where each value stores the wins and losses earned for that item in the session (e.g., `{ "dog": { "wins": 1, "losses": 0 } }`).
-  - `time_spent_learning_in_seconds`: total time spent in that game session.
-  - `days_played`: ISO date(s) touched by that session (usually a single day).
-- **Consolidated progress**: When incremental entries are merged, maintain running totals for:
-  - `items`: dictionary keyed by item id with cumulative `wins` and `losses`.
-  - `time_spent_learning_in_seconds`: sum of time across all consolidated sessions.
-  - `days_played`: union of all days on which at least one session occurred.
-- **Global user stats**: Derived values like total games played, total games won (>50% correct rounds), rolling streaks, etc., computed from the consolidated data.
+#### 6.4.1 Stored Metrics
+
+**Per game session:**
+- Items included
+- Number of rounds
+- Wins and losses per item
+- Total time in game (from lobby open to exit)
+- Timestamp
+
+**Global user stats (computed from raw data):**
+- Total games played
+- Total time spent
+- Total games won (>50% rounds correct)
+- Item mastery (binary, derived)
+- User global level (derived)
+
+#### 6.4.2 Consolidation
+
+- Raw game entries are stored individually.
+- When **>20 entries** exist, consolidate by summing:
+  - Wins/losses per item
+  - Total game time
+  - Played dates: store a **list of days** played for streak calculations
+- Timestamps of consolidated entries: approximate (e.g., first and last day)
+
+#### 6.4.3 Offline-first behavior
+
+- All progress is first saved locally.
+- If the user is logged in:
+  - Every 5 minutes (or configurable interval), **push consolidated entries to Supabase**
+  - Ensure **no duplication**: only new entries since last sync are sent
+- Computed fields like item mastery and global level are **never stored**; always derived at runtime
+
+#### 6.4.4 Anonymous vs Registered Users
+
+- Anonymous users: all progress stays local.
+- On login/signup:
+  - Ask user if they want to **link previous anonymous data**
+  - If yes: merge local progress into Supabase account
+  - If no: keep anonymous data local
+- Each device has a **client-generated ID** used for local tracking and optional linking
+
+#### 6.4.5 Data Structure Examples
 
 **Incremental entry example**
 
@@ -467,18 +515,10 @@ The tracking system stores raw user data locally to remain offline-first and dec
     "cat": { "wins": 0, "losses": 1 }
   },
   "time_spent_learning_in_seconds": 180,
-  "days_played": ["2025-10-01"]
+  "days_played": ["2025-10-01"],
+  "timestamp": "2025-10-01T14:30:00Z"
 }
 ```
-
-(Optional) A client may attach a transient identifier per game/session for debugging, but it is not required and is discarded during consolidation.
-
-**Consolidation**
-- When incremental entries exceed a threshold (e.g., 20), merge them into the consolidated store:
-  - Sum `wins` and `losses` per item id.
-  - Add `time_spent_learning_in_seconds` to the global total.
-  - Merge `days_played` arrays (set union, no duplicates).
-- After consolidation, delete or archive the incremental entries that were merged.
 
 **Consolidated data example**
 
@@ -489,7 +529,9 @@ The tracking system stores raw user data locally to remain offline-first and dec
     "cat": { "wins": 5, "losses": 4 }
   },
   "time_spent_learning_in_seconds": 960,
-  "days_played": ["2025-09-28", "2025-09-30", "2025-10-01"]
+  "days_played": ["2025-09-28", "2025-09-30", "2025-10-01"],
+  "consolidated_from": "2025-09-28",
+  "consolidated_to": "2025-10-01"
 }
 ```
 
@@ -497,6 +539,7 @@ The tracking system stores raw user data locally to remain offline-first and dec
 - Only total time per game is tracked; per-item time is derived indirectly if needed but not stored.
 - `days_played` is tracked at the session/global level to support streak logic.
 - Tracking remains offline-first and can be synced later without altering mastery logic.
+- Client may attach a transient identifier per game/session for debugging, but it is not required and is discarded during consolidation.
 
 ### 6.5 Gamification
 - Item mastery is binary: letters typically require 3–5 wins; words 5–8 wins.
@@ -519,6 +562,74 @@ The tracking system stores raw user data locally to remain offline-first and dec
 - Modules and lessons inherit progress from their items; mastery completes once all contained items meet thresholds.
 - Optional points or visual rewards can layer on top without altering mastery or level logic.
 
+### 6.6 Analytics (PostHog)
+
+#### 6.6.1 Purpose
+
+Track **user acquisition, engagement, and funnels** for app usage analysis. Analytics is separate from user progress tracking and requires user consent.
+
+**Key principle**: **User progress is separate from analytics.** Analytics is optional and respects user consent; progress tracking is necessary for offline-first functionality.
+
+#### 6.6.2 Event Categories
+
+1. **Acquisition**  
+   - `landing_page_view`
+   - `privacy_page_view`
+   - `faq_page_view`
+
+2. **Activation / Engagement**  
+   - `app_home_opened`
+   - `lesson_selected`
+   - `game_started`
+   - `game_completed`
+
+3. **Retention / Business Metrics**  
+   - `item_mastered` (only for anonymous users or users who consent to analytics)
+   - `level_mastered` (optional; mostly for dashboards)
+   - Funnels (landing → app → lesson → game)
+
+#### 6.6.3 Offline Handling
+
+- Events queued locally if offline
+- Sent to PostHog when connection is available
+- Similar to Supabase activity sync
+
+#### 6.6.4 Anonymous Users
+
+- Device has a **client-generated ID**
+- No personal data is tracked until consent
+- If user consents to linking after login/signup:
+  - Merge previous anonymous events with account
+  - If no consent: keep anonymous events separate
+
+#### 6.6.5 Consent & Privacy
+
+- **Consent is required** before sending any analytics events
+- Consent is **per user, per device**
+- Users can refuse analytics and still use the app normally
+- A simple **informative banner** explaining how to stop tracking is acceptable practice
+- GDPR / privacy compliance:
+  - Do not track personal data without consent
+  - Provide options for deletion/export of data
+  - Anonymous usage can be tracked only with device ID (non-personal)
+
+#### 6.6.6 Data Deletion & Export
+
+- **Supabase:** delete or export raw progress data
+- **PostHog:** deletion/export per user or device may be required for GDPR
+- Export format: e.g., JSON or CSV containing progress/events
+- Deletion: ensure both Supabase and PostHog data are removed if requested
+
+#### 6.6.7 Event Handling Flow
+
+1. User completes game → triggers `onGameCompleted`
+2. Save **local raw entry**
+3. Consolidate if entry count > 20
+4. If user is logged in and **sync interval passed**, push to Supabase
+5. If analytics consent given:
+   - Send analytics events to PostHog (immediately if online, queue if offline)
+6. Compute mastery/levels on runtime; **never store computed fields**
+
 ---
 
 ## 7. Technology & Delivery
@@ -534,6 +645,13 @@ The tracking system stores raw user data locally to remain offline-first and dec
 - Local progress storage with optional account sync
 - Multi-language support for native languages
 - Cost-optimized infrastructure choices
+- Privacy-compliant analytics with user consent
+
+### Infrastructure Components
+- **Supabase**: User progress data storage and synchronization for registered users
+- **PostHog**: Analytics and user behavior tracking (with consent)
+- **Local Storage**: Primary data storage for offline-first functionality
+- **PWA**: Progressive Web App architecture for cross-platform compatibility
 
 ### Development Conventions
 We use [Conventional Commits](https://www.conventionalcommits.org/) format for all commits:
