@@ -1,4 +1,4 @@
-# Learning System – Product Specification + Example Content Pack
+# Learning System – Product Specification + Example Content Pack + Tracking & Gamification
 
 ## 1. Purpose
 
@@ -265,50 +265,83 @@ It includes:
 
 ## 4. Tracking
 
-The **tracking system** stores **raw user data locally**, offline-first. It is **separate from gamification rules**, allowing flexible computation of mastery and levels.
+The **tracking system** stores **raw user data locally**, offline-first. It is **decoupled from gamification rules**, allowing flexible computation of mastery and levels.
 
 ### Tracked Metrics
 
 **Per item (letter/word):**
 
 * Number of games played
-* Number of correct rounds
-* Number of incorrect rounds
+* Number of correct rounds (wins)
+* Number of incorrect rounds (losses)
+* Total time spent across games
+* **Days played** — array of ISO dates, for streak calculation
 
-**Per game:**
+**Per game (incremental entry):**
 
-* Items included
-* Number of rounds
-* Timestamp
-* Total time spent in the game (from opening the lobby to exiting the game)
+* Items included (IDs)
+* Number of rounds per item
+* Wins/losses per item
+* Total time spent (lobby + minigames + summary)
+* Game timestamp
 
 **Global user stats:**
 
 * Total games played
-* Total time spent across all games
 * Total games won (>50% correct rounds)
+* Total time spent across all games
+* Days played
 
-### Storage Considerations
+---
 
-* Store **dictionaries keyed by item ID** for O(1) lookups.
-* Keep incremental game results; **consolidate periodically** to reduce data size.
-* Tracking is **decoupled from gamification**—rules can change without losing historical data.
-* Time per item is **not tracked**; only total time per game is recorded.
+### Consolidation
+
+* **Incremental entries** are stored after each game.
+* When entries exceed a threshold (e.g., 20), consolidate:
+
+  * Sum wins/losses **per item ID**
+  * Sum total time per item
+  * Merge `days_played` arrays (union, no duplicates)
+* Consolidation reduces storage and speeds up lookups.
+* Item-level data now includes:
+
+```
+{
+  "wins": 2,
+  "losses": 3,
+  "time_seconds": 25,
+```
+
+
+"days_played": ["2025-09-28", "2025-09-30"]
+}
+
+```
+
+* Global stats are computed from **per-item consolidated data**.
+
+---
+
+### Notes
+
+* Only total time per game is tracked; time per item is derived from consolidation.
+* Tracking is **decoupled from gamification**, allowing flexible rules.
+* Data is **offline-first**, stored locally, and can be synced later.
 
 ---
 
 ## 5. Gamification
 
-The **gamification system** computes **mastery and global levels** from tracking data.
+The **gamification system** computes **mastery and global levels** from consolidated tracking data.
 
 ### Item Mastery
 
 * Binary: mastered or not
-* Determined by **threshold of correct rounds**:
+* Determined by **threshold of correct rounds per item**:
 
-  * Letters: 3–5 correct rounds
-  * Words: 5–8 correct rounds
-* Extra correct rounds do not affect mastery; optional points/confidence may track short-term performance.
+  * Letters: 3–5 wins
+  * Words: 5–8 wins
+* Extra wins beyond threshold do not affect mastery.
 
 ### Global Levels
 
@@ -317,20 +350,25 @@ The **gamification system** computes **mastery and global levels** from tracking
 * Example progression:
 
 | Level | Name         | Requirement         |
-| ----- | ------------ | ------------------- |
-| 0     | Novice       | 0 items mastered    |
-| 1     | Beginner     | 5 letters mastered  |
-| 2     | Learner      | 10 letters mastered |
-| 3     | Intermediate | 15 letters mastered |
-| 4     | Explorer     | 5 words mastered    |
-| 5     | Adept        | 10 words mastered   |
-| 6     | Fluent       | 25 words mastered   |
-| 7     | Expert       | 50 words mastered   |
-| 8     | Master       | 100 words mastered  |
-| 9     | Polyglot     | 200+ words mastered |
+| ----- | ------------ | ------------------ |
+| 0     | Novice       | 0 items mastered   |
+| 1     | Beginner     | 5 letters mastered |
+| 2     | Learner      | 10 letters mastered|
+| 3     | Intermediate | 15 letters mastered|
+| 4     | Explorer     | 5 words mastered   |
+| 5     | Adept        | 10 words mastered  |
+| 6     | Fluent       | 25 words mastered  |
+| 7     | Expert       | 50 words mastered  |
+| 8     | Master       | 100 words mastered |
+| 9     | Polyglot     | 200+ words mastered|
+
+### Modules & Lessons
+
+* Progress is derived from items they contain; no separate thresholds.
+* Mastery is binary: either all contained items meet the item threshold or not.
 
 ### Notes
 
-* **Modules and lessons** derive progress from the items they contain; no separate thresholds.
-* Users **cannot lose mastery** once achieved; global levels depend on items mastered.
-* Points or stars can be added for visual feedback, independent from mastery and levels
+* Users **cannot lose mastery** once achieved.
+* Points or stars can be added for visual feedback, independent from mastery and levels.
+```
