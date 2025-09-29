@@ -777,6 +777,14 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) format for a
 - **Content tooling**: Outline the long-term CMS/backoffice workflow for authoring, validating, and publishing multi-language content packs at scale.
 - **Beta feedback loop**: Choose target communities, survey tooling, and in-app feedback mechanisms for MVP launch learnings.
 - **Advanced caching policy**: Validate asset caching quotas, eviction handling, and fallback UX across browsers and low-storage devices.
+- **Brand & visual identity**: Establish logo system, color palette, typography, and usage guidelines for marketing pages and in-app UI.
+- **Mobile-first UX spec**: Document responsive breakpoints, gesture patterns, and install prompts to ensure consistent handheld experience.
+- **Guerrilla marketing plan**: Define low-cost community outreach tactics, forum presence, and social media experiments aligned with the free-forever promise.
+- **Social & community presence**: Secure handles, craft voice guidelines, and plan content cadence for platforms (e.g., Instagram, TikTok, Discord) plus in-app community spaces.
+- **Support & contact channels**: Decide on official contact email(s), help center tooling, and turnaround expectations for user inquiries or bug reports.
+- **Legal & policy checklist**: Finalize privacy policy, terms of service, analytics consent copy, and disclosures for affiliate links.
+- **Accessibility & QA audit**: Schedule usability/accessibility reviews, device matrix testing, and performance budgets prior to launch.
+- **Launch monitoring & incident response**: Define alert thresholds, escalation contacts, and rollback procedures for the production environment.
 
 ## 9. Change Log
 - **2025-09-28**: Consolidated documentation from `docs.md`, `landing-ux-and-redirect-strategy.md`, and `learning-system.md`
