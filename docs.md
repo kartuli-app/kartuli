@@ -21,6 +21,8 @@
   - [7.2 Infrastructure Stack](#72-infrastructure-stack)
   - [7.3 Data Flow Architecture](#73-data-flow-architecture)
   - [7.4 Development Conventions](#74-development-conventions)
+- [8. To Discuss](#8-to-discuss)
+- [9. Change Log](#9-change-log)
 
 ---
 
@@ -50,11 +52,11 @@ To become the go-to platform for Georgian language learning, ensuring that langu
 - Basic learning features
 
 ### Future Phases (No Specific Order)
-- **Multi-language Support**: Add Ukrainian, Russian, Belarusian, Hindi and Spanish language support
-- **Additional Social Providers**: Add TikTok, Discord, Twitter, Apple social login options
+- **Multi-language Support**: Add Ukrainian, Russian, Belarusian, Hindi and Spanish language support (launch sequentially based on demonstrated demand, survey insights, and availability of a 200+ item localized content pack)
+- **Additional Social Providers**: Add TikTok, Discord, Twitter, Apple social login options (prioritize by user adoption research and Supabase integration complexity)
 - **Content Management System**: Build admin backoffice for content management
 - **Newsletter Service**: Launch weekly/monthly email newsletters for subscribers
-- **Streaming Bot**: Launch Twitch streaming bot that learns Georgian 24/7
+- **Streaming Bot**: Launch Twitch streaming bot that learns Georgian 24/7 (requires dedicated roadmap once core sync/content systems mature)
 
 ### Long-term Vision
 - Expand to other underserved languages beyond Georgian
@@ -74,8 +76,7 @@ To become the go-to platform for Georgian language learning, ensuring that langu
 
 ### Revenue Model
 - **Purpose**: Only to cover operational costs (servers, databases, authentication, email services)
-- **Possible sources of income**: 
- Affiliate partnerships with learning resources (books, courses), learning platforms (online classes) or physical language schools
+- **Possible sources of income**: Affiliate partnerships with learning resources (books, courses), learning platforms (online classes) or physical language schools; these activate only after free-tier limits are consistently exceeded (e.g., Supabase 50k MAU)
 - **We will never go with**: Premium accounts, ads, paywalls, content restrictions, or marketing-focused monetization
 
 ### Competitive Advantage
@@ -163,9 +164,13 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - Offline-first architecture ensures core functionality works without internet
 - Free-forever promise: no premium tiers, ads, or content restrictions
 - Interface localizes into the learner's native language (English → Ukrainian, Russian, Belarusian, Hindi, Spanish roadmap)
+- Onboarding flow: landing page → app home (default to Recommended mode). Users can toggle to Free mode, select modules/lessons, review flashcards, then start interactive game sessions.
+- Recommended mode selects the next lesson based on lowest mastery; Free mode exposes detailed mastery per module, lesson, and item for manual exploration.
+- When offline, login/sync actions are disabled; background retries surface as a subtle "sync pending" status instead of error dialogs.
+- Accessibility plan: Georgian-friendly fonts via Next.js font pipeline, WCAG-compliant color contrast, keyboard navigation, ARIA-first automated tests, and screen reader checks.
 
 **Applications & Services**
-- **Kartuli PWA**: Mobile-first Progressive Web App with offline capability, optimized for iOS, Android, and desktop
+- **Kartuli PWA**: Mobile-first Progressive Web App with offline capability, optimized for iOS, Android, and desktop (service-worker versioning/refresh flow TBD)
 - **Admin Backoffice (future)**: Content management system covering lessons, exercises, vocabulary, analytics, and administration
 - **Newsletter Service (future)**: Weekly/monthly updates highlighting progress insights, cultural content, and seasonal topics
 - **Streaming Bot (future)**: Twitch bot that continuously uses the app to showcase effectiveness and entertain viewers
@@ -180,7 +185,7 @@ Define the user experience for landing pages, initial app access, and client-sid
 - **App**: `/en-ka/app`, `/en-ka/app/module/[module-slug]`, `/en-ka/app/lesson/[lesson-slug]`, `/en-ka/app/favorites`
 
 **Initial user flow with modal redirect**
-1. **Landing page `/`**: Display modal "Redirecting to the app" with a 3-second countdown and a button "No, I want to stay here." If the countdown completes, perform a client-side redirect to `/en-ka/app`.
+1. **Landing page `/`**: Display modal "Redirecting to the app" with a 3-second countdown and a button "No, I want to stay here." If the countdown completes, perform a client-side redirect to `/en-ka/app`. Content on `/` and `/en-ka` remains identical for SEO consistency and crawler visibility.
 2. **Landing page `/en-ka`**: Same modal and countdown; redirect to `/en-ka/app` unless cancelled.
 3. **App pages**: No modal; users enter the core learning experience immediately.
 4. **Static pages (terms, privacy, FAQ)**: No modal and no redirect so informational content remains accessible.
@@ -209,8 +214,11 @@ Define the user experience for landing pages, initial app access, and client-sid
 ### 5.3 Content Strategy
 - Emphasize practical, real-world usage for people living in Georgia
 - Provide progressive learning paths from basic to advanced
-- Integrate Georgian cultural context directly into lessons
+- Integrate Georgian cultural context directly into lessons by prioritizing Georgian-specific imagery and examples
 - Plan for community-driven content contributions in the future
+- Maintain modules as single item-type (letters-only or words-only) to keep mastery thresholds consistent
+- MVP content authoring happens manually in JSON; future CMS/backoffice will streamline scaling to thousands of items
+- Current scope ships a single `en → ka` content pack. Future packs reuse master item records (target script, audio, imagery) with native-language overlays so each native language can publish a curated subset at its own pace.
 
 ---
 
@@ -484,7 +492,7 @@ The tracking system stores raw user data locally to remain offline-first and dec
 
 #### 6.4.2 Consolidation
 
-- Raw game entries are stored individually.
+- Raw game entries are stored individually with client-generated UUIDs for idempotent syncing.
 - When **>20 entries** exist, consolidate by summing:
   - Wins/losses per item
   - Total game time
@@ -493,20 +501,20 @@ The tracking system stores raw user data locally to remain offline-first and dec
 
 #### 6.4.3 Offline-first behavior
 
-- All progress is first saved locally.
+- All progress is first saved locally with a boolean `synced` flag per entry.
 - If the user is logged in:
   - Every 5 minutes (or configurable interval), **push consolidated entries to Supabase**
-  - Ensure **no duplication**: only new entries since last sync are sent
-- Computed fields like item mastery and global level are **never stored**; always derived at runtime
+  - Ensure **no duplication**: only entries whose UUIDs have not been acknowledged by the server are sent
+- Computed fields like item mastery and global level are **never stored**; always derived at runtime using aggregated wins
 
 #### 6.4.4 Anonymous vs Registered Users
 
 - Anonymous users: all progress stays local.
 - On login/signup:
   - Ask user if they want to **link previous anonymous data**
-  - If yes: merge local progress into Supabase account
-  - If no: keep anonymous data local
-- Each device has a **client-generated ID** used for local tracking and optional linking
+  - If yes: upload all unsynced entries (including consolidated ones) and mark them as synced locally once confirmed
+  - If no: delete local progress entries and start fresh
+- Each device has a **client-generated ID** used for local tracking and optional linking to analytics
 
 #### 6.4.5 Data Structure Examples
 
@@ -520,7 +528,9 @@ The tracking system stores raw user data locally to remain offline-first and dec
   },
   "time_spent_learning_in_seconds": 180,
   "days_played": ["2025-10-01"],
-  "timestamp": "2025-10-01T14:30:00Z"
+  "timestamp": "2025-10-01T14:30:00Z",
+  "id": "04c0a836-b7e6-4e2d-8b58-4ff9c17670f9",
+  "synced": false
 }
 ```
 
@@ -535,18 +545,21 @@ The tracking system stores raw user data locally to remain offline-first and dec
   "time_spent_learning_in_seconds": 960,
   "days_played": ["2025-09-28", "2025-09-30", "2025-10-01"],
   "consolidated_from": "2025-09-28",
-  "consolidated_to": "2025-10-01"
+  "consolidated_to": "2025-10-01",
+  "id": "69abf13d-9fda-45a5-9c4b-0a4f8c7dea38",
+  "synced": true
 }
 ```
 
 **Notes**
 - Only total time per game is tracked; per-item time is derived indirectly if needed but not stored.
-- `days_played` is tracked at the session/global level to support streak logic.
+- `days_played` is tracked at the session/global level to support streak logic. Sessions that start within 15 minutes after midnight count toward the previous day to preserve streaks.
 - Tracking remains offline-first and can be synced later without altering mastery logic.
 - Client may attach a transient identifier per game/session for debugging, but it is not required and is discarded during consolidation.
+- Progress is segmented per native language; switching interface language loads an independent dataset so mastery and streaks remain meaningful even when content coverage differs.
 
 ### 6.5 Gamification
-- Item mastery is binary: letters typically require 3–5 wins; words 5–8 wins.
+- Item mastery is binary: letters typically require 3–5 wins; words 5–8 wins. Modules and lessons stay homogeneous (letters-only or words-only) so thresholds remain consistent.
 - Extra wins beyond the threshold do not change mastery status, and mastery cannot be lost.
 - Global levels emphasize early alphabet mastery before vocabulary expansion.
 
@@ -565,6 +578,8 @@ The tracking system stores raw user data locally to remain offline-first and dec
 
 - Modules and lessons inherit progress from their items; mastery completes once all contained items meet thresholds.
 - Optional points or visual rewards can layer on top without altering mastery or level logic.
+- Recommended mode surfaces the next lesson based on lowest mastery; free mode exposes full mastery metrics for manual exploration.
+- Global streaks use device-local time with a 15-minute post-midnight grace window to avoid accidental resets.
 
 ### 6.6 Analytics (PostHog)
 
@@ -588,7 +603,7 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
    - `game_completed`
 
 3. **Retention / Business Metrics**  
-   - `item_mastered` (only for anonymous users or users who consent to analytics)
+   - `item_mastered` (behavioral analytics only; progress system remains canonical and drives recommended mode)
    - `level_mastered` (optional; mostly for dashboards)
    - Funnels (landing → app → lesson → game)
 
@@ -596,11 +611,11 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 
 - Events queued locally if offline
 - Sent to PostHog when connection is available
-- Similar to Supabase activity sync
+- Similar to Supabase activity sync; reuse entry UUIDs to avoid duplicate sends on retries
 
 #### 6.6.4 Anonymous Users
 
-- Device has a **client-generated ID**
+- Device has a **client-generated ID** reused across analytics and progress for optional linking
 - No personal data is tracked until consent
 - If user consents to linking after login/signup:
   - Merge previous anonymous events with account
@@ -629,7 +644,7 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 1. User completes game → triggers `onGameCompleted`
 2. Save **local raw entry**
 3. Consolidate if entry count > 20
-4. If user is logged in and **sync interval passed**, push to Supabase
+4. If user is logged in and **sync interval passed**, push to Supabase using entry UUIDs for idempotency
 5. If analytics consent given:
    - Send analytics events to PostHog (immediately if online, queue if offline)
 6. Compute mastery/levels on runtime; **never store computed fields**
@@ -668,9 +683,13 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
   - Authentication service (social login)
   - User progress synchronization for registered users
   - Favorites and user preferences storage
+- **Content Packs & Assets**:
+  - Content pack manifest downloaded on install/update; stored locally to unlock offline play
+  - Assets cached on-demand and during install/update pass; app replays the caching loop to recover items re-evicted by the browser
+  - Manifest version bump triggers an in-app "update content" prompt; offline devices pick up the update next time they connect
 
 #### Analytics & Monitoring
-- **PostHog**: User behavior analytics and event tracking (with consent)
+- **PostHog**: User behavior analytics and event tracking (with consent; server-side progress remains canonical)
 - **Sentry**: Error tracking and performance monitoring
 - **New Relic**: Application performance monitoring and uptime tracking
 
@@ -699,13 +718,13 @@ All services utilize **free tiers** to minimize operational costs:
 **User Progress Flow:**
 1. **Local Storage** → Primary data storage (offline-first)
 2. **Consolidation** → Merge raw entries when >20 entries
-3. **Supabase Sync** → Push consolidated data for registered users (every 5 minutes)
+3. **Supabase Sync** → Push consolidated data for registered users (every 5 minutes, deduplicated via entry UUIDs)
 4. **PostHog Analytics** → Send events with user consent (immediately if online, queued if offline)
 
 **Authentication Flow:**
 1. **Anonymous Users** → Local storage only with client-generated ID
 2. **Social Login** → Supabase Auth (Google, Facebook)
-3. **Data Linking** → Optional merge of anonymous data with registered account
+3. **Data Linking** → Optional merge of anonymous data with registered account; users choose whether to upload existing progress/analytics
 
 **Content Delivery:**
 1. **Static Assets** → Cloudflare CDN for images, audio, content packs
@@ -753,5 +772,11 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) format for a
 
 ---
 
-## 8. Change Log
+## 8. To Discuss
+- **Service worker updates**: Define versioning, user notification, and background refresh strategy for the PWA install flow.
+- **Content tooling**: Outline the long-term CMS/backoffice workflow for authoring, validating, and publishing multi-language content packs at scale.
+- **Beta feedback loop**: Choose target communities, survey tooling, and in-app feedback mechanisms for MVP launch learnings.
+- **Advanced caching policy**: Validate asset caching quotas, eviction handling, and fallback UX across browsers and low-storage devices.
+
+## 9. Change Log
 - **2025-09-28**: Consolidated documentation from `docs.md`, `landing-ux-and-redirect-strategy.md`, and `learning-system.md`
