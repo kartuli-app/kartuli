@@ -6,21 +6,31 @@
 - [3. Business Strategy](#3-business-strategy)
 - [4. Glossary](#4-glossary)
 - [5. Product Experience](#5-product-experience)
-  - [5.1 Core Experience](#51-core-experience)
-  - [5.2 Landing Experience & Redirect Strategy](#52-landing-experience--redirect-strategy)
-  - [5.3 Content Strategy](#53-content-strategy)
+  - [5.1 Experience Overview](#51-experience-overview)
+  - [5.2 Layouts & Navigation Map](#52-layouts--navigation-map)
+  - [5.3 Landing & Marketing Surfaces](#53-landing--marketing-surfaces)
+  - [5.4 Hub & Lesson Flow](#54-hub--lesson-flow)
+  - [5.5 Reusable UI Components](#55-reusable-ui-components)
+  - [5.6 Localization Strategy](#56-localization-strategy)
+  - [5.7 Content Strategy](#57-content-strategy)
+  - [5.8 Additional Surfaces](#58-additional-surfaces)
 - [6. Learning System Specification](#6-learning-system-specification)
-  - [6.1 Purpose](#61-purpose)
+  - [6.1 Purpose & Scope](#61-purpose--scope)
   - [6.2 Data Model](#62-data-model)
-  - [6.3 Example Content Pack – en-ka v0.1](#63-example-content-pack--en-ka-v01)
+  - [6.3 MVP Content Pack Scope](#63-mvp-content-pack-scope)
   - [6.4 User Progress Tracking](#64-user-progress-tracking)
   - [6.5 Gamification](#65-gamification)
   - [6.6 Analytics (PostHog)](#66-analytics-posthog)
+  - [6.7 Content Pack Management & Versioning](#67-content-pack-management--versioning)
 - [7. Technology & Delivery](#7-technology--delivery)
   - [7.1 Technology Philosophy](#71-technology-philosophy)
   - [7.2 Infrastructure Stack](#72-infrastructure-stack)
-  - [7.3 Data Flow Architecture](#73-data-flow-architecture)
-  - [7.4 Development Conventions](#74-development-conventions)
+  - [7.3 Application Architecture & Routing](#73-application-architecture--routing)
+  - [7.4 Data Flow Architecture](#74-data-flow-architecture)
+  - [7.5 Offline Storage & PWA Strategy](#75-offline-storage--pwa-strategy)
+  - [7.6 Storage Estimates](#76-storage-estimates)
+  - [7.7 Development Conventions](#77-development-conventions)
+  - [7.8 Consent Management](#78-consent-management)
 - [8. To Discuss](#8-to-discuss)
 - [9. Change Log](#9-change-log)
 
@@ -149,90 +159,101 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 
 ## 5. Product Experience
 
-### 5.1 Core Experience
+### 5.1 Experience Overview
 
-**Core features (MVP)**
-- Georgian language lessons and exercises
-- Offline support to learn without internet connection
-- Anonymous usage by default with optional social login (Google, Facebook for MVP)
-- Multi-language interface starting with English
-- Mobile-first design optimized for on-the-go learning
+**Core MVP scope**
+- Georgian alphabet + ~20 foundational vocabulary words available at launch (2–3 themed mini-modules).
+- Lesson lobby + minigame loop delivering repeatable practice and mastery feedback.
+- Offline-first experience with anonymous usage by default; Google and Facebook login offered for sync.
+- Persistent progress per user even when they switch native languages; English UI/content serves as fallback when specific native-language overlays are missing.
+- Mobile-first responsive design, optimized for touch interactions, gestures, and landscape/portrait transitions.
 
-**Key product decisions**
-- Learners start immediately without registration; social login stays optional
-- Progress persists locally with optional cloud sync for registered users
-- Offline-first architecture ensures core functionality works without internet
-- Free-forever promise: no premium tiers, ads, or content restrictions
-- Interface localizes into the learner's native language (English → Ukrainian, Russian, Belarusian, Hindi, Spanish roadmap)
-- Onboarding flow: landing page → app home (default to Recommended mode). Users can toggle to Free mode, select modules/lessons, review flashcards, then start interactive game sessions.
-- Recommended mode selects the next lesson based on lowest mastery; Free mode exposes detailed mastery per module, lesson, and item for manual exploration.
-- When offline, login/sync actions are disabled; background retries surface as a subtle "sync pending" status instead of error dialogs.
-- Accessibility plan: Georgian-friendly fonts via Next.js font pipeline, WCAG-compliant color contrast, keyboard navigation, ARIA-first automated tests, and screen reader checks.
+**Guiding decisions**
+- Start learning immediately after the landing CTA; no account creation required.
+- Preserve the free-forever promise: no premium tiers, ads, or paywalls.
+- Embrace cost-efficient serverless infrastructure and cache-first delivery to keep operations lean.
+- Ensure accessibility with WCAG-compliant colors, focus states, and screen reader support; Georgian-friendly typography delivered via Next.js fonts.
+- Treat English (`en`) overlays as canonical; additional native languages inherit progress and gracefully fall back to English UI strings or content until localized packs reach parity.
 
-**Applications & Services**
-- **Kartuli PWA**: Mobile-first Progressive Web App with offline capability, optimized for iOS, Android, and desktop (service-worker versioning/refresh flow TBD)
-- **Admin Backoffice (future)**: Content management system covering lessons, exercises, vocabulary, analytics, and administration
-- **Newsletter Service (future)**: Weekly/monthly updates highlighting progress insights, cultural content, and seasonal topics
-- **Streaming Bot (future)**: Twitch bot that continuously uses the app to showcase effectiveness and entertain viewers
+**Supporting services (roadmap)**
+- **Kartuli PWA**: Primary learning surface, installable and offline-capable on iOS/Android/desktop.
+- **Admin Backoffice** *(post-MVP)*: Content management, analytics dashboards, and release tooling.
+- **Newsletter Service** *(post-MVP)*: Periodic updates with learning tips and cultural notes.
+- **Streaming Bot** *(experimental)*: Always-on demo channel showcasing gameplay and updates.
 
-### 5.2 Landing Experience & Redirect Strategy
+### 5.2 Layouts & Navigation Map
 
-**Purpose**
-Define the user experience for landing pages, initial app access, and client-side redirects in the Kartuli PWA.
+- **InfoLayout + InfoNavbar** power marketing and legal surfaces. Desktop shows a persistent right-column menu; mobile exposes a menu/back button on the left.
+- **HubLayout + HubNavbar** own the authenticated experience shell with offline indicator, mute toggle, and dock (bottom on mobile, left rail on desktop) linking Hub, Profile, Favorites, and Search.
+- **LearningLayout + BackNavbar** wrap lesson lobbies with clear back navigation, lesson titles, mute/offline indicators, and no dock to reduce clutter.
+- **ImmersionLayout + MinimalNavbar** drive minigames, countdowns, summaries, and level-up screens with logo + mute control only; in-game back flows are handled in-app.
+- Navigation docks surface core destinations; menu items cover terms, privacy, settings, and contact. Search lives within the dock and opens a dedicated search experience.
+- UI states and controls (mute, offline, recommended lesson prompts) stay consistent as users move across layouts to support predictable micro-interactions.
 
-**Page types**
-- **Marketing / static**: `/`, `/terms`, `/privacy`, `/faq`
-- **App**: `/en-ka/app`, `/en-ka/app/module/[module-slug]`, `/en-ka/app/lesson/[lesson-slug]`, `/en-ka/app/favorites`
+### 5.3 Landing & Marketing Surfaces
 
-**Initial user flow with modal redirect**
-1. **Landing page `/`**: Display modal "Redirecting to the app" with a 3-second countdown and a button "No, I want to stay here." If the countdown completes, perform a client-side redirect to `/en-ka/app`. Content on `/` and `/en-ka` remains identical for SEO consistency and crawler visibility.
-2. **Landing page `/en-ka`**: Same modal and countdown; redirect to `/en-ka/app` unless cancelled.
-3. **App pages**: No modal; users enter the core learning experience immediately.
-4. **Static pages (terms, privacy, FAQ)**: No modal and no redirect so informational content remains accessible.
+- Root path `/` permanently redirects to `/en/ka` via static Next.js redirect handled at the CDN/edge; no runtime cost.
+- Marketing pages (`/en/ka`, `/terms`, `/privacy`, `/faq`, future contact) reuse `InfoLayout`, ensuring consistent navigation and optional hero CTA placement.
+- Landing hero emphasizes the free-forever promise, includes a Ukraine/Georgia support banner (dismissible), and drives users into the Hub CTA.
+- Hero background is black with high-contrast CTA; content below returns to white for readability. Banner only appears on the landing page.
+- Marketing pages remain indexable, but unsupported language pairs render a friendly static message explaining supported combinations and linking back to `/en/ka`.
 
-**Query parameter handling**
-- Append `?noredirect=true` to `/` or `/en-ka` to disable the modal/redirect for deterministic navigation (e.g., `/en-ka?noredirect=true`).
+### 5.4 Hub & Lesson Flow
 
-**SEO & Lighthouse**
-- Avoid server-side redirects so landing content remains visible to crawlers.
-- Client-side modal redirect maintains Lighthouse scores when meaningful content stays above the fold.
-- Optionally skip the countdown for known crawlers to keep metrics stable.
-- Mirror content on `/` and `/en-ka` to maintain consistent SEO signals.
+- Hub highlights user stats (time played, level, mastered letters, mastered words, learning streak) and lists modules with per-module progress, imagery, and mastery counts.
+- Only one module remains expanded at a time; recommended lesson auto-expands its module, scrolls into view, and can be surfaced via floating "Show Recommended Lesson" if off-screen.
+- Module cards toggle expansion/collapse; lesson cards open the Lesson Lobby.
+- Lesson Lobby presents a flashcard carousel (single card view, arrow controls, swipe gestures, desktop scroll-to-change), target/native/transliteration strings, imagery, audio, context sentences, mastery badges, and favorites for word lessons.
+- Lobby actions include Start Game, Back, and Share (copy link + social targets). Recommended lessons preload countdown state for fast play.
+- Minigame flow: pre-roll countdown (3-2-1), rounds with question/answers/mascot feedback, round result overlay highlighting correctness, optional mastery/favorite animations, tap to advance.
+- Game Summary reuses carousel to review each round with green/red indicators and proposes next recommended game, Hub return, or replay.
+- Level-up modal blocks interaction until dismissed, celebrates global or mastery achievements, and previews requirements for the next level.
 
-**Analytics**
-- Modal-triggered navigation is tracked as a client-side event.
-- `noredirect` prevents unintended redirects or loops for internal navigation.
-- Users retain control over redirects, balancing discoverability for new visitors with speed for returning users.
+### 5.5 Reusable UI Components
 
-**Summary**
-- Client-side modal redirect only; no automatic server-side redirect
-- Landing page `/` remains the SEO anchor
-- Countdown balances rapid access and content visibility
-- Query parameter provides deterministic control over redirect behavior
-- App pages remain unaffected by the modal pattern
+- **Flashcard Carousel** shared between Lesson Lobby and Game Summary to reinforce recognition.
+- **Mascot component** adapts to pre-roll, round feedback, mute interactions, level-up, offline, and profile surfaces.
+- **Navbar variants** unify navigation affordances (logo, mute, offline, back/menu) while adjusting layout contextually.
+- **Offline indicator & sync status** display across Hub surfaces and offline pages, reinforcing reliability of progress preservation.
+- **Favorites & mastery indicators** appear wherever word items surface, keeping tracking consistent.
 
-### 5.3 Content Strategy
-- Emphasize practical, real-world usage for people living in Georgia
-- Provide progressive learning paths from basic to advanced
-- Integrate Georgian cultural context directly into lessons by prioritizing Georgian-specific imagery and examples
-- Plan for community-driven content contributions in the future
-- Maintain modules as single item-type (letters-only or words-only) to keep mastery thresholds consistent
-- MVP content authoring happens manually in JSON; future CMS/backoffice will streamline scaling to thousands of items
-- Current scope ships a single `en → ka` content pack. Future packs reuse master item records (target script, audio, imagery) with native-language overlays so each native language can publish a curated subset at its own pace.
+### 5.6 Localization Strategy
+
+- URLs follow `/<lang>/<targetLang>` pattern (e.g., `/en/ka`, `/es/ka`).
+- UI strings localize using a server-provided translation provider keyed by `lang`. English assets serve as fallback for untranslated strings.
+- Content packs localize per `targetLang`, overlaying native-language translations on shared target-language items. If a native-language pack lacks a word, the system falls back to the English overlay while retaining the item.
+- User progress is keyed by target language and shared across native-language overlays; switching from Spanish UI to English retains mastered letters/words.
+- Unsupported combinations render a static `UnsupportedLanguagePage` with links to supported pairs and optional `noindex` metadata.
+
+### 5.7 Content Strategy
+- Focus on high-utility language: alphabet mastery, greetings, politeness phrases, counting, and survival vocabulary that international residents need immediately.
+- Keep modules homogeneous (letters-only or words-only) while enabling short lessons so learners feel progress quickly.
+- Author content in structured JSON packs; reuse target-language media across native-language overlays to minimize duplication and cost.
+- Layer Georgian cultural context into imagery, example sentences, and audio so vocabulary reflects real Georgian life.
+- Support partial localization: native-language overlays can omit words not yet translated; UI falls back to English text while preserving items and progress.
+- Document editorial standards (tone, transliteration rules, audio quality) in the backoffice roadmap to sustain quality as packs scale beyond MVP.
+
+### 5.8 Additional Surfaces
+- Offline page mirrors Hub dock and shows cached availability + sync status so users trust that progress persists.
+- Profile page provides account management, language selection (native + target), and progress summaries; switching native language immediately updates UI strings while preserving mastered item counts.
+- Search page opens full-screen search with filters (letters vs words, mastery state) and integrates favorites.
+- Favorites view surfaces starred words, allowing quick repetition and progress review.
 
 ---
 
 ## 6. Learning System Specification
 
-### 6.1 Purpose
-Deliver structured content for **native → target** language pairs optimized for **offline-first learning apps**. Each pack contains:
-- **Metadata** — pack-level info and versioning
-- **Letters** — dictionary of alphabet items
-- **Words** — dictionary of vocabulary items
-- **Modules** — ordered groups of items by theme
-- **Lessons** — curated subsets of items (4–10 items per lesson)
+### 6.1 Purpose & Scope
+Deliver structured content for **native → target** language pairs optimized for **offline-first learning apps**.
 
-Assets (images, audio) are shared across all packs. Runtime concepts (groups, games) are generated dynamically and are not part of the pack.
+**MVP pack contents**
+- **Metadata** — pack-level info and versioning.
+- **Letters** — Georgian alphabet entries with pronunciation aids.
+- **Words** — ~20 high-impact vocabulary items with context sentences.
+- **Modules** — themed collections (alphabet vs vocabulary).
+- **Lessons** — curated subsets (4–6 items) to drive repetition.
+
+Assets (images, audio) are shared across all packs. Runtime concepts (groups, games) are generated dynamically and are not stored in the pack.
 
 ### 6.2 Data Model
 
@@ -246,17 +267,16 @@ Assets (images, audio) are shared across all packs. Runtime concepts (groups, ga
 - **audios** — array of audio paths
 - **usage_native** — short usage hint, e.g., "like 'a' in father"
 
-#### Words
-- **id** — stable slug, e.g., `dog`
-- **label_native** — native language label, e.g., `dog`
-- **term_target** — target script word, e.g., `ძაღლი`
-- **transliteration** — Latin transliteration, e.g., `dzaghli`
+#### Words *(shared core data)*
+- **id** — stable slug, e.g., `hello`
+- **term_target** — target script word, e.g., `გამარჯობა`
+- **transliteration** — Latin transliteration, e.g., `gamarjoba`
 - **images** — array of image paths
 - **audios** — array of audio paths
 - **examples** — array of objects with:
-  - `sentence_target` — target script sentence
-  - `sentence_translit` — optional transliteration
-  - `sentence_native` — optional translation
+  - `sentence_target`
+  - `sentence_translit` *(optional)*
+  - `sentence_native` *(provided via overlays; fallback to English)*
 
 #### Modules
 - **id** — slug, e.g., `animals`
@@ -267,12 +287,12 @@ Assets (images, audio) are shared across all packs. Runtime concepts (groups, ga
 - **item_ids** — ordered array of item ids
 
 #### Lessons
-- **id** — slug, e.g., `pets`
+- **id** — slug, e.g., `greetings_intro`
 - **module_id** — reference to parent module
-- **title_native** — display title in native language
-- **title_target** — display title in target language (optional)
+- **title_native** — display title in native language; fallback to English overlay
+- **title_target** — optional target-language name
 - **item_type** — `"letter"` or `"word"`
-- **item_ids** — ordered array of 4–10 item ids
+- **item_ids** — ordered array of 4–6 item ids
 
 #### Metadata
 - **pack_id** — language pair, e.g., `en-ka`
@@ -284,279 +304,65 @@ Assets (images, audio) are shared across all packs. Runtime concepts (groups, ga
 - **description** — human-readable description
 
 #### Notes
-- `letters` and `words` use dictionaries for constant-time lookup
-- `modules` and `lessons` stay as ordered arrays to preserve author intent
-- Additional gloss fields can be added later without reworking the model
-- Groups and games are generated at runtime rather than stored in packs
+- `letters` and `words` use dictionaries for constant-time lookup.
+- `modules` and `lessons` stay as ordered arrays to preserve author intent.
+- Overlays add `label_native`, `usage_native`, `sentence_native` per `lang`; missing fields fall back to English overlay.
+- Groups and games are generated at runtime rather than stored in packs.
 
-### 6.3 Example Content Pack – en-ka v0.1
+### 6.3 MVP Content Pack Scope
 
-```json
-{
-  "metadata": {
-    "pack_id": "en-ka",
-    "version": "0.1",
-    "created_at": "2025-09-28T00:00:00Z",
-    "language_target": "ka",
-    "language_native": "en",
-    "assets_version": "1.0",
-    "description": "English to Georgian beginner pack"
-  },
-
-  "letters": {
-    "letter_a": {
-      "id": "letter_a",
-      "glyph": "ა",
-      "name_target": "ანი",
-      "name_translit": "ani",
-      "label_native": "a",
-      "images": ["letters/a.svg"],
-      "audios": ["letters/a.mp3"],
-      "usage_native": "like 'a' in father"
-    },
-    "letter_b": {
-      "id": "letter_b",
-      "glyph": "ბ",
-      "name_target": "ბანი",
-      "name_translit": "bani",
-      "label_native": "b",
-      "images": ["letters/b.svg"],
-      "audios": ["letters/b.mp3"],
-      "usage_native": "like 'b' in boy"
-    },
-    "letter_g": {
-      "id": "letter_g",
-      "glyph": "გ",
-      "name_target": "განი",
-      "name_translit": "gani",
-      "label_native": "g",
-      "images": ["letters/g.svg"],
-      "audios": ["letters/g.mp3"],
-      "usage_native": "like 'g' in go"
-    }
-  },
-
-  "words": {
-    "dog": {
-      "id": "dog",
-      "label_native": "dog",
-      "term_target": "ძაღლი",
-      "transliteration": "dzaghli",
-      "images": ["animals/dog.svg"],
-      "audios": ["animals/dog.mp3"],
-      "examples": [
-        {
-          "sentence_target": "ძაღლი კუდს ამოძრავებს",
-          "sentence_translit": "dzaghli k'uds amodzravebs",
-          "sentence_native": "The dog is wagging its tail."
-        }
-      ]
-    },
-    "cat": {
-      "id": "cat",
-      "label_native": "cat",
-      "term_target": "კატა",
-      "transliteration": "kata",
-      "images": ["animals/cat.svg"],
-      "audios": ["animals/cat.mp3"],
-      "examples": [
-        {
-          "sentence_target": "კატა ძინავს",
-          "sentence_translit": "kata dzinavs",
-          "sentence_native": "The cat is sleeping."
-        }
-      ]
-    },
-    "cow": {
-      "id": "cow",
-      "label_native": "cow",
-      "term_target": "ძროხა",
-      "transliteration": "dzrokha",
-      "images": ["animals/cow.svg"],
-      "audios": ["animals/cow.mp3"],
-      "examples": [
-        {
-          "sentence_target": "ძროხა ძოვს ბალახს",
-          "sentence_translit": "dzrokha dzovs balakhs",
-          "sentence_native": "The cow is eating grass."
-        }
-      ]
-    },
-    "january": {
-      "id": "january",
-      "label_native": "January",
-      "term_target": "იანვარი",
-      "transliteration": "ianvari",
-      "images": ["calendar/january.svg"],
-      "audios": ["calendar/january.mp3"],
-      "examples": [
-        {
-          "sentence_target": "იანვარი ზამთარშია",
-          "sentence_translit": "ianvari zamt'arshia",
-          "sentence_native": "January is in winter."
-        }
-      ]
-    },
-    "monday": {
-      "id": "monday",
-      "label_native": "Monday",
-      "term_target": "ორშაბათი",
-      "transliteration": "orshabati",
-      "images": ["calendar/monday.svg"],
-      "audios": ["calendar/monday.mp3"],
-      "examples": [
-        {
-          "sentence_target": "ორშაბათი კვირის პირველი დღეა",
-          "sentence_translit": "orshabati kviris pirveli dghea",
-          "sentence_native": "Monday is the first day of the week."
-        }
-      ]
-    }
-  },
-
-  "modules": [
-    {
-      "id": "animals",
-      "area": "vocabulary",
-      "title_native": "Animals",
-      "title_target": "ცხოველები",
-      "item_type": "word",
-      "item_ids": ["dog", "cat", "cow"]
-    },
-    {
-      "id": "calendar",
-      "area": "vocabulary",
-      "title_native": "Calendar",
-      "title_target": "კალენდარი",
-      "item_type": "word",
-      "item_ids": ["january", "monday"]
-    }
-  ],
-
-  "lessons": [
-    {
-      "id": "pets",
-      "module_id": "animals",
-      "title_native": "Pets",
-      "title_target": "შინაური ცხოველები",
-      "item_type": "word",
-      "item_ids": ["dog", "cat"]
-    },
-    {
-      "id": "farm",
-      "module_id": "animals",
-      "title_native": "Farm Animals",
-      "title_target": "ფერმის ცხოველები",
-      "item_type": "word",
-      "item_ids": ["cow"]
-    },
-    {
-      "id": "months",
-      "module_id": "calendar",
-      "title_native": "Months",
-      "title_target": "თვეები",
-      "item_type": "word",
-      "item_ids": ["january"]
-    },
-    {
-      "id": "days_of_week",
-      "module_id": "calendar",
-      "title_native": "Days of the Week",
-      "title_target": "კვირის დღეები",
-      "item_type": "word",
-      "item_ids": ["monday"]
-    }
-  ]
-}
-```
+- Letters: Full Georgian alphabet with target-script names, transliteration, audio, and usage hints. Localized overlays supply native-language usage; missing overlays fall back to English.
+- Words: ~20 launch words covering greetings (`hello`, `goodbye`), politeness (`please`, `thank you`), essentials (`water`, `bathroom`, `bus`, `market`), numbers (1–3), and common verbs.
+- Modules: Distinct areas for alphabet and vocabulary. Vocabulary modules are small (6–8 items) to reinforce mastery; future packs can expand counts gradually.
+- Lessons: 4–6 items, balanced by skill or theme, mixing letters or words only within their module type. Recommended lessons rotate between letter and word practice to stabilize retention.
+- Overlays: Additional native languages reuse the same `modules`/`lessons` item IDs. If a specific word lacks localization, the UI surfaces English text while keeping the item active so progress continuity persists.
+- Content pack manifest enumerates available overlays per native language; client uses this to determine where fallbacks apply.
 
 ### 6.4 User Progress Tracking
 
-The tracking system stores raw user data locally to remain offline-first and decoupled from gamification rules, enabling flexible mastery and level calculations.
+The tracking system stores activity deltas locally to remain offline-first and decoupled from gamification rules, enabling flexible mastery and level calculations that work even when users do not connect for extended periods.
 
 #### 6.4.1 Stored Metrics
 
-**Per game session:**
-- Items included
-- Number of rounds
-- Wins and losses per item
-- Total time in game (from lobby open to exit)
-- Timestamp
+**Per device delta counters:**
+- Letter wins and losses (per item)
+- Total time spent learning (per session aggregate)
+- Days played (set of YYYY-MM-DD values)
+- Last synced markers per device
 
-**Global user stats (computed from raw data):**
+**Global user stats (computed from counters):**
 - Total games played
 - Total time spent
 - Total games won (>50% rounds correct)
 - Item mastery (binary, derived)
 - User global level (derived)
+- Native-language overlay usage (for analytics only; progress remains tied to target language)
 
-#### 6.4.2 Consolidation
+#### 6.4.2 Delta Counters & Storage
 
-- Raw game entries are stored individually with client-generated UUIDs for idempotent syncing.
-- When **>20 entries** exist, consolidate by summing:
-  - Wins/losses per item
-  - Total game time
-  - Played dates: store a **list of days** played for streak calculations
-- Timestamps of consolidated entries: approximate (e.g., first and last day)
+- Activity is tracked as additive deltas rather than immutable raw logs.
+- IndexedDB persists local deltas and the device-generated identifier used for reconciliation.
+- Delta merges are idempotent; replays or retries do not inflate totals.
+- Counters are keyed by `targetLang` so switching native languages keeps mastered letters/words intact.
 
-#### 6.4.3 Offline-first behavior
+#### 6.4.3 Sync & Consolidation
 
-- All progress is first saved locally with a boolean `synced` flag per entry.
-- If the user is logged in:
-  - Every 5 minutes (or configurable interval), **push consolidated entries to Supabase**
-  - Ensure **no duplication**: only entries whose UUIDs have not been acknowledged by the server are sent
-- Computed fields like item mastery and global level are **never stored**; always derived at runtime using aggregated wins
+- Local deltas persist offline indefinitely; consolidation occurs when uploads succeed.
+- When online, the client batches `{item_id, delta, device_id}` records to a Supabase Postgres function that merges them in a single transaction and returns updated totals when required.
+- After a successful sync, the client clears the acknowledged deltas while retaining the running counters.
 
 #### 6.4.4 Anonymous vs Registered Users
 
-- Anonymous users: all progress stays local.
-- On login/signup:
-  - Ask user if they want to **link previous anonymous data**
-  - If yes: upload all unsynced entries (including consolidated ones) and mark them as synced locally once confirmed
-  - If no: delete local progress entries and start fresh
-- Each device has a **client-generated ID** used for local tracking and optional linking to analytics
+- Anonymous users operate entirely on-device using the generated device ID.
+- On login/signup, users can optionally merge their anonymous deltas into the account; the server consolidates them and replies with the unified counters.
+- Declining the merge starts the account with fresh counters without touching the anonymous profile stored locally.
+- When users change native-language overlays, the client sends the same counters; the server neither resets nor duplicates progress.
 
-#### 6.4.5 Data Structure Examples
+#### 6.4.5 Analytics Queue
 
-**Incremental entry example**
-
-```json
-{
-  "items": {
-    "dog": { "wins": 1, "losses": 0 },
-    "cat": { "wins": 0, "losses": 1 }
-  },
-  "time_spent_learning_in_seconds": 180,
-  "days_played": ["2025-10-01"],
-  "timestamp": "2025-10-01T14:30:00Z",
-  "id": "04c0a836-b7e6-4e2d-8b58-4ff9c17670f9",
-  "synced": false
-}
-```
-
-**Consolidated data example**
-
-```json
-{
-  "items": {
-    "dog": { "wins": 7, "losses": 2 },
-    "cat": { "wins": 5, "losses": 4 }
-  },
-  "time_spent_learning_in_seconds": 960,
-  "days_played": ["2025-09-28", "2025-09-30", "2025-10-01"],
-  "consolidated_from": "2025-09-28",
-  "consolidated_to": "2025-10-01",
-  "id": "69abf13d-9fda-45a5-9c4b-0a4f8c7dea38",
-  "synced": true
-}
-```
-
-**Notes**
-- Only total time per game is tracked; per-item time is derived indirectly if needed but not stored.
-- `days_played` is tracked at the session/global level to support streak logic. Sessions that start within 15 minutes after midnight count toward the previous day to preserve streaks.
-- Tracking remains offline-first and can be synced later without altering mastery logic.
-- Client may attach a transient identifier per game/session for debugging, but it is not required and is discarded during consolidation.
-- Progress is segmented per native language; switching interface language loads an independent dataset so mastery and streaks remain meaningful even when content coverage differs.
+- Behavioral analytics events share the same offline-first philosophy: a PostHog-bound queue stored in IndexedDB drains only after consent and connectivity are both present.
+- Analytics consent is independent from activity tracking; declining analytics keeps counters functional.
+- Overlay switches emit a `ui_language_changed` analytics event (with consent) to monitor localization adoption; no gameplay data is tied to this event.
 
 ### 6.5 Gamification
 - Item mastery is binary: letters typically require 3–5 wins; words 5–8 wins. Modules and lessons stay homogeneous (letters-only or words-only) so thresholds remain consistent.
@@ -601,10 +407,13 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
    - `lesson_selected`
    - `game_started`
    - `game_completed`
+   - `ui_language_changed`
+   - `native_language_fallback_shown`
 
 3. **Retention / Business Metrics**  
    - `item_mastered` (behavioral analytics only; progress system remains canonical and drives recommended mode)
    - `level_mastered` (optional; mostly for dashboards)
+   - `favorite_toggled`
    - Funnels (landing → app → lesson → game)
 
 #### 6.6.3 Offline Handling
@@ -641,25 +450,34 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 
 #### 6.6.7 Event Handling Flow
 
-1. User completes game → triggers `onGameCompleted`
-2. Save **local raw entry**
-3. Consolidate if entry count > 20
-4. If user is logged in and **sync interval passed**, push to Supabase using entry UUIDs for idempotency
-5. If analytics consent given:
-   - Send analytics events to PostHog (immediately if online, queue if offline)
-6. Compute mastery/levels on runtime; **never store computed fields**
+1. User completes game → triggers `onGameCompleted`.
+2. Increment local delta counters in IndexedDB (wins/losses, time, days played) scoped to the device ID.
+3. If user is logged in and the sync interval has elapsed, batch `{item_id, delta, device_id}` payloads to the Supabase Postgres function; clear acknowledged deltas on success.
+4. If analytics consent is given, enqueue PostHog events locally; drain the queue when connectivity resumes.
+5. Compute mastery/levels at runtime from merged counters; **never store computed fields**.
+
+### 6.7 Content Pack Management & Versioning
+
+- Manifest tracks pack version, assets version, and overlay versions per `lang`; clients compare to local cache for updates.
+- Items are immutable; new letters/words append to dictionaries. Overlays may add localized text independently.
+- Asset URLs embed version segments, enabling service worker to prefetch new media while expiring old cache entries safely.
+- Release flow:
+  - Publish updated manifest + overlay diffs to CDN.
+  - Notify users in-app; allow manual download or defer until on Wi-Fi.
+  - Trigger ISR revalidation via Next.js tags so marketing/app pages reflect new content version indicator.
+- MVP release ships alphabet + ~20 words; subsequent drops expand vocabulary modules and overlay coverage without altering the base schema.
 
 ---
 
 ## 7. Technology & Delivery
 
 ### 7.1 Technology Philosophy
-- **Free-tier first**: Leverage free tiers of managed services to minimize operational costs
-- **Serverless architecture**: Use Vercel + Next.js for zero-maintenance backend scaling
-- **Offline-first design**: Local storage as primary, cloud sync as enhancement
-- **Managed services**: Prefer fully managed solutions over self-hosted infrastructure
-- **Cost optimization**: Continuously optimize to delay monetization needs
-- **Reliability focus**: Multiple monitoring layers (Sentry + New Relic) for better uptime
+- **Free-tier first**: Lean on managed service free tiers; avoid bespoke infrastructure.
+- **Serverless core**: Next.js on Vercel, Supabase functions, and managed queues reduce ops overhead.
+- **Offline-first design**: Local storage is canonical until sync completes.
+- **Localization aware**: Deliver overlays and fallbacks without runtime branching costs.
+- **Cost optimization**: Cache aggressively, batch network calls, and reuse assets to stay within quotas.
+- **Reliability focus**: Layer monitoring (Sentry, New Relic) and quota observability to catch regressions early.
 
 ### Key Requirements
 - Offline capability at the core of the experience
@@ -677,21 +495,20 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 - **PWA**: Progressive Web App architecture for cross-platform compatibility
 
 #### Data & Storage
-- **Local Storage**: Primary data storage for offline-first functionality
+- **Local Storage / IndexedDB**: Primary store for offline-first functionality and overlay fallbacks.
 - **Supabase**: 
-  - Main database for user data and progress
-  - Authentication service (social login)
-  - User progress synchronization for registered users
-  - Favorites and user preferences storage
+  - Main database for user progress, favorites, and preferences.
+  - Authentication (Google, Facebook).
+  - Edge functions handle delta merges and analytics webhooks.
 - **Content Packs & Assets**:
-  - Content pack manifest downloaded on install/update; stored locally to unlock offline play
-  - Assets cached on-demand and during install/update pass; app replays the caching loop to recover items re-evicted by the browser
-  - Manifest version bump triggers an in-app "update content" prompt; offline devices pick up the update next time they connect
+  - Manifest + overlay metadata downloaded on install/update; stored in IndexedDB with version stamps.
+  - Assets cached via Cache Storage during install/update passes; service worker replays caching loop to recover evicted files.
+  - Manifest version bump triggers in-app prompt and optional background download on Wi-Fi.
 
 #### Analytics & Monitoring
-- **PostHog**: User behavior analytics and event tracking (with consent; server-side progress remains canonical)
-- **Sentry**: Error tracking and performance monitoring
-- **New Relic**: Application performance monitoring and uptime tracking
+- **PostHog**: User behavior analytics (with consent) including overlay fallback events.
+- **Sentry**: Error tracking and performance monitoring.
+- **New Relic**: Application performance monitoring and uptime tracking.
 
 #### CDN & Communication
 - **Cloudflare**: 
@@ -704,87 +521,94 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 - **GitHub Actions**: Automated workflows for deployment and asset management
 
 #### Cost Optimization Strategy
-All services utilize **free tiers** to minimize operational costs:
-- Vercel: Free tier for hosting and serverless functions
-- Supabase: Free tier for database and auth
-- PostHog: Free tier for analytics
-- Cloudflare: Free tier for CDN and basic services
-- Sentry: Free tier for error tracking
-- New Relic: Free tier for monitoring
-- GitHub: Free for public repositories
+All services utilize **free tiers** where possible:
+- Vercel: Hosting/serverless
+- Supabase: Database/auth/functions
+- PostHog: Analytics
+- Cloudflare: CDN/DNS/email
+- Sentry: Error tracking
+- New Relic: Monitoring
+- GitHub: Repo + Actions
 
-### 7.3 Data Flow Architecture
+### 7.3 Application Architecture & Routing
 
-**User Progress Flow:**
-1. **Local Storage** → Primary data storage (offline-first)
-2. **Consolidation** → Merge raw entries when >20 entries
-3. **Supabase Sync** → Push consolidated data for registered users (every 5 minutes, deduplicated via entry UUIDs)
-4. **PostHog Analytics** → Send events with user consent (immediately if online, queued if offline)
+- Next.js `app` directory uses `/<lang>/<targetLang>` pattern; root layout is pass-through. Locale layout renders `<html lang>` and wraps children in translation provider after validating supported pairs.
+- `next.config.js` defines static redirect from `/` to `/en/ka`. `generateStaticParams` prebuilds supported pairs, with ISR handling content version bumps.
+- Route groups organize surfaces:
+  - `(marketing)` → InfoLayout pages (`landing`, `terms`, `privacy`, `faq`, `contact`).
+  - `[lang]/[targetLang]/(hub)` → HubLayout (`page`, `profile`, `favorites`, `search`, `offline`).
+  - `[lang]/[targetLang]/(learning)` → LearningLayout (`lesson/[slug]`) and ImmersionLayout (`lesson/[slug]/play`, `summary`, `level-up`).
+- Offline fallback page lives under HubLayout so dock/navigation remain accessible when connectivity drops.
+- Service worker intercepts navigation to serve cached shell + IndexedDB data; unsupported requests route to offline page with retry CTA.
 
-**Authentication Flow:**
-1. **Anonymous Users** → Local storage only with client-generated ID
-2. **Social Login** → Supabase Auth (Google, Facebook)
-3. **Data Linking** → Optional merge of anonymous data with registered account; users choose whether to upload existing progress/analytics
+### 7.4 Data Flow Architecture
 
-**Content Delivery:**
-1. **Static Assets** → Cloudflare CDN for images, audio, content packs
-2. **App Code** → Vercel deployment with Next.js PWA
-3. **Database** → Supabase for user data and progress
+**User Progress Flow**
+1. **IndexedDB Delta Counters** → Store per-item wins/losses, time, streak data keyed by `targetLang`.
+2. **Delta Batching** → Accumulate additive deltas until sync interval or connectivity returns.
+3. **Supabase Merge** → Edge function merges `{item_id, delta, targetLang, device_id}` atomically and returns updated aggregates.
+4. **Overlay Adjustments** → When native-language overlay changes, client reuses same counters; no server mutation required.
+5. **PostHog Analytics** → Queue consented events locally; flush when online.
 
-**Monitoring & Analytics:**
-1. **Error Tracking** → Sentry for application errors
-2. **Performance** → New Relic for uptime and performance metrics
-3. **User Behavior** → PostHog for engagement analytics (consent-based)
+**Authentication Flow**
+1. **Anonymous Users** → Local storage only with client-generated ID.
+2. **Social Login** → Supabase Auth (Google, Facebook).
+3. **Data Linking** → Optional merge of anonymous deltas/events into account; users can decline.
 
-### 7.4 Development Conventions
-We use [Conventional Commits](https://www.conventionalcommits.org/) format for all commits:
+**Content Delivery**
+1. **Manifest + Overlays** → Cloudflare CDN, cached via service worker.
+2. **App Code** → Vercel deployment with Next.js PWA + server components.
+3. **Database** → Supabase for user data, favorites, and progress deltas.
 
-```
-<type>[optional scope]: <description>
+**Monitoring & Analytics**
+1. **Sentry** → Error tracking.
+2. **New Relic** → Performance + uptime.
+3. **PostHog** → Engagement analytics (consent-based); overlays tracked via fallback events.
 
-[optional body]
+### 7.5 Offline Storage & PWA Strategy
 
-[optional footer(s)]
-```
+- IndexedDB stores content pack manifests, user counters/deltas, analytics queues, favorites, preferences, and auth tokens. It offers strong persistence even across long offline periods.
+- Cache Storage holds media assets (letters, later words) and application shell resources. The service worker proactively caches required assets and retries failed downloads to surface progress to the user.
+- Cache eviction is browser-dependent. The app replays the caching loop when it detects missing assets, keeping gameplay functional.
+- Dynamic pages (modules, lessons, games) render from cached shell plus IndexedDB data; static marketing/legal pages are cached directly for offline reading.
+- Add-to-home-screen, fullscreen mode, and optional background update flows follow PWA best practices without compromising the offline-first requirement.
 
-**Commit types**
-- `feat`: new feature
-- `fix`: bug fix
-- `docs`: documentation-only change
-- `style`: change that does not affect code meaning
-- `refactor`: code change that neither fixes a bug nor adds a feature
-- `perf`: performance improvement
-- `test`: add or correct tests
-- `chore`: update build process or auxiliary tools
+### 7.6 Storage Estimates
 
-**Examples**
-- `docs: add project overview and mission statement`
-- `feat(auth): add Google and Facebook social login`
-- `fix(pwa): resolve offline sync issue`
-- `chore: update dependencies`
+- Letters-only MVP: ~1 MB metadata + <1 MB media (WebP images + short audio) → well within mobile constraints.
+- Expanded pack (letters + 200 words): ~12 MB total (metadata + WebP + optimized audio).
+- Larger packs (letters + 1000 words): ~58 MB total; still feasible across modern iOS/Android devices.
+- Assets use WebP for imagery and short optimized audio (<2s) to minimize footprint.
+
+### 7.7 Development Conventions
+We follow Conventional Commits with domain scopes (e.g., `docs(ui)`, `feat(content)`). TypeScript, ESLint, and Prettier are mandatory for new code. Husky pre-commit hooks run lint/format checks. Feature flags rely on environment-based configuration to keep bundles lean.
+
+### 7.8 Consent Management
+
+- Two independent consent toggles: offline storage (content + assets) and analytics tracking.
+- Banner defaults to minimal mode; users explicitly opt into analytics. Declining offline storage limits bulk content download but allows minimal gameplay.
+- Provide easy access to consent settings from Profile and during onboarding.
+- Legal stance: Georgia jurisdiction; GDPR compliance with opt-in, clear revocation, data export, and deletion pathways.
 
 ### Tracking & Gamification (summary)
-- Offline-first tracking stores raw activity per item, per game, and globally
-- Consolidation keeps storage small while enabling mastery calculations
-- Mastery thresholds sit at 3–5 wins for letters and 5–8 wins for words
-- Levels emphasize alphabet mastery before vocabulary growth
-- Optional visual rewards can overlay without changing core logic
+- Offline-first tracking stores raw activity per item, per game, and globally.
+- Consolidation keeps storage small while enabling mastery calculations.
+- Mastery thresholds sit at 3–5 wins for letters and 5–8 wins for words.
+- Levels emphasize alphabet mastery before vocabulary growth.
+- Optional visual rewards can overlay without changing core logic.
 
 ---
 
 ## 8. To Discuss
-- **Service worker updates**: Define versioning, user notification, and background refresh strategy for the PWA install flow.
-- **Content tooling**: Outline the long-term CMS/backoffice workflow for authoring, validating, and publishing multi-language content packs at scale.
-- **Beta feedback loop**: Choose target communities, survey tooling, and in-app feedback mechanisms for MVP launch learnings.
-- **Advanced caching policy**: Validate asset caching quotas, eviction handling, and fallback UX across browsers and low-storage devices.
-- **Brand & visual identity**: Establish logo system, color palette, typography, and usage guidelines for marketing pages and in-app UI.
-- **Mobile-first UX spec**: Document responsive breakpoints, gesture patterns, and install prompts to ensure consistent handheld experience.
-- **Guerrilla marketing plan**: Define low-cost community outreach tactics, forum presence, and social media experiments aligned with the free-forever promise.
-- **Social & community presence**: Secure handles, craft voice guidelines, and plan content cadence for platforms (e.g., Instagram, TikTok, Discord) plus in-app community spaces.
-- **Support & contact channels**: Decide on official contact email(s), help center tooling, and turnaround expectations for user inquiries or bug reports.
-- **Legal & policy checklist**: Finalize privacy policy, terms of service, analytics consent copy, and disclosures for affiliate links.
-- **Accessibility & QA audit**: Schedule usability/accessibility reviews, device matrix testing, and performance budgets prior to launch.
-- **Launch monitoring & incident response**: Define alert thresholds, escalation contacts, and rollback procedures for the production environment.
+- **Content tooling & localization pipeline**: Define the backoffice workflow for authoring packs, approving overlays, and rolling out partial translations without regressions.
+- **Beta research loop**: Pick target communities, feedback tooling, and qualitative interview cadence for the MVP pilot.
+- **Marketing & comms playbook**: Align on brand identity, social handles, guerrilla tactics, and messaging guardrails consistent with the free-forever promise.
+- **Support operations**: Establish contact channels, help center tooling, SLAs, and escalation paths for user issues.
+- **Legal & compliance**: Finalize privacy/terms copy, analytics consent language, data export/deletion process, and affiliate disclosures.
+- **Accessibility & QA readiness**: Plan device/browser matrix, assistive tech audits, and performance budgets ahead of launch.
+- **Reliability & incident response**: Set monitoring thresholds, on-call responsibilities, and rollback procedures for production incidents.
 
 ## 9. Change Log
-- **2025-09-28**: Consolidated documentation from `docs.md`, `landing-ux-and-redirect-strategy.md`, and `learning-system.md`
+- **2025-10-03**: Merged comprehensive UI/UX, layout, localization fallback, cross-language progress, and technology updates from `kartuli updates.md`. Refined open questions and removed obsolete references.
+- **2025-10-01**: Added letters-only MVP scope, delta counter sync architecture, consent updates, and offline/PWA strategy consolidation from `updates.md`.
+- **2025-09-28**: Consolidated documentation from `docs.md`, `landing-ux-and-redirect-strategy.md`, and `learning-system.md`.
