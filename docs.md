@@ -519,6 +519,8 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
   - Manifest + overlay metadata downloaded on install/update; stored in IndexedDB with version stamps.
   - Assets cached via Cache Storage during install/update passes; service worker replays caching loop to recover evicted files.
   - Manifest version bump triggers in-app prompt and optional background download on Wi-Fi.
+  - Example asset URL: `https://assets.kartuli.app/en-ka/images/letter_a.svg?v=1`
+  - Example content pack manifest: `https://content.kartuli.app/en-ka/master.json?v=1`
 
 #### Analytics & Monitoring
 - **PostHog**: User behavior analytics (with consent) including overlay fallback events.
@@ -527,7 +529,7 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 
 #### CDN & Communication
 - **Cloudflare**: 
-  - CDN for static assets and content delivery
+  - CDN for static assets and content delivery; `assets.kartuli.app` proxies Supabase storage for media, while `content.kartuli.app` serves manifests and content packs from public GitHub-backed storage so each origin stays isolated but follows identical caching policies.
   - Domain management and DNS
   - Email services for newsletters and notifications
 
@@ -548,7 +550,7 @@ All services utilize **free tiers** where possible:
 ### 7.3 Application Architecture & Routing
 
 - Next.js `app` directory uses `/<lang>/<targetLang>` pattern; root layout is pass-through. Locale layout renders `<html lang>` and wraps children in translation provider after validating supported pairs.
-- `next.config.js` defines static redirect from `/` to `/en/ka`. `generateStaticParams` prebuilds supported pairs, with ISR handling content version bumps.
+- `next.config.js` defines static redirect from `/` to `/en/ka`. `generateStaticParams` prebuilds supported pairs, with ISR handling content version bumps. ISR pages are served cache-first; users see cached HTML until a reload or new service worker activation fetches the latest render from Vercel via stale-while-revalidate.
 - Route groups organize surfaces:
   - `(marketing)` → InfoLayout pages (`landing`, `terms`, `privacy`, `faq`, `contact`).
   - `[lang]/[targetLang]/(hub)` → HubLayout (`page`, `profile`, `favorites`, `search`, `offline`).
@@ -583,17 +585,17 @@ All services utilize **free tiers** where possible:
 ### 7.5 Offline Storage & PWA Strategy
 
 - IndexedDB stores content pack manifests, user counters/deltas, analytics queues, favorites, preferences, and auth tokens. It offers strong persistence even across long offline periods.
-- Cache Storage holds media assets (letters, later words) and application shell resources. The service worker proactively caches required assets and retries failed downloads to surface progress to the user.
-- Cache eviction is browser-dependent. The app replays the caching loop when it detects missing assets, keeping gameplay functional.
+- Cache Storage holds media assets (letters, later words) and application shell resources. The service worker proactively caches required assets and retries failed downloads to surface progress to the user. New service worker deployments automatically clear outdated page caches while preserving versioned asset caches so repeat visits stay fast without re-downloading stable media.
+- Cache eviction is browser-dependent. The app replays the caching loop when it detects missing assets, keeping gameplay functional. If IndexedDB quota is exceeded during a content pack install the user sees a notification with retry guidance; smaller write failures during normal play are handled silently and retried later.
 - Dynamic pages (modules, lessons, games) render from cached shell plus IndexedDB data; static marketing/legal pages are cached directly for offline reading.
 - Add-to-home-screen, fullscreen mode, and optional background update flows follow PWA best practices without compromising the offline-first requirement.
 
 ### 7.6 Storage Estimates
 
 - Letters-only MVP: ~1 MB metadata + <1 MB media (WebP images + short audio) → well within mobile constraints.
-- Expanded pack (letters + 200 words): ~12 MB total (metadata + WebP + optimized audio).
+- Updated MVP (letters + ~200 foundational words with imagery/audio): ~18 MB total (≈4 MB metadata + 7 MB imagery + 7 MB audio) assuming versioned caching and reuse across overlays.
 - Larger packs (letters + 1000 words): ~58 MB total; still feasible across modern iOS/Android devices.
-- Assets use WebP for imagery and short optimized audio (<2s) to minimize footprint.
+- Assets use WebP for imagery and short optimized audio (<2s) to minimize footprint. Versioned file names maintain cache integrity during service worker upgrades.
 
 ### 7.7 Development Conventions
 We follow Conventional Commits with domain scopes (e.g., `docs(ui)`, `feat(content)`). TypeScript, ESLint, and Prettier are mandatory for new code. Husky pre-commit hooks run lint/format checks. Feature flags rely on environment-based configuration to keep bundles lean.
@@ -620,7 +622,7 @@ We follow Conventional Commits with domain scopes (e.g., `docs(ui)`, `feat(conte
 - **Marketing & comms playbook**: Align on brand identity, social handles, guerrilla tactics, and messaging guardrails consistent with the free-forever promise.
 - **Support operations**: Establish contact channels, help center tooling, SLAs, and escalation paths for user issues.
 - **Legal & compliance**: Finalize privacy/terms copy, analytics consent language, data export/deletion process, and affiliate disclosures.
-- **Accessibility & QA readiness**: Plan device/browser matrix, assistive tech audits, and performance budgets ahead of launch.
+- **Accessibility & QA readiness**: Plan device/browser matrix, assistive tech audits, and performance budgets ahead of launch; testing, accessibility audits, and cross-device/browser coverage remain planned and will be scheduled ahead of the MVP beta.
 - **Reliability & incident response**: Set monitoring thresholds, on-call responsibilities, and rollback procedures for production incidents.
 
 ## 9. Change Log
