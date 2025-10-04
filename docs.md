@@ -123,34 +123,35 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - **Serverless**: Architecture using managed cloud services without dedicated servers
 
 ### Content Terms
-- **Lesson**: A structured learning unit covering specific Georgian language concepts
-- **Exercise**: Interactive practice activities within lessons
-- **Vocabulary**: Georgian words and phrases with translations
-- **Cultural Context**: Georgian cultural information integrated into language learning
-- **Content Pack**: Bundled dataset for a native → target language pair, including metadata, letters, words, modules, and lessons
-- **Module**: Themed collection of items (letters or words) defined in a content pack
-- **Lesson**: Curated subset of module items (4–10) used for structured practice
-- **Letter Item**: Alphabet entry with glyph, names, transliteration, media, and usage hints
-- **Word Item**: Vocabulary entry with target term, transliteration, media, and example sentences
+- **Activity**: A focused practice session (minigame) launched from a lesson; activities record per-round outcomes that roll up into mastery and streak tracking.
+- **Lesson**: Curated subset of module items (4–10) designed to introduce or reinforce a specific concept before launching an activity.
+- **Exercise**: Interactive practice affordances within a lesson lobby (e.g., flashcards, audio previews) that prepare the learner for activities.
+- **Cultural Context**: Georgian cultural information integrated into lessons and activities to reinforce relevance and retention.
+- **Master Content Pack**: Canonical target-language dataset for a `targetLang`, containing metadata, letters, words, modules, and lessons that all native overlays reference.
+- **Native Content Overlay**: Language-specific overlay (a.k.a. native content pack) that augments the master content pack with native-language labels, usage hints, and example sentences while reusing the canonical IDs.
+- **Content Pack Manifest**: Versioned index describing available master packs and native overlays, used by the client to determine downloads and fallbacks.
+- **Module**: Themed collection of items (letters or words) defined within the master content pack to structure lessons and activities.
+- **Letter Item**: Alphabet entry with glyph, names, transliteration, media, and usage hints.
+- **Word Item**: Vocabulary entry with target term, transliteration, media, and example sentences.
 
-### Tracking & Gamification Terms
-- **Tracking Data**: Raw gameplay records stored locally, including per-item stats, per-game summaries, and global aggregates
-- **Correct Round**: Individual gameplay round completed accurately for a given item
-- **Incorrect Round**: Individual gameplay round completed inaccurately for a given item
-- **Mastery Threshold**: Number of correct rounds required to mark an item as mastered (letters ≈ 3–5, words ≈ 5–8)
-- **Item Mastery**: Binary status indicating whether an item has met the mastery threshold
-- **Global Level**: Progress tier determined by total mastered items, emphasizing early alphabet completion
-- **Assets**: Shared media files (images, audio) referenced by items across content packs
-- **Consolidation**: Process of merging multiple raw game entries into summarized records when threshold is exceeded (>20 entries)
-- **Client-Generated ID**: Unique device identifier created locally for anonymous tracking and optional account linking
-- **Sync Interval**: Configurable time period (default 5 minutes) for pushing consolidated data to cloud storage
+-### Tracking & Gamification Terms
+- **Tracking Data**: Raw activity records stored locally, including per-item stats, per-activity summaries, and global aggregates.
+- **Correct Round**: Individual activity round completed accurately for a given item.
+- **Incorrect Round**: Individual activity round completed inaccurately for a given item.
+- **Mastery Threshold**: Number of correct rounds required to mark an item as mastered (letters ≈ 3–5, words ≈ 5–8).
+- **Item Mastery**: Binary status indicating whether an item has met the mastery threshold.
+- **Global Level**: Progress tier determined by total mastered items, emphasizing early alphabet completion.
+- **Assets**: Shared media files (images, audio) referenced by items across the content system.
+- **Consolidation**: Process of merging multiple raw activity entries into summarized records when threshold is exceeded (>20 entries).
+- **Client-Generated ID**: Unique device identifier created locally for anonymous tracking and optional account linking.
+- **Sync Interval**: Configurable time period (default 5 minutes) for pushing consolidated data to cloud storage.
 
 ### Analytics Terms
 - **Analytics**: Optional user behavior tracking for app usage analysis, separate from progress tracking
 - **PostHog**: Third-party analytics platform used for event tracking and user behavior analysis
 - **Analytics Consent**: User permission required before sending any analytics events to external services
 - **Event Categories**: Grouped analytics events (Acquisition, Activation/Engagement, Retention/Business Metrics)
-- **Funnel Analysis**: Tracking user progression through key app flows (landing → app → lesson → game)
+- **Funnel Analysis**: Tracking user progression through key app flows (landing → app → lesson → activity)
 - **Anonymous Analytics**: Device-level tracking without personal data, using client-generated ID only
 - **Data Export**: User's right to receive their tracked data in portable format (JSON/CSV)
 - **Data Deletion**: User's right to have their tracked data permanently removed from all systems
@@ -163,7 +164,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 
 **Core MVP scope**
 - Georgian alphabet + ~20 foundational vocabulary words available at launch (2–3 themed mini-modules).
-- Lesson lobby + minigame loop delivering repeatable practice and mastery feedback.
+- Lesson lobby + activity loop delivering repeatable practice and mastery feedback.
 - Offline-first experience with anonymous usage by default; Google and Facebook login offered for sync.
 - Persistent progress per user even when they switch native languages; English UI/content serves as fallback when specific native-language overlays are missing.
 - Mobile-first responsive design, optimized for touch interactions, gestures, and landscape/portrait transitions.
@@ -175,24 +176,33 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - Ensure accessibility with WCAG-compliant colors, focus states, and screen reader support; Georgian-friendly typography delivered via Next.js fonts.
 - Treat English (`en`) overlays as canonical; additional native languages inherit progress and gracefully fall back to English UI strings or content until localized packs reach parity.
 
+#### Initialization flow
+- `<InitClientApp>` mounts under the `/<lang>/<targetLang>` layout and orchestrates client startup tasks.
+- A single `useEffect` first checks whether the saved language differs from the current route; if a redirect is required nothing else initializes and the component remounts on the new URL.
+- When no redirect is needed, the splash screen remains for at least ~1 second while local mastery calculations, IndexedDB hydration, and the first sync attempt run in parallel.
+- Initialization never hides server-rendered content from crawlers; SEO and Lighthouse continue to index the page without waiting on the splash screen.
+- Users can bypass the suggested redirect from the splash screen to keep their current URL/language pairing.
+
 **Supporting services (roadmap)**
 - **Kartuli PWA**: Primary learning surface, installable and offline-capable on iOS/Android/desktop.
 - **Admin Backoffice** *(post-MVP)*: Content management, analytics dashboards, and release tooling.
 - **Newsletter Service** *(post-MVP)*: Periodic updates with learning tips and cultural notes.
-- **Streaming Bot** *(experimental)*: Always-on demo channel showcasing gameplay and updates.
+- **Streaming Bot** *(experimental)*: Always-on demo channel showcasing activities and updates.
 
 ### 5.2 Layouts & Navigation Map
 
 - **InfoLayout + InfoNavbar** power marketing and legal surfaces. Desktop shows a persistent right-column menu; mobile exposes a menu/back button on the left.
 - **HubLayout + HubNavbar** own the authenticated experience shell with offline indicator, mute toggle, and dock (bottom on mobile, left rail on desktop) linking Hub, Profile, Favorites, and Search.
 - **LearningLayout + BackNavbar** wrap lesson lobbies with clear back navigation, lesson titles, mute/offline indicators, and no dock to reduce clutter.
-- **ImmersionLayout + MinimalNavbar** drive minigames, countdowns, summaries, and level-up screens with logo + mute control only; in-game back flows are handled in-app.
+- **ImmersionLayout + MinimalNavbar** drive activities, countdowns, summaries, and level-up screens with logo + mute control only; in-activity back flows are handled in-app.
 - Navigation docks surface core destinations; menu items cover terms, privacy, settings, and contact. Search lives within the dock and opens a dedicated search experience.
 - UI states and controls (mute, offline, recommended lesson prompts) stay consistent as users move across layouts to support predictable micro-interactions.
 
 ### 5.3 Landing & Marketing Surfaces
 
 - Root path `/` permanently redirects to `/en/ka` via static Next.js redirect handled at the CDN/edge; no runtime cost.
+- SEO crawlers and Lighthouse receive fully rendered HTML; client-only redirects only trigger for returning users with stored language preferences.
+- Language redirects honor offline state: if the destination page is not cached when offline, the app keeps the user on the requested route and surfaces an override option.
 - Marketing pages (`/en/ka`, `/terms`, `/privacy`, `/faq`, future contact) reuse `InfoLayout`, ensuring consistent navigation and optional hero CTA placement.
 - Landing hero emphasizes the free-forever promise, includes a Ukraine/Georgia support banner (dismissible), and drives users into the Hub CTA.
 - Hero background is black with high-contrast CTA; content below returns to white for readability. Banner only appears on the landing page.
@@ -205,13 +215,13 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - Module cards toggle expansion/collapse; lesson cards open the Lesson Lobby.
 - Lesson Lobby presents a flashcard carousel (single card view, arrow controls, swipe gestures, desktop scroll-to-change), target/native/transliteration strings, imagery, audio, context sentences, mastery badges, and favorites for word lessons.
 - Lobby actions include Start Game, Back, and Share (copy link + social targets). Recommended lessons preload countdown state for fast play.
-- Minigame flow: pre-roll countdown (3-2-1), rounds with question/answers/mascot feedback, round result overlay highlighting correctness, optional mastery/favorite animations, tap to advance.
-- Game Summary reuses carousel to review each round with green/red indicators and proposes next recommended game, Hub return, or replay.
+- Activity flow: pre-roll countdown (3-2-1), rounds with question/answers/mascot feedback, round result overlay highlighting correctness, optional mastery/favorite animations, tap to advance.
+- Activity Summary reuses the carousel to review each round with green/red indicators and proposes next recommended activity, Hub return, or replay.
 - Level-up modal blocks interaction until dismissed, celebrates global or mastery achievements, and previews requirements for the next level.
 
 ### 5.5 Reusable UI Components
 
-- **Flashcard Carousel** shared between Lesson Lobby and Game Summary to reinforce recognition.
+- **Flashcard Carousel** shared between Lesson Lobby and Activity Summary to reinforce recognition.
 - **Mascot component** adapts to pre-roll, round feedback, mute interactions, level-up, offline, and profile surfaces.
 - **Navbar variants** unify navigation affordances (logo, mute, offline, back/menu) while adjusting layout contextually.
 - **Offline indicator & sync status** display across Hub surfaces and offline pages, reinforcing reliability of progress preservation.
@@ -219,9 +229,12 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 
 ### 5.6 Localization Strategy
 
+- Default supported interface languages are English (default) and Spanish; future languages ship as content overlays after localized packs reach parity.
 - URLs follow `/<lang>/<targetLang>` pattern (e.g., `/en/ka`, `/es/ka`).
 - UI strings localize using a server-provided translation provider keyed by `lang`. English assets serve as fallback for untranslated strings.
 - Content packs localize per `targetLang`, overlaying native-language translations on shared target-language items. If a native-language pack lacks a word, the system falls back to the English overlay while retaining the item.
+- Language preference persists in `localStorage`/`IndexedDB`; returning users are redirected client-side when their saved language differs from the current route, with an override option exposed on the splash screen.
+- First-time visitors stay on the default `/en/ka` route, while deep links respect the shared URL and only perform client redirects when the target page is already cached offline.
 - User progress is keyed by target language and shared across native-language overlays; switching from Spanish UI to English retains mastered letters/words.
 - Unsupported combinations render a static `UnsupportedLanguagePage` with links to supported pairs and optional `noindex` metadata.
 
@@ -307,7 +320,7 @@ Assets (images, audio) are shared across all packs. Runtime concepts (groups, ga
 - `letters` and `words` use dictionaries for constant-time lookup.
 - `modules` and `lessons` stay as ordered arrays to preserve author intent.
 - Overlays add `label_native`, `usage_native`, `sentence_native` per `lang`; missing fields fall back to English overlay.
-- Groups and games are generated at runtime rather than stored in packs.
+- Activities are generated at runtime rather than stored in packs.
 
 ### 6.3 MVP Content Pack Scope
 
@@ -331,9 +344,9 @@ The tracking system stores activity deltas locally to remain offline-first and d
 - Last synced markers per device
 
 **Global user stats (computed from counters):**
-- Total games played
+- Total activities played
 - Total time spent
-- Total games won (>50% rounds correct)
+- Total activities completed (>50% rounds correct)
 - Item mastery (binary, derived)
 - User global level (derived)
 - Native-language overlay usage (for analytics only; progress remains tied to target language)
@@ -350,6 +363,7 @@ The tracking system stores activity deltas locally to remain offline-first and d
 - Local deltas persist offline indefinitely; consolidation occurs when uploads succeed.
 - When online, the client batches `{item_id, delta, device_id}` records to a Supabase Postgres function that merges them in a single transaction and returns updated totals when required.
 - After a successful sync, the client clears the acknowledged deltas while retaining the running counters.
+- Sync attempts fire every 5 minutes by default; the interval is feature-flagged for future tuning and automatically retries after failures without losing unsynced deltas.
 
 #### 6.4.4 Anonymous vs Registered Users
 
@@ -362,7 +376,8 @@ The tracking system stores activity deltas locally to remain offline-first and d
 
 - Behavioral analytics events share the same offline-first philosophy: a PostHog-bound queue stored in IndexedDB drains only after consent and connectivity are both present.
 - Analytics consent is independent from activity tracking; declining analytics keeps counters functional.
-- Overlay switches emit a `ui_language_changed` analytics event (with consent) to monitor localization adoption; no gameplay data is tied to this event.
+- Overlay switches emit a `ui_language_changed` analytics event (with consent) to monitor localization adoption; no activity data is tied to this event.
+- Each analytics payload receives a UUID; the server deduplicates acknowledgements and the queue retries automatically until acknowledgement succeeds.
 
 ### 6.5 Gamification
 - Item mastery is binary: letters typically require 3–5 wins; words 5–8 wins. Modules and lessons stay homogeneous (letters-only or words-only) so thresholds remain consistent.
@@ -405,8 +420,8 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 2. **Activation / Engagement**  
    - `app_home_opened`
    - `lesson_selected`
-   - `game_started`
-   - `game_completed`
+   - `activity_started`
+   - `activity_completed`
    - `ui_language_changed`
    - `native_language_fallback_shown`
 
