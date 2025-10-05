@@ -94,7 +94,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
   - **Technicians**: Collaborate on design, development, marketing, and related operations.
 
 ### Content Terms
-- **Item**: Letter of word entry
+- **Item**: Letter or word entry
 - **Letter**: Alphabet entry with glyph, names, transliteration, media, and usage hints.
 - **Word**: Vocabulary entry with target term, transliteration, media, and example sentences.
 - **Lesson**: Subset of items of the same type (letters or words, never mixed) that are used to generate dynamic games.
@@ -346,17 +346,20 @@ Gamification is computed from student activity.
 #### 6.3.2 Delta Counters & Storage
 
 - Activity is tracked as additive deltas rather than immutable raw logs.
-- IndexedDB persists local deltas and the device-generated identifier used for reconciliation.
+- IndexedDB persists local deltas and the `device_id`, a client-generated identifier created once and reused for both activity reconciliation and analytics until the user clears data or logs out.
 - Delta merges are idempotent; replays or retries do not inflate totals.
 - Counters are keyed by `targetLang` so switching native languages keeps mastered letters/words intact.
 
-#### 6.3.3 Sync & Consolidation
-- Student activity is stored in two registries: synced activity and not synced activity.
-- Local deltas persist offline indefinitely, accumulating in the not synced activity.
-- When coming back online or at fixed intervals, not synced activity is sent to the server with a unique ID.
-- The server checks if the unique ID was already received, ignoring it to avoid duplication.
-- If the information is new and not duplicated, the server adds it to its saved activity and returns the new accumulated values, which could contain information not present on the client.
-- After a successful sync, the client clears the not synced activity and updates the synced activity with the freshest data just received from the server.
+#### 6.3.3 Sync Loop
+- The client maintains two IndexedDB registries:
+  - `synced activity` mirrors the last server-acknowledged totals.
+  - `not synced activity` stores new deltas that have not been accepted yet.
+- Mastery and level calculations combine both registries so they always operate on the complete activity history.
+- Sync loop:
+  1. New play sessions append deltas into `not synced activity`.
+  2. At each sync interval or when connectivity returns, the client sends the full contents of `not synced activity` to the server with a new `request_id` generated for that payload (server stores the ID to ignore duplicates; once confirmed, the previous ID is discarded).
+  3. If the server confirms receipt, it responds with aggregated totals; the client overwrites `synced activity` with that response and clears `not synced activity`.
+  4. If the request fails or duplicates a known ID, both registries remain unchanged and the client retries on the next interval.
 - Sync attempts fire every five minutes by default and automatically retry after failures without losing unsynced deltas.
 
 #### 6.3.4 Anonymous vs Registered Users
@@ -367,8 +370,7 @@ Gamification is computed from student activity.
 
 #### 6.3.5 Analytics Queue
 
-- Behavioral analytics events share the same offline-first philosophy: an event queue stored in IndexedDB drains only after consent and connectivity are both present.
-- Analytics consent is independent from activity tracking; declining analytics keeps counters functional.
+- Analytics events follow the same offline-first principles; see section `6.5` for queue behavior and consent requirements.
 
 ### 6.4 Gamification
 - Item mastery is binary: letters typically require 3–5 wins; words 5–8 wins. Modules and lessons stay homogeneous (letters-only or words-only) so thresholds remain consistent.
@@ -428,7 +430,7 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 
 #### 6.5.4 Anonymous Users
 
-- Device has a **client-generated ID** reused across analytics for optional linking.
+- Device has a **client-generated ID** (`device_id`) reused across analytics and activity reconciliation for optional linking.
 - No personal data is tracked until consent.
 - If user consents to linking analytics after login/signup:
 - Merge previous anonymous events with the account.
@@ -454,10 +456,12 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 
 #### 6.5.7 Event Handling Flow
 
+On game completion the client updates activity counters and (if allowed) queues analytics events before scheduling the next sync/flush.
+
 1. User completes game → triggers `onGameCompleted`.
-2. Increment local delta counters in IndexedDB (wins/losses, time, days played) scoped to the device ID.
-3. If the user is logged in and the sync interval has elapsed, push to the server.
-4. If analytics consent is given, enqueue PostHog events locally; drain the queue when connectivity resumes.
+2. Increment local delta counters in IndexedDB (wins/losses, time, days played) scoped to the device ID (see `6.3.2`).
+3. If the user is logged in and the sync interval has elapsed, push to the server (see `6.3.3`).
+4. If analytics consent is given, enqueue PostHog events locally; drain the queue when connectivity resumes (see `6.5.3`).
 5. Compute mastery/levels at runtime from merged counters; **never store computed fields**.
 
 ### 6.6 Content Pack Management & Versioning
@@ -549,8 +553,8 @@ All services utilize **free tiers** where possible:
 
 ### 7.4 Data Flow Architecture
 
-**User Progress Flow**
-1. **IndexedDB Delta Counters** → Store per-item wins/losses, time spent data keyed by `targetLang`.
+**User Activity Flow**
+1. **IndexedDB Delta Counters** → Store per-item wins/losses, time spent data keyed by `targetLang` (see `6.3.3` for `synced` vs `not synced` registries).
 2. **Delta Batching** → Accumulate additive deltas until sync interval or connectivity returns.
 3. **Supabase Merge** → Edge function merges `{item_id, delta, targetLang, device_id}` atomically and returns updated aggregates.
 4. **Overlay Adjustments** → When native-language overlay changes, client reuses same counters; no server mutation required.
