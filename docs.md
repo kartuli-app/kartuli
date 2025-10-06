@@ -106,7 +106,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - **Module**: Themed collection of lessons defined within the master content pack to structure learning
 - **Master Content Pack**: Canonical  dataset for a target language, containing metadata, letters, words, modules, and lessons that all native content packs reference
 - **Native Content Pack**: Native language specific pack that augments the master content pack with native language labels, usage hints, and example sentences
-- **Content Pack Manifest**: Versioned index describing available master packs and native overlays, used by the client to determine downloads and fallbacks
+- **Content Pack Manifest**: Versioned index describing available master packs and native content packs, used by the client to determine downloads and fallbacks
 - **Assets**: Media files (images, audio) shared per target language, referenced by items across the content system
 - **Resources**: Links to learning content outside of the kartuli project: books, schools, forums, courses...
 
@@ -160,7 +160,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
   - When a student visits a page with a different native language than the selected one, show a small non-intrusive banner that suggests visiting the selected language version of the current page
   - Students can dismiss the banner
 - App pages:
-  - When a student visits an app page with a different native language than the selected one, show a redirect overlay that informs about the redirection to the selected language and performs the redirect after three seconds
+  - When a student visits an app page with a different native language than the selected one, show a redirect modal that informs about the redirection to the selected language and performs the redirect after three seconds
   - Students can cancel the suggested redirect to keep the current native language
 
 ### 5.3 Pages & Navigation Map
@@ -201,7 +201,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 
 - **Lesson Game Layout**
   - Powers the game pages
-  - Navbar includes back arrow (dialog to confirm exiting the game), time spent, current round and total rounds (3/10), and mute toggle
+  - Navbar includes back arrow (modal to confirm exiting the game), time spent, current round and total rounds (3/10), and mute toggle
 
 - Navbar:
   - Transparent for immersion on the game pages, background color for other pages
@@ -245,7 +245,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - Lobby actions include Start Game
 
 #### Game Page
-- Game flow: pre-roll countdown (3-2-1), rounds with question/answers/mascot feedback, round result overlay highlighting correctness, optional mastery/favorite animations, tap to advance
+- Game flow: pre-roll countdown (3-2-1), rounds with question/answers/mascot feedback, round result modal highlighting correctness, optional mastery/favorite animations, tap to advance
 - Game Summary reuses the carousel to review each round with green/red indicators and proposes next recommended activity, Hub return, or replay
 - Level-up modal blocks interaction until dismissed, celebrates global or mastery achievements, and previews requirements for the next level
 
@@ -254,10 +254,10 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - Default canonical language is English
 - URLs follow `/<lang>/<targetLang>` pattern (e.g., `/en/ka`, `/es/ka`)
 - UI strings localize using a server-provided translation provider keyed by `lang`; English assets serve as fallback for untranslated strings
-- Content packs localize per `targetLang`, overlaying native-language translations on shared target-language items; ff a native-language pack lacks a word, the system falls back to the English content while retaining the item
+- Content packs localize per `targetLang`, layering native-language translations on shared target-language items; if a native-language pack lacks a word, the system falls back to the English content while retaining the item
 - Language preference persists in `localStorage`/`IndexedDB`; returning users are redirected client-side when their saved language differs from the current route, with an override option exposed on the redirect screen
 - First-time visitors stay on the default `/en/ka` route, while deep links respect the shared URL
-- User progress is keyed by target language and shared across native-language overlays; switching from Spanish UI to English retains mastered letters/words
+- User progress is keyed by target language and shared across native content packs; switching from Spanish UI to English retains mastered letters/words
 - Unsupported combinations render a static `UnsupportedLanguagePage` with links to supported pairs and optional `noindex` metadata
 
 ### 5.7 Content Strategy
@@ -265,7 +265,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - Keep modules homogeneous (letters-only or words-only) while enabling short lessons so learners feel progress quickly
 - Author content in structured JSON packs; reuse target-language media across native language packs to minimize duplication and cost
 - Layer Georgian cultural context into imagery, example sentences, and audio so vocabulary reflects real Georgian life
-- Support partial localization: native-language overlays can omit words not yet translated; UI falls back to English text while preserving items and progress
+- Support partial localization: native content packs can omit words not yet translated; UI falls back to English text while preserving items and progress
 - Document editorial standards (tone, transliteration rules, audio quality) in the backoffice roadmap to sustain quality as packs scale beyond MVP
 
 ---
@@ -295,7 +295,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - **examples** — array of objects with:
   - `sentence_target`
   - `sentence_translit` *(optional)*
-  - `sentence_native` *(provided via overlays; fallback to English)*
+  - `sentence_native` *(provided via native content packs; fallback to English)*
 
 #### Modules
 - **id** — slug, e.g., `animals`
@@ -308,7 +308,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 #### Lessons
 - **id** — slug, e.g., `greetings_intro`
 - **module_id** — reference to parent module
-- **title_native** — display title in native language; fallback to English overlay
+- **title_native** — display title in native language; fallback to English content pack
 - **title_target** — optional target-language name
 - **item_type** — `"letter"` or `"word"`
 - **item_ids** — ordered array of 4–6 item ids
@@ -325,17 +325,17 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 #### Notes
 - `letters` and `words` use dictionaries for constant-time lookup
 - `modules` and `lessons` stay as ordered arrays to preserve author intent
-- Native content packs add `label_native`, `usage_native`, `sentence_native` per `lang`; missing fields fall back to English overlay
+- Native content packs add `label_native`, `usage_native`, `sentence_native` per `lang`; missing fields fall back to English content pack
 - Games are generated at runtime rather than stored in packs
 
 ### 6.2 MVP Content Pack Scope
 
-- Letters: Full Georgian alphabet with target-script names, transliteration, audio, and usage hints. Localized overlays supply native-language usage; missing overlays fall back to English
+- Letters: Full Georgian alphabet with target-script names, transliteration, audio, and usage hints. Native content packs supply native-language usage; missing content packs fall back to English
 - Words: ~20 launch words covering greetings (`hello`, `goodbye`), politeness (`please`, `thank you`), essentials (`water`, `bathroom`, `bus`, `market`), numbers (1–3), and common verbs
 - Modules: Distinct areas for alphabet and vocabulary; vocabulary modules are small (6–8 items) to reinforce mastery; future packs can expand counts gradually
 - Lessons: 4–6 items, balanced by skill or theme, mixing letters or words only within their module type; recommended lessons are generated by the recommendation algorithm
 - Native content packs: Additional native languages reuse the same `modules`/`lessons` item IDs. If a specific word lacks localization, the UI surfaces English text while keeping the item active so progress continuity persists
-- Content pack manifest enumerates available overlays per native language; client uses this to determine where fallbacks apply
+- Content pack manifest enumerates available native content packs per native language; client uses this to determine where fallbacks apply
 
 ### 6.3 Student Progress Tracking
 
@@ -476,14 +476,14 @@ On game completion the client updates activity counters and (if allowed) queues 
 
 ### 6.6 Content Pack Management & Versioning
 
-- Manifest tracks pack version, assets version, and overlay versions per `lang`; clients compare to local cache for updates
-- Items are immutable; new letters/words append to dictionaries. Overlays may add localized text independently
+- Manifest tracks pack version, assets version, and native content pack versions per `lang`; clients compare to local cache for updates
+- Items are immutable; new letters/words append to dictionaries. Native content packs may add localized text independently
 - Asset URLs embed version segments, enabling service worker to prefetch new media while expiring old cache entries safely
 - Release flow:
-  - Publish updated manifest + overlay diffs to CDN
+  - Publish updated manifest + native content pack diffs to CDN
   - Notify users in-app; allow manual download or defer until on Wi-Fi
   - Trigger ISR revalidation via Next.js tags so marketing/app pages reflect new content version indicator
-- MVP release ships alphabet + ~20 words; subsequent drops expand vocabulary modules and overlay coverage without altering the base schema
+- MVP release ships alphabet + ~20 words; subsequent drops expand vocabulary modules and native content pack coverage without altering the base schema
 
 ---
 ---
@@ -495,7 +495,7 @@ On game completion the client updates activity counters and (if allowed) queues 
 - **Free-tier first**: Lean on managed service free tiers; avoid bespoke infrastructure
 - **Serverless core**: Next.js on Vercel, Supabase functions, and managed queues reduce ops overhead, and we don't want to deal with containers
 - **Offline-first design**: Local storage is canonical until sync completes
-- **Localization aware**: Deliver overlays and fallbacks without runtime branching costs
+- **Localization aware**: Deliver native content packs and fallbacks without runtime branching costs
 - **Cost optimization**: Cache aggressively, batch network calls, and reuse assets to stay within quotas
 - **Reliability focus**: Layer monitoring (Sentry, New Relic) and quota observability to catch regressions early
 
@@ -515,20 +515,20 @@ On game completion the client updates activity counters and (if allowed) queues 
 - **PWA**: Progressive Web App architecture for cross-platform compatibility
 
 #### Data & Storage
-- **Local Storage / IndexedDB**: Primary store for offline-first functionality and overlay fallbacks
+- **Local Storage / IndexedDB**: Primary store for offline-first functionality and native content pack fallbacks
 - **Supabase**: 
   - Main database for user progress, favorites, and preferences
   - Authentication (Google, Facebook)
   - Edge functions handle delta merges and analytics webhooks
 - **Content Packs & Assets**:
-  - Manifest + overlay metadata downloaded on install/update; stored in IndexedDB with version stamps
+  - Manifest + native content pack metadata downloaded on install/update; stored in IndexedDB with version stamps
   - Assets cached via Cache Storage during install/update passes; service worker replays caching loop to recover evicted files
   - Manifest version bump triggers in-app prompt and optional background download on Wi-Fi
   - Example asset URL: `https://assets.kartuli.app/en-ka/images/letter_a.svg?v=1`
   - Example content pack manifest: `https://content.kartuli.app/en-ka/master.json?v=1`
 
 #### Analytics & Monitoring
-- **PostHog**: User behavior analytics (with consent) including overlay fallback events
+- **PostHog**: User behavior analytics (with consent) including native content pack fallback events
 - **Sentry**: Error tracking and performance monitoring
 - **New Relic**: Application performance monitoring and uptime tracking
 
@@ -569,7 +569,7 @@ All services utilize **free tiers** where possible:
 1. **IndexedDB Delta Counters** → Store per-item wins/losses, time spent data keyed by `targetLang` (see `6.3.3` for `synced` vs `not synced` registries)
 2. **Delta Batching** → Accumulate additive deltas until sync interval or connectivity returns
 3. **Supabase Merge** → Edge function merges `{item_id, delta, targetLang, device_id}` atomically and returns updated aggregates
-4. **Overlay Adjustments** → When native-language overlay changes, client reuses same counters; no server mutation required
+4. **Native Content Pack Adjustments** → When native content pack changes, client reuses same counters; no server mutation required
 5. **PostHog Analytics** → Queue consented events locally; flush when online
 
 **Authentication Flow**
@@ -578,14 +578,14 @@ All services utilize **free tiers** where possible:
 3. **Data Linking** → Optional merge of anonymous deltas/events into account; users can decline
 
 **Content Delivery**
-1. **Manifest + Overlays** → Cloudflare CDN, cached via service worker
+1. **Manifest + Native Content Packs** → Cloudflare CDN, cached via service worker
 2. **App Code** → Vercel deployment with Next.js PWA + server components
 3. **Database** → Supabase for user data, favorites, and progress deltas
 
 **Monitoring & Analytics**
 1. **Sentry** → Error tracking
 2. **New Relic** → Performance + uptime
-3. **PostHog** → Engagement analytics (consent-based); overlays tracked via fallback events
+3. **PostHog** → Engagement analytics (consent-based); native content packs tracked via fallback events
 
 ### 7.5 Offline Storage & PWA Strategy
 
@@ -628,12 +628,12 @@ Assets are cached and versioned, ensuring minimal re-downloads and integrity acr
 - Offline-first tracking stores cumulative wins/fails for each item, and total time spent playing
 - Mastery thresholds sit at 3–5 wins for letters and 5–8 wins for words
 - Levels emphasize alphabet mastery before vocabulary growth
-- Optional visual rewards can overlay without changing core logic
+- Optional visual rewards can layer on top without changing core logic
 
 ---
 
 ## 8. To Discuss
-- **Content tooling & localization pipeline**: Define the backoffice workflow for authoring packs, approving overlays, and rolling out partial translations without regressions
+- **Content tooling & localization pipeline**: Define the backoffice workflow for authoring packs, approving native content packs, and rolling out partial translations without regressions
 - **Beta research loop**: Pick target communities, feedback tooling, and qualitative interview cadence for the MVP pilot
 - **Marketing & comms playbook**: Align on brand identity, social handles, guerrilla tactics, and messaging guardrails consistent with the free-forever promise
 - **Support operations**: Establish contact channels, help center tooling, SLAs, and escalation paths for user issues
