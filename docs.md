@@ -126,7 +126,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - **Analytics**: Optional student behavior tracking for app usage analysis, separate from activity and gamification
 - **Analytics Consent**: Student permission required before sending any analytics events to external services
 - **Event Categories**: Grouped analytics events (Acquisition, Activation/Engagement, Retention/Business Metrics)
-- **Funnel Analysis**: Tracking user progression through key app flows (landing → app → lesson → game)
+- **Funnel Analysis**: Tracking student progression through key app flows (landing → app → lesson → game)
 - **Anonymous Analytics**: Device-level tracking without personal data, using client-generated ID only
 - **Data Export**: Student's right to receive their tracked data in portable format (JSON/CSV)
 - **Data Deletion**: Student's right to have their tracked data permanently removed from all systems
@@ -255,7 +255,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 - URLs follow `/<lang>/<targetLang>` pattern (e.g., `/en/ka`, `/es/ka`)
 - UI strings localize using a server-provided translation provider keyed by `lang`; English assets serve as fallback for untranslated strings
 - Content packs localize per `targetLang`, layering native-language translations on shared target-language items; if a native-language pack lacks a word, the system falls back to the English content while retaining the item
-- Language preference persists in `localStorage`/`IndexedDB`; returning users are redirected client-side when their saved language differs from the current route, with an override option exposed on the redirect screen
+- Language preference persists in `localStorage`/`IndexedDB`; returning students are redirected client-side when their saved language differs from the current route, with an override option exposed on the redirect screen
 - First-time visitors stay on the default `/en/ka` route, while deep links respect the shared URL
 - User progress is keyed by target language and shared across native content packs; switching from Spanish UI to English retains mastered letters/words
 - Unsupported combinations render a static `UnsupportedLanguagePage` with links to supported pairs and optional `noindex` metadata
@@ -339,7 +339,7 @@ This section defines the key terms and concepts used throughout the Kartuli proj
 
 ### 6.3 Student Progress Tracking
 
-The tracking system stores student activity deltas locally to remain offline-first and decoupled from gamification rules, enabling flexible mastery and level calculations that work even when users do not connect for extended periods
+The tracking system stores student activity deltas locally to remain offline-first and decoupled from gamification rules, enabling flexible mastery and level calculations that work even when students do not connect for extended periods
 
 Gamification is computed from student activity
 
@@ -376,7 +376,7 @@ Gamification is computed from student activity
 #### 6.3.4 Anonymous vs Registered Users
 
 - Anonymous users operate entirely on-device using the generated device ID
-- On login/signup, users can optionally merge their anonymous deltas into the account; the server consolidates them and replies with the unified counters
+- On login/signup, students can optionally merge their anonymous deltas into the account; the server consolidates them and replies with the unified counters
 - Declining the merge starts the account with fresh counters, deleting the anonymous not synced activity stored locally
 
 #### 6.3.5 Analytics Queue
@@ -409,9 +409,9 @@ Gamification is computed from student activity
 
 #### 6.5.1 Purpose
 
-Track **user acquisition, engagement, and funnels** for app usage analysis. Analytics is separate from user progress tracking and requires user consent
+Track **student acquisition, engagement, and funnels** for app usage analysis. Analytics is separate from student progress tracking and requires student consent
 
-**Key principle**: **User activity and gamification is separate from analytics.** Analytics is optional and respects user consent; activity tracking is necessary for offline-first functionality
+**Key principle**: **Student activity and gamification is separate from analytics.** Analytics is optional and respects student consent; activity tracking is necessary for offline-first functionality
 
 #### 6.5.2 Event Categories
 
@@ -450,7 +450,7 @@ Track **user acquisition, engagement, and funnels** for app usage analysis. Anal
 
 - **Consent is required** before sending any analytics events
 - Consent is **per user, per device**
-- Users can refuse analytics and still use the app normally
+- Students can refuse analytics and still use the app normally
 - A simple **informative banner** explaining how to stop tracking is acceptable practice
 - GDPR / privacy compliance:
   - Do not track personal data without consent
@@ -481,7 +481,7 @@ On game completion the client updates activity counters and (if allowed) queues 
 - Asset URLs embed version segments, enabling service worker to prefetch new media while expiring old cache entries safely
 - Release flow:
   - Publish updated manifest + native content pack diffs to CDN
-  - Notify users in-app; allow manual download or defer until on Wi-Fi
+  - Notify students in-app; allow manual download or defer until on Wi-Fi
   - Trigger ISR revalidation via Next.js tags so marketing/app pages reflect new content version indicator
 - MVP release ships alphabet + ~20 words; subsequent drops expand vocabulary modules and native content pack coverage without altering the base schema
 
@@ -555,7 +555,7 @@ All services utilize **free tiers** where possible:
 ### 7.3 Application Architecture & Routing
 
 - Next.js `app` directory uses `/<lang>/<targetLang>` pattern; root layout is pass-through. Locale layout renders `<html lang>` and wraps children in translation provider after validating supported pairs
-- `next.config.js` defines static redirect from `/` to `/en/ka`. `generateStaticParams` prebuilds supported pairs, with ISR handling content version bumps; ISR pages are served cache-first; users see cached HTML until a reload or new service worker activation fetches the latest render from Vercel via stale-while-revalidate
+- `next.config.js` defines static redirect from `/` to `/en/ka`. `generateStaticParams` prebuilds supported pairs, with ISR handling content version bumps; ISR pages are served cache-first; students see cached HTML until a reload or new service worker activation fetches the latest render from Vercel via stale-while-revalidate
 - Route groups organize surfaces:
   - `(marketing)` → InfoLayout pages (`landing`, `terms`, `privacy`, `faq`, `contact`)
   - `[lang]/[targetLang]/(hub)` → HubLayout (`page`, `profile`, `favorites`, `search`, `offline`)
@@ -575,7 +575,7 @@ All services utilize **free tiers** where possible:
 **Authentication Flow**
 1. **Anonymous Users** → Local storage only with client-generated ID
 2. **Social Login** → Supabase Auth (Google, Facebook)
-3. **Data Linking** → Optional merge of anonymous deltas/events into account; users can decline
+3. **Data Linking** → Optional merge of anonymous deltas/events into account; students can decline
 
 **Content Delivery**
 1. **Manifest + Native Content Packs** → Cloudflare CDN, cached via service worker
