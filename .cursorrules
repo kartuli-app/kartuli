@@ -35,3 +35,11 @@ Always use conventional commit format for all commits:
 - Maintain test coverage above 80%
 - Use descriptive test names
 - Test both happy path and edge cases
+
+## Documentation Maintenance
+- Always update relevant README.md files when adding, removing, or reordering documents
+- Use zero-padded numbering: 01, 02, 03, etc.
+- Maintain logical order within folders
+- README files contain only links and brief descriptions
+- Exclude README files from LLM document generation
+- Update documentation when making code changes that affect architecture, data models, user experience, or infrastructure
