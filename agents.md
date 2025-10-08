@@ -7,11 +7,38 @@
 - Maintain zero-padded numbering for proper sorting
 
 ## Maintenance Rules
-1. When adding documents: Update relevant README.md with new link
-2. When reordering: Rename files and update all affected README.md files
-3. When removing: Remove file and update README.md
-4. When changing code: Update relevant documentation
-5. README files are excluded from LLM document generation
+
+### Adding, Removing, or Updating Documentation Files
+**CRITICAL CHECKLIST** when modifying .md files in /docs/:
+
+**If ADDING a new document:**
+- [ ] Create document with proper zero-padded numbering
+- [ ] Update immediate folder's README.md with new link
+- [ ] Update parent folder's README.md (if nested like /docs/07-technology/01-shared/)
+- [ ] Update /docs/README.md (if adding new top-level sections)
+- [ ] Verify all README links work from root to leaf
+
+**If RENAMING a document:**
+- [ ] Update filename with proper numbering
+- [ ] Update all references in immediate folder's README.md
+- [ ] Update all references in parent folder's README.md (if nested)
+- [ ] Update cross-references in other documents that link to this file
+- [ ] Verify all links still work
+
+**If DELETING a document:**
+- [ ] Remove from immediate folder's README.md
+- [ ] Remove from parent folder's README.md (if nested)
+- [ ] Check for and update cross-references in other documents
+- [ ] Verify no broken links remain
+
+**If REORDERING documents:**
+- [ ] Rename files to maintain zero-padded numbering
+- [ ] Update all affected README.md files
+- [ ] Maintain logical order within folders
+
+**When changing code:**
+- [ ] Update relevant documentation
+- [ ] README files are excluded from LLM document generation
 
 ## File Naming Convention
 - Folders: `XX-folder-name/` (zero-padded numbers)

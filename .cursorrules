@@ -37,7 +37,12 @@ Always use conventional commit format for all commits:
 - Test both happy path and edge cases
 
 ## Documentation Maintenance
-- Always update relevant README.md files when adding, removing, or reordering documents
+- **CRITICAL**: When adding, removing, or updating ANY document in /docs/, update ALL relevant README files in the hierarchy:
+  - Immediate folder README: /docs/XX-folder/README.md
+  - Parent folder README: /docs/XX-folder/README.md (if nested like 01-shared/)
+  - Root README: /docs/README.md
+  - Always verify the entire path from root to the document
+  - Update cross-references in other documents when renaming or deleting
 - Use zero-padded numbering: 01, 02, 03, etc.
 - Maintain logical order within folders
 - README files contain only links and brief descriptions

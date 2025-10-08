@@ -15,4 +15,4 @@ This section covers product design, user experience, and app-specific implementa
 - [Consent Management](02-game-client/07-consent-management.md) - Consent banner UX and privacy compliance
 
 ## Backoffice
-- [Backoffice Experience](03-backoffice/01-backoffice-experience.md) - Admin interface and content management UX
+<!-- To be defined -->

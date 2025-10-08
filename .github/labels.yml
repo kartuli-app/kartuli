@@ -1,0 +1,85 @@
+# GitHub Labels Configuration
+# This file defines all labels used in the repository
+# Sync with GitHub using the manual workflow: .github/workflows/sync-labels.yml
+
+# Scope Labels - Define which part of the monorepo is affected
+- name: "scope:game-client"
+  color: "0075ca"
+  description: "Affects the game client application"
+
+- name: "scope:backoffice-client"
+  color: "0075ca"
+  description: "Affects the backoffice client application"
+
+- name: "scope:ui"
+  color: "0075ca"
+  description: "Affects the UI package"
+
+- name: "scope:storybook"
+  color: "0075ca"
+  description: "Affects the Storybook tool"
+
+- name: "scope:e2e"
+  color: "0075ca"
+  description: "Affects E2E testing"
+
+- name: "scope:global"
+  color: "0075ca"
+  description: "Affects shared packages or general repository tasks"
+
+# Type Labels - Aligned with conventional commits
+- name: "type:feat"
+  color: "28a745"
+  description: "New feature"
+
+- name: "type:chore"
+  color: "28a745"
+  description: "Infrastructure, setup tasks, non-feature work"
+
+- name: "type:fix"
+  color: "28a745"
+  description: "Bug fix"
+
+- name: "type:docs"
+  color: "28a745"
+  description: "Documentation changes"
+
+- name: "type:test"
+  color: "28a745"
+  description: "Testing-related changes"
+
+# Priority Labels
+- name: "priority:high"
+  color: "d73a4a"
+  description: "High priority"
+
+- name: "priority:medium"
+  color: "ff9800"
+  description: "Medium priority"
+
+- name: "priority:low"
+  color: "ffd700"
+  description: "Low priority"
+
+# Size Labels
+- name: "size:small"
+  color: "9c27b0"
+  description: "Small task or change"
+
+- name: "size:medium"
+  color: "9c27b0"
+  description: "Medium-sized task or change"
+
+- name: "size:large"
+  color: "9c27b0"
+  description: "Large task or change"
+
+# Extra Labels
+- name: "good-first-issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "help-wanted"
+  color: "008672"
+  description: "Extra attention is needed"
+

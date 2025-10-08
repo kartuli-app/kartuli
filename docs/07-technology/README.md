@@ -5,7 +5,8 @@ This section covers technical implementation, infrastructure, and development pr
 ## Shared
 - [Technology Philosophy & Requirements](01-shared/01-guiding-decisions.md) - Technology philosophy and key requirements
 - [Infrastructure](01-shared/02-infrastructure.md) - Technology stack, providers, and services
-- [Development Conventions](01-shared/03-development-conventions.md) - Development conventions and commit standards
+- [Development Conventions](01-shared/03-development-conventions.md) - Conventional commits, code style, and testing standards
+- [GitHub Workflow](01-shared/04-github-workflow.md) - Issues, PRs, labels, versioning, and GitHub automation
 
 ## Game Client
 - [Application Architecture](02-game-client/01-application-architecture.md) - Next.js routing, layouts, and service workers
@@ -14,4 +15,4 @@ This section covers technical implementation, infrastructure, and development pr
 - [Storage Estimates](02-game-client/04-storage-estimates.md) - Client-side storage requirements and estimates
 
 ## Backoffice
-- [Backoffice Architecture](03-backoffice/01-backoffice-architecture.md) - Admin system architecture and implementation
+<!-- To be defined -->

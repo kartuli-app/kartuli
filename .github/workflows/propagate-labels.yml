@@ -1,0 +1,69 @@
+name: Propagate Labels from Issue to PR
+
+# This workflow automatically copies labels from an issue to its linked PR
+# when a PR is created
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  propagate-labels:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      issues: read
+      pull-requests: write
+    
+    steps:
+      - name: Propagate labels from linked issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the PR body
+            const pr = context.payload.pull_request;
+            const prBody = pr.body || '';
+            
+            // Extract issue numbers from PR body (matches #123, closes #123, fixes #123, etc.)
+            const issueRegex = /(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#(\d+)/gi;
+            const matches = [...prBody.matchAll(issueRegex)];
+            
+            if (matches.length === 0) {
+              console.log('No linked issues found in PR description');
+              return;
+            }
+            
+            // Get labels from the first linked issue
+            const issueNumber = parseInt(matches[0][1]);
+            console.log(`Found linked issue #${issueNumber}`);
+            
+            try {
+              const issue = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber
+              });
+              
+              const issueLabels = issue.data.labels.map(label => label.name);
+              
+              if (issueLabels.length === 0) {
+                console.log('No labels found on the linked issue');
+                return;
+              }
+              
+              console.log(`Propagating labels: ${issueLabels.join(', ')}`);
+              
+              // Add labels to PR
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: issueLabels
+              });
+              
+              console.log('Labels successfully propagated to PR');
+            } catch (error) {
+              console.error(`Error propagating labels: ${error.message}`);
+            }
+
