@@ -88,7 +88,7 @@ For detailed technical information, see:
 
 - **Questions?** Open a [discussion](../../discussions)
 - **Bug?** Create an [issue](../../issues/new/choose)
-- **Need guidance?** Look for issues labeled [`good-first-issue`](../../labels/good-first-issue)
+- **Need guidance?** Look for issues labeled [`good first issue`](../../labels/good%20first%20issue)
 
 ## Code of Conduct
 

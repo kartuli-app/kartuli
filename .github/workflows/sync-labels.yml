@@ -5,6 +5,12 @@ name: Sync Labels
 
 on:
   workflow_dispatch:
+    inputs:
+      delete-other-labels:
+        description: 'Delete labels not in config file?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   sync-labels:
@@ -22,5 +28,5 @@ jobs:
         with:
           config-file: .github/labels.yml
           token: ${{ secrets.GITHUB_TOKEN }}
-          delete-other-labels: false
+          delete-other-labels: ${{ inputs.delete-other-labels }}
 

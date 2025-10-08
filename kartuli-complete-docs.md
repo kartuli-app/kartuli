@@ -843,7 +843,7 @@ All work should start with a GitHub issue. Use our issue template to ensure cons
 4. Optionally add:
    - **Size**: Estimate effort (small/medium/large)
    - **Priority**: Set priority level (high/medium/low)
-   - **Extra Tags**: Mark as `good-first-issue` or `help-wanted` if appropriate
+   - **Extra Tags**: Mark as `good first issue` or `help wanted` if appropriate
 
 ### Creating Pull Requests
 
@@ -923,8 +923,8 @@ Estimate the effort required:
 ### Extra Labels
 Special purpose labels:
 
-- `good-first-issue` (Purple - `#7057ff`) - Suitable for newcomers
-- `help-wanted` (Teal - `#008672`) - Community help is appreciated
+- `good first issue` (Purple - `#7057ff`) - Suitable for newcomers
+- `help wanted` (Teal - `#008672`) - Community help is appreciated
 
 ### Applying Labels
 
@@ -1034,7 +1034,7 @@ Single comprehensive template for all issues (features, bugs, tasks, documentati
 **Optional fields**:
 - Size estimate
 - Priority level
-- Extra tags (good-first-issue, help-wanted)
+- Extra tags (good first issue, help wanted)
 - Notes and references
 
 ### Pull Request Template
