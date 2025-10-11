@@ -2,8 +2,7 @@
   "private": true,
   "name": "kartuli",
   "engines": {
-    "node": ">=20.12.2 <21",
-    "pnpm": "9.12.2"
+    "node": ">=20.12.2 <21"
   },
   "packageManager": "pnpm@9.12.2",
   "scripts": {
