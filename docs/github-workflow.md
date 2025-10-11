@@ -1,6 +1,6 @@
-### GitHub Workflow
+# GitHub Workflow
 
-This document describes how we use GitHub for collaboration, issue tracking, and release management.
+This document describes how we use GitHub for collaboration, issue tracking, and automation.
 
 ## Issues and Pull Requests
 
@@ -42,9 +42,7 @@ If creating a PR manually:
    - `Resolves #789` - Same as `Closes`
 
 #### PR Title Format
-PR titles **must** follow conventional commit format for proper changelog generation.
-
-See [Development Conventions](03-development-conventions.md#conventional-commits) for the complete specification.
+PR titles **must** follow our [conventional commit format](./code-conventions.md#commit-convention).
 
 **Quick examples**:
 - `feat(game-client): add user authentication system`
@@ -60,7 +58,7 @@ When you create a PR from an issue or link it properly using keywords (`Closes #
 
 ## Labels Structure
 
-Our repository uses a structured labeling system to organize and categorize work.
+Our repository uses a structured labeling system defined in `.github/labels.yml`.
 
 ### Scope Labels (Blue - `#0075ca`)
 Define which part of the monorepo is affected:
@@ -130,38 +128,6 @@ Closes #456
 Fixes #789
 ```
 
-## Versioning and Milestones
-
-### Monorepo Versioning Strategy
-
-Kartuli uses a monorepo structure with internal package dependencies. Our versioning approach:
-
-- **Packages** (`/packages/*`): Consumed internally by apps and tools
-- **Apps** (`/apps/*`): Consumer-facing applications (game-client, backoffice-client)
-- **Tools** (`/tools/*`): Development and testing tools (storybook, e2e)
-
-### Internal Versioning
-- Packages are versioned internally but not published to npm
-- Apps consume packages via workspace references
-- Builds and deployments are triggered when package dependencies change
-- We track versions in `package.json` files for dependency management
-
-### Milestones for Release Planning
-We use GitHub Milestones to track releases and feature sets:
-
-1. **Creating Milestones**: Milestones represent planned releases or feature groups
-2. **Assigning Issues**: Add issues to milestones during planning
-3. **Tracking Progress**: Milestones show completion percentage
-4. **Release Notes**: When a milestone is complete, we use it to generate release notes
-
-### Conventional Commits for Changelog
-We use conventional commit format to automatically generate changelogs:
-- `feat:` - New features appear in release notes
-- `fix:` - Bug fixes appear in release notes
-- `chore:`, `docs:`, `test:` - Usually excluded from user-facing changelog
-
-See [Development Conventions](03-development-conventions.md#conventional-commits) for complete commit format specification.
-
 ## GitHub Actions
 
 ### Syncing Labels to GitHub
@@ -177,8 +143,6 @@ Labels are defined in `.github/labels.yml`. To sync them with GitHub:
 - After adding new labels to `.github/labels.yml`
 - After modifying label names, colors, or descriptions
 - When setting up a new repository
-
-**Note**: The sync action uses `delete-other-labels: false`, meaning it won't delete labels created manually in GitHub.
 
 ### Automatic Label Propagation
 

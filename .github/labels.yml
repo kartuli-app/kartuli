@@ -74,7 +74,7 @@
   color: "9c27b0"
   description: "Large task or change"
 
-# Extra Labels
+# Extra Labels - These are default in github, we just add them here so they dont get deleted when syncing labels with delete-other-labels: true in the workflow
 - name: "good first issue"
   color: "7057ff"
   description: "Good for newcomers"
@@ -83,7 +83,6 @@
   color: "008672"
   description: "Extra attention is needed"
 
-# Meta Labels - Issue status and validity
 - name: "duplicate"
   color: "cfd3d7"
   description: "This issue or pull request already exists"
@@ -100,3 +99,8 @@
   color: "ffffff"
   description: "This will not be worked on"
 
+# We dont want to use the following default labels, so we dont include, and they are deleted when syncing labels with delete-other-labels: true in the workflow
+# - bug
+# - documentation
+# - enhancement
+# - question
