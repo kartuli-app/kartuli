@@ -71,8 +71,8 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | Technology | Status | Layer | Notes |
 | ---------- | ------ | ----- | ----- |
 | **git** | 🟢 | Version Control | |
-| **pnpm** | ⚫ | Package Manager | Workspace management |
-| **turborepo** | ⚫ | Build System | Monorepo management |
+| **pnpm** | 🟢 | Package Manager | Workspace management |
+| **turborepo** | 🟢 | Build System | Monorepo management |
 | **TypeScript** | ⚫ | Language | |
 | **ESLint** | ⚫ | Linting | |
 | **Prettier** | ⚫ | Formatting | |
@@ -109,7 +109,7 @@ Status: 🟢 Active | ⚫ Planned
 | **CI/CD** | GitHub | 🟢 | https://github.com/rocescoca/ | • Labels sync<br>• Labels propagation from Issue to PR |
 | **Projects** | GitHub | 🟢 | https://github.com/rocescoca/ | • Issue tracking<br>• Project boards |
 | **Hosting** | GitHub | ⚫ | https://pages.github.com | VitePress documentation site |
-| **AI Code Review** | Qodo | ⚫ | https://qodo.ai | GitHub integration |
+| **AI Code Review** | Qodo | 🟢 | https://qodo.ai | GitHub integration |
 | **Hosting** | Vercel | ⚫ | https://vercel.com | Next.js optimized |
 | **Serverless Functions** | Vercel | ⚫ | https://vercel.com | API endpoints |
 | **Database** | Supabase | ⚫ | https://supabase.com | • Used for Students Activity, CMS<br>• Frankfurt region (closest to Georgia, good speed for continental Europe) |
