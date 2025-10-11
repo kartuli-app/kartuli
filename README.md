@@ -1,6 +1,6 @@
 # Kartuli - Georgian language learning platform
 
-A free, offline-first **georgian language learning platform** designed for international residents, newcomers, and travelers in Georgia.
+A free, offline-first **Georgian language learning platform** designed for international residents, newcomers, and travelers in Georgia.
 
 ## How to help?
 
@@ -35,7 +35,7 @@ Not a developer? Even better, we need all kinds of help, send us an email to col
 - Real content packs
 - Landing info page
 - Social auth google
-- Multilanguage support
+- Multilingual support
 - Dictionary
 - Favorites
 - Profile
@@ -74,28 +74,28 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | **pnpm** | ⚫ | Package Manager | Workspace management |
 | **turborepo** | ⚫ | Build System | Monorepo management |
 | **TypeScript** | ⚫ | Language | |
-| **Eslint** | ⚫ | Linting | |
+| **ESLint** | ⚫ | Linting | |
 | **Prettier** | ⚫ | Formatting | |
 | **Tailwind** | ⚫ | Styling | |
 | **React** | ⚫ | UI Library | |
-| **react-aria** | ⚫ | UI Components | Accessibility, WCAG compliance |
-| **Nextjs** | ⚫ | Framework | App router|
+| **react-aria** | ⚫ | UI Components | • Accessibility<br>• WCAG compliance |
+| **Next.js** | ⚫ | Framework | App router|
 | **Turbopack** | ⚫ | Bundler | Next.js applications |
-| **Vite** | ⚫ | Bundler | Storybook, VitePress |
+| **Vite** | ⚫ | Bundler | • Storybook<br>• VitePress |
 | **rxdb** | ⚫ | Storage (Client) | Sync management |
 | **IndexedDB** | ⚫ | Storage (Client) | Offline support|
 | **Cache Storage** | ⚫ | Storage (Client) | PWA asset caching |
-| **cdn** | ⚫ | Infrastructure | Cloudflare |
+| **CDN** | ⚫ | Infrastructure | Cloudflare |
 | **Postgres** | ⚫ | Database (Server) | Supabase |
 | **PWA** | ⚫ | Platform | Installable app |
-| **vitest** | ⚫ | Testing | Integration tests, unit tests|
-| **playwright** | ⚫ | Testing | e2e tests |
-| **Lighthouse CI** | ⚫ | Quality | Performance, accessibility monitoring, runs on GitHub Actions |
-| **Fuse.js** | ⚫ | Search | Client-side, offline-first |
-| | 🟡 | Internationalization | Options: intlayer, next-intl, i18next |
-| **Markdown** | 🟢 | Content | Documentation, info pages (terms, privacy) |
-| **Storybook** | ⚫ | Documentation & Development | Component development, documentation |
-| **VitePress** | ⚫ | Documentation Site | Project documentation, hosted on GitHub Pages |
+| **vitest** | ⚫ | Testing | • Integration tests<br>• Unit tests|
+| **Playwright** | ⚫ | Testing | e2e tests |
+| **Lighthouse CI** | ⚫ | Quality | • Performance<br>• Accessibility monitoring<br>• Runs on GitHub Actions |
+| **Fuse.js** | ⚫ | Search | • Client-side<br>• offline-first |
+| | 🟡 | Internationalization | Options:<br>• intlayer<br>• next-intl<br>• i18next |
+| **Markdown** | 🟢 | Content | • Documentation<br>• Info pages (terms, privacy) |
+| **Storybook** | ⚫ | Documentation & Development | • Component development<br>• Documentation |
+| **VitePress** | ⚫ | Documentation Site | • Project documentation<br>• Hosted on GitHub Pages |
 
 ### Providers
 
@@ -103,25 +103,25 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 
 Status: 🟢 Active | ⚫ Planned
 
-| Provider | Status | Service | Links | Notes |
-| -------- | ------ | ------- | ----- | ----- |
-| **GitHub** | 🟢 | Version Control | https://github.com/rocescoca/ | |
-| **GitHub** | 🟢 | CI/CD | https://github.com/rocescoca/ | labels sync, labels propagation from Issue to PR |
-| **GitHub** | 🟢 | Projects | https://github.com/rocescoca/ | Issue tracking, project boards |
-| **GitHub** | ⚫ | Hosting | https://pages.github.com | VitePress documentation site |
-| **Qodo** | ⚫ | AI Code Review | https://qodo.ai | GitHub integration |
-| **Vercel** | ⚫ | Hosting | https://vercel.com | Next.js optimized |
-| **Vercel** | ⚫ | Serverless Functions | https://vercel.com | API endpoints |
-| **Supabase** | ⚫ | Database | https://supabase.com | Used for Students Activity, CMS; Frankfurt region (closest to Georgia, good speed for continental Europe) |
-| **Supabase** | ⚫ | Authentication | https://supabase.com | Google, Facebook social login |
-| **Supabase** | ⚫ | File Storage | https://supabase.com | Assets, content packs |
-| **Cloudflare** | ⚫ | CDN | https://cloudflare.com | Serves assets and content packs from Supabase |
-| **Cloudflare** | 🟢 | Domain | https://cloudflare.com | |
-| **Cloudflare** | ⚫ | Email Services | https://cloudflare.com | Newsletters, transactional emails |
-| **PostHog** | ⚫ | Analytics | https://posthog.com | User behavior, consent-based |
-| **Sentry** | ⚫ | Error Tracking | https://sentry.io | |
-| **New Relic** | ⚫ | Performance Monitoring | https://newrelic.com | |
-| **BetterStack** | ⚫ | Uptime Monitoring | https://betterstack.com | Heartbeats, status pages |
-| **Chromatic** | ⚫ | Visual Testing | https://chromatic.com | Visual regression, UI review |
-| **Tally** | ⚫ | Forms & Surveys | https://tally.so | Anonymous surveys, user feedback |
+| Service | Provider | Status | Links | Notes |
+| ------- | -------- | ------ | ----- | ----- |
+| **Version Control** | GitHub | 🟢 | https://github.com/rocescoca/ | |
+| **CI/CD** | GitHub | 🟢 | https://github.com/rocescoca/ | • Labels sync<br>• Labels propagation from Issue to PR |
+| **Projects** | GitHub | 🟢 | https://github.com/rocescoca/ | • Issue tracking<br>• Project boards |
+| **Hosting** | GitHub | ⚫ | https://pages.github.com | VitePress documentation site |
+| **AI Code Review** | Qodo | ⚫ | https://qodo.ai | GitHub integration |
+| **Hosting** | Vercel | ⚫ | https://vercel.com | Next.js optimized |
+| **Serverless Functions** | Vercel | ⚫ | https://vercel.com | API endpoints |
+| **Database** | Supabase | ⚫ | https://supabase.com | • Used for Students Activity, CMS<br>• Frankfurt region (closest to Georgia, good speed for continental Europe) |
+| **Authentication** | Supabase | ⚫ | https://supabase.com | • Google social login<br>• Facebook social login |
+| **File Storage** | Supabase | ⚫ | https://supabase.com | • Assets<br>• Content packs |
+| **CDN** | Cloudflare | ⚫ | https://cloudflare.com | Serves assets and content packs from Supabase |
+| **Domain** | Cloudflare | 🟢 | https://cloudflare.com | |
+| **Email Services** | Cloudflare | ⚫ | https://cloudflare.com | • Capture mails to any domain address |
+| **Analytics** | PostHog | ⚫ | https://posthog.com | • User behavior<br>• Consent-based |
+| **Error Tracking** | Sentry | ⚫ | https://sentry.io | |
+| **Performance Monitoring** | New Relic | ⚫ | https://newrelic.com | |
+| **Uptime Monitoring** | BetterStack | ⚫ | https://betterstack.com | • Heartbeats<br>• Status pages |
+| **Visual Testing** | Chromatic | ⚫ | https://chromatic.com | • Visual regression<br>• UI review |
+| **Forms & Surveys** | Tally | ⚫ | https://tally.so | • Anonymous surveys<br>• User feedback |
 
