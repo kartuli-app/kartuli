@@ -3,3 +3,23 @@ packages:
   - 'packages/*'
   - 'tools/*'
 
+catalog:
+  # Framework & Runtime
+  next: ^15.1.6
+  react: ^19.0.0
+  react-dom: ^19.0.0
+  
+  # Testing
+  vitest: ^3.0.3
+  '@testing-library/react': ^16.1.0
+  '@testing-library/dom': ^10.4.0
+  '@testing-library/jest-dom': ^6.6.3
+  '@testing-library/user-event': ^14.5.2
+  jsdom: ^25.0.1
+  '@vitejs/plugin-react': ^4.3.4
+  
+  # TypeScript
+  typescript: ^5.7.2
+  '@types/node': ^22.10.5
+  '@types/react': ^19.0.6
+  '@types/react-dom': ^19.0.2
