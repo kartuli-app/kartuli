@@ -74,14 +74,13 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | **git** | 🟢 | Version Control | |
 | **pnpm** | 🟢 | Package Manager | Workspace management |
 | **turborepo** | 🟢 | Build System | Monorepo management |
-| **TypeScript** | ⚫ | Language | |
-| **ESLint** | ⚫ | Linting | |
-| **Prettier** | ⚫ | Formatting | |
+| **TypeScript** | 🟢 | Language | |
+| **Biome** | 🟢 | Code Quality | • Linting<br>• Formatting |
 | **Tailwind** | ⚫ | Styling | |
-| **React** | ⚫ | UI Library | |
+| **React** | 🟢 | UI Library | |
 | **react-aria** | ⚫ | UI Components | • Accessibility<br>• WCAG compliance |
-| **Next.js** | ⚫ | Framework | App router|
-| **Turbopack** | ⚫ | Bundler | Next.js applications |
+| **Next.js** | 🟢 | Framework | App router|
+| **Turbopack** | 🟢 | Bundler | Next.js applications |
 | **Vite** | ⚫ | Bundler | • Storybook<br>• VitePress |
 | **rxdb** | ⚫ | Storage (Client) | Sync management |
 | **IndexedDB** | ⚫ | Storage (Client) | Offline support|
@@ -89,7 +88,7 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | **CDN** | ⚫ | Infrastructure | Cloudflare |
 | **Postgres** | ⚫ | Database (Server) | Supabase |
 | **PWA** | ⚫ | Platform | Installable app |
-| **vitest** | ⚫ | Testing | • Integration tests<br>• Unit tests|
+| **vitest** | 🟢 | Testing | • Integration tests<br>• Unit tests|
 | **Playwright** | ⚫ | Testing | e2e tests |
 | **Lighthouse CI** | ⚫ | Quality | • Performance<br>• Accessibility monitoring<br>• Runs on GitHub Actions |
 | **Fuse.js** | ⚫ | Search | • Client-side<br>• offline-first |
@@ -108,6 +107,7 @@ Status: 🟢 Active | ⚫ Planned
 | ------- | -------- | ------ | ----- | ----- |
 | **Version Control** | GitHub | 🟢 | https://github.com/rocescoca/ | |
 | **CI/CD** | GitHub | 🟢 | https://github.com/rocescoca/ | • Labels sync<br>• Labels propagation from Issue to PR |
+| **Dependency Updates** | Mend.io | ⚫ | https://github.com/marketplace/renovate | • Automated dependency bot for PRs<br>• GitHub integration |
 | **Projects** | GitHub | 🟢 | https://github.com/rocescoca/ | • Issue tracking<br>• Project boards |
 | **Hosting** | GitHub | ⚫ | https://pages.github.com | VitePress documentation site |
 | **AI Code Review** | Qodo | 🟢 | https://qodo.ai | GitHub integration |
