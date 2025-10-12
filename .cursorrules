@@ -15,9 +15,15 @@ Always use conventional commit format for all commits:
 
 ### Code Style
 - Use TypeScript for all new code
-- Follow ESLint configuration
-- Use Prettier for code formatting
+- Follow Biome configuration for linting and formatting
 - Write meaningful variable and function names
+- Fix any warnings or errors immediately when they appear
+
+### Next.js Conventions
+- Always use `src/` folder pattern (not root `app/`)
+- Always include favicon (minimum `icon.svg` in app directory)
+- Use TypeScript strict mode
+- Include proper metadata in layouts
 
 ### Architecture
 - Prefer serverless and managed solutions

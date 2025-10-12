@@ -35,6 +35,10 @@ Start by reading `README.md` and follow relevant links from there to understand:
 - Run: `git status` to show what changed
 - Test commands mentioned in acceptance criteria
 - Run linting/formatting if applicable
+- **If you see ANY warnings or errors in command output:**
+  * Fix them immediately before reporting
+  * Explain what the warning/error was and why you fixed it
+  * Re-run the command to confirm it's resolved
 - Report any issues or blockers
 
 ## 5. Wait for My Review
@@ -56,6 +60,11 @@ Start by reading `README.md` and follow relevant links from there to understand:
 
 ### 6c. Generate PR Content
 - Read and use template from `.github/pull_request_template.md`
+  * Try multiple search strategies if needed:
+    1. Use glob: `**/.github/pull_request_template.md`
+    2. List `.github/` directory directly
+    3. Try case variations (PULL_REQUEST_TEMPLATE.md)
+  * If truly not found after thorough search, ask user for location
 - Fill out all required sections:
   - Description of changes
   - Linked issues using `Closes #` format
@@ -64,6 +73,12 @@ Start by reading `README.md` and follow relevant links from there to understand:
   - Complete other applicable sections
 - Provide formatted markdown for user to copy/paste into GitHub PR UI
 
+### 6d. Wait for PR Creation and Initial Bot Feedback
+- Provide the PR creation link (e.g., `https://github.com/{owner}/{repo}/pull/new/{branch-name}`)
+- Say: "The PR is ready! After you create it, I'll wait here for bot feedback. Once the bot comments, share the PR link with me so I can review the suggestions."
+- Wait for user to provide PR link with bot feedback
+- Proceed to Step 7 when feedback is available
+
 ## 7. Bot Feedback Loop (if applicable)
 
 **This step may repeat multiple times as automated bots review each commit.**
@@ -71,7 +86,8 @@ Start by reading `README.md` and follow relevant links from there to understand:
 ### For each bot review cycle:
 
 **7a. Review Bot Suggestions**
-- Review bot feedback with user
+- User will share PR link with bot feedback
+- Review each suggestion with user
 - Discuss pros/cons of each suggestion
 - Consider project stage and context
 - Get approval for changes to implement
@@ -89,18 +105,40 @@ Start by reading `README.md` and follow relevant links from there to understand:
 
 **7c. Implement Approved Changes**
 - Make changes on the same branch (still working on same issue)
-- Propose commit message describing the refinements
-- Wait for user confirmation
+- Test and verify all changes work
+- Fix any issues discovered during implementation
 
-**7d. Generate Updated PR Description Section**
-- Provide updated "Changes from Original Issue" section that includes ALL changes across ALL review cycles
-- Organize by review cycle (First Review, Second Review, etc.)
-- Include all changes from previous cycles plus new changes
-- Present formatted markdown
-- **Ask for confirmation:** "Add this to the PR description to track differences?"
+**7d. Offer to Generate PR Response Comment**
+- After implementation is complete and verified
+- Ask: "Would you like me to generate a formatted response comment for the bot feedback?"
+- If yes, provide markdown-only output (no intro/outro) with this format:
+  ```markdown
+  ## Response to Bot Suggestions
+  
+  [Brief intro thanking bot and stating what was applied]
+  
+  ---
+  
+  ### ✅/❌/⏸️ Suggestion #N: [Title]
+  
+  **Bot's suggestion:** [What bot suggested]
+  
+  **Our decision (Kartuli team):** [Applied/Rejected/Deferred]
+  
+  **Reasoning:** [Team's reasoning]
+  
+  **AI opinion (Claude):** [Your external perspective on the decision]
+  
+  ---
+  
+  **Summary:** [One-line summary of what was applied/rejected/deferred]
+  ```
+- User will copy/paste this into PR comments
 
 **7e. Commit and Push**
-- After user confirms both commit message and PR description update
+- Propose commit message describing the changes
+- Wait for user confirmation
+- After user confirms commit message
 - Commit changes: `git add . && git commit -m "{message}"`
 - Push to remote: `git push origin {branch-name}`
 

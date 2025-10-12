@@ -75,15 +75,11 @@ Closes #
 ---
 
 ## Documentation Changes (if applicable)
-<!-- If you added, removed, or renamed any files in /docs/, check all that apply -->
+<!-- If you modified documentation in /docs/, check what applies -->
 
-- [ ] Updated immediate folder's `README.md` (e.g., `/docs/07-technology/01-shared/README.md`)
-- [ ] Updated parent folder's `README.md` (e.g., `/docs/07-technology/README.md`) - if nested
-- [ ] Updated root `/docs/README.md` - if adding new top-level sections
-- [ ] Updated cross-references in other documents - if renaming/deleting
-- [ ] Verified all README links work from root to leaf
+- [ ] Added or updated documentation files
+- [ ] Updated cross-references in other docs (if files were renamed/moved)
+- [ ] Verified all internal links still work
 - [ ] N/A - No documentation changes
-
-<!-- See /docs/07-technology/01-shared/03-development-conventions.md#documentation-hierarchy-maintenance for details -->
 
 

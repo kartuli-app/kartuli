@@ -67,20 +67,25 @@ With Cursor or similar AI agent:
 
 ### Handle Bot Feedback Loop
 
-Automated code review bots may provide suggestions. This can loop multiple times:
+Automated code review bots (like Qodo) may provide suggestions. This can loop multiple times:
 
 **For each review cycle:**
-1. Review suggestions with AI agent
-2. Discuss pros/cons
-3. Decide: implement or reject
-4. If implementing:
+1. **Share PR link** with AI agent after it's created
+2. **Review suggestions** - AI helps analyze each bot suggestion
+3. **Discuss & decide** - Determine what to implement/reject/defer
+4. **Implement approved changes:**
    - AI makes changes on same branch
+   - Test and verify changes work
+   - AI offers to generate formatted response comment for the bot
+   - You confirm, AI provides markdown to copy/paste to PR
    - AI proposes commit message
-   - AI generates updated "Changes from Original Issue" section
-   - You confirm both
-   - AI commits and pushes
-5. Wait for next bot review
-6. Repeat until satisfied
+   - You confirm, AI commits and pushes
+5. **Wait for next bot review** and repeat
+
+**Bot response format** (AI generates this for you):
+- Lists each suggestion with team decision (✅ Applied / ❌ Rejected / ⏸️ Deferred)
+- Includes team's reasoning for each decision
+- Provides external AI perspective on the decisions made
 
 ---
 
