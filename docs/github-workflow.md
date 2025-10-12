@@ -101,9 +101,16 @@ Special purpose labels:
 
 ### Applying Labels
 
-**On Issues**: Apply labels when creating or updating issues. Required labels are Type and Scope.
+**On Issues**: 
+- Check `[x]` the appropriate label boxes in the issue template
+- Labels are automatically applied by GitHub Action
+- Manual addition also supported if needed
 
-**On PRs**: Labels are automatically propagated from linked issues. You can also add labels manually if needed.
+**On PRs**: 
+- Labels are automatically propagated from linked issues
+- Manual addition also supported if needed
+
+**Required labels**: Type and Scope (at least one of each)
 
 ## Linking Issues and PRs
 
@@ -157,6 +164,33 @@ This workflow:
 
 No manual action required - it runs automatically!
 
+### Automatic Issue Labeling
+
+The **"Auto-label Issues from Template"** workflow runs automatically when:
+- A new issue is created
+- An existing issue is edited
+
+This workflow:
+1. Scans the issue body for checked label boxes (e.g., `- [x] type:feat`)
+2. Extracts all checked labels
+3. Applies those labels to the issue automatically
+
+**How to use:**
+1. When creating an issue, check `[x]` the appropriate label boxes in the template
+2. Submit the issue
+3. Labels are automatically applied within seconds
+4. Verify labels appear on the issue
+
+**Supported format:**
+- `- [x] type:feat` ✅
+- `- [X] scope:global` ✅ (case-insensitive)
+- With or without backticks: `` `type:feat` `` or `type:feat`
+
+**Note:** If labels don't auto-apply:
+- Check the Actions tab for workflow errors
+- Verify boxes are marked with `[x]`
+- Manually add labels if automation fails
+
 ## Templates
 
 ### Issue Template
@@ -193,4 +227,16 @@ Standard template for all pull requests.
 - Testing notes
 
 **Important**: PR title must follow conventional commit format.
+
+---
+
+## AI-Assisted Workflow
+
+For complete guidance on using AI to assist with issue creation and implementation, see the **[AI-Assisted Workflow Guide](./ai-assisted-workflow.md)**.
+
+This includes:
+- Using AI to refine ideas into well-structured issues
+- Implementing issues with AI agents (Cursor, Copilot, etc.)
+- Handling automated bot feedback
+- Complete workflow from idea to merged PR
 

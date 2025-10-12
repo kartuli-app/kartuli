@@ -60,6 +60,7 @@ Generated with draw.io
 ### Conventions
 - [code-conventions](./docs/code-conventions.md)
 - [github-workflow](./docs/github-workflow.md)
+- [ai-assisted-workflow](./docs/ai-assisted-workflow.md)
 
 ### Data model
 - [data content model](./docs/data-content-model.md)
