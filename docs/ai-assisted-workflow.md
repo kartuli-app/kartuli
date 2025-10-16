@@ -26,11 +26,10 @@ Each phase can be done manually or with AI assistance.
 5. Labels auto-apply via GitHub Action
 
 ### With AI
-1. **Generate project docs:** `node generate-docs-for-llm.ts`
-2. **Use the prompt:** [`/ai/prompts/issue-generation.md`](/ai/prompts/issue-generation.md)
-   - **Phase 1:** Attach docs to AI (ChatGPT, Claude, etc.), paste prompt, discuss idea
-   - **Phase 2:** Ask AI to format as GitHub issue - AI generates complete markdown with labels already checked `[x]`
-3. **Create issue on GitHub**
+1. **Use AI assistance** to refine ideas and generate GitHub issues
+   - **Phase 1:** Discuss idea with AI to refine requirements and acceptance criteria
+   - **Phase 2:** Ask AI to format as GitHub issue with proper labels
+2. **Create issue on GitHub**
    - Review AI-generated markdown
    - Copy/paste into GitHub issue template
    - Labels auto-apply via GitHub Action
@@ -54,10 +53,10 @@ Each phase can be done manually or with AI assistance.
 
 ### Implement
 
-**Use the prompt:** [`/ai/prompts/issue-implementation.md`](/ai/prompts/issue-implementation.md)
+**Use AI assistance** for implementation:
 
 With Cursor or similar AI agent:
-1. Paste prompt + issue URL
+1. Share issue URL with AI
 2. AI finds linked branch and switches to it
 3. AI guides through: docs → implement → test → commit → PR
 4. Confirm at decision points (commit message, PR updates)
@@ -122,7 +121,4 @@ git branch -d {branch-name}
 
 ## Quick Reference
 
-- **Generate docs:** `node generate-docs-for-llm.ts`
-- **Issue prompt:** [`/ai/prompts/issue-generation.md`](/ai/prompts/issue-generation.md)
-- **Implementation prompt:** [`/ai/prompts/issue-implementation.md`](/ai/prompts/issue-implementation.md)
 - **Conventions:** [Code](./code-conventions.md) | [GitHub](./github-workflow.md)
