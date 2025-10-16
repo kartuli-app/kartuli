@@ -1,3 +1,12 @@
+import { Button } from '@kartuli/ui/components/Button';
+
 export default function Page() {
-  return <h1>Hello Backoffice</h1>;
+  return (
+    <div>
+      <h1>Backoffice Client</h1>
+      <Button>Test Button</Button>
+      {/* Force Tailwind to generate utility classes */}
+      <div className="hidden bg-primary-500 text-white px-4 py-2">Force generation</div>
+    </div>
+  );
 }

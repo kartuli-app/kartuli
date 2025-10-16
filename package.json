@@ -9,9 +9,8 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test",
-    "lint": "biome check .",
-    "lint:fix": "biome check . --write",
-    "format": "turbo run format"
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint -- --write"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",

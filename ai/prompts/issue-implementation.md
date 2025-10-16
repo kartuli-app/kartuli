@@ -33,12 +33,15 @@ Start by reading `README.md` and follow relevant links from there to understand:
 
 ## 4. Verify & Report
 - Run: `git status` to show what changed
-- Test commands mentioned in acceptance criteria
-- Run linting/formatting if applicable
+- **ALWAYS run the complete verification suite:**
+  * `pnpm lint` (or project's lint command)
+  * `pnpm test` (or project's test command)
+  * `pnpm dev` (or project's dev command)
+  * `pnpm build` (or project's build command)
 - **If you see ANY warnings or errors in command output:**
   * Fix them immediately before reporting
   * Explain what the warning/error was and why you fixed it
-  * Re-run the command to confirm it's resolved
+  * Re-run the FULL verification suite again to confirm it's resolved
 - Report any issues or blockers
 
 ## 5. Wait for My Review
@@ -105,8 +108,13 @@ Start by reading `README.md` and follow relevant links from there to understand:
 
 **7c. Implement Approved Changes**
 - Make changes on the same branch (still working on same issue)
-- Test and verify all changes work
+- **ALWAYS run the complete verification suite after changes:**
+  * `pnpm lint` (or project's lint command)
+  * `pnpm test` (or project's test command)
+  * `pnpm dev` (or project's dev command)
+  * `pnpm build` (or project's build command)
 - Fix any issues discovered during implementation
+- Re-run verification suite after fixes
 
 **7d. Offer to Generate PR Response Comment**
 - After implementation is complete and verified

@@ -62,6 +62,14 @@ Generated with draw.io
 - [github-workflow](./docs/github-workflow.md)
 - [ai-assisted-workflow](./docs/ai-assisted-workflow.md)
 
+### Architecture
+- [Architecture Decision Records](./docs/adr/)
+  - [ADR 001: Styling Platform](./docs/adr/001-styling-platform.md)
+
+### Packages
+- [@kartuli/theme](./packages/theme/README.md) - Design token contract
+- [@kartuli/ui](./packages/ui/README.md) - Shared component library
+
 ### Data model
 - [data content model](./docs/data-content-model.md)
 
@@ -76,12 +84,12 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | **turborepo** | 🟢 | Build System | Monorepo management |
 | **TypeScript** | 🟢 | Language | |
 | **Biome** | 🟢 | Code Quality | • Linting<br>• Formatting |
-| **Tailwind** | ⚫ | Styling | |
+| **Tailwind** | 🟢 | Styling | v4 + token-driven design |
 | **React** | 🟢 | UI Library | |
 | **react-aria** | ⚫ | UI Components | • Accessibility<br>• WCAG compliance |
 | **Next.js** | 🟢 | Framework | App router|
 | **Turbopack** | 🟢 | Bundler | Next.js applications |
-| **Vite** | ⚫ | Bundler | • Storybook<br>• VitePress |
+| **Vite** | 🟢 | Bundler | • Storybook<br>• VitePress |
 | **rxdb** | ⚫ | Storage (Client) | Sync management |
 | **IndexedDB** | ⚫ | Storage (Client) | Offline support|
 | **Cache Storage** | ⚫ | Storage (Client) | PWA asset caching |
@@ -94,7 +102,7 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | **Fuse.js** | ⚫ | Search | • Client-side<br>• offline-first |
 | | 🟡 | Internationalization | Options:<br>• intlayer<br>• next-intl<br>• i18next |
 | **Markdown** | 🟢 | Content | • Documentation<br>• Info pages (terms, privacy) |
-| **Storybook** | ⚫ | Documentation & Development | • Component development<br>• Documentation |
+| **Storybook** | 🟢 | Documentation & Development | • Component development<br>• Documentation<br>• Theme preview |
 | **VitePress** | ⚫ | Documentation Site | • Project documentation<br>• Hosted on GitHub Pages |
 
 ### Providers
