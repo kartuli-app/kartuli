@@ -27,12 +27,45 @@ Generate the complete markdown with:
    - Types: feat, chore, fix, docs, test
    - Scopes: game-client, backoffice-client, ui, storybook, e2e, global
 
-2. **Checkboxes already marked [x]** for:
-   - Type (select one): type:feat, type:chore, type:fix, type:docs, type:test
-   - Scope (one or more): scope:game-client, scope:backoffice-client, scope:ui, scope:storybook, scope:e2e, scope:global
-   - Size (optional): size:small, size:medium, size:large
-   - Priority (optional): priority:high, priority:medium, priority:low
-   - Extra tags (optional): good-first-issue, help-wanted
+2. **Label Selection Checkboxes** - Mark selected labels with `[x]`, leave others unchecked `[ ]`:
+   
+   **Type** (select exactly one):
+   - [ ] `type:feat` - New feature
+   - [ ] `type:chore` - Infrastructure, setup tasks, non-feature work
+   - [ ] `type:fix` - Bug fix
+   - [ ] `type:docs` - Documentation changes
+   - [ ] `type:test` - Testing-related changes
+   
+   **Scope** (select one or more):
+   - [ ] `scope:game-client` - Game client application
+   - [ ] `scope:backoffice-client` - Backoffice client application
+   - [ ] `scope:ui` - UI package
+   - [ ] `scope:storybook` - Storybook tool
+   - [ ] `scope:global` - Shared packages or general repository tasks
+   - [ ] `scope:e2e` - E2E testing
+   
+   **Size** (optional, select one):
+   - [ ] `size:small` - Small task or change
+   - [ ] `size:medium` - Medium-sized task or change
+   - [ ] `size:large` - Large task or change
+   
+   **Priority** (optional, select one):
+   - [ ] `priority:high` - High priority
+   - [ ] `priority:medium` - Medium priority
+   - [ ] `priority:low` - Low priority
+   
+   **Extra Tags** (optional):
+   - [ ] `good-first-issue` - Good for newcomers
+   - [ ] `help-wanted` - Extra attention is needed
+   
+   **CRITICAL:** Use the EXACT checkbox format shown above. Mark selected items with `[x]` and unselected with `[ ]`.
+   Example for a chore affecting ui and storybook:
+   ```markdown
+   - [x] `type:chore`
+   - [ ] `type:feat`
+   - [x] `scope:ui`
+   - [x] `scope:storybook`
+   ```
 
 3. **Description / Context** - Clear explanation with background
 
@@ -41,3 +74,11 @@ Generate the complete markdown with:
 5. **Notes / References** (if relevant)
 
 **Important:** Generate the complete markdown ready to copy/paste into GitHub. I should only need to review and paste - no manual editing of checkboxes or formatting.
+
+**Validation checklist before generating:**
+- ✅ All selected labels use `- [x]` format (dash, space, square brackets with lowercase x)
+- ✅ All unselected labels use `- [ ]` format (dash, space, empty square brackets)
+- ✅ Labels are wrapped in backticks: `` `type:feat` ``
+- ✅ NO asterisk bullets (`*`) - only dash bullets (`-`)
+- ✅ At least one Type and one Scope are selected
+- ✅ Acceptance criteria use `- [ ]` format (unchecked, to be checked during implementation)
