@@ -3,9 +3,9 @@ import { describe, expect, it } from 'vitest';
 import Page from './page';
 
 describe('Game Client Home Page', () => {
-  it('renders Hello Game heading', () => {
+  it('renders Game Client heading', () => {
     render(<Page />);
-    const heading = screen.getByRole('heading', { name: /hello game/i });
+    const heading = screen.getByRole('heading', { name: /game client/i });
     expect(heading).toBeInTheDocument();
   });
 });

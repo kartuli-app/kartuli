@@ -18,6 +18,9 @@ out/
 build/
 dist/
 
+# Storybook
+storybook-static/
+
 # Production
 *.log
 npm-debug.log*

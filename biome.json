@@ -16,6 +16,7 @@
       "!**/.next",
       "!**/lib",
       "!**/coverage",
+      "!**/storybook-static",
       "!**/pnpm-lock.yaml",
       "!**/*.md",
       "!generate-docs-for-llm.ts"
@@ -31,7 +32,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "suspicious": {
+        "noUnknownAtRules": "off"
+      }
     }
   },
   "javascript": {

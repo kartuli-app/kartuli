@@ -1,0 +1,15 @@
+{
+  "name": "@kartuli/theme",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./default-theme.css": "./src/default-theme.css"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome check ."
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "backoffice-client",
+  "name": "@kartuli/backoffice-client",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,24 +7,30 @@
     "dev": "next dev --turbo --port 3001",
     "build": "next build",
     "start": "next start --port 3001",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "biome check ."
   },
   "dependencies": {
+    "@kartuli/theme": "workspace:*",
+    "@tailwindcss/postcss": "catalog:",
+    "clsx": "catalog:",
     "next": "catalog:",
+    "postcss": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "tailwindcss": "catalog:"
   },
   "devDependencies": {
-    "typescript": "catalog:",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@testing-library/user-event": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "vitest": "catalog:",
-    "@testing-library/react": "catalog:",
-    "@testing-library/dom": "catalog:",
-    "@testing-library/jest-dom": "catalog:",
-    "@testing-library/user-event": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "jsdom": "catalog:",
-    "@vitejs/plugin-react": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

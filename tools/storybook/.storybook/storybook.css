@@ -1,0 +1,15 @@
+/**
+ * Storybook Global Styles
+ *
+ * This file imports Tailwind and the theme contract,
+ * then defines theme overrides for each app context.
+ */
+
+/* All imports must come first */
+@import "tailwindcss";
+@import "@kartuli/theme/default-theme.css";
+
+/* Tell Tailwind to scan UI components for classes */
+@source "../../../packages/ui/src";
+
+/* Theme overrides are now handled by React wrappers in preview.tsx */

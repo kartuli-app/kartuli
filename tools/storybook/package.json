@@ -1,0 +1,33 @@
+{
+  "name": "@kartuli/storybook",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6006 --no-open",
+    "build": "storybook build",
+    "preview": "storybook build && npx http-server ./storybook-static -p 6006",
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "storybook": "catalog:",
+    "@storybook/react": "catalog:",
+    "@storybook/react-vite": "catalog:",
+    "@storybook/addon-essentials": "catalog:",
+    "@storybook/addon-interactions": "catalog:",
+    "@storybook/addon-a11y": "catalog:",
+    "@storybook/test": "catalog:",
+    "@storybook/blocks": "catalog:",
+    "vite": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@kartuli/theme": "workspace:*",
+    "@kartuli/ui": "workspace:*",
+    "tailwindcss": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:"
+  }
+}
