@@ -11,6 +11,15 @@ const linkFixes = {
 };
 
 /**
+ * Escape special regex characters
+ * @param {string} str - String to escape
+ * @returns {string} - Escaped string
+ */
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
  * Fix dead links in content
  * @param {string} content - The content to fix
  * @returns {string} - Content with fixed links
@@ -18,8 +27,9 @@ const linkFixes = {
 function fixDeadLinks(content) {
   let fixedContent = content;
   for (const [badLink, goodLink] of Object.entries(linkFixes)) {
-    // Use a regex to replace all occurrences of the bad link
-    fixedContent = fixedContent.replace(new RegExp(badLink.replace('.', '\\.'), 'g'), goodLink);
+    // Only replace links within markdown () syntax to prevent corrupting code blocks
+    const pattern = new RegExp(`\\((?:\\s*)${escapeRegex(badLink)}(?:\\s*)\\)`, 'g');
+    fixedContent = fixedContent.replace(pattern, `(${goodLink})`);
   }
   return fixedContent;
 }
@@ -30,7 +40,7 @@ function fixDeadLinks(content) {
  * @returns {string} - Content without frontmatter
  */
 function removeFrontmatter(content) {
-  return content.replace(/^---\n[\s\S]*?\n---\n/, '');
+  return content.replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '');
 }
 
 /**

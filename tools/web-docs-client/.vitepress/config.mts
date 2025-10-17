@@ -17,11 +17,18 @@ const sectionFirstItems: Record<string, { text: string; link: string }> = {};
 Object.entries(mergedSections).forEach(([sectionName, { standalone, nested }]) => {
   topLevelSections.add(sectionName);
 
-  // Collect all items and find the first one
-  const allItems = [...standalone];
+  const allItems: Array<{ text: string; link: string; date?: string }> = [...standalone];
   
   Object.values(nested).forEach((subItems: Array<{ text: string; link: string; date?: string }>) => {
     allItems.push(...subItems);
+  });
+
+  // Ensure deterministic order: by date (if available), then text
+  allItems.sort((a, b) => {
+    if (a.date && b.date) return a.date.localeCompare(b.date);
+    if (a.date && !b.date) return -1;
+    if (!a.date && b.date) return 1;
+    return a.text.localeCompare(b.text);
   });
 
   if (allItems.length > 0) {
@@ -120,7 +127,7 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        // VitePress v2 handles Vue dependencies internally
+        external: ['vue', 'vue/server-renderer'],
       },
     },
   },

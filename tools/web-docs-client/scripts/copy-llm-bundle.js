@@ -1,12 +1,13 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 console.log('📋 Copying LLM bundle to assets folder...');
 
 try {
   // Read the generated LLM bundle
-  const configDir = import.meta.dirname;
-  const sourcePath = join(configDir, '../../../docs/kartuli-llm.txt');
+const configDir = fileURLToPath(new URL('.', import.meta.url));
+const sourcePath = join(configDir, '../../../docs/kartuli-llm.txt');
   const bundleContent = readFileSync(sourcePath, 'utf-8');
 
   // Create assets directory in dist

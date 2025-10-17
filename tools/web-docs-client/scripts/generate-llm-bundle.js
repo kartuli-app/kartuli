@@ -1,5 +1,6 @@
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { processDocs } from './docs-processor.js';
 
 console.log('🤖 Generating LLM documentation bundle...');
@@ -59,7 +60,8 @@ orderedDocuments.forEach(({ section, items }) => {
 });
 
 // Write the bundle to docs directory for git tracking
-const outputPath = join(import.meta.dirname, '../../../docs', 'kartuli-llm.txt');
+const configDir = fileURLToPath(new URL('.', import.meta.url));
+const outputPath = join(configDir, '../../../docs', 'kartuli-llm.txt');
 writeFileSync(outputPath, bundle, 'utf-8');
 
 console.log('✅ LLM bundle generated successfully:', outputPath);
