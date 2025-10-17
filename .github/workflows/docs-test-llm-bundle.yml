@@ -38,14 +38,14 @@ jobs:
         run: |
           cd tools/web-docs-client
           echo "🔍 Current directory: $(pwd)"
-          echo "🔍 Listing current directory:"
-          ls -la
-          echo "🔍 Listing parent directories:"
-          ls -la ../../
           node scripts/generate-llm-bundle.js
           echo "✅ LLM bundle generated successfully"
           echo "🔍 Checking if file exists at expected location:"
-          ls -la ../../../docs/kartuli-llm.txt
+          echo "🔍 Expected path: $(pwd)/../../../docs/kartuli-llm.txt"
+          echo "🔍 Absolute path: $(realpath ../../../docs/kartuli-llm.txt)"
+          ls -la ../../../docs/kartuli-llm.txt || echo "❌ File not found at relative path"
+          echo "🔍 Checking docs directory:"
+          ls -la ../../../docs/
           echo "📄 File size: $(wc -c < ../../../docs/kartuli-llm.txt) bytes"
       
       - name: Test file content
