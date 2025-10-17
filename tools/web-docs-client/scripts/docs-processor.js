@@ -1,5 +1,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { join as posixJoin } from 'node:path/posix';
+import { fileURLToPath } from 'node:url';
 
 // Centralized link fixes configuration
 const linkFixes = {
@@ -63,7 +65,8 @@ function generateNavigation() {
           scanDirectory(filePath, join(relativePath, file));
         } else if (file.endsWith('.md')) {
           const content = readFileSync(filePath, 'utf-8');
-          const linkPath = relativePath ? join(relativePath, file) : file;
+          // Use POSIX join to ensure forward slashes in URLs across all platforms
+          const linkPath = relativePath ? posixJoin(relativePath, file) : file;
           const link = `/${linkPath.replace('.md', '')}`;
           const displayName = file
             .replace('.md', '')
@@ -102,7 +105,7 @@ function generateNavigation() {
   }
 
   try {
-    const configDir = import.meta.dirname;
+    const configDir = fileURLToPath(new URL('.', import.meta.url)); // ESM-safe directory resolution
     const docsPath = join(configDir, '../../../docs');
     scanDirectory(docsPath);
     return sections;

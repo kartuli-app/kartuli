@@ -120,7 +120,7 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: ['vue', 'vue/server-renderer'],
+        // VitePress v2 handles Vue dependencies internally
       },
     },
   },
