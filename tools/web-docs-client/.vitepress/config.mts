@@ -1,173 +1,31 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
 import { defineConfig } from 'vitepress';
+import { processDocs } from '../scripts/docs-processor.js';
 
 const title = 'Kartuli Docs';
 const description = 'Kartuli Web Docs Client';
 const srcDir = '../../docs/';
 const llmBundleUrl = '/kartuli/assets/kartuli-llm.txt';
 
-// Function to recursively scan docs folder and generate navigation
-function generateNavigation() {
-  console.log('🔍 Scanning docs folder...');
-
-  const navItems: Array<{ text: string; link: string; date?: string }> = [];
-  const sections: Record<string, Array<{ text: string; link: string; date?: string }>> = {};
-
-  function scanDirectory(dirPath: string, relativePath: string = '') {
-    try {
-      const files = readdirSync(dirPath);
-      console.log(`📂 Scanning directory: ${dirPath}`);
-
-      files.forEach((file) => {
-        const filePath = join(dirPath, file);
-        const stat = statSync(filePath);
-
-        if (stat.isDirectory()) {
-          // Recursively scan subdirectories
-          scanDirectory(filePath, join(relativePath, file));
-        } else if (file.endsWith('.md')) {
-          const content = readFileSync(filePath, 'utf-8');
-
-          // Generate link path (remove .md extension and handle subdirectories)
-          const linkPath = relativePath ? join(relativePath, file) : file;
-          const link = `/${linkPath.replace('.md', '')}`;
-
-          // Generate display name (capitalize and replace dashes)
-          const displayName = file
-            .replace('.md', '')
-            .replace(/-/g, ' ')
-            .replace(/\b\w/g, (l) => l.toUpperCase());
-
-          // Simple frontmatter parsing (basic version)
-          const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
-
-          if (frontmatterMatch) {
-            console.log(`📄 ${filePath} frontmatter:`, frontmatterMatch[1]);
-
-            // Parse frontmatter to get section, title, and date
-            const frontmatter = frontmatterMatch[1];
-            const sectionMatch = frontmatter.match(/section:\s*(.+)/);
-            const titleMatch = frontmatter.match(/title:\s*(.+)/);
-            const dateMatch = frontmatter.match(/date:\s*(.+)/);
-
-            const section = sectionMatch ? sectionMatch[1].trim() : 'Other';
-            const title = titleMatch ? titleMatch[1].trim() : displayName;
-            const date = dateMatch ? dateMatch[1].trim() : undefined;
-
-            // Add to nav if it's not index.md
-            if (file !== 'index.md') {
-              navItems.push({ text: title, link, date });
-            }
-
-            // Add to section
-            if (!sections[section]) {
-              sections[section] = [];
-            }
-            sections[section].push({ text: title, link, date });
-          } else {
-            console.log(`📄 ${filePath}: No frontmatter found`);
-
-            // Add to nav if it's not index.md
-            if (file !== 'index.md') {
-              navItems.push({ text: displayName, link });
-            }
-
-            // Add to Other section
-            if (!sections.Other) {
-              sections.Other = [];
-            }
-            sections.Other.push({ text: displayName, link });
-          }
-        }
-      });
-    } catch (error) {
-      console.error(`❌ Error scanning directory ${dirPath}:`, error);
-    }
-  }
-
-  try {
-    // Use the same path resolution as VitePress srcDir
-    const configDir = import.meta.dirname; // Current config file directory
-    const docsPath = join(configDir, '../../../docs'); // Go up 3 levels: .vitepress -> web-docs-client -> tools -> root, then docs
-    console.log('📂 Root docs path:', docsPath);
-
-    scanDirectory(docsPath);
-
-    console.log('🧭 Generated nav items:', navItems);
-    console.log('📋 Generated sections:', sections);
-
-    return { navItems, sections };
-  } catch (error) {
-    console.error('❌ Error scanning docs:', error);
-    return { navItems: [], sections: {} };
-  }
-}
-
-// Generate navigation data
-const { sections } = generateNavigation();
+// Process all documentation using shared utility
+const { mergedSections } = processDocs();
 
 // Create clean navbar with only top-level sections
 const topLevelSections = new Set<string>();
 const sectionFirstItems: Record<string, { text: string; link: string }> = {};
 
-// Merge sections for consistent navigation logic
-const mergedSectionsForNav: Record<string, any> = {};
-
-Object.entries(sections).forEach(([sectionName, items]) => {
-  if (sectionName.includes('/')) {
-    const [parentSection] = sectionName.split('/');
-
-    if (!mergedSectionsForNav[parentSection]) {
-      mergedSectionsForNav[parentSection] = [];
-    }
-
-    // Sort items by date (if available), then alphabetically
-    const sortedItems = items.sort((a, b) => {
-      if (a.date && b.date) {
-        return a.date.localeCompare(b.date); // Sort by date chronologically
-      }
-      if (a.date && !b.date) return -1; // Items with dates come first
-      if (!a.date && b.date) return 1;
-      return a.text.localeCompare(b.text); // Fallback to alphabetical
-    });
-
-    mergedSectionsForNav[parentSection].push(...sortedItems);
-  } else {
-    if (!mergedSectionsForNav[sectionName]) {
-      mergedSectionsForNav[sectionName] = [];
-    }
-
-    // Sort items by date (if available), then alphabetically
-    const sortedItems = items.sort((a, b) => {
-      if (a.date && b.date) {
-        return a.date.localeCompare(b.date); // Sort by date chronologically
-      }
-      if (a.date && !b.date) return -1; // Items with dates come first
-      if (!a.date && b.date) return 1;
-      return a.text.localeCompare(b.text); // Fallback to alphabetical
-    });
-
-    mergedSectionsForNav[sectionName].push(...sortedItems);
-  }
-});
-
-// Now determine first items for navigation
-Object.entries(mergedSectionsForNav).forEach(([sectionName, allItems]) => {
+// Determine first items for navigation
+Object.entries(mergedSections).forEach(([sectionName, { standalone, nested }]) => {
   topLevelSections.add(sectionName);
 
-  // Sort all items together by date, then alphabetically
-  const sortedAllItems = allItems.sort((a, b) => {
-    if (a.date && b.date) {
-      return a.date.localeCompare(b.date); // Sort by date chronologically
-    }
-    if (a.date && !b.date) return -1; // Items with dates come first
-    if (!a.date && b.date) return 1;
-    return a.text.localeCompare(b.text); // Fallback to alphabetical
+  // Collect all items and find the first one
+  const allItems = [...standalone];
+  
+  Object.values(nested).forEach((subItems: Array<{ text: string; link: string; date?: string }>) => {
+    allItems.push(...subItems);
   });
 
-  if (sortedAllItems.length > 0) {
-    sectionFirstItems[sectionName] = sortedAllItems[0];
+  if (allItems.length > 0) {
+    sectionFirstItems[sectionName] = allItems[0];
   }
 });
 
@@ -186,59 +44,14 @@ const nav = [
   },
 ];
 
-// Convert sections to sidebar format with nested structure
-const sidebar: Array<{ text: string; items: any[] }> = [];
-const _processedSections = new Set<string>();
+// Convert merged sections to sidebar format with nested structure
+const sidebar: Array<{ text: string; items: Array<{ text: string; link: string; date?: string; items?: Array<{ text: string; link: string; date?: string }> }> }> = [];
 
-// First, merge standalone sections with their nested counterparts
-const mergedSections: Record<string, any> = {};
-
-Object.entries(sections).forEach(([sectionName, items]) => {
-  if (sectionName.includes('/')) {
-    const [parentSection, subSection] = sectionName.split('/');
-
-    if (!mergedSections[parentSection]) {
-      mergedSections[parentSection] = { standalone: [], nested: {} };
-    }
-
-    // Sort items by date (if available), then alphabetically
-    const sortedItems = items.sort((a, b) => {
-      if (a.date && b.date) {
-        return a.date.localeCompare(b.date); // Sort by date chronologically
-      }
-      if (a.date && !b.date) return -1; // Items with dates come first
-      if (!a.date && b.date) return 1;
-      return a.text.localeCompare(b.text); // Fallback to alphabetical
-    });
-
-    mergedSections[parentSection].nested[subSection] = sortedItems;
-  } else {
-    if (!mergedSections[sectionName]) {
-      mergedSections[sectionName] = { standalone: [], nested: {} };
-    }
-
-    // Sort items by date (if available), then alphabetically
-    const sortedItems = items.sort((a, b) => {
-      if (a.date && b.date) {
-        return a.date.localeCompare(b.date); // Sort by date chronologically
-      }
-      if (a.date && !b.date) return -1; // Items with dates come first
-      if (!a.date && b.date) return 1;
-      return a.text.localeCompare(b.text); // Fallback to alphabetical
-    });
-
-    mergedSections[sectionName].standalone = sortedItems;
-  }
-});
-
-// Now build the sidebar from merged sections
 Object.entries(mergedSections)
   .sort(([a], [b]) => a.localeCompare(b)) // Sort sections alphabetically
   .forEach(([sectionName, { standalone, nested }]) => {
-    const _sidebarItems: any[] = [];
-
     // Collect all items (standalone + nested) and sort by date
-    const allItems: any[] = [];
+    const allItems: Array<{ text: string; link: string; date?: string; items?: Array<{ text: string; link: string; date?: string }> }> = [];
 
     // Add standalone items
     allItems.push(...standalone);
