@@ -84,13 +84,13 @@ function generateNavigation() {
 
             if (file !== 'index.md') {
               if (!sections[section]) sections[section] = [];
-              sections[section].push({ 
-                text: title, 
-                link, 
-                date, 
-                filePath, 
+              sections[section].push({
+                text: title,
+                link,
+                date,
+                filePath,
                 content,
-                processedContent: processMarkdownContent(content)
+                processedContent: processMarkdownContent(content),
               });
             }
           }
@@ -201,7 +201,7 @@ function buildOrderedDocuments(mergedSections) {
  */
 export function processDocs() {
   console.log('🤖 Processing documentation...');
-  
+
   const sections = generateNavigation();
   const mergedSections = mergeSections(sections);
   const orderedDocuments = buildOrderedDocuments(mergedSections);
@@ -216,6 +216,6 @@ export function processDocs() {
     linkFixes,
     processMarkdownContent,
     removeFrontmatter,
-    fixDeadLinks
+    fixDeadLinks,
   };
 }
