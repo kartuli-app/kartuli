@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const srcDir = '../../../docs/';
+const srcDir = '../../docs/';
 
 console.log('🤖 Generating LLM documentation bundle...');
 

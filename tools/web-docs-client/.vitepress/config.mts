@@ -89,7 +89,7 @@ function generateNavigation() {
   try {
     // Use the same path resolution as VitePress srcDir
     const configDir = import.meta.dirname; // Current config file directory
-    const docsPath = join(configDir, '../../../docs'); // Go up 3 levels: .vitepress -> web-docs-client -> tools -> root, then docs
+    const docsPath = join(configDir, '../../docs'); // Go up 2 levels: .vitepress -> web-docs-client -> tools, then docs
     console.log('📂 Root docs path:', docsPath);
 
     scanDirectory(docsPath);
