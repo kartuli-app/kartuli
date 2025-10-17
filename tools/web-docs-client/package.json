@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "vitepress": "catalog:",
-    "search-insights": "catalog:"
+    "search-insights": "catalog:",
+    "vue": "catalog:",
+    "@vue/server-renderer": "catalog:"
   }
 }
