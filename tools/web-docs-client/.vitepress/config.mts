@@ -5,7 +5,7 @@ import { defineConfig } from 'vitepress';
 const title = 'Kartuli Docs';
 const description = 'Kartuli Web Docs Client';
 const srcDir = '../../docs/';
-const llmBundleUrl = 'https://github.com/rocescoca/kartuli/blob/main/docs/kartuli-llm.txt';
+const llmBundleUrl = '/kartuli/assets/kartuli-llm.txt';
 
 // Function to recursively scan docs folder and generate navigation
 function generateNavigation() {

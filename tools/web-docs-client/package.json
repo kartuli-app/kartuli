@@ -9,6 +9,7 @@
     "build:docs": "vitepress build",
     "preview": "vitepress preview",
     "prebuild": "node scripts/generate-llm-bundle.js",
+    "postbuild": "node scripts/copy-llm-bundle.js",
     "predev": "node scripts/generate-llm-bundle.js"
   },
   "dependencies": {
