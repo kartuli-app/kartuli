@@ -302,12 +302,13 @@ export default defineConfig({
   title,
   description,
   srcDir,
+  base: '/kartuli/',
   themeConfig,
   vite: {
     build: {
       rollupOptions: {
-        external: ['vue', 'vue/server-renderer']
-      }
-    }
-  }
+        external: ['vue', 'vue/server-renderer'],
+      },
+    },
+  },
 });
