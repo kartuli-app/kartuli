@@ -37,21 +37,14 @@ jobs:
       - name: Test LLM bundle generation
         run: |
           cd tools/web-docs-client
-          echo "🔍 Current directory: $(pwd)"
           node scripts/generate-llm-bundle.js
           echo "✅ LLM bundle generated successfully"
-          echo "🔍 Checking if file exists at expected location:"
-          echo "🔍 Expected path: $(pwd)/../../../docs/kartuli-llm.txt"
-          echo "🔍 Absolute path: $(realpath ../../../docs/kartuli-llm.txt)"
-          ls -la ../../../docs/kartuli-llm.txt || echo "❌ File not found at relative path"
-          echo "🔍 Checking docs directory:"
-          ls -la ../../../docs/
           echo "📄 File size: $(wc -c < ../../../docs/kartuli-llm.txt) bytes"
       
       - name: Test file content
         run: |
           echo "📋 First 10 lines of generated file:"
-          head -10 docs/kartuli-llm.txt
+          head -10 ../../../docs/kartuli-llm.txt
           echo ""
           echo "🔗 Testing GitHub raw URL format:"
           echo "https://raw.githubusercontent.com/rocescoca/kartuli/main/docs/kartuli-llm.txt"
