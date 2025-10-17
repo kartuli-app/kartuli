@@ -303,4 +303,11 @@ export default defineConfig({
   description,
   srcDir,
   themeConfig,
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ['vue', 'vue/server-renderer']
+      }
+    }
+  }
 });
