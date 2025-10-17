@@ -37,8 +37,14 @@ jobs:
       - name: Test LLM bundle generation
         run: |
           cd tools/web-docs-client
+          echo "🔍 Current directory: $(pwd)"
+          echo "🔍 Listing current directory:"
+          ls -la
+          echo "🔍 Listing parent directories:"
+          ls -la ../../
           node scripts/generate-llm-bundle.js
           echo "✅ LLM bundle generated successfully"
+          echo "🔍 Checking if file exists at expected location:"
           ls -la ../../../docs/kartuli-llm.txt
           echo "📄 File size: $(wc -c < ../../../docs/kartuli-llm.txt) bytes"
       
