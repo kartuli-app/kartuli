@@ -1,3 +1,8 @@
+---
+section: Tech/Development
+title: Code Conventions
+---
+
 # Code conventions
 
 ## Commit Convention
@@ -23,3 +28,9 @@ Always use conventional commit format for all commits:
 - Avoid separate test folder
 - Use descriptive test names
 - Test both happy path and edge cases
+
+## Documentation
+- All documentation changes trigger automated workflows
+- LLM bundle is generated automatically on deployment
+- Use proper frontmatter format for navigation integration
+- Follow ADR template for decision documents

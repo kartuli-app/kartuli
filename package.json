@@ -7,13 +7,18 @@
   "packageManager": "pnpm@9.12.2",
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build",
+    "build": "turbo run build --filter='!@kartuli/web-docs-client'",
+    "build:docs": "vitepress build tools/web-docs-client",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "lint:fix": "turbo run lint -- --write"
+    "lint:fix": "turbo run lint -- --write",
+    "docs:dev": "vitepress dev tools/web-docs-client",
+    "docs:build": "vitepress build tools/web-docs-client",
+    "docs:preview": "vitepress preview tools/web-docs-client"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
-    "turbo": "^2.0.0"
+    "turbo": "^2.0.0",
+    "vitepress": "catalog:"
   }
 }

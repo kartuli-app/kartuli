@@ -1,0 +1,20 @@
+{
+  "name": "@kartuli/web-docs-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "build:docs": "vitepress build",
+    "preview": "vitepress preview",
+    "prebuild": "node scripts/generate-llm-bundle.js",
+    "predev": "node scripts/generate-llm-bundle.js"
+  },
+  "dependencies": {
+    "vitepress": "catalog:",
+    "search-insights": "catalog:",
+    "vue": "catalog:",
+    "@vue/server-renderer": "catalog:"
+  }
+}

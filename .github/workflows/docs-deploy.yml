@@ -1,0 +1,126 @@
+name: Docs Deploy
+description: Deploys VitePress documentation to GitHub Pages with LLM bundle
+# Triggers: push to main, PRs (docs changes)
+# Jobs: build, deploy-main, deploy-preview
+# Purpose: Build and deploy documentation site with generated LLM bundle
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'tools/web-docs-client/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'tools/web-docs-client/**'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  generate-bundle:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-name: ${{ steps.upload.outputs.artifact-name }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install pnpm
+        run: npm install -g pnpm@9.12.2
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Generate LLM bundle
+        run: |
+          cd tools/web-docs-client
+          node scripts/generate-llm-bundle.js
+      
+      - name: Upload LLM bundle as artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: kartuli-llm-bundle
+          path: docs/kartuli-llm.txt
+          retention-days: 30
+
+  build:
+    runs-on: ubuntu-latest
+    needs: generate-bundle
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install pnpm
+        run: npm install -g pnpm@9.12.2
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Download LLM bundle artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kartuli-llm-bundle
+          path: docs/
+      
+      - name: Build VitePress site
+        run: |
+          cd tools/web-docs-client
+          pnpm build
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: tools/web-docs-client/.vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: [generate-bundle, build]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-preview:
+    environment:
+      name: github-pages-preview
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: [generate-bundle, build]
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Deploy to GitHub Pages Preview
+        id: deployment
+        uses: actions/deploy-pages@v4

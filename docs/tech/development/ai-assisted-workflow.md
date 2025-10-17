@@ -1,8 +1,11 @@
+---
+section: Tech/Development
+title: AI-Assisted Workflow
+---
+
 # AI-Assisted Workflow
 
 Complete workflow for contributing to Kartuli using AI assistance, from idea to merged PR.
-
----
 
 ## Overview
 
@@ -13,8 +16,6 @@ The workflow has 4 phases:
 4. **Cleanup** - Post-merge housekeeping
 
 Each phase can be done manually or with AI assistance.
-
----
 
 ## Refinement: Idea → Issue
 
@@ -35,8 +36,6 @@ Each phase can be done manually or with AI assistance.
    - Labels auto-apply via GitHub Action
 
 **Result:** Issue created in project board (Backlog status)
-
----
 
 ## Implementation: Issue → PR
 
@@ -86,8 +85,6 @@ Automated code review bots (like Qodo) may provide suggestions. This can loop mu
 - Includes team's reasoning for each decision
 - Provides external AI perspective on the decisions made
 
----
-
 ## Integration: PR → Main
 
 1. Review PR yourself
@@ -95,8 +92,6 @@ Automated code review bots (like Qodo) may provide suggestions. This can loop mu
 3. Merge when ready
 
 **Result:** Issue + PR auto-close and move to "Done"
-
----
 
 ## Cleanup
 
@@ -106,8 +101,6 @@ git pull origin main
 git branch -d {branch-name}
 ```
 
----
-
 ## Project Board Tracking
 
 | Status | When | How |
@@ -116,8 +109,6 @@ git branch -d {branch-name}
 | Ready | Spec complete | Manual |
 | In Progress | PR opened | Auto (maybe - test this) |
 | Done | PR merged | Auto |
-
----
 
 ## Quick Reference
 

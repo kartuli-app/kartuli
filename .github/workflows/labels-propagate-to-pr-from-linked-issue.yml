@@ -1,4 +1,7 @@
-name: Propagate Labels from Issue to PR
+name: Labels Propagate to PR from Linked Issue
+description: Automatically copies labels from linked issues to pull requests
+# Triggers: PR opened
+# Purpose: Maintain consistent labeling between issues and PRs
 
 # This workflow automatically copies labels from an issue to its linked PR
 # when a PR is created
