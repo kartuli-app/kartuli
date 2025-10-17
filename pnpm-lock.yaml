@@ -94,7 +94,7 @@ catalogs:
       specifier: ^6.0.7
       version: 6.3.6
     vitepress:
-      specifier: ^1.6.4
+      specifier: 1.6.4
       version: 1.6.4
     vitest:
       specifier: ^3.0.3
