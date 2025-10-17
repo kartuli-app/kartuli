@@ -36,3 +36,44 @@ Always use conventional commit format for all commits:
 - Avoid separate test folder
 - Use descriptive test names
 - Test both happy path and edge cases
+
+## Documentation System
+
+### Documentation Changes
+- All documentation changes trigger automated workflows
+- LLM bundle is generated automatically on deployment
+- Use proper frontmatter format for navigation integration
+- Follow ADR template for decision documents
+
+### Frontmatter Requirements
+All documentation files must include:
+```yaml
+---
+section: Tech/Decisions  # Navigation section
+title: Document Title   # Display name
+date: 2025-01-01       # For chronological sorting (ADRs)
+status: Accepted        # ADR status
+issue: "#123"          # Related GitHub issue
+---
+```
+
+### ADR Template
+Architecture Decision Records must follow strict format:
+- **Context**: Why this decision is needed
+- **Decision**: What was decided (single paragraph)
+- **Consequences**: Positive and negative impacts
+- **Implementation**: Current state of the system
+
+### GitHub Actions
+Our workflows handle:
+- **Label Management**: Auto-apply, propagate, and sync labels
+- **Documentation**: Generate LLM bundle, test, and deploy to GitHub Pages
+- **Quality**: Automated linting and testing
+
+### Workflow Names
+- `labels-auto-apply-to-issues-from-template.yml`
+- `labels-propagate-to-pr-from-linked-issue.yml`
+- `labels-sync-available-on-github-from-repo-config.yml`
+- `docs-generate-llm-bundle.yml`
+- `docs-test-llm-bundle.yml`
+- `docs-deploy.yml`

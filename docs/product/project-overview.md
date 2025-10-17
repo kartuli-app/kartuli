@@ -1,4 +1,7 @@
-# Project Overview
+---
+section: Product
+title: Project Overview
+---
 
 ## Mission
 To make Georgian language learning accessible and free for everyone, breaking down language barriers for international residents, newcomers, and travelers in Georgia

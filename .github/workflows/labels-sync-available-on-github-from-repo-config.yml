@@ -1,4 +1,7 @@
-name: Sync Labels
+name: Labels Sync Available on GitHub from Repo Config
+description: Syncs labels defined in .github/labels.yml with GitHub repository
+# Triggers: manual workflow_dispatch
+# Purpose: Keep GitHub labels in sync with configuration file
 
 # This workflow syncs the labels defined in .github/labels.yml with GitHub
 # It runs manually via workflow_dispatch

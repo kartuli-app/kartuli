@@ -14,8 +14,13 @@
         "lib/**",
         ".next/**",
         "!.next/cache/**",
-        "storybook-static/**"
+        "storybook-static/**",
+        ".vitepress/dist/**"
       ]
+    },
+    "build:docs": {
+      "dependsOn": ["^build"],
+      "outputs": [".vitepress/dist/**"]
     },
     "test": {},
     "lint": {

@@ -21,6 +21,16 @@ dist/
 # Storybook
 storybook-static/
 
+# VitePress
+.vitepress/cache/
+.vitepress/dist/
+
+# Generated documentation (not tracked in git)
+docs/kartuli-llm.txt
+
+# VitePress cache
+tools/web-docs-client/.vitepress/cache/
+
 # Production
 *.log
 npm-debug.log*

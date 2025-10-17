@@ -17,6 +17,8 @@
       "!**/lib",
       "!**/coverage",
       "!**/storybook-static",
+      "!**/.vitepress/cache",
+      "!**/.vitepress/dist",
       "!**/pnpm-lock.yaml",
       "!**/*.md",
       "!generate-docs-for-llm.ts"

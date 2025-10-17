@@ -1,4 +1,7 @@
-name: Auto-label Issues from Template
+name: Labels Auto Apply to Issues from Template
+description: Automatically applies labels to issues based on template checkboxes
+# Triggers: issue opened/edited
+# Purpose: Parse issue template and apply checked labels automatically
 
 on:
   issues:

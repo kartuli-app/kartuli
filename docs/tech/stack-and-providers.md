@@ -1,31 +1,9 @@
-# Kartuli
-
-Georgian language learning platform
-
-## Quick Start
-
-```bash
-pnpm install
-pnpm dev
-```
-
-## Documentation
-
-```bash
-pnpm docs:dev     # Start documentation dev server
-pnpm docs:build   # Build documentation site
-pnpm docs:preview # Preview built documentation
-```
-
-### Links
-- [Project Overview](https://docs.kartuli.app/)
-- [Contributing Guide](https://docs.kartuli.app/contributing)
-- [API Reference](https://docs.kartuli.app/api)
+---
+section: Tech
+title: Tech Stack & Providers
+---
 
 ## Stack
-
-<!-- This content is shared with docs/stack-and-providers.md -->
-<!-- To update the stack and providers tables, edit docs/stack-and-providers.md -->
 
 Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 
@@ -55,7 +33,7 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | | 🟡 | Internationalization | Options:<br>• intlayer<br>• next-intl<br>• i18next |
 | **Markdown** | 🟢 | Content | • Documentation<br>• Info pages (terms, privacy) |
 | **Storybook** | 🟢 | Documentation & Development | • Component development<br>• Documentation<br>• Theme preview |
-| **VitePress** | 🟢 | Documentation Site | • Project documentation<br>• Hosted on GitHub Pages |
+| **VitePress** | 🟢 | Documentation Site | • Project documentation<br>• Hosted on GitHub Pages<br>• LLM bundle generation<br>• Shared docs processor |
 
 ## Providers
 
@@ -66,7 +44,7 @@ Status: 🟢 Active | ⚫ Planned
 | Service | Provider | Status | Links | Notes |
 | ------- | -------- | ------ | ----- | ----- |
 | **Version Control** | GitHub | 🟢 | https://github.com/rocescoca/ | |
-| **CI/CD** | GitHub | 🟢 | https://github.com/rocescoca/ | • Labels sync<br>• Labels propagation from Issue to PR |
+| **CI/CD** | GitHub | 🟢 | https://github.com/rocescoca/ | • Labels sync<br>• Labels propagation from Issue to PR<br>• Documentation deployment<br>• LLM bundle generation |
 | **Dependency Updates** | Mend.io | ⚫ | https://github.com/marketplace/renovate | • Automated dependency bot for PRs<br>• GitHub integration |
 | **Projects** | GitHub | 🟢 | https://github.com/rocescoca/ | • Issue tracking<br>• Project boards |
 | **Hosting (Documentation)** | GitHub Pages | 🟢 | https://pages.github.com | VitePress documentation site |
@@ -85,18 +63,3 @@ Status: 🟢 Active | ⚫ Planned
 | **Uptime Monitoring** | BetterStack | ⚫ | https://betterstack.com | • Heartbeats<br>• Status pages |
 | **Visual Testing** | Chromatic | ⚫ | https://chromatic.com | • Visual regression<br>• UI review |
 | **Forms & Surveys** | Tally | ⚫ | https://tally.so | • Anonymous surveys<br>• User feedback |
-
-> 📖 **Full details**: See [Stack & Providers Documentation](docs/stack-and-providers.md)
-
-## Packages
-- [@kartuli/theme](./packages/theme/) - Design tokens
-- [@kartuli/ui](./packages/ui/) - UI components
-
-## Apps
-- [Game Client](./apps/game-client/) - Learning game
-- [Backoffice Client](./apps/backoffice-client/) - Content management
-
-## Tools
-- [Storybook](./tools/storybook/) - Component development
-- [Web Docs Client](./tools/web-docs-client/) - Documentation site
-

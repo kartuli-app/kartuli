@@ -1,0 +1,121 @@
+name: Docs Deploy
+description: Deploys VitePress documentation to GitHub Pages with LLM bundle
+# Triggers: push to main, PRs (docs changes)
+# Jobs: generate-bundle (always), build+deploy (main only)
+# Purpose: Efficient CI - test LLM generation on PRs, full build+deploy on main
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'tools/web-docs-client/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'tools/web-docs-client/**'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate-bundle:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-name: ${{ steps.upload.outputs.artifact-name }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Generate LLM bundle
+        run: |
+          cd tools/web-docs-client
+          node scripts/generate-llm-bundle.js
+      
+      - name: Upload LLM bundle as artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: kartuli-llm-bundle
+          path: docs/kartuli-llm.txt
+          retention-days: 30
+
+  build:
+    runs-on: ubuntu-latest
+    needs: generate-bundle
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Download LLM bundle artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kartuli-llm-bundle
+          path: docs/
+      
+      - name: Build VitePress site
+        run: |
+          cd tools/web-docs-client
+          pnpm build
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: tools/web-docs-client/.vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: [generate-bundle, build]
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

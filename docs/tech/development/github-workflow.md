@@ -1,4 +1,7 @@
-# GitHub Workflow
+---
+section: Tech/Development
+title: GitHub Workflow
+---
 
 This document describes how we use GitHub for collaboration, issue tracking, and automation.
 
@@ -142,7 +145,7 @@ Fixes #789
 Labels are defined in `.github/labels.yml`. To sync them with GitHub:
 
 1. Navigate to **Actions** tab
-2. Select **"Sync Labels"** workflow
+2. Select **"Labels Sync Available on GitHub from Repo Config"** workflow
 3. Click **"Run workflow"** → **"Run workflow"**
 4. Wait for completion (usually < 30 seconds)
 
@@ -153,7 +156,7 @@ Labels are defined in `.github/labels.yml`. To sync them with GitHub:
 
 ### Automatic Label Propagation
 
-The **"Propagate Labels from Issue to PR"** workflow runs automatically when:
+The **"Labels Propagate to PR from Linked Issue"** workflow runs automatically when:
 - A new pull request is created
 - The PR description contains issue keywords (`Closes #123`, `Fixes #456`, etc.)
 
@@ -166,7 +169,7 @@ No manual action required - it runs automatically!
 
 ### Automatic Issue Labeling
 
-The **"Auto-label Issues from Template"** workflow runs automatically when:
+The **"Labels Auto Apply to Issues from Template"** workflow runs automatically when:
 - A new issue is created
 - An existing issue is edited
 
@@ -227,8 +230,6 @@ Standard template for all pull requests.
 - Testing notes
 
 **Important**: PR title must follow conventional commit format.
-
----
 
 ## AI-Assisted Workflow
 
