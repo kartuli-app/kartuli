@@ -13,9 +13,9 @@ Always use conventional commit format for all commits:
 
 ## Code Style
 - Use TypeScript for all new code
-- Follow ESLint configuration
-- Use Prettier for code formatting
+- Follow Biome configuration for linting and formatting
 - Write meaningful variable and function names
+- Fix any warnings or errors immediately when they appear
 
 ## Architecture
 - Prefer serverless and managed solutions
@@ -31,6 +31,8 @@ Always use conventional commit format for all commits:
 
 ## Documentation
 - All documentation changes trigger automated workflows
-- LLM bundle is generated automatically on deployment
+- LLM bundle is generated automatically using shared `docs-processor.js` utility
+- VitePress builds with proper base URL configuration for GitHub Pages
 - Use proper frontmatter format for navigation integration
 - Follow ADR template for decision documents
+- Link fixes are centralized in the shared processor for maintainability

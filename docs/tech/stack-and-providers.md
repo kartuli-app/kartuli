@@ -33,7 +33,7 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | | 🟡 | Internationalization | Options:<br>• intlayer<br>• next-intl<br>• i18next |
 | **Markdown** | 🟢 | Content | • Documentation<br>• Info pages (terms, privacy) |
 | **Storybook** | 🟢 | Documentation & Development | • Component development<br>• Documentation<br>• Theme preview |
-| **VitePress** | 🟢 | Documentation Site | • Project documentation<br>• Hosted on GitHub Pages |
+| **VitePress** | 🟢 | Documentation Site | • Project documentation<br>• Hosted on GitHub Pages<br>• LLM bundle generation<br>• Shared docs processor |
 
 ## Providers
 

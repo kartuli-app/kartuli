@@ -53,12 +53,15 @@ docs/
     testing-strategy.md
     design-system.md
     documentation-management.md
+  tech/development/       # Development guides and conventions
+    ai-assisted-workflow.md
+    code-conventions.md
+    github-workflow.md
   product/                # Product documentation
-  ai-assisted-workflow.md
-  code-conventions.md
-  github-workflow.md
-  project-overview.md
+    project-overview.md
   stack-and-providers.md
+  index.md               # Homepage
+  kartuli-llm.txt        # Generated LLM bundle
 ```
 
 ### Navigation System Implementation
@@ -67,9 +70,18 @@ The VitePress configuration uses file system scanning with recursive directory t
 ### GitHub Actions Integration
 The documentation system includes automated workflows for generation and deployment:
 
-- **`docs-generate-llm-bundle.yml`** - Generates LLM documentation bundle as artifact
-- **`docs-test-llm-bundle.yml`** - Tests LLM bundle generation on PRs
-- **`docs-deploy.yml`** - Deploys VitePress site to GitHub Pages with LLM bundle
+- **`docs-deploy.yml`** - Main workflow that:
+  - Generates LLM documentation bundle
+  - Builds VitePress site with proper base URL configuration
+  - Deploys to GitHub Pages at `/kartuli/`
+  - Copies LLM bundle to assets folder for static serving
+- **Label management workflows** - Automated label management for issues and PRs
+
+### LLM Bundle Generation
+- **Shared Processor**: `docs-processor.js` utility consolidates all documentation processing logic
+- **Centralized Link Fixing**: Configuration-driven link replacement system
+- **Automatic Processing**: Frontmatter removal and content processing
+- **Static Asset**: LLM bundle served as `/kartuli/assets/kartuli-llm.txt`
 
 ### ADR Template Standard
 All decision documents follow this standardized template format with frontmatter metadata and consistent section structure for maintainability and consistency across the documentation system.
