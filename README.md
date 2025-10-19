@@ -71,7 +71,7 @@ Status: 🟢 Active | ⚫ Planned
 | **Projects** | GitHub | 🟢 | https://github.com/kartuli-app/ | • Issue tracking<br>• Project boards |
 | **Hosting (Documentation)** | GitHub Pages | 🟢 | https://pages.github.com | VitePress documentation site |
 | **AI Code Review** | Qodo | 🟢 | https://qodo.ai | GitHub integration |
-| **Hosting** | Vercel | ⚫ | https://vercel.com | Next.js optimized |
+| **Hosting** | Vercel | 🟢 | https://vercel.com | Next.js optimized |
 | **Serverless Functions** | Vercel | ⚫ | https://vercel.com | API endpoints |
 | **Database** | Supabase | ⚫ | https://supabase.com | • Used for Students Activity, CMS<br>• Frankfurt region (closest to Georgia, good speed for continental Europe) |
 | **Authentication** | Supabase | ⚫ | https://supabase.com | • Google social login<br>• Facebook social login |
