@@ -43,6 +43,9 @@ jobs:
       
       - name: Build game client
         run: pnpm turbo run build --filter=@kartuli/game-client
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       
       - name: Debug file structure
         run: |
