@@ -115,3 +115,7 @@ This foundation enables future CI/CD enhancements:
 - Error tracking setup
 
 The implementation follows the principle of starting simple and building incrementally, ensuring a solid foundation for the project's growing CI/CD needs.
+
+---
+
+**Migration Status**: Successfully migrated to `kartuli-app` organization. Documentation deployment pipeline verified and working at `https://kartuli-app.github.io/kartuli/` - January 19, 2025.
