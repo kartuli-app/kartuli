@@ -53,18 +53,15 @@ jobs:
       - name: Run tests
         run: pnpm turbo run test
       
-      - name: Build game client
-        run: pnpm turbo run build --filter=@kartuli/game-client
-      
-      - name: Deploy to Vercel Preview
-        id: deploy
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prebuilt'
-          scope: ${{ secrets.VERCEL_ORG_ID }}
+           - name: Deploy to Vercel Preview
+             id: deploy
+             uses: amondnet/vercel-action@v25
+             with:
+               vercel-token: ${{ secrets.VERCEL_TOKEN }}
+               vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+               vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+               vercel-args: '--yes'
+               scope: ${{ secrets.VERCEL_ORG_ID }}
       
       - name: Comment PR with Preview URL
         if: github.event_name == 'pull_request'
