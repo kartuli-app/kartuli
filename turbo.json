@@ -37,7 +37,15 @@
     "typecheck": {
       "dependsOn": ["^typecheck"],
       "cache": true,
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"]
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.d.ts",
+        "tsconfig.json",
+        "package.json",
+        "pnpm-lock.yaml",
+        "types/**/*.d.ts"
+      ]
     }
   }
 }
