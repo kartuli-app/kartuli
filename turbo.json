@@ -33,6 +33,11 @@
         "**/*.json",
         "biome.json"
       ]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "cache": true,
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"]
     }
   }
 }
