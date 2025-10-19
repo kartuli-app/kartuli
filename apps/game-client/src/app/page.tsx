@@ -10,7 +10,7 @@ function DebugInfo() {
 
   return (
     <div className="fixed bottom-4 right-4 bg-gray-900 text-white p-4 rounded-lg shadow-lg text-xs font-mono max-w-sm">
-          <div className="font-bold mb-2">🔧 Debug (Testing Remote Cache v2):</div>
+      <div className="font-bold mb-2">🔧 Debug (Testing Remote Cache v2):</div>
       <div className="space-y-1">
         <div>
           <span className="text-gray-400">Environment:</span>{' '}

@@ -44,8 +44,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
-      - name: Build game client
-        run: pnpm turbo run build --filter=@kartuli/game-client
+      - name: Build game client and dependencies
+        run: pnpm turbo run build
       
       - name: Debug file structure
         run: |
