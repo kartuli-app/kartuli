@@ -10,6 +10,7 @@ on:
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'turbo.json'
+      - '.github/workflows/app-deploy-pr.yml'
       - '!tools/web-docs-client/**'
       - '!.github/workflows/docs-**'
 
