@@ -43,10 +43,10 @@ Status: 🟢 Active | ⚫ Planned
 
 | Service | Provider | Status | Links | Notes |
 | ------- | -------- | ------ | ----- | ----- |
-| **Version Control** | GitHub | 🟢 | https://github.com/rocescoca/ | |
-| **CI/CD** | GitHub | 🟢 | https://github.com/rocescoca/ | • Labels sync<br>• Labels propagation from Issue to PR<br>• Documentation deployment<br>• LLM bundle generation |
+| **Version Control** | GitHub | 🟢 | https://github.com/kartuli-app/ | |
+| **CI/CD** | GitHub | 🟢 | https://github.com/kartuli-app/ | • Labels sync<br>• Labels propagation from Issue to PR<br>• Documentation deployment<br>• LLM bundle generation |
 | **Dependency Updates** | Mend.io | ⚫ | https://github.com/marketplace/renovate | • Automated dependency bot for PRs<br>• GitHub integration |
-| **Projects** | GitHub | 🟢 | https://github.com/rocescoca/ | • Issue tracking<br>• Project boards |
+| **Projects** | GitHub | 🟢 | https://github.com/kartuli-app/ | • Issue tracking<br>• Project boards |
 | **Hosting (Documentation)** | GitHub Pages | 🟢 | https://pages.github.com | VitePress documentation site |
 | **AI Code Review** | Qodo | 🟢 | https://qodo.ai | GitHub integration |
 | **Hosting** | Vercel | ⚫ | https://vercel.com | Next.js optimized |

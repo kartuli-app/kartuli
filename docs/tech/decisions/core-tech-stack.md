@@ -10,7 +10,7 @@ issue: "#2"
 
 **Date**: 2025-10-04
 
-**Issue**: [#2](https://github.com/rocescoca/kartuli/issues/2)
+**Issue**: [#2](https://github.com/kartuli-app/kartuli/issues/2)
 
 ## Context
 
