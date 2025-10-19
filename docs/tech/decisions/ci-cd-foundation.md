@@ -106,10 +106,22 @@ The following has been implemented:
    - All tests pass successfully
    - GitHub Actions workflow ready for testing
 
+4. **Production Deployment Workflow**
+   - Created `.github/workflows/app-deploy-main.yml`
+   - Configured for automated production deployments on main branch pushes
+   - Uses Vercel Action for deployment with proper authentication
+   - Path filtering ensures only game-client related changes trigger deployments
+   - Includes build step before deployment for validation
+
+5. **Vercel Integration**
+   - Configured GitHub Actions secrets for Vercel authentication
+   - Set up automated deployments to production environment
+   - Custom domain `kartuli.app` configured and working
+   - Manual deployment pipeline replaced with automated workflow
+
 ### Next Steps
 This foundation enables future CI/CD enhancements:
 - Preview deployments for pull requests
-- Production deployment automation
 - E2E testing integration
 - Performance monitoring
 - Error tracking setup
