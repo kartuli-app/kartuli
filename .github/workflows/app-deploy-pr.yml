@@ -25,6 +25,9 @@ concurrency:
 jobs:
   validate-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,21 +49,12 @@ jobs:
       
       - name: Run typecheck
         run: pnpm turbo run typecheck
-        env:
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
       - name: Run linting
         run: pnpm turbo run lint
-        env:
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
       - name: Run tests
         run: pnpm turbo run test
-        env:
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       
       - name: Deploy to Vercel Preview
         id: deploy
