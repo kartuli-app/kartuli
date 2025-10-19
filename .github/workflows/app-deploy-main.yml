@@ -43,6 +43,57 @@ jobs:
       - name: Build game client
         run: pnpm turbo run build --filter=@kartuli/game-client
       
+      - name: Debug file structure
+        run: |
+          echo "=== Current working directory ==="
+          pwd
+          echo "=== Root directory contents ==="
+          ls -la
+          echo "=== apps directory contents ==="
+          ls -la apps/
+          echo "=== game-client directory contents ==="
+          ls -la apps/game-client/
+          echo "=== game-client build output ==="
+          ls -la apps/game-client/.next/ 2>/dev/null || echo "No .next directory found"
+          echo "=== game-client package.json ==="
+          cat apps/game-client/package.json
+          echo "=== Working directory for Vercel ==="
+          ls -la apps/game-client/
+      
+      - name: Create deployment artifact
+        run: |
+          # Create a tar archive of the game-client directory for debugging
+          tar -czf game-client-debug.tar.gz apps/game-client/
+          echo "Created debug artifact: game-client-debug.tar.gz"
+          ls -la game-client-debug.tar.gz
+      
+      - name: Upload debug artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-client-debug
+          path: game-client-debug.tar.gz
+          retention-days: 1
+      
+      - name: Pre-deployment verification
+        run: |
+          echo "=== Pre-deployment verification ==="
+          echo "Current directory: $(pwd)"
+          echo "Contents of apps/game-client:"
+          ls -la apps/game-client/
+          echo "Checking if .next directory exists:"
+          if [ -d "apps/game-client/.next" ]; then
+            echo "✅ .next directory exists"
+            ls -la apps/game-client/.next/
+          else
+            echo "❌ .next directory does not exist"
+          fi
+          echo "Checking if package.json exists:"
+          if [ -f "apps/game-client/package.json" ]; then
+            echo "✅ package.json exists"
+          else
+            echo "❌ package.json does not exist"
+          fi
+      
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
