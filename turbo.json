@@ -47,11 +47,7 @@
         "package.json",
         "pnpm-lock.yaml"
       ],
-      "outputs": [
-        "tsconfig.tsbuildinfo",
-        "*.tsbuildinfo",
-        "buildcache/**"
-      ]
+      "outputs": ["**/*.tsbuildinfo"]
     }
   }
 }

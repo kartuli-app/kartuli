@@ -13,6 +13,13 @@ on:
       - '!tools/web-docs-client/**'
       - '!.github/workflows/docs-**'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: app-deploy-pr-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
