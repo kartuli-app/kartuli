@@ -70,7 +70,7 @@ The VitePress configuration uses file system scanning with recursive directory t
 ### GitHub Actions Integration
 The documentation system includes automated workflows for generation and deployment:
 
-- **`docs-deploy.yml`** - Main workflow that:
+- **`docs-deploy-main.yml`** - Main workflow that:
   - Generates LLM documentation bundle
   - Builds VitePress site with proper base URL configuration
   - Deploys to GitHub Pages at `/kartuli/`

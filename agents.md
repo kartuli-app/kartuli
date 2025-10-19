@@ -76,4 +76,4 @@ Our workflows handle:
 - `labels-sync-available-on-github-from-repo-config.yml`
 - `docs-generate-llm-bundle.yml`
 - `docs-test-llm-bundle.yml`
-- `docs-deploy.yml`
+- `docs-deploy-main.yml`

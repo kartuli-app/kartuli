@@ -95,7 +95,7 @@ The following has been implemented:
    - Configured to run in parallel where possible
 
 4. **GitHub Actions Workflow**
-   - Created `.github/workflows/preview.yml`
+   - Created `.github/workflows/app-deploy-pr.yml`
    - Configured for pull request validation
    - Sequential execution: typecheck → lint → test
    - Node.js 20 with pnpm caching

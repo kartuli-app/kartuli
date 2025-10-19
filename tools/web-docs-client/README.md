@@ -64,7 +64,7 @@ node scripts/generate-llm-bundle.js  # Generate LLM bundle manually
 ### Documentation Workflows
 - **`docs-generate-llm-bundle.yml`** - Generates LLM bundle and uploads as artifact
 - **`docs-test-llm-bundle.yml`** - Tests LLM bundle generation on PRs
-- **`docs-deploy.yml`** - Deploys site to GitHub Pages with proper dependencies
+- **`docs-deploy-main.yml`** - Deploys site to GitHub Pages with proper dependencies
 
 ### Workflow Dependencies
 ```
