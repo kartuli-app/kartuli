@@ -3,6 +3,15 @@ name: App Deploy (PR)
 on:
   pull_request:
     branches: [main]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'tools/storybook/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'turbo.json'
+      - '!tools/web-docs-client/**'
+      - '!.github/workflows/docs-**'
 
 jobs:
   validate:
@@ -16,7 +25,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          cache-dependency-path: pnpm-lock.yaml
+          cache-dependency-path: |
+            **/pnpm-lock.yaml
       
       - run: pnpm install --frozen-lockfile
       - run: pnpm turbo run typecheck

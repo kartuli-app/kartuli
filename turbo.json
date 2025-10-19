@@ -41,10 +41,16 @@
         "src/**/*.ts",
         "src/**/*.tsx",
         "src/**/*.d.ts",
+        "types/**/*.d.ts",
         "tsconfig.json",
+        "tsconfig.*.json",
         "package.json",
-        "pnpm-lock.yaml",
-        "types/**/*.d.ts"
+        "pnpm-lock.yaml"
+      ],
+      "outputs": [
+        "tsconfig.tsbuildinfo",
+        "*.tsbuildinfo",
+        "buildcache/**"
       ]
     }
   }
