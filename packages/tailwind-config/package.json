@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "biome check ."
   },
-  "devDependencies": {
+  "dependencies": {
     "postcss": "catalog:",
     "@tailwindcss/postcss": "catalog:",
     "tailwindcss": "catalog:"
