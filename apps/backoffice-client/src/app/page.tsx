@@ -1,4 +1,5 @@
 import { Button } from '@kartuli/ui/components/Button';
+import { DeploymentDebugPanel } from '@kartuli/ui/components/DeploymentDebugPanel';
 
 export default function Page() {
   return (
@@ -7,6 +8,7 @@ export default function Page() {
       <Button>Test Button</Button>
       {/* Force Tailwind to generate utility classes */}
       <div className="hidden bg-primary-500 text-white px-4 py-2">Force generation</div>
+      <DeploymentDebugPanel />
     </div>
   );
 }
