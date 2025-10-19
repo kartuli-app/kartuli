@@ -33,6 +33,21 @@
         "**/*.json",
         "biome.json"
       ]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "cache": true,
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.d.ts",
+        "types/**/*.d.ts",
+        "tsconfig.json",
+        "tsconfig.*.json",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "outputs": ["**/*.tsbuildinfo"]
     }
   }
 }

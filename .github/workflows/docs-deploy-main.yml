@@ -1,4 +1,4 @@
-name: Docs Deploy
+name: Docs Deploy (Main)
 description: Deploys VitePress documentation to GitHub Pages with LLM bundle
 # Triggers: push to main, PRs (docs changes)
 # Jobs: generate-bundle (always), build+deploy (main only)

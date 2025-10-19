@@ -13,5 +13,8 @@ export default defineConfig({
     globals: false,
     environment: 'jsdom',
     setupFiles: ['./setupTests.ts'],
+    typecheck: {
+      tsconfig: './tsconfig.test.json',
+    },
   },
 });

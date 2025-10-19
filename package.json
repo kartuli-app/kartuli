@@ -12,6 +12,7 @@
     "test": "turbo run test",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint -- --write",
+    "typecheck": "turbo run typecheck",
     "docs:dev": "vitepress dev tools/web-docs-client",
     "docs:build": "vitepress build tools/web-docs-client",
     "docs:preview": "vitepress preview tools/web-docs-client"

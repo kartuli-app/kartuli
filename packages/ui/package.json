@@ -8,7 +8,8 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "lint": "biome check ."
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "clsx": "catalog:"
@@ -20,6 +21,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "typescript": "catalog:"
   }
 }

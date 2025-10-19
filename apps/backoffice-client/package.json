@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start --port 3001",
     "test": "vitest run",
-    "lint": "biome check ."
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@kartuli/theme": "workspace:*",
