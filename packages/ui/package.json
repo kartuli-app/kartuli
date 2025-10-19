@@ -29,7 +29,8 @@
     "@kartuli/tailwind-config": "workspace:*",
     "@tailwindcss/cli": "catalog:",
     "@tailwindcss/postcss": "catalog:",
-    "tailwindcss": "catalog:"
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
   },
   "devDependencies": {
     "@storybook/react": "catalog:",
@@ -39,7 +40,6 @@
     "@testing-library/react": "catalog:",
     "@types/node": "catalog:",
     "jsdom": "catalog:",
-    "typescript": "catalog:",
     "vitest": "catalog:"
   }
 }

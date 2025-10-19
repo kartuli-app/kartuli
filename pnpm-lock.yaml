@@ -289,6 +289,9 @@ importers:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.1.14
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
     devDependencies:
       '@storybook/react':
         specifier: 'catalog:'
@@ -311,9 +314,6 @@ importers:
       jsdom:
         specifier: 'catalog:'
         version: 25.0.1
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
       vitest:
         specifier: 'catalog:'
         version: 3.2.4(@types/node@22.18.10)(jiti@2.6.1)(jsdom@25.0.1)(lightningcss@1.30.1)
