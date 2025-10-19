@@ -22,7 +22,7 @@
     "vite": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "@kartuli/theme": "workspace:*",
+    "@kartuli/tailwind-config": "workspace:*",
     "@kartuli/ui": "workspace:*",
     "tailwindcss": "catalog:",
     "@tailwindcss/vite": "catalog:",

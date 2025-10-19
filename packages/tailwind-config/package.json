@@ -1,0 +1,22 @@
+{
+  "name": "@kartuli/tailwind-config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./shared-styles.css",
+    "./postcss": "./postcss.config.js"
+  },
+  "files": [
+    "shared-styles.css",
+    "postcss.config.js"
+  ],
+  "scripts": {
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "postcss": "catalog:",
+    "@tailwindcss/postcss": "catalog:",
+    "tailwindcss": "catalog:"
+  }
+}

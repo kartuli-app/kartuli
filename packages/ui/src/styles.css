@@ -1,0 +1,12 @@
+/**
+ * UI Package Styles
+ *
+ * This file imports Tailwind CSS and the shared theme configuration,
+ * then scans the UI components for classes to generate CSS.
+ */
+
+@import "tailwindcss";
+@import "@kartuli/tailwind-config";
+
+/* Tell Tailwind to scan UI components for classes */
+@source "./";

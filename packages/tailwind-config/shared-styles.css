@@ -1,5 +1,5 @@
 /**
- * @kartuli/theme - Default Theme
+ * @kartuli/tailwind-config - Shared Tailwind Styles
  *
  * This file declares the token CONTRACT (names) for the Kartuli design system.
  *
@@ -8,6 +8,8 @@
  * - Apps override token VALUES using selectors (:root, [data-theme])
  * - New token NAMES (if ever needed) are declared via @theme at top level in the app
  */
+
+@import "tailwindcss";
 
 @theme {
   /* ============================================

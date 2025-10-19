@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kartuli/theme": "workspace:*",
+    "@kartuli/tailwind-config": "workspace:*",
     "@kartuli/ui": "workspace:*",
     "@tailwindcss/postcss": "catalog:",
     "clsx": "catalog:",
