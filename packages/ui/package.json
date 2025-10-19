@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
-    "build:components": "tsc",
+    "build:components": "tsc --project tsconfig.build.json",
     "build": "pnpm run build:styles && pnpm run build:components",
     "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
