@@ -252,6 +252,12 @@ importers:
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
+      react:
+        specifier: 'catalog:'
+        version: 19.2.0
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.0(react@19.2.0)
     devDependencies:
       '@storybook/react':
         specifier: 'catalog:'
@@ -280,12 +286,6 @@ importers:
       jsdom:
         specifier: 'catalog:'
         version: 25.0.1
-      react:
-        specifier: 'catalog:'
-        version: 19.2.0
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.2.0(react@19.2.0)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
