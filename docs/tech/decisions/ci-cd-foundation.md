@@ -136,6 +136,13 @@ The following has been implemented:
    - Significantly reduces build times in CI by reusing cached artifacts from local runs
    - Cache sharing ensures consistent builds between local and CI environments
    - Performance optimization reduces CI compute time and costs
+   - **Cache Key Strategy**: Cache keys are based on file contents and configuration, not git metadata
+   - **Cross-Environment Sharing**: Local → PR → Main → Team members all share the same cache
+   - **Cache Behavior**: 
+     - Local development populates remote cache
+     - PR workflows hit cache from local runs (fast builds)
+     - Main workflows hit cache from PR runs (fast deployments)
+     - Team members benefit from shared cache across all environments
 
 ### Next Steps
 This foundation enables future CI/CD enhancements:
