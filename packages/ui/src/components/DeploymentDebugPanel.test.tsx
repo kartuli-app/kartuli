@@ -23,23 +23,29 @@ afterEach(() => {
 });
 
 describe('DeploymentDebugPanel', () => {
-  it('renders with default props', () => {
-    render(<DeploymentDebugPanel />);
+  const defaultProps = {
+    appName: 'test-app',
+    appVersion: '1.0.0',
+  };
+
+  it('renders with required props', () => {
+    render(<DeploymentDebugPanel {...defaultProps} />);
 
     expect(screen.getByText('🔧 Debug Info (Preview)')).toBeInTheDocument();
-    expect(screen.getByText('@kartuli/ui')).toBeInTheDocument(); // In UI package context, it shows UI package name
+    expect(screen.getByText('test-app')).toBeInTheDocument();
+    expect(screen.getByText('1.0.0')).toBeInTheDocument();
     expect(screen.getByText('test')).toBeInTheDocument();
     expect(screen.getByText('preview')).toBeInTheDocument();
   });
 
   it('displays custom app name when provided', () => {
-    render(<DeploymentDebugPanel appName="custom-app" />);
+    render(<DeploymentDebugPanel appName="custom-app" appVersion="1.0.0" />);
 
     expect(screen.getByText('custom-app')).toBeInTheDocument();
   });
 
   it('displays custom app version when provided', () => {
-    render(<DeploymentDebugPanel appVersion="1.2.3" />);
+    render(<DeploymentDebugPanel appName="test-app" appVersion="1.2.3" />);
 
     expect(screen.getByText('1.2.3')).toBeInTheDocument();
   });
@@ -52,7 +58,7 @@ describe('DeploymentDebugPanel', () => {
   });
 
   it('shows detailed information when showDetailed is true', () => {
-    render(<DeploymentDebugPanel showDetailed={true} />);
+    render(<DeploymentDebugPanel {...defaultProps} showDetailed={true} />);
 
     // Should show runtime information
     expect(screen.getByText('User Agent:')).toBeInTheDocument();
@@ -61,7 +67,7 @@ describe('DeploymentDebugPanel', () => {
   });
 
   it('does not show detailed information when showDetailed is false', () => {
-    render(<DeploymentDebugPanel showDetailed={false} />);
+    render(<DeploymentDebugPanel {...defaultProps} showDetailed={false} />);
 
     // Should not show runtime information section
     expect(screen.queryByText('User Agent:')).not.toBeInTheDocument();
@@ -71,15 +77,28 @@ describe('DeploymentDebugPanel', () => {
 
   it('displays deployment type correctly for production', () => {
     process.env.VERCEL_ENV = 'production';
-    render(<DeploymentDebugPanel />);
+    render(<DeploymentDebugPanel {...defaultProps} />);
 
     expect(screen.getByText('🔧 Debug Info (Production)')).toBeInTheDocument();
   });
 
   it('displays deployment type correctly for development', () => {
     process.env.VERCEL_ENV = 'development';
-    render(<DeploymentDebugPanel />);
+    render(<DeploymentDebugPanel {...defaultProps} />);
 
     expect(screen.getByText('🔧 Debug Info (Development)')).toBeInTheDocument();
+  });
+
+  it('displays build time information', () => {
+    render(<DeploymentDebugPanel {...defaultProps} />);
+
+    // Should show build time information
+    expect(screen.getByText(/Build:/)).toBeInTheDocument();
+
+    // Should show a formatted date (either from BUILD_TIME env var or client time)
+    const buildTimeContainer = screen.getByText(/Build:/).parentElement;
+    expect(buildTimeContainer?.textContent).toMatch(
+      /\d+\/\d+\/\d+, \d+:\d+:\d+ [AP]M|loading\.\.\./,
+    );
   });
 });

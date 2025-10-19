@@ -8,7 +8,7 @@ export default function Page() {
       <Button>Test Button</Button>
       {/* Force Tailwind to generate utility classes */}
       <div className="hidden bg-primary-500 text-white px-4 py-2">Force generation</div>
-      <DeploymentDebugPanel />
+      <DeploymentDebugPanel appName="@kartuli/backoffice-client" appVersion="0.0.0" />
     </div>
   );
 }

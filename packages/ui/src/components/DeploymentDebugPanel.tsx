@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
+
 /**
  * DeploymentDebugPanel Component Props
  */
 interface DeploymentDebugPanelProps {
-  /** Override the app name (useful when sharing the component) */
-  appName?: string;
-  /** Override the app version (useful when sharing the component) */
-  appVersion?: string;
+  /** Application name (required for proper debugging) */
+  appName: string;
+  /** Application version (required for proper debugging) */
+  appVersion: string;
   /** Show additional debug information */
   showDetailed?: boolean;
 }
@@ -22,18 +24,29 @@ interface DeploymentDebugPanelProps {
  * - Different branches and commits
  * - Vercel-specific environment information
  * - Application identification and version info
+ *
+ * @param appName - Required application name for proper debugging
+ * @param appVersion - Required application version for proper debugging
+ * @param showDetailed - Optional flag to show additional runtime information
  */
 export function DeploymentDebugPanel({
-  appName: propAppName,
-  appVersion: propAppVersion,
+  appName,
+  appVersion,
   showDetailed = false,
-}: DeploymentDebugPanelProps = {}) {
-  // === APPLICATION INFORMATION ===
-  // These are derived from the package.json and build context
+}: DeploymentDebugPanelProps) {
+  // === CLIENT-SIDE TIME HANDLING ===
+  // Fix hydration mismatch by using useState/useEffect for client-side time
+  const [clientTime, setClientTime] = useState<string | null>(null);
 
-  const appName = propAppName || process.env.npm_package_name || '@kartuli/game-client'; // Use prop, then env, then fallback
-  const appVersion = propAppVersion || process.env.npm_package_version || 'dev';
-  const buildTime = process.env.BUILD_TIME || new Date().toISOString();
+  useEffect(() => {
+    // This runs only on the client, after hydration
+    setClientTime(new Date().toISOString());
+  }, []);
+
+  // === APPLICATION INFORMATION ===
+  // Now using required props directly - no fallback to unreliable process.env
+
+  const buildTime = process.env.BUILD_TIME || clientTime || 'loading...';
 
   // === CLIENT-SIDE ENVIRONMENT VARIABLES ===
   // These are available in the browser and can be accessed via process.env
@@ -184,7 +197,9 @@ export function DeploymentDebugPanel({
         <div className="pt-2 border-t border-gray-600">
           <div>
             <span className="text-gray-400">Build:</span>{' '}
-            <span className="text-gray-300 text-xs">{new Date(buildTime).toLocaleString()}</span>
+            <span className="text-gray-300 text-xs">
+              {buildTime === 'loading...' ? 'loading...' : new Date(buildTime).toLocaleString()}
+            </span>
           </div>
 
           <div className="text-gray-400 text-xs mt-2">
