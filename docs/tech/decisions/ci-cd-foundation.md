@@ -96,10 +96,10 @@ The following has been implemented:
 
 4. **GitHub Actions Workflows**
    - Created `.github/workflows/app-deploy-pr.yml` for PR validation and preview deployments
-   - Created `.github/workflows/app-cleanup-preview.yml` for automatic preview cleanup
    - Configured for pull request validation and Vercel preview deployments
    - Sequential execution: typecheck → lint → test → build → deploy
    - Node.js 20 with pnpm caching
+   - Leverages Vercel's native GitHub integration for automatic preview cleanup
 
 5. **Validation**
    - All packages pass typecheck validation
@@ -127,7 +127,7 @@ The following has been implemented:
    - Enhanced `app-deploy-pr.yml` workflow to include Vercel preview deployments
    - Each PR gets a unique preview URL for testing changes before merge
    - Automatic PR comments with preview URLs for easy access
-   - Preview deployments automatically cleaned up when PR is closed/merged
+   - Preview deployments automatically cleaned up by Vercel's native GitHub integration
    - Same validation pipeline (typecheck → lint → test → build → deploy) for consistency
 
 ### Next Steps
