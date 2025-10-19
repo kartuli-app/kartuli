@@ -94,11 +94,12 @@ The following has been implemented:
    - Enabled caching with appropriate input patterns
    - Configured to run in parallel where possible
 
-4. **GitHub Actions Workflow**
-   - Created `.github/workflows/app-deploy-pr.yml`
-   - Configured for pull request validation
-   - Sequential execution: typecheck → lint → test
+4. **GitHub Actions Workflows**
+   - Created `.github/workflows/app-deploy-pr.yml` for PR validation and preview deployments
+   - Configured for pull request validation and Vercel preview deployments
+   - Sequential execution: typecheck → lint → test → build → deploy
    - Node.js 20 with pnpm caching
+   - Leverages Vercel's native GitHub integration for automatic preview cleanup
 
 5. **Validation**
    - All packages pass typecheck validation
@@ -122,9 +123,15 @@ The following has been implemented:
    - **✅ RESOLVED**: Fixed Root Directory configuration conflicts
    - **✅ VERIFIED**: GitHub Actions → Vercel deployment pipeline operational
 
+6. **Preview Deployments for Pull Requests**
+   - Enhanced `app-deploy-pr.yml` workflow to include Vercel preview deployments
+   - Each PR gets a unique preview URL for testing changes before merge
+   - Automatic PR comments with preview URLs for easy access
+   - Preview deployments automatically cleaned up by Vercel's native GitHub integration
+   - Same validation pipeline (typecheck → lint → test → build → deploy) for consistency
+
 ### Next Steps
 This foundation enables future CI/CD enhancements:
-- Preview deployments for pull requests
 - E2E testing integration
 - Performance monitoring
 - Error tracking setup
