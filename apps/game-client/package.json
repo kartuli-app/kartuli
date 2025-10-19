@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@kartuli/theme": "workspace:*",
+    "@kartuli/ui": "workspace:*",
     "@tailwindcss/postcss": "catalog:",
     "clsx": "catalog:",
     "next": "catalog:",

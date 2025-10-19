@@ -122,6 +122,9 @@ importers:
       '@kartuli/theme':
         specifier: workspace:*
         version: link:../../packages/theme
+      '@kartuli/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.1.14
@@ -183,6 +186,9 @@ importers:
       '@kartuli/theme':
         specifier: workspace:*
         version: link:../../packages/theme
+      '@kartuli/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.1.14
