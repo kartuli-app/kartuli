@@ -1,85 +1,55 @@
-# E2E Testing Tool
+# E2E Testing Setup
 
-This package contains end-to-end tests for the Kartuli platform using Playwright.
+## Vercel Protection Bypass
 
-## Setup
+The E2E tests use Vercel's Protection Bypass feature to test against preview URLs without authentication issues.
 
-1. Install dependencies:
-   ```bash
-   pnpm install
-   ```
+### Setup Instructions
 
-2. Install Playwright browsers:
-   ```bash
-   pnpm exec playwright install chromium
-   ```
+1. **Enable Protection Bypass in Vercel:**
+   - Go to your Vercel project settings
+   - Navigate to "Security" → "Deployment Protection"
+   - Enable "Protection Bypass for Automation"
+   - Copy the generated secret
 
-## Running Tests
+2. **Add Secret to GitHub:**
+   - Go to your GitHub repository settings
+   - Navigate to "Secrets and variables" → "Actions"
+   - Add a new repository secret:
+     - **Name**: `VERCEL_PROTECTION_BYPASS_SECRET`
+     - **Value**: The secret from Vercel
 
-### Local Development
+3. **How It Works:**
+   - The E2E tests automatically detect the `VERCEL_PROTECTION_BYPASS_SECRET` environment variable
+   - If present, they add the `x-vercel-protection-bypass` header to all requests
+   - This allows tests to bypass Vercel's deployment protection
 
-Run tests against your local development server:
+### Testing Locally
 
-```bash
-# Start the game client dev server first
-pnpm dev
-
-# In another terminal, run E2E tests
-BASE_URL=http://localhost:3000 pnpm test
-```
-
-### Other Test Modes
+For local testing, you can set the environment variable:
 
 ```bash
-# Run tests in headed mode (see browser)
-pnpm test:headed
-
-# Run tests in debug mode
-pnpm test:debug
-
-# Run tests with UI mode
-pnpm test:ui
+export VERCEL_PROTECTION_BYPASS_SECRET="your-secret-here"
+pnpm test:e2e
 ```
 
-## Test Structure
+Or run with the environment variable inline:
 
-- `tests/game-client/smoke.spec.ts` - V1 smoke tests (app boot + console errors)
+```bash
+VERCEL_PROTECTION_BYPASS_SECRET="your-secret-here" pnpm test:e2e
+```
 
-## CI Integration
+### Security Notes
 
-E2E tests run automatically in CI:
+- The bypass secret is only used for E2E testing
+- It's stored securely in GitHub Secrets
+- The secret is only available in CI/CD environments
+- Local testing requires manual setup (as shown above)
 
-- **PR workflow**: Tests run against Vercel preview URLs
-- **Main workflow**: Tests run against production deployment
+### Troubleshooting
 
-### Artifacts
-
-On test failure, artifacts are uploaded:
-- Screenshots
-- Video recordings
-- Trace files
-- Console logs
-
-Artifacts are retained for 3 days (free tier friendly).
-
-## Configuration
-
-Tests are configured via `playwright.config.ts`:
-
-- **Browser**: Chromium-only for V1
-- **Timeouts**: 5s expect, 30s test
-- **Workers**: 1 worker for stability
-- **Retries**: 1 retry in CI, 0 locally
-- **Base URL**: Set via `BASE_URL` environment variable
-
-## Test Selectors
-
-Use stable selectors for reliable tests:
-
-- `data-testid="game-home"` - Main game client container
-- `h1` with text "Game Client" - Page heading
-
-## Future Phases
-
-- **V1.1**: Primary flow smoke, navigation, assets sanity
-- **V2**: Mobile viewport, Firefox, accessibility checks
+If tests are still being skipped:
+1. Verify the secret is correctly set in GitHub repository secrets
+2. Check that the secret matches the one in Vercel project settings
+3. Ensure the secret name is exactly `VERCEL_PROTECTION_BYPASS_SECRET`
+4. Check the CI logs for any environment variable issues

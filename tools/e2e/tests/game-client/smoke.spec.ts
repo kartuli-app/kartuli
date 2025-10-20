@@ -2,16 +2,16 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Game Client Smoke Tests', () => {
   test('app boots and shows game home', async ({ page }) => {
+    // Set Vercel protection bypass header if available
+    const bypassSecret = process.env.VERCEL_PROTECTION_BYPASS_SECRET;
+    if (bypassSecret) {
+      await page.setExtraHTTPHeaders({
+        'x-vercel-protection-bypass': bypassSecret,
+      });
+    }
+
     // Navigate to the game client
     await page.goto('/');
-
-    // Handle potential authentication/authorization pages
-    const currentUrl = page.url();
-    if (currentUrl.includes('vercel.app') && page.locator('text=authorization').isVisible()) {
-      console.log('⚠️  Preview URL requires authentication - skipping test');
-      test.skip();
-      return;
-    }
 
     // Wait for the main heading to be visible with longer timeout
     await expect(page.getByRole('heading', { name: 'Game Client' })).toBeVisible({
@@ -46,16 +46,16 @@ test.describe('Game Client Smoke Tests', () => {
       }
     });
 
+    // Set Vercel protection bypass header if available
+    const bypassSecret = process.env.VERCEL_PROTECTION_BYPASS_SECRET;
+    if (bypassSecret) {
+      await page.setExtraHTTPHeaders({
+        'x-vercel-protection-bypass': bypassSecret,
+      });
+    }
+
     // Navigate to the game client
     await page.goto('/');
-
-    // Handle potential authentication/authorization pages
-    const currentUrl = page.url();
-    if (currentUrl.includes('vercel.app') && page.locator('text=authorization').isVisible()) {
-      console.log('⚠️  Preview URL requires authentication - skipping test');
-      test.skip();
-      return;
-    }
 
     // Wait for page to be fully loaded
     await page.waitForLoadState('networkidle');

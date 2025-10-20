@@ -90,6 +90,7 @@ jobs:
       - name: Run E2E smoke tests
         env:
           BASE_URL: ${{ steps.deploy.outputs.preview-url }}
+          VERCEL_PROTECTION_BYPASS_SECRET: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET }}
         run: pnpm test:e2e
       
       - name: Upload E2E artifacts on failure
