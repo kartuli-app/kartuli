@@ -53,27 +53,101 @@ export function DeploymentDebugPanel({
   // === APPLICATION INFORMATION ===
   // Now using required props directly - no fallback to unreliable process.env
 
-  const buildTime = process.env.BUILD_TIME || clientTime || 'loading...';
+  const buildTime = (() => {
+    try {
+      return process.env.BUILD_TIME || clientTime || 'loading...';
+    } catch {
+      return clientTime || 'loading...';
+    }
+  })();
 
   // === CLIENT-SIDE ENVIRONMENT VARIABLES ===
   // These are available in the browser and can be accessed via process.env
   // They are injected at build time by Next.js/Vercel
 
-  const nodeEnv = process.env.NODE_ENV;
-  const vercelEnv = process.env.VERCEL_ENV;
-  const vercelGitCommitRef = process.env.VERCEL_GIT_COMMIT_REF;
-  const vercelGitCommitSha = process.env.VERCEL_GIT_COMMIT_SHA;
-  const vercelUrl = process.env.VERCEL_URL;
-  const vercelRegion = process.env.VERCEL_REGION;
+  const nodeEnv = (() => {
+    try {
+      return process.env.NODE_ENV;
+    } catch {
+      return 'development';
+    }
+  })();
+
+  const vercelEnv = (() => {
+    try {
+      return process.env.VERCEL_ENV;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const vercelGitCommitRef = (() => {
+    try {
+      return process.env.VERCEL_GIT_COMMIT_REF;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const vercelGitCommitSha = (() => {
+    try {
+      return process.env.VERCEL_GIT_COMMIT_SHA;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const vercelUrl = (() => {
+    try {
+      return process.env.VERCEL_URL;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const vercelRegion = (() => {
+    try {
+      return process.env.VERCEL_REGION;
+    } catch {
+      return undefined;
+    }
+  })();
 
   // === SERVER-SIDE ONLY VARIABLES ===
   // These are only available during server-side rendering or in API routes
   // They won't be available in the browser due to security restrictions
 
-  const _vercelGitCommitMessage = process.env.VERCEL_GIT_COMMIT_MESSAGE;
-  const vercelGitRepoOwner = process.env.VERCEL_GIT_REPO_OWNER;
-  const vercelGitRepoSlug = process.env.VERCEL_GIT_REPO_SLUG;
-  const vercelGitPullRequestNumber = process.env.VERCEL_GIT_PULL_REQUEST_NUMBER;
+  const _vercelGitCommitMessage = (() => {
+    try {
+      return process.env.VERCEL_GIT_COMMIT_MESSAGE;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const vercelGitRepoOwner = (() => {
+    try {
+      return process.env.VERCEL_GIT_REPO_OWNER;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const vercelGitRepoSlug = (() => {
+    try {
+      return process.env.VERCEL_GIT_REPO_SLUG;
+    } catch {
+      return undefined;
+    }
+  })();
+
+  const vercelGitPullRequestNumber = (() => {
+    try {
+      return process.env.VERCEL_GIT_PULL_REQUEST_NUMBER;
+    } catch {
+      return undefined;
+    }
+  })();
 
   // === COMPUTED VALUES ===
   // These are derived from the environment variables above

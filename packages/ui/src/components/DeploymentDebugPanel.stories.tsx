@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { DeploymentDebugPanel } from '@kartuli/ui/components/DeploymentDebugPanel';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof DeploymentDebugPanel> = {
   title: 'Components/DeploymentDebugPanel',
@@ -8,7 +8,8 @@ const meta: Meta<typeof DeploymentDebugPanel> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'A debug panel that displays environment information useful for debugging deployments and understanding the current runtime context.',
+        component:
+          'A debug panel that displays environment information useful for debugging deployments and understanding the current runtime context.',
       },
     },
   },
