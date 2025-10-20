@@ -9,7 +9,7 @@
     "dev": "turbo run dev",
     "build": "turbo run build --filter='!@kartuli/web-docs-client'",
     "build:docs": "vitepress build tools/web-docs-client",
-    "test": "turbo run test",
+    "test": "turbo run test --filter='!@kartuli/e2e'",
     "test:e2e": "pnpm --filter @kartuli/e2e test",
     "test:e2e:ui": "pnpm --filter @kartuli/e2e test:ui",
     "lint": "turbo run lint",
