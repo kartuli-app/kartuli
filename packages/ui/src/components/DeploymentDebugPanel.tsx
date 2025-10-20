@@ -53,9 +53,10 @@ export function DeploymentDebugPanel({
   // === APPLICATION INFORMATION ===
   // Now using required props directly - no fallback to unreliable process.env
 
+  // Prefer an explicitly public variable injected at build time
   const buildTimeRaw = (() => {
     try {
-      return process.env.BUILD_TIME || clientTime || 'loading...';
+      return process.env.NEXT_PUBLIC_BUILD_TIME || clientTime || 'loading...';
     } catch {
       return clientTime || 'loading...';
     }
@@ -69,89 +70,28 @@ export function DeploymentDebugPanel({
   // These are available in the browser and can be accessed via process.env
   // They are injected at build time by Next.js/Vercel
 
-  const nodeEnv = (() => {
-    try {
-      return process.env.NODE_ENV;
-    } catch {
-      return 'development';
-    }
-  })();
+  // Next.js replaces process.env.* at build time; non-public variables are undefined on client
+  const nodeEnv = process.env.NODE_ENV ?? 'development';
+  const vercelEnv = process.env.NEXT_PUBLIC_VERCEL_ENV ?? process.env.VERCEL_ENV;
+  const vercelGitCommitRef = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF;
+  const vercelGitCommitSha = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
+  const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
+  const vercelRegion = process.env.NEXT_PUBLIC_VERCEL_REGION;
 
-  const vercelEnv = (() => {
-    try {
-      return process.env.VERCEL_ENV;
-    } catch {
-      return undefined;
-    }
-  })();
-
-  const vercelGitCommitRef = (() => {
-    try {
-      return process.env.VERCEL_GIT_COMMIT_REF;
-    } catch {
-      return undefined;
-    }
-  })();
-
-  const vercelGitCommitSha = (() => {
-    try {
-      return process.env.VERCEL_GIT_COMMIT_SHA;
-    } catch {
-      return undefined;
-    }
-  })();
-
-  const vercelUrl = (() => {
-    try {
-      return process.env.VERCEL_URL;
-    } catch {
-      return undefined;
-    }
-  })();
-
-  const vercelRegion = (() => {
-    try {
-      return process.env.VERCEL_REGION;
-    } catch {
-      return undefined;
-    }
-  })();
+  // Server-only values (will be undefined in client; annotate accordingly)
+  const vercelGitRepoOwner =
+    typeof window === 'undefined' ? process.env.VERCEL_GIT_REPO_OWNER : undefined;
+  const vercelGitRepoSlug =
+    typeof window === 'undefined' ? process.env.VERCEL_GIT_REPO_SLUG : undefined;
+  const vercelGitPullRequestNumber =
+    typeof window === 'undefined' ? process.env.VERCEL_GIT_PULL_REQUEST_NUMBER : undefined;
 
   // === SERVER-SIDE ONLY VARIABLES ===
   // These are only available during server-side rendering or in API routes
   // They won't be available in the browser due to security restrictions
 
-  const _vercelGitCommitMessage = (() => {
-    try {
-      return process.env.VERCEL_GIT_COMMIT_MESSAGE;
-    } catch {
-      return undefined;
-    }
-  })();
-
-  const vercelGitRepoOwner = (() => {
-    try {
-      return process.env.VERCEL_GIT_REPO_OWNER;
-    } catch {
-      return undefined;
-    }
-  })();
-
-  const vercelGitRepoSlug = (() => {
-    try {
-      return process.env.VERCEL_GIT_REPO_SLUG;
-    } catch {
-      return undefined;
-    }
-  })();
-
-  const vercelGitPullRequestNumber = (() => {
-    try {
-      return process.env.VERCEL_GIT_PULL_REQUEST_NUMBER;
-    } catch {
-      return undefined;
-    }
-  })();
+  const _vercelGitCommitMessage =
+    typeof window === 'undefined' ? process.env.VERCEL_GIT_COMMIT_MESSAGE : undefined;
 
   // === COMPUTED VALUES ===
   // These are derived from the environment variables above
@@ -160,8 +100,11 @@ export function DeploymentDebugPanel({
   const isPreview = vercelEnv === 'preview';
   const isDevelopment = vercelEnv === 'development' || nodeEnv === 'development';
 
-  const shortCommitSha = vercelGitCommitSha ? vercelGitCommitSha.substring(0, 8) : 'local';
-  const branchName = vercelGitCommitRef || 'main';
+  const shortCommitSha =
+    vercelGitCommitSha && vercelGitCommitSha.length >= 8
+      ? vercelGitCommitSha.substring(0, 8)
+      : undefined;
+  const branchName = vercelGitCommitRef || undefined;
 
   // Determine deployment type
   const deploymentType = isProduction
@@ -205,11 +148,13 @@ export function DeploymentDebugPanel({
 
         {/* Git Information */}
         <div>
-          <span className="opacity-70">Branch:</span> <span>{branchName}</span>
+          <span className="opacity-70">Branch:</span>{' '}
+          <span>{branchName ?? 'unavailable on client'}</span>
         </div>
 
         <div>
-          <span className="opacity-70">Commit:</span> <span>{shortCommitSha}</span>
+          <span className="opacity-70">Commit:</span>{' '}
+          <span>{shortCommitSha ?? 'unavailable on client'}</span>
         </div>
 
         {/* Deployment Information */}
