@@ -7,6 +7,7 @@ on:
       - 'apps/**'
       - 'packages/**'
       - 'tools/storybook/**'
+      - 'tools/e2e/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'turbo.json'
@@ -72,6 +73,22 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
+      
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+      
+      - name: Run E2E smoke tests
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.preview-url }}
+        run: pnpm test:e2e
+      
+      - name: Upload E2E artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-pr-${{ github.run_number }}
+          path: tools/e2e/test-results/
+          retention-days: 3
       
       - name: Comment PR with Preview URL
         if: github.event_name == 'pull_request'

@@ -2,7 +2,7 @@ import { DeploymentDebugPanel } from '@kartuli/ui/components/DeploymentDebugPane
 
 export default function Page() {
   return (
-    <div>
+    <div data-testid="game-home">
       <h1>Game Client</h1>
       <DeploymentDebugPanel
         appName="@kartuli/game-client"

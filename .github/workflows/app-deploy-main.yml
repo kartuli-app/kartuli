@@ -7,6 +7,7 @@ on:
       - 'apps/game-client/**'
       - 'packages/ui/**'
       - 'packages/theme/**'
+      - 'tools/e2e/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'turbo.json'
@@ -66,6 +67,7 @@ jobs:
         run: pnpm turbo run build
       
       - name: Deploy to Vercel
+        id: deploy
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -73,3 +75,19 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
           scope: ${{ secrets.VERCEL_ORG_ID }}
+      
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium
+      
+      - name: Run E2E smoke tests on production
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.url }}
+        run: pnpm test:e2e
+      
+      - name: Upload E2E artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-main-${{ github.run_number }}
+          path: tools/e2e/test-results/
+          retention-days: 3
