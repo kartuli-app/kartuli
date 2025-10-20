@@ -14,7 +14,9 @@ test.describe('Game Client Smoke Tests', () => {
     }
 
     // Wait for the main heading to be visible with longer timeout
-    await expect(page.getByRole('heading', { name: 'Game Client' })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: 'Game Client' })).toBeVisible({
+      timeout: 10000,
+    });
 
     // Assert the heading is within the viewport
     const heading = page.getByRole('heading', { name: 'Game Client' });
@@ -54,11 +56,11 @@ test.describe('Game Client Smoke Tests', () => {
     await page.waitForLoadState('networkidle');
 
     // Filter out expected/acceptable errors
-    const criticalErrors = consoleErrors.filter(error => {
+    const criticalErrors = consoleErrors.filter((error) => {
       // Ignore authentication/authorization errors (common in preview deployments)
       if (error.includes('401') || error.includes('403')) return false;
       // Ignore provider account errors (common in preview deployments)
-      if (error.includes('Provider\'s accounts list is empty')) return false;
+      if (error.includes("Provider's accounts list is empty")) return false;
       // Ignore resource loading errors for external services
       if (error.includes('Failed to load resource')) return false;
       // All other errors are considered critical
