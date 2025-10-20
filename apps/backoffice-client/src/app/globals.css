@@ -17,15 +17,11 @@
 /* Import pre-built UI component styles */
 @import "@kartuli/ui/styles.css";
 
+/* Import app-specific theme overrides */
+@import "./theme.css";
+
 /* Tell Tailwind to scan app files for classes */
 @source "../";
 
-/* App-specific theme overrides (backoffice) */
-:root {
-  /* Override primary color for backoffice branding */
-  --color-primary-500: oklch(50% 0.18 200);
-  --color-primary-600: oklch(42% 0.16 200);
-
-  /* Professional, muted secondary */
-  --color-secondary-500: oklch(60% 0.12 180);
-}
+/* Import pre-built UI component styles */
+@source "../../../../packages/ui/";

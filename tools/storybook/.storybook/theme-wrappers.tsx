@@ -9,11 +9,9 @@ export const GameThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
     <div
       style={
         {
-          // Override primary color for game branding
-          '--color-primary-500': 'oklch(60% 0.25 280)',
-          '--color-primary-600': 'oklch(52% 0.23 280)',
-          // Game-specific accent
-          '--color-secondary-500': 'oklch(70% 0.22 340)',
+          // Game theme overrides
+          '--color-ink': 'oklch(15% 0 0)',
+          '--color-canvas': 'oklch(99% 0 0)',
         } as React.CSSProperties
       }
     >
@@ -27,11 +25,9 @@ export const BackofficeThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }
     <div
       style={
         {
-          // Override primary color for backoffice branding
-          '--color-primary-500': 'oklch(50% 0.18 200)',
-          '--color-primary-600': 'oklch(42% 0.16 200)',
-          // Professional, muted secondary
-          '--color-secondary-500': 'oklch(60% 0.12 180)',
+          // Backoffice theme overrides
+          '--color-ink': 'oklch(20% 0 0)',
+          '--color-canvas': 'oklch(98% 0 0)',
         } as React.CSSProperties
       }
     >

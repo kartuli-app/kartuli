@@ -12,7 +12,8 @@
 /* Import pre-built UI component styles */
 @import "@kartuli/ui/styles.css";
 
+/* Import all app theme files */
+@import "./themes.css";
+
 /* Tell Tailwind to scan story files for classes */
 @source "../";
-
-/* Theme overrides are now handled by React wrappers in preview.tsx */

@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 /**
@@ -12,6 +13,8 @@ interface DeploymentDebugPanelProps {
   appVersion: string;
   /** Show additional debug information */
   showDetailed?: boolean;
+  /** Class name for the component */
+  className?: string;
 }
 
 /**
@@ -30,11 +33,13 @@ interface DeploymentDebugPanelProps {
  * @param appName - Required application name for proper debugging
  * @param appVersion - Required application version for proper debugging
  * @param showDetailed - Optional flag to show additional runtime information
+ * @param className - Optional class name for the component
  */
 export function DeploymentDebugPanel({
   appName,
   appVersion,
   showDetailed = false,
+  className,
 }: DeploymentDebugPanelProps) {
   // === CLIENT-SIDE TIME HANDLING ===
   // Fix hydration mismatch by using useState/useEffect for client-side time
@@ -89,76 +94,71 @@ export function DeploymentDebugPanel({
         ? 'Development'
         : 'Unknown';
 
+  const debugPanelClassName = clsx(
+    'fixed bottom-4 right-4 p-4 rounded-lg shadow text-xs font-mono max-w-sm',
+    'text-canvas bg-ink',
+    className,
+  );
+
   return (
-    <div className="fixed bottom-4 right-4 bg-gray-900 text-white p-4 rounded-lg shadow-lg text-xs font-mono max-w-sm border border-gray-700">
-      <div className="font-bold mb-3 text-blue-400">🔧 Debug Info ({deploymentType})</div>
+    <div className={debugPanelClassName}>
+      <div className="font-bold mb-3">🔧 Debug Info ({deploymentType})</div>
 
       <div className="space-y-2">
         {/* Application Information */}
         <div>
-          <span className="text-gray-400">App:</span>{' '}
-          <span className="text-white font-bold">{appName}</span>
+          <span className="opacity-70">App:</span> <span className="font-bold">{appName}</span>
         </div>
 
         <div>
-          <span className="text-gray-400">Version:</span>{' '}
-          <span className="text-cyan-400">{appVersion}</span>
+          <span className="opacity-70">Version:</span> <span>{appVersion}</span>
         </div>
 
         {/* Environment Information */}
         <div>
-          <span className="text-gray-400">Environment:</span>{' '}
-          <span
-            className={`font-bold ${isProduction ? 'text-green-400' : isPreview ? 'text-yellow-400' : 'text-blue-400'}`}
-          >
-            {nodeEnv}
-          </span>
+          <span className="opacity-70">Environment:</span>{' '}
+          <span className="font-bold">{nodeEnv}</span>
         </div>
 
         <div>
-          <span className="text-gray-400">Vercel Env:</span>{' '}
-          <span className="text-blue-400 font-bold">{vercelEnv || 'local'}</span>
+          <span className="opacity-70">Vercel Env:</span>{' '}
+          <span className="font-bold">{vercelEnv || 'local'}</span>
         </div>
 
         {/* Git Information */}
         <div>
-          <span className="text-gray-400">Branch:</span>{' '}
-          <span className="text-yellow-400">{branchName}</span>
+          <span className="opacity-70">Branch:</span> <span>{branchName}</span>
         </div>
 
         <div>
-          <span className="text-gray-400">Commit:</span>{' '}
-          <span className="text-gray-300">{shortCommitSha}</span>
+          <span className="opacity-70">Commit:</span> <span>{shortCommitSha}</span>
         </div>
 
         {/* Deployment Information */}
         {vercelUrl && (
           <div>
-            <span className="text-gray-400">URL:</span>{' '}
-            <span className="text-purple-400 break-all">{vercelUrl}</span>
+            <span className="opacity-70">URL:</span> <span className="break-all">{vercelUrl}</span>
           </div>
         )}
 
         {vercelRegion && (
           <div>
-            <span className="text-gray-400">Region:</span>{' '}
-            <span className="text-cyan-400">{vercelRegion}</span>
+            <span className="opacity-70">Region:</span> <span>{vercelRegion}</span>
           </div>
         )}
 
         {/* PR Information (Preview deployments only) */}
         {vercelGitPullRequestNumber && (
           <div>
-            <span className="text-gray-400">PR:</span>{' '}
-            <span className="text-orange-400">#{vercelGitPullRequestNumber}</span>
+            <span className="opacity-70">PR:</span> <span>#{vercelGitPullRequestNumber}</span>
           </div>
         )}
 
         {/* Repository Information */}
         {vercelGitRepoOwner && vercelGitRepoSlug && (
           <div>
-            <span className="text-gray-400">Repo:</span>{' '}
-            <span className="text-indigo-400">
+            <span className="opacity-70">Repo:</span>{' '}
+            <span>
               {vercelGitRepoOwner}/{vercelGitRepoSlug}
             </span>
           </div>
@@ -168,10 +168,10 @@ export function DeploymentDebugPanel({
         {showDetailed && (
           <>
             {/* Runtime Information */}
-            <div className="pt-2 border-t border-gray-600">
+            <div className="pt-2 border-t">
               <div>
-                <span className="text-gray-400">User Agent:</span>{' '}
-                <span className="text-gray-300 text-xs break-all">
+                <span className="opacity-70">User Agent:</span>{' '}
+                <span className="text-xs break-all">
                   {typeof window !== 'undefined'
                     ? `${window.navigator.userAgent.substring(0, 50)}...`
                     : 'Server-side'}
@@ -179,32 +179,28 @@ export function DeploymentDebugPanel({
               </div>
 
               <div>
-                <span className="text-gray-400">Platform:</span>{' '}
-                <span className="text-gray-300">
-                  {typeof window !== 'undefined' ? window.navigator.platform : 'Server'}
-                </span>
+                <span className="opacity-70">Platform:</span>{' '}
+                <span>{typeof window !== 'undefined' ? window.navigator.platform : 'Server'}</span>
               </div>
 
               <div>
-                <span className="text-gray-400">Language:</span>{' '}
-                <span className="text-gray-300">
-                  {typeof window !== 'undefined' ? window.navigator.language : 'Server'}
-                </span>
+                <span className="opacity-70">Language:</span>{' '}
+                <span>{typeof window !== 'undefined' ? window.navigator.language : 'Server'}</span>
               </div>
             </div>
           </>
         )}
 
         {/* Build Information */}
-        <div className="pt-2 border-t border-gray-600">
+        <div className="pt-2 border-t">
           <div>
-            <span className="text-gray-400">Build:</span>{' '}
-            <span className="text-gray-300 text-xs">
+            <span className="opacity-70">Build:</span>{' '}
+            <span className="text-xs">
               {buildTime === 'loading...' ? 'loading...' : new Date(buildTime).toLocaleString()}
             </span>
           </div>
 
-          <div className="text-gray-400 text-xs mt-2">
+          <div className="opacity-70 text-xs mt-2">
             <div>💡 Environment variables are injected at build time</div>
             <div>🌐 Some variables are server-side only</div>
             <div>🔒 Sensitive data is not exposed to client</div>

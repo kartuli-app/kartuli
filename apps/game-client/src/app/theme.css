@@ -1,0 +1,12 @@
+/**
+ * Game Client Theme Overrides
+ * 
+ * This file defines the game-specific theme values.
+ * Import this after the shared theme in globals.css.
+ */
+
+:root {
+  /* Minimal semantic overrides */
+  --color-ink: oklch(15% 0 0);
+  --color-canvas: oklch(99% 0 0);
+}

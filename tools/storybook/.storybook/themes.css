@@ -1,0 +1,10 @@
+/**
+ * Storybook Theme Files
+ * 
+ * This file imports all app-specific theme files so Storybook
+ * can switch between different app themes.
+ */
+
+/* Import all app theme files */
+@import "../../apps/game-client/src/app/theme.css";
+@import "../../apps/backoffice-client/src/app/theme.css";

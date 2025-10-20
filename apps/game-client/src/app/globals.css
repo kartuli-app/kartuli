@@ -17,15 +17,11 @@
 /* Import pre-built UI component styles */
 @import "@kartuli/ui/styles.css";
 
+/* Import app-specific theme overrides */
+@import "./theme.css";
+
 /* Tell Tailwind to scan app files for classes */
 @source "../";
 
-/* App-specific theme overrides (game client) */
-:root {
-  /* Override primary color for game branding */
-  --color-primary-500: oklch(60% 0.25 280);
-  --color-primary-600: oklch(52% 0.23 280);
-
-  /* Game-specific accent */
-  --color-secondary-500: oklch(70% 0.22 340);
-}
+/* Import pre-built UI component styles */
+@source "../../../../packages/ui/";
