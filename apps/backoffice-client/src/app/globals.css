@@ -3,27 +3,25 @@
  *
  * Order matters:
  * 1. Tailwind directives
- * 2. Source scanning for UI components
- * 3. Theme contract from @kartuli/theme
+ * 2. Theme contract from @kartuli/tailwind-config
+ * 3. Pre-built UI component styles
  * 4. App-specific value overrides
  */
 
 /* Tailwind v4 import */
 @import "tailwindcss";
 
-/* Import theme to get @theme block with custom colors */
-@import "@kartuli/theme/default-theme.css";
+/* Import shared theme configuration */
+@import "@kartuli/tailwind-config";
 
-/* Tell Tailwind to scan UI package and app files for classes */
-@source "../../packages/ui/src";
+/* Import pre-built UI component styles */
+@import "@kartuli/ui/styles.css";
+
+/* Import app-specific theme overrides */
+@import "./theme.css";
+
+/* Tell Tailwind to scan app files for classes */
 @source "../";
 
-/* App-specific theme overrides (backoffice) */
-:root {
-  /* Override primary color for backoffice branding */
-  --color-primary-500: oklch(50% 0.18 200);
-  --color-primary-600: oklch(42% 0.16 200);
-
-  /* Professional, muted secondary */
-  --color-secondary-500: oklch(60% 0.12 180);
-}
+/* Import pre-built UI component styles */
+@source "../../../../packages/ui/";

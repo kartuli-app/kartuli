@@ -2,8 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   },
-  "include": [".storybook/**/*"],
+  "include": [".storybook/**/*", "storybook.css"],
   "exclude": ["node_modules", "storybook-static"]
 }

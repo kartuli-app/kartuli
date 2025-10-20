@@ -1,0 +1,12 @@
+/**
+ * Backoffice Client Theme Overrides
+ *
+ * This file defines the backoffice-specific theme values.
+ * Import this after the shared theme in globals.css.
+ */
+
+:root {
+  /* Minimal semantic overrides */
+  --color-ink: oklch(20.13% 0.05785 148.293);
+  --color-canvas: oklch(80.668% 0.0999 252.641);
+}

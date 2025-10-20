@@ -1,0 +1,23 @@
+/**
+ * @kartuli/tailwind-config - Shared Tailwind Styles
+ *
+ * This file declares the token CONTRACT (names) for the Kartuli design system.
+ *
+ * Rules:
+ * - @theme must be top-level only (no selectors/media nesting)
+ * - Apps override token VALUES using selectors (:root, [data-theme])
+ * - New token NAMES (if ever needed) are declared via @theme at top level in the app
+ */
+
+@import "tailwindcss";
+
+@theme {
+  /* ============================================
+     COLORS (OKLCH)
+     ============================================ */
+
+  /* Semantic colors */
+  /* App-level minimal semantic tokens */
+  --color-ink: lime; /* default text color */
+  --color-canvas: grey; /* default background color */
+}

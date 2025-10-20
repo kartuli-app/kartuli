@@ -50,7 +50,7 @@
         "package.json",
         "pnpm-lock.yaml"
       ],
-      "outputs": ["**/*.tsbuildinfo"]
+      "outputs": []
     }
   }
 }
