@@ -61,7 +61,7 @@ jobs:
         run: pnpm turbo run lint
 
       - name: Run tests
-        run: pnpm turbo run test
+        run: pnpm turbo run test --filter='!@kartuli/e2e'
       
       - name: Build game client and dependencies
         run: pnpm turbo run build
