@@ -23,7 +23,9 @@ test.describe('Game Client Smoke Tests', () => {
     await expect(heading).toBeInViewport();
 
     // Check for the new h2 element
-    await expect(page.getByRole('heading', { name: 'E2E Testing Implementation Complete' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'E2E Testing Implementation Complete' }),
+    ).toBeVisible();
 
     // Check for the stable test selector (if available)
     const gameHomeElement = page.getByTestId('game-home');
