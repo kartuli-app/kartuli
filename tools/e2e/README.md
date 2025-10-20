@@ -10,19 +10,20 @@ The E2E tests use Vercel's Protection Bypass feature to test against preview URL
    - Go to your Vercel project settings
    - Navigate to "Security" → "Deployment Protection"
    - Enable "Protection Bypass for Automation"
-   - Copy the generated secret
+   - Copy the generated secret (this will be `VERCEL_AUTOMATION_BYPASS_SECRET`)
 
 2. **Add Secret to GitHub:**
    - Go to your GitHub repository settings
    - Navigate to "Secrets and variables" → "Actions"
    - Add a new repository secret:
      - **Name**: `VERCEL_PROTECTION_BYPASS_SECRET`
-     - **Value**: The secret from Vercel
+     - **Value**: The secret from Vercel (same value as `VERCEL_AUTOMATION_BYPASS_SECRET`)
 
 3. **How It Works:**
-   - The E2E tests automatically detect the `VERCEL_PROTECTION_BYPASS_SECRET` environment variable
-   - If present, they add the `x-vercel-protection-bypass` header to all requests
-   - This allows tests to bypass Vercel's deployment protection
+   - Vercel provides the secret as `VERCEL_AUTOMATION_BYPASS_SECRET` environment variable
+   - Our E2E tests use `VERCEL_PROTECTION_BYPASS_SECRET` environment variable
+   - GitHub Actions passes the secret from GitHub Secrets to the E2E tests
+   - Tests add the `x-vercel-protection-bypass` header to bypass protection
 
 ### Testing Locally
 
