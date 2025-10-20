@@ -76,6 +76,14 @@ jobs:
           vercel-args: '--prod'
           scope: ${{ secrets.VERCEL_ORG_ID }}
       
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ hashFiles('tools/e2e/package.json') }}
+          restore-keys: |
+            playwright-browsers-
+
       - name: Install Playwright browsers
         run: pnpm --filter @kartuli/e2e exec playwright install chromium
       
