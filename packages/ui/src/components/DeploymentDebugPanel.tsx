@@ -96,7 +96,7 @@ export function DeploymentDebugPanel({
 
   const debugPanelClassName = clsx(
     'fixed bottom-4 right-4 p-4 rounded-lg shadow text-xs font-mono max-w-sm',
-    'text-canvas bg-ink',
+    'text-ink bg-canvas',
     className,
   );
 

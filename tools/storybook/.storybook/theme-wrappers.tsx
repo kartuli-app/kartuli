@@ -9,9 +9,9 @@ export const GameThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }) => {
     <div
       style={
         {
-          // Game theme overrides
-          '--color-ink': 'oklch(15% 0 0)',
-          '--color-canvas': 'oklch(99% 0 0)',
+          // Game theme overrides - matches apps/game-client/src/app/theme.css
+          '--color-ink': 'oklch(64.884% 0.23697 26.959)',
+          '--color-canvas': 'oklch(95.383% 0.20324 115.598)',
         } as React.CSSProperties
       }
     >
@@ -25,9 +25,9 @@ export const BackofficeThemeWrapper: React.FC<ThemeWrapperProps> = ({ children }
     <div
       style={
         {
-          // Backoffice theme overrides
-          '--color-ink': 'oklch(20% 0 0)',
-          '--color-canvas': 'oklch(98% 0 0)',
+          // Backoffice theme overrides - matches apps/backoffice-client/src/app/theme.css
+          '--color-ink': 'oklch(20.13% 0.05785 148.293)',
+          '--color-canvas': 'oklch(80.668% 0.0999 252.641)',
         } as React.CSSProperties
       }
     >

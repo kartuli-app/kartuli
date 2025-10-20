@@ -7,6 +7,6 @@
 
 :root {
   /* Minimal semantic overrides */
-  --color-ink: oklch(20% 0 0);
-  --color-canvas: oklch(98% 0 0);
+  --color-ink: oklch(20.13% 0.05785 148.293);
+  --color-canvas: oklch(80.668% 0.0999 252.641);
 }
