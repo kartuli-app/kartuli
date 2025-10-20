@@ -77,7 +77,6 @@ jobs:
           scope: ${{ secrets.VERCEL_ORG_ID }}
           github-comment: true
           github-deployment: false
-          working-directory: 'apps/game-client'
       
       - name: Cache Playwright browsers
         uses: actions/cache@v4
