@@ -22,6 +22,9 @@ test.describe('Game Client Smoke Tests', () => {
     const heading = page.getByRole('heading', { name: 'Game Client' });
     await expect(heading).toBeInViewport();
 
+    // Check for the new h2 element
+    await expect(page.getByRole('heading', { name: 'E2E Testing Implementation Complete' })).toBeVisible();
+
     // Check for the stable test selector (if available)
     const gameHomeElement = page.getByTestId('game-home');
     if (await gameHomeElement.isVisible().catch(() => false)) {
