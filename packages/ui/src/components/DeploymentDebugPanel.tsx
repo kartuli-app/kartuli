@@ -53,13 +53,17 @@ export function DeploymentDebugPanel({
   // === APPLICATION INFORMATION ===
   // Now using required props directly - no fallback to unreliable process.env
 
-  const buildTime = (() => {
+  const buildTimeRaw = (() => {
     try {
       return process.env.BUILD_TIME || clientTime || 'loading...';
     } catch {
       return clientTime || 'loading...';
     }
   })();
+
+  const buildDate = buildTimeRaw !== 'loading...' ? new Date(buildTimeRaw) : null;
+  const buildTimeFormatted =
+    buildDate && !Number.isNaN(buildDate.getTime()) ? buildDate.toLocaleString() : 'unknown';
 
   // === CLIENT-SIDE ENVIRONMENT VARIABLES ===
   // These are available in the browser and can be accessed via process.env
@@ -270,7 +274,7 @@ export function DeploymentDebugPanel({
           <div>
             <span className="opacity-70">Build:</span>{' '}
             <span className="text-xs">
-              {buildTime === 'loading...' ? 'loading...' : new Date(buildTime).toLocaleString()}
+              {buildTimeRaw === 'loading...' ? 'loading...' : buildTimeFormatted}
             </span>
           </div>
 

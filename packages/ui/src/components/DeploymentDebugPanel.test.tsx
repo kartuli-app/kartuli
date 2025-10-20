@@ -3,23 +3,42 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { DeploymentDebugPanel } from './DeploymentDebugPanel';
 
 // Mock environment variables
-const originalEnv = process.env;
+const ENV_KEYS = [
+  'NODE_ENV',
+  'VERCEL_ENV',
+  'VERCEL_GIT_COMMIT_REF',
+  'VERCEL_GIT_COMMIT_SHA',
+  'VERCEL_URL',
+] as const;
+
+type EnvKey = (typeof ENV_KEYS)[number];
+const originalEnvValues: Partial<Record<EnvKey, string | undefined>> = {};
 
 beforeEach(() => {
-  cleanup(); // Clean up any previous renders
-  process.env = {
-    ...originalEnv,
-    NODE_ENV: 'test',
-    VERCEL_ENV: 'preview',
-    VERCEL_GIT_COMMIT_REF: 'feature/test-branch',
-    VERCEL_GIT_COMMIT_SHA: 'abc123def456',
-    VERCEL_URL: 'test-app.vercel.app',
-  };
+  cleanup();
+  // snapshot
+  for (const key of ENV_KEYS) {
+    originalEnvValues[key] = process.env[key];
+  }
+  // set test values
+  process.env.NODE_ENV = 'test';
+  process.env.VERCEL_ENV = 'preview';
+  process.env.VERCEL_GIT_COMMIT_REF = 'feature/test-branch';
+  process.env.VERCEL_GIT_COMMIT_SHA = 'abc123def456';
+  process.env.VERCEL_URL = 'test-app.vercel.app';
 });
 
 afterEach(() => {
-  cleanup(); // Clean up after each test
-  process.env = originalEnv;
+  cleanup();
+  // restore snapshot
+  for (const key of ENV_KEYS) {
+    const val = originalEnvValues[key];
+    if (val === undefined) {
+      delete process.env[key];
+    } else {
+      process.env[key] = val;
+    }
+  }
 });
 
 describe('DeploymentDebugPanel', () => {
