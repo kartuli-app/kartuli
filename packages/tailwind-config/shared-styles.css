@@ -18,6 +18,6 @@
 
   /* Semantic colors */
   /* App-level minimal semantic tokens */
-  --color-ink: pink; /* default text color */
-  --color-canvas: brown; /* default background color */
+  --color-ink: lime; /* default text color */
+  --color-canvas: grey; /* default background color */
 }
