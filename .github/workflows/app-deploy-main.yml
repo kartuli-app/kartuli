@@ -77,7 +77,7 @@ jobs:
           scope: ${{ secrets.VERCEL_ORG_ID }}
       
       - name: Install Playwright browsers
-        run: pnpm exec playwright install chromium
+        run: pnpm --filter @kartuli/e2e exec playwright install chromium
       
       - name: Run E2E smoke tests on production
         env:
