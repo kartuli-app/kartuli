@@ -231,6 +231,70 @@ Standard template for all pull requests.
 
 **Important**: PR title must follow conventional commit format.
 
+## Git Hooks
+
+We use **Lefthook** to run fast, local checks that improve developer experience without replacing CI as the source of truth. Hooks are automatically installed when you run `pnpm install`.
+
+### What Hooks Do
+
+**Pre-commit** (target: <3s):
+- **Format**: Auto-fixes code formatting using Biome
+- **Lint**: Runs linting with safe auto-fixes, fails on remaining errors
+- **Foot-gun guards**: 
+  - Blocks merge conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+  - Prevents large files (>5MB) in `src/` directories
+  - Warns about debug patterns (`console.log`, `debugger`, `alert()`)
+
+**Commit-msg**:
+- **Conventional Commits**: Enforces commit message format
+- Format: `<type>(<scope>): <description>`
+- Supported types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `perf`, `style`, `ci`
+
+**Pre-push** (target: <60s):
+- **Typecheck**: Runs TypeScript checks on affected packages only
+- **Unit tests**: Runs tests on affected packages (excludes E2E tests)
+
+### Time Budgets
+
+- **Pre-commit**: <3 seconds on typical changes
+- **Pre-push**: <60 seconds on typical changes
+- Hooks only run on staged files (pre-commit) or affected workspaces (pre-push)
+
+### Fixing Hook Failures
+
+**Formatting issues**:
+```bash
+pnpm lint:fix  # Auto-fix formatting and linting issues
+```
+
+**Commit message format**:
+```bash
+git commit --amend -m "feat(game-client): add user authentication"
+```
+
+**Large files**:
+- Remove large files from `src/` directories
+- Add them to `.gitignore` if they're needed elsewhere
+
+**Debug patterns**:
+- Remove `console.log`, `debugger`, `alert()` statements
+- Or use `git commit --no-verify` for emergency commits
+
+### Bypass Policy
+
+**Emergency bypass**: Use `git commit --no-verify` or `git push --no-verify`
+
+**Important**: Bypassing hooks doesn't bypass CI. All merges are still gated by required CI checks (typecheck, lint, tests, E2E).
+
+### Setup
+
+Hooks are automatically installed when you run:
+```bash
+pnpm install
+```
+
+The `prepare` script runs `lefthook install` after package installation.
+
 ## AI-Assisted Workflow
 
 For complete guidance on using AI to assist with issue creation and implementation, see the **[AI-Assisted Workflow Guide](./ai-assisted-workflow.md)**.

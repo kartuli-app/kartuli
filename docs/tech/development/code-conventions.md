@@ -6,10 +6,51 @@ title: Code Conventions
 # Code conventions
 
 ## Commit Convention
+
 Always use conventional commit format for all commits:
-- Format: `<type>[optional scope]: <description>`
-- Types: feat, fix, docs, style, refactor, perf, test, chore
-- Examples: `docs: add project overview`, `feat(auth): add social login`
+
+### Format
+```
+<type>[optional scope]: <description>
+```
+
+### Supported Types
+- **feat**: New feature
+- **fix**: Bug fix  
+- **chore**: Infrastructure, setup tasks, non-feature work
+- **docs**: Documentation changes
+- **test**: Testing-related changes
+- **refactor**: Code refactoring
+- **perf**: Performance improvements
+- **style**: Code style changes (formatting, etc.)
+- **ci**: CI/CD changes
+
+### Scope Examples
+Use scopes to indicate which part of the monorepo is affected:
+- `game-client` - Game client application
+- `backoffice-client` - Backoffice client application  
+- `ui` - UI package
+- `storybook` - Storybook tool
+- `e2e` - E2E testing
+- `global` - Shared packages or general repository tasks
+
+### Examples
+```bash
+feat(game-client): add user authentication
+fix(ui): resolve button alignment on mobile
+docs: update contributing guidelines
+chore(e2e): upgrade Playwright to v1.40
+test: add unit tests for auth module
+refactor(ui): extract common button component
+perf(game-client): optimize image loading
+style: fix code formatting
+ci: add automated dependency updates
+```
+
+### Enforcement
+- **Local**: Git hooks validate commit messages automatically
+- **CI**: PR titles must follow the same format
+- **Specification**: [Conventional Commits](https://www.conventionalcommits.org/)
 
 ## Code Style
 - Use TypeScript for all new code

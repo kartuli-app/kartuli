@@ -17,10 +17,12 @@
     "typecheck": "turbo run typecheck",
     "docs:dev": "vitepress dev tools/web-docs-client",
     "docs:build": "vitepress build tools/web-docs-client",
-    "docs:preview": "vitepress preview tools/web-docs-client"
+    "docs:preview": "vitepress preview tools/web-docs-client",
+    "prepare": "git rev-parse --git-dir > /dev/null 2>&1 && lefthook install || echo 'Skipping lefthook install (not in git repo)'"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
+    "lefthook": "^1.6.0",
     "turbo": "^2.0.0",
     "vitepress": "catalog:"
   }
