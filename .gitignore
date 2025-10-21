@@ -12,6 +12,11 @@ coverage/
 *.lcov
 .nyc_output
 
+# E2E Testing
+tools/e2e/test-results/
+tools/e2e/playwright-report/
+tools/e2e/test-results.xml
+
 # Next.js
 .next/
 out/

@@ -27,7 +27,7 @@ Status: 🟢 Active | ⚫ Planned | 🟡 To be discussed
 | **Postgres** | ⚫ | Database (Server) | Supabase |
 | **PWA** | ⚫ | Platform | Installable app |
 | **vitest** | 🟢 | Testing | • Integration tests<br>• Unit tests|
-| **Playwright** | ⚫ | Testing | e2e tests |
+| **Playwright** | 🟢 | Testing | e2e tests |
 | **Lighthouse CI** | ⚫ | Quality | • Performance<br>• Accessibility monitoring<br>• Runs on GitHub Actions |
 | **Fuse.js** | ⚫ | Search | • Client-side<br>• offline-first |
 | | 🟡 | Internationalization | Options:<br>• intlayer<br>• next-intl<br>• i18next |

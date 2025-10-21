@@ -7,6 +7,7 @@ on:
       - 'apps/**'
       - 'packages/**'
       - 'tools/storybook/**'
+      - 'tools/e2e/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'turbo.json'
@@ -62,7 +63,7 @@ jobs:
         run: pnpm turbo run lint
 
       - name: Run tests
-        run: pnpm turbo run test
+        run: pnpm test
       
       - name: Deploy to Vercel Preview
         id: deploy
@@ -72,6 +73,33 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
+          github-comment: true
+          github-deployment: false
+      
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ hashFiles('tools/e2e/package.json') }}
+          restore-keys: |
+            playwright-browsers-
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @kartuli/e2e exec playwright install chromium
+      
+      - name: Run E2E smoke tests
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.preview-url }}
+          VERCEL_PROTECTION_BYPASS_SECRET: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET }}
+        run: pnpm test:e2e
+      
+      - name: Upload E2E artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-pr-${{ github.run_number }}
+          path: tools/e2e/test-results/
+          retention-days: 3
       
       - name: Comment PR with Preview URL
         if: github.event_name == 'pull_request'

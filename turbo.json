@@ -26,6 +26,10 @@
       "outputs": [".vitepress/dist/**"]
     },
     "test": {},
+    "test:e2e": {
+      "cache": false,
+      "dependsOn": []
+    },
     "lint": {
       "cache": true,
       "inputs": [
