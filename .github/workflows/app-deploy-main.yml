@@ -91,7 +91,7 @@ jobs:
       
       - name: Run E2E smoke tests on production
         env:
-          BASE_URL: ${{ steps.deploy.outputs.url }}
+          BASE_URL: https://www.kartuli.app
           VERCEL_PROTECTION_BYPASS_SECRET: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET }}
         run: pnpm test:e2e
       
