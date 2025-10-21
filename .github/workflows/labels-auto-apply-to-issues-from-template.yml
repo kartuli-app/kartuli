@@ -22,9 +22,9 @@ jobs:
             const issueBody = context.payload.issue.body || '';
             const issueNumber = context.payload.issue.number;
             
-            // Extract only the labels section (from ## Type to first ---)
+            // Extract only the labels section (from ## Type to ## Description or end of labels section)
             // This prevents matching checkboxes in Acceptance Criteria or other sections
-            const labelSectionMatch = issueBody.match(/## Type[\s\S]*?(?=\n---|\n## Description|$)/i);
+            const labelSectionMatch = issueBody.match(/## Type[\s\S]*?(?=\n## Description|\n---\n\n## Description|$)/i);
             
             if (!labelSectionMatch) {
               console.log('No labels section found in issue template');
