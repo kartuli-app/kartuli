@@ -105,10 +105,9 @@ jobs:
 
       - name: Run Lighthouse CI on Production
         env:
-          BASE_URL: https://www.kartuli.app
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "error"
-        run: pnpm lighthouse
+        run: pnpm exec lhci autorun --collect.url="https://www.kartuli.app"
       
       - name: Upload Lighthouse CI artifacts on failure
         if: failure()

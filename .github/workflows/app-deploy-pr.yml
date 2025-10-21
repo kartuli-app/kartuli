@@ -103,11 +103,10 @@ jobs:
 
       - name: Run Lighthouse CI on Preview
         env:
-          BASE_URL: ${{ steps.deploy.outputs.preview-url }}
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "warn"
           # Note: Warm-up period until ~Oct 28, 2025, then switch to "error"
-        run: pnpm lighthouse
+        run: pnpm exec lhci autorun --collect.url="${{ steps.deploy.outputs.preview-url }}"
       
       - name: Upload Lighthouse CI artifacts
         if: always()
