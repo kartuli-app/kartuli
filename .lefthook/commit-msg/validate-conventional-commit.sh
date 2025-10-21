@@ -5,8 +5,8 @@
 
 commit_msg_file="$1"
 
-# Read the commit message
-commit_msg=$(cat "$commit_msg_file")
+# Read the first non-comment line of the commit message
+commit_msg=$(grep -v '^#' "$commit_msg_file" | head -n 1)
 
 # Conventional Commits regex pattern
 # Supports: feat, fix, chore, docs, test, refactor, perf, style, ci
