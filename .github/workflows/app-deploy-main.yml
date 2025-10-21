@@ -104,10 +104,22 @@ jobs:
           retention-days: 3
 
       - name: Run Lighthouse CI on Production
+        id: lighthouse
         env:
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "error"
-        run: pnpm exec lhci autorun --collect.url="https://www.kartuli.app"
+        run: |
+          # Run Lighthouse CI and capture the report URL
+          pnpm exec lhci autorun --collect.url="https://www.kartuli.app" 2>&1 | tee lighthouse_output.txt
+          
+          # Extract the report URL from the output
+          REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+          
+          # Set the output for the next step
+          echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
+          
+          # Also output to logs for debugging
+          echo "Lighthouse report URL: ${REPORT_URL}"
       
       - name: Upload Lighthouse CI artifacts on failure
         if: failure()

@@ -102,11 +102,23 @@ jobs:
           retention-days: 3
 
       - name: Run Lighthouse CI on Preview
+        id: lighthouse
         env:
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "warn"
           # Note: Warm-up period until ~Oct 28, 2025, then switch to "error"
-        run: pnpm exec lhci autorun --collect.url="${{ steps.deploy.outputs.preview-url }}"
+        run: |
+          # Run Lighthouse CI and capture the report URL
+          pnpm exec lhci autorun --collect.url="${{ steps.deploy.outputs.preview-url }}" 2>&1 | tee lighthouse_output.txt
+          
+          # Extract the report URL from the output
+          REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+          
+          # Set the output for the next step
+          echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
+          
+          # Also output to logs for debugging
+          echo "Lighthouse report URL: ${REPORT_URL}"
       
       - name: Upload Lighthouse CI artifacts
         if: always()
@@ -133,15 +145,14 @@ jobs:
             );
             
             const previewUrl = '${{ steps.deploy.outputs.preview-url }}';
+            const lighthouseReportUrl = '${{ steps.lighthouse.outputs.report_url }}';
             
-            // Try to extract Lighthouse report URL from logs or artifacts
-            let lighthouseReport = 'Lighthouse report available in CI artifacts';
-            try {
-              // In a real implementation, you might parse the LHCI output for the report URL
-              // For now, we'll reference the artifacts
+            // Use the captured Lighthouse report URL or fallback to CI artifacts
+            let lighthouseReport;
+            if (lighthouseReportUrl && lighthouseReportUrl !== '') {
+              lighthouseReport = `📊 [Lighthouse Report](${lighthouseReportUrl})`;
+            } else {
               lighthouseReport = '📊 [Lighthouse Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
-            } catch (e) {
-              // Fallback to artifacts reference
             }
             
             const commentBody = `🚀 **Preview Deployment**
