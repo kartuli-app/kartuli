@@ -1,17 +1,28 @@
 {
   "ci": {
     "collect": {
-      "preset": "mobile",
       "numberOfRuns": 1,
-      "url": ["${BASE_URL}"]
+      "settings": {
+        "formFactor": "mobile",
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "cpuSlowdownMultiplier": 4
+        },
+        "screenEmulation": {
+          "mobile": true,
+          "width": 375,
+          "height": 667,
+          "deviceScaleFactor": 2
+        }
+      }
     },
     "assert": {
-      "level": "${LIGHTHOUSE_ASSERT_LEVEL}",
       "assertions": {
-        "categories:performance": ["error", { "minScore": 0.9 }],
-        "categories:accessibility": ["error", { "minScore": 0.9 }],
-        "categories:best-practices": ["error", { "minScore": 0.9 }],
-        "categories:seo": ["error", { "minScore": 0.9 }]
+        "categories:performance": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }],
+        "categories:accessibility": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }],
+        "categories:best-practices": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }],
+        "categories:seo": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }]
       }
     },
     "upload": {
