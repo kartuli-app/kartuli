@@ -49,8 +49,8 @@ Please fill out the sections below to help us understand your request.
 ## Extra Tags (Optional)
 <!-- Check any that apply -->
 
-- [ ] `good-first-issue` - Good for newcomers
-- [ ] `help-wanted` - Extra attention is needed
+- [ ] `good first issue` - Good for newcomers
+- [ ] `help wanted` - Extra attention is needed
 
 ---
 
