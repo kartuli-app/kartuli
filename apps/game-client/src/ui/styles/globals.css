@@ -18,10 +18,20 @@
 @import "@kartuli/ui/styles.css";
 
 /* Import app-specific theme overrides */
-@import "./theme.css";
-
-/* Tell Tailwind to scan app files for classes */
-@source "../";
+@import "../styles/theme.css";
 
 /* Import pre-built UI component styles */
-@source "../../../../packages/ui/";
+@source "../../../../../packages/ui/";
+
+/* Tell Tailwind to scan app files for classes */
+@source "../../";
+
+.app-layout {
+  scrollbar-gutter: stable; /* keeps space even when there's no scroll */
+}
+
+@layer utilities {
+  .font-noto-sans-georgian {
+    font-family: var(--font-noto-sans-georgian, system-ui);
+  }
+}

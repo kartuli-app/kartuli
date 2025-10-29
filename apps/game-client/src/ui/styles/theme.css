@@ -1,0 +1,41 @@
+/**
+ * Game Client Theme Overrides
+ *
+ * This file defines the game-specific theme values.
+ * Import this after the shared theme in globals.css.
+ */
+
+/* generate tailwind classes for the primary scale */
+@theme {
+  --color-ds-primary-100: var(--ds-primary-100);
+  --color-ds-primary-200: var(--ds-primary-200);
+  --color-ds-primary-300: var(--ds-primary-300);
+  --color-ds-primary-400: var(--ds-primary-400);
+  --color-ds-primary-500: var(--ds-primary-500);
+  --color-ds-primary-600: var(--ds-primary-600);
+  --color-ds-primary-700: var(--ds-primary-700);
+  --color-ds-primary-800: var(--ds-primary-800);
+  --color-ds-primary-900: var(--ds-primary-900);
+}
+
+:root {
+  --ds-primary-100: #eeecfe;
+  --ds-primary-200: #ded9fe;
+  --ds-primary-300: #bfb1fe;
+  --ds-primary-400: #a28bf3;
+  --ds-primary-500: #8d73e2;
+  --ds-primary-600: #7a5bce;
+  --ds-primary-700: #6646b6;
+  --ds-primary-800: #503097;
+  --ds-primary-900: #3a2171;
+}
+
+:root {
+  --width-sidebar: 72px;
+  --height-navbar: 64px;
+  --sidebar-padding: calc(var(--spacing) * 4);
+  --width-sidebar-with-padding: calc(var(--width-sidebar) + var(--sidebar-padding));
+  --layout-breakpoint: 768px;
+  --content-max-width: calc(var(--layout-breakpoint) - var(--width-sidebar-with-padding));
+  --content-dock-height: calc(var(--spacing) * 14);
+}

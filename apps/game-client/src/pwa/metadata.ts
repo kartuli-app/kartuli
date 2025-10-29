@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { socialLinks, verificationTokens } from './constants';
+import { socialLinks, verificationTokens } from '../app/constants';
 
-export const siteConfig = {
+const siteConfig = {
   name: 'Kartuli',
   title: 'Kartuli - Learn Georgian Language Through Games',
   description:
