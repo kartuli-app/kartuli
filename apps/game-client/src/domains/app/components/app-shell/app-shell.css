@@ -1,0 +1,20 @@
+/* swipper arrows color */
+:root {
+  --swiper-navigation-color: var(--color-violet-800);
+  --swiper-pagination-color: var(--color-violet-800);
+}
+
+.focus-ring {
+  --focus-ring-width: 2px;
+  --focus-ring-offset-width: 2px;
+  --focus-ring-color: #7c3aed; /* violet-00 */
+  --focus-ring-offset-color: #f1f5f9; /* slate-100 */
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 0;
+  box-shadow:
+    0 0 0 var(--focus-ring-offset-width) var(--focus-ring-offset-color),
+    0 0 0 calc(var(--focus-ring-offset-width) + var(--focus-ring-width)) var(--focus-ring-color);
+}

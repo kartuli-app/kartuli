@@ -1,0 +1,42 @@
+/**
+ * Game Client Global Styles
+ *
+ * Order matters:
+ * 1. Tailwind directives
+ * 2. Theme contract from @kartuli/tailwind-config
+ * 3. Shared UI component styles
+ * 4. Shared theme overrides
+ * 5. Tell Tailwind to scan shared UI and app files for classes
+ * 6. App-specific styles
+ */
+
+/* 1. Tailwind v4 import */
+@import "tailwindcss";
+
+/* 2. Import shared theme configuration */
+@import "@kartuli/tailwind-config";
+
+/* 3. Import pre-built UI component styles */
+@import "@kartuli/ui/styles.css";
+
+/* 4. Import app-specific theme overrides */
+@import "../styles/theme.css";
+
+/* 5. Tell Tailwind to scan the pre-built UI component styles */
+@source "../../../../../packages/ui/";
+
+/* 5. Tell Tailwind to scan app files for classes */
+@source "../../";
+
+/* 6. App-specific styles */
+
+.scrollbar-gutter-stable {
+  scrollbar-gutter: stable; /* keeps space even when there's no scroll */
+}
+
+/* Utility classes */
+@layer utilities {
+  .font-noto-sans-georgian {
+    font-family: var(--font-noto-sans-georgian, system-ui);
+  }
+}

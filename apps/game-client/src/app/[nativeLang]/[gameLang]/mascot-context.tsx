@@ -182,7 +182,7 @@ export function MascotProvider({ children }: MascotProviderProps) {
           console.log('[Mascot Queue] Setting reaction:', step.emoji, 'for', step.duration, 'ms');
 
           // Context-aware transition: detect if we had previous state for UI behavior
-          const hadPreviousState = currentReaction !== null || messages.length > 0;
+          const _hadPreviousState = currentReaction !== null || messages.length > 0;
 
           setIsTransitioning(true);
           setCurrentReaction(step.emoji); // Set state (persists until next reaction!)
