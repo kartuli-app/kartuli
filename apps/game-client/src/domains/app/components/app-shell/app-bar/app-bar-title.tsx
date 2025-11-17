@@ -11,13 +11,13 @@ export function AppBarTitle() {
   const title = page?.title;
 
   return (
-    <motion.h1 key={pathname} className={clsx('text-xl')} layout>
-      <span className="font-bold text-violet-900">kartuli</span>
-      <span className="">.app</span>
+    <motion.h1 key={pathname} className={clsx('')} layout>
+      <span className="font-bold text-violet-900 text-xl">kartuli</span>
+      <span className="text-lg">.app</span>
       {title && (
         <>
-          <span className="">{' - '}</span>
-          <span className="font-bold text-violet-900">{title}</span>
+          <span className="text-lg">{' - '}</span>
+          <span className="text-lg font-bold text-violet-900">{title}</span>
         </>
       )}
     </motion.h1>

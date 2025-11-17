@@ -24,8 +24,9 @@ export function ModeSwitch() {
       className={clsx(
         'flex',
         'text-md',
-        'justify-center items-center gap-1 relative borderr border-slate-300',
+        'justify-center items-center gap-0 relative borderr border-slate-300',
         'font-bold',
+        // 'bg-red-500',
       )}
     >
       <div
@@ -34,7 +35,6 @@ export function ModeSwitch() {
           'flex',
           'items-center',
           'cursor-pointer',
-          'rounded-lg',
           'w-50',
           'absolute',
           'pointer-events-none',

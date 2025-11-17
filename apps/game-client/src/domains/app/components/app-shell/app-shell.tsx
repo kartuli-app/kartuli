@@ -21,6 +21,7 @@ export function AppShell({ children }: AppShellProps) {
           'h-full',
           //
           'bg-violet-50',
+          // 'bg-slate-50',
         )}
       >
         <AppBar />

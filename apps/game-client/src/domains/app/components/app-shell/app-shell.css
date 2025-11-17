@@ -1,7 +1,27 @@
 /* swipper arrows color */
 :root {
-  --swiper-navigation-color: var(--color-violet-800);
+  --swiper-navigation-color: black;
   --swiper-pagination-color: var(--color-violet-800);
+}
+
+.swiper-button-prev,.swiper-button-next {
+  /* border: 1px solid black; */
+/* padding-top: 32px; */
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 100%;
+  width: 48px;
+  top: unset !important;
+  bottom: 0 !important;
+  margin-top: 0 !important;
+
+  svg{
+    /* border: 1px solid black; */
+    margin-top: auto;
+    margin-bottom: 56px;
+    height: 32px !important;
+    width: 32px !important;
+  }
 }
 
 .focus-ring {

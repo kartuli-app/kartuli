@@ -218,7 +218,15 @@ export function Content({ children }: ContentProps) {
   const showModeSwitch = isHubPage(pathname);
 
   return (
-    <Container className={clsx('flex-col', 'flex-1 overflow-hidden', 'pt-1')}>
+    <Container
+      className={clsx(
+        //
+        'flex-col',
+        'flex-1 overflow-hidden',
+        'gap-1',
+        'pt-1',
+      )}
+    >
       {showModeSwitch && <ModeSwitch />}
 
       <Activity mode={pathname === ROUTES.FOR_YOU.path ? 'visible' : 'hidden'}>

@@ -1,23 +1,31 @@
 'use client';
 
 import { clsx } from 'clsx';
+import type React from 'react';
+import { useState, useRef } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
 
-import { EffectCards, Keyboard, Navigation, Pagination } from 'swiper/modules';
+import { Keyboard, Pagination, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
+import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
+import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
-import { AiOutlineHeart } from 'react-icons/ai';
-import { HiOutlineSparkles } from 'react-icons/hi';
+import { FaHeart } from 'react-icons/fa';
+import { IconButton } from './icon-button';
+import { PiPlayFill } from 'react-icons/pi';
 
 interface WordItem {
   text_player_lang: string;
   text_native_lang: string;
   text_transliteration: string;
   isFavorite: boolean;
+  example_player_lang: string;
+  example_native_lang: string;
+  example_transliteration: string;
 }
 
 const wordItems: WordItem[] = [
@@ -26,137 +34,277 @@ const wordItems: WordItem[] = [
     text_native_lang: 'გამარჯობა',
     text_transliteration: 'gamarjoba',
     isFavorite: false,
+    example_player_lang: 'hello, how are you?',
+    example_native_lang: 'გამარჯობა, როგორ ხარ?',
+    example_transliteration: 'gamarjoba, rogor khar?',
   },
   {
     text_player_lang: 'goodbye',
     text_native_lang: 'ნახვამდის',
     text_transliteration: 'nakhvamdis',
     isFavorite: true,
+    example_player_lang: 'see you tomorrow, goodbye',
+    example_native_lang: 'ხვალ გნახავ, ნახვამდის',
+    example_transliteration: 'khval gnakhav, nakhvamdis',
   },
   {
-    text_player_lang: 'Please',
+    text_player_lang: 'please',
     text_native_lang: 'გთხოვთ',
     text_transliteration: 'gtkhovt',
     isFavorite: false,
+    example_player_lang: 'one khachapuri, please',
+    example_native_lang: 'ერთი ხაჭაპური, გთხოვთ',
+    example_transliteration: 'erti khach’ap’uri, gtkhovt',
   },
   {
-    text_player_lang: 'Thank you',
+    text_player_lang: 'thank you',
     text_native_lang: 'მადლობა',
     text_transliteration: 'madloba',
     isFavorite: false,
+    example_player_lang: "it's delicious, thank you",
+    example_native_lang: 'გემრიელია, მადლობა',
+    example_transliteration: 'gemrielia, madloba',
   },
 ];
 
-function WordFlashcard({ className, wordItem }: { className?: string; wordItem: WordItem }) {
-  return (
-    <div className={clsx('w-full h-full flex items-center flex-col justify-between', className)}>
-      {/* flashcard header */}
-      <div
-        className={clsx('flex flex-col items-center justify-center bg-orangeg-400 w-full borderr')}
-      >
-        <div className={clsx('flex flex-col items-center justify-center bg-blue-400 w-full')}>
-          <div className={clsx('absolute top-0 left-0 flex items-center justify-between w-full')}>
-            <button
-              type="button"
-              onClick={() => console.log('toggle favorite')}
-              className={clsx(
-                'font-medium w-10 h-10 rounded-full flex items-center justify-center',
-                // 'border',
-                'bg-blue-400 text-white',
-              )}
-            >
-              <AiOutlineHeart className={clsx('size-6')} />
-            </button>
-            <button
-              type="button"
-              onClick={() => console.log('toggle favorite')}
-              className={clsx(
-                'font-medium w-auto h-10 flex items-center justify-center flex-row',
-                // 'border',
-                'gap-1',
-                'px-2',
-                'mb-auto',
-                'bg-blue-400 text-white',
-              )}
-            >
-              <span className={clsx('text-[10px]')}>New item</span>
-              <HiOutlineSparkles className={clsx('size-3')} />
-            </button>
-          </div>
-          <div className={clsx('flex flex-col items-center justify-center z-10 p-2')}>
-            <h1
-              className={clsx(
-                'text-4xl text-center font-bold h-20 flex items-center justify-center',
-              )}
-            >
-              {wordItem.text_player_lang}
-            </h1>
-          </div>
-        </div>
+function highlightWordInText(text: string, wordToHighlight: string): React.ReactNode[] {
+  // Escape special regex characters in the word
+  const escapedWord = wordToHighlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-        <div
-          className={clsx(
-            'flex flex-col items-center justify-center bg-orangeg-400 w-full borderr',
-          )}
-        >
-          {/* flashcard body */}
-          <div className={clsx('flex flex-col items-center justify-center bg-orangeg-400 w-full')}>
-            <div className={clsx('flex flex-col items-center justify-center z-10 p-2')}>
-              <h1
-                className={clsx(
-                  'text-2xl text-center font-bold h-8 flex items-center justify-center text-slate-800',
-                )}
-              >
-                {wordItem.text_native_lang}
-              </h1>
-            </div>
-          </div>
+  // Check if text contains non-Latin characters (for Unicode scripts like Georgian)
+  // Check if any character is outside the basic Latin range (0-127)
+  const hasNonLatin = Array.from(text).some((char) => (char.codePointAt(0) ?? 0) > 127);
 
-          <div className={clsx('flex flex-col items-center justify-center bg-orangge-400 w-full')}>
-            <div className={clsx('flex flex-col items-center justify-center z-10 p-2')}>
-              <h1
-                className={clsx(
-                  'text-2xl text-center font-bold h-8 flex items-center justify-center',
-                )}
-              >
-                <span className={clsx(' text-yellow-600')}>[</span>
-                <span className={clsx('text-slate-600')}>{wordItem.text_transliteration}</span>
-                <span className={clsx(' text-yellow-600')}>]</span>
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
+  // For non-Latin scripts, use Unicode-aware word boundaries or direct matching
+  // For Latin scripts, use standard word boundaries
+  const regex = hasNonLatin
+    ? new RegExp(escapedWord, 'gi') // Direct match for non-Latin (no word boundaries)
+    : new RegExp(`\\b${escapedWord}\\b`, 'gi'); // Word boundaries for Latin
 
-      {/* flashcard footer */}
-      {/* <button
-        type="button"
-        onClick={() => console.log('show translation')}
-        className={clsx(
-          'flex mr-auto items-center justify-center gap-2 text-xl font-medium text-black ',
-          'p-2 rounded-lg border border-black mb-2 ml-2 px-4',
-        )}
-      >
-        <FaPlay className={clsx('size-4')} />
-        <PiWaveformBold className={clsx('size-4')} />
-      </button> */}
-    </div>
-  );
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null = regex.exec(text);
+
+  while (match !== null) {
+    // Add text before the match (preserving all characters including spaces)
+    if (match.index > lastIndex) {
+      const beforeText = text.slice(lastIndex, match.index);
+      parts.push(beforeText);
+    }
+    // Add the highlighted word (preserving original case from text)
+    parts.push(
+      <span key={match.index} className="font-bold">
+        {match[0]}
+      </span>,
+    );
+    lastIndex = regex.lastIndex;
+    match = regex.exec(text);
+  }
+
+  // Add remaining text after the last match
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  // If no matches found, return the original text
+  return parts.length > 0 ? parts : [text];
 }
 
-function Flashcard({ className, children }: { className?: string; children: React.ReactNode }) {
+const tags = ['new', 'common'];
+
+function WordFlashcard({ className, wordItem }: { className?: string; wordItem: WordItem }) {
   return (
     <div
       className={clsx(
-        ' w-full h-full flex items-center justify-center',
-        // 'bg-slate-100',
-        // 'border-slate-200',
-        // 'border-1',
-        'text-black rounded-lg shadow-lg',
+        //
+        'w-full h-full',
+        'flex flex-col',
+        'items-center justify-between',
+
         className,
       )}
     >
-      {children}
+      <div
+        className={clsx(
+          //
+          'w-full',
+          'flex flex-col',
+          'items-center justify-center',
+          'p-1',
+          'relative',
+        )}
+      >
+        {/* flashcard favorite button */}
+        <div
+          className={clsx(
+            //
+            'absolute',
+            'top-6',
+            'left-6',
+            'z-50',
+          )}
+        >
+          <IconButton>
+            <FaHeart className={clsx('size-6')} />
+          </IconButton>
+        </div>
+        <div
+          className={clsx(
+            //
+            'absolute',
+            'top-6',
+            'right-6',
+            'z-50',
+          )}
+        >
+          <IconButton>
+            <PiPlayFill className={clsx('size-6')} />
+          </IconButton>
+        </div>
+
+        {/* flashcard header: word */}
+        <div
+          className={clsx(
+            //
+            'flex flex-col',
+            'items-center justify-center',
+            'w-full',
+            'rounded-t-4xl',
+            'overflow-hidden',
+            'px-2 py-2',
+            'gap-2',
+            'bg-blue-500',
+            'text-white',
+          )}
+        >
+          {/* word in player language */}
+          <h1
+            className={clsx(
+              //
+              'text-2xl text-center font-bold',
+              'flex',
+              'items-center justify-center',
+              'w-full',
+            )}
+          >
+            {wordItem.text_player_lang}
+          </h1>
+          {/* word in native language */}
+          <h1
+            className={clsx(
+              //
+              'text-2xl text-center ',
+              'flex',
+              'items-center justify-center',
+              'w-full',
+            )}
+          >
+            {wordItem.text_native_lang}
+          </h1>
+
+          {/* word transliteration */}
+          <h1
+            className={clsx(
+              //
+              'text-2xl text-center ',
+              'flex',
+              'items-center justify-center',
+              'w-full',
+            )}
+          >
+            <span className={clsx(' text-yellow-300 font-bold pr-1')}>[</span>
+            <span className={clsx()}>{wordItem.text_transliteration}</span>
+            <span className={clsx(' text-yellow-300 font-bold pl-1')}>]</span>
+          </h1>
+        </div>
+
+        {/* flashcard body: example */}
+        <div
+          className={clsx(
+            //
+            'bg-blue-400',
+            'text-white',
+            'flex flex-col',
+            'items-center justify-center',
+            'w-full',
+            'px-2 py-2',
+            'gap-2',
+          )}
+        >
+          {/* example in player language */}
+          <h1
+            className={clsx(
+              //
+              'text-md text-center ',
+              'flex',
+              'items-center justify-center',
+              'whitespace-pre-wrap',
+            )}
+          >
+            {highlightWordInText(wordItem.example_player_lang, wordItem.text_player_lang)}
+          </h1>
+
+          {/* example in native language */}
+          <h1
+            className={clsx(
+              //
+              'text-md text-center ',
+              'flex',
+              'items-center justify-center',
+              'whitespace-pre-wrap',
+            )}
+          >
+            {highlightWordInText(wordItem.example_native_lang, wordItem.text_native_lang)}
+          </h1>
+
+          {/* example transliteration */}
+          <h1
+            className={clsx(
+              //
+              'text-md text-center ',
+              'flex',
+              'items-center justify-center',
+              'whitespace-pre-wrap',
+            )}
+          >
+            <span className={clsx(' text-yellow-300 font-bold pr-1')}>[</span>
+            <span className={clsx()}>
+              {highlightWordInText(wordItem.example_transliteration, wordItem.text_transliteration)}
+            </span>
+            <span className={clsx(' text-yellow-300 font-bold pl-1')}>]</span>
+          </h1>
+        </div>
+
+        {/* flashcard footer: tags */}
+        <div
+          className={clsx(
+            //
+            'bg-blue-300',
+            'flex',
+            'items-center justify-center',
+            'w-full',
+            'rounded-b-4xl',
+            'px-2 py-4',
+            'gap-2',
+            'relative',
+          )}
+        >
+          {tags.map((tag) => (
+            <div
+              key={tag}
+              className={clsx(
+                //
+                'px-2 py-2',
+                'bg-slate-50 text-black',
+                'rounded-lg',
+                'text-sm',
+              )}
+            >
+              <span className={clsx('text-md text-center')}>#{tag}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -172,68 +320,118 @@ export function FlashcardsCarrousel({
   initialSlide = 0,
   onSlideChange,
 }: FlashcardsCarrouselProps) {
+  const swiperRef = useRef<SwiperType | null>(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+    const currentIndex = swiper.activeIndex;
+    console.log('slide change', currentIndex);
+    onSlideChange?.(currentIndex);
+  };
+
+  const handleSwiperInit = (swiper: SwiperType) => {
+    swiperRef.current = swiper;
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
+
+  const handlePrev = () => {
+    swiperRef.current?.slidePrev();
+  };
+
+  const handleNext = () => {
+    swiperRef.current?.slideNext();
+  };
+
   return (
     <div
       className={clsx(
-        'overflow-hidden',
         'flex',
         'relative',
         'justify-center',
         'items-center',
         'w-full',
         'h-full',
-        // 'border',
-        // carrousel.backgroundColor,
-        // carrousel.textColor,
         className,
       )}
     >
       <Swiper
         className={clsx(
+          //
           'w-full h-full',
-          'rounded-lg',
-          // 'border-2 border-red-500'
         )}
         initialSlide={initialSlide}
-        onSlideChange={(swiper) => {
-          const currentIndex = swiper.activeIndex;
-          console.log('slide change', currentIndex);
-          onSlideChange?.(currentIndex);
-        }}
-        onSwiper={(swiper) => console.log(swiper)}
-        modules={[Navigation, Pagination, EffectCards, Keyboard]}
-        navigation
+        onSlideChange={handleSlideChange}
+        onSwiper={handleSwiperInit}
+        modules={[
+          Navigation,
+          Pagination,
+          // EffectCards,
+          Keyboard,
+        ]}
+        // navigation
         pagination
         keyboard={{
           enabled: true,
         }}
-        effect="cards"
+        // effect="cards"
         breakpoints={{
           320: {
-            slidesPerView: 1.5,
-            spaceBetween: 0,
+            slidesPerView: 1,
+            spaceBetween: 10,
+            slidesPerGroup: 1,
           },
           640: {
             slidesPerView: 2,
             spaceBetween: 0,
-          },
-          1024: {
-            slidesPerView: 2,
-            spaceBetween: 0,
+            slidesPerGroup: 2,
           },
         }}
       >
         {wordItems.map((wordItem, _index) => (
           <SwiperSlide key={wordItem.text_player_lang}>
-            <Flashcard className={clsx()}>
-              <WordFlashcard
-                className={clsx('bg-neutral-50 border-neutral-100')}
-                wordItem={wordItem}
-              />
-            </Flashcard>
+            <WordFlashcard className={clsx()} wordItem={wordItem} />
           </SwiperSlide>
         ))}
       </Swiper>
+      {/* arrow left button */}
+      {isBeginning ? null : (
+        <div
+          className={clsx(
+            //
+            'absolute',
+            'top-1/2',
+            'left-2',
+            '-translate-y-1/2',
+            'z-20',
+          )}
+        >
+          <IconButton onClick={handlePrev}>
+            <MdOutlineKeyboardArrowLeft className={clsx('size-8')} />
+          </IconButton>
+        </div>
+      )}
+
+      {/* arrow right button */}
+      {isEnd ? null : (
+        <div
+          className={clsx(
+            //
+            'absolute',
+            'top-1/2',
+            'right-2',
+            '-translate-y-1/2',
+            'z-20',
+          )}
+        >
+          <IconButton onClick={handleNext}>
+            <MdOutlineKeyboardArrowRight className={clsx('size-8')} />
+          </IconButton>
+        </div>
+      )}
     </div>
   );
 }

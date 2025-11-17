@@ -20,7 +20,9 @@ export function AppDock() {
     >
       <Box
         className={clsx(
-          'w-auto',
+          'w-full',
+          // 'border',
+          'justify-between',
           //
           'lg:flex-col',
           'lg:justify-start',

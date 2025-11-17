@@ -22,11 +22,17 @@ export function AppBar() {
         //
         // 'bg-red-600',
         'p-2',
+        'pb-0',
       )}
     >
-      <ResponsiveContainer className={clsx()}>
+      <ResponsiveContainer
+        className={clsx(
+          //
+          // 'bg-red-200',
+        )}
+      >
         {/* left side: back button, mascot, title */}
-        <motion.div layout className="flex w-6/8 items-center gap-2">
+        <motion.div layout className="flex w-7/8 items-center gap-1">
           <AnimatePresence initial={false}>
             {showBackButton && (
               <motion.div
@@ -76,7 +82,7 @@ export function AppBar() {
         <Box
           className={clsx(
             //
-            'w-2/8',
+            'w-1/8',
             'justify-end',
             // 'border',
           )}
