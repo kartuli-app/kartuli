@@ -9,7 +9,7 @@ export function AppDock() {
     <Container
       className={clsx(
         'justify-center items-center',
-        'p-2',
+        'p-1',
         'lg:items-start',
         'lg:absolute',
         'lg:w-auto',
@@ -20,18 +20,23 @@ export function AppDock() {
     >
       <Box
         className={clsx(
-          'w-full',
-          // 'border',
-          'justify-between',
+          'bg-slate-800',
+          'w-auto',
+          'rounded-xl',
+          'px-4 py-1',
+          'lg:px-2 lg:py-4',
+          'border',
+          'justify-center',
           //
           'lg:flex-col',
           'lg:justify-start',
           'lg:items-center',
-          'gap-4',
+          // 'gap-4',
+          'gap-1',
         )}
       >
-        <AppDockMenu />
         <AppDockLinks />
+        <AppDockMenu />
       </Box>
     </Container>
   );

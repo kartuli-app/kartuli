@@ -4,6 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
 import { PiBookOpenTextFill, PiBookOpenTextLight } from 'react-icons/pi';
 import { RiSearchFill, RiSearchLine } from 'react-icons/ri';
+import { BiSearchAlt, BiSearchAlt2 } from 'react-icons/bi';
 
 export interface RouteConfig {
   path: string;
@@ -19,17 +20,29 @@ export interface RouteConfig {
 }
 
 export const ROUTES = {
-  SEARCH: {
-    path: '/app/search',
-    title: 'Search',
+  PROFILE: {
+    path: '/app/profile',
+    title: 'Profile',
     backRoute: '/app',
     isActivity: true,
     dock: {
-      label: 'Search',
-      iconActive: RiSearchFill,
-      iconInactive: RiSearchLine,
+      label: 'Profile',
+      iconActive: BiSolidUserCircle,
+      iconInactive: BiUserCircle,
     },
   },
+  SAVED: {
+    path: '/app/saved',
+    title: 'Saved',
+    backRoute: '/app',
+    isActivity: true,
+    dock: {
+      label: 'Saved',
+      iconActive: AiFillHeart,
+      iconInactive: AiOutlineHeart,
+    },
+  },
+
   FOR_YOU: {
     path: '/app',
     backRoute: '/app',
@@ -46,29 +59,17 @@ export const ROUTES = {
     backRoute: '/app',
     isActivity: true,
   },
-  SAVED: {
-    path: '/app/saved',
-    title: 'Saved',
+  SEARCH: {
+    path: '/app/search',
+    title: 'Search',
     backRoute: '/app',
     isActivity: true,
     dock: {
-      label: 'Saved',
-      iconActive: AiFillHeart,
-      iconInactive: AiOutlineHeart,
+      label: 'Search',
+      iconActive: BiSearchAlt,
+      iconInactive: BiSearchAlt2,
     },
   },
-  PROFILE: {
-    path: '/app/profile',
-    title: 'Profile',
-    backRoute: '/app',
-    isActivity: true,
-    dock: {
-      label: 'Profile',
-      iconActive: BiSolidUserCircle,
-      iconInactive: BiUserCircle,
-    },
-  },
-
   RESOURCES: {
     path: '/app/resources',
     title: 'Resources',

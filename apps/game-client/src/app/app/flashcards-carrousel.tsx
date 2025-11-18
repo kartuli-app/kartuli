@@ -380,14 +380,14 @@ export function FlashcardsCarrousel({
         // effect="cards"
         breakpoints={{
           320: {
-            slidesPerView: 1,
+            slidesPerView: 1.05,
             spaceBetween: 10,
             slidesPerGroup: 1,
           },
           640: {
-            slidesPerView: 2,
+            slidesPerView: 1.05,
             spaceBetween: 0,
-            slidesPerGroup: 2,
+            slidesPerGroup: 1,
           },
         }}
       >
