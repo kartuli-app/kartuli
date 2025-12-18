@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { MdOutlineMenu } from 'react-icons/md';
-import { ROUTES } from '@/app/app/navigation/utils';
+import { ROUTES } from '@/domains/app/routes/routes';
 import { useMediaQuery } from '@/domains/shared/hooks/use-media-query';
+import { PiDotsThreeOutline, PiDotsThreeOutlineFill } from 'react-icons/pi';
 
 type MoreMenuEntry =
   | { type: 'link'; id: string; label: string; href: string }
@@ -68,7 +68,11 @@ export function AppDockMenu() {
             )}
           >
             <div className="relative z-10 flex flex-col items-center justify-center">
-              <MdOutlineMenu className="size-6" />
+              {isMenuOpen ? (
+                <PiDotsThreeOutlineFill className="size-6" />
+              ) : (
+                <PiDotsThreeOutline className="size-6" />
+              )}
               <span className="font-bold pt-1">More</span>
             </div>
           </NavigationMenu.Trigger>

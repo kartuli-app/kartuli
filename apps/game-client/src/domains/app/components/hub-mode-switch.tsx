@@ -4,9 +4,9 @@ import { clsx } from 'clsx';
 import { motion, useReducedMotion } from 'motion/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Container } from './container';
+import { Container } from '@/domains/shared/components/container';
 
-export function ModeSwitch() {
+export function HubModeSwitch() {
   const pathname = usePathname();
   const isForYouActive = pathname === '/app';
   const prefersReducedMotion = useReducedMotion();
@@ -22,11 +22,13 @@ export function ModeSwitch() {
   return (
     <Container
       className={clsx(
+        'p-1',
         'flex',
-        'text-md',
+        'text-sm',
         'justify-center items-center gap-0 relative borderr border-slate-300',
         'font-bold',
-        // 'bg-red-500',
+        'uppercase',
+        'bg-green-500',
       )}
     >
       <div

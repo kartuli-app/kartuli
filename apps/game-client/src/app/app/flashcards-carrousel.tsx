@@ -15,7 +15,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
 import { FaHeart } from 'react-icons/fa';
-import { IconButton } from './icon-button';
+import { IconButton } from '../../domains/shared/components/icon-button';
 import { PiPlayFill } from 'react-icons/pi';
 
 interface WordItem {
@@ -328,7 +328,6 @@ export function FlashcardsCarrousel({
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
     const currentIndex = swiper.activeIndex;
-    console.log('slide change', currentIndex);
     onSlideChange?.(currentIndex);
   };
 

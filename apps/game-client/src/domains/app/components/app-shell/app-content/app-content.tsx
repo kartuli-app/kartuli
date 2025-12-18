@@ -4,14 +4,15 @@ import { clsx } from 'clsx';
 import { motion, useAnimationControls, useReducedMotion } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { Activity, useLayoutEffect, useMemo, useRef } from 'react';
-import ForYouPage from './(for-you)/page';
-import { Container } from './container';
-import FreestylePage from './freestyle/page';
-import { ModeSwitch } from './mode-switch';
-import { getActivityRoutes, isHubPage, ROUTES } from './navigation/utils';
-import ProfilePage from './profile/page';
-import SavedPage from './saved/page';
-import SearchPage from './search/page';
+import { Container } from '@/domains/shared/components/container';
+import { HubModeSwitch } from '@/domains/app/components/hub-mode-switch';
+import { routeUtils } from '@/domains/app/routes/route-utils';
+import { ROUTES } from '@/domains/app/routes/routes';
+import { ForYouPage } from '@/domains/app/pages/for-you-page';
+import { FreestylePage } from '@/domains/app/pages/freestyle-page';
+import { ProfilePage } from '@/domains/app/pages/profile-page';
+import { SavedPage } from '@/domains/app/pages/saved-page';
+import { SearchPage } from '@/domains/app/pages/search-page';
 
 const activityVariants = {
   exit: {
@@ -23,6 +24,8 @@ const activityVariants = {
     y: 0,
   },
 };
+
+const animatedWrapperClassName = 'w-full h-full flex flex-1 flex-col overflow-y-auto';
 
 function AnimatedActivityWrapper({
   route,
@@ -45,7 +48,7 @@ function AnimatedActivityWrapper({
       variants={activityVariants}
       initial={pathname !== route ? { opacity: 0 } : undefined}
       style={{ willChange: 'opacity' }}
-      className={clsx('w-full h-full flex flex-1 flex-col overflow-y-auto', className)}
+      className={clsx(animatedWrapperClassName, className)}
     >
       {children}
     </motion.div>
@@ -69,7 +72,7 @@ function AnimatedPageWrapper({
       animate={controls}
       variants={activityVariants}
       style={{ willChange: 'opacity' }}
-      className={clsx('w-full h-full flex flex-1 flex-col overflow-y-auto', className)}
+      className={clsx(animatedWrapperClassName, className)}
     >
       {children}
     </motion.div>
@@ -80,9 +83,9 @@ interface ContentProps {
   children: React.ReactNode;
 }
 
-export function Content({ children }: ContentProps) {
+export function AppContent({ children }: ContentProps) {
   const pathname = usePathname();
-  const activityRoutes = getActivityRoutes();
+  const activityRoutes = routeUtils.getActivityRoutes();
   const isActivityRoute = activityRoutes.includes(pathname);
   const prefersReducedMotion = useReducedMotion();
 
@@ -215,7 +218,7 @@ export function Content({ children }: ContentProps) {
     activityRoutes,
   ]);
 
-  const showModeSwitch = isHubPage(pathname);
+  const showHubModeSwitch = routeUtils.isHubPage(pathname);
 
   return (
     <Container
@@ -224,10 +227,10 @@ export function Content({ children }: ContentProps) {
         'flex-col',
         'flex-1 overflow-hidden',
         'gap-1',
-        'pt-1',
+        // 'pt-1',
       )}
     >
-      {showModeSwitch && <ModeSwitch />}
+      {showHubModeSwitch && <HubModeSwitch />}
 
       <Activity mode={pathname === ROUTES.FOR_YOU.path ? 'visible' : 'hidden'}>
         <AnimatedActivityWrapper

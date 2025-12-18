@@ -1,13 +1,16 @@
 import clsx from 'clsx';
 import { type ButtonHTMLAttributes, forwardRef } from 'react';
 
+/**
+ * TODO: Add scale animation on tap
+ */
 export const IconButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
   ({ className, children, ...rest }, ref) => {
     return (
       <button
         ref={ref}
         className={clsx(
-          'size-11',
+          'size-10',
           'rounded-full',
           'flex',
           'justify-center',

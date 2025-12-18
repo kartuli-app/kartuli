@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
-import { Box } from '@/app/app/box';
-import { Container } from '@/app/app/container';
+import { Box } from '@/domains/shared/components/box';
+import { Container } from '@/domains/shared/components/container';
 import { AppDockLinks } from './app-dock-links';
 import { AppDockMenu } from './app-dock-menu';
 
@@ -16,6 +16,7 @@ export function AppDock() {
         'lg:h-auto',
         'lg:left-0',
         'lg:top-0',
+        'bg-slate-800',
       )}
     >
       <Box

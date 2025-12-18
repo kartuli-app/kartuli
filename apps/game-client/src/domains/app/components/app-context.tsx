@@ -30,7 +30,7 @@ export function useAppContext() {
 // PROVIDER
 // ============================================================
 
-interface AppProviderProps {
+interface AppContextProviderProps {
   children: ReactNode;
 }
 
@@ -38,7 +38,7 @@ const initialGlobalState: GlobalAppState = {
   isSoundEnabled: true,
 };
 
-export function AppProvider({ children }: AppProviderProps) {
+export function AppContextProvider({ children }: AppContextProviderProps) {
   const [globalState, setGlobalState] = useState<GlobalAppState>(initialGlobalState);
 
   const updateGlobalState = useCallback((updater: (prev: GlobalAppState) => GlobalAppState) => {

@@ -5,8 +5,8 @@ import { Tooltip } from '@base-ui-components/react/tooltip';
 import { clsx } from 'clsx';
 import type { Ref, RefObject } from 'react';
 import { ImVolumeMedium, ImVolumeMute2 } from 'react-icons/im';
-import { useAppContext } from '@/app/app/app-context';
-import { IconButton } from '@/app/app/icon-button';
+import { useAppContext } from '@/domains/app/components/app-context';
+import { IconButton } from '@/domains/shared/components/icon-button';
 
 export function AppBarSoundToggle() {
   const { globalState, setGlobalState } = useAppContext();

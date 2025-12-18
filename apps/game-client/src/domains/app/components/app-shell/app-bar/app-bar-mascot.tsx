@@ -1,7 +1,7 @@
 'use client';
 import { Tooltip } from '@base-ui-components/react/tooltip';
 import { clsx } from 'clsx';
-import { IconButton } from '@/app/app/icon-button';
+import { IconButton } from '@/domains/shared/components/icon-button';
 
 export function AppBarMascot() {
   return (

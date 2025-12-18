@@ -2,10 +2,10 @@
 import { clsx } from 'clsx';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { usePathname } from 'next/navigation';
-import { Box } from '@/app/app/box';
-import { Container } from '@/app/app/container';
-import { shouldShowBackButton } from '@/app/app/navigation/utils';
-import { ResponsiveContainer } from '@/app/app/responsive-container';
+import { Box } from '@/domains/shared/components/box';
+import { Container } from '@/domains/shared/components/container';
+import { routeUtils } from '@/domains/app/routes/route-utils';
+import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
 import { AppBarBackButton } from './app-bar-back-button';
 import { AppBarMascot } from './app-bar-mascot';
 import { AppBarSoundToggle } from './app-bar-sound-toggle';
@@ -13,26 +13,25 @@ import { AppBarTitle } from './app-bar-title';
 
 export function AppBar() {
   const pathname = usePathname();
-  const showBackButton = shouldShowBackButton(pathname);
+  const showBackButton = routeUtils.shouldShowBackButton(pathname);
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <Container
       className={clsx(
         //
-        // 'bg-red-600',
+        'bg-red-600',
         'p-2',
-        'pb-0',
       )}
     >
       <ResponsiveContainer
         className={clsx(
           //
-          // 'bg-red-200',
+          'bg-red-300',
         )}
       >
         {/* left side: back button, mascot, title */}
-        <motion.div layout className="flex w-7/8 items-center gap-1">
+        <motion.div layout className="flex w-7/8 items-center gap-2">
           <AnimatePresence initial={false}>
             {showBackButton && (
               <motion.div

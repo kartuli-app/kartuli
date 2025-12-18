@@ -5,28 +5,17 @@
  * Import this after the shared theme in globals.css.
  */
 
-/* generate tailwind classes for the primary scale */
+/* generate tailwind classes for the design system colors */
 @theme {
-  --color-ds-primary-100: var(--ds-primary-100);
-  --color-ds-primary-200: var(--ds-primary-200);
-  --color-ds-primary-300: var(--ds-primary-300);
-  --color-ds-primary-400: var(--ds-primary-400);
-  --color-ds-primary-500: var(--ds-primary-500);
-  --color-ds-primary-600: var(--ds-primary-600);
-  --color-ds-primary-700: var(--ds-primary-700);
-  --color-ds-primary-800: var(--ds-primary-800);
+  --color-ds-dock-bg: var(--ds-dock-bg);
+  --color-ds-app-bg: var(--ds-app-bg);
   --color-ds-primary-900: var(--ds-primary-900);
-  --color-kartuli-primary: red;
+  --color-ds-text-800: var(--ds-text-800);
 }
 
 :root {
-  --ds-primary-100: #eeecfe;
-  --ds-primary-200: #ded9fe;
-  --ds-primary-300: #bfb1fe;
-  --ds-primary-400: #a28bf3;
-  --ds-primary-500: #8d73e2;
-  --ds-primary-600: #7a5bce;
-  --ds-primary-700: #6646b6;
-  --ds-primary-800: #503097;
-  --ds-primary-900: #3a2171;
+  --ds-dock-bg: var(--color-slate-800);
+  --ds-app-bg: var(--color-violet-50);
+  --ds-primary-900: var(--color-violet-900);
+  --ds-text-800: var(--color-slate-800);
 }

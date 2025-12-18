@@ -1,25 +1,10 @@
-import type { ReactNode } from 'react';
-import type { IconType } from 'react-icons';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
 import { PiBookOpenTextFill, PiBookOpenTextLight } from 'react-icons/pi';
-import { RiSearchFill, RiSearchLine } from 'react-icons/ri';
 import { BiSearchAlt, BiSearchAlt2 } from 'react-icons/bi';
+import type { RouteConfig } from '@/domains/app/routes/route-config';
 
-export interface RouteConfig {
-  path: string;
-  title?: string;
-  backRoute: string;
-  isActivity: boolean;
-  dock?: {
-    label: string;
-    iconActive: IconType;
-    iconInactive: IconType;
-    isActive?: (pathname: string) => boolean;
-  };
-}
-
-export const ROUTES = {
+export const ROUTES: Record<string, RouteConfig> = {
   PROFILE: {
     path: '/app/profile',
     title: 'Profile',
@@ -88,4 +73,4 @@ export const ROUTES = {
     backRoute: '/app',
     isActivity: false,
   },
-} as const satisfies Record<string, RouteConfig>;
+};

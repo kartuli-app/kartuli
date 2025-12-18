@@ -4,14 +4,14 @@ import { Tooltip } from '@base-ui-components/react/tooltip';
 import { clsx } from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 import { ImArrowLeft } from 'react-icons/im';
-import { IconButton } from '@/app/app/icon-button';
-import { getBackRoute, shouldShowBackButton } from '@/app/app/navigation/utils';
+import { IconButton } from '@/domains/shared/components/icon-button';
+import { routeUtils } from '@/domains/app/routes/route-utils';
 
 export function AppBarBackButton() {
   const pathname = usePathname();
   const router = useRouter();
-  const showBackButton = shouldShowBackButton(pathname);
-  const onBackButtonClick = () => router.push(getBackRoute(pathname));
+  const showBackButton = routeUtils.shouldShowBackButton(pathname);
+  const onBackButtonClick = () => router.push(routeUtils.getBackRoute(pathname));
   return showBackButton ? (
     <Tooltip.Provider>
       <Tooltip.Root delay={1}>

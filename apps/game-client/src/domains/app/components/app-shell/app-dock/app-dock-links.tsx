@@ -5,9 +5,10 @@ import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'motion/react';
-import { getDockPages } from '@/app/app/navigation/utils';
+import { routeUtils } from '@/domains/app/routes/route-utils';
 
-const dockButtons = getDockPages()
+const dockButtons = routeUtils
+  .getDockPages()
   .filter(
     (route): route is typeof route & { dock: NonNullable<typeof route.dock> } =>
       route.dock !== undefined,
@@ -62,6 +63,7 @@ export function AppDockLinks() {
           'relative',
           'focus-ring',
           'text-xs',
+          'uppercase',
           'transition-colors duration-300 hover:transition-none',
           {
             'text-slate-800': isActive,
