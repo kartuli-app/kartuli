@@ -9,11 +9,10 @@ export function AppDock() {
     <Container
       className={clsx(
         'justify-center items-center',
-        'p-1',
         'lg:items-start',
         'lg:absolute',
         'lg:w-auto',
-        'lg:h-auto',
+        'lg:h-full',
         'lg:left-0',
         'lg:top-0',
         'bg-slate-800',
@@ -23,9 +22,8 @@ export function AppDock() {
         className={clsx(
           'bg-slate-800',
           'w-auto',
-          'rounded-xl',
-          'px-4 py-1',
-          'lg:px-2 lg:py-4',
+          'py-1',
+          'lg:px-2 lg:py-0',
           'border',
           'justify-center',
           //
@@ -33,7 +31,7 @@ export function AppDock() {
           'lg:justify-start',
           'lg:items-center',
           // 'gap-4',
-          'gap-1',
+          'gap-2',
         )}
       >
         <AppDockLinks />

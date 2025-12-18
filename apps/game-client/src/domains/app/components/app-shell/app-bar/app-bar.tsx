@@ -20,14 +20,14 @@ export function AppBar() {
     <Container
       className={clsx(
         //
-        'bg-red-600',
+        // 'bg-red-600',
         'p-2',
       )}
     >
       <ResponsiveContainer
         className={clsx(
           //
-          'bg-red-300',
+          // 'bg-red-300',
         )}
       >
         {/* left side: back button, mascot, title */}

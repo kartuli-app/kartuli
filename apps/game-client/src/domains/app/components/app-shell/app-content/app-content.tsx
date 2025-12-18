@@ -25,7 +25,8 @@ const activityVariants = {
   },
 };
 
-const animatedWrapperClassName = 'w-full h-full flex flex-1 flex-col overflow-y-auto';
+const animatedWrapperClassName =
+  'w-full h-full flex flex-1 flex-col overflow-y-auto px-2 py-2 pb-4 lg:pb-2';
 
 function AnimatedActivityWrapper({
   route,
@@ -224,10 +225,10 @@ export function AppContent({ children }: ContentProps) {
     <Container
       className={clsx(
         //
+        // 'bg-orange-100',
+        //
         'flex-col',
         'flex-1 overflow-hidden',
-        'gap-1',
-        // 'pt-1',
       )}
     >
       {showHubModeSwitch && <HubModeSwitch />}

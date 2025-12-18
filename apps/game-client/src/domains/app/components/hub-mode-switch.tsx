@@ -28,7 +28,7 @@ export function HubModeSwitch() {
         'justify-center items-center gap-0 relative borderr border-slate-300',
         'font-bold',
         'uppercase',
-        'bg-green-500',
+        // 'bg-green-500',
       )}
     >
       <div
@@ -63,7 +63,7 @@ export function HubModeSwitch() {
           //
           'text-left',
           'w-22',
-          'p-2',
+          'px-2 py-1',
           'borderr',
           'focus-ring',
           {
@@ -81,7 +81,7 @@ export function HubModeSwitch() {
           //
           'text-right',
           'w-22',
-          'p-2',
+          'px-2 py-1',
           'borderr',
           'focus-ring',
           {

@@ -12,82 +12,10 @@ import {
 } from 'react-icons/fa';
 import { SlRefresh } from 'react-icons/sl';
 import { BiTimeFive } from 'react-icons/bi';
-import { BsPersonFillUp } from 'react-icons/bs';
 import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
-
-function UserStatsCard() {
-  return (
-    <div
-      className={clsx(
-        'w-full',
-        'h-auto',
-        'bg-white',
-        'rounded-lg',
-        'border border-slate-200',
-        'flex flex-col',
-        'shadow-sm',
-        'p-2',
-        'gap-2',
-      )}
-    >
-      {/* Row 1: Rank & Time (Justified) */}
-      <div className="grid grid-cols-2 gap-2 w-full">
-        {/* Rank */}
-        <div
-          className={clsx(
-            'flex items-center justify-between rounded-md bg-slate-50 border border-slate-100',
-            'p-2',
-          )}
-        >
-          <div className="flex items-center justify-center gap-2">
-            <FaGraduationCap className="text-yellow-500 size-5" />
-            <span className="text-xs text-slate-400 font-bold uppercase">Rank</span>
-          </div>
-          <span className="text-lg font-bold text-slate-800">NOVICE</span>
-        </div>
-
-        {/* Time */}
-        <div
-          className={clsx(
-            'flex items-center justify-center rounded-md bg-slate-50 border border-slate-100',
-            'p-2',
-            'gap-2',
-          )}
-        >
-          <div className="flex items-center justify-center gap-1">
-            <BiTimeFive className="text-violet-500 size-7" />
-            <span className="text-xs text-slate-400 font-bold uppercase">Played</span>
-          </div>
-          <span className="text-lg font-bold text-slate-800 flex flex-row items-center gap-2">
-            33 <span className="text-[10px] font-normal">HOURS</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Row 2: Progress Block (Grouped) */}
-      <div
-        className={clsx(
-          'flex flex-col w-full rounded-md bg-slate-50 border border-slate-100',
-          'p-2',
-          'gap-2',
-        )}
-      >
-        <div className="flex justify-between items-center w-full">
-          <span className="text-sm font-black text-violet-700 bg-violet-100 px-2 py-0.5 rounded-full">
-            First timer
-          </span>
-          <div className="flex gap-1.5 items-center">
-            <BsPersonFillUp className="text-green-500 size-3" />
-            <span className="text-sm text-slate-500 font-bold">Level up: Learn 4 items</span>
-          </div>
-        </div>
-        <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-          <div className="h-full bg-violet-500 rounded-full" style={{ width: '45%' }} />
-        </div>
-      </div>
-    </div>
-  );
-}
+import { UserSummaryCard } from '@/domains/shared/components/user-stats-card';
+import { IoMdRefreshCircle } from 'react-icons/io';
+import { IoHelpCircle } from 'react-icons/io5';
 
 function RecommendedGameCard() {
   return (
@@ -146,19 +74,38 @@ function RecommendedGameCard() {
             Personalized to master the alphabet
           </span>
         </div>
-        <div
-          className={clsx(
-            'bg-white',
-            'border border-slate-200',
-            'text-[10px] font-bold',
-            'text-slate-600',
-            'px-2 py-1',
-            'rounded-lg',
-            'ml-2',
-            'whitespace-nowrap',
-          )}
-        >
-          WHY?
+        <div className="flex items-center gap-2">
+          <div
+            className={clsx(
+              'flex items-center gap-1',
+              'bg-white',
+              'border border-slate-200',
+              'text-[10px] font-bold',
+              'text-slate-600',
+              'px-2 py-1',
+              'rounded-lg',
+              'whitespace-nowrap',
+            )}
+          >
+            <IoHelpCircle className="size-4 text-slate-400" />
+            WHY?
+          </div>
+          <div
+            className={clsx(
+              'flex items-center gap-1',
+
+              'bg-white',
+              'border border-slate-200',
+              'text-[10px] font-bold',
+              'text-slate-600',
+              'px-2 py-1',
+              'rounded-lg',
+              'whitespace-nowrap',
+            )}
+          >
+            <IoMdRefreshCircle className="size-4 text-blue-600" />
+            NEW RECOMENDATION
+          </div>
         </div>
       </button>
 
@@ -332,13 +279,13 @@ function GameActions() {
             'bg-white',
             'border-2 border-violet-800',
             'hover:bg-violet-50',
-            'rounded-xl',
+            'rounded-md',
             'p-3',
             'flex flex-row items-center justify-center gap-2',
             'transition-colors',
           )}
         >
-          <FaGraduationCap className="size-6" />
+          <FaGraduationCap className="size-5" />
           <span>LEARN</span>
         </button>
 
@@ -352,7 +299,7 @@ function GameActions() {
             'text-white',
             'bg-violet-800',
             'hover:bg-violet-900',
-            'rounded-xl',
+            'rounded-md',
             'p-3',
             'flex flex-row items-center justify-center gap-2',
             'shadow-md',
@@ -363,27 +310,6 @@ function GameActions() {
           <span>PLAY NOW</span>
         </button>
       </div>
-
-      {/* Row 2: New Game (Ghost) */}
-      <button
-        type="button"
-        className={clsx(
-          'w-full',
-          'cursor-pointer',
-          'text-sm font-bold',
-          'text-slate-500',
-          'hover:text-slate-700',
-          'hover:bg-slate-100',
-          'rounded-lg',
-          'p-2',
-          'flex flex-row items-center justify-center gap-2',
-          'transition-colors',
-          'border',
-        )}
-      >
-        <SlRefresh className="size-4" />
-        <span>I WANT A NEW GAME</span>
-      </button>
     </div>
   );
 }
@@ -411,7 +337,7 @@ export function ForYouPage() {
           'min-h-0', // Allow flex children to shrink properly
         )}
       >
-        <UserStatsCard />
+        <UserSummaryCard />
         <RecommendedGameCard />
         <GameActions />
       </div>
