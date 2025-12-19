@@ -18,7 +18,8 @@ test.describe('Game Client Smoke Tests', () => {
 
     // Verify we're on the freestyle page by checking for module content
     // The freestyle page should show modules and lessons
-    await expect(page.getByText('Alphabet')).toBeVisible({
+    // Use getByRole to be more specific and avoid matching "Personalized to master the alphabet" text
+    await expect(page.getByRole('heading', { name: 'Alphabet' })).toBeVisible({
       timeout: 10000,
     });
 
