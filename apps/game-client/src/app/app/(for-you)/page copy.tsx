@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { FaGamepad } from 'react-icons/fa';
 import { SlRefresh } from 'react-icons/sl';
 import { Box } from '../../../domains/shared/components/box';
-import { FlashcardsCarrousel } from '../word-flashcards-carrousel';
+import { WordFlashcardsCarrousel } from '../word-flashcards-carrousel';
 import { ResponsiveContainer } from '../../../domains/shared/components/responsive-container';
 
 export function RecommendedGame() {
@@ -72,7 +72,7 @@ export function RecommendedGame() {
         {/* recommended game: flashcards carrousel */}
         <div className={clsx('w-full h-86  max-h-86 rounded-4xl')}>
           {isFlashcardsCarrouselVisible && (
-            <FlashcardsCarrousel
+            <WordFlashcardsCarrousel
               className={clsx(
                 //
                 'w-full h-full',
