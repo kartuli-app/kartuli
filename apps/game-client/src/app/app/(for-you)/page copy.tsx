@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { FaGamepad } from 'react-icons/fa';
 import { SlRefresh } from 'react-icons/sl';
 import { Box } from '../../../domains/shared/components/box';
-import { WordFlashcardsCarrousel } from '../word-flashcards-carrousel';
 import { ResponsiveContainer } from '../../../domains/shared/components/responsive-container';
+import { WordFlashcardsCarrousel } from '../word-flashcards-carrousel';
 
 export function RecommendedGame() {
   const [isFlashcardsCarrouselVisible, setFlashcardsCarrouselVisible] = useState(false);

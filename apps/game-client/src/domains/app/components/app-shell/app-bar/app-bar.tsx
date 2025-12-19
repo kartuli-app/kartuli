@@ -2,9 +2,9 @@
 import { clsx } from 'clsx';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { usePathname } from 'next/navigation';
+import { routeUtils } from '@/domains/app/routes/route-utils';
 import { Box } from '@/domains/shared/components/box';
 import { Container } from '@/domains/shared/components/container';
-import { routeUtils } from '@/domains/app/routes/route-utils';
 import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
 import { AppBarBackButton } from './app-bar-back-button';
 import { AppBarMascot } from './app-bar-mascot';

@@ -1,5 +1,5 @@
-import { ROUTES } from './routes';
 import type { RouteConfig } from './route-config';
+import { ROUTES } from './routes';
 
 const isHubPage = (pathname: string): boolean => {
   return pathname === ROUTES.FOR_YOU.path || pathname === ROUTES.FREESTYLE.path;

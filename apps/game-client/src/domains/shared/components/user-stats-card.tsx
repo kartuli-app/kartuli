@@ -1,7 +1,6 @@
 'use client';
 
 import { clsx } from 'clsx';
-import { BsPersonFillUp } from 'react-icons/bs';
 import { FaPersonArrowUpFromLine } from 'react-icons/fa6';
 import { HiOutlineChatBubbleLeftEllipsis } from 'react-icons/hi2';
 import { LuClock, LuGitCompareArrows } from 'react-icons/lu';

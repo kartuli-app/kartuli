@@ -1,7 +1,6 @@
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
+import { BiSearchAlt, BiSearchAlt2, BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
 import { PiBookOpenTextFill, PiBookOpenTextLight } from 'react-icons/pi';
-import { BiSearchAlt, BiSearchAlt2 } from 'react-icons/bi';
 import type { RouteConfig } from '@/domains/app/routes/route-config';
 
 export const ROUTES: Record<string, RouteConfig> = {

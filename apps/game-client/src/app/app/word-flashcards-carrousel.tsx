@@ -2,21 +2,19 @@
 
 import { clsx } from 'clsx';
 import type React from 'react';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
+import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import type { Swiper as SwiperType } from 'swiper';
-
-import { Keyboard, Pagination, Navigation } from 'swiper/modules';
+import { Keyboard, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
 import { FaHeart } from 'react-icons/fa';
-import { IconButton } from '../../domains/shared/components/icon-button';
 import { PiPlayFill } from 'react-icons/pi';
+import { IconButton } from '../../domains/shared/components/icon-button';
 
 interface WordItem {
   text_player_lang: string;

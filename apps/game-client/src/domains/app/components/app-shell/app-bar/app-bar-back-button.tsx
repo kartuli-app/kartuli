@@ -4,8 +4,8 @@ import { Tooltip } from '@base-ui-components/react/tooltip';
 import { clsx } from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 import { ImArrowLeft } from 'react-icons/im';
-import { IconButton } from '@/domains/shared/components/icon-button';
 import { routeUtils } from '@/domains/app/routes/route-utils';
+import { IconButton } from '@/domains/shared/components/icon-button';
 
 export function AppBarBackButton() {
   const pathname = usePathname();

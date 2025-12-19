@@ -1,5 +1,5 @@
-import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
 import { clsx } from 'clsx';
+import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
 
 export function WorkInProgressPage() {
   return (

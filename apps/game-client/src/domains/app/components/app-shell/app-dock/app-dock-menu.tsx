@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import { PiDotsThreeOutline, PiDotsThreeOutlineFill } from 'react-icons/pi';
 import { ROUTES } from '@/domains/app/routes/routes';
 import { useMediaQuery } from '@/domains/shared/hooks/use-media-query';
-import { PiDotsThreeOutline, PiDotsThreeOutlineFill } from 'react-icons/pi';
 
 type MoreMenuEntry =
   | { type: 'link'; id: string; label: string; href: string }

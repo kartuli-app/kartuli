@@ -1,21 +1,20 @@
 'use client';
 
 import { clsx } from 'clsx';
+import { BiTimeFive } from 'react-icons/bi';
 import {
+  FaBrain,
   FaGamepad,
   FaGraduationCap,
   FaLayerGroup,
-  FaBrain,
   FaLightbulb,
-  FaStar,
   FaRedo,
+  FaStar,
 } from 'react-icons/fa';
-import { SlRefresh } from 'react-icons/sl';
-import { BiTimeFive } from 'react-icons/bi';
-import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
-import { UserSummaryCard } from '@/domains/shared/components/user-stats-card';
 import { IoMdRefreshCircle } from 'react-icons/io';
 import { IoHelpCircle } from 'react-icons/io5';
+import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
+import { UserSummaryCard } from '@/domains/shared/components/user-stats-card';
 
 function RecommendedGameCard() {
   return (
