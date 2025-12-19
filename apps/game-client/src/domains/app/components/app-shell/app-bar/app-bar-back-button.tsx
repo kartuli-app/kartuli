@@ -11,7 +11,11 @@ export function AppBarBackButton() {
   const pathname = usePathname();
   const router = useRouter();
   const showBackButton = routeUtils.shouldShowBackButton(pathname);
-  const onBackButtonClick = () => router.push(routeUtils.getBackRoute(pathname));
+  const onBackButtonClick = () => {
+    const backRoute = routeUtils.getBackRoute(pathname);
+    // Use push for client-side navigation (works better offline)
+    router.push(backRoute);
+  };
   return showBackButton ? (
     <Tooltip.Provider>
       <Tooltip.Root delay={1}>

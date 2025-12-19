@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import { lessonsById } from '@/domains/app/content/library';
 import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';

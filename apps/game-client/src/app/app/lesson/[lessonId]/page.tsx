@@ -1,6 +1,10 @@
+'use client';
+
+import { useParams } from 'next/navigation';
 import { LessonLobbyPage } from '@/domains/app/pages/lesson-lobby-page';
 
-export default async function LessonPage({ params }: { params: Promise<{ lessonId: string }> }) {
-  const { lessonId } = await params;
+export default function LessonPage() {
+  const params = useParams();
+  const lessonId = params.lessonId as string;
   return <LessonLobbyPage lessonId={lessonId} />;
 }

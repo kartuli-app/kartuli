@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { clsx } from 'clsx';
 import { Noto_Sans_Georgian } from 'next/font/google';
+import { ServiceWorkerRegister } from './service-worker-register';
 
 const font = Noto_Sans_Georgian({
   subsets: ['georgian'],
@@ -39,6 +40,7 @@ export function RootLayout({
         )}
       >
         {children}
+        <ServiceWorkerRegister />
         {/* TODO: Future: Add analytics scripts here with !_isCiAudit condition */}
         {/* TODO: Current status: CI_AUDIT={_isCiAudit ? 'enabled' : 'disabled'} */}
       </body>
