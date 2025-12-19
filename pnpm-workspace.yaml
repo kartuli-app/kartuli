@@ -22,8 +22,8 @@ catalog:
   # TypeScript
   typescript: ^5.7.2
   '@types/node': ^22.10.5
-  '@types/react': ^19.2.0
-  '@types/react-dom': ^19.2.0
+  '@types/react': ^19.2.7
+  '@types/react-dom': ^19.2.3
   
   # Storybook
   storybook: ^8.5.3
