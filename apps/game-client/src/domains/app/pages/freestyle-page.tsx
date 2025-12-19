@@ -1,5 +1,5 @@
 import { ResponsiveContainer } from '@/domains/shared/components/responsive-container';
-import { WordFlashcardsCarrousel } from '@/app/app/flashcards-carrousel';
+import { WordFlashcardsCarrousel } from '@/app/app/word-flashcards-carrousel';
 import clsx from 'clsx';
 
 export function FreestylePage() {
