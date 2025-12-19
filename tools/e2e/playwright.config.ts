@@ -39,11 +39,17 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run dev',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  // Only start webServer locally, not in CI (CI tests against deployed URLs)
+  // In CI, tests run against deployed URLs, so webServer is not needed
+  webServer: process.env.CI
+    ? undefined
+    : {
+        command: 'pnpm --filter @kartuli/game-client dev',
+        url: 'http://localhost:3000',
+        reuseExistingServer: true,
+        timeout: 120000, // 2 minutes for Next.js to start
+        cwd: '../..', // Run from workspace root
+      },
 
   /* Global test timeout */
   timeout: 30000,

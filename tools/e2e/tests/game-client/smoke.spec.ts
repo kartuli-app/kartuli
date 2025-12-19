@@ -24,7 +24,8 @@ test.describe('Game Client Smoke Tests', () => {
     });
 
     // Verify at least one lesson is visible (e.g., "The Five Vowels")
-    await expect(page.getByText(/The Five Vowels|Sounds You Know|More Easy Sounds/)).toBeVisible();
+    // Use getByRole to be specific and avoid strict mode violations
+    await expect(page.getByRole('heading', { name: 'The Five Vowels' })).toBeVisible();
   });
 
   test('no critical console errors on first load', async ({ page }) => {
