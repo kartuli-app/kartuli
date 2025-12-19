@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Game Client Smoke Tests', () => {
-  test('app boots and shows game home', async ({ page }) => {
+  test('app boots and redirects to freestyle page', async ({ page }) => {
     // Set Vercel protection bypass header if available
     const bypassSecret = process.env.VERCEL_PROTECTION_BYPASS_SECRET;
     if (bypassSecret) {
@@ -10,30 +10,20 @@ test.describe('Game Client Smoke Tests', () => {
       });
     }
 
-    // Navigate to the game client
+    // Navigate to the game client root
     await page.goto('/');
 
-    // Wait for the main heading to be visible with longer timeout
-    await expect(page.getByRole('heading', { name: 'Game Client' })).toBeVisible({
+    // Wait for redirect to /app/freestyle
+    await page.waitForURL('**/app/freestyle', { timeout: 10000 });
+
+    // Verify we're on the freestyle page by checking for module content
+    // The freestyle page should show modules and lessons
+    await expect(page.getByText('Alphabet')).toBeVisible({
       timeout: 10000,
     });
 
-    // Assert the heading is within the viewport
-    const heading = page.getByRole('heading', { name: 'Game Client' });
-    await expect(heading).toBeInViewport();
-
-    // Check for the new h2 element
-    await expect(
-      page.getByRole('heading', { name: 'E2E Testing Implementation Complete' }),
-    ).toBeVisible();
-
-    // Check for the stable test selector (if available)
-    const gameHomeElement = page.getByTestId('game-home');
-    if (await gameHomeElement.isVisible().catch(() => false)) {
-      await expect(gameHomeElement).toBeVisible();
-    } else {
-      console.log('ℹ️  data-testid="game-home" not found - using heading as fallback');
-    }
+    // Verify at least one lesson is visible (e.g., "The Five Vowels")
+    await expect(page.getByText(/The Five Vowels|Sounds You Know|More Easy Sounds/)).toBeVisible();
   });
 
   test('no critical console errors on first load', async ({ page }) => {

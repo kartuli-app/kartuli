@@ -28,3 +28,5 @@ describe('Landing Page', () => {
     expect(versionElements.length).toBeGreaterThan(0);
   });
 });
+
+// Note: Landing page is now accessible at /landing route, not at root (/)

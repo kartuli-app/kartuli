@@ -1,3 +1,5 @@
-import { LandingPage } from '@info/pages/landing-page';
+import { redirect } from 'next/navigation';
 
-export default LandingPage;
+export default function RootPage() {
+  redirect('/app/freestyle');
+}
