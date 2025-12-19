@@ -286,7 +286,7 @@ function GameActions() {
           )}
         >
           <FaGraduationCap className="size-5" />
-          <span>LEARN</span>
+          <span>STUDY</span>
         </button>
 
         {/* Play Button (Solid) */}

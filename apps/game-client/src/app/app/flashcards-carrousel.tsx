@@ -309,17 +309,17 @@ function WordFlashcard({ className, wordItem }: { className?: string; wordItem: 
   );
 }
 
-interface FlashcardsCarrouselProps {
+interface WordFlashcardsCarrouselProps {
   className?: string;
   initialSlide?: number;
   onSlideChange?: (slideIndex: number) => void;
 }
 
-export function FlashcardsCarrousel({
+export function WordFlashcardsCarrousel({
   className,
   initialSlide = 0,
   onSlideChange,
-}: FlashcardsCarrouselProps) {
+}: WordFlashcardsCarrouselProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
