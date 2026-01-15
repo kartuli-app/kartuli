@@ -7,9 +7,14 @@ import { Activity, useLayoutEffect, useMemo, useRef } from 'react';
 import { HubModeSwitch } from '@/domains/app/components/hub-mode-switch';
 import { ForYouPage } from '@/domains/app/pages/for-you-page';
 import { FreestylePage } from '@/domains/app/pages/freestyle-page';
+import { GamePage } from '@/domains/app/pages/game-page';
+import { LessonLobbyPage } from '@/domains/app/pages/lesson-lobby-page';
+import { PrivacyPage } from '@/domains/app/pages/privacy-page';
 import { ProfilePage } from '@/domains/app/pages/profile-page';
+import { ResourcesPage } from '@/domains/app/pages/resources-page';
 import { SavedPage } from '@/domains/app/pages/saved-page';
 import { SearchPage } from '@/domains/app/pages/search-page';
+import { TermsPage } from '@/domains/app/pages/terms-page';
 import { routeUtils } from '@/domains/app/routes/route-utils';
 import { ROUTES } from '@/domains/app/routes/routes';
 import { Container } from '@/domains/shared/components/container';
@@ -80,15 +85,16 @@ function AnimatedPageWrapper({
   );
 }
 
-interface ContentProps {
-  children: React.ReactNode;
-}
-
-export function AppContent({ children }: ContentProps) {
+export function AppContent() {
   const pathname = usePathname();
   const activityRoutes = routeUtils.getActivityRoutes();
   const isActivityRoute = activityRoutes.includes(pathname);
   const prefersReducedMotion = useReducedMotion();
+
+  // Extract lessonId from dynamic routes
+  const lessonMatch = pathname.match(/^\/app\/lesson\/(.+)$/);
+  const gameMatch = pathname.match(/^\/app\/game\/(.+)$/);
+  const lessonId = lessonMatch?.[1] || gameMatch?.[1];
 
   const forYouControls = useAnimationControls();
   const freestyleControls = useAnimationControls();
@@ -281,7 +287,13 @@ export function AppContent({ children }: ContentProps) {
 
       {!isActivityRoute && (
         <AnimatedPageWrapper key={pathname} pathname={pathname} controls={regularPageControls}>
-          {children}
+          {pathname.startsWith('/app/lesson/') && lessonId && (
+            <LessonLobbyPage lessonId={lessonId} />
+          )}
+          {pathname.startsWith('/app/game/') && lessonId && <GamePage lessonId={lessonId} />}
+          {pathname === ROUTES.RESOURCES.path && <ResourcesPage />}
+          {pathname === ROUTES.TERMS.path && <TermsPage />}
+          {pathname === ROUTES.PRIVACY.path && <PrivacyPage />}
         </AnimatedPageWrapper>
       )}
     </Container>

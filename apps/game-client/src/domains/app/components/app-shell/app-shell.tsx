@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import type { ReactNode } from 'react';
 import { AppContextProvider } from '@/domains/app/components/app-context';
 import { AppContent } from '@/domains/app/components/app-shell/app-content/app-content';
 import { Container } from '@/domains/shared/components/container';
@@ -7,11 +6,7 @@ import './app-shell.css';
 import { AppBar } from '@/domains/app/components/app-shell/app-bar/app-bar';
 import { AppDock } from '@/domains/app/components/app-shell/app-dock/app-dock';
 
-interface AppShellProps {
-  children: ReactNode;
-}
-
-export function AppShell({ children }: AppShellProps) {
+export function AppShell() {
   return (
     <AppContextProvider>
       <Container
@@ -25,7 +20,7 @@ export function AppShell({ children }: AppShellProps) {
         )}
       >
         <AppBar />
-        <AppContent>{children}</AppContent>
+        <AppContent />
         <AppDock />
       </Container>
     </AppContextProvider>
