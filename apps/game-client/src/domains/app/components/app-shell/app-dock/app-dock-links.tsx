@@ -51,9 +51,9 @@ export function AppDockLinks() {
     const Icon = isActive ? button.iconActive : button.iconInactive;
     return (
       <Link
+        prefetch={false}
         key={button.href}
         href={button.href}
-        prefetch
         onClick={() => handleLinkClick(button.href)}
         className={clsx(
           'flex flex-col',

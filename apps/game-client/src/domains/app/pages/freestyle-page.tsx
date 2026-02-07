@@ -38,6 +38,7 @@ export function FreestylePage() {
 
                 return (
                   <Link
+                    prefetch={false}
                     key={lessonId}
                     href={`/app/lesson/${lessonId}`}
                     className={clsx(

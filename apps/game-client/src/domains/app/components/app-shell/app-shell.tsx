@@ -6,7 +6,11 @@ import './app-shell.css';
 import { AppBar } from '@/domains/app/components/app-shell/app-bar/app-bar';
 import { AppDock } from '@/domains/app/components/app-shell/app-dock/app-dock';
 
-export function AppShell() {
+export function AppShell({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <AppContextProvider>
       <Container
@@ -21,6 +25,7 @@ export function AppShell() {
       >
         <AppBar />
         <AppContent />
+        {children}
         <AppDock />
       </Container>
     </AppContextProvider>

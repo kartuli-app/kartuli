@@ -57,8 +57,8 @@ export function HubModeSwitch() {
         />
       </div>
       <Link
+        prefetch={false}
         href="/app"
-        prefetch
         className={clsx(
           //
           'text-left',
@@ -75,8 +75,8 @@ export function HubModeSwitch() {
         For you
       </Link>
       <Link
+        prefetch={false}
         href="/app/freestyle"
-        prefetch
         className={clsx(
           //
           'text-right',

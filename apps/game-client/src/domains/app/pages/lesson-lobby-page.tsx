@@ -89,6 +89,7 @@ export function LessonLobbyPage({ lessonId }: { lessonId: string }) {
         </div>
 
         <Link
+          prefetch={false}
           href={`/app/game/${lessonId}`}
           className={clsx(
             'w-full',

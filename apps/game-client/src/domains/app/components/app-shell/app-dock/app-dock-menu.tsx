@@ -201,8 +201,8 @@ function NavigationMenuNextLink({
       )}
       render={
         <Link
+          prefetch={false}
           href={href}
-          prefetch
           className={clsx(
             //
             'block w-full',
