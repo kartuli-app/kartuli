@@ -1,6 +1,34 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["config:recommended", ":dependencyDashboard"],
+  "enabledManagers": ["npm", "pnpm"],
+  "ignorePaths": [".nvmrc"],
+  "schedule": ["before 3am on Monday"],
+  "labels": ["type:chore", "scope:global"],
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "prTitle": "chore: update dependencies ({{{depNames}}})",
+  "automerge": false,
+  "separateMajorMinor": false,
+  "separateMinorPatch": false,
+  "separateMultipleMajor": false,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["security"],
+      "groupName": "security updates",
+      "schedule": ["at any time"]
+    },
+    {
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "groupName": "all dependencies"
+    },
+    {
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["pnpm"],
+      "enabled": false
+    }
   ]
 }
