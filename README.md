@@ -71,7 +71,7 @@ Status: 🟢 Active | ⚫ Planned
 | ------- | -------- | ------ | ----- | ----- |
 | **Version Control** | GitHub | 🟢 | https://github.com/kartuli-app/ | |
 | **CI/CD** | GitHub | 🟢 | https://github.com/kartuli-app/ | • Labels sync<br>• Labels propagation from Issue to PR |
-| **Dependency Updates** | Mend.io | ⚫ | https://github.com/marketplace/renovate | • Automated dependency bot for PRs<br>• GitHub integration |
+| **Dependency Updates** | Mend.io | 🟢 | https://github.com/marketplace/renovate | • Automated dependency bot for PRs<br>• GitHub integration |
 | **Projects** | GitHub | 🟢 | https://github.com/kartuli-app/ | • Issue tracking<br>• Project boards |
 | **Hosting (Documentation)** | GitHub Pages | 🟢 | https://pages.github.com | VitePress documentation site |
 | **AI Code Review** | Qodo | 🟢 | https://qodo.ai | GitHub integration |
