@@ -5,6 +5,12 @@
   "ignorePaths": [".nvmrc"],
   "schedule": ["before 3am on Monday"],
   "labels": ["type:chore", "scope:global"],
+  "vulnerabilityAlerts": {
+    "labels": ["security", "type:chore", "scope:global"],
+    "groupName": "security updates",
+    "prCreation": "immediate",
+    "vulnerabilityFixStrategy": "lowest"
+  },
   "semanticCommits": "enabled",
   "semanticCommitType": "chore",
   "commitMessageAction": "update dependencies",
