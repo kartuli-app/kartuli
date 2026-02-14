@@ -1,18 +1,25 @@
 ---
-section: Home
-title: Home
+section: Gamarjoba
+title: Gamarjoba
+type: root
 ---
 
-# Kartuli Documentation
+# Gamarjoba
 
-Welcome to the Kartuli documentation! This is a Georgian language learning platform.
+## Overview
 
-## Quick Links
+This is the entrypoint for Kartuli project documentation.
+Use the sidebar for full navigation.
 
-- [Project Overview](/product/project-overview.html) - Learn about our mission and vision
-- [Tech Documentation](/tech/stack-and-providers) - Technical details and architecture
+## References
 
-## Documentation Sections
+### Start Here
 
-- **Product**: Project overview and mission
-- **Tech**: Technical documentation, decisions, and development guides
+- [Documentation Hub](./tech/development/documentation/index.md)
+- [Web Docs Client Hub](./tools/web-docs-client/index.md)
+- [Technical Backlog](./technical-backlog.md)
+- [Product Backlog](./product-backlog.md)
+
+### Related Docs
+
+- [Documentation Standards](./tech/development/documentation/documentation-standards.md)
