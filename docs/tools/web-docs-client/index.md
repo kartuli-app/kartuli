@@ -2,6 +2,7 @@
 section: Tools/Web Docs Client
 title: Web Docs Client Hub
 type: hub
+description: Hub for web docs client CI/CD and related provider documentation.
 ---
 
 # Web Docs Client Hub
@@ -21,7 +22,7 @@ Current focus is environment-specific CI/CD documentation and related provider c
 ### Related Docs
 
 - [Documentation Home](../../index.md)
-- [Technical Backlog](../../technical-backlog.md)
+- [Technical Backlog](../../backlog/technical-backlog.md)
 - [GitHub Actions CI/CD Provider](../../providers/github-actions-ci-cd.md)
 - [GitHub Pages Hosting Provider](../../providers/github-pages-hosting.md)
 

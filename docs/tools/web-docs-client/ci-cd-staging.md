@@ -2,6 +2,7 @@
 section: Tools/Web Docs Client
 title: Web Docs Client CI/CD Staging
 type: ci-cd
+description: Staging validation pipeline and planned staging CI/CD improvements.
 ---
 
 # Web Docs Client CI/CD Staging

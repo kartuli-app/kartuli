@@ -2,6 +2,7 @@
 section: Tech/Development/Documentation
 title: Documentation Hub
 type: hub
+description: Hub for documentation standards and maintenance workflows.
 ---
 
 # Documentation Hub
@@ -16,12 +17,13 @@ It defines how documentation is structured and how documentation relationships a
 ### Documents in This Hub
 
 - [Documentation Standards](./documentation-standards.md)
+- [Backlog Conventions](./backlog-conventions.md)
 - [Documentation Maintenance Workflow](./maintenance-workflow.md)
 
 ### Related Docs
 
 - [Start Here](../../../index.md)
-- [Technical Backlog](../../../technical-backlog.md)
+- [Technical Backlog](../../../backlog/technical-backlog.md)
 
 ### Technical Backlog
 

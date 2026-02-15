@@ -2,6 +2,7 @@
 section: Tech/Development/Documentation
 title: Documentation Maintenance Workflow
 type: standard
+description: Workflow and relationship rules for creating and updating documentation.
 ---
 
 # Documentation Maintenance Workflow

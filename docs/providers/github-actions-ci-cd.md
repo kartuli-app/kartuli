@@ -2,6 +2,7 @@
 section: Providers
 title: GitHub Actions CI/CD
 type: provider
+description: How GitHub Actions is used for CI/CD workflows and its usage boundaries.
 ---
 
 # GitHub Actions CI/CD

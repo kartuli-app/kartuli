@@ -2,6 +2,7 @@
 section: Tools/Web Docs Client
 title: Web Docs Client CI/CD Production
 type: ci-cd
+description: Production deploy pipeline triggers, steps, and failure handling.
 ---
 
 # Web Docs Client CI/CD Production

@@ -112,7 +112,6 @@ Object.entries(mergedSectionsTyped).forEach(([sectionName, { standalone, nested 
 });
 
 const nav = [
-  { text: 'Gamarjoba', link: '/' },
   ...Array.from(topLevelSections)
     .filter(
       (sectionName) =>
@@ -134,12 +133,6 @@ const nav = [
 
 // Convert merged sections to sidebar format with nested structure
 const sidebar: SidebarItem[] = [];
-
-// Add Gamarjoba as a direct sidebar link.
-sidebar.push({
-  text: 'Gamarjoba',
-  link: '/',
-});
 
 Object.entries(mergedSectionsTyped)
   .sort(([a], [b]) => compareTopLevelSections(a, b))

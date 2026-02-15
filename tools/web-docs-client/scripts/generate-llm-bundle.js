@@ -79,13 +79,15 @@ sortedDocuments.forEach(({ section, items }) => {
       bundle += `- **${item.text}**\n`;
       item.items.forEach((subItem) => {
         if (shouldSkipDoc(subItem)) return;
-        bundle += `  - [${subItem.text}](${toSiteUrl(subItem.link)})\n`;
+        const desc = subItem.description ? ` — ${subItem.description}` : '';
+        bundle += `  - [${subItem.text}](${toSiteUrl(subItem.link)})${desc}\n`;
       });
       return;
     }
 
     if (shouldSkipDoc(item)) return;
-    bundle += `- [${item.text}](${toSiteUrl(item.link)})\n`;
+    const desc = item.description ? ` — ${item.description}` : '';
+    bundle += `- [${item.text}](${toSiteUrl(item.link)})${desc}\n`;
   });
 
   bundle += '\n';

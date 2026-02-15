@@ -118,11 +118,13 @@ function generateNavigation() {
             const titleMatch = frontmatter.match(/title:\s*(.+)/);
             const typeMatch = frontmatter.match(/type:\s*(.+)/);
             const dateMatch = frontmatter.match(/date:\s*(.+)/);
+            const descriptionMatch = frontmatter.match(/description:\s*(.+)/);
 
             const section = sectionMatch ? sectionMatch[1].trim() : 'Other';
             const title = titleMatch ? titleMatch[1].trim() : displayName;
             const type = typeMatch ? typeMatch[1].trim() : undefined;
             const date = dateMatch ? dateMatch[1].trim() : undefined;
+            const description = descriptionMatch ? descriptionMatch[1].trim() : undefined;
             const isHub = file === 'index.md' || type === 'hub';
 
             if (!sections[section]) sections[section] = [];
@@ -132,6 +134,7 @@ function generateNavigation() {
               type,
               isHub,
               date,
+              description,
               filePath,
               content,
               processedContent: processMarkdownContent(content),

@@ -2,6 +2,7 @@
 section: Providers
 title: GitHub Pages Hosting
 type: provider
+description: How GitHub Pages hosts the documentation site and deployment constraints.
 ---
 
 # GitHub Pages Hosting
