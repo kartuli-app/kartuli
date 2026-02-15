@@ -1,8 +1,8 @@
 ---
 section: Tools/Web Docs Client
 title: Web Docs Client Hub
-type: hub
 description: Hub for web docs client CI/CD and related provider documentation.
+type: hub
 ---
 
 # Web Docs Client Hub
@@ -23,10 +23,8 @@ Current focus is environment-specific CI/CD documentation and related provider c
 
 - [Documentation Home](../../index.md)
 - [Technical Backlog](../../backlog/technical-backlog.md)
+
+### Providers
+
 - [GitHub Actions CI/CD Provider](../../providers/github-actions-ci-cd.md)
 - [GitHub Pages Hosting Provider](../../providers/github-pages-hosting.md)
-
-### Technical Backlog
-
-- [Introduce staging CI/CD pipeline for web docs client](./ci-cd-staging.md#introduce-staging-cicd-pipeline-for-web-docs-client)
-- [Add staging validation checks for dependency upgrades](./ci-cd-staging.md#add-staging-validation-checks-for-dependency-upgrades)

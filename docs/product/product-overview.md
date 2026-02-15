@@ -1,8 +1,8 @@
 ---
 section: Product
 title: Product Overview
-type: standard
 description: Mission, vision, principles, value proposition, and revenue model for Kartuli.
+type: standard
 ---
 
 # Product Overview
@@ -50,4 +50,3 @@ Non-Georgian speakers.
 ### Related Docs
 
 - [Product Backlog](../backlog/product-backlog.md)
-- [Documentation Standards](../tech/development/documentation/documentation-standards.md)

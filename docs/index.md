@@ -1,12 +1,12 @@
 ---
 section: Gamarjoba
 title: Welcome to the kartuli.app documentation
-type: root
 description: Root landing page for Kartuli documentation with navigation guidance for humans and AI agents.
+type: root
 ---
 
 <p align="center">
-  <img src="./mascot.png" alt="Alt text" width="50%">
+  <img src="./mascot.png" alt="Pipo, Kartuli mascot" width="50%">
 </p>
 
 <div style="text-align: center;">
@@ -19,7 +19,7 @@ description: Root landing page for Kartuli documentation with navigation guidanc
 
 ## What is kartuli.app?
 
-Kartuli.app aims to make Georgian language learning accessible and free for everyone—especially international residents, newcomers, and travelers in Georgia. 
+kartuli.app aims to make Georgian language learning accessible and free for everyone, especially international residents, newcomers, and travelers in Georgia. 
 
 No required accounts, no paywalls, no premium content; learning works offline and stays free.
 
@@ -40,5 +40,4 @@ Use the [llms.txt index](https://kartuli-app.github.io/kartuli/assets/kartuli-ll
 
 ## Quick links
 
-- [Product overview](product/product-overview) — Mission, vision, and how we run the project
-- [Technical documentation](tech/development/documentation/) — Standards and how we maintain docs
+- [Product overview](product/product-overview)

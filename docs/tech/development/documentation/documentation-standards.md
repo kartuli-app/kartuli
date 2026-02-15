@@ -1,8 +1,8 @@
 ---
 section: Tech/Development/Documentation
 title: Documentation Standards
-type: standard
 description: Frontmatter, document types, and references to Backlog Conventions for Kartuli docs.
+type: standard
 ---
 
 # Documentation Standards

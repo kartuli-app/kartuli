@@ -1,19 +1,13 @@
 ---
 section: Backlog
 title: Product Backlog
-type: backlog
 description: Product-level backlog and roadmap items.
+type: backlog
 ---
 
 # Product Backlog
 
-## Product Backlog
+## Tasks
 
 - No items defined yet.
 
-## References
-
-### Related Docs
-
-- [Product Overview](../product/product-overview.md)
-- [Documentation Standards](../tech/development/documentation/documentation-standards.md)

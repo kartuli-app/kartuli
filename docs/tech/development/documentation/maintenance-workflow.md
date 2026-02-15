@@ -1,8 +1,8 @@
 ---
 section: Tech/Development/Documentation
 title: Documentation Maintenance Workflow
-type: standard
 description: Workflow and relationship rules for creating and updating documentation.
+type: standard
 ---
 
 # Documentation Maintenance Workflow
@@ -20,23 +20,15 @@ When creating or updating documentation:
 Minimum relationship checks:
 - New document appears in the correct hub under `### Documents in This Hub`.
 - `### Related Docs` includes relevant cross-domain references.
-- If a task is added in an owner document, hubs/reference indexes list it under `### Technical Backlog`.
+- If a task is added in an owner document, add a link to it from the relevant central backlog (e.g. [Technical Backlog](../../../backlog/technical-backlog.md)).
 
 ## References
 
 ### Related Docs
 
-- [Documentation Hub](./index.md)
 - [Documentation Standards](./documentation-standards.md)
 
-### Technical Backlog Tasks
-
-#### Improve documentation home page content and layout
-
-- **What**: Define and implement a more useful landing page structure for `docs/index.md`.
-- **Why**: Current content duplicates sidebar navigation and provides limited onboarding value.
-- **Details**: Focus on concise introduction, practical quick links, and migration-context clarity.
-- **Status**: Proposed
+### Backlog Tasks
 
 #### Create documentation maintenance skill
 

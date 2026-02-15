@@ -1,8 +1,8 @@
 ---
 section: Tech/Development/Documentation
 title: Documentation Hub
-type: hub
 description: Hub for documentation standards and maintenance workflows.
+type: hub
 ---
 
 # Documentation Hub
@@ -11,6 +11,10 @@ description: Hub for documentation standards and maintenance workflows.
 
 This hub groups standards and maintenance workflows for project documentation.
 It defines how documentation is structured and how documentation relationships are maintained.
+
+## How the docs are published
+
+The documentation is built and deployed to a live website using the [Web Docs Client](../../../tools/web-docs-client/) tool.
 
 ## References
 
@@ -22,11 +26,5 @@ It defines how documentation is structured and how documentation relationships a
 
 ### Related Docs
 
-- [Start Here](../../../index.md)
+- [Web Docs Client Hub](../../../tools/web-docs-client/)
 - [Technical Backlog](../../../backlog/technical-backlog.md)
-
-### Technical Backlog
-
-- [Improve documentation home page content and layout](./maintenance-workflow.md#improve-documentation-home-page-content-and-layout)
-- [Create documentation maintenance skill](./maintenance-workflow.md#create-documentation-maintenance-skill)
-- [Add automated documentation validation checks](./maintenance-workflow.md#add-automated-documentation-validation-checks)

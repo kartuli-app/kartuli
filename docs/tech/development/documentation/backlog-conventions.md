@@ -1,8 +1,8 @@
 ---
 section: Tech/Development/Documentation
 title: Backlog Conventions
-type: standard
 description: Backlog listing and backlog tasks format, ownership, and optional Type/Area.
+type: standard
 ---
 
 # Backlog Conventions
