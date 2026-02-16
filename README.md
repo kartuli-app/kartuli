@@ -16,9 +16,9 @@ pnpm dev
 ## Documentation
 
 ```bash
-pnpm docs:dev     # Start documentation dev server
-pnpm docs:build   # Build documentation site
-pnpm docs:preview # Preview built documentation
+pnpm docs:dev        # Start documentation dev server (alias)
+pnpm run c:build:docs   # Build documentation site
+pnpm docs:preview    # Preview built documentation (alias)
 ```
 
 ### Links
