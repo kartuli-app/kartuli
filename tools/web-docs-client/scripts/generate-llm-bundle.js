@@ -24,19 +24,11 @@ const sectionOrder = {
   Packages: 8,
 };
 
-const excludedPathPatterns = [
-  // Add path fragments to exclude low-value utility pages if needed.
-];
-
 function shouldSkipDoc(doc) {
   if (!doc?.link) return true;
 
   // Future-proof explicit frontmatter skip marker support.
   if (typeof doc.content === 'string' && /(?:^|\n)llm:\s*skip(?:\n|$)/i.test(doc.content)) {
-    return true;
-  }
-
-  if (excludedPathPatterns.some((pattern) => doc.filePath?.includes(pattern))) {
     return true;
   }
 
