@@ -38,6 +38,8 @@ jobs:
 
       - name: Detect affected packages (build)
         id: affected
+        env:
+          TURBO_SCM_BASE: origin/main
         run: |
           pnpm exec turbo run build --dry=json --affected > turbo-dry.json 2>/dev/null || true
           AFFECTED_BUILD=$(jq -r '.tasks[]? | .package' turbo-dry.json 2>/dev/null | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
@@ -55,4 +57,4 @@ jobs:
             echo "$BUILD_PKGS" | jq -r '.[]' 2>/dev/null | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "*Using \`turbo run build --dry=json --affected\` (base: default branch)*" >> "$GITHUB_STEP_SUMMARY"
+          echo "*Using \`turbo run build --dry=json --affected\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
