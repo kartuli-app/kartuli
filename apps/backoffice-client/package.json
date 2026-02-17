@@ -7,6 +7,7 @@
     "dev": "next dev --turbo --port 3001",
     "build": "next build",
     "start": "next start --port 3001",
+    "preview": "next build && next start --port 3001",
     "test": "vitest run",
     "lint": "biome check .",
     "typecheck": "tsc --noEmit"
