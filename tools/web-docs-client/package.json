@@ -5,14 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vitepress dev",
-    "build": "vitepress build",
-    "build:docs": "vitepress build",
+    "build": "cd ../.. && pnpm exec vitepress build tools/web-docs-client",
     "preview": "vitepress preview",
-    "prebuild": "node scripts/generate-llm-bundle.js",
-    "postbuild": "node scripts/copy-llm-bundle.js",
-    "predev": "node scripts/generate-llm-bundle.js"
+    "postbuild": "node scripts/copy-llm-bundle.js"
   },
   "dependencies": {
+    "@kartuli/docs": "workspace:*",
     "vitepress": "catalog:",
     "search-insights": "catalog:",
     "vue": "catalog:",

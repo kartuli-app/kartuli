@@ -65,7 +65,8 @@ Architecture Decision Records must follow strict format:
 - **Implementation**: Current state of the system
 
 ### GitHub Actions
-Our workflows handle:
+- **Action pinning:** Pin third-party actions (e.g. `uses: pnpm/action-setup@...`) to the **full 40-character commit SHA**, not to a tag like `@v4`. Tags can be moved; SHAs are immutable and satisfy SonarCloud/security checks. Look up the SHA from the action’s repo (e.g. GitHub → Releases or refs/tags).
+- Our workflows handle:
 - **Label Management**: Auto-apply, propagate, and sync labels
 - **Documentation**: Generate LLM bundle, test, and deploy to GitHub Pages
 - **Quality**: Automated linting and testing

@@ -55,6 +55,21 @@ function processMarkdownContent(content) {
 }
 
 /**
+ * Sort documentation items with hub/index pages first, then by date, then by title.
+ * @param {Object} a - First item
+ * @param {Object} b - Second item
+ * @returns {number} - Sort order
+ */
+function compareDocItems(a, b) {
+  if (a.isHub && !b.isHub) return -1;
+  if (!a.isHub && b.isHub) return 1;
+  if (a.date && b.date) return a.date.localeCompare(b.date);
+  if (a.date && !b.date) return -1;
+  if (!a.date && b.date) return 1;
+  return a.text.localeCompare(b.text);
+}
+
+/**
  * Generate navigation data by scanning docs folder
  * @returns {Object} - Navigation data with sections and items
  */
@@ -74,10 +89,22 @@ function generateNavigation() {
         if (stat.isDirectory()) {
           scanDirectory(filePath, join(relativePath, file));
         } else if (file.endsWith('.md')) {
+          // Keep docs root index as landing page only; exclude from generated section listings.
+          if (!relativePath && file === 'index.md') {
+            return;
+          }
+
           const content = readFileSync(filePath, 'utf-8');
           // Use POSIX join to ensure forward slashes in URLs across all platforms
           const linkPath = relativePath ? posixJoin(relativePath, file) : file;
-          const link = `/${linkPath.replace('.md', '')}`;
+          let link;
+          if (linkPath === 'index.md') {
+            link = '/';
+          } else if (linkPath.endsWith('/index.md')) {
+            link = `/${linkPath.replace('/index.md', '/')}`;
+          } else {
+            link = `/${linkPath.replace('.md', '')}`;
+          }
           const displayName = file
             .replace('.md', '')
             .replace(/-/g, ' ')
@@ -89,23 +116,29 @@ function generateNavigation() {
             const frontmatter = frontmatterMatch[1];
             const sectionMatch = frontmatter.match(/section:\s*(.+)/);
             const titleMatch = frontmatter.match(/title:\s*(.+)/);
+            const typeMatch = frontmatter.match(/type:\s*(.+)/);
             const dateMatch = frontmatter.match(/date:\s*(.+)/);
+            const descriptionMatch = frontmatter.match(/description:\s*(.+)/);
 
             const section = sectionMatch ? sectionMatch[1].trim() : 'Other';
             const title = titleMatch ? titleMatch[1].trim() : displayName;
+            const type = typeMatch ? typeMatch[1].trim() : undefined;
             const date = dateMatch ? dateMatch[1].trim() : undefined;
+            const description = descriptionMatch ? descriptionMatch[1].trim() : undefined;
+            const isHub = file === 'index.md' || type === 'hub';
 
-            if (file !== 'index.md') {
-              if (!sections[section]) sections[section] = [];
-              sections[section].push({
-                text: title,
-                link,
-                date,
-                filePath,
-                content,
-                processedContent: processMarkdownContent(content),
-              });
-            }
+            if (!sections[section]) sections[section] = [];
+            sections[section].push({
+              text: title,
+              link,
+              type,
+              isHub,
+              date,
+              description,
+              filePath,
+              content,
+              processedContent: processMarkdownContent(content),
+            });
           }
         }
       });
@@ -135,18 +168,14 @@ function mergeSections(sections) {
 
   Object.entries(sections).forEach(([sectionName, items]) => {
     if (sectionName.includes('/')) {
-      const [parentSection, subSection] = sectionName.split('/');
+      const [parentSection, ...subSectionParts] = sectionName.split('/');
+      const subSection = subSectionParts.join('/');
 
       if (!mergedSections[parentSection]) {
         mergedSections[parentSection] = { standalone: [], nested: {} };
       }
 
-      const sortedItems = items.sort((a, b) => {
-        if (a.date && b.date) return a.date.localeCompare(b.date);
-        if (a.date && !b.date) return -1;
-        if (!a.date && b.date) return 1;
-        return a.text.localeCompare(b.text);
-      });
+      const sortedItems = items.sort(compareDocItems);
 
       mergedSections[parentSection].nested[subSection] = sortedItems;
     } else {
@@ -154,12 +183,7 @@ function mergeSections(sections) {
         mergedSections[sectionName] = { standalone: [], nested: {} };
       }
 
-      const sortedItems = items.sort((a, b) => {
-        if (a.date && b.date) return a.date.localeCompare(b.date);
-        if (a.date && !b.date) return -1;
-        if (!a.date && b.date) return 1;
-        return a.text.localeCompare(b.text);
-      });
+      const sortedItems = items.sort(compareDocItems);
 
       mergedSections[sectionName].standalone = sortedItems;
     }
@@ -193,6 +217,8 @@ function buildOrderedDocuments(mergedSections) {
         });
 
       const sortedAllItems = allItems.sort((a, b) => {
+        if (a.isHub && !b.isHub) return -1;
+        if (!a.isHub && b.isHub) return 1;
         const aDate = a.date || a.items?.[0]?.date;
         const bDate = b.date || b.items?.[0]?.date;
 

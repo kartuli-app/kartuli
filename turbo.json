@@ -1,16 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "remoteCache": {
-    "enabled": true
-  },
+  "remoteCache": { "enabled": true },
   "tasks": {
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
+    "dev": { "cache": false, "persistent": true },
     "build": {
       "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$"],
       "outputs": [
         "dist/**",
         "build/**",
@@ -21,15 +17,12 @@
         ".vitepress/dist/**"
       ]
     },
-    "build:docs": {
-      "dependsOn": ["^build"],
+    "@kartuli/web-docs-client#build": {
+      "inputs": ["$TURBO_DEFAULT$", "pnpm-lock.yaml", "../../docs/**", "scripts/**"],
       "outputs": [".vitepress/dist/**"]
     },
     "test": {},
-    "test:e2e": {
-      "cache": false,
-      "dependsOn": []
-    },
+    "test:e2e": { "cache": false, "dependsOn": [] },
     "lint": {
       "cache": true,
       "inputs": [
@@ -38,7 +31,8 @@
         "src/**/*.js",
         "src/**/*.jsx",
         "**/*.json",
-        "biome.json"
+        "biome.json",
+        "pnpm-lock.yaml"
       ]
     },
     "typecheck": {
@@ -55,6 +49,7 @@
         "pnpm-lock.yaml"
       ],
       "outputs": []
-    }
+    },
+    "preview": { "cache": false, "persistent": true }
   }
 }

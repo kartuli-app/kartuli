@@ -96,6 +96,9 @@ catalogs:
     typescript:
       specifier: ^5.7.2
       version: 5.9.3
+    vite:
+      specifier: ^7.0.0
+      version: 7.1.11
     vitepress:
       specifier: 1.6.4
       version: 1.6.4
@@ -254,6 +257,8 @@ importers:
         specifier: 'catalog:'
         version: 3.2.4(@types/node@22.18.10)(jiti@2.6.1)(jsdom@25.0.1)(lightningcss@1.30.1)
 
+  docs: {}
+
   packages/tailwind-config:
     dependencies:
       '@tailwindcss/postcss':
@@ -398,6 +403,9 @@ importers:
 
   tools/web-docs-client:
     dependencies:
+      '@kartuli/docs':
+        specifier: workspace:*
+        version: link:../../docs
       '@vue/server-renderer':
         specifier: 'catalog:'
         version: 3.5.22(vue@3.5.22(typescript@5.9.3))
@@ -8527,7 +8535,7 @@ snapshots:
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.1.9(@types/node@22.18.10)(jiti@2.6.1)(lightningcss@1.30.1)
+      vite: 7.1.11(@types/node@22.18.10)(jiti@2.6.1)(lightningcss@1.30.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
