@@ -63,9 +63,6 @@ jobs:
       - name: Run tests
         run: pnpm test
       
-      - name: Build game client and dependencies
-        run: pnpm turbo run build
-      
       - name: Deploy to Vercel
         id: deploy
         uses: amondnet/vercel-action@v25
