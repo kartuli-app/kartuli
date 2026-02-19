@@ -83,7 +83,7 @@ jobs:
   call-nextjs:
     name: call nextjs staging
     needs: detect-affected
-    if: length(fromJson(needs.detect-affected.outputs.nextjs_targets)) > 0
+    if: needs.detect-affected.outputs.nextjs_targets != '[]'
     strategy:
       matrix:
         target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
@@ -95,7 +95,7 @@ jobs:
   call-web-docs:
     name: call web-docs staging
     needs: detect-affected
-    if: length(fromJson(needs.detect-affected.outputs.web_docs_targets)) > 0
+    if: needs.detect-affected.outputs.web_docs_targets != '[]'
     strategy:
       matrix:
         target: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets) }}
@@ -107,7 +107,7 @@ jobs:
   call-storybook:
     name: call storybook staging
     needs: detect-affected
-    if: length(fromJson(needs.detect-affected.outputs.storybook_targets)) > 0
+    if: needs.detect-affected.outputs.storybook_targets != '[]'
     strategy:
       matrix:
         target: ${{ fromJson(needs.detect-affected.outputs.storybook_targets) }}
