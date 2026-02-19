@@ -50,8 +50,10 @@ jobs:
 
       - name: Map affected packages to workflow targets
         id: map
+        env:
+          PACKAGES_JSON: ${{ steps.affected.outputs.packages }}
         run: |
-          PACKAGES='${{ steps.affected.outputs.packages }}'
+          PACKAGES="${PACKAGES_JSON:-[]}"
           [ -z "$PACKAGES" ] && PACKAGES='[]'
           NEXTJS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/game-client" or . == "@kartuli/backoffice-client") | split("/")[1]] | unique')
           WEB_DOCS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/web-docs-client") | split("/")[1]] | unique')
@@ -67,10 +69,12 @@ jobs:
           echo "EOF" >> "$GITHUB_OUTPUT"
 
       - name: Write job summary
+        env:
+          BUILD_PKGS_JSON: ${{ steps.affected.outputs.packages }}
         run: |
           echo "## Orchestrator (staging) – affected packages (build)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          BUILD_PKGS='${{ steps.affected.outputs.packages }}'
+          BUILD_PKGS="${BUILD_PKGS_JSON:-[]}"
           if [ -z "$BUILD_PKGS" ] || [ "$BUILD_PKGS" = "[]" ]; then
             echo "No packages would run \`build\` for this change." >> "$GITHUB_STEP_SUMMARY"
           else
@@ -90,7 +94,8 @@ jobs:
     uses: ./.github/workflows/staging-w-app-nextjs.yml
     with:
       target: ${{ matrix.target }}
-    secrets: inherit
+    secrets:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
   call-web-docs:
     name: call web-docs staging
@@ -102,7 +107,8 @@ jobs:
     uses: ./.github/workflows/staging-w-tool-web-client-docs.yml
     with:
       target: ${{ matrix.target }}
-    secrets: inherit
+    secrets:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
   call-storybook:
     name: call storybook staging
@@ -114,4 +120,5 @@ jobs:
     uses: ./.github/workflows/staging-w-tool-storybook.yml
     with:
       target: ${{ matrix.target }}
-    secrets: inherit
+    secrets:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}

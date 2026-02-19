@@ -10,13 +10,19 @@ runs:
   using: composite
   steps:
     - name: Run typecheck
-      run: pnpm turbo run typecheck --filter=@kartuli/${{ inputs.target }}
+      env:
+        TARGET: ${{ inputs.target }}
+      run: pnpm turbo run typecheck --filter=@kartuli/"$TARGET"
       shell: bash
 
     - name: Run linting
-      run: pnpm turbo run lint --filter=@kartuli/${{ inputs.target }}
+      env:
+        TARGET: ${{ inputs.target }}
+      run: pnpm turbo run lint --filter=@kartuli/"$TARGET"
       shell: bash
 
     - name: Run tests
-      run: pnpm turbo run test --filter=@kartuli/${{ inputs.target }}
+      env:
+        TARGET: ${{ inputs.target }}
+      run: pnpm turbo run test --filter=@kartuli/"$TARGET"
       shell: bash

@@ -1,3 +1,4 @@
+# pnpm workspace root
 packages:
   - 'apps/*'
   - 'docs'
