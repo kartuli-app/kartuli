@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "kartuli",
+  "description": "Learn Georgian. No account needed. Free forever. Works offline.",
   "engines": {
     "node": ">=20.12.2 <21"
   },
