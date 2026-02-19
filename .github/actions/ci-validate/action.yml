@@ -1,0 +1,22 @@
+name: CI validate
+description: Run typecheck, lint, and test for a target package (run ci-setup first).
+
+inputs:
+  target:
+    description: Target workspace name (e.g. game-client, web-docs-client).
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run typecheck
+      run: pnpm turbo run typecheck --filter=@kartuli/${{ inputs.target }}
+      shell: bash
+
+    - name: Run linting
+      run: pnpm turbo run lint --filter=@kartuli/${{ inputs.target }}
+      shell: bash
+
+    - name: Run tests
+      run: pnpm turbo run test --filter=@kartuli/${{ inputs.target }}
+      shell: bash

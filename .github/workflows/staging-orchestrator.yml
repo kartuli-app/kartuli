@@ -1,0 +1,117 @@
+# Staging orchestrator: detects affected packages, maps to workflows, calls them.
+name: Staging Orchestrator
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  detect-affected:
+    name: detect-affected
+    runs-on: ubuntu-latest
+    outputs:
+      nextjs_targets: ${{ steps.map.outputs.nextjs_targets }}
+      web_docs_targets: ${{ steps.map.outputs.web_docs_targets }}
+      storybook_targets: ${{ steps.map.outputs.storybook_targets }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch origin/main
+        run: git fetch origin main
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+        with:
+          version: 9.12.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Detect affected packages (build)
+        id: affected
+        env:
+          TURBO_SCM_BASE: origin/main
+        run: |
+          pnpm exec turbo run build --dry=json --affected > turbo-dry.json 2>/dev/null || true
+          AFFECTED_BUILD=$(jq -r '.tasks[]? | .package' turbo-dry.json 2>/dev/null | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "packages=${AFFECTED_BUILD}" >> "$GITHUB_OUTPUT"
+
+      - name: Map affected packages to workflow targets
+        id: map
+        run: |
+          PACKAGES='${{ steps.affected.outputs.packages }}'
+          [ -z "$PACKAGES" ] && PACKAGES='[]'
+          NEXTJS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/game-client" or . == "@kartuli/backoffice-client") | split("/")[1]] | unique')
+          WEB_DOCS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/web-docs-client") | split("/")[1]] | unique')
+          STORYBOOK=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/storybook") | split("/")[1]] | unique')
+          echo "nextjs_targets<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$NEXTJS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "web_docs_targets<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$WEB_DOCS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "storybook_targets<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$STORYBOOK" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Write job summary
+        run: |
+          echo "## Orchestrator (staging) – affected packages (build)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          BUILD_PKGS='${{ steps.affected.outputs.packages }}'
+          if [ -z "$BUILD_PKGS" ] || [ "$BUILD_PKGS" = "[]" ]; then
+            echo "No packages would run \`build\` for this change." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Packages that would run \`build\`:" >> "$GITHUB_STEP_SUMMARY"
+            echo "$BUILD_PKGS" | jq -r '.[]' 2>/dev/null | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "*Using \`turbo run build --dry=json --affected\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
+
+  call-nextjs:
+    name: call nextjs staging
+    needs: detect-affected
+    if: length(fromJson(needs.detect-affected.outputs.nextjs_targets)) > 0
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
+    uses: ./.github/workflows/staging-w-app-nextjs.yml
+    with:
+      target: ${{ matrix.target }}
+    secrets: inherit
+
+  call-web-docs:
+    name: call web-docs staging
+    needs: detect-affected
+    if: length(fromJson(needs.detect-affected.outputs.web_docs_targets)) > 0
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets) }}
+    uses: ./.github/workflows/staging-w-tool-web-client-docs.yml
+    with:
+      target: ${{ matrix.target }}
+    secrets: inherit
+
+  call-storybook:
+    name: call storybook staging
+    needs: detect-affected
+    if: length(fromJson(needs.detect-affected.outputs.storybook_targets)) > 0
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.detect-affected.outputs.storybook_targets) }}
+    uses: ./.github/workflows/staging-w-tool-storybook.yml
+    with:
+      target: ${{ matrix.target }}
+    secrets: inherit
