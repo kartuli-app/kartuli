@@ -4,6 +4,11 @@ name: Staging Orchestrator
 on:
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: orchestrator-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
