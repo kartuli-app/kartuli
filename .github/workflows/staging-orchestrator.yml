@@ -107,6 +107,8 @@ jobs:
     uses: ./.github/workflows/staging-w-app-nextjs.yml
     with:
       target: ${{ matrix.target }}
+      deploy_target: "local"
+      pull_request_number: ${{ github.event.pull_request.number || '' }}
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 

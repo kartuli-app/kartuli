@@ -7,18 +7,39 @@ on:
         description: Target workspace (e.g. game-client, backoffice-client).
         required: true
         type: string
+      deploy_target:
+        description: Where to run/deploy (local = build + start + Lighthouse).
+        required: true
+        type: string
+      pull_request_number:
+        description: PR number (for commenting when called from orchestrator).
+        required: false
+        type: string
     secrets:
       TURBO_TOKEN:
         required: true
   workflow_dispatch:
     inputs:
       target:
-        description: Target workspace (e.g. game-client, backoffice-client).
+        description: Next.js app to run.
         required: true
-        type: string
+        type: choice
+        default: game-client
+        options:
+          - game-client
+          - backoffice-client
+      deploy_target:
+        description: Where to run / deploy.
+        required: true
+        type: choice
+        default: local
+        options:
+          - local
+          - vercel
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   validate:
@@ -27,6 +48,8 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+      TARGET: ${{ inputs.target }}
+      APP_URL: ${{ inputs.target == 'game-client' && 'http://localhost:3000' || 'http://localhost:3001' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,3 +61,97 @@ jobs:
         uses: ./.github/actions/ci-validate
         with:
           target: ${{ inputs.target }}
+
+      - name: Build
+        if: inputs.deploy_target == 'local'
+        env:
+          TARGET: ${{ inputs.target }}
+        run: pnpm turbo run build --filter=@kartuli/"$TARGET"
+        shell: bash
+
+      - name: Start server (background)
+        if: inputs.deploy_target == 'local'
+        env:
+          TARGET: ${{ inputs.target }}
+        run: |
+          pnpm --filter @kartuli/"$TARGET" run start &
+          sleep 15
+        shell: bash
+
+      - name: Run Lighthouse CI
+        id: lighthouse
+        if: inputs.deploy_target == 'local'
+        env:
+          CI_AUDIT: "true"
+          LIGHTHOUSE_ASSERT_LEVEL: "warn"
+          APP_URL: ${{ env.APP_URL }}
+        run: |
+          pnpm exec lhci autorun --collect.url="$APP_URL" 2>&1 | tee lighthouse_output.txt
+          REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+          echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
+          echo "Lighthouse report URL: ${REPORT_URL}"
+
+      - name: Upload Lighthouse artifacts
+        if: always() && inputs.deploy_target == 'local'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-artifacts-${{ inputs.target }}-${{ github.run_number }}
+          path: .lighthouseci/
+          retention-days: 7
+
+      - name: Write Lighthouse report to job summary
+        if: inputs.deploy_target == 'local'
+        run: |
+          echo "## Lighthouse report" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          REPORT_URL="${{ steps.lighthouse.outputs.report_url }}"
+          if [ -n "$REPORT_URL" ]; then
+            echo "[View Lighthouse report]($REPORT_URL)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Report URL not captured; check artifacts." >> "$GITHUB_STEP_SUMMARY"
+          fi
+        shell: bash
+
+      - name: Comment PR with Lighthouse report
+        if: inputs.deploy_target == 'local' && (github.event_name == 'pull_request' || inputs.pull_request_number != '')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number || '${{ inputs.pull_request_number }}';
+            const prNum = Number(prNumber);
+            if (!prNum) return;
+            const lighthouseReportUrl = '${{ steps.lighthouse.outputs.report_url }}';
+            const lighthouseReport = lighthouseReportUrl
+              ? `[Lighthouse Report](${lighthouseReportUrl})`
+              : '[Lighthouse Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
+            const commentBody = `## Staging – Next.js (${{ inputs.target }})
+
+            **Quality checks (local):**
+            - ${lighthouseReport}
+
+            ---
+            *Staging pipeline*`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNum,
+            });
+            const targetLabel = '## Staging – Next.js (${{ inputs.target }})';
+            const botComment = comments.find(c =>
+              c.user.login === 'github-actions[bot]' && c.body.includes(targetLabel)
+            );
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNum,
+                body: commentBody,
+              });
+            }
