@@ -10,8 +10,10 @@ concurrency:
   group: orchestrator-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
+# Reusable Next.js staging workflow posts PR comments; caller must grant permission.
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   detect-affected:
@@ -68,16 +70,10 @@ jobs:
           NEXTJS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/game-client" or . == "@kartuli/backoffice-client") | split("/")[1]] | unique')
           WEB_DOCS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/web-docs-client") | split("/")[1]] | unique')
           STORYBOOK=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/storybook") | split("/")[1]] | unique')
-          # Multiline output: <<EOF writes the following lines until EOF as the output value.
-          echo "nextjs_targets<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$NEXTJS" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-          echo "web_docs_targets<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$WEB_DOCS" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-          echo "storybook_targets<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$STORYBOOK" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          # Single-line outputs avoid trailing newlines so fromJson() gets stable JSON downstream.
+          echo "nextjs_targets=$NEXTJS" >> "$GITHUB_OUTPUT"
+          echo "web_docs_targets=$WEB_DOCS" >> "$GITHUB_OUTPUT"
+          echo "storybook_targets=$STORYBOOK" >> "$GITHUB_OUTPUT"
 
       # Expose affected package list in the Actions job summary (visible in the PR).
       - name: Write job summary
@@ -97,10 +93,11 @@ jobs:
           echo "*Using \`turbo run build --dry=json --affected\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
 
   # One reusable workflow run per target (e.g. game-client, backoffice-client); only if that list is non-empty.
+  # Use fromJson()[0] != null so whitespace/formatting in the output doesn't break the condition.
   call-nextjs:
     name: call nextjs staging
     needs: detect-affected
-    if: needs.detect-affected.outputs.nextjs_targets != '[]'
+    if: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets)[0] != null }}
     strategy:
       matrix:
         target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
@@ -115,7 +112,7 @@ jobs:
   call-web-docs:
     name: call web-docs staging
     needs: detect-affected
-    if: needs.detect-affected.outputs.web_docs_targets != '[]'
+    if: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets)[0] != null }}
     uses: ./.github/workflows/staging-w-tool-web-client-docs.yml
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -123,7 +120,7 @@ jobs:
   call-storybook:
     name: call storybook staging
     needs: detect-affected
-    if: needs.detect-affected.outputs.storybook_targets != '[]'
+    if: ${{ fromJson(needs.detect-affected.outputs.storybook_targets)[0] != null }}
     uses: ./.github/workflows/staging-w-tool-storybook.yml
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
