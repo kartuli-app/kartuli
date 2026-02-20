@@ -16,13 +16,13 @@ Full docs: [Web Docs Client Hub](../../docs/tools/web-docs-client/index.md).
 | `pnpm build` | Build the docs site (postbuild copies LLM bundle into assets). |
 | `pnpm preview` | Preview the built site locally. |
 
-From **repo root** you can run: `pnpm run c:build:docs`, `pnpm run c:dev:docs`, `pnpm run c:preview:docs`. Aliases: `pnpm docs:dev`, `pnpm docs:preview`.
+From **repo root** you can run: `pnpm run c:build:web-docs-client`, `pnpm run c:dev:web-docs-client`, `pnpm run c:preview:web-docs-client`. Aliases: `pnpm docs:dev`, `pnpm docs:preview`.
 
 To generate the LLM bundle manually: `node scripts/generate-llm-bundle.js` (from repo root or this folder).
 
 ## Local development
 
-- From repo root: `pnpm docs:dev` or `pnpm run c:dev:docs`. From this folder: `pnpm dev`. VitePress runs with source from `docs/`; default port is 5173, site under `/kartuli/`.
+- From repo root: `pnpm docs:dev` or `pnpm run c:dev:web-docs-client`. From this folder: `pnpm dev`. VitePress runs with source from `docs/`; default port is 5173, site under `/kartuli/`.
 - After adding or moving docs (or changing frontmatter that affects nav), **restart the dev server** so the navbar and sidebar update (they are built when the config loads).
 
 ## More

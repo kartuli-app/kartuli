@@ -17,7 +17,7 @@ pnpm dev
 
 ```bash
 pnpm docs:dev        # Start documentation dev server (alias)
-pnpm run c:build:docs   # Build documentation site
+pnpm run c:build:web-docs-client   # Build documentation site
 pnpm docs:preview    # Preview built documentation (alias)
 ```
 

@@ -24,7 +24,7 @@ Runs on push and pull request to `main` when docs or web-docs-client sources cha
 ## Pipeline Steps
 
 1. **Generate bundle** (always): Checkout, install dependencies, generate LLM bundle, upload bundle as workflow artifact.
-2. **Build** (on `main` only): Checkout, install dependencies, download LLM bundle artifact into `docs/`, build docs site (`pnpm run c:build:docs`), copy bundle into built assets so the site can serve it, configure GitHub Pages, upload the built output as the Pages artifact.
+2. **Build** (on `main` only): Checkout, install dependencies, download LLM bundle artifact into `docs/`, build docs site (`pnpm run c:build:web-docs-client`), copy bundle into built assets so the site can serve it, configure GitHub Pages, upload the built output as the Pages artifact.
 3. **Deploy** (on `main` only): Deploy the Pages artifact to GitHub Pages.
 
 ## Validation Gates

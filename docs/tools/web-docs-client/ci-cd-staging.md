@@ -25,7 +25,7 @@ Used to catch regressions (e.g. dependency or tooling changes) on pushes and pul
 
 1. Checkout repository, install dependencies.
 2. Generate LLM bundle from docs (writes to `docs/kartuli-llm.txt`).
-3. Build docs site (`pnpm run c:build:docs`).
+3. Build docs site (`pnpm run c:build:web-docs-client`).
 4. Copy LLM bundle into built assets so the site could serve it at the same URL as production.
 5. Validate output artifacts: bundle exists in `docs/`, built `index.html` exists, bundle exists in `dist/assets`.
 

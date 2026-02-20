@@ -99,7 +99,7 @@ jobs:
 
       # Build docs output before copying bundle to deployed assets.
       - name: Build docs
-        run: pnpm run c:build:docs
+        run: pnpm run c:build:web-docs-client
 
       # Copy bundle into built assets so llms.txt link works on Pages.
       - name: Copy LLM bundle to built assets
