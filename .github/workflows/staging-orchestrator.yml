@@ -39,15 +39,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Which packages would run `build` when compared to origin/main (Turbo affected).
       - name: Detect affected packages (build)
         id: affected
         env:
           TURBO_SCM_BASE: origin/main
         run: |
+          # Dry run: output task list as JSON; empty or missing file is ok (no affected).
           pnpm exec turbo run build --dry=json --affected > turbo-dry.json 2>/dev/null || true
+          # Extract package names (e.g. @kartuli/game-client), dedupe, output as JSON array for later steps.
           AFFECTED_BUILD=$(jq -r '.tasks[]? | .package' turbo-dry.json 2>/dev/null | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
           echo "packages=${AFFECTED_BUILD}" >> "$GITHUB_OUTPUT"
 
+      # Split affected package list into per-workflow target arrays (e.g. ["game-client"] for Next.js).
       - name: Map affected packages to workflow targets
         id: map
         env:
@@ -55,9 +59,11 @@ jobs:
         run: |
           PACKAGES="${PACKAGES_JSON:-[]}"
           [ -z "$PACKAGES" ] && PACKAGES='[]'
+          # Filter to workspace names per app type (split("/")[1] turns @kartuli/game-client → game-client).
           NEXTJS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/game-client" or . == "@kartuli/backoffice-client") | split("/")[1]] | unique')
           WEB_DOCS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/web-docs-client") | split("/")[1]] | unique')
           STORYBOOK=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/storybook") | split("/")[1]] | unique')
+          # Multiline output: <<EOF writes the following lines until EOF as the output value.
           echo "nextjs_targets<<EOF" >> "$GITHUB_OUTPUT"
           echo "$NEXTJS" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
@@ -68,6 +74,7 @@ jobs:
           echo "$STORYBOOK" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
 
+      # Expose affected package list in the Actions job summary (visible in the PR).
       - name: Write job summary
         env:
           BUILD_PKGS_JSON: ${{ steps.affected.outputs.packages }}
@@ -84,6 +91,7 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "*Using \`turbo run build --dry=json --affected\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
 
+  # One reusable workflow run per target (e.g. game-client, backoffice-client); only if that list is non-empty.
   call-nextjs:
     name: call nextjs staging
     needs: detect-affected
@@ -101,12 +109,7 @@ jobs:
     name: call web-docs staging
     needs: detect-affected
     if: needs.detect-affected.outputs.web_docs_targets != '[]'
-    strategy:
-      matrix:
-        target: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets) }}
     uses: ./.github/workflows/staging-w-tool-web-client-docs.yml
-    with:
-      target: ${{ matrix.target }}
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
@@ -114,11 +117,6 @@ jobs:
     name: call storybook staging
     needs: detect-affected
     if: needs.detect-affected.outputs.storybook_targets != '[]'
-    strategy:
-      matrix:
-        target: ${{ fromJson(needs.detect-affected.outputs.storybook_targets) }}
     uses: ./.github/workflows/staging-w-tool-storybook.yml
-    with:
-      target: ${{ matrix.target }}
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}

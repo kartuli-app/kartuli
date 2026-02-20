@@ -2,20 +2,10 @@ name: Staging – Web Docs Client
 
 on:
   workflow_call:
-    inputs:
-      target:
-        description: Target workspace (web-docs-client).
-        required: true
-        type: string
     secrets:
       TURBO_TOKEN:
         required: true
   workflow_dispatch:
-    inputs:
-      target:
-        description: Target workspace (web-docs-client).
-        required: true
-        type: string
 
 permissions:
   contents: read
@@ -37,4 +27,4 @@ jobs:
       - name: CI validate
         uses: ./.github/actions/ci-validate
         with:
-          target: ${{ inputs.target }}
+          target: web-docs-client

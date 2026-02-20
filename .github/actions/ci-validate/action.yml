@@ -9,20 +9,17 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Run typecheck
+    # Run all three in parallel on this runner: & backgrounds the process; wait collects exit codes; fail step if any failed.
+    - name: Run typecheck, lint, and test (parallel)
       env:
         TARGET: ${{ inputs.target }}
-      run: pnpm turbo run typecheck --filter=@kartuli/"$TARGET"
-      shell: bash
-
-    - name: Run linting
-      env:
-        TARGET: ${{ inputs.target }}
-      run: pnpm turbo run lint --filter=@kartuli/"$TARGET"
-      shell: bash
-
-    - name: Run tests
-      env:
-        TARGET: ${{ inputs.target }}
-      run: pnpm turbo run test --filter=@kartuli/"$TARGET"
+      run: |
+        pnpm turbo run typecheck --filter=@kartuli/"$TARGET" & PID1=$!
+        pnpm turbo run lint --filter=@kartuli/"$TARGET" & PID2=$!
+        pnpm turbo run test --filter=@kartuli/"$TARGET" & PID3=$!
+        wait $PID1; E1=$?
+        wait $PID2; E2=$?
+        wait $PID3; E3=$?
+        [ $E1 -ne 0 ] || [ $E2 -ne 0 ] || [ $E3 -ne 0 ] && exit 1
+        exit 0
       shell: bash
