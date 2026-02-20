@@ -42,8 +42,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  validate:
-    name: validate
+  validate-build-and-quality:
+    name: validate-build-and-quality
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}

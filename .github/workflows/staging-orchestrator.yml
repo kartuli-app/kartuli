@@ -10,10 +10,8 @@ concurrency:
   group: orchestrator-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
-# Reusable Next.js staging workflow posts PR comments; caller must grant permission.
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   detect-affected:
@@ -94,10 +92,14 @@ jobs:
 
   # One reusable workflow run per target (e.g. game-client, backoffice-client); only if that list is non-empty.
   # Use fromJson()[0] != null so whitespace/formatting in the output doesn't break the condition.
+  # Reusable Next.js workflow posts PR comments; only this job needs write (SonarQube S8233).
   call-nextjs:
     name: call nextjs staging
     needs: detect-affected
     if: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets)[0] != null }}
+    permissions:
+      contents: read
+      pull-requests: write
     strategy:
       matrix:
         target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
