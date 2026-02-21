@@ -26,6 +26,8 @@ on:
         required: false
       VERCEL_PROJECT_ID_BACKOFFICE_CLIENT:
         required: false
+      VERCEL_PROTECTION_BYPASS_SECRET:
+        required: false
   workflow_dispatch:
     inputs:
       target:
@@ -86,31 +88,42 @@ jobs:
           sleep 15
         shell: bash
 
+      - name: Deploy to Vercel Preview
+        if: inputs.deploy_target == 'vercel'
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT || secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+          github-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-deployment: false
+
       - name: Run Lighthouse CI
         id: lighthouse
-        if: inputs.deploy_target == 'local'
         env:
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "warn"
-          APP_URL: ${{ env.APP_URL }}
         run: |
-          pnpm exec lhci autorun --collect.url="$APP_URL" 2>&1 | tee lighthouse_output.txt
+          URL="${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}"
+          pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
           REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
           echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
           echo "Lighthouse report URL: ${REPORT_URL}"
 
       - name: Upload Lighthouse artifacts
-        if: always() && inputs.deploy_target == 'local'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-artifacts-${{ inputs.target }}-${{ github.run_number }}
+          name: lighthouse-artifacts-${{ inputs.target }}-${{ inputs.deploy_target }}-${{ github.run_number }}
           path: .lighthouseci/
           retention-days: 7
 
       - name: Write Lighthouse report to job summary
-        if: inputs.deploy_target == 'local'
         run: |
-          echo "## Lighthouse report" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Lighthouse report (${{ inputs.deploy_target }})" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           REPORT_URL="${{ steps.lighthouse.outputs.report_url }}"
           if [ -n "$REPORT_URL" ]; then
@@ -121,7 +134,7 @@ jobs:
         shell: bash
 
       - name: Comment PR with Lighthouse report
-        if: inputs.deploy_target == 'local' && (github.event_name == 'pull_request' || inputs.pull_request_number != '')
+        if: github.event_name == 'pull_request' || inputs.pull_request_number != ''
         uses: actions/github-script@v7
         with:
           script: |
@@ -132,10 +145,15 @@ jobs:
             const lighthouseReport = lighthouseReportUrl
               ? `[Lighthouse Report](${lighthouseReportUrl})`
               : '[Lighthouse Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
-            const commentBody = `## Staging – Next.js (${{ inputs.target }})
+            const deployTarget = '${{ inputs.deploy_target }}';
+            const previewUrl = '${{ steps.deploy.outputs.preview-url }}';
+            const previewLine = deployTarget === 'vercel' && previewUrl
+              ? `\n- [Vercel Preview](${previewUrl})`
+              : '';
+            const commentBody = `## Staging – Next.js (${{ inputs.target }}) – ${deployTarget}
 
-            **Quality checks (local):**
-            - ${lighthouseReport}
+            **Quality checks:**
+            - ${lighthouseReport}${previewLine}
 
             ---
             *Staging pipeline*`;
@@ -144,7 +162,7 @@ jobs:
               repo: context.repo.repo,
               issue_number: prNum,
             });
-            const targetLabel = '## Staging – Next.js (${{ inputs.target }})';
+            const targetLabel = '## Staging – Next.js (${{ inputs.target }}) – ${{ inputs.deploy_target }}';
             const botComment = comments.find(c =>
               c.user.login === 'github-actions[bot]' && c.body.includes(targetLabel)
             );
@@ -165,32 +183,19 @@ jobs:
             }
 
       - name: Setup Playwright
-        if: inputs.deploy_target == 'local'
         uses: ./.github/actions/ci-setup-playwright
 
       - name: Run E2E
-        if: inputs.deploy_target == 'local'
         env:
-          BASE_URL: "http://localhost:3000"
+          BASE_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          VERCEL_PROTECTION_BYPASS_SECRET: ${{ inputs.deploy_target == 'vercel' && secrets.VERCEL_PROTECTION_BYPASS_SECRET || '' }}
         run: pnpm --filter @kartuli/e2e exec playwright test tests/"$TARGET"
         shell: bash
 
       - name: Upload E2E artifacts on failure
-        if: failure() && inputs.deploy_target == 'local'
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-artifacts-${{ inputs.target }}-${{ github.run_number }}
+          name: e2e-artifacts-${{ inputs.target }}-${{ inputs.deploy_target }}-${{ github.run_number }}
           path: tools/e2e/test-results/
           retention-days: 3
-
-      - name: Deploy to Vercel Preview
-        id: deploy
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT || secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
-          scope: ${{ secrets.VERCEL_ORG_ID }}
-          github-comment: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-deployment: false
