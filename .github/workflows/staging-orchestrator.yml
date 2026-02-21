@@ -110,6 +110,10 @@ jobs:
       pull_request_number: ${{ github.event.pull_request.number || '' }}
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID_GAME_CLIENT: ${{ secrets.VERCEL_PROJECT_ID_GAME_CLIENT }}
+      VERCEL_PROJECT_ID_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
 
   call-web-docs:
     name: call web-docs staging
