@@ -57,11 +57,6 @@ jobs:
   validate-build-and-quality:
     name: validate-build-and-quality
     runs-on: ubuntu-latest
-    if: >-
-      ${{ inputs.deploy_target != 'vercel' ||
-        (secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' &&
-          ((inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT != '') ||
-            (inputs.target != 'game-client' && secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT != ''))) }}
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
