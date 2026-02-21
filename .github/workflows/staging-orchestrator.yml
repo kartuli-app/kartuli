@@ -91,7 +91,7 @@ jobs:
       fail-fast: false
       matrix:
         target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
-        deploy_target: [local, vercel]
+        deploy_target: [local]
     uses: ./.github/workflows/staging-w-app-nextjs.yml
     with:
       target: ${{ matrix.target }}
