@@ -15,11 +15,6 @@ on:
         description: PR number (for commenting when called from orchestrator).
         required: false
         type: string
-      vercel_project_id:
-        description: Vercel project ID for deploy (orchestrator passes from vars; leave empty to skip deploy).
-        required: false
-        type: string
-        default: ""
     secrets:
       TURBO_TOKEN:
         required: true
@@ -181,13 +176,12 @@ jobs:
           retention-days: 3
 
       - name: Deploy to Vercel Preview
-        if: inputs.vercel_project_id != ''
         id: deploy
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ inputs.vercel_project_id }}
+          vercel-project-id: ${{ inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT || secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           github-comment: true
           github-deployment: false
