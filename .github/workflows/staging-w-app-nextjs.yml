@@ -164,7 +164,7 @@ jobs:
         if: inputs.deploy_target == 'local'
         env:
           BASE_URL: "http://localhost:3000"
-        run: pnpm --filter @kartuli/e2e exec playwright test tests/${{ inputs.target }}
+        run: pnpm --filter @kartuli/e2e exec playwright test tests/"$TARGET"
         shell: bash
 
       - name: Upload E2E artifacts on failure
