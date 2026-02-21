@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       nextjs_targets: ${{ steps.map.outputs.nextjs_targets }}
+      nextjs_calls: ${{ steps.map.outputs.nextjs_calls }}
       web_docs_targets: ${{ steps.map.outputs.web_docs_targets }}
       storybook_targets: ${{ steps.map.outputs.storybook_targets }}
     steps:
@@ -57,10 +58,13 @@ jobs:
           echo "packages=${AFFECTED_BUILD}" >> "$GITHUB_OUTPUT"
 
       # Split affected package list into per-workflow target arrays (e.g. ["game-client"] for Next.js).
+      # nextjs_calls: array of { target, vercel_project_id } so call-nextjs can pass project ID per app.
       - name: Map affected packages to workflow targets
         id: map
         env:
           PACKAGES_JSON: ${{ steps.affected.outputs.packages }}
+          VERCEL_PROJECT_ID_GAME_CLIENT: ${{ vars.VERCEL_PROJECT_ID_GAME_CLIENT }}
+          VERCEL_PROJECT_ID_BACKOFFICE_CLIENT: ${{ vars.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
         run: |
           PACKAGES="${PACKAGES_JSON:-[]}"
           [ -z "$PACKAGES" ] && PACKAGES='[]'
@@ -68,8 +72,17 @@ jobs:
           NEXTJS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/game-client" or . == "@kartuli/backoffice-client") | split("/")[1]] | unique')
           WEB_DOCS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/web-docs-client") | split("/")[1]] | unique')
           STORYBOOK=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/storybook") | split("/")[1]] | unique')
-          # Single-line outputs avoid trailing newlines so fromJson() gets stable JSON downstream.
+          # Build nextjs_calls: [{ target, vercel_project_id }] for matrix. Add new app here when needed.
+          NEXTJS_CALLS=$(echo "$NEXTJS" | jq -r '.[]' | while read -r t; do
+            case "$t" in
+              game-client) pid="$VERCEL_PROJECT_ID_GAME_CLIENT" ;;
+              backoffice-client) pid="$VERCEL_PROJECT_ID_BACKOFFICE_CLIENT" ;;
+              *) pid="" ;;
+            esac
+            jq -n -c --arg target "$t" --arg vercel_project_id "${pid:-}" '{target:$target,vercel_project_id:$vercel_project_id}'
+          done | jq -s -c '.')
           echo "nextjs_targets=$NEXTJS" >> "$GITHUB_OUTPUT"
+          echo "nextjs_calls=$NEXTJS_CALLS" >> "$GITHUB_OUTPUT"
           echo "web_docs_targets=$WEB_DOCS" >> "$GITHUB_OUTPUT"
           echo "storybook_targets=$STORYBOOK" >> "$GITHUB_OUTPUT"
 
@@ -102,12 +115,13 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
+        include: ${{ fromJson(needs.detect-affected.outputs.nextjs_calls) }}
     uses: ./.github/workflows/staging-w-app-nextjs.yml
     with:
       target: ${{ matrix.target }}
       deploy_target: "local"
       pull_request_number: ${{ github.event.pull_request.number || '' }}
+      vercel_project_id: ${{ matrix.vercel_project_id }}
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
