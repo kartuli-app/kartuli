@@ -1,5 +1,5 @@
-import { applyVercelProtectionBypass } from '../helpers/apply-vercel-protection-bypass';
 import { expect, test } from '@playwright/test';
+import { applyVercelProtectionBypass } from '../helpers/apply-vercel-protection-bypass';
 import { expectNoCriticalConsoleErrors } from '../helpers/expect-no-critical-console-errors';
 
 test.describe('Backoffice Client Smoke Tests', () => {
