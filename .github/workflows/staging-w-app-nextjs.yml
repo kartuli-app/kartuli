@@ -57,6 +57,11 @@ jobs:
   validate-build-and-quality:
     name: validate-build-and-quality
     runs-on: ubuntu-latest
+    if: >-
+      ${{ inputs.deploy_target != 'vercel' ||
+        (secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' &&
+          ((inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT != '') ||
+            (inputs.target != 'game-client' && secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT != ''))) }}
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
@@ -198,7 +203,12 @@ jobs:
         env:
           BASE_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
           VERCEL_PROTECTION_BYPASS_SECRET: ${{ inputs.deploy_target == 'vercel' && (inputs.target == 'game-client' && secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT || secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT) || '' }}
-        run: pnpm --filter @kartuli/e2e exec playwright test tests/"$TARGET"
+        run: |
+          if [ -z "$BASE_URL" ]; then
+            echo "ERROR: BASE_URL is empty (deploy_target=$DEPLOY_TARGET)."
+            exit 1
+          fi
+          pnpm --filter @kartuli/e2e exec playwright test tests/"$TARGET"
         shell: bash
 
       - name: Upload E2E artifacts on failure

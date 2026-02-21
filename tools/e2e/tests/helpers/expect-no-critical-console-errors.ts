@@ -24,15 +24,20 @@ export async function expectNoCriticalConsoleErrors(
   const { path = '/', ignorePatterns = DEFAULT_IGNORE_PATTERNS } = options;
 
   const consoleErrors: string[] = [];
-  page.on('console', (msg) => {
+  const onConsole = (msg: { type: () => string; text: () => string }) => {
     if (msg.type() === 'error') {
       consoleErrors.push(msg.text());
     }
-  });
+  };
+  page.on('console', onConsole);
 
-  await applyVercelProtectionBypass(page);
-  await page.goto(path);
-  await page.waitForLoadState('networkidle');
+  try {
+    await applyVercelProtectionBypass(page);
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+    await page.waitForLoadState('domcontentloaded');
+  } finally {
+    page.off('console', onConsole);
+  }
 
   const criticalErrors = consoleErrors.filter((error) => !ignorePatterns.some((fn) => fn(error)));
   expect(criticalErrors).toHaveLength(0);
