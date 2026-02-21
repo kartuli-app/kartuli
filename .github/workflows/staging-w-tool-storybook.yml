@@ -11,8 +11,8 @@ permissions:
   contents: read
 
 jobs:
-  validate:
-    name: validate
+  validate-build-and-quality:
+    name: validate-build-and-quality
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -28,3 +28,19 @@ jobs:
         uses: ./.github/actions/ci-validate
         with:
           target: storybook
+
+      - name: Build
+        run: pnpm turbo run build --filter=@kartuli/storybook
+        shell: bash
+
+      - name: Start preview server (background)
+        run: |
+          pnpm turbo run preview --filter=@kartuli/storybook &
+          sleep 15
+        shell: bash
+
+      - name: Run E2E
+        env:
+          BASE_URL: "http://localhost:6006"
+        run: pnpm --filter @kartuli/e2e exec playwright test tests/storybook
+        shell: bash
