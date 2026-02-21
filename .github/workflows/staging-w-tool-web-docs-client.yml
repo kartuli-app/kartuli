@@ -39,6 +39,9 @@ jobs:
           sleep 15
         shell: bash
 
+      - name: Setup Playwright
+        uses: ./.github/actions/ci-setup-playwright
+
       - name: Run E2E
         env:
           BASE_URL: "http://localhost:4173"
