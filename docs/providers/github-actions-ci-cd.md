@@ -50,6 +50,8 @@ For app deploy: typecheck, lint, tests, and (after deploy) E2E and Lighthouse ru
 
 **Where to find them:** [Repository secrets](https://github.com/kartuli-app/kartuli/settings/secrets/actions) — Repository → Settings → Secrets and variables → Actions. All are repo secrets.
 
+**Fork pull requests:** GitHub does not pass repository secrets to workflows triggered by a `pull_request` from a fork. So when someone opens a PR from a fork, jobs that need these secrets (e.g. deploy, Turbo cache) will not receive them and may fail. This is expected and is a security measure. See [GitHub Repo Management](./github-repo-management.md) for the collaboration model and optional settings.
+
 #### `TURBO_TOKEN`
 
 - **Used in:** App Deploy (PR, Main).
@@ -92,6 +94,7 @@ For app deploy: typecheck, lint, tests, and (after deploy) E2E and Lighthouse ru
 
 ### Related Docs
 
+- [GitHub Repo Management](./github-repo-management.md) — Collaboration model, fork vs direct collaborator, and protection of workflows and secrets.
 - [Web Docs Client Hub](../tools/web-docs-client/index.md)
 - [Web Docs Client CI/CD Production](../tools/web-docs-client/ci-cd-production.md)
 - [Web Docs Client CI/CD Staging](../tools/web-docs-client/ci-cd-staging.md)

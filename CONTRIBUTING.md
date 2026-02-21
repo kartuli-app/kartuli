@@ -24,6 +24,10 @@ Welcome! Please read our documentation:
 - Use proper frontmatter format for navigation integration
 - Follow ADR template for decision documents
 
+## Collaboration and security
+
+- [GitHub Repo Management](docs/providers/github-repo-management.md) — How we handle contributors (fork vs direct collaborator), workflow and secrets security, and protecting the `.github/` folder.
+
 ## GitHub Actions
 Our workflows handle:
 - **Label Management**: Auto-apply, propagate, and sync labels
