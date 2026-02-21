@@ -26,7 +26,9 @@ on:
         required: false
       VERCEL_PROJECT_ID_BACKOFFICE_CLIENT:
         required: false
-      VERCEL_PROTECTION_BYPASS_SECRET:
+      VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT:
+        required: false
+      VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT:
         required: false
   workflow_dispatch:
     inputs:
@@ -188,7 +190,7 @@ jobs:
       - name: Run E2E
         env:
           BASE_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
-          VERCEL_PROTECTION_BYPASS_SECRET: ${{ inputs.deploy_target == 'vercel' && secrets.VERCEL_PROTECTION_BYPASS_SECRET || '' }}
+          VERCEL_PROTECTION_BYPASS_SECRET: ${{ inputs.deploy_target == 'vercel' && (inputs.target == 'game-client' && secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT || secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT) || '' }}
         run: pnpm --filter @kartuli/e2e exec playwright test tests/"$TARGET"
         shell: bash
 

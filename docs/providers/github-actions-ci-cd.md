@@ -76,11 +76,11 @@ For app deploy: typecheck, lint, tests, and (after deploy) E2E and Lighthouse ru
 - **What it's for:** Vercel project ID. Passed to vercel-action as `vercel-project-id`.
 - **Where to get it:** Vercel project settings.
 
-#### `VERCEL_PROTECTION_BYPASS_SECRET`
+#### `VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT` and `VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT`
 
-- **Used in:** App Deploy (PR, Main).
-- **What it's for:** Bypass for Vercel Deployment Protection. Passed to E2E step so smoke tests can hit preview/production URLs. Same value as Vercel’s “Protection Bypass for Automation” (Vercel: `VERCEL_AUTOMATION_BYPASS_SECRET`).
-- **Where to get it:** Vercel → Project → Security → Deployment Protection. See [E2E README](https://github.com/kartuli-app/kartuli/blob/main/tools/e2e/README.md) for setup.
+- **Used in:** Staging (Next.js app workflow) when running E2E against Vercel preview. The workflow passes the appropriate one as `VERCEL_PROTECTION_BYPASS_SECRET` so smoke tests use a single env key. Production E2E does not use these (production is not protected).
+- **What it's for:** Bypass for Vercel Deployment Protection per project. Same value as each project’s “Protection Bypass for Automation” (Vercel: `VERCEL_AUTOMATION_BYPASS_SECRET`).
+- **Where to get it:** Vercel → Project → Security → Deployment Protection, per project. See [E2E README](https://github.com/kartuli-app/kartuli/blob/main/tools/e2e/README.md) for setup.
 
 **Rotation:** Update the secret in Settings when a credential rotates; re-run the workflow or push to trigger runs that use it.
 
