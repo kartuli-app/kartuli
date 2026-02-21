@@ -192,4 +192,5 @@ jobs:
           vercel-project-id: ${{ inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT || secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           github-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           github-deployment: false
