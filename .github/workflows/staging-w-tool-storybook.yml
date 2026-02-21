@@ -36,7 +36,7 @@ jobs:
       - name: Start preview server (background)
         run: |
           pnpm turbo run preview --filter=@kartuli/storybook &
-          sleep 30
+          sleep 15
         shell: bash
 
       - name: Setup Playwright
