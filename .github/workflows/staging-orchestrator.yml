@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   detect-affected:
-    name: detect-affected
+    name: Detect modified apps
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -80,8 +80,8 @@ jobs:
   # One reusable workflow run per target (e.g. game-client, backoffice-client); only if that list is non-empty.
   # Use fromJson()[0] != null so whitespace/formatting in the output doesn't break the condition.
   # Reusable Next.js workflow posts PR comments; only this job needs write (SonarQube S8233).
-  call-nextjs:
-    name: call nextjs staging
+  call-nextjs-staging-workflow:
+    name: Staging CI Next.js APP
     needs: detect-affected
     if: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets)[0] != null }}
     permissions:
@@ -106,8 +106,8 @@ jobs:
       VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT }}
       VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT }}
 
-  call-web-docs:
-    name: call web-docs staging
+  call-web-docs-staging-workflow:
+    name: Staging CI Online documentation
     needs: detect-affected
     if: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets)[0] != null }}
     permissions:
@@ -116,8 +116,8 @@ jobs:
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
-  call-storybook:
-    name: call storybook staging
+  call-storybook-staging-workflow:
+    name: Staging CI Storybook
     needs: detect-affected
     if: ${{ fromJson(needs.detect-affected.outputs.storybook_targets)[0] != null }}
     permissions:
@@ -127,7 +127,7 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
   validate-e2e:
-    name: validate e2e (lint + typecheck)
+    name: Validate E2E
     runs-on: ubuntu-latest
     permissions:
       contents: read
