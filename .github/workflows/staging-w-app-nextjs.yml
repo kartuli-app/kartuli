@@ -88,7 +88,15 @@ jobs:
           TARGET: ${{ inputs.target }}
         run: |
           pnpm --filter @kartuli/"$TARGET" run start &
-          sleep 15
+          for i in $(seq 1 60); do
+            if curl -fsS "http://localhost:3000" >/dev/null 2>&1; then
+              echo "Server is up."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "ERROR: Server did not become ready in time."
+          exit 1
         shell: bash
 
       - name: Deploy to Vercel Preview
@@ -100,7 +108,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT || secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
-          github-comment: true
+          github-comment: ${{ github.event_name == 'pull_request' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-deployment: false
 
@@ -111,6 +119,10 @@ jobs:
           LIGHTHOUSE_ASSERT_LEVEL: "warn"
         run: |
           URL="${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}"
+          if [ -z "$URL" ]; then
+            echo "ERROR: APP URL is empty (deploy_target=${{ inputs.deploy_target }})."
+            exit 1
+          fi
           pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
           REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
           echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
