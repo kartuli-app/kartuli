@@ -49,7 +49,7 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       TARGET: ${{ inputs.target }}
-      APP_URL: ${{ inputs.target == 'game-client' && 'http://localhost:3000' || 'http://localhost:3001' }}
+      APP_URL: "http://localhost:3000"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -155,3 +155,14 @@ jobs:
                 body: commentBody,
               });
             }
+
+      - name: Setup Playwright
+        if: inputs.deploy_target == 'local'
+        uses: ./.github/actions/ci-setup-playwright
+
+      - name: Run E2E
+        if: inputs.deploy_target == 'local'
+        env:
+          BASE_URL: "http://localhost:3000"
+        run: pnpm --filter @kartuli/e2e exec playwright test tests/${{ inputs.target }}
+        shell: bash
