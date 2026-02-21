@@ -105,7 +105,7 @@ These are optional settings and files. None are required for security as long as
 
 ### Related Docs
 
-- [Contributing (root)](../../CONTRIBUTING.md) — Links to code conventions, GitHub workflow, and documentation.
+- [Contributing (root)](https://github.com/kartuli-app/kartuli/blob/main/CONTRIBUTING.md) — Links to code conventions, GitHub workflow, and documentation.
 - [GitHub Actions CI/CD](./github-actions-ci-cd.md) — How we use Actions and secrets.
 
 ### Providers
