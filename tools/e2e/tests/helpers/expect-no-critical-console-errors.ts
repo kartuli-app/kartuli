@@ -34,7 +34,9 @@ export async function expectNoCriticalConsoleErrors(
   try {
     await applyVercelProtectionBypass(page);
     await page.goto(path, { waitUntil: 'domcontentloaded' });
-    await page.waitForLoadState('domcontentloaded');
+    // Capture late console errors from hydration/chunk loading.
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(250);
   } finally {
     page.off('console', onConsole);
   }
