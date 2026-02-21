@@ -116,14 +116,6 @@ jobs:
           echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
           echo "Lighthouse report URL: ${REPORT_URL}"
 
-      - name: Upload Lighthouse artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-artifacts-${{ inputs.target }}-${{ inputs.deploy_target }}-${{ github.run_number }}
-          path: .lighthouseci/
-          retention-days: 7
-
       - name: Write Lighthouse report to job summary
         run: |
           echo "## Lighthouse report ($DEPLOY_TARGET)" >> "$GITHUB_STEP_SUMMARY"
