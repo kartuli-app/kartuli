@@ -10,13 +10,12 @@ concurrency:
   group: orchestrator-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   detect-affected:
     name: detect-affected
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       nextjs_targets: ${{ steps.map.outputs.nextjs_targets }}
       web_docs_targets: ${{ steps.map.outputs.web_docs_targets }}
@@ -111,6 +110,8 @@ jobs:
     name: call web-docs staging
     needs: detect-affected
     if: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets)[0] != null }}
+    permissions:
+      contents: read
     uses: ./.github/workflows/staging-w-tool-web-docs-client.yml
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -119,6 +120,8 @@ jobs:
     name: call storybook staging
     needs: detect-affected
     if: ${{ fromJson(needs.detect-affected.outputs.storybook_targets)[0] != null }}
+    permissions:
+      contents: read
     uses: ./.github/workflows/staging-w-tool-storybook.yml
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -126,6 +129,8 @@ jobs:
   validate-e2e:
     name: validate e2e (lint + typecheck)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
