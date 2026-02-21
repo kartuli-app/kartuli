@@ -117,10 +117,12 @@ jobs:
         env:
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "warn"
+          STEP_APP_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          STEP_DEPLOY_TARGET: ${{ inputs.deploy_target }}
         run: |
-          URL="${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}"
+          URL="$STEP_APP_URL"
           if [ -z "$URL" ]; then
-            echo "ERROR: APP URL is empty (deploy_target=${{ inputs.deploy_target }})."
+            echo "ERROR: APP URL is empty (deploy_target=$STEP_DEPLOY_TARGET)."
             exit 1
           fi
           pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
