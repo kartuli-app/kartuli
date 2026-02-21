@@ -1,5 +1,5 @@
-import { expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { applyVercelProtectionBypass } from './apply-vercel-protection-bypass';
 
 const DEFAULT_IGNORE_PATTERNS = [

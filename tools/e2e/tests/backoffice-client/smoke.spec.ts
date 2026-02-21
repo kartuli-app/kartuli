@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { expectNoCriticalConsoleErrors } from '../helpers/expect-no-critical-console-errors';
 import { applyVercelProtectionBypass } from '../helpers/apply-vercel-protection-bypass';
+import { expectNoCriticalConsoleErrors } from '../helpers/expect-no-critical-console-errors';
 
 test.describe('Backoffice Client Smoke Tests', () => {
   test('app boots and shows backoffice home', async ({ page }) => {
