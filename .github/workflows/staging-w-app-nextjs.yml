@@ -166,3 +166,11 @@ jobs:
           BASE_URL: "http://localhost:3000"
         run: pnpm --filter @kartuli/e2e exec playwright test tests/${{ inputs.target }}
         shell: bash
+
+      - name: Upload E2E artifacts on failure
+        if: failure() && inputs.deploy_target == 'local'
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-${{ inputs.target }}-${{ github.run_number }}
+          path: tools/e2e/test-results/
+          retention-days: 3
