@@ -125,7 +125,6 @@ jobs:
 
   validate-e2e:
     name: validate e2e (lint + typecheck)
-    needs: detect-affected
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
