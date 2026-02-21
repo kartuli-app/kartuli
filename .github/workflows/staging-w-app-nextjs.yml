@@ -61,6 +61,7 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       TARGET: ${{ inputs.target }}
+      DEPLOY_TARGET: ${{ inputs.deploy_target }}
       APP_URL: "http://localhost:3000"
     steps:
       - name: Checkout repository
@@ -93,7 +94,7 @@ jobs:
       - name: Deploy to Vercel Preview
         if: inputs.deploy_target == 'vercel'
         id: deploy
-        uses: amondnet/vercel-action@v25
+        uses: amondnet/vercel-action@16e87c0a08142b0d0d33b76aeaf20823c381b9b9
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
@@ -125,7 +126,7 @@ jobs:
 
       - name: Write Lighthouse report to job summary
         run: |
-          echo "## Lighthouse report (${{ inputs.deploy_target }})" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Lighthouse report ($DEPLOY_TARGET)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           REPORT_URL="${{ steps.lighthouse.outputs.report_url }}"
           if [ -n "$REPORT_URL" ]; then
