@@ -1,15 +1,10 @@
 import { expect, test } from '@playwright/test';
-import { expectNoCriticalConsoleErrors } from '../helpers/console-errors';
+import { expectNoCriticalConsoleErrors } from '../helpers/expect-no-critical-console-errors';
+import { applyVercelProtectionBypass } from '../helpers/apply-vercel-protection-bypass';
 
 test.describe('Game Client Smoke Tests', () => {
   test('app boots and shows game home', async ({ page }) => {
-    const bypassSecret = process.env.VERCEL_PROTECTION_BYPASS_SECRET;
-    if (bypassSecret) {
-      await page.setExtraHTTPHeaders({
-        'x-vercel-protection-bypass': bypassSecret,
-      });
-    }
-
+    await applyVercelProtectionBypass(page);
     await page.goto('/');
 
     await expect(page.getByRole('heading', { name: 'Game Client' })).toBeVisible({

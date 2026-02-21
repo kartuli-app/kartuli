@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
+import { applyVercelProtectionBypass } from './apply-vercel-protection-bypass';
 
 const DEFAULT_IGNORE_PATTERNS = [
   (error: string) => error.includes('401') || error.includes('403'),
@@ -14,7 +15,7 @@ export interface ExpectNoCriticalConsoleErrorsOptions {
 
 /**
  * Navigate to the given path, collect console errors, filter known acceptable ones,
- * and assert no critical errors. Sets Vercel bypass header when env is present.
+ * and assert no critical errors. Applies Vercel bypass header when env is present.
  */
 export async function expectNoCriticalConsoleErrors(
   page: Page,
@@ -29,13 +30,7 @@ export async function expectNoCriticalConsoleErrors(
     }
   });
 
-  const bypassSecret = process.env.VERCEL_PROTECTION_BYPASS_SECRET;
-  if (bypassSecret) {
-    await page.setExtraHTTPHeaders({
-      'x-vercel-protection-bypass': bypassSecret,
-    });
-  }
-
+  await applyVercelProtectionBypass(page);
   await page.goto(path);
   await page.waitForLoadState('networkidle');
 
