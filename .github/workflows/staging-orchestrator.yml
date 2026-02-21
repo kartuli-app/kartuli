@@ -22,6 +22,11 @@ jobs:
       web_docs_targets: ${{ steps.map.outputs.web_docs_targets }}
       storybook_targets: ${{ steps.map.outputs.storybook_targets }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: CI setup
         uses: ./.github/actions/ci-setup
 
@@ -126,6 +131,9 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: CI setup
         uses: ./.github/actions/ci-setup
 
