@@ -22,27 +22,11 @@ jobs:
       web_docs_targets: ${{ steps.map.outputs.web_docs_targets }}
       storybook_targets: ${{ steps.map.outputs.storybook_targets }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: CI setup
+        uses: ./.github/actions/ci-setup
 
       - name: Fetch origin/main
         run: git fetch origin main
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
-        with:
-          version: 9.12.2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       # Which packages would run `build` when compared to origin/main (Turbo affected).
       - name: Detect affected packages (build)
@@ -133,3 +117,20 @@ jobs:
     uses: ./.github/workflows/staging-w-tool-storybook.yml
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+
+  validate-e2e:
+    name: validate e2e (lint + typecheck)
+    needs: detect-affected
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+    steps:
+      - name: CI setup
+        uses: ./.github/actions/ci-setup
+
+      - name: Lint e2e
+        run: pnpm turbo run lint --filter=@kartuli/e2e
+
+      - name: Typecheck e2e
+        run: pnpm turbo run typecheck --filter=@kartuli/e2e
