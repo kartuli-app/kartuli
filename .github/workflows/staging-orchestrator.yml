@@ -115,7 +115,7 @@ jobs:
     name: call web-docs staging
     needs: detect-affected
     if: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets)[0] != null }}
-    uses: ./.github/workflows/staging-w-tool-web-client-docs.yml
+    uses: ./.github/workflows/staging-w-tool-web-docs-client.yml
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
