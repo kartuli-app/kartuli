@@ -7,13 +7,6 @@ test.describe('Web Docs Client Smoke Tests', () => {
   });
 
   test('nav has minimal structure', async ({ page }) => {
-    const bypassSecret = process.env.VERCEL_PROTECTION_BYPASS_SECRET;
-    if (bypassSecret) {
-      await page.setExtraHTTPHeaders({
-        'x-vercel-protection-bypass': bypassSecret,
-      });
-    }
-
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 

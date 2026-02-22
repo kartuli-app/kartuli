@@ -7,13 +7,6 @@ test.describe('Storybook Smoke Tests', () => {
   });
 
   test('sidebar has at least one section', async ({ page }) => {
-    const bypassSecret = process.env.VERCEL_PROTECTION_BYPASS_SECRET;
-    if (bypassSecret) {
-      await page.setExtraHTTPHeaders({
-        'x-vercel-protection-bypass': bypassSecret,
-      });
-    }
-
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 

@@ -37,7 +37,11 @@ export async function expectNoCriticalErrors(
     } else if (typeof err === 'string') {
       message = err;
     } else {
-      message = JSON.stringify(err);
+      try {
+        message = JSON.stringify(err);
+      } catch {
+        message = String(err);
+      }
     }
     consoleErrors.push(`pageerror: ${message}`);
   };
