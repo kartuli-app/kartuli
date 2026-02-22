@@ -31,12 +31,14 @@ export async function expectNoCriticalErrors(
     }
   };
   const onPageError = (err: unknown) => {
-    const message =
-      err instanceof Error
-        ? (err.stack ?? err.message)
-        : typeof err === 'string'
-          ? err
-          : JSON.stringify(err);
+    let message: string;
+    if (err instanceof Error) {
+      message = err.stack ?? err.message;
+    } else if (typeof err === 'string') {
+      message = err;
+    } else {
+      message = JSON.stringify(err);
+    }
     consoleErrors.push(`pageerror: ${message}`);
   };
 
