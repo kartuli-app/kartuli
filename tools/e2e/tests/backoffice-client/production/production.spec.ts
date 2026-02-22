@@ -3,7 +3,7 @@ import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protecti
 import { expectNoCriticalConsoleErrors } from '../../helpers/expect-no-critical-console-errors';
 
 test.describe('Backoffice Client Smoke Tests', () => {
-  test('app boots and shows backoffice home', async ({ page }) => {
+  test('landing has minimal structure', async ({ page }) => {
     await applyVercelProtectionBypass(page);
     await page.goto('/');
 
