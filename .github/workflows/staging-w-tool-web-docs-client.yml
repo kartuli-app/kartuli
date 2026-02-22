@@ -41,7 +41,7 @@ jobs:
         run: |
           pnpm turbo run preview --filter=@kartuli/web-docs-client &
           for i in $(seq 1 60); do
-            if curl -fsS "http://localhost:4173" >/dev/null 2>&1; then
+            if curl -fsS "http://localhost:4173/kartuli/" >/dev/null 2>&1; then
               echo "Preview server is up."
               exit 0
             fi
@@ -56,7 +56,7 @@ jobs:
 
       - name: Run E2E
         env:
-          BASE_URL: "http://localhost:4173"
+          BASE_URL: "http://localhost:4173/kartuli"
         run: pnpm --filter @kartuli/e2e exec playwright test tests/web-docs-client
         shell: bash
 
