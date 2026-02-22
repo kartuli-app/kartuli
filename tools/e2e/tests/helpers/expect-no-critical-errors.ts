@@ -8,18 +8,19 @@ const DEFAULT_IGNORE_PATTERNS = [
   (error: string) => error.includes('Failed to load resource'),
 ];
 
-export interface ExpectNoCriticalConsoleErrorsOptions {
+export interface ExpectNoCriticalErrorsOptions {
   path?: string;
   ignorePatterns?: ((error: string) => boolean)[];
 }
 
 /**
- * Navigate to the given path, collect console errors, filter known acceptable ones,
- * and assert no critical errors. Applies Vercel bypass header when env is present.
+ * Navigate to the given path, collect console errors and uncaught page errors,
+ * filter known acceptable ones, and assert no critical errors.
+ * Applies Vercel bypass header when env is present.
  */
-export async function expectNoCriticalConsoleErrors(
+export async function expectNoCriticalErrors(
   page: Page,
-  options: ExpectNoCriticalConsoleErrorsOptions = {},
+  options: ExpectNoCriticalErrorsOptions = {},
 ): Promise<void> {
   const { path = '/', ignorePatterns = DEFAULT_IGNORE_PATTERNS } = options;
 
@@ -29,7 +30,18 @@ export async function expectNoCriticalConsoleErrors(
       consoleErrors.push(msg.text());
     }
   };
+  const onPageError = (err: unknown) => {
+    const message =
+      err instanceof Error
+        ? (err.stack ?? err.message)
+        : typeof err === 'string'
+          ? err
+          : JSON.stringify(err);
+    consoleErrors.push(`pageerror: ${message}`);
+  };
+
   page.on('console', onConsole);
+  page.on('pageerror', onPageError);
 
   try {
     await applyVercelProtectionBypass(page);
@@ -39,6 +51,7 @@ export async function expectNoCriticalConsoleErrors(
     await page.waitForTimeout(250);
   } finally {
     page.off('console', onConsole);
+    page.off('pageerror', onPageError);
   }
 
   const criticalErrors = consoleErrors.filter((error) => !ignorePatterns.some((fn) => fn(error)));

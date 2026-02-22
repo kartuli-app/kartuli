@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { expectNoCriticalConsoleErrors } from '../helpers/expect-no-critical-console-errors';
+import { expectNoCriticalErrors } from '../helpers/expect-no-critical-errors';
 
 test.describe('Storybook Smoke Tests', () => {
   test('loads without critical console errors', async ({ page }) => {
-    await expectNoCriticalConsoleErrors(page);
+    await expectNoCriticalErrors(page);
   });
 
   test('sidebar has at least one section', async ({ page }) => {

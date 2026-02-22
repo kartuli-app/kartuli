@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
-import { expectNoCriticalConsoleErrors } from '../../helpers/expect-no-critical-console-errors';
+import { expectNoCriticalErrors } from '../../helpers/expect-no-critical-errors';
 
 test.describe('Backoffice Client Smoke Tests', () => {
   test('landing has minimal structure', async ({ page }) => {
@@ -15,6 +15,6 @@ test.describe('Backoffice Client Smoke Tests', () => {
   });
 
   test('no critical console errors on first load', async ({ page }) => {
-    await expectNoCriticalConsoleErrors(page);
+    await expectNoCriticalErrors(page);
   });
 });
