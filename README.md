@@ -25,6 +25,10 @@ pnpm docs:preview    # Preview built documentation (alias)
 - [Project Overview](https://docs.kartuli.app/)
 - [Contributing Guide](https://docs.kartuli.app/contributing)
 - [API Reference](https://docs.kartuli.app/api)
+- [Apps & tools](https://docs.kartuli.app/) — Game client, backoffice, Storybook, web-docs, E2E (overview and CI/CD per app/tool)
+- [Root scripts](docs/tech/development/root-scripts.md) — All root-level `pnpm` commands
+- [Staging & production pipelines](docs/tech/development/staging-pipelines.md) — [Production](docs/tech/development/production-pipelines.md)
+- [Quality tooling](docs/tech/development/quality-tooling.md) — Lint, typecheck, tests, E2E, Lighthouse, lefthook
 
 ## Stack
 
@@ -103,4 +107,5 @@ Status: 🟢 Active | ⚫ Planned
 ## Tools
 - [Storybook](./tools/storybook/) - Component development
 - [Web Docs Client](./tools/web-docs-client/) - Documentation site
+- [E2E](./tools/e2e/) - Playwright E2E tests (see [E2E docs](docs/tools/e2e/index.md) for CI usage)
 

@@ -34,4 +34,4 @@ Our workflows handle:
 - **Documentation**: Generate LLM bundle, test, and deploy to GitHub Pages
 - **Quality**: Automated linting and testing
 
-See [GitHub Workflow](./docs/tech/development/github-workflow.md) for detailed information.
+See [GitHub Workflow](./docs/tech/development/github-workflow.md) for detailed information. For pipeline structure (staging orchestrator, production workflows per app/tool), see [Staging pipelines](./docs/tech/development/staging-pipelines.md), [Production pipelines](./docs/tech/development/production-pipelines.md), and [Pipeline overview](./docs/tech/architecture/pipeline-overview.md). Full list of repository secrets: [GitHub Actions CI/CD — Secrets](./docs/providers/github-actions-ci-cd.md#secrets).
