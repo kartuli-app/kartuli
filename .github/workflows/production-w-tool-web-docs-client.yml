@@ -33,10 +33,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: CI setup
-        uses: ./.github/actions/ci-setup
+        uses: ./.github/actions/ci-setup-node
 
       - name: CI validate
-        uses: ./.github/actions/ci-validate
+        uses: ./.github/actions/ci-validate-monorepo-package
         with:
           target: web-docs-client
 

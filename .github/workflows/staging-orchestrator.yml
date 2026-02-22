@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
 
       - name: CI setup
-        uses: ./.github/actions/ci-setup
+        uses: ./.github/actions/ci-setup-node
 
       - name: Fetch origin/main
         run: git fetch origin main
@@ -139,7 +139,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: CI setup
-        uses: ./.github/actions/ci-setup
+        uses: ./.github/actions/ci-setup-node
 
       - name: Lint e2e
         run: pnpm turbo run lint --filter=@kartuli/e2e

@@ -1,25 +1,9 @@
-name: CI setup
-description: Checkout, pnpm, Node, Turbo cache, and install with frozen lockfile.
-
-inputs:
-  fetch-depth:
-    description: Git fetch depth for checkout (0 = full history).
-    required: false
-    default: "0"
-  include-checkout:
-    description: When true, run checkout in this action. Set to true when no checkout step runs before ci-setup; false when the workflow already checked out.
-    required: false
-    default: "false"
+name: CI setup node
+description: pnpm, Node, Turbo cache, and install with frozen lockfile. Run actions/checkout before this action.
 
 runs:
   using: composite
   steps:
-    - name: Checkout repository
-      if: inputs.include-checkout == 'true'
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: ${{ inputs.fetch-depth }}
-
     - name: Setup pnpm
       uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
       with:

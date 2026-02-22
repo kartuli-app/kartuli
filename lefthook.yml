@@ -8,7 +8,7 @@ pre-commit:
     # Lint everything
     lint:
       glob: "*"
-      run: pnpm turbo lint
+      run: pnpm turbo lint --concurrency=1
       fail_text: |
         ❌ Linting failed. Please fix the errors above.
         Run 'pnpm lint:fix' to auto-fix issues.
@@ -65,7 +65,7 @@ pre-push:
     typecheck:
       run: |
         echo "🔍 Running typecheck on affected packages..."
-        pnpm turbo run typecheck --filter='[HEAD^]'
+        pnpm turbo run typecheck --filter='[HEAD^]' --concurrency=1
     
     # Run unit tests on affected packages (exclude E2E)
     test:

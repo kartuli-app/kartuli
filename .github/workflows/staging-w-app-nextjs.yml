@@ -64,13 +64,14 @@ jobs:
       DEPLOY_TARGET: ${{ inputs.deploy_target }}
       APP_URL: "http://localhost:3000"
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: CI setup
-        uses: ./.github/actions/ci-setup
-        with:
-          include-checkout: true
+        uses: ./.github/actions/ci-setup-node
 
       - name: CI validate
-        uses: ./.github/actions/ci-validate
+        uses: ./.github/actions/ci-validate-monorepo-package
         with:
           target: ${{ inputs.target }}
 

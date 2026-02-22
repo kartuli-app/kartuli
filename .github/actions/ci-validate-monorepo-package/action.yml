@@ -1,5 +1,5 @@
-name: CI validate
-description: Run typecheck, lint, and test for a target package (run ci-setup first).
+name: CI validate monorepo package
+description: Run typecheck, lint, and test for a target package (run ci-setup-node first).
 
 inputs:
   target:
