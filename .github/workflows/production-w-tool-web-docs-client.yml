@@ -13,9 +13,6 @@ on:
       - '.github/workflows/production-w-tool-web-docs-client.yml'
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 concurrency:
   group: production-w-tool-web-docs-client-${{ github.ref }}
   cancel-in-progress: true
@@ -25,6 +22,8 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
