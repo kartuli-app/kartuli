@@ -28,7 +28,7 @@ Single job: **validate-build-and-quality**
 2. CI setup Node (`.github/actions/ci-setup-node`)
 3. Validate monorepo package for `web-docs-client` (`.github/actions/ci-validate-monorepo-package`)
 4. Generate LLM bundle: `node tools/web-docs-client/scripts/generate-llm-bundle.js`
-5. Build: `pnpm turbo run build --filter=@kartuli/web-docs-client`
+5. Build: `pnpm turbo run build --filter=@kartuli/web-docs-client` (broken links in docs are caught here; the build fails if any non-ignored link is dead).
 6. Start preview server in the background and wait until it is ready (e.g. `http://localhost:4173`)
 7. Setup Playwright (`.github/actions/ci-setup-playwright`)
 8. Run E2E: `pnpm --filter @kartuli/e2e exec playwright test tests/web-docs-client` (BASE_URL: `http://localhost:4173`)

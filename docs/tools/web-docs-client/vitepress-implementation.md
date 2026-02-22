@@ -42,6 +42,14 @@ The package `build` script in `tools/web-docs-client/package.json` runs **from r
 
 **Summary:** Use `pnpm run c:build:web-docs-client` (Turbo) or `pnpm run docs:build` (no Turbo); both end up running VitePress from root. Do not change the package build script to a plain `vitepress build` unless the tooling no longer has this resolution issue.
 
+## Dead link checking and ignored URLs
+
+VitePress checks links during `vitepress build`. Links that are unreachable at build time (e.g. dev servers that only run locally) would otherwise fail the build. We explicitly ignore a fixed list of such URLs in config so the build succeeds in CI while still failing on real broken links.
+
+**Ignored URLs** (exact strings, no patterns): `http://localhost:3000`, `http://localhost:3001`, `http://localhost:4173`, `http://localhost:6006`. These point to the game client, backoffice client, docs preview, and Storybook dev/preview servers. When you add new localhost URLs in docs, add them to `ignoreDeadLinks` in `.vitepress/config.mts`.
+
+Broken links (internal or external, other than the ignored list) are still reported and cause the build to fail—including in staging CI when the docs site is built.
+
 ## Development caveat
 
 Navigation is computed **once** when the VitePress config is loaded.
