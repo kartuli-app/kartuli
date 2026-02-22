@@ -40,7 +40,7 @@
   color: "28a745"
   description: "Bug fix"
 
-- name: "type:docs"
+- name: "type:web-docs-client"
   color: "28a745"
   description: "Documentation changes"
 

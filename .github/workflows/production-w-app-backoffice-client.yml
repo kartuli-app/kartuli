@@ -1,0 +1,111 @@
+name: Production – Backoffice Client
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/backoffice-client/**'
+      - 'packages/ui/**'
+      - 'packages/theme/**'
+      - 'tools/e2e/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'turbo.json'
+      - '.github/workflows/production-w-app-backoffice-client.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-w-app-backoffice-client-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+      TARGET: backoffice-client
+      PRODUCTION_URL: https://backoffice.kartuli.app
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: CI setup node
+        uses: ./.github/actions/ci-setup-node
+
+      - name: CI validate monorepo package
+        uses: ./.github/actions/ci-validate-monorepo-package
+        with:
+          target: backoffice-client
+
+      - name: Deploy to Vercel
+        id: deploy
+        uses: amondnet/vercel-action@16e87c0a08142b0d0d33b76aeaf20823c381b9b9
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
+          vercel-args: '--prod'
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+          github-comment: false
+          github-deployment: false
+
+      - name: Setup Playwright
+        uses: ./.github/actions/ci-setup-playwright
+
+      - name: Run E2E production tests
+        env:
+          BASE_URL: ${{ env.PRODUCTION_URL }}
+        run: pnpm --filter @kartuli/e2e exec playwright test tests/backoffice-client/production
+
+      - name: Upload E2E artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-backoffice-client-prod-${{ github.run_number }}
+          path: tools/e2e/test-results/
+          retention-days: 3
+
+      - name: Run Lighthouse CI
+        id: lighthouse
+        env:
+          CI_AUDIT: "true"
+          LIGHTHOUSE_ASSERT_LEVEL: "error"
+          STEP_APP_URL: ${{ env.PRODUCTION_URL }}
+        run: |
+          URL="$STEP_APP_URL"
+          if [ -z "$URL" ]; then
+            echo "ERROR: APP URL is empty."
+            exit 1
+          fi
+          pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
+          REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+          echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
+          echo "Lighthouse report URL: ${REPORT_URL}"
+
+      - name: Write Lighthouse report to job summary
+        run: |
+          echo "## Lighthouse report (production)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          REPORT_URL="${{ steps.lighthouse.outputs.report_url }}"
+          if [ -n "$REPORT_URL" ]; then
+            echo "[View Lighthouse report]($REPORT_URL)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Report URL not captured; check artifacts." >> "$GITHUB_STEP_SUMMARY"
+          fi
+        shell: bash
+
+      - name: Upload Lighthouse CI artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-artifacts-backoffice-client-prod-${{ github.run_number }}
+          path: .lighthouseci/
+          retention-days: 7

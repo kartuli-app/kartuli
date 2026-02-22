@@ -19,7 +19,7 @@ Please fill out the sections below to help us understand your request.
 - [ ] `type:feat` - New feature
 - [ ] `type:chore` - Infrastructure, setup tasks, non-feature work
 - [ ] `type:fix` - Bug fix
-- [ ] `type:docs` - Documentation changes
+- [ ] `type:web-docs-client` - Documentation changes
 - [ ] `type:test` - Testing-related changes
 
 ## Scope

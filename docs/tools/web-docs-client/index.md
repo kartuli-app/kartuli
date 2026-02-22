@@ -11,6 +11,8 @@ type: hub
 
 This hub groups operational documentation for the web docs client: how the VitePress site and LLM bundle work, the scripts that power them, and environment-specific CI/CD.
 
+**In-repo README:** [tools/web-docs-client/README.md](https://github.com/kartuli-app/kartuli/blob/main/tools/web-docs-client/README.md)
+
 ## References
 
 ### Documents in This Hub

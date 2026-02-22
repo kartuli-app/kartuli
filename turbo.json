@@ -26,10 +26,10 @@
     "lint": {
       "cache": true,
       "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/**/*.js",
-        "src/**/*.jsx",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.js",
+        "**/*.jsx",
         "**/*.json",
         "biome.json",
         "pnpm-lock.yaml"
@@ -39,10 +39,9 @@
       "dependsOn": ["^typecheck"],
       "cache": true,
       "inputs": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/**/*.d.ts",
-        "types/**/*.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.d.ts",
         "tsconfig.json",
         "tsconfig.*.json",
         "package.json",

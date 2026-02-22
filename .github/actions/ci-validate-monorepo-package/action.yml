@@ -1,0 +1,27 @@
+name: CI validate monorepo package
+description: Run typecheck, lint, and test for a target package (run ci-setup-node first).
+
+inputs:
+  target:
+    description: Target workspace name (e.g. game-client, web-docs-client).
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # Run all three in parallel: & backgrounds the process; wait collects exit codes; fail step if any failed.
+    - name: Run typecheck, lint, and test (parallel)
+      env:
+        TARGET: ${{ inputs.target }}
+      run: |
+        pnpm turbo run typecheck --filter=@kartuli/"$TARGET" & PID1=$!
+        pnpm turbo run lint --filter=@kartuli/"$TARGET" & PID2=$!
+        pnpm turbo run test --filter=@kartuli/"$TARGET" & PID3=$!
+        wait $PID1; E1=$?
+        wait $PID2; E2=$?
+        wait $PID3; E3=$?
+        if [ "$E1" -ne 0 ] || [ "$E2" -ne 0 ] || [ "$E3" -ne 0 ]; then
+          exit 1
+        fi
+        exit 0
+      shell: bash
