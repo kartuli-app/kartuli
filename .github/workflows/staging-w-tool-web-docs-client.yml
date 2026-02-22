@@ -40,7 +40,15 @@ jobs:
       - name: Start preview server (background)
         run: |
           pnpm turbo run preview --filter=@kartuli/web-docs-client &
-          sleep 15
+          for i in $(seq 1 60); do
+            if curl -fsS "http://localhost:4173" >/dev/null 2>&1; then
+              echo "Preview server is up."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "ERROR: Preview server did not become ready in time."
+          exit 1
         shell: bash
 
       - name: Setup Playwright
