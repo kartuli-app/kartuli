@@ -21,10 +21,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: CI setup
+      - name: CI setup node
         uses: ./.github/actions/ci-setup-node
 
-      - name: CI validate
+      - name: CI validate monorepo package
         uses: ./.github/actions/ci-validate-monorepo-package
         with:
           target: storybook
