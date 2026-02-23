@@ -12,6 +12,11 @@ export default defineConfig({
   test: {
     globals: false,
     environment: 'happy-dom',
+    environmentOptions: {
+      'happy-dom': {
+        pretendToBeVisual: true,
+      },
+    },
     setupFiles: ['./setupTests.ts'],
     typecheck: {
       tsconfig: './tsconfig.test.json',
