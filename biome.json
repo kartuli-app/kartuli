@@ -26,6 +26,7 @@
       "!**/.vitepress/dist",
       "!**/pnpm-lock.yaml",
       "!**/*.md",
+      "!**/next-env.d.ts",
       "!generate-docs-for-llm.ts"
     ]
   },
