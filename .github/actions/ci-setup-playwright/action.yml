@@ -1,0 +1,17 @@
+name: CI setup Playwright
+description: Cache and install Playwright browsers (chromium) for E2E. Use after build/preview, just before Run E2E.
+
+runs:
+  using: composite
+  steps:
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-browsers-${{ hashFiles('tools/e2e/package.json', '**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-browsers-
+
+    - name: Install Playwright browsers
+      run: pnpm --filter @kartuli/e2e exec playwright install chromium
+      shell: bash

@@ -1,0 +1,148 @@
+# Staging orchestrator: detects affected packages, maps to workflows, calls them.
+name: Staging Orchestrator
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: orchestrator-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  detect-affected:
+    name: Detect modified apps
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      nextjs_targets: ${{ steps.map.outputs.nextjs_targets }}
+      web_docs_targets: ${{ steps.map.outputs.web_docs_targets }}
+      storybook_targets: ${{ steps.map.outputs.storybook_targets }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: CI setup node
+        uses: ./.github/actions/ci-setup-node
+
+      - name: Fetch origin/main
+        run: git fetch origin main
+
+      # Which packages would run `build` when compared to origin/main (Turbo affected).
+      - name: Detect affected packages (build)
+        id: affected
+        env:
+          TURBO_SCM_BASE: origin/main
+        run: |
+          # Dry run: output task list as JSON; empty or missing file is ok (no affected).
+          pnpm exec turbo run build --dry=json --affected > turbo-dry.json 2>/dev/null || true
+          # Extract package names (e.g. @kartuli/game-client), dedupe, output as JSON array for later steps.
+          AFFECTED_BUILD=$(jq -r '.tasks[]? | .package' turbo-dry.json 2>/dev/null | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "packages=${AFFECTED_BUILD}" >> "$GITHUB_OUTPUT"
+
+      # Split affected package list into per-workflow target arrays (e.g. ["game-client"] for Next.js).
+      - name: Map affected packages to workflow targets
+        id: map
+        env:
+          PACKAGES_JSON: ${{ steps.affected.outputs.packages }}
+        run: |
+          PACKAGES="${PACKAGES_JSON:-[]}"
+          [ -z "$PACKAGES" ] && PACKAGES='[]'
+          # Filter to workspace names per app type (split("/")[1] turns @kartuli/game-client → game-client).
+          NEXTJS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/game-client" or . == "@kartuli/backoffice-client") | split("/")[1]] | unique')
+          WEB_DOCS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/web-docs-client") | split("/")[1]] | unique')
+          STORYBOOK=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/storybook") | split("/")[1]] | unique')
+          echo "nextjs_targets=$NEXTJS" >> "$GITHUB_OUTPUT"
+          echo "web_docs_targets=$WEB_DOCS" >> "$GITHUB_OUTPUT"
+          echo "storybook_targets=$STORYBOOK" >> "$GITHUB_OUTPUT"
+
+      # Expose affected package list in the Actions job summary (visible in the PR).
+      - name: Write job summary
+        env:
+          BUILD_PKGS_JSON: ${{ steps.affected.outputs.packages }}
+        run: |
+          echo "## Orchestrator (staging) – affected packages (build)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          BUILD_PKGS="${BUILD_PKGS_JSON:-[]}"
+          if [ -z "$BUILD_PKGS" ] || [ "$BUILD_PKGS" = "[]" ]; then
+            echo "No packages would run \`build\` for this change." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Packages that would run \`build\`:" >> "$GITHUB_STEP_SUMMARY"
+            echo "$BUILD_PKGS" | jq -r '.[]' 2>/dev/null | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "*Using \`turbo run build --dry=json --affected\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
+
+  # One reusable workflow run per target (e.g. game-client, backoffice-client); only if that list is non-empty.
+  # Use fromJson()[0] != null so whitespace/formatting in the output doesn't break the condition.
+  # Reusable Next.js workflow posts PR comments; only this job needs write (SonarQube S8233).
+  call-nextjs-staging-workflow:
+    name: Staging CI Next.js APP
+    needs: detect-affected
+    if: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets)[0] != null }}
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
+        deploy_target: [local]
+    uses: ./.github/workflows/staging-w-app-nextjs.yml
+    with:
+      target: ${{ matrix.target }}
+      deploy_target: ${{ matrix.deploy_target }}
+      pull_request_number: ${{ github.event.pull_request.number || '' }}
+    secrets:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID_GAME_CLIENT: ${{ secrets.VERCEL_PROJECT_ID_GAME_CLIENT }}
+      VERCEL_PROJECT_ID_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
+      VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT }}
+      VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT }}
+
+  call-web-docs-staging-workflow:
+    name: Staging CI Online documentation
+    needs: detect-affected
+    if: ${{ fromJson(needs.detect-affected.outputs.web_docs_targets)[0] != null }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/staging-w-tool-web-docs-client.yml
+    secrets:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+
+  call-storybook-staging-workflow:
+    name: Staging CI Storybook
+    needs: detect-affected
+    if: ${{ fromJson(needs.detect-affected.outputs.storybook_targets)[0] != null }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/staging-w-tool-storybook.yml
+    secrets:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+
+  validate-e2e:
+    name: Validate E2E
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: CI setup node
+        uses: ./.github/actions/ci-setup-node
+
+      - name: Lint e2e
+        run: pnpm turbo run lint --filter=@kartuli/e2e
+
+      - name: Typecheck e2e
+        run: pnpm turbo run typecheck --filter=@kartuli/e2e

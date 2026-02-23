@@ -64,6 +64,11 @@ When present, the references section (`## References`) contains only:
 
 This keeps link maintenance low.
 
+### Links
+
+- **Links outside the `docs/` folder:** Use **absolute URLs**. Relative paths (e.g. `../../CONTRIBUTING.md`) break in the built VitePress site because the site only contains docs content; VitePress reports them as dead links.
+- **Links to files in this repository:** Use the **full URL to the file on the main branch** (e.g. `https://github.com/kartuli-app/kartuli/blob/main/CONTRIBUTING.md`). This works from both the built site and the repo.
+
 ### Backlog tasks
 
 Any document except a backlog document can define tasks under **`### Backlog Tasks`**. 

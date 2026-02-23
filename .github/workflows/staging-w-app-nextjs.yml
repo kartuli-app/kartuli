@@ -1,0 +1,215 @@
+name: Staging – Next.js app
+
+on:
+  workflow_call:
+    inputs:
+      target:
+        description: Target workspace (e.g. game-client, backoffice-client).
+        required: true
+        type: string
+      deploy_target:
+        description: Where to run/deploy (local = build + start + Lighthouse).
+        required: true
+        type: string
+      pull_request_number:
+        description: PR number (for commenting when called from orchestrator).
+        required: false
+        type: string
+    secrets:
+      TURBO_TOKEN:
+        required: true
+      VERCEL_TOKEN:
+        required: false
+      VERCEL_ORG_ID:
+        required: false
+      VERCEL_PROJECT_ID_GAME_CLIENT:
+        required: false
+      VERCEL_PROJECT_ID_BACKOFFICE_CLIENT:
+        required: false
+      VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT:
+        required: false
+      VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT:
+        required: false
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Next.js app to run.
+        required: true
+        type: choice
+        default: game-client
+        options:
+          - game-client
+          - backoffice-client
+      deploy_target:
+        description: Where to run / deploy.
+        required: true
+        type: choice
+        default: local
+        options:
+          - local
+          - vercel
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-build-and-quality:
+    name: validate-build-and-quality
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+      TARGET: ${{ inputs.target }}
+      DEPLOY_TARGET: ${{ inputs.deploy_target }}
+      APP_URL: "http://localhost:3000"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: CI setup node
+        uses: ./.github/actions/ci-setup-node
+
+      - name: CI validate monorepo package
+        uses: ./.github/actions/ci-validate-monorepo-package
+        with:
+          target: ${{ inputs.target }}
+
+      - name: Build
+        if: inputs.deploy_target == 'local'
+        env:
+          TARGET: ${{ inputs.target }}
+        run: pnpm turbo run build --filter=@kartuli/"$TARGET"
+        shell: bash
+
+      - name: Start server (background)
+        if: inputs.deploy_target == 'local'
+        env:
+          TARGET: ${{ inputs.target }}
+        run: |
+          pnpm --filter @kartuli/"$TARGET" run start &
+          for i in $(seq 1 60); do
+            if curl -fsS "http://localhost:3000" >/dev/null 2>&1; then
+              echo "Server is up."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "ERROR: Server did not become ready in time."
+          exit 1
+        shell: bash
+
+      - name: Deploy to Vercel Preview
+        if: inputs.deploy_target == 'vercel'
+        id: deploy
+        uses: amondnet/vercel-action@16e87c0a08142b0d0d33b76aeaf20823c381b9b9
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT || secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+          github-comment: ${{ github.event_name == 'pull_request' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-deployment: false
+
+      - name: Run Lighthouse CI
+        id: lighthouse
+        env:
+          CI_AUDIT: "true"
+          LIGHTHOUSE_ASSERT_LEVEL: "warn"
+          STEP_APP_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          STEP_DEPLOY_TARGET: ${{ inputs.deploy_target }}
+        run: |
+          URL="$STEP_APP_URL"
+          if [ -z "$URL" ]; then
+            echo "ERROR: APP URL is empty (deploy_target=$STEP_DEPLOY_TARGET)."
+            exit 1
+          fi
+          pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
+          REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+          echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
+          echo "Lighthouse report URL: ${REPORT_URL}"
+
+      - name: Write Lighthouse report to job summary
+        run: |
+          echo "## Lighthouse report ($DEPLOY_TARGET)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          REPORT_URL="${{ steps.lighthouse.outputs.report_url }}"
+          if [ -n "$REPORT_URL" ]; then
+            echo "[View Lighthouse report]($REPORT_URL)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Report URL not captured; check artifacts." >> "$GITHUB_STEP_SUMMARY"
+          fi
+        shell: bash
+
+      - name: Comment PR with Lighthouse report
+        if: github.event_name == 'pull_request' || inputs.pull_request_number != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number || '${{ inputs.pull_request_number }}';
+            const prNum = Number(prNumber);
+            if (!prNum) return;
+            const lighthouseReportUrl = '${{ steps.lighthouse.outputs.report_url }}';
+            const lighthouseReport = lighthouseReportUrl
+              ? `[Lighthouse Report](${lighthouseReportUrl})`
+              : '[Lighthouse Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
+            const deployTarget = '${{ inputs.deploy_target }}';
+            const previewUrl = '${{ steps.deploy.outputs.preview-url }}';
+            const previewLine = deployTarget === 'vercel' && previewUrl
+              ? `\n- [Vercel Preview](${previewUrl})`
+              : '';
+            const commentBody = `## Staging – Next.js (${{ inputs.target }}) – ${deployTarget}
+
+            **Quality checks:**
+            - ${lighthouseReport}${previewLine}
+
+            ---
+            *Staging pipeline*`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNum,
+            });
+            const targetLabel = '## Staging – Next.js (${{ inputs.target }}) – ${{ inputs.deploy_target }}';
+            const botComment = comments.find(c =>
+              c.user.login === 'github-actions[bot]' && c.body.includes(targetLabel)
+            );
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNum,
+                body: commentBody,
+              });
+            }
+
+      - name: Setup Playwright
+        uses: ./.github/actions/ci-setup-playwright
+
+      - name: Run E2E
+        env:
+          BASE_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          VERCEL_PROTECTION_BYPASS_SECRET: ${{ inputs.deploy_target == 'vercel' && (inputs.target == 'game-client' && secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT || secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT) || '' }}
+        run: |
+          if [ -z "$BASE_URL" ]; then
+            echo "ERROR: BASE_URL is empty (deploy_target=$DEPLOY_TARGET)."
+            exit 1
+          fi
+          pnpm --filter @kartuli/e2e exec playwright test tests/"$TARGET"
+        shell: bash
+
+      - name: Upload E2E artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-${{ inputs.target }}-${{ inputs.deploy_target }}-${{ github.run_number }}
+          path: tools/e2e/test-results/
+          retention-days: 3

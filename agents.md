@@ -44,6 +44,7 @@ Always use conventional commit format for all commits:
 - LLM bundle is generated automatically on deployment
 - Use proper frontmatter format for navigation integration
 - Follow ADR template for decision documents
+- When linking from docs to content outside the `docs/` folder, use absolute URLs; for repo files use the full URL to the file on the main branch (e.g. `https://github.com/kartuli-app/kartuli/blob/main/...`)
 
 ### Frontmatter Requirements
 All documentation files must include:

@@ -19,9 +19,9 @@ GitHub Actions runs our CI/CD workflows. This doc covers capability, usage, limi
 
 ## Current usage
 
-- Staging and production pipelines for: Web Docs Client (staging validation, production deploy).
-- App deploy (PR and main): game client and apps build, deploy to Vercel (preview and production), then E2E smoke tests and Lighthouse CI. Uses Turbo, Vercel action, and Vercel protection bypass.
-- **Orchestrator (staging):** runs on every PR to `main` only (staging = pre-merge). Detects which apps/packages/tools would run `build` using `turbo run build --dry=json --affected` (compares to default branch). No invocations yet; detection only. Workflow: [`.github/workflows/orchestrator-staging.yml`](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/orchestrator-staging.yml).
+- **Staging:** [Staging Orchestrator](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/staging-orchestrator.yml) runs on every PR to `main`. It detects affected packages via `turbo run build --dry=json --affected` (base: `origin/main`), then calls the appropriate reusable workflows: Next.js apps (staging-w-app-nextjs), Web Docs Client (staging-w-tool-web-docs-client), Storybook (staging-w-tool-storybook). A validate-e2e job runs lint and typecheck for the E2E package.
+- **Production:** Per-app/tool workflows run on push to `main` when path filters match: game client and backoffice client deploy to Vercel then run E2E and Lighthouse; web-docs-client deploys to GitHub Pages.
+- Uses Turbo (remote cache), Vercel action (Next.js deploy), and Vercel protection bypass for E2E against preview URLs.
 
 ### Testing the staging orchestrator
 
@@ -50,35 +50,43 @@ For app deploy: typecheck, lint, tests, and (after deploy) E2E and Lighthouse ru
 
 **Where to find them:** [Repository secrets](https://github.com/kartuli-app/kartuli/settings/secrets/actions) — Repository → Settings → Secrets and variables → Actions. All are repo secrets.
 
+**Fork pull requests:** GitHub does not pass repository secrets to workflows triggered by a `pull_request` from a fork. So when someone opens a PR from a fork, jobs that need these secrets (e.g. deploy, Turbo cache) will not receive them and may fail. This is expected and is a security measure. See [GitHub Repo Management](./github-repo-management.md) for the collaboration model and optional settings.
+
 #### `TURBO_TOKEN`
 
-- **Used in:** App Deploy (PR, Main).
-- **What it's for:** Turbo remote cache (Vercel). Set as job env so `pnpm turbo run typecheck/lint/build/test` can use Vercel Remote Cache.
+- **Used in:** Staging orchestrator, all staging workflows (staging-w-app-nextjs, staging-w-tool-web-docs-client, staging-w-tool-storybook), validate-e2e job, and all production workflows (production-w-app-game-client, production-w-app-backoffice-client, production-w-tool-web-docs-client).
+- **What it's for:** Turbo remote cache (Vercel). Set as job env so `pnpm turbo run` (build, lint, typecheck, etc.) can use Vercel Remote Cache.
 - **Where to get it:** Vercel → Turbo / Remote Caching.
 
 #### `VERCEL_TOKEN`
 
-- **Used in:** App Deploy (PR, Main).
-- **What it's for:** Vercel API token for `amondnet/vercel-action`. Deploys preview (PR) and production (main).
+- **Used in:** Staging orchestrator (passed to staging-w-app-nextjs), staging-w-app-nextjs, production-w-app-game-client, production-w-app-backoffice-client.
+- **What it's for:** Vercel API token for `amondnet/vercel-action`. Deploys preview (staging) and production (main).
 - **Where to get it:** Vercel → Settings → Access Tokens.
 
 #### `VERCEL_ORG_ID`
 
-- **Used in:** App Deploy (PR, Main).
+- **Used in:** Same workflows as `VERCEL_TOKEN` (staging orchestrator → nextjs, staging-w-app-nextjs, production-w-app-game-client, production-w-app-backoffice-client).
 - **What it's for:** Vercel team/org ID. Passed to vercel-action as `vercel-org-id` and `scope`.
 - **Where to get it:** Vercel project/team settings.
 
-#### `VERCEL_PROJECT_ID`
+#### `VERCEL_PROJECT_ID_GAME_CLIENT`
 
-- **Used in:** App Deploy (PR, Main).
-- **What it's for:** Vercel project ID. Passed to vercel-action as `vercel-project-id`.
-- **Where to get it:** Vercel project settings.
+- **Used in:** Staging orchestrator (passed to staging-w-app-nextjs when target is game-client), staging-w-app-nextjs, production-w-app-game-client.
+- **What it's for:** Vercel project ID for the game client. Passed to vercel-action as `vercel-project-id`.
+- **Where to get it:** Vercel → Project (game client) → Settings.
 
-#### `VERCEL_PROTECTION_BYPASS_SECRET`
+#### `VERCEL_PROJECT_ID_BACKOFFICE_CLIENT`
 
-- **Used in:** App Deploy (PR, Main).
-- **What it's for:** Bypass for Vercel Deployment Protection. Passed to E2E step so smoke tests can hit preview/production URLs. Same value as Vercel’s “Protection Bypass for Automation” (Vercel: `VERCEL_AUTOMATION_BYPASS_SECRET`).
-- **Where to get it:** Vercel → Project → Security → Deployment Protection. See [E2E README](https://github.com/kartuli-app/kartuli/blob/main/tools/e2e/README.md) for setup.
+- **Used in:** Staging orchestrator (passed to staging-w-app-nextjs when target is backoffice-client), staging-w-app-nextjs, production-w-app-backoffice-client.
+- **What it's for:** Vercel project ID for the backoffice client. Passed to vercel-action as `vercel-project-id`.
+- **Where to get it:** Vercel → Project (backoffice client) → Settings.
+
+#### `VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT` and `VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT`
+
+- **Used in:** Staging orchestrator (passed to staging-w-app-nextjs), staging-w-app-nextjs when running E2E against Vercel preview (`deploy_target: vercel`). The workflow passes the appropriate one as `VERCEL_PROTECTION_BYPASS_SECRET` so smoke tests use a single env key. Production E2E does not use these (production is not protected).
+- **What it's for:** Bypass for Vercel Deployment Protection per project. Same value as each project’s “Protection Bypass for Automation” (Vercel: `VERCEL_AUTOMATION_BYPASS_SECRET`).
+- **Where to get it:** Vercel → Project → Security → Deployment Protection, per project. See [E2E README](https://github.com/kartuli-app/kartuli/blob/main/tools/e2e/README.md) for setup.
 
 **Rotation:** Update the secret in Settings when a credential rotates; re-run the workflow or push to trigger runs that use it.
 
@@ -92,12 +100,14 @@ For app deploy: typecheck, lint, tests, and (after deploy) E2E and Lighthouse ru
 
 ### Related Docs
 
-- [Web Docs Client Hub](../tools/web-docs-client/index.md)
-- [Web Docs Client CI/CD Production](../tools/web-docs-client/ci-cd-production.md)
-- [Web Docs Client CI/CD Staging](../tools/web-docs-client/ci-cd-staging.md)
+- [GitHub Repo Management](./github-repo-management.md) — Collaboration model, fork vs direct collaborator, and protection of workflows and secrets.
+- [Staging pipelines](../tech/development/staging-pipelines.md) — [Production pipelines](../tech/development/production-pipelines.md)
+- [Game Client Hub](../apps/game-client/index.md) — [Backoffice Client Hub](../apps/backoffice-client/index.md)
+- [Web Docs Client Hub](../tools/web-docs-client/index.md) — [Storybook Hub](../tools/storybook/index.md) — [E2E Hub](../tools/e2e/index.md)
 - [GitHub Pricing](https://github.com/pricing)
 - [GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions)
 
 ### Providers
 
+- [Vercel Next.js Hosting](./vercel-nextjs-hosting.md)
 - [GitHub Pages Hosting](./github-pages-hosting.md)

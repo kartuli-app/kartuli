@@ -1,0 +1,79 @@
+name: Production – Web Docs Client
+
+# Production deploy: validate, generate LLM bundle, build, deploy to GitHub Pages.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'tools/web-docs-client/**'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'package.json'
+      - '.github/workflows/production-w-tool-web-docs-client.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: production-w-tool-web-docs-client-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: CI setup node
+        uses: ./.github/actions/ci-setup-node
+
+      - name: CI validate monorepo package
+        uses: ./.github/actions/ci-validate-monorepo-package
+        with:
+          target: web-docs-client
+
+      - name: Generate LLM bundle
+        run: node tools/web-docs-client/scripts/generate-llm-bundle.js
+        shell: bash
+
+      - name: Build docs
+        run: pnpm run c:build:web-docs-client
+        shell: bash
+
+      - name: Copy LLM bundle to built assets
+        run: node tools/web-docs-client/scripts/copy-llm-bundle.js
+        shell: bash
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: tools/web-docs-client/.vitepress/dist
+
+  deploy:
+    name: deploy
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -4,17 +4,11 @@
 # Pre-commit hook: Fast checks on staged files only
 pre-commit:
   parallel: true
-  commands:
-    # Format staged files automatically
-    format:
-      glob: "*.{js,jsx,ts,tsx,json}"
-      run: pnpm exec biome format --write {staged_files}
-      stage_fixed: true
-    
-    # Lint staged files with auto-fixes
+  commands:   
+    # Lint everything
     lint:
-      glob: "*.{js,jsx,ts,tsx,json}"
-      run: pnpm exec biome lint --write {staged_files}
+      glob: "*"
+      run: CI=true TURBO_CI=1 pnpm turbo lint --concurrency=1 --no-daemon
       fail_text: |
         ❌ Linting failed. Please fix the errors above.
         Run 'pnpm lint:fix' to auto-fix issues.
@@ -67,14 +61,16 @@ commit-msg:
 pre-push:
   parallel: false
   commands:
-    # Typecheck affected packages
+    # Typecheck affected packages (fallback to full run when HEAD^ is unavailable, e.g. first commit or shallow clone)
     typecheck:
       run: |
         echo "🔍 Running typecheck on affected packages..."
-        pnpm turbo run typecheck --filter='[HEAD^]'
-    
-    # Run unit tests on affected packages (exclude E2E)
+        CI=true TURBO_CI=1 pnpm turbo run typecheck --filter='[HEAD^]' --concurrency=1 --no-daemon || \
+        CI=true TURBO_CI=1 pnpm turbo run typecheck --concurrency=1 --no-daemon
+
+    # Run unit tests on affected packages (exclude E2E); fallback to full run when HEAD^ is unavailable
     test:
       run: |
         echo "🧪 Running tests on affected packages..."
-        pnpm turbo run test --filter='[HEAD^]' --filter='!@kartuli/e2e'
+        CI=true TURBO_CI=1 pnpm turbo run test --filter='[HEAD^]' --filter='!@kartuli/e2e' --concurrency=1 --no-daemon || \
+        CI=true TURBO_CI=1 pnpm turbo run test --filter='!@kartuli/e2e' --concurrency=1 --no-daemon

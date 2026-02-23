@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "next dev --turbo --port 3001",
     "build": "next build",
-    "start": "next start --port 3001",
-    "preview": "next build && next start --port 3001",
+    "start": "next start --port 3000",
+    "preview": "next build && next start --port 3000",
     "test": "vitest run",
     "lint": "biome check .",
     "typecheck": "tsc --noEmit"

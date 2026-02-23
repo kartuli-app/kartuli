@@ -181,11 +181,21 @@ const themeConfig = {
   outline: [2, 4] as [number, number],
 };
 
+// Links to dev/preview servers that are only reachable when those apps are running.
+// Ignored during build so the site builds in CI; see vitepress-implementation.md.
+const ignoreDeadLinksList = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:4173',
+  'http://localhost:6006',
+];
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title,
   description,
   srcDir,
   base: '/kartuli/',
+  ignoreDeadLinks: ignoreDeadLinksList,
   themeConfig,
 });

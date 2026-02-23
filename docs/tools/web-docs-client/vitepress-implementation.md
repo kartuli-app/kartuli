@@ -40,7 +40,15 @@ The package `build` script in `tools/web-docs-client/package.json` runs **from r
 
 **Why:** When Turbo runs the task, it executes the package script from the package directory. Running `vitepress build` from inside the package makes Vite resolve modules from each `.md` path (under `../../docs/`). Those paths are outside the package, so resolution can fail (e.g. `vue` / `vue/server-renderer`). Running VitePress from root uses root’s `node_modules` and resolution succeeds. So the script explicitly changes to root and runs the same command as `docs:build`.
 
-**Summary:** Use `pnpm run c:build:docs` (Turbo) or `pnpm run docs:build` (no Turbo); both end up running VitePress from root. Do not change the package build script to a plain `vitepress build` unless the tooling no longer has this resolution issue.
+**Summary:** Use `pnpm run c:build:web-docs-client` (Turbo) or `pnpm run docs:build` (no Turbo); both end up running VitePress from root. Do not change the package build script to a plain `vitepress build` unless the tooling no longer has this resolution issue.
+
+## Dead link checking and ignored URLs
+
+VitePress checks links during `vitepress build`. Links that are unreachable at build time (e.g. dev servers that only run locally) would otherwise fail the build. We explicitly ignore a fixed list of such URLs in config so the build succeeds in CI while still failing on real broken links.
+
+**Ignored URLs** (exact strings, no patterns): `http://localhost:3000`, `http://localhost:3001`, `http://localhost:4173`, `http://localhost:6006`. These point to the game client, backoffice client, docs preview, and Storybook dev/preview servers. When you add new localhost URLs in docs, add them to `ignoreDeadLinks` in `.vitepress/config.mts`.
+
+Broken links (internal or external, other than the ignored list) are still reported and cause the build to fail—including in staging CI when the docs site is built.
 
 ## Development caveat
 
@@ -48,7 +56,7 @@ Navigation is computed **once** when the VitePress config is loaded.
 
 When you add a new doc or change frontmatter that affects sections, hot reload may update page content but **does not** reload the config, so navbar and sidebar do not update. 
 
-Restart the dev server (`pnpm docs:dev` or `pnpm run c:dev:docs`) to refresh navigation after adding or moving docs.
+Restart the dev server (`pnpm docs:dev` or `pnpm run c:dev:web-docs-client`) to refresh navigation after adding or moving docs.
 
 ## References
 

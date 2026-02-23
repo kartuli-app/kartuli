@@ -2,42 +2,53 @@
 section: Tools/Web Docs Client
 title: Web Docs Client CI/CD Production
 type: ci-cd
-description: Production deploy pipeline for the docs site and LLM bundle to GitHub Pages.
+description: "Production deploy for the docs site and LLM bundle to GitHub Pages (main only, no conditionals)."
 ---
 
 # Web Docs Client CI/CD Production
 
 ## Overview
 
-Builds the docs site from `docs/`, generates and ships the LLM bundle into the built output, and deploys to GitHub Pages.
+Dedicated production workflow: validates the package, generates the LLM bundle, builds the VitePress site, copies the bundle into the built output, and deploys to GitHub Pages. It runs only on **push to `main`** (when relevant paths change) or when manually dispatched. There are no branch conditionals inside the workflow—production is separate from staging; staging is handled by the [Staging Orchestrator](../../tech/development/staging-pipelines.md).
 
-Runs on push and pull request to `main` when docs or web-docs-client sources change. Deployment to GitHub Pages runs only on `main`; PRs run generate and build only.
+**Workflow file:** [.github/workflows/production-w-tool-web-docs-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/production-w-tool-web-docs-client.yml)
 
 ## Triggers
 
-- Push to `main`, or pull request targeting `main`, when any of these paths change:
+- **Push to `main`** when any of these paths change:
   - `docs/**`
   - `tools/web-docs-client/**`
   - `pnpm-lock.yaml`, `pnpm-workspace.yaml`, `package.json`
-  - `.github/workflows/web-docs-client-deploy-production.yml`
+  - `.github/workflows/production-w-tool-web-docs-client.yml`
+- **workflow_dispatch** (manual run)
+
+Pull requests do **not** run this workflow; they go through staging via the orchestrator.
 
 ## Pipeline Steps
 
-1. **Generate bundle** (always): Checkout, install dependencies, generate LLM bundle, upload bundle as workflow artifact.
-2. **Build** (on `main` only): Checkout, install dependencies, download LLM bundle artifact into `docs/`, build docs site (`pnpm run c:build:docs`), copy bundle into built assets so the site can serve it, configure GitHub Pages, upload the built output as the Pages artifact.
-3. **Deploy** (on `main` only): Deploy the Pages artifact to GitHub Pages.
+1. **build** (runs on `main` only)
+   - Checkout repository
+   - CI setup Node (`.github/actions/ci-setup-node`)
+   - Validate monorepo package for `web-docs-client` (`.github/actions/ci-validate-monorepo-package`)
+   - Generate LLM bundle: `node tools/web-docs-client/scripts/generate-llm-bundle.js`
+   - Build docs: `pnpm run c:build:web-docs-client`
+   - Copy LLM bundle into built assets: `node tools/web-docs-client/scripts/copy-llm-bundle.js`
+   - Configure GitHub Pages (enablement)
+   - Upload artifact: `tools/web-docs-client/.vitepress/dist` as the Pages artifact
 
-## Validation Gates
+2. **deploy** (depends on `build`, runs on `main` only)
+   - Deploy the uploaded artifact to GitHub Pages (environment: `github-pages`)
 
-- Generate-bundle job completes successfully.
-- Build job completes successfully (build and copy steps).
-- Deploy job completes successfully.
+## Concurrency
+
+- Group name includes the workflow name and the current Git ref (e.g. `refs/heads/main`). See the workflow file for the exact expression.
+- New runs cancel in-progress runs for the same ref.
 
 ## Failure Handling
 
-- Inspect the failing job’s logs in GitHub Actions.
-- Fix the failing step (e.g. fix docs or script, fix lockfile) and push or re-run the workflow.
-- If deploy fails after build succeeded, confirm root cause (e.g. permissions, Pages config) then retry deployment or re-run the workflow.
+- Inspect the failing job (build or deploy) in GitHub Actions.
+- Fix the failing step (e.g. docs, scripts, lockfile) and push to `main` or re-run the workflow.
+- If deploy fails after build succeeded, check permissions and GitHub Pages configuration, then retry or re-run.
 
 ## References
 
@@ -45,6 +56,7 @@ Runs on push and pull request to `main` when docs or web-docs-client sources cha
 
 - [Web Docs Client Hub](./index.md)
 - [Web Docs Client CI/CD Staging](./ci-cd-staging.md)
+- [Staging pipelines](../../tech/development/staging-pipelines.md)
 
 ### Providers
 
