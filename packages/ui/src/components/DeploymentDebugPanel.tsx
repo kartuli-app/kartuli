@@ -1,7 +1,6 @@
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
 
 /**
  * DeploymentDebugPanel Component Props
@@ -41,30 +40,28 @@ export function DeploymentDebugPanel({
   showDetailed = false,
   className,
 }: DeploymentDebugPanelProps) {
-  // === CLIENT-SIDE TIME HANDLING ===
-  // Fix hydration mismatch by using useState/useEffect for client-side time
-  const [clientTime, setClientTime] = useState<string | null>(null);
+  // === BUILD TIME (static, set at build) ===
+  // Use only NEXT_PUBLIC_BUILD_TIME so server and client render the same (no hydration mismatch).
+  const buildTimeRaw = process.env.NEXT_PUBLIC_BUILD_TIME;
+  let buildTimeFormatted = 'unknown';
 
-  useEffect(() => {
-    // This runs only on the client, after hydration
-    setClientTime(new Date().toISOString());
-  }, []);
+  if (buildTimeRaw) {
+    const date = new Date(buildTimeRaw);
+    if (!Number.isNaN(date.getTime())) {
+      buildTimeFormatted = date.toLocaleString('en-US', {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true,
+      });
+    }
+  }
 
   // === APPLICATION INFORMATION ===
   // Now using required props directly - no fallback to unreliable process.env
-
-  // Prefer an explicitly public variable injected at build time
-  const buildTimeRaw = (() => {
-    try {
-      return process.env.NEXT_PUBLIC_BUILD_TIME || clientTime || 'loading...';
-    } catch {
-      return clientTime || 'loading...';
-    }
-  })();
-
-  const buildDate = buildTimeRaw !== 'loading...' ? new Date(buildTimeRaw) : null;
-  const buildTimeFormatted =
-    buildDate && !Number.isNaN(buildDate.getTime()) ? buildDate.toLocaleString() : 'unknown';
 
   // === CLIENT-SIDE ENVIRONMENT VARIABLES ===
   // These are available in the browser and can be accessed via process.env
@@ -77,21 +74,6 @@ export function DeploymentDebugPanel({
   const vercelGitCommitSha = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
   const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
   const vercelRegion = process.env.NEXT_PUBLIC_VERCEL_REGION;
-
-  // Server-only values (will be undefined in client; annotate accordingly)
-  const vercelGitRepoOwner =
-    typeof window === 'undefined' ? process.env.VERCEL_GIT_REPO_OWNER : undefined;
-  const vercelGitRepoSlug =
-    typeof window === 'undefined' ? process.env.VERCEL_GIT_REPO_SLUG : undefined;
-  const vercelGitPullRequestNumber =
-    typeof window === 'undefined' ? process.env.VERCEL_GIT_PULL_REQUEST_NUMBER : undefined;
-
-  // === SERVER-SIDE ONLY VARIABLES ===
-  // These are only available during server-side rendering or in API routes
-  // They won't be available in the browser due to security restrictions
-
-  const _vercelGitCommitMessage =
-    typeof window === 'undefined' ? process.env.VERCEL_GIT_COMMIT_MESSAGE : undefined;
 
   // === COMPUTED VALUES ===
   // These are derived from the environment variables above
@@ -170,23 +152,6 @@ export function DeploymentDebugPanel({
           </div>
         )}
 
-        {/* PR Information (Preview deployments only) */}
-        {vercelGitPullRequestNumber && (
-          <div>
-            <span className="opacity-70">PR:</span> <span>#{vercelGitPullRequestNumber}</span>
-          </div>
-        )}
-
-        {/* Repository Information */}
-        {vercelGitRepoOwner && vercelGitRepoSlug && (
-          <div>
-            <span className="opacity-70">Repo:</span>{' '}
-            <span>
-              {vercelGitRepoOwner}/{vercelGitRepoSlug}
-            </span>
-          </div>
-        )}
-
         {/* Detailed Information (when showDetailed is true) */}
         {showDetailed && (
           <>
@@ -218,14 +183,11 @@ export function DeploymentDebugPanel({
         <div className="pt-2 border-t">
           <div>
             <span className="opacity-70">Build:</span>{' '}
-            <span className="text-xs">
-              {buildTimeRaw === 'loading...' ? 'loading...' : buildTimeFormatted}
-            </span>
+            <span className="text-xs">{buildTimeFormatted}</span>
           </div>
 
           <div className="opacity-70 text-xs mt-2">
             <div>💡 Environment variables are injected at build time</div>
-            <div>🌐 Some variables are server-side only</div>
             <div>🔒 Sensitive data is not exposed to client</div>
           </div>
         </div>

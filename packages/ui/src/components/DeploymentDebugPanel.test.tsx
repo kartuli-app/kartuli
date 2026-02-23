@@ -111,13 +111,13 @@ describe('DeploymentDebugPanel', () => {
   it('displays build time information', () => {
     render(<DeploymentDebugPanel {...defaultProps} />);
 
-    // Should show build time information
+    // Should show build time information (static: NEXT_PUBLIC_BUILD_TIME or "unknown")
     expect(screen.getByText(/Build:/)).toBeInTheDocument();
 
-    // Should show a formatted date (either from BUILD_TIME env var or client time)
     const buildTimeContainer = screen.getByText(/Build:/).parentElement;
-    expect(buildTimeContainer?.textContent).toMatch(
-      /\d+\/\d+\/\d+, \d+:\d+:\d+ [AP]M|loading\.\.\./,
+    // Anchored regex with fixed quantifiers to avoid ReDoS; matches full line (Build: <date> or Build: unknown)
+    expect(buildTimeContainer?.textContent?.trim()).toMatch(
+      /^Build: (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} [AP]M|unknown)$/,
     );
   });
 });
