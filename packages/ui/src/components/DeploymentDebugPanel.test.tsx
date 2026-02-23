@@ -115,6 +115,9 @@ describe('DeploymentDebugPanel', () => {
     expect(screen.getByText(/Build:/)).toBeInTheDocument();
 
     const buildTimeContainer = screen.getByText(/Build:/).parentElement;
-    expect(buildTimeContainer?.textContent).toMatch(/\d+\/\d+\/\d+, \d+:\d+:\d+ [AP]M|unknown/);
+    // Anchored regex with fixed quantifiers to avoid ReDoS; matches full line (Build: <date> or Build: unknown)
+    expect(buildTimeContainer?.textContent?.trim()).toMatch(
+      /^Build: (\d{1,2}\/\d{1,2}\/\d{4}, \d{1,2}:\d{2}:\d{2} [AP]M|unknown)$/,
+    );
   });
 });

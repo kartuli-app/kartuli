@@ -42,10 +42,23 @@ export function DeploymentDebugPanel({
 }: DeploymentDebugPanelProps) {
   // === BUILD TIME (static, set at build) ===
   // Use only NEXT_PUBLIC_BUILD_TIME so server and client render the same (no hydration mismatch).
-  const buildTimeRaw = process.env.NEXT_PUBLIC_BUILD_TIME ?? 'unknown';
-  const buildDate = buildTimeRaw !== 'unknown' ? new Date(buildTimeRaw) : null;
-  const buildTimeFormatted =
-    buildDate && !Number.isNaN(buildDate.getTime()) ? buildDate.toLocaleString() : 'unknown';
+  const buildTimeRaw = process.env.NEXT_PUBLIC_BUILD_TIME;
+  let buildTimeFormatted = 'unknown';
+
+  if (buildTimeRaw) {
+    const date = new Date(buildTimeRaw);
+    if (!Number.isNaN(date.getTime())) {
+      buildTimeFormatted = date.toLocaleString('en-US', {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true,
+      });
+    }
+  }
 
   // === APPLICATION INFORMATION ===
   // Now using required props directly - no fallback to unreliable process.env
