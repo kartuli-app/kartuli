@@ -8,24 +8,24 @@ packages:
 catalog:
   # Framework & Runtime
   next: ^15.1.6
-  react: ^19.0.0
-  react-dom: ^19.0.0
-  
+  react: ^19.2.4
+  react-dom: ^19.2.4
+
   # Testing
-  vitest: ^3.0.3
-  '@testing-library/react': ^16.1.0
+  vitest: ^4.0.0
+  '@testing-library/react': ^16.3.2
   '@testing-library/dom': ^10.4.0
   '@testing-library/jest-dom': ^6.6.3
   '@testing-library/user-event': ^14.5.2
-  jsdom: ^25.0.1
-  '@vitejs/plugin-react': ^4.3.4
+  jsdom: ^28.0.0
+  '@vitejs/plugin-react': ^5.0.0
   '@playwright/test': ^1.48.0
-  
+
   # TypeScript
   typescript: ^5.7.2
   '@types/node': ^22.10.5
-  '@types/react': ^19.0.6
-  '@types/react-dom': ^19.0.2
+  '@types/react': ^19.2.14
+  '@types/react-dom': ^19.2.3
   
   # Storybook
   storybook: ^8.5.3
@@ -46,9 +46,9 @@ catalog:
   clsx: ^2.1.1
   
   # Build Tools
-  vite: ^7.0.0
-  
+  vite: ^7.3.1
+
   # Documentation
   vitepress: 1.6.4
-  vue: ^3.5.13
-  '@vue/server-renderer': ^3.5.13
+  vue: ^3.5.28
+  '@vue/server-renderer': ^3.5.28
