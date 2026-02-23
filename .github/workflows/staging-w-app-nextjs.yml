@@ -1,6 +1,6 @@
-name: Staging – Next.js app
+name: Staging - Next.js app
 
-run-name: Staging Next.js – ${{ inputs.target }} (${{ inputs.deploy_target }})
+run-name: "Staging Next.js - ${{ inputs.target }} (${{ inputs.deploy_target }})"
 
 on:
   workflow_call:
