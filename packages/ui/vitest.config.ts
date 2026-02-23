@@ -5,8 +5,8 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     environmentOptions: {
-      'happy-dom': {
-        pretendToBeVisual: true,
+      happyDOM: {
+        url: 'http://localhost',
       },
     },
     setupFiles: ['./setupTests.ts'],
