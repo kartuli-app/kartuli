@@ -39,7 +39,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
     "@lhci/cli": "^0.15.0",
-    "lefthook": "^1.6.0",
+    "lefthook": "^2.0.0",
     "turbo": "^2.0.0",
     "vitepress": "catalog:"
   }
