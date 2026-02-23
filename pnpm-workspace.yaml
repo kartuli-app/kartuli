@@ -17,9 +17,9 @@ catalog:
   '@testing-library/dom': ^10.4.0
   '@testing-library/jest-dom': ^6.6.3
   '@testing-library/user-event': ^14.5.2
-  happy-dom: ^15.11.7
+  happy-dom: ^20.7.0
   '@vitejs/plugin-react': ^5.0.0
-  '@playwright/test': ^1.48.0
+  '@playwright/test': ^1.58.2
 
   # TypeScript
   typescript: ^5.7.2
