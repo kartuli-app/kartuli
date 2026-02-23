@@ -22,6 +22,7 @@ tools/e2e/test-results.xml
 out/
 build/
 dist/
+next-env.d.ts
 
 # Storybook
 storybook-static/

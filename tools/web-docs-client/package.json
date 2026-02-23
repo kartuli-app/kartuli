@@ -12,7 +12,6 @@
   "dependencies": {
     "@kartuli/docs": "workspace:*",
     "vitepress": "catalog:",
-    "search-insights": "catalog:",
     "vue": "catalog:",
     "@vue/server-renderer": "catalog:"
   }

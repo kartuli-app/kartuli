@@ -11,7 +11,12 @@ export default defineConfig({
   },
   test: {
     globals: false,
-    environment: 'jsdom',
+    environment: 'happy-dom',
+    environmentOptions: {
+      happyDOM: {
+        url: 'http://localhost',
+      },
+    },
     setupFiles: ['./setupTests.ts'],
     typecheck: {
       tsconfig: './tsconfig.test.json',
