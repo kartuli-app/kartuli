@@ -11,7 +11,7 @@ export default defineConfig({
   },
   test: {
     globals: false,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     setupFiles: ['./setupTests.ts'],
     typecheck: {
       tsconfig: './tsconfig.test.json',
