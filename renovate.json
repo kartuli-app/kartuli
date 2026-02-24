@@ -36,6 +36,11 @@
     {
       "matchPackageNames": ["pnpm"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "<25",
+      "description": "Pin @types/node to 24.x to match Node 24 runtime"
     }
   ]
 }
