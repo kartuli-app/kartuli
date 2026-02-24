@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/react-vite';
 import './storybook.css';
 import { BackofficeThemeWrapper, GameThemeWrapper } from './theme-wrappers';
 
