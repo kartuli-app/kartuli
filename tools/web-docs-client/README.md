@@ -6,7 +6,7 @@ Full docs: [Web Docs Client Hub](../../docs/tools/web-docs-client/index.md).
 
 ## Prerequisites
 
-- Node.js and pnpm (see repo root `package.json` for versions: Node `>=20.12.2 <21`, pnpm `9.12.2`).
+- Node.js and pnpm (see repo root `package.json`: `engines.node` and `packageManager` for pinned versions; use `.nvmrc` and Corepack).
 
 ## Scripts
 

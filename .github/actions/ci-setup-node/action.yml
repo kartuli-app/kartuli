@@ -7,12 +7,12 @@ runs:
     - name: Setup pnpm
       uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
       with:
-        version: 9.12.2
+        version: 10.30.2
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: "20"
+        node-version: "24.13.1"
         cache: "pnpm"
         cache-dependency-path: |
           **/pnpm-lock.yaml
