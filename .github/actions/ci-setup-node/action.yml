@@ -6,8 +6,7 @@ runs:
   steps:
     - name: Setup pnpm
       uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
-      with:
-        version: 10.30.2
+      # version comes from root package.json "packageManager" (single source of truth)
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
