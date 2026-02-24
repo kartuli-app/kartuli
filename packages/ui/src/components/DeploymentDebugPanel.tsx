@@ -163,7 +163,7 @@ export function DeploymentDebugPanel({
               <div>
                 <span className="opacity-70">User Agent:</span>{' '}
                 <span className="text-xs break-all">
-                  {typeof globalThis.window === 'undefined'
+                  {globalThis.window === undefined
                     ? 'Server-side'
                     : `${globalThis.window.navigator.userAgent.substring(0, 50)}...`}
                 </span>
@@ -172,16 +172,16 @@ export function DeploymentDebugPanel({
               <div>
                 <span className="opacity-70">Platform:</span>{' '}
                 <span>
-                  {typeof globalThis.window === 'undefined'
+                  {globalThis.window === undefined
                     ? 'Server'
-                    : globalThis.window.navigator.platform}
+                    : (globalThis.window.navigator.userAgentData?.platform ?? 'Browser')}
                 </span>
               </div>
 
               <div>
                 <span className="opacity-70">Language:</span>{' '}
                 <span>
-                  {typeof globalThis.window === 'undefined'
+                  {globalThis.window === undefined
                     ? 'Server'
                     : globalThis.window.navigator.language}
                 </span>

@@ -86,7 +86,7 @@ function getLinkForPath(linkPath) {
 function getDisplayNameFromFile(file) {
   return file
     .replaceAll('.md', '')
-    .replaceAll(/-/g, ' ')
+    .replaceAll('-', ' ')
     .replaceAll(/\b\w/g, (l) => l.toUpperCase());
 }
 
@@ -99,15 +99,15 @@ const FRONTMATTER_REGEX = /^---\n([\s\S]*?)\n---/;
  * @returns {{ section: string, title: string, type?: string, date?: string, description?: string, isHub: boolean } | null}
  */
 function parseFrontmatter(content, displayName, fileName) {
-  const frontmatterMatch = content.match(FRONTMATTER_REGEX);
+  const frontmatterMatch = FRONTMATTER_REGEX.exec(content);
   if (!frontmatterMatch) return null;
 
   const frontmatter = frontmatterMatch[1];
-  const sectionMatch = frontmatter.match(/section:\s*(.+)/);
-  const titleMatch = frontmatter.match(/title:\s*(.+)/);
-  const typeMatch = frontmatter.match(/type:\s*(.+)/);
-  const dateMatch = frontmatter.match(/date:\s*(.+)/);
-  const descriptionMatch = frontmatter.match(/description:\s*(.+)/);
+  const sectionMatch = /section:\s*(.+)/.exec(frontmatter);
+  const titleMatch = /title:\s*(.+)/.exec(frontmatter);
+  const typeMatch = /type:\s*(.+)/.exec(frontmatter);
+  const dateMatch = /date:\s*(.+)/.exec(frontmatter);
+  const descriptionMatch = /description:\s*(.+)/.exec(frontmatter);
 
   const section = sectionMatch ? sectionMatch[1].trim() : 'Other';
   const title = titleMatch ? titleMatch[1].trim() : displayName;
