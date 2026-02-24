@@ -16,7 +16,7 @@ const linkFixes = {
  * @returns {string} - Escaped string
  */
 function escapeRegex(str) {
-  return str.replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return str.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
 }
 
 /**
@@ -28,7 +28,7 @@ function fixDeadLinks(content) {
   let fixedContent = content;
   for (const [badLink, goodLink] of Object.entries(linkFixes)) {
     // Only replace links within markdown () syntax to prevent corrupting code blocks
-    const pattern = new RegExp(`\\((?:\\s*)${escapeRegex(badLink)}(?:\\s*)\\)`, 'g');
+    const pattern = new RegExp(String.raw`\((?:\s*)${escapeRegex(badLink)}(?:\s*)\)`, 'g');
     fixedContent = fixedContent.replace(pattern, `(${goodLink})`);
   }
   return fixedContent;
@@ -70,6 +70,85 @@ function compareDocItems(a, b) {
 }
 
 /**
+ * @param {string} linkPath - POSIX path to the doc file
+ * @returns {string} - URL path for the doc
+ */
+function getLinkForPath(linkPath) {
+  if (linkPath === 'index.md') return '/';
+  if (linkPath.endsWith('/index.md')) return `/${linkPath.replaceAll('/index.md', '/')}`;
+  return `/${linkPath.replaceAll('.md', '')}`;
+}
+
+/**
+ * @param {string} file - Basename of the file (e.g. 'my-doc.md')
+ * @returns {string} - Display name for nav
+ */
+function getDisplayNameFromFile(file) {
+  return file
+    .replaceAll('.md', '')
+    .replaceAll(/-/g, ' ')
+    .replaceAll(/\b\w/g, (l) => l.toUpperCase());
+}
+
+const FRONTMATTER_REGEX = /^---\n([\s\S]*?)\n---/;
+
+/**
+ * @param {string} content - Full file content
+ * @param {string} displayName - Fallback title
+ * @param {string} fileName - Basename (e.g. 'index.md')
+ * @returns {{ section: string, title: string, type?: string, date?: string, description?: string, isHub: boolean } | null}
+ */
+function parseFrontmatter(content, displayName, fileName) {
+  const frontmatterMatch = content.match(FRONTMATTER_REGEX);
+  if (!frontmatterMatch) return null;
+
+  const frontmatter = frontmatterMatch[1];
+  const sectionMatch = frontmatter.match(/section:\s*(.+)/);
+  const titleMatch = frontmatter.match(/title:\s*(.+)/);
+  const typeMatch = frontmatter.match(/type:\s*(.+)/);
+  const dateMatch = frontmatter.match(/date:\s*(.+)/);
+  const descriptionMatch = frontmatter.match(/description:\s*(.+)/);
+
+  const section = sectionMatch ? sectionMatch[1].trim() : 'Other';
+  const title = titleMatch ? titleMatch[1].trim() : displayName;
+  const type = typeMatch ? typeMatch[1].trim() : undefined;
+  const date = dateMatch ? dateMatch[1].trim() : undefined;
+  const description = descriptionMatch ? descriptionMatch[1].trim() : undefined;
+  const isHub = fileName === 'index.md' || type === 'hub';
+
+  return { section, title, type, date, description, isHub };
+}
+
+/**
+ * @param {Object} sections - Mutable sections map
+ * @param {string} dirPath - Absolute dir path
+ * @param {string} relativePath - Relative path from docs root
+ * @param {string} file - Basename
+ */
+function addMarkdownFileToSections(sections, dirPath, relativePath, file) {
+  const filePath = join(dirPath, file);
+  const content = readFileSync(filePath, 'utf-8');
+  const linkPath = relativePath ? posixJoin(relativePath, file) : file;
+  const link = getLinkForPath(linkPath);
+  const displayName = getDisplayNameFromFile(file);
+  const meta = parseFrontmatter(content, displayName, file);
+  if (!meta) return;
+
+  if (!sections[meta.section]) sections[meta.section] = [];
+  sections[meta.section].push({
+    text: meta.title,
+    link,
+    type: meta.type,
+    isHub: meta.isHub,
+    date: meta.date,
+    description: meta.description,
+    filePath,
+    content,
+    processedContent: processMarkdownContent(content),
+  });
+}
+
+/**
  * Generate navigation data by scanning docs folder
  * @returns {Object} - Navigation data with sections and items
  */
@@ -80,66 +159,21 @@ function generateNavigation() {
     try {
       const files = readdirSync(dirPath);
 
-      files.forEach((file) => {
+      for (const file of files) {
         const filePath = join(dirPath, file);
         const stat = statSync(filePath);
 
         if (stat.isDirectory()) {
           scanDirectory(filePath, join(relativePath, file));
-        } else if (file.endsWith('.md')) {
-          // Keep docs root index as landing page only; exclude from generated section listings.
-          if (!relativePath && file === 'index.md') {
-            return;
-          }
-
-          const content = readFileSync(filePath, 'utf-8');
-          // Use POSIX join to ensure forward slashes in URLs across all platforms
-          const linkPath = relativePath ? posixJoin(relativePath, file) : file;
-          let link;
-          if (linkPath === 'index.md') {
-            link = '/';
-          } else if (linkPath.endsWith('/index.md')) {
-            link = `/${linkPath.replace('/index.md', '/')}`;
-          } else {
-            link = `/${linkPath.replace('.md', '')}`;
-          }
-          const displayName = file
-            .replace('.md', '')
-            .replaceAll(/-/g, ' ')
-            .replaceAll(/\b\w/g, (l) => l.toUpperCase());
-
-          const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
-
-          if (frontmatterMatch) {
-            const frontmatter = frontmatterMatch[1];
-            const sectionMatch = frontmatter.match(/section:\s*(.+)/);
-            const titleMatch = frontmatter.match(/title:\s*(.+)/);
-            const typeMatch = frontmatter.match(/type:\s*(.+)/);
-            const dateMatch = frontmatter.match(/date:\s*(.+)/);
-            const descriptionMatch = frontmatter.match(/description:\s*(.+)/);
-
-            const section = sectionMatch ? sectionMatch[1].trim() : 'Other';
-            const title = titleMatch ? titleMatch[1].trim() : displayName;
-            const type = typeMatch ? typeMatch[1].trim() : undefined;
-            const date = dateMatch ? dateMatch[1].trim() : undefined;
-            const description = descriptionMatch ? descriptionMatch[1].trim() : undefined;
-            const isHub = file === 'index.md' || type === 'hub';
-
-            if (!sections[section]) sections[section] = [];
-            sections[section].push({
-              text: title,
-              link,
-              type,
-              isHub,
-              date,
-              description,
-              filePath,
-              content,
-              processedContent: processMarkdownContent(content),
-            });
-          }
+          continue;
         }
-      });
+        if (!file.endsWith('.md')) continue;
+
+        // Keep docs root index as landing page only; exclude from generated section listings.
+        if (!relativePath && file === 'index.md') continue;
+
+        addMarkdownFileToSections(sections, dirPath, relativePath, file);
+      }
     } catch (error) {
       console.error(`❌ Error scanning directory ${dirPath}:`, error);
     }
@@ -173,17 +207,13 @@ function mergeSections(sections) {
         mergedSections[parentSection] = { standalone: [], nested: {} };
       }
 
-      const sortedItems = items.sort(compareDocItems);
-
-      mergedSections[parentSection].nested[subSection] = sortedItems;
+      mergedSections[parentSection].nested[subSection] = items.toSorted(compareDocItems);
     } else {
       if (!mergedSections[sectionName]) {
         mergedSections[sectionName] = { standalone: [], nested: {} };
       }
 
-      const sortedItems = items.sort(compareDocItems);
-
-      mergedSections[sectionName].standalone = sortedItems;
+      mergedSections[sectionName].standalone = items.toSorted(compareDocItems);
     }
   });
 
@@ -214,7 +244,7 @@ function buildOrderedDocuments(mergedSections) {
           });
         });
 
-      const sortedAllItems = allItems.sort((a, b) => {
+      const sortedAllItems = allItems.toSorted((a, b) => {
         if (a.isHub && !b.isHub) return -1;
         if (!a.isHub && b.isHub) return 1;
         const aDate = a.date || a.items?.[0]?.date;
