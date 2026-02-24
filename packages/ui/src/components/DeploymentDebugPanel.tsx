@@ -39,7 +39,7 @@ export function DeploymentDebugPanel({
   appVersion,
   showDetailed = false,
   className,
-}: DeploymentDebugPanelProps) {
+}: Readonly<DeploymentDebugPanelProps>) {
   // === BUILD TIME (static, set at build) ===
   // Use only NEXT_PUBLIC_BUILD_TIME so server and client render the same (no hydration mismatch).
   const buildTimeRaw = process.env.NEXT_PUBLIC_BUILD_TIME;
@@ -89,13 +89,16 @@ export function DeploymentDebugPanel({
   const branchName = vercelGitCommitRef || undefined;
 
   // Determine deployment type
-  const deploymentType = isProduction
-    ? 'Production'
-    : isPreview
-      ? 'Preview'
-      : isDevelopment
-        ? 'Development'
-        : 'Unknown';
+  let deploymentType: string;
+  if (isProduction) {
+    deploymentType = 'Production';
+  } else if (isPreview) {
+    deploymentType = 'Preview';
+  } else if (isDevelopment) {
+    deploymentType = 'Development';
+  } else {
+    deploymentType = 'Unknown';
+  }
 
   const debugPanelClassName = clsx(
     'fixed bottom-4 right-4 p-4 rounded-lg shadow text-xs font-mono max-w-sm',
@@ -160,20 +163,28 @@ export function DeploymentDebugPanel({
               <div>
                 <span className="opacity-70">User Agent:</span>{' '}
                 <span className="text-xs break-all">
-                  {typeof window !== 'undefined'
-                    ? `${window.navigator.userAgent.substring(0, 50)}...`
-                    : 'Server-side'}
+                  {typeof globalThis.window === 'undefined'
+                    ? 'Server-side'
+                    : `${globalThis.window.navigator.userAgent.substring(0, 50)}...`}
                 </span>
               </div>
 
               <div>
                 <span className="opacity-70">Platform:</span>{' '}
-                <span>{typeof window !== 'undefined' ? window.navigator.platform : 'Server'}</span>
+                <span>
+                  {typeof globalThis.window === 'undefined'
+                    ? 'Server'
+                    : globalThis.window.navigator.platform}
+                </span>
               </div>
 
               <div>
                 <span className="opacity-70">Language:</span>{' '}
-                <span>{typeof window !== 'undefined' ? window.navigator.language : 'Server'}</span>
+                <span>
+                  {typeof globalThis.window === 'undefined'
+                    ? 'Server'
+                    : globalThis.window.navigator.language}
+                </span>
               </div>
             </div>
           </>
