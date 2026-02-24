@@ -16,7 +16,7 @@ const linkFixes = {
  * @returns {string} - Escaped string
  */
 function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return str.replaceAll(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /**
@@ -74,8 +74,6 @@ function compareDocItems(a, b) {
  * @returns {Object} - Navigation data with sections and items
  */
 function generateNavigation() {
-  console.log('🔍 Scanning docs folder...');
-
   const sections = {};
 
   function scanDirectory(dirPath, relativePath = '') {
@@ -107,8 +105,8 @@ function generateNavigation() {
           }
           const displayName = file
             .replace('.md', '')
-            .replace(/-/g, ' ')
-            .replace(/\b\w/g, (l) => l.toUpperCase());
+            .replaceAll(/-/g, ' ')
+            .replaceAll(/\b\w/g, (l) => l.toUpperCase());
 
           const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
 
@@ -239,14 +237,9 @@ function buildOrderedDocuments(mergedSections) {
  * @returns {Object} - Processed documentation data
  */
 export function processDocs() {
-  console.log('🤖 Processing documentation...');
-
   const sections = generateNavigation();
   const mergedSections = mergeSections(sections);
   const orderedDocuments = buildOrderedDocuments(mergedSections);
-
-  console.log('✅ Documentation processing complete');
-  console.log(`📊 Total sections: ${orderedDocuments.length}`);
 
   return {
     sections,
