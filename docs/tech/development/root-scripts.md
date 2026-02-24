@@ -8,6 +8,8 @@ description: Full list of root-level package.json scripts and convenience comman
 
 All commands below are run from the **repository root** with `pnpm`. See per-app/per-tool docs for which commands apply to each app or tool.
 
+**Prerequisites:** Node (version in [.nvmrc](https://github.com/kartuli-app/kartuli/blob/main/.nvmrc); run `nvm use`) and pnpm (from root `package.json` → `packageManager`; use [Corepack](https://nodejs.org/api/corepack.html) with `corepack enable` so the correct version is used).
+
 ## Development
 
 | Script | Description |
