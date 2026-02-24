@@ -27,7 +27,7 @@ description: Lint, typecheck, tests, E2E, Lighthouse, git hooks, and dependency 
 
 ## Dependency updates
 
-- **Renovate:** Config in [renovate.json](https://github.com/kartuli-app/kartuli/blob/main/renovate.json). Opens PRs for dependency updates; review and merge as usual.
+- **Renovate:** Config in [renovate.json](https://github.com/kartuli-app/kartuli/blob/main/renovate.json). Opens PRs for dependency updates; review and merge as usual. `@types/node` is pinned to 24.x (`allowedVersions` &lt;25) to match the Node 24 runtime.
 
 ## Review and branch protection
 

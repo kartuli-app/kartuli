@@ -33,6 +33,18 @@ This section describes **where to obtain** each value in the Vercel dashboard:
 
 After adding or rotating a secret in Vercel, update the corresponding [repository secret](https://github.com/kartuli-app/kartuli/settings/secrets/actions) in GitHub.
 
+## Node.js and package manager
+
+- **Node.js version:** In each project (game client, backoffice client), set **Build & Development Settings** → **Node.js Version** to **24** so builds use Node 24 (matches `engines.node` and `.nvmrc`).
+- **Package manager and Corepack:** We pin the pnpm version in the root `package.json` via the `packageManager` field (e.g. `pnpm@10.30.2`). So that **Vercel uses that exact version** instead of inferring from the lockfile (which can yield pnpm 9 or 10), Corepack must be enabled on Vercel:
+
+1. In the [Vercel dashboard](https://vercel.com/docs/builds/configure-a-build#corepack), open each project (game client, backoffice client).
+2. Go to **Settings** → **Environment Variables**.
+3. Add a variable: **Name** `ENABLE_EXPERIMENTAL_COREPACK`, **Value** `1`. Apply to all environments (Production, Preview, Development) so every build uses it.
+4. Save. The next deployment will use Corepack and the pnpm version from `package.json`.
+
+Without this, Vercel may use a different pnpm version (see [Package managers](https://vercel.com/docs/package-managers) and the lockfileVersion table).
+
 ## References
 
 ### Related docs
