@@ -14,11 +14,7 @@
     "storybook": "catalog:",
     "@storybook/react": "catalog:",
     "@storybook/react-vite": "catalog:",
-    "@storybook/addon-essentials": "catalog:",
-    "@storybook/addon-interactions": "catalog:",
     "@storybook/addon-a11y": "catalog:",
-    "@storybook/test": "catalog:",
-    "@storybook/blocks": "catalog:",
     "vite": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
@@ -29,6 +25,7 @@
     "typescript": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:"
+    "@types/react-dom": "catalog:",
+    "@storybook/addon-docs": "catalog:"
   }
 }
