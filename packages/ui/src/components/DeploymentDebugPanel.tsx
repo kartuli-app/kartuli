@@ -2,6 +2,15 @@
 
 import clsx from 'clsx';
 
+/** Navigator with optional User-Agent Client Hints (not in TS lib yet) */
+interface NavigatorWithUACH extends Navigator {
+  userAgentData?: { platform?: string };
+}
+
+function getNavigatorPlatform(nav: Navigator): string {
+  return (nav as NavigatorWithUACH).userAgentData?.platform ?? 'Browser';
+}
+
 /**
  * DeploymentDebugPanel Component Props
  */
@@ -174,7 +183,7 @@ export function DeploymentDebugPanel({
                 <span>
                   {globalThis.window === undefined
                     ? 'Server'
-                    : (globalThis.window.navigator.userAgentData?.platform ?? 'Browser')}
+                    : getNavigatorPlatform(globalThis.window.navigator)}
                 </span>
               </div>
 

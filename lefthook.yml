@@ -67,6 +67,9 @@ pre-push:
         echo "🔍 Running typecheck on affected packages..."
         CI=true TURBO_CI=1 pnpm turbo run typecheck --filter='[HEAD^]' --concurrency=1 --no-daemon || \
         CI=true TURBO_CI=1 pnpm turbo run typecheck --concurrency=1 --no-daemon
+      fail_text: |
+        ❌ Typecheck failed.
+        Run 'pnpm typecheck' locally to see the full errors.
 
     # Run unit tests on affected packages (exclude E2E); fallback to full run when HEAD^ is unavailable
     test:
@@ -74,3 +77,6 @@ pre-push:
         echo "🧪 Running tests on affected packages..."
         CI=true TURBO_CI=1 pnpm turbo run test --filter='[HEAD^]' --filter='!@kartuli/e2e' --concurrency=1 --no-daemon || \
         CI=true TURBO_CI=1 pnpm turbo run test --filter='!@kartuli/e2e' --concurrency=1 --no-daemon
+      fail_text: |
+        ❌ Tests failed.
+        Run 'pnpm test' locally to see the full errors.
