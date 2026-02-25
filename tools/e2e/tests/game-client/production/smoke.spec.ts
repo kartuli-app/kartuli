@@ -7,14 +7,18 @@ test.describe('Game Client Smoke Tests', () => {
     await expectNoCriticalErrors(page);
   });
 
-  test('landing has minimal structure', async ({ page }) => {
+  test('debug page has minimal structure', async ({ page }) => {
     await applyVercelProtectionBypass(page);
-    await page.goto('/');
+    await page.goto('/debug');
 
-    await expect(page.getByRole('heading', { name: 'Game Client' })).toBeVisible({
+    await expect(page.getByText(/🔧 Debug Info/)).toBeVisible({
       timeout: 10000,
     });
 
-    await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('App: @kartuli/game-client')).toBeVisible({
+      timeout: 10000,
+    });
+
+    await expect(page.getByTestId('game-debug')).toBeVisible({ timeout: 10000 });
   });
 });

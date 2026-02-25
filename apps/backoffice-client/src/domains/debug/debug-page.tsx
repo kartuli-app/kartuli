@@ -1,9 +1,8 @@
 import { DeploymentDebugPanel } from '@kartuli/ui/components/DeploymentDebugPanel';
 
-export default function Page() {
+export function DebugPage() {
   return (
-    <div data-testid="backoffice-home">
-      <h1>Backoffice Client</h1>
+    <div data-testid="backoffice-debug" className="flex grow items-center justify-center">
       <DeploymentDebugPanel
         appName="@kartuli/backoffice-client"
         appVersion={process.env.NEXT_PUBLIC_APP_VERSION ?? 'unknown'}

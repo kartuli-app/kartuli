@@ -1,5 +1,5 @@
 /**
- * Backoffice Client Global Styles
+ * Game Client Global Styles
  *
  * Order matters:
  * 1. Tailwind directives
@@ -21,7 +21,7 @@
 @import "./theme.css";
 
 /* Tell Tailwind to scan app files for classes */
-@source "../";
+@source "../../domains/";
 
 /* Import pre-built UI component styles */
-@source "../../../../packages/ui/";
+@source "../../../../../packages/ui/";

@@ -17,6 +17,9 @@ tools/e2e/test-results/
 tools/e2e/playwright-report/
 tools/e2e/test-results.xml
 
+# Lighthouse
+.lighthouseci/
+
 # Next.js
 .next/
 out/

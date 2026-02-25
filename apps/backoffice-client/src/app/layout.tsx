@@ -1,19 +1,9 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata, Viewport } from 'next';
+import { metadataConfig } from '../config/metadata-config';
+import { viewportConfig } from '../config/viewport-config';
 
-export const metadata: Metadata = {
-  title: 'Kartuli - Backoffice',
-  description: 'Georgian language learning backoffice',
-};
+export const metadata: Metadata = metadataConfig;
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
-}
+export const viewport: Viewport = viewportConfig;
+
+export { RootLayout as default } from '../domains/app-shell/root-layout';
