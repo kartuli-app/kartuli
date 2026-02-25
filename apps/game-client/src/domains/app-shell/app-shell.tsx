@@ -11,16 +11,16 @@ function getView(path: string) {
 }
 
 interface AppShellProps {
-  initialPath: string;
+  readonly initialPath: string;
 }
 
 export function AppShell({ initialPath }: AppShellProps) {
   const [path, setPath] = useState(initialPath);
 
   useEffect(() => {
-    const handlePopState = () => setPath(window.location.pathname);
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    const handlePopState = () => setPath(globalThis.location.pathname);
+    globalThis.addEventListener('popstate', handlePopState);
+    return () => globalThis.removeEventListener('popstate', handlePopState);
   }, []);
 
   const view = getView(path);
@@ -31,5 +31,5 @@ export function AppShell({ initialPath }: AppShellProps) {
   if (view === 'debug') {
     return <DebugPage />;
   }
-  return null;
+  return <HomePage />;
 }

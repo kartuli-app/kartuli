@@ -6,7 +6,7 @@ function pathFromSegments(segments: string[] | undefined): string {
 }
 
 interface PageProps {
-  params: Promise<{ spaRoute?: string[] }>;
+  readonly params: Promise<{ spaRoute?: string[] }>;
 }
 
 export function generateStaticParams() {

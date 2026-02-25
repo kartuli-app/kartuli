@@ -1,3 +1,1 @@
-import { HomePage } from '../../domains/home/home-page';
-
-export default HomePage;
+export { HomePage as default } from '../../domains/home/home-page';

@@ -1,3 +1,1 @@
-import { DebugPage } from '../../../domains/debug/debug-page';
-
-export default DebugPage;
+export { DebugPage as default } from '../../../domains/debug/debug-page';
