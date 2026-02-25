@@ -6,7 +6,8 @@ import { HomePage } from '../home/home-page';
 import { LearnPage } from '../learn/learn-page';
 import { UserPage } from '../user/user-page';
 import { parseRoute } from './route-utils';
-import { RouterProvider, useRouterContext } from './router-context';
+import { RouterProvider } from './router-context';
+import { useRouterContext } from './use-router-context';
 
 interface AppShellProps {
   readonly initialPath: string;

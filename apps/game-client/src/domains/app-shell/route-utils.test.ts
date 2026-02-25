@@ -39,4 +39,9 @@ describe('parseRoute', () => {
     expect(parseRoute('/en/learn')).toBeNull();
     expect(parseRoute('/en/game')).toBeNull();
   });
+
+  it('returns null for debug/user with extra segments', () => {
+    expect(parseRoute('/en/debug/extra')).toBeNull();
+    expect(parseRoute('/en/user/profile')).toBeNull();
+  });
 });

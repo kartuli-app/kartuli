@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouterContext } from '../app-shell/router-context';
+import { useRouterContext } from '../app-shell/use-router-context';
 
 const LESSON_IDS = ['lesson-1', 'lesson-2'] as const;
 
@@ -15,7 +15,7 @@ export function HomePage() {
           <li key={id}>
             <button
               type="button"
-              onClick={() => navigate(`/en/learn/${id}`)}
+              onClick={() => navigate(`/en/learn/${encodeURIComponent(id)}`)}
               className="text-lg underline hover:no-underline"
             >
               {id}

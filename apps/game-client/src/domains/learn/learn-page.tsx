@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouterContext } from '../app-shell/router-context';
+import { useRouterContext } from '../app-shell/use-router-context';
 
 interface LearnPageProps {
   readonly lessonId: string;
