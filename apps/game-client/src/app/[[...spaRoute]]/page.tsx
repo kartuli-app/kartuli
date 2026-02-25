@@ -9,8 +9,18 @@ interface PageProps {
   readonly params: Promise<{ spaRoute?: string[] }>;
 }
 
+const STATIC_PATHS: { spaRoute: string[] }[] = [
+  { spaRoute: ['en'] },
+  { spaRoute: ['en', 'debug'] },
+  { spaRoute: ['en', 'user'] },
+  { spaRoute: ['en', 'learn', 'lesson-1'] },
+  { spaRoute: ['en', 'learn', 'lesson-2'] },
+  { spaRoute: ['en', 'game', 'lesson-1'] },
+  { spaRoute: ['en', 'game', 'lesson-2'] },
+];
+
 export function generateStaticParams() {
-  return [{ spaRoute: ['en'] }, { spaRoute: ['en', 'debug'] }];
+  return STATIC_PATHS;
 }
 
 export default async function Page({ params }: PageProps) {

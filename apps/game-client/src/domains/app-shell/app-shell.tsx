@@ -1,35 +1,43 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { DebugPage } from '../debug/debug-page';
+import { GamePage } from '../game/game-page';
 import { HomePage } from '../home/home-page';
-
-function getView(path: string) {
-  if (path === '/en/debug') return 'debug';
-  if (path === '/en') return 'home';
-  return null;
-}
+import { LearnPage } from '../learn/learn-page';
+import { UserPage } from '../user/user-page';
+import { parseRoute } from './route-utils';
+import { RouterProvider } from './router-context';
+import { useRouterContext } from './use-router-context';
 
 interface AppShellProps {
   readonly initialPath: string;
 }
 
+function AppShellOutlet() {
+  const { path } = useRouterContext();
+  const route = parseRoute(path);
+  if (!route) return <HomePage />;
+
+  switch (route.view) {
+    case 'home':
+      return <HomePage />;
+    case 'learn':
+      return <LearnPage lessonId={route.lessonId ?? ''} />;
+    case 'game':
+      return <GamePage lessonId={route.lessonId ?? ''} />;
+    case 'user':
+      return <UserPage />;
+    case 'debug':
+      return <DebugPage />;
+    default:
+      return <HomePage />;
+  }
+}
+
 export function AppShell({ initialPath }: AppShellProps) {
-  const [path, setPath] = useState(initialPath);
-
-  useEffect(() => {
-    const handlePopState = () => setPath(globalThis.location.pathname);
-    globalThis.addEventListener('popstate', handlePopState);
-    return () => globalThis.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  const view = getView(path);
-
-  if (view === 'home') {
-    return <HomePage />;
-  }
-  if (view === 'debug') {
-    return <DebugPage />;
-  }
-  return <HomePage />;
+  return (
+    <RouterProvider initialPath={initialPath}>
+      <AppShellOutlet />
+    </RouterProvider>
+  );
 }
