@@ -1,5 +1,24 @@
 import type { Metadata } from 'next';
-import { socialLinks, verificationTokens } from './constants';
+
+// Social Media URLs and External Links
+const socialLinks = {
+  twitter: '@kartuli', // Update with actual Twitter handle
+  instagram: '@kartuli', // Update with actual Instagram handle
+  facebook: 'https://facebook.com/kartuli', // Update with actual Facebook page
+  linkedin: 'https://linkedin.com/company/kartuli', // Update with actual LinkedIn page
+  github: 'https://github.com/kartuli-app', // Update with actual GitHub organization
+  youtube: 'https://youtube.com/@kartuli', // Update with actual YouTube channel
+  tiktok: '@kartuli', // Update with actual TikTok handle
+};
+
+// Analytics and Verification Tokens
+const verificationTokens = {
+  google: '', // Add Google Search Console verification token
+  bing: '', // Add Bing Webmaster Tools verification token
+  yandex: '', // Add Yandex Webmaster verification token
+  facebook: '', // Add Facebook Domain Verification token
+  pinterest: '', // Add Pinterest verification token
+};
 
 export const siteConfig = {
   name: 'Kartuli',
@@ -35,7 +54,7 @@ export const siteConfig = {
   classification: 'Educational Software',
 };
 
-export const metadata: Metadata = {
+export const metadataConfig: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,

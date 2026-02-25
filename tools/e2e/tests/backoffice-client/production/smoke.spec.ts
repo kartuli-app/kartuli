@@ -3,15 +3,19 @@ import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protecti
 import { expectNoCriticalErrors } from '../../helpers/expect-no-critical-errors';
 
 test.describe('Backoffice Client Smoke Tests', () => {
-  test('landing has minimal structure', async ({ page }) => {
+  test('debug page has minimal structure', async ({ page }) => {
     await applyVercelProtectionBypass(page);
-    await page.goto('/');
+    await page.goto('/debug');
 
-    await expect(page.getByRole('heading', { name: 'Backoffice Client' })).toBeVisible({
+    await expect(page.getByText(/🔧 Debug Info/)).toBeVisible({
       timeout: 10000,
     });
 
-    await expect(page.getByTestId('backoffice-home')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('App: @kartuli/backoffice-client')).toBeVisible({
+      timeout: 10000,
+    });
+
+    await expect(page.getByTestId('backoffice-debug')).toBeVisible({ timeout: 10000 });
   });
 
   test('no critical console errors on first load', async ({ page }) => {
