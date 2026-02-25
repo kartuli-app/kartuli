@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, type ReactNode, useCallback, useEffect, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 export interface RouterContextValue {
   path: string;
@@ -28,5 +28,7 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
     setPath(newPath);
   }, []);
 
-  return <RouterContext.Provider value={{ path, navigate }}>{children}</RouterContext.Provider>;
+  const value = useMemo(() => ({ path, navigate }), [path, navigate]);
+
+  return <RouterContext.Provider value={value}>{children}</RouterContext.Provider>;
 }
