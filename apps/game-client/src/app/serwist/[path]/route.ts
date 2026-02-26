@@ -9,14 +9,17 @@ const revision =
   process.env.CI_COMMIT_SHA ||
   crypto.randomUUID();
 
-/** Discover font files emitted by Next (e.g. next/font) so we precache them. Needed because on first load the SW is not controlling the page yet, so the font request never goes through the SW and is not runtime-cached; precaching ensures the font is available offline after install. */
+/** Font file extensions emitted by Next (next/font) or other sources. Next typically emits only .woff2; we include others so any format the build outputs is precached. The CSS @font-face tells each browser which format to request; we precache whatever exists so all browsers work offline. */
+const FONT_EXTENSIONS = ['.woff2', '.woff', '.ttf', '.otf'];
+
+/** Discover font files in .next/static/media so we precache them. Needed because on first load the SW is not controlling the page yet, so the font request never goes through the SW; precaching ensures fonts are available offline after install. */
 function getFontPrecacheEntries(): Array<{ url: string; revision: null }> {
   try {
     const mediaDir = path.join(process.cwd(), '.next', 'static', 'media');
     if (!fs.existsSync(mediaDir)) return [];
     const files = fs.readdirSync(mediaDir);
     return files
-      .filter((f) => f.endsWith('.woff2'))
+      .filter((f) => FONT_EXTENSIONS.some((ext) => f.endsWith(ext)))
       .map((f) => ({ url: `/_next/static/media/${f}`, revision: null }));
   } catch {
     return [];
