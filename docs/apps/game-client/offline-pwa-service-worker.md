@@ -9,7 +9,7 @@ type: standard
 
 ## Overview
 
-The game client uses a **service worker** (Serwist) to support offline use after the first load. The product goals and phases are in [Offline Multilanguage Game POC](../product/offline-multilanguage-game-poc.md); this doc describes **how it is implemented** and what to keep in mind when changing the app or deployment.
+The game client uses a **service worker** (Serwist) to support offline use after the first load. The product goals and phases are in [Offline Multilanguage Game POC](../../product/offline-multilanguage-game-poc.md); this doc describes **how it is implemented** and what to keep in mind when changing the app or deployment.
 
 ## Implementation summary
 
@@ -37,12 +37,12 @@ When **Vercel Deployment Protection** is enabled for the game client project, th
 
 **Path allowlist does not help:** Vercel’s only path-based bypass is the **OPTIONS Allowlist**, which applies to **OPTIONS** requests only, not **GET**. The SW is fetched with GET, so adding `/serwist/` there has no effect.
 
-**What to do:** Use **Deployment Protection Exceptions** for the game client project: add the preview domain(s) where the SW must load (e.g. the URL used by CI, or all previews) so those deployments are not protected and the SW script returns 200. See [Vercel Next.js Hosting — Deployment Protection and the game client service worker](../../providers/vercel-nextjs-hosting.md#deployment-protection-and-the-game-client-service-worker) for the full options.
+**What to do:** Either **disable** Deployment Protection for that app’s previews (see [When we disable preview protection (collaboration)](../../providers/vercel-nextjs-hosting.md#when-we-disable-preview-protection-collaboration)), or use **Deployment Protection Exceptions** to add the preview domain(s) where the SW must load. See [Vercel Next.js Hosting — Deployment Protection and the game client service worker](../../providers/vercel-nextjs-hosting.md#deployment-protection-and-the-game-client-service-worker) for the full options.
 
 ## References
 
 ### Related docs
 
-- [Offline Multilanguage Game POC](../product/offline-multilanguage-game-poc.md) — Product spec, offline contract, and phases
+- [Offline Multilanguage Game POC](../../product/offline-multilanguage-game-poc.md) — Product spec, offline contract, and phases
 - [Vercel Next.js Hosting](../../providers/vercel-nextjs-hosting.md) — Hosting and Deployment Protection (game client SW)
 - [Game Client Hub](./index.md)

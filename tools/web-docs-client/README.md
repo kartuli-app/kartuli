@@ -25,6 +25,10 @@ To generate the LLM bundle manually: `node scripts/generate-llm-bundle.js` (from
 - From repo root: `pnpm docs:dev` or `pnpm run c:dev:web-docs-client`. From this folder: `pnpm dev`. VitePress runs with source from `docs/`; default port is 5173, site under `/kartuli/`.
 - After adding or moving docs (or changing frontmatter that affects nav), **restart the dev server** so the navbar and sidebar update (they are built when the config loads).
 
+## Broken links
+
+The VitePress build **fails on dead links**. When `docs/` or this package is affected (e.g. on a PR), the staging workflow runs the docs build, so broken internal links are caught in CI before merge. Use correct relative paths between docs (e.g. from `docs/apps/game-client/` to `docs/product/` use `../../product/`, not `../product/`).
+
 ## More
 
 For VitePress implementation, LLM bundle, scripts, and CI/CD: [Web Docs Client Hub](../../docs/tools/web-docs-client/index.md).

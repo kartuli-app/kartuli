@@ -15,7 +15,13 @@ Vercel hosts the game client and backoffice client (Next.js apps). We use it for
 
 - **Game client:** Preview (from staging workflow when `deploy_target: vercel`) and production at [www.kartuli.app](https://www.kartuli.app).
 - **Backoffice client:** Preview and production at [backoffice.kartuli.app](https://backoffice.kartuli.app).
-- **Deployment Protection:** Preview deployments can use Vercel Deployment Protection; we use "Protection Bypass for Automation" so E2E tests can hit preview URLs. Production is not protected.
+- **Deployment Protection:** Preview deployments can use Vercel Deployment Protection; we use "Protection Bypass for Automation" so E2E tests and Lighthouse can hit preview URLs when protection is on. Production is not protected.
+
+### When we disable preview protection (collaboration)
+
+On the Vercel Hobby plan, collaborators can deploy to preview (e.g. via Renovate or direct push) but **cannot view protected previews or use comments** unless they have the bypass secret. To let a collaborator work on an app without sharing the secret, we **disable Deployment Protection for that app’s previews** in the Vercel project (Security → Deployment Protection → turn off for Preview). When the collaborator is done, we **re-enable** protection for that app.
+
+We **keep the bypass header** in E2E and Lighthouse (and the `VERCEL_PROTECTION_BYPASS_SECRET` in CI) so that when protection is turned back on, automation still works without code changes.
 
 ### Deployment Protection and the game client service worker
 
