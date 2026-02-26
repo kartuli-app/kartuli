@@ -57,7 +57,9 @@ self.addEventListener(
         serwist.matchPrecache('/en').then((r) => {
           if (r) return r;
           return fetch(event.request)
-            .then((res) => (res.ok ? res : Promise.reject()))
+            .then((res) =>
+              res.ok ? res : Promise.reject(new Error(`Non-ok response: ${res.status}`)),
+            )
             .catch(() =>
               serwist.matchPrecache('/~offline').then(
                 (offline) =>
