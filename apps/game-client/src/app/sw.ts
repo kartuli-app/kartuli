@@ -42,7 +42,9 @@ self.addEventListener(
       url.pathname === '/' &&
       (event.request.mode === 'navigate' || event.request.destination === 'document');
     if (isRootDocument) {
-      event.respondWith(Response.redirect(`${url.origin}/en`, 302));
+      const target = `${url.origin}/en${url.search}${url.hash}`;
+      event.respondWith(Response.redirect(target, 302));
+      event.stopImmediatePropagation();
       return;
     }
 
@@ -55,7 +57,7 @@ self.addEventListener(
     if (isInShellGet) {
       event.respondWith(
         serwist.matchPrecache('/en').then((r) => {
-          if (r) return r;
+          if (r) return r.clone();
           return fetch(event.request)
             .then((res) =>
               res.ok ? res : Promise.reject(new Error(`Non-ok response: ${res.status}`)),
@@ -63,7 +65,7 @@ self.addEventListener(
             .catch(() =>
               serwist.matchPrecache('/~offline').then(
                 (offline) =>
-                  offline ??
+                  offline?.clone() ??
                   new Response('Offline', {
                     status: 503,
                     statusText: 'Service Unavailable',
@@ -72,6 +74,8 @@ self.addEventListener(
             );
         }),
       );
+      event.stopImmediatePropagation();
+      return;
     }
   },
   { capture: true },

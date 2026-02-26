@@ -32,16 +32,18 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
   // Sync to real URL after mount so direct loads to /en/game/lesson-1 (e.g. from SW shell) show the correct page without hydration mismatch
   useEffect(() => {
     const fromUrl = getLocationPathname();
-    if (fromUrl?.startsWith('/en')) setPath(fromUrl);
+    if (fromUrl) setPath(fromUrl);
     setHasSyncedFromUrl(true);
   }, []);
 
   const navigate = useCallback(
     (newPath: string) => {
-      win?.history.pushState(null, '', newPath);
-      setPath(newPath);
+      const nextPath = newPath.startsWith('/') ? newPath : `/${newPath}`;
+      if (nextPath === path) return;
+      win?.history.pushState(null, '', nextPath);
+      setPath(nextPath);
     },
-    [win],
+    [win, path],
   );
 
   const value = useMemo(

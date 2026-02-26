@@ -2,9 +2,9 @@ import { createSerwistRoute } from '@serwist/turbopack';
 import { NextResponse } from 'next/server';
 
 const revision =
-  process.env.VERCEL_GIT_COMMIT_SHA ??
-  process.env.GITHUB_SHA ??
-  process.env.CI_COMMIT_SHA ??
+  process.env.VERCEL_GIT_COMMIT_SHA ||
+  process.env.GITHUB_SHA ||
+  process.env.CI_COMMIT_SHA ||
   crypto.randomUUID();
 
 const serwistRoute = createSerwistRoute({
