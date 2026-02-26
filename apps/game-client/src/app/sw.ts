@@ -46,25 +46,28 @@ self.addEventListener(
       return;
     }
 
-    // Serve the single precached shell for all same-origin GETs to /en and /en/* (navigate, prefetch, or any mode) to avoid no-response when offline.
+    // Serve the single precached shell only for navigation/document requests to /en and /en/* (not for asset requests).
     const isInShellGet =
       event.request.method === 'GET' &&
       url.origin === self.location.origin &&
-      (url.pathname === '/en' || url.pathname.startsWith('/en/'));
+      (url.pathname === '/en' || url.pathname.startsWith('/en/')) &&
+      (event.request.mode === 'navigate' || event.request.destination === 'document');
     if (isInShellGet) {
       event.respondWith(
         serwist.matchPrecache('/en').then((r) => {
           if (r) return r;
-          return fetch(event.request).catch(() =>
-            serwist.matchPrecache('/~offline').then(
-              (offline) =>
-                offline ??
-                new Response('Offline', {
-                  status: 503,
-                  statusText: 'Service Unavailable',
-                }),
-            ),
-          );
+          return fetch(event.request)
+            .then((res) => (res.ok ? res : Promise.reject()))
+            .catch(() =>
+              serwist.matchPrecache('/~offline').then(
+                (offline) =>
+                  offline ??
+                  new Response('Offline', {
+                    status: 503,
+                    statusText: 'Service Unavailable',
+                  }),
+              ),
+            );
         }),
       );
     }

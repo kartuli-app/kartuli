@@ -1,9 +1,10 @@
-import { spawnSync } from 'node:child_process';
 import { createSerwistRoute } from '@serwist/turbopack';
 import { NextResponse } from 'next/server';
 
 const revision =
-  spawnSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf-8' }).stdout?.trim() ??
+  process.env.VERCEL_GIT_COMMIT_SHA ??
+  process.env.GITHUB_SHA ??
+  process.env.CI_COMMIT_SHA ??
   crypto.randomUUID();
 
 const serwistRoute = createSerwistRoute({
