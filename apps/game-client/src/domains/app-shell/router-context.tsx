@@ -5,6 +5,8 @@ import { createContext, type ReactNode, useCallback, useEffect, useMemo, useStat
 export interface RouterContextValue {
   path: string;
   navigate: (path: string) => void;
+  /** False until we have synced path from URL (avoids flash of wrong page on direct load). */
+  hasSyncedFromUrl: boolean;
 }
 
 export const RouterContext = createContext<RouterContextValue | null>(null);
@@ -16,6 +18,7 @@ interface RouterProviderProps {
 
 export function RouterProvider({ initialPath, children }: RouterProviderProps) {
   const [path, setPath] = useState(initialPath);
+  const [hasSyncedFromUrl, setHasSyncedFromUrl] = useState(false);
 
   interface BrowserGlobal {
     location: { pathname: string };
@@ -37,6 +40,7 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
     const g = globalThis as unknown as { window?: { location: { pathname: string } } };
     const fromUrl = g.window?.location.pathname;
     if (fromUrl?.startsWith('/en')) setPath(fromUrl);
+    setHasSyncedFromUrl(true);
   }, []);
 
   const navigate = useCallback(
@@ -47,7 +51,10 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
     [win],
   );
 
-  const value = useMemo(() => ({ path, navigate }), [path, navigate]);
+  const value = useMemo(
+    () => ({ path, navigate, hasSyncedFromUrl }),
+    [path, navigate, hasSyncedFromUrl],
+  );
 
   return <RouterContext.Provider value={value}>{children}</RouterContext.Provider>;
 }
