@@ -165,8 +165,12 @@ export const metadataConfig: Metadata = {
     'mobile-web-app-capable': 'yes',
   },
 
-  // Manifest for PWA (future consideration)
-  // manifest: '/manifest.json',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: siteConfig.name,
+  },
 
   // Alternates for internationalization (future consideration)
   // alternates: {

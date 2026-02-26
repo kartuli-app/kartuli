@@ -1,5 +1,7 @@
 'use client';
 
+import { navigateBack } from '../utils/browser';
+
 interface GamePageProps {
   readonly lessonId: string;
 }
@@ -13,7 +15,7 @@ export function GamePage({ lessonId }: GamePageProps) {
       </p>
       <button
         type="button"
-        onClick={() => globalThis.history.back()}
+        onClick={() => navigateBack()}
         className="rounded border border-input bg-background px-4 py-2"
       >
         Back

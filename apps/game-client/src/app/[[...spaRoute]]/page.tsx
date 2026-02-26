@@ -9,15 +9,8 @@ interface PageProps {
   readonly params: Promise<{ spaRoute?: string[] }>;
 }
 
-const STATIC_PATHS: { spaRoute: string[] }[] = [
-  { spaRoute: ['en'] },
-  { spaRoute: ['en', 'debug'] },
-  { spaRoute: ['en', 'user'] },
-  { spaRoute: ['en', 'learn', 'lesson-1'] },
-  { spaRoute: ['en', 'learn', 'lesson-2'] },
-  { spaRoute: ['en', 'game', 'lesson-1'] },
-  { spaRoute: ['en', 'game', 'lesson-2'] },
-];
+/** Single shell per locale for SSG; SW will serve this for all in-shell routes. Add ['ru'] when i18n is added. */
+const STATIC_PATHS: { spaRoute: string[] }[] = [{ spaRoute: ['en'] }];
 
 export function generateStaticParams() {
   return STATIC_PATHS;

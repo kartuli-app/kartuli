@@ -15,7 +15,31 @@ Vercel hosts the game client and backoffice client (Next.js apps). We use it for
 
 - **Game client:** Preview (from staging workflow when `deploy_target: vercel`) and production at [www.kartuli.app](https://www.kartuli.app).
 - **Backoffice client:** Preview and production at [backoffice.kartuli.app](https://backoffice.kartuli.app).
-- **Deployment Protection:** Preview deployments can use Vercel Deployment Protection; we use "Protection Bypass for Automation" so E2E tests can hit preview URLs. Production is not protected.
+- **Deployment Protection:** Preview deployments can use Vercel Deployment Protection; we use "Protection Bypass for Automation" so E2E tests and Lighthouse can hit preview URLs when protection is on. Production is not protected.
+
+### When we disable preview protection (collaboration)
+
+On the Vercel Hobby plan, collaborators can deploy to preview (e.g. via Renovate or direct push) but **cannot view protected previews or use comments** unless they have the bypass secret. To let a collaborator work on an app without sharing the secret, we **disable Deployment Protection for that app’s previews** in the Vercel project (Security → Deployment Protection → turn off for Preview). When the collaborator is done, we **re-enable** protection for that app.
+
+We **keep the bypass header** in E2E and Lighthouse (and the `VERCEL_PROTECTION_BYPASS_SECRET` in CI) so that when protection is turned back on, automation still works without code changes.
+
+### Deployment Protection and the game client service worker
+
+The game client registers a **service worker** at `/serwist/sw.js`. The browser fetches that URL when the page loads; that request does **not** include the E2E bypass header (or cookies in a way that always satisfies protection). If the deployment is protected, the server returns **401** for `GET /serwist/sw.js`, the SW fails to load, and the "no critical console errors" E2E test fails.
+
+**Vercel’s “allowlist” does not fix this.** The only path-based bypass is the **OPTIONS Allowlist**, which applies only to **OPTIONS** (CORS preflight) requests, not to **GET**. The service worker script is requested with GET, so adding `/serwist/` to the OPTIONS Allowlist has no effect on the 401.
+
+**Options that work:**
+
+1. **Deployment Protection Exceptions (recommended)**  
+   In the **game client** Vercel project → **Security** → **Deployment Protection** → **Deployment Protection Exceptions**, add the **preview domain(s)** where the SW must load (e.g. the `*.vercel.app` URL used by CI, or a pattern if supported). Those deployments then bypass protection entirely, so the SW script returns 200. Use this for the domains you use in E2E or for all previews if that’s acceptable.
+
+2. **Disable Deployment Protection** for previews on the game client project if you need the SW to work on every preview.
+
+3. **Bypass via query parameter (automation only)**  
+   Vercel’s [Protection Bypass for Automation](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection#protection-bypass-for-automation) supports `?x-vercel-protection-bypass=secret` on URLs. You could register the SW with that query param so the script request bypasses protection. The secret would then be present in the client (e.g. only when running E2E with a known bypass). This is more complex and only suitable for automated tests, not for normal users on protected previews.
+
+(Backoffice client does not use a service worker; no exception needed there.)
 
 ## Secrets
 

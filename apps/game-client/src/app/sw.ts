@@ -1,0 +1,83 @@
+/// <reference no-default-lib="true" />
+/// <reference lib="esnext" />
+/// <reference lib="webworker" />
+import { defaultCache } from '@serwist/turbopack/worker';
+import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist';
+import { Serwist } from 'serwist';
+
+declare global {
+  interface WorkerGlobalScope extends SerwistGlobalConfig {
+    __SW_MANIFEST: (PrecacheEntry | string)[] | undefined;
+  }
+}
+
+declare const self: ServiceWorkerGlobalScope;
+
+const serwist = new Serwist({
+  precacheEntries: self.__SW_MANIFEST,
+  skipWaiting: true,
+  clientsClaim: true,
+  navigationPreload: false, // we serve precached shell for /en and /en/*, so preload is unused and would be cancelled
+  runtimeCaching: defaultCache,
+  fallbacks: {
+    entries: [
+      {
+        url: '/~offline',
+        matcher({ request }) {
+          return request.destination === 'document';
+        },
+      },
+    ],
+  },
+});
+
+// Run in capture phase so we handle /en and /en/* before Serwist's handler (which does fetch() and would no-response when offline).
+// Redirect / to /en (same as Next.js redirects when online). Shell at /en will handle locale later.
+self.addEventListener(
+  'fetch',
+  (event) => {
+    const url = new URL(event.request.url);
+    const isRootDocument =
+      url.origin === self.location.origin &&
+      url.pathname === '/' &&
+      (event.request.mode === 'navigate' || event.request.destination === 'document');
+    if (isRootDocument) {
+      const target = `${url.origin}/en${url.search}${url.hash}`;
+      event.respondWith(Response.redirect(target, 302));
+      event.stopImmediatePropagation();
+      return;
+    }
+
+    // Serve the single precached shell only for navigation/document requests to /en and /en/* (not for asset requests).
+    const isInShellGet =
+      event.request.method === 'GET' &&
+      url.origin === self.location.origin &&
+      (url.pathname === '/en' || url.pathname.startsWith('/en/')) &&
+      (event.request.mode === 'navigate' || event.request.destination === 'document');
+    if (isInShellGet) {
+      event.respondWith(
+        serwist.matchPrecache('/en').then((r) => {
+          if (r) return r.clone();
+          return fetch(event.request)
+            .then((res) =>
+              res.ok ? res : Promise.reject(new Error(`Non-ok response: ${res.status}`)),
+            )
+            .catch(() =>
+              serwist.matchPrecache('/~offline').then(
+                (offline) =>
+                  offline?.clone() ??
+                  new Response('Offline', {
+                    status: 503,
+                    statusText: 'Service Unavailable',
+                  }),
+              ),
+            );
+        }),
+      );
+      event.stopImmediatePropagation();
+    }
+  },
+  { capture: true },
+);
+
+serwist.addEventListeners();

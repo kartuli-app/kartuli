@@ -13,8 +13,14 @@ interface AppShellProps {
   readonly initialPath: string;
 }
 
+function RouteLoading() {
+  return <div className="flex grow" aria-busy="true" />;
+}
+
 function AppShellOutlet() {
-  const { path } = useRouterContext();
+  const { path, hasSyncedFromUrl } = useRouterContext();
+  if (!hasSyncedFromUrl) return <RouteLoading />;
+
   const route = parseRoute(path);
   if (!route) return <HomePage />;
 
