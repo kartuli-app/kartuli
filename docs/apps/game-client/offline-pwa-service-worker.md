@@ -31,16 +31,18 @@ The game client uses a **service worker** (Serwist) to support offline use after
 
 - Precache entries use a **revision** (git `HEAD` in the Serwist route at build time). A new deploy produces a new `sw.js` and new manifest; on activate, Serwist cleans up old precache caches. Explicit app version (e.g. for "New version available" UI) is planned for a later phase; see the product doc.
 
-## Deployment: Vercel allowlist
+## Deployment: Vercel Deployment Protection
 
-When **Vercel Deployment Protection** is enabled for the game client project, the **service worker script** must be loadable without the protection bypass header. The browser requests `/serwist/sw.js` when registering the SW; that request does **not** include custom headers (e.g. the E2E bypass header). If `/serwist/` is protected, the server returns **401**, the SW fails to load, and the page reports a script error — which causes the "no critical console errors" E2E test to fail.
+When **Vercel Deployment Protection** is enabled for the game client project, the **service worker script** must be loadable. The browser requests `/serwist/sw.js` when registering the SW; that request does **not** send the E2E bypass header. So the script fetch gets **401** and the SW fails to load (and the "no critical console errors" E2E test fails).
 
-**Required:** In the **game client** Vercel project, add **`/serwist/`** to the Deployment Protection **allowlist** (Vercel dashboard → Project → Security → Deployment Protection → Allowlist). See [Vercel Next.js Hosting](../../providers/vercel-nextjs-hosting.md#deployment-protection-allowlist-game-client) for the exact place.
+**Path allowlist does not help:** Vercel’s only path-based bypass is the **OPTIONS Allowlist**, which applies to **OPTIONS** requests only, not **GET**. The SW is fetched with GET, so adding `/serwist/` there has no effect.
+
+**What to do:** Use **Deployment Protection Exceptions** for the game client project: add the preview domain(s) where the SW must load (e.g. the URL used by CI, or all previews) so those deployments are not protected and the SW script returns 200. See [Vercel Next.js Hosting — Deployment Protection and the game client service worker](../../providers/vercel-nextjs-hosting.md#deployment-protection-and-the-game-client-service-worker) for the full options.
 
 ## References
 
 ### Related docs
 
 - [Offline Multilanguage Game POC](../product/offline-multilanguage-game-poc.md) — Product spec, offline contract, and phases
-- [Vercel Next.js Hosting](../../providers/vercel-nextjs-hosting.md) — Hosting and allowlist for `/serwist/`
+- [Vercel Next.js Hosting](../../providers/vercel-nextjs-hosting.md) — Hosting and Deployment Protection (game client SW)
 - [Game Client Hub](./index.md)
