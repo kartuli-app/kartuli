@@ -129,9 +129,11 @@ jobs:
             exit 1
           fi
           if [ -n "$VERCEL_PROTECTION_BYPASS_SECRET" ]; then
-            export LHCI_COLLECT__SETTINGS__EXTRAHEADERS="{\"x-vercel-protection-bypass\": \"$VERCEL_PROTECTION_BYPASS_SECRET\"}"
+            EXTRA_HEADERS=$(jq -n --arg secret "$VERCEL_PROTECTION_BYPASS_SECRET" '{ "x-vercel-protection-bypass": $secret }' -c)
+            pnpm exec lhci autorun --collect.url="$URL" --collect.settings.extraHeaders="$EXTRA_HEADERS" 2>&1 | tee lighthouse_output.txt
+          else
+            pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
           fi
-          pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
           REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
           echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
           echo "Lighthouse report URL: ${REPORT_URL}"
