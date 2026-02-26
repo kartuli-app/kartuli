@@ -1,8 +1,21 @@
 import { render, within } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import * as browser from '../utils/browser';
 import { AppShell } from './app-shell';
 
+vi.mock('../utils/browser', () => ({
+  getLocationPathname: vi.fn(),
+  getBrowserGlobal: vi.fn(() => ({
+    location: { pathname: '' },
+    history: { pushState: vi.fn(), back: vi.fn() },
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  })),
+  navigateBack: vi.fn(),
+}));
+
 function renderShell(initialPath: string) {
+  vi.mocked(browser.getLocationPathname).mockReturnValue(initialPath);
   return render(<AppShell initialPath={initialPath} />);
 }
 
