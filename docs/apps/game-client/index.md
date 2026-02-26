@@ -26,6 +26,10 @@ From the repository root you can use:
 
 See [Root scripts](../../tech/development/root-scripts.md) for the full list of root-level commands.
 
+## Offline and PWA
+
+- [Offline PWA and Service Worker](./offline-pwa-service-worker.md) — Service worker implementation (Serwist), dev vs prod, and Vercel allowlist for `/serwist/`.
+
 ## CI/CD
 
 - [CI/CD Staging](./ci-cd-staging.md) — Runs on PR when the game client (or backoffice) is affected; build, optional Vercel preview, E2E, Lighthouse.

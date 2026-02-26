@@ -17,6 +17,12 @@ Vercel hosts the game client and backoffice client (Next.js apps). We use it for
 - **Backoffice client:** Preview and production at [backoffice.kartuli.app](https://backoffice.kartuli.app).
 - **Deployment Protection:** Preview deployments can use Vercel Deployment Protection; we use "Protection Bypass for Automation" so E2E tests can hit preview URLs. Production is not protected.
 
+### Deployment Protection allowlist (game client)
+
+The game client registers a **service worker** at `/serwist/sw.js`. The browser fetches that URL when the page loads; that request does **not** include the E2E bypass header. If the path is protected, the server returns 401 and the SW fails to load, which causes the "no critical console errors" E2E test to fail.
+
+**Required for game client project:** In Vercel → **Game client project** → **Security** → **Deployment Protection** → **Allowlist**, add the path **`/serwist/`** so the service worker script can be fetched without authentication. (Backoffice client does not use a service worker; no allowlist needed there.)
+
 ## Secrets
 
 The GitHub Actions workflows use several repository secrets to talk to Vercel. **Full list, names, and which workflows use them:** [GitHub Actions CI/CD — Secrets](./github-actions-ci-cd.md#secrets).
