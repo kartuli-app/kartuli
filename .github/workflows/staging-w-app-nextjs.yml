@@ -121,13 +121,18 @@ jobs:
           LIGHTHOUSE_ASSERT_LEVEL: "warn"
           STEP_APP_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
           STEP_DEPLOY_TARGET: ${{ inputs.deploy_target }}
+          VERCEL_PROTECTION_BYPASS_SECRET: ${{ inputs.deploy_target == 'vercel' && (inputs.target == 'game-client' && secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT || secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT) || '' }}
         run: |
           URL="$STEP_APP_URL"
           if [ -z "$URL" ]; then
             echo "ERROR: APP URL is empty (deploy_target=$STEP_DEPLOY_TARGET)."
             exit 1
           fi
-          pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
+          if [ -n "$VERCEL_PROTECTION_BYPASS_SECRET" ]; then
+            pnpm exec lhci autorun --collect.url="$URL" --collect.settings.extraHeaders="{\"x-vercel-protection-bypass\": \"$VERCEL_PROTECTION_BYPASS_SECRET\"}" 2>&1 | tee lighthouse_output.txt
+          else
+            pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
+          fi
           REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
           echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
           echo "Lighthouse report URL: ${REPORT_URL}"
