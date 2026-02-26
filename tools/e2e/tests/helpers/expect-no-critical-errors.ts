@@ -33,15 +33,18 @@ export async function expectNoCriticalErrors(
   const onPageError = (err: unknown) => {
     let message: string;
     if (err instanceof Error) {
-      message = err.stack ?? err.message;
+      message = err.stack ?? (err.message || '(Error with no message)');
     } else if (typeof err === 'string') {
-      message = err;
+      message = err || '(empty string)';
     } else {
       try {
         message = JSON.stringify(err);
       } catch {
         message = String(err);
       }
+    }
+    if (message === '' || message === '{}') {
+      message = `(non-Error: ${Object.prototype.toString.call(err)})`;
     }
     consoleErrors.push(`pageerror: ${message}`);
   };
@@ -61,5 +64,11 @@ export async function expectNoCriticalErrors(
   }
 
   const criticalErrors = consoleErrors.filter((error) => !ignorePatterns.some((fn) => fn(error)));
+
+  if (criticalErrors.length > 0) {
+    console.error('[expectNoCriticalErrors] All captured errors:', consoleErrors);
+    console.error('[expectNoCriticalErrors] Critical (non-ignored):', criticalErrors);
+  }
+
   expect(criticalErrors).toHaveLength(0);
 }
