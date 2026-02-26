@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouterContext } from '../app-shell/use-router-context';
+import { navigateBack } from '../utils/browser';
 
 interface LearnPageProps {
   readonly lessonId: string;
@@ -25,7 +26,7 @@ export function LearnPage({ lessonId }: LearnPageProps) {
         </button>
         <button
           type="button"
-          onClick={() => (globalThis as unknown as { history: { back(): void } }).history.back()}
+          onClick={() => navigateBack()}
           className="rounded border border-input bg-background px-4 py-2"
         >
           Back

@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, type ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { getBrowserGlobal, getLocationPathname } from '../utils/browser';
 
 export interface RouterContextValue {
   path: string;
@@ -20,14 +21,7 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
   const [path, setPath] = useState(initialPath);
   const [hasSyncedFromUrl, setHasSyncedFromUrl] = useState(false);
 
-  interface BrowserGlobal {
-    location: { pathname: string };
-    history: { pushState: (data: null, unused: string, url: string) => void };
-    addEventListener: (type: string, listener: () => void) => void;
-    removeEventListener: (type: string, listener: () => void) => void;
-  }
-  const win =
-    typeof globalThis !== 'undefined' ? (globalThis as unknown as BrowserGlobal | null) : null;
+  const win = getBrowserGlobal();
   useEffect(() => {
     if (!win) return;
     const handlePopState = () => setPath(win.location.pathname);
@@ -37,8 +31,7 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
 
   // Sync to real URL after mount so direct loads to /en/game/lesson-1 (e.g. from SW shell) show the correct page without hydration mismatch
   useEffect(() => {
-    const g = globalThis as unknown as { window?: { location: { pathname: string } } };
-    const fromUrl = g.window?.location.pathname;
+    const fromUrl = getLocationPathname();
     if (fromUrl?.startsWith('/en')) setPath(fromUrl);
     setHasSyncedFromUrl(true);
   }, []);
