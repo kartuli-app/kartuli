@@ -18,6 +18,8 @@
     "**/*.test.tsx",
     "**/setupTests.ts",
     "vitest.config.ts",
-    ".storybook/**"
+    ".storybook/**",
+    "public/sw.js",
+    "public/swe-worker*.js"
   ]
 }

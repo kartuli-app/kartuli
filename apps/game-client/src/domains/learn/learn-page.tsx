@@ -25,7 +25,7 @@ export function LearnPage({ lessonId }: LearnPageProps) {
         </button>
         <button
           type="button"
-          onClick={() => globalThis.history.back()}
+          onClick={() => (globalThis as unknown as { history: { back(): void } }).history.back()}
           className="rounded border border-input bg-background px-4 py-2"
         >
           Back

@@ -20,6 +20,10 @@ tools/e2e/test-results.xml
 # Lighthouse
 .lighthouseci/
 
+# Serwist (generated SW output)
+public/sw*
+public/swe-worker*
+
 # Next.js
 .next/
 out/

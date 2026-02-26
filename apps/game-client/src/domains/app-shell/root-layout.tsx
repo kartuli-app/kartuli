@@ -1,3 +1,4 @@
+import { SerwistProviderWrapper } from '../../app/serwist-provider';
 import './globals.css';
 
 export function RootLayout({
@@ -7,7 +8,9 @@ export function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-dvh flex">{children}</body>
+      <body className="h-dvh flex">
+        <SerwistProviderWrapper>{children}</SerwistProviderWrapper>
+      </body>
     </html>
   );
 }
