@@ -75,7 +75,6 @@ self.addEventListener(
         }),
       );
       event.stopImmediatePropagation();
-      return;
     }
   },
   { capture: true },
