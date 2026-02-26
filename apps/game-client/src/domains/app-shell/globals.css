@@ -25,3 +25,10 @@
 
 /* Import pre-built UI component styles */
 @source "../../../../../packages/ui/";
+
+/* Apply theme font to body last so it wins over Tailwind base. Variable name must match root-layout (e.g. --font-noto-georgian). */
+@layer utilities {
+  .font-noto-sans-georgian {
+    font-family: var(--font-noto-sans-georgian, system-ui);
+  }
+}
