@@ -49,7 +49,11 @@ export function navigateBack(): void {
 
 /** Reloads the current page. No-op if not in a browser-like environment. */
 export function reloadWindow(): void {
-  globalCast.window?.location?.reload?.() ?? globalCast.location?.reload?.();
+  if (globalCast.window?.location?.reload) {
+    globalCast.window.location.reload();
+    return;
+  }
+  globalCast.location?.reload?.();
 }
 
 /** Returns the ServiceWorkerContainer (navigator.serviceWorker) if available. */

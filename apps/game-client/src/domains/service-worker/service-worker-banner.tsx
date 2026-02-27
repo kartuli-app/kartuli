@@ -135,13 +135,11 @@ function useServiceWorkerBannerState() {
     const sw = getServiceWorkerContainer();
     if (!sw) return;
     sw.getRegistrations().then((regs) => {
-      for (const reg of regs) {
-        reg.unregister().then(() => {
-          setMode(null);
-          setDismissed(true);
-          reloadWindow();
-        });
-      }
+      Promise.all(regs.map((reg) => reg.unregister())).then(() => {
+        setMode(null);
+        setDismissed(true);
+        reloadWindow();
+      });
     });
   }, []);
 
