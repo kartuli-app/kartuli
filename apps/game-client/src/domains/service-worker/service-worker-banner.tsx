@@ -3,7 +3,7 @@
 /**
  * Banner that shows service worker status and actions:
  * - Dev: "A service worker is installed" + Unregister button (so local changes are visible)
- * - First install: "Ready to be played offline" (once per version, then dismiss stores version in localStorage)
+ * - First install: "Ready to be played offline" (once ever; dismiss stores a flag so we don't show again)
  * - Update: "A new version is available" + "Go to next version" (sends SKIP_WAITING to waiting worker, then reloads)
  */
 import { useCallback, useEffect, useState } from 'react';
@@ -16,8 +16,8 @@ import {
 } from './service-worker-messages';
 import { SERVICE_WORKER_SCRIPT_URL } from './service-worker-script-url';
 
-/** localStorage key: we store the app version here when the user dismisses "ready for offline" so we don't show it again for that version. */
-const STORAGE_KEY_READY_INFORMED = 'sw_ready_offline_informed_version';
+/** localStorage key: we set this when the user dismisses "ready for offline" so we only show that message once. */
+const STORAGE_KEY_READY_INFORMED = 'sw_ready_offline_informed';
 
 type BannerMode = 'dev' | 'first-install' | 'update' | null;
 
@@ -25,13 +25,11 @@ function useServiceWorkerBannerState() {
   const [mode, setMode] = useState<BannerMode>(null);
   const [dismissed, setDismissed] = useState(false);
 
-  const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? 'unknown';
-
-  /** True if we have already shown "ready for offline" for this app version and the user dismissed. */
+  /** True if we have already shown "ready for offline" and the user dismissed (one-time flag). */
   const isReadyInformed = useCallback(() => {
     if (typeof localStorage === 'undefined') return false;
-    return localStorage.getItem(STORAGE_KEY_READY_INFORMED) === appVersion;
-  }, [appVersion]);
+    return localStorage.getItem(STORAGE_KEY_READY_INFORMED) === 'true';
+  }, []);
 
   /** If there is an active registration and no waiting worker, show "ready for offline" once (unless already informed). */
   const showReadyIfNotInformed = useCallback(() => {
@@ -78,7 +76,7 @@ function useServiceWorkerBannerState() {
 
       setMode(null);
     });
-  }, [appVersion, isReadyInformed]);
+  }, [isReadyInformed]);
 
   useEffect(() => {
     evaluate();
@@ -121,14 +119,14 @@ function useServiceWorkerBannerState() {
       sw.removeEventListener('message', onMessage);
       removeUpdateFound?.();
     };
-  }, [appVersion, isReadyInformed, showReadyIfNotInformed]);
+  }, [isReadyInformed, showReadyIfNotInformed]);
 
   const dismiss = useCallback(() => {
     setDismissed(true);
     if (mode === 'first-install' && typeof localStorage !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY_READY_INFORMED, appVersion);
+      localStorage.setItem(STORAGE_KEY_READY_INFORMED, 'true');
     }
-  }, [mode, appVersion]);
+  }, [mode]);
 
   const unregister = useCallback(() => {
     const sw = getServiceWorkerContainer();
