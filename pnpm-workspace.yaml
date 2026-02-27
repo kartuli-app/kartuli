@@ -44,6 +44,11 @@ catalog:
   
   # Build Tools
   vite: ^7.3.1
+  esbuild: ^0.25.0
+
+  # Service worker (Serwist)
+  serwist: ^9.5.6
+  '@serwist/turbopack': ^9.5.6
 
   # Documentation
   vitepress: 1.6.4
