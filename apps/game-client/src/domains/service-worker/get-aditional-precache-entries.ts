@@ -23,7 +23,7 @@ function getRevision() {
   const shortSha =
     sha.length >= 8
       ? sha.substring(0, 8)
-      : sha || crypto.randomUUID().replace(/-/g, '').substring(0, 8);
+      : sha || crypto.randomUUID().replaceAll('-', '').substring(0, 8);
   const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8')) as {
     version: string;
   };

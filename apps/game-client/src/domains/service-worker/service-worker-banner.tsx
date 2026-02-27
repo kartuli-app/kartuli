@@ -97,20 +97,23 @@ function useServiceWorkerBannerState() {
 
     sw.ready.then(() => showReadyIfNotInformed());
 
+    function handleUpdateFound(
+      registration: ServiceWorkerRegistration,
+      container: NonNullable<ReturnType<typeof getServiceWorkerContainer>>,
+    ) {
+      const newWorker = registration.installing ?? registration.waiting;
+      if (!newWorker) return;
+      const checkState = () => {
+        if (newWorker.state === 'installed' && container.controller) setMode('update');
+      };
+      newWorker.addEventListener('statechange', checkState);
+      checkState();
+    }
+
     let removeUpdateFound: (() => void) | null = null;
     sw.getRegistration(SERVICE_WORKER_SCRIPT_URL).then((registration) => {
       if (!registration) return;
-      const onUpdateFound = () => {
-        const newWorker = registration.installing ?? registration.waiting;
-        if (!newWorker) return;
-        const checkState = () => {
-          if (newWorker.state === 'installed' && sw.controller) {
-            setMode('update');
-          }
-        };
-        newWorker.addEventListener('statechange', checkState);
-        checkState();
-      };
+      const onUpdateFound = () => handleUpdateFound(registration, sw);
       registration.addEventListener('updatefound', onUpdateFound);
       removeUpdateFound = () => registration.removeEventListener('updatefound', onUpdateFound);
     });
