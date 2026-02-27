@@ -11,9 +11,13 @@ export interface BrowserGlobal {
 }
 
 const globalCast = globalThis as unknown as {
-  window?: { location: { pathname: string }; navigator?: Navigator };
+  window?: {
+    location: { pathname: string; reload(): void };
+    navigator?: { serviceWorker?: ServiceWorkerContainer };
+  };
   history?: { back(): void; pushState: (data: null, unused: string, url: string) => void };
-  location?: { pathname: string };
+  location?: { pathname: string; reload(): void };
+  navigator?: { serviceWorker?: ServiceWorkerContainer };
   addEventListener?: (type: string, listener: () => void) => void;
   removeEventListener?: (type: string, listener: () => void) => void;
 };
@@ -41,4 +45,15 @@ export function getLocationPathname(): string | undefined {
 /** Calls history.back(). No-op if not in a browser-like environment. */
 export function navigateBack(): void {
   globalCast.history?.back?.();
+}
+
+/** Reloads the current page. No-op if not in a browser-like environment. */
+export function reloadWindow(): void {
+  globalCast.window?.location?.reload?.() ?? globalCast.location?.reload?.();
+}
+
+/** Returns the ServiceWorkerContainer (navigator.serviceWorker) if available. */
+export function getServiceWorkerContainer(): ServiceWorkerContainer | null {
+  const nav = globalCast.window?.navigator ?? globalCast.navigator;
+  return nav?.serviceWorker ?? null;
 }

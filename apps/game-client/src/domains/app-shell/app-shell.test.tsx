@@ -12,6 +12,8 @@ vi.mock('../utils/browser', () => ({
     removeEventListener: vi.fn(),
   })),
   navigateBack: vi.fn(),
+  getServiceWorkerContainer: vi.fn(() => null),
+  reloadWindow: vi.fn(),
 }));
 
 function renderShell(initialPath: string) {

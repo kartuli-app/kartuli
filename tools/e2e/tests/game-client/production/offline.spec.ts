@@ -6,6 +6,17 @@ test.describe('Game Client Offline', () => {
     await context.setOffline(false);
   });
 
+  test('"ready for offline" banner appears after first load', async ({ page }) => {
+    await applyVercelProtectionBypass(page);
+    await page.goto('/en');
+
+    await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 10000 });
+
+    await expect(
+      page.getByTestId('sw-banner').filter({ hasText: /ready to be played offline/i }),
+    ).toBeVisible({ timeout: 15000 });
+  });
+
   test('in-shell navigation works after going offline', async ({ page, context }) => {
     await applyVercelProtectionBypass(page);
     await page.goto('/en');

@@ -1,18 +1,32 @@
+/**
+ * Service worker script. Runs in a separate thread (WorkerGlobalScope); no DOM or window.
+ *
+ * Responsibilities:
+ * - Precaches the app shell (/en), offline page, icons, and fonts so the app works offline
+ * - On fetch: redirects / to /en, serves shell or offline fallback for /en and /en/*
+ * - Listens for SKIP_WAITING from the page so the user can activate a waiting update
+ * - Notifies the page via postMessage when: a new worker is waiting (SW_WAITING), or this worker is ready (SW_READY_OFFLINE)
+ */
+
 /// <reference no-default-lib="true" />
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
+
 import { defaultCache } from '@serwist/turbopack/worker';
 import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist';
 import { Serwist } from 'serwist';
+import { SKIP_WAITING, SW_READY_OFFLINE, SW_WAITING } from './service-worker-messages';
 
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
+    /** Injected at build time by the Serwist route from additionalPrecacheEntries. */
     __SW_MANIFEST: (PrecacheEntry | string)[] | undefined;
   }
 }
 
 declare const self: ServiceWorkerGlobalScope;
 
+/** Serwist handles install (precache), activate, and runtime caching. We add our own fetch and message logic. */
 const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
   skipWaiting: true,
@@ -31,12 +45,14 @@ const serwist = new Serwist({
   },
 });
 
-// Run in capture phase so we handle /en and /en/* before Serwist's handler (which does fetch() and would no-response when offline).
-// Redirect / to /en (same as Next.js redirects when online). Shell at /en will handle locale later.
+// --- Fetch: redirect / → /en, then serve shell or offline for /en and /en/* ---
+// We use capture: true so this runs before Serwist's fetch handler (which would try fetch() and fail when offline).
 self.addEventListener(
   'fetch',
   (event) => {
     const url = new URL(event.request.url);
+
+    // Navigation to / → redirect to /en (same as Next.js when online).
     const isRootDocument =
       url.origin === self.location.origin &&
       url.pathname === '/' &&
@@ -48,7 +64,7 @@ self.addEventListener(
       return;
     }
 
-    // Serve the single precached shell only for navigation/document requests to /en and /en/* (not for asset requests).
+    // Navigation to /en or /en/*: serve precached shell if available; if fetch fails (offline), serve /~offline.
     const isInShellGet =
       event.request.method === 'GET' &&
       url.origin === self.location.origin &&
@@ -79,5 +95,41 @@ self.addEventListener(
   },
   { capture: true },
 );
+
+// --- Messages from the page (client → SW) ---
+// When the user clicks "Go to next version", the page sends SKIP_WAITING so this (waiting) worker calls skipWaiting() and activates.
+self.addEventListener('message', (event) => {
+  if (event.data?.type === SKIP_WAITING) {
+    self.skipWaiting();
+  }
+});
+
+// --- Lifecycle: notify the page (SW → client) ---
+// Install: if we are the new waiting worker (there is already an active worker), tell all clients so they can show "update available".
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    self.clients.matchAll().then((clients) => {
+      if (self.registration.active != null && clients.length > 0) {
+        for (const client of clients) {
+          client.postMessage({ type: SW_WAITING });
+        }
+      }
+    }),
+  );
+});
+
+// Activate: once we have claimed clients, tell them we are ready so they can show "ready for offline".
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    self.clients
+      .claim()
+      .then(() => self.clients.matchAll())
+      .then((clients) => {
+        for (const client of clients) {
+          client.postMessage({ type: SW_READY_OFFLINE });
+        }
+      }),
+  );
+});
 
 serwist.addEventListeners();
