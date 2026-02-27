@@ -15,21 +15,23 @@ The game client uses a **service worker** (Serwist) to support offline use after
 
 | What | Where / how |
 |------|--------------|
-| SW source | `apps/game-client/src/app/sw.ts` |
+| SW source | `apps/game-client/src/domains/service-worker/service-worker.ts` |
 | SW URL | `/serwist/sw.js` (Next.js route) |
 | Route handler | `apps/game-client/src/app/serwist/[path]/route.ts` — builds SW with injected precache manifest, serves script in production only |
-| Registration | `SerwistProvider` in `src/app/serwist-provider.tsx`; registers `swUrl="/serwist/sw.js"` |
-| Precached by default | `/en`, `/~offline`, `/icon.svg`, `/favicon.ico` plus build-discovered assets (chunks, CSS); revision from git HEAD at build time |
-| Custom fetch | Capture-phase listener: `/` → redirect to `/en`; same-origin GETs to `/en` and `/en/*` → serve precached `/en` shell (or `/~offline` on failure) |
+| Registration | `ServiceWorkerProvider` (wraps `SerwistProvider`) in `src/domains/service-worker/service-worker-provider.tsx`; registers `swUrl="/serwist/sw.js"`, disabled in development |
+| Precached by default | `/en`, `/~offline`, `/icon.svg`, `/favicon.ico` plus build-discovered fonts in `.next/static/media`; stable URLs use a revision (package version + short git SHA), fonts use `revision: null` (hashed URLs) |
+| Custom fetch | Capture-phase listener in SW: `/` → redirect to `/en`; same-origin GETs to `/en` and `/en/*` → serve precached `/en` shell (or `/~offline` on failure) |
 
 ## Dev vs production
 
 - **Development:** The Serwist route returns **404** for `GET /serwist/sw.js`, and `SerwistProvider` has `disable={process.env.NODE_ENV === 'development'}`. So the SW is **not** registered in dev; no need to serve the built SW script locally.
 - **Production (and staging/preview):** The route serves the compiled SW; the provider registers it. E2E against a Vercel preview runs in production mode, so the SW is active there.
 
-## Versioning
+## Versioning and banner UX
 
-- Precache entries use a **revision** (git `HEAD` in the Serwist route at build time). A new deploy produces a new `sw.js` and new manifest; on activate, Serwist cleans up old precache caches. Explicit app version (e.g. for "New version available" UI) is planned for a later phase; see the product doc.
+- **Precache revision:** Stable URLs (`/en`, `/~offline`, icons) use a revision (package version + short git SHA from `get-aditional-precache-entries.ts`). A new deploy produces a new `sw.js` and new manifest; on activate, Serwist refreshes precache. Fonts use `revision: null` (URLs are hashed by the build).
+- **App version:** `NEXT_PUBLIC_APP_VERSION` is set in Next.js config (from `package.json` or CI) and shown on the debug page.
+- **Banner (ServiceWorkerBanner):** Shows three states: (1) **Dev** — a SW is registered (with Unregister button). (2) **Ready for offline** — one-time message after first SW activation; dismiss stores a flag in `localStorage` so we don’t show it again on new versions. (3) **New version available** — when a waiting worker exists; “Go to next version” sends `SKIP_WAITING` and reloads. Typed messages are in `service-worker-messages.ts`.
 
 ## Deployment: Vercel Deployment Protection
 
