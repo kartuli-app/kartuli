@@ -1,4 +1,4 @@
-import { SerwistProviderWrapper } from '../../app/serwist-provider';
+import { ServiceWorkerProvider } from '../service-worker/service-worker-provider';
 import './globals.css';
 import { Noto_Sans_Georgian } from 'next/font/google';
 
@@ -16,7 +16,7 @@ export function RootLayout({
   return (
     <html lang="en" className={`${notoSansGeorgian.variable}`}>
       <body className="h-dvh flex font-noto-sans-georgian">
-        <SerwistProviderWrapper>{children}</SerwistProviderWrapper>
+        <ServiceWorkerProvider>{children}</ServiceWorkerProvider>
       </body>
     </html>
   );

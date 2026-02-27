@@ -1,42 +1,24 @@
-import fs from 'node:fs';
-import path from 'node:path';
+/**
+ * Serwist route: builds and serves the service worker at /serwist/[path] (e.g. /serwist/sw.js).
+ *
+ * At build time this route:
+ * - Compiles the SW source (service-worker.ts) with esbuild
+ * - Injects the precache manifest (URLs + revisions) from additionalPrecacheEntries
+ * - Serves the compiled SW script when requested
+ *
+ * In development we return 404 so no SW is registered and local changes are always visible.
+ */
+
 import { createSerwistRoute } from '@serwist/turbopack';
 import { NextResponse } from 'next/server';
-
-const revision =
-  process.env.VERCEL_GIT_COMMIT_SHA ||
-  process.env.GITHUB_SHA ||
-  process.env.CI_COMMIT_SHA ||
-  crypto.randomUUID();
-
-/** Font file extensions emitted by Next (next/font) or other sources. Next typically emits only .woff2; we include others so any format the build outputs is precached. The CSS @font-face tells each browser which format to request; we precache whatever exists so all browsers work offline. */
-const FONT_EXTENSIONS = ['.woff2', '.woff', '.ttf', '.otf'];
-
-/** Discover font files in .next/static/media so we precache them. Needed because on first load the SW is not controlling the page yet, so the font request never goes through the SW; precaching ensures fonts are available offline after install. */
-function getFontPrecacheEntries(): Array<{ url: string; revision: null }> {
-  try {
-    const mediaDir = path.join(process.cwd(), '.next', 'static', 'media');
-    if (!fs.existsSync(mediaDir)) return [];
-    const files = fs.readdirSync(mediaDir);
-    return files
-      .filter((f) => FONT_EXTENSIONS.some((ext) => f.endsWith(ext)))
-      .map((f) => ({ url: `/_next/static/media/${f}`, revision: null }));
-  } catch {
-    return [];
-  }
-}
-
-const fontEntries = getFontPrecacheEntries();
+import { getAdditionalPrecacheEntries } from '../../../domains/service-worker/get-aditional-precache-entries';
+import { SERVICE_WORKER_SOURCE_URL } from '../../../domains/service-worker/service-worker-source-url';
 
 const serwistRoute = createSerwistRoute({
-  additionalPrecacheEntries: [
-    { url: '/en', revision },
-    { url: '/~offline', revision },
-    { url: '/icon.svg', revision },
-    { url: '/favicon.ico', revision },
-    ...fontEntries,
-  ],
-  swSrc: 'src/app/sw.ts',
+  /** Shell pages, offline fallback, icons, and fonts to cache when the SW installs. */
+  additionalPrecacheEntries: getAdditionalPrecacheEntries(),
+  /** Path to the SW source file (compiled at build time). */
+  swSrc: SERVICE_WORKER_SOURCE_URL,
   useNativeEsbuild: true,
 });
 
@@ -45,10 +27,15 @@ export const dynamicParams = false;
 export const revalidate = false;
 export const generateStaticParams = serwistRoute.generateStaticParams;
 
-// In development, do not serve a real SW (per plan: dev disabled).
+/** Serve the compiled SW script, or 404 in development so the app runs without a SW. */
 export async function GET(request: Request, context: { params: Promise<{ path: string }> }) {
   if (process.env.NODE_ENV === 'development') {
-    return new NextResponse(null, { status: 404 });
+    return new NextResponse(
+      JSON.stringify({
+        message: 'Service worker is not available in development',
+      }),
+      { status: 404 },
+    );
   }
   return serwistRoute.GET(request, context);
 }
