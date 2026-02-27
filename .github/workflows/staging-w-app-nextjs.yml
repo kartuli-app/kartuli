@@ -77,10 +77,23 @@ jobs:
         with:
           target: ${{ inputs.target }}
 
+      - name: Get app version for build
+        id: get_version
+        env:
+          TARGET: ${{ inputs.target }}
+          DEPLOY_TARGET: ${{ inputs.deploy_target }}
+        run: |
+          PKG_VERSION=$(node -p "require('./apps/$TARGET/package.json').version")
+          SHORT_SHA="${GITHUB_SHA:0:7}"
+          APP_VERSION="${PKG_VERSION}-${DEPLOY_TARGET}-${SHORT_SHA}"
+          echo "app_version=${APP_VERSION}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
       - name: Build
         if: inputs.deploy_target == 'local'
         env:
           TARGET: ${{ inputs.target }}
+          NEXT_PUBLIC_APP_VERSION: ${{ steps.get_version.outputs.app_version }}
         run: pnpm turbo run build --filter=@kartuli/"$TARGET"
         shell: bash
 

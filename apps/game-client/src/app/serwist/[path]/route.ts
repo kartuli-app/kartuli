@@ -3,11 +3,16 @@ import path from 'node:path';
 import { createSerwistRoute } from '@serwist/turbopack';
 import { NextResponse } from 'next/server';
 
-const revision =
-  process.env.VERCEL_GIT_COMMIT_SHA ||
-  process.env.GITHUB_SHA ||
-  process.env.CI_COMMIT_SHA ||
-  crypto.randomUUID();
+const sha =
+  process.env.VERCEL_GIT_COMMIT_SHA || process.env.GITHUB_SHA || process.env.CI_COMMIT_SHA || '';
+const shortSha =
+  sha.length >= 8
+    ? sha.substring(0, 8)
+    : sha || crypto.randomUUID().replace(/-/g, '').substring(0, 8);
+const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8')) as {
+  version: string;
+};
+const revision = pkg.version ? `${pkg.version}-${shortSha}` : shortSha;
 
 /** Font file extensions emitted by Next (next/font) or other sources. Next typically emits only .woff2; we include others so any format the build outputs is precached. The CSS @font-face tells each browser which format to request; we precache whatever exists so all browsers work offline. */
 const FONT_EXTENSIONS = ['.woff2', '.woff', '.ttf', '.otf'];
