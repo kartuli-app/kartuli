@@ -1,9 +1,11 @@
 # Notify Telegram CI Failures topic(s) when a check suite fails. Routes to Preview vs Production topic by branch.
+# Note: check_suite only triggers when this workflow file is on the default branch (main).
 name: Notification – CI failure
 
 on:
   check_suite:
     types: [completed]
+  workflow_dispatch:
 
 permissions:
   contents: read
