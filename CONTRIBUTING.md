@@ -26,7 +26,7 @@ Welcome! Please read our documentation:
 
 ## Collaboration and security
 
-- [GitHub Repo Management](docs/providers/github-repo-management.md) — How we handle contributors (fork vs direct collaborator), workflow and secrets security, and protecting the `.github/` folder.
+- [GitHub Repo Management](docs/providers/github-repo-management.md) — How we handle contributors (fork vs direct collaborator), workflow and secrets security, and protecting the `.github/` folder. Includes [adding a direct collaborator (PR-only)](docs/providers/github-repo-management.md#adding-a-direct-collaborator-pr-only) so they work in-repo but only via PRs you approve.
 
 ## GitHub Actions
 Our workflows handle:
