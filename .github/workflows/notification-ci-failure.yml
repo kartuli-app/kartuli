@@ -1,0 +1,63 @@
+# Notify Telegram CI Failures topic(s) when a check suite fails. Routes to Preview vs Production topic by branch.
+# Note: check_suite only triggers when this workflow file is on the default branch (main).
+name: Notification – CI failure
+
+on:
+  check_suite:
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Notify CI Failures topic
+    runs-on: ubuntu-latest
+    if: github.event_name == 'check_suite' && github.event.check_suite.conclusion == 'failure'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build CI failure message and choose topic
+        id: notify
+        env:
+          HEAD_BRANCH: ${{ github.event.check_suite.head_branch }}
+          HEAD_SHA: ${{ github.event.check_suite.head_sha }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          PR_LINK: ${{ github.event.check_suite.pull_requests[0].html_url || '' }}
+        run: |
+          RUN_URL="${SERVER_URL}/${REPO}/commit/${HEAD_SHA}"
+          MSG="CI failed"
+          MSG="$MSG"$'\n'"Repo: $REPO"
+          MSG="$MSG"$'\n'"Branch: $HEAD_BRANCH"
+          MSG="$MSG"$'\n'"Run: $RUN_URL"
+          [ -n "${PR_LINK:-}" ] && MSG="$MSG"$'\n'"PR: $PR_LINK"
+          echo "message<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MSG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          if [ "$HEAD_BRANCH" = "main" ]; then
+            echo "topic_key=production" >> "$GITHUB_OUTPUT"
+          else
+            echo "topic_key=preview" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
+
+      - name: Send to Telegram – CI Failures (Production)
+        if: steps.notify.outputs.topic_key == 'production'
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PRODUCTION_ID }}
+          message: ${{ steps.notify.outputs.message }}
+
+      - name: Send to Telegram – CI Failures (Preview)
+        if: steps.notify.outputs.topic_key == 'preview'
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID }}
+          message: ${{ steps.notify.outputs.message }}
