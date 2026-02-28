@@ -1,4 +1,4 @@
 # Code owners: used with branch protection "Require review from Code Owners".
 # See docs/providers/github-repo-management.md for collaborator setup.
 
-* @rocescoca
+* @kartuli-app/maintainers

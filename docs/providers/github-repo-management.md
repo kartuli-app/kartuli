@@ -80,7 +80,7 @@ When you want someone to work **directly in the repo** (not from a fork) but onl
 
 ### What the collaborator cannot do
 
-- **Merge PRs** — Branch protection requires an approval from a code owner (you).
+- **Merge PRs** — Branch protection requires an approval from a code owner (a member of `@kartuli-app/maintainers`).
 - **Push to the default branch** — Branch protection blocks direct pushes.
 - **Change repo settings** — Only Admin role can change Settings, Actions, Secrets, collaborators.
 - **Add or change GitHub Actions secrets** — You add and manage those.
@@ -88,15 +88,13 @@ When you want someone to work **directly in the repo** (not from a fork) but onl
 ### Setup steps (GitHub UI + one in-repo file)
 
 1. **CODEOWNERS (in-repo, already added)**  
-   The repo has [.github/CODEOWNERS](https://github.com/kartuli-app/kartuli/blob/main/.github/CODEOWNERS).
-   
-   That makes every PR require your review before merge.
+   The repo has a [`.github/CODEOWNERS`](../../.github/CODEOWNERS) file that lists the `@kartuli-app/maintainers` team as owner for all paths. Every PR therefore requires an approval from a member of that team before merge.
 
 2. **Branch protection (GitHub)**  
    In **Settings → Branches**, add or edit the rule for the default branch (e.g. `main`):
    - **Require a pull request before merging** — no direct pushes.
    - **Require approvals:** 1.
-   - **Require review from Code Owners** — so only the user(s) in CODEOWNERS can approve.
+   - **Require review from Code Owners** — so only the team(s) or user(s) in CODEOWNERS can approve (e.g. `@kartuli-app/maintainers`).
    - Optionally: **Require status checks to pass** if you want CI to be required before merge.
 
 3. **Invite the collaborator (GitHub)**  
@@ -110,7 +108,7 @@ After this, the collaborator works in the repo by opening branches and PRs; you 
 
 ## Operations
 
-- **Adding contributors:** Prefer the fork-based model for untrusted contributors. For a trusted collaborator who should work in-repo but only via PRs you approve, follow [Adding a direct collaborator (PR-only)](#adding-a-direct-collaborator-pr-only): invite with **Write**, use branch protection and CODEOWNERS so only you can merge.
+- **Adding contributors:** Prefer the fork-based model for untrusted contributors. For a trusted collaborator who should work in-repo but only via PRs a maintainer approves, follow [Adding a direct collaborator (PR-only)](#adding-a-direct-collaborator-pr-only): invite with **Write**, use branch protection and CODEOWNERS so only the maintainers team can merge.
 - **Changing CODEOWNERS or branch protection:** Apply changes via a PR; use the same review and merge process. Ensure at least one code owner is always available to review `.github/` changes.
 - **Secrets and workflows:** See [GitHub Actions CI/CD](./github-actions-ci-cd.md) for where secrets live and how workflows use them.
 
@@ -126,9 +124,9 @@ These are optional settings and files. None are required for security as long as
 
 ### CODEOWNERS
 
-- **What:** We use [.github/CODEOWNERS](https://github.com/kartuli-app/kartuli/blob/main/.github/CODEOWNERS) with a single owner pattern (`* @repo-owner`). 
+- **What:** We use [`.github/CODEOWNERS`](../../.github/CODEOWNERS) with a single owner pattern: `* @kartuli-app/maintainers`. The maintainers team has **Write** access to the repo; only its members can approve and merge PRs.
 - **When:** Already in place for the [PR-only collaborator setup](#adding-a-direct-collaborator-pr-only). Ensures every PR (including changes to `.github/`) needs a code owner’s approval before merge.
-- **Why:** Only the code owner can approve and merge; collaborators cannot merge their own PRs or change workflows without your review.
+- **Why:** Only members of the maintainers team can approve and merge; other collaborators cannot merge their own PRs or change workflows without a maintainer’s review.
 
 ### Fork pull request workflows (Actions)
 
