@@ -38,16 +38,26 @@ jobs:
           echo "$MSG" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
           if [ "$HEAD_BRANCH" = "main" ]; then
-            echo "topic_id=${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PRODUCTION_ID }}" >> "$GITHUB_OUTPUT"
+            echo "topic_key=production" >> "$GITHUB_OUTPUT"
           else
-            echo "topic_id=${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID }}" >> "$GITHUB_OUTPUT"
+            echo "topic_key=preview" >> "$GITHUB_OUTPUT"
           fi
         shell: bash
 
-      - name: Send to Telegram – CI Failures
+      - name: Send to Telegram – CI Failures (Production)
+        if: steps.notify.outputs.topic_key == 'production'
         uses: ./.github/actions/telegram-send-message
         with:
           telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
           chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
-          message_thread_id: ${{ steps.notify.outputs.topic_id }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PRODUCTION_ID }}
+          message: ${{ steps.notify.outputs.message }}
+
+      - name: Send to Telegram – CI Failures (Preview)
+        if: steps.notify.outputs.topic_key == 'preview'
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID }}
           message: ${{ steps.notify.outputs.message }}
