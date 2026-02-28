@@ -7,6 +7,7 @@
  * - Update: "A new version is available" + "Go to next version" (sends SKIP_WAITING to waiting worker, then reloads)
  */
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getServiceWorkerContainer, reloadWindow } from '../utils/browser';
 import {
   isSWToClientMessage,
@@ -174,6 +175,7 @@ function useServiceWorkerBannerState() {
 }
 
 export function ServiceWorkerBanner() {
+  const { t } = useTranslation('common');
   const { mode, dismissed, dismiss, unregister, reloadToUpdate } = useServiceWorkerBannerState();
 
   if (mode === null || dismissed) return null;
@@ -185,15 +187,9 @@ export function ServiceWorkerBanner() {
       aria-live="polite"
     >
       <div className="flex-1 min-w-0">
-        {mode === 'dev' && (
-          <p className="font-bold text-xl">
-            Development mode: a service worker is installed and may hide your local changes.
-          </p>
-        )}
-        {mode === 'first-install' && (
-          <p className="font-bold text-xl">The game is ready to be played offline.</p>
-        )}
-        {mode === 'update' && <p className="font-bold text-xl">A new version is available.</p>}
+        {mode === 'dev' && <p className="font-bold text-xl">{t('sw.devMessage')}</p>}
+        {mode === 'first-install' && <p className="font-bold text-xl">{t('sw.readyOffline')}</p>}
+        {mode === 'update' && <p className="font-bold text-xl">{t('sw.newVersion')}</p>}
       </div>
       <div className="flex items-center gap-2">
         {mode === 'dev' && (
@@ -202,7 +198,7 @@ export function ServiceWorkerBanner() {
             onClick={unregister}
             className="px-3 py-1.5 border border-white rounded hover:bg-white hover:text-black"
           >
-            Unregister
+            {t('sw.unregister')}
           </button>
         )}
         {mode === 'update' && (
@@ -211,16 +207,16 @@ export function ServiceWorkerBanner() {
             onClick={reloadToUpdate}
             className="px-3 py-1.5 border border-white rounded hover:bg-white hover:text-black"
           >
-            Go to next version
+            {t('sw.goToNextVersion')}
           </button>
         )}
         <button
           type="button"
           onClick={dismiss}
           className="px-3 py-1.5 border border-white rounded hover:bg-white hover:text-black"
-          aria-label="Dismiss"
+          aria-label={t('sw.dismiss')}
         >
-          Dismiss
+          {t('sw.dismiss')}
         </button>
       </div>
     </output>

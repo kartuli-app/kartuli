@@ -49,6 +49,16 @@ describe('AppShell', () => {
     expect(within(container).getByTestId('game-user')).toBeInTheDocument();
   });
 
+  it('renders HomePage for /ru', () => {
+    const { container } = renderShell('/ru');
+    expect(within(container).getByTestId('game-home')).toBeInTheDocument();
+  });
+
+  it('renders DebugPage for /ru/debug', () => {
+    const { container } = renderShell('/ru/debug');
+    expect(within(container).getByTestId('game-debug')).toBeInTheDocument();
+  });
+
   it('falls back to HomePage for unknown path', () => {
     const { container } = renderShell('/en/unknown/segment');
     expect(within(container).getByTestId('game-home')).toBeInTheDocument();
