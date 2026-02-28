@@ -77,3 +77,27 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Build Telegram production deploy message
+        if: success()
+        id: notify_prod
+        env:
+          WHO: ${{ github.actor }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          echo "message<<NOTIFY_EOF" >> "$GITHUB_OUTPUT"
+          echo "[Production] web-docs-client deployed by $WHO" >> "$GITHUB_OUTPUT"
+          echo "URL: $PAGE_URL" >> "$GITHUB_OUTPUT"
+          echo "Run: $RUN_URL" >> "$GITHUB_OUTPUT"
+          echo "NOTIFY_EOF" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Notify Telegram – Deployments Production
+        if: success()
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PRODUCTION_DEPLOYMENTS_ID }}
+          message: ${{ steps.notify_prod.outputs.message }}

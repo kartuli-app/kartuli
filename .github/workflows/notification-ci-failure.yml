@@ -1,0 +1,48 @@
+# Notify Telegram CI Failures topic(s) when a check suite fails. Routes to Preview vs Production topic by branch.
+name: Notification – CI failure
+
+on:
+  check_suite:
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Notify CI Failures topic
+    runs-on: ubuntu-latest
+    if: github.event.check_suite.conclusion == 'failure'
+    steps:
+      - name: Build CI failure message and choose topic
+        id: notify
+        env:
+          HEAD_BRANCH: ${{ github.event.check_suite.head_branch }}
+          HEAD_SHA: ${{ github.event.check_suite.head_sha }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          PR_LINK: ${{ github.event.check_suite.pull_requests[0].html_url }}
+        run: |
+          RUN_URL="${SERVER_URL}/${REPO}/commit/${HEAD_SHA}"
+          MSG="CI failed"
+          MSG="$MSG"$'\n'"Repo: $REPO"
+          MSG="$MSG"$'\n'"Branch: $HEAD_BRANCH"
+          MSG="$MSG"$'\n'"Run: $RUN_URL"
+          [ -n "${PR_LINK:-}" ] && MSG="$MSG"$'\n'"PR: $PR_LINK"
+          echo "message<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MSG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          if [ "$HEAD_BRANCH" = "main" ]; then
+            echo "topic_id=${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PRODUCTION_ID }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "topic_id=${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID }}" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
+
+      - name: Send to Telegram – CI Failures
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ steps.notify.outputs.topic_id }}
+          message: ${{ steps.notify.outputs.message }}
