@@ -29,22 +29,23 @@ This doc covers setup, topics, workflows, and secrets. For the full list of repo
 | **Deployments – Production** | Production deploys | One message per successful production deploy (game-client, backoffice-client, web-docs-client). |
 | **PRs** | Pull request lifecycle | PR opened, closed (without merge), reopened, merged, approved. |
 | **CI Failures – Preview** | Staging / PR check failures | When a check suite completes with `conclusion: failure` on a **non-main** branch. |
-| **CI Failures – Production** | Main-branch check failures | When a check suite completes with `conclusion: failure` on **main** (e.g. production workflow failed). |
+| **CI Failures – Production** | Main-branch check failures and production workflow failures | When a check suite fails on **main**, or when any of the three production workflows (game-client, backoffice-client, web-docs-client) completes with failure on `main`. |
 
 ### Workflows and action
 
 - **Composite action:** [`.github/actions/telegram-send-message/`](https://github.com/kartuli-app/kartuli/blob/main/.github/actions/telegram-send-message/action.yml) — Sends a pre-built message to the Telegram Bot API. Callers pass `telegram_bot_token`, `chat_id`, `message`, and optionally `message_thread_id` (topic). No formatting inside the action.
 - **Staging (preview):** [staging-w-app-nextjs.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/staging-w-app-nextjs.yml) — Adds a “Notify Telegram – Deployments Preview” step when `deploy_target == 'vercel'`. Orchestrator passes Telegram secrets into the reusable workflow.
-- **Production:** [production-w-app-game-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/production-w-app-game-client.yml), [production-w-app-backoffice-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/production-w-app-backoffice-client.yml), [production-w-tool-web-docs-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/production-w-tool-web-docs-client.yml) — Each adds a “Notify Telegram – Deployments Production” step at the end of the deploy job on success.
+- **Production:** [production-w-app-game-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/production-w-app-game-client.yml), [production-w-app-backoffice-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/production-w-app-backoffice-client.yml), [production-w-tool-web-docs-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/production-w-tool-web-docs-client.yml) — Each adds a “Notify Telegram – Deployments Production” step at the end of the deploy job on success. The web-docs workflow’s deploy job checks out the repo so the local Telegram action is available.
 - **PR notifications:** [notification-pr.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/notification-pr.yml) — Triggered by `pull_request` (opened, closed, reopened) and `pull_request_review` (submitted). Sends to the PRs topic for opened, closed, reopened, merged, and approved events.
-- **CI failure notifications:** [notification-ci-failure.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/notification-ci-failure.yml) — Triggered by `check_suite: completed`. Runs only when `conclusion == 'failure'` and routes to Preview vs Production topic by `head_branch` (main → Production topic, else → Preview topic). **Note:** This workflow only runs when the file is on the default branch (main); `check_suite` does not trigger workflows on feature branches.
+- **CI failure notifications:** [notification-ci-failure.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/notification-ci-failure.yml) — Two triggers: (1) **check_suite: completed** — when `conclusion == 'failure'`, one job routes to Preview vs Production topic by `head_branch`. (2) **workflow_run** — when any of the three production workflows completes with failure on `main`, a second job sends to the CI Failures – Production topic (workflow name, run URL). Both jobs check out the repo before calling the Telegram action. **Note:** `check_suite` only triggers when the workflow file is on the default branch (main).
 
 ### Message content (built at call site)
 
 - **Preview deploy:** Who (actor or PR author), app name, preview URL, Lighthouse report link, PR link.
 - **Production deploy:** Who (`github.actor`), app/target, production URL, run link.
 - **PRs:** Event-specific (e.g. “PR opened: &lt;title&gt;”, author/approver/merger, link).
-- **CI failures:** Repo, branch, commit/run URL, optional PR link.
+- **CI failures (check_suite):** Repo, branch, commit/run URL, optional PR link.
+- **CI failures (production workflow):** Workflow name, repo, run URL.
 
 ## Secrets
 
