@@ -21,7 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: github.event_name == 'check_suite' && github.event.check_suite.conclusion == 'failure'
+    if: >
+      github.event_name == 'check_suite' &&
+      github.event.check_suite.conclusion == 'failure' &&
+      github.event.check_suite.app.slug != 'github-actions'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -81,17 +84,13 @@ jobs:
 
       - name: Build production workflow failure message
         id: msg
-        env:
-          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
-          RUN_URL: ${{ github.event.workflow_run.html_url }}
-          REPO: ${{ github.event.repository.full_name }}
         run: |
-          MSG="Production workflow failed"
-          MSG="$MSG"$'\n'"Workflow: $WORKFLOW_NAME"
-          MSG="$MSG"$'\n'"Repo: $REPO"
-          MSG="$MSG"$'\n'"Run: $RUN_URL"
+          MESSAGE=$(printf "Production workflow failed\nWorkflow: %s\nRepo: %s\nRun: %s" \
+            "${{ github.event.workflow_run.name }}" \
+            "${{ github.event.repository.full_name }}" \
+            "${{ github.event.workflow_run.html_url }}")
           echo "message<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$MSG" >> "$GITHUB_OUTPUT"
+          echo "$MESSAGE" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
         shell: bash
 
