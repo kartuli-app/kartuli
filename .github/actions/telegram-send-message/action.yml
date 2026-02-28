@@ -32,7 +32,14 @@ runs:
         fi
         PAYLOAD=$(jq -n --arg chat "$CHAT_ID" --arg text "$MESSAGE" '{chat_id: $chat, text: $text}')
         if [ -n "$THREAD_ID" ]; then
-          PAYLOAD=$(echo "$PAYLOAD" | jq --arg mid "$THREAD_ID" '. + {message_thread_id: $mid}')
+          case "$THREAD_ID" in
+            *[!0-9]*)
+              echo "Invalid message_thread_id (must be numeric): $THREAD_ID" >&2
+              exit 1
+              ;;
+          esac
+          PAYLOAD=$(echo "$PAYLOAD" | jq --argjson mid "$THREAD_ID" '. + {message_thread_id: $mid}')
         fi
-        curl -sS -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://api.telegram.org/bot${TOKEN}/sendMessage"
+        RESP="$(curl -fsS -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://api.telegram.org/bot${TOKEN}/sendMessage")"
+        echo "$RESP" | jq -e '.ok == true' >/dev/null
       shell: bash
