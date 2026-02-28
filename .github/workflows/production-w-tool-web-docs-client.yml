@@ -74,6 +74,9 @@ jobs:
       pages: write
       id-token: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
