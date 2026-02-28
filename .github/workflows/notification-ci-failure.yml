@@ -1,0 +1,103 @@
+# Notify Telegram CI Failures topic(s) when a check suite fails, or when a production workflow fails.
+# check_suite: routes to Preview vs Production topic by branch.
+# workflow_run: production workflow failures always go to Production topic (reliable for deploy-fail notifications).
+name: Notification – CI failure
+
+on:
+  check_suite:
+    types: [completed]
+  workflow_run:
+    workflows:
+      - "Production – Game Client"
+      - "Production – Backoffice Client"
+      - "Production – Web Docs Client"
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  notify-check-suite:
+    name: Notify CI Failures (check suite)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    if: >
+      github.event_name == 'check_suite' &&
+      github.event.check_suite.conclusion == 'failure' &&
+      github.event.check_suite.app.slug != 'github-actions'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build CI failure message and choose topic
+        id: notify
+        env:
+          HEAD_BRANCH: ${{ github.event.check_suite.head_branch }}
+          HEAD_SHA: ${{ github.event.check_suite.head_sha }}
+          REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          PR_LINK: ${{ github.event.check_suite.pull_requests[0].html_url || '' }}
+        run: |
+          RUN_URL="${SERVER_URL}/${REPO}/commit/${HEAD_SHA}"
+          MSG="CI failed"
+          MSG="$MSG"$'\n'"Repo: $REPO"
+          MSG="$MSG"$'\n'"Branch: $HEAD_BRANCH"
+          MSG="$MSG"$'\n'"Run: $RUN_URL"
+          [ -n "${PR_LINK:-}" ] && MSG="$MSG"$'\n'"PR: $PR_LINK"
+          echo "message<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MSG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          if [ "$HEAD_BRANCH" = "main" ]; then
+            echo "topic_key=production" >> "$GITHUB_OUTPUT"
+          else
+            echo "topic_key=preview" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
+
+      - name: Send to Telegram – CI Failures (Production)
+        if: steps.notify.outputs.topic_key == 'production'
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PRODUCTION_ID }}
+          message: ${{ steps.notify.outputs.message }}
+
+      - name: Send to Telegram – CI Failures (Preview)
+        if: steps.notify.outputs.topic_key == 'preview'
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID }}
+          message: ${{ steps.notify.outputs.message }}
+
+  notify-production-workflow:
+    name: Notify CI Failures (production workflow)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build production workflow failure message
+        id: msg
+        run: |
+          MESSAGE=$(printf "Production workflow failed\nWorkflow: %s\nRepo: %s\nRun: %s" \
+            "${{ github.event.workflow_run.name }}" \
+            "${{ github.event.repository.full_name }}" \
+            "${{ github.event.workflow_run.html_url }}")
+          echo "message<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MESSAGE" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Send to Telegram – CI Failures (Production)
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PRODUCTION_ID }}
+          message: ${{ steps.msg.outputs.message }}

@@ -10,6 +10,7 @@ export function HomePage() {
   return (
     <div data-testid="game-home" className="flex grow flex-col items-center justify-center gap-4">
       <h1 className="text-4xl font-bold">Home</h1>
+      <h3 className="text-xl">Test for telegram notifications</h3>
       <ul className="flex flex-col gap-2">
         {LESSON_IDS.map((id) => (
           <li key={id}>

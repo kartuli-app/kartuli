@@ -1,0 +1,81 @@
+# Notify Telegram PRs topic on PR opened, closed, reopened, merged, or approved.
+name: Notification – PR
+
+on:
+  pull_request:
+    types: [opened, closed, reopened]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Notify PRs topic
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build PR notification message
+        id: msg
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          REVIEW_STATE: ${{ github.event.review.state }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_MERGER: ${{ github.event.pull_request.merged_by.login || '' }}
+          PR_APPROVER: ${{ github.event.review.user.login || '' }}
+          PR_LINK: ${{ github.event.pull_request.html_url }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          SEND=false
+          if [ "$EVENT_NAME" = "pull_request" ] && [ "$ACTION" = "opened" ]; then
+            MSG="PR opened: $PR_TITLE"
+            MSG="$MSG"$'\n'"Author: $PR_AUTHOR"
+            MSG="$MSG"$'\n'"$PR_LINK"
+            SEND=true
+          elif [ "$EVENT_NAME" = "pull_request" ] && [ "$ACTION" = "closed" ]; then
+            MERGED="${{ github.event.pull_request.merged }}"
+            if [ "$MERGED" = "true" ]; then
+              MSG="PR merged: $PR_TITLE"
+              MSG="$MSG"$'\n'"Merged by: $PR_MERGER"
+              MSG="$MSG"$'\n'"$PR_LINK"
+              SEND=true
+            else
+              MSG="PR closed: $PR_TITLE"
+              MSG="$MSG"$'\n'"Closed by: $ACTOR"
+              MSG="$MSG"$'\n'"$PR_LINK"
+              SEND=true
+            fi
+          elif [ "$EVENT_NAME" = "pull_request" ] && [ "$ACTION" = "reopened" ]; then
+            MSG="PR reopened: $PR_TITLE"
+            MSG="$MSG"$'\n'"Reopened by: $ACTOR"
+            MSG="$MSG"$'\n'"$PR_LINK"
+            SEND=true
+          elif [ "$EVENT_NAME" = "pull_request_review" ] && [ "$REVIEW_STATE" = "approved" ]; then
+            MSG="PR approved: $PR_TITLE"
+            MSG="$MSG"$'\n'"Approved by: $PR_APPROVER"
+            MSG="$MSG"$'\n'"$PR_LINK"
+            SEND=true
+          fi
+          if [ "$SEND" = "true" ]; then
+            echo "message<<EOF" >> "$GITHUB_OUTPUT"
+            echo "$MSG" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            echo "send=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "send=false" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
+
+      - name: Send to Telegram – PRs topic
+        if: steps.msg.outputs.send == 'true'
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PRS_ID }}
+          message: ${{ steps.msg.outputs.message }}

@@ -1,0 +1,45 @@
+name: Telegram send message
+description: Send a pre-built message to a Telegram chat or topic via Bot API (caller builds the message).
+
+inputs:
+  telegram_bot_token:
+    description: Telegram bot token (use a secret).
+    required: true
+  chat_id:
+    description: Telegram chat id (e.g. group id like -1001234567890).
+    required: true
+  message:
+    description: Full message body to send (caller is responsible for formatting).
+    required: true
+  message_thread_id:
+    description: Optional topic/thread id for forum-style groups.
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Send message to Telegram
+      env:
+        TOKEN: ${{ inputs.telegram_bot_token }}
+        CHAT_ID: ${{ inputs.chat_id }}
+        MESSAGE: ${{ inputs.message }}
+        THREAD_ID: ${{ inputs.message_thread_id }}
+      run: |
+        if [ -z "$TOKEN" ]; then
+          echo "Telegram token not set; skipping send."
+          exit 0
+        fi
+        PAYLOAD=$(jq -n --arg chat "$CHAT_ID" --arg text "$MESSAGE" '{chat_id: $chat, text: $text}')
+        if [ -n "$THREAD_ID" ]; then
+          case "$THREAD_ID" in
+            *[!0-9]*)
+              echo "Invalid message_thread_id (must be numeric): $THREAD_ID" >&2
+              exit 1
+              ;;
+          esac
+          PAYLOAD=$(echo "$PAYLOAD" | jq --argjson mid "$THREAD_ID" '. + {message_thread_id: $mid}')
+        fi
+        RESP="$(curl -fsS -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://api.telegram.org/bot${TOKEN}/sendMessage")"
+        echo "$RESP" | jq -e '.ok == true' >/dev/null
+      shell: bash

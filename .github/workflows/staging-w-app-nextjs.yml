@@ -32,6 +32,12 @@ on:
         required: false
       VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT:
         required: false
+      KARTULIAPP_TEAM_BOT_TOKEN:
+        required: false
+      KARTULIAPP_TEAM_GROUP_CHAT_ID:
+        required: false
+      KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID:
+        required: false
   workflow_dispatch:
     inputs:
       target:
@@ -210,6 +216,40 @@ jobs:
                 body: commentBody,
               });
             }
+
+      - name: Build Telegram preview deploy message
+        if: inputs.deploy_target == 'vercel'
+        id: notify_preview
+        env:
+          WHO: ${{ github.event.pull_request.user.login || github.actor }}
+          APP: ${{ inputs.target }}
+          PREVIEW_URL: ${{ steps.deploy.outputs.preview-url }}
+          REPORT_URL: ${{ steps.lighthouse.outputs.report_url }}
+          PR_NUM: ${{ github.event.pull_request.number || inputs.pull_request_number }}
+          PR_LINK: ${{ github.event.pull_request.html_url }}
+          SERVER_URL: ${{ github.server_url }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ -z "$PR_LINK" ] && [ -n "$PR_NUM" ]; then
+            PR_LINK="${SERVER_URL}/${REPO}/pull/${PR_NUM}"
+          fi
+          MSG="[Preview] $APP deployed by $WHO"
+          [ -n "$PREVIEW_URL" ] && MSG="$MSG"$'\n'"Preview: $PREVIEW_URL"
+          [ -n "$REPORT_URL" ] && MSG="$MSG"$'\n'"Lighthouse: $REPORT_URL"
+          [ -n "$PR_LINK" ] && MSG="$MSG"$'\n'"PR: $PR_LINK"
+          echo "message<<NOTIFY_EOF" >> "$GITHUB_OUTPUT"
+          echo "$MSG" >> "$GITHUB_OUTPUT"
+          echo "NOTIFY_EOF" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Notify Telegram – Deployments Preview
+        if: inputs.deploy_target == 'vercel'
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID }}
+          message: ${{ steps.notify_preview.outputs.message }}
 
       - name: Setup Playwright
         uses: ./.github/actions/ci-setup-playwright
