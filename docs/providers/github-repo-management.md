@@ -88,7 +88,7 @@ When you want someone to work **directly in the repo** (not from a fork) but onl
 ### Setup steps (GitHub UI + one in-repo file)
 
 1. **CODEOWNERS (in-repo, already added)**  
-   The repo has a [`.github/CODEOWNERS`](../../.github/CODEOWNERS) file that lists the `@kartuli-app/maintainers` team as owner for all paths. Every PR therefore requires an approval from a member of that team before merge.
+   The repo has a [`.github/CODEOWNERS`](https://github.com/kartuli-app/kartuli/blob/main/.github/CODEOWNERS) file that lists the `@kartuli-app/maintainers` team as owner for all paths. Every PR therefore requires an approval from a member of that team before merge.
 
 2. **Branch protection (GitHub)**  
    In **Settings → Branches**, add or edit the rule for the default branch (e.g. `main`):
@@ -124,7 +124,7 @@ These are optional settings and files. None are required for security as long as
 
 ### CODEOWNERS
 
-- **What:** We use [`.github/CODEOWNERS`](../../.github/CODEOWNERS) with a single owner pattern: `* @kartuli-app/maintainers`. The maintainers team has **Write** access to the repo; only its members can approve and merge PRs.
+- **What:** We use [`.github/CODEOWNERS`](https://github.com/kartuli-app/kartuli/blob/main/.github/CODEOWNERS) with a single owner pattern: `* @kartuli-app/maintainers`. The maintainers team has **Write** access to the repo; only its members can approve and merge PRs.
 - **When:** Already in place for the [PR-only collaborator setup](#adding-a-direct-collaborator-pr-only). Ensures every PR (including changes to `.github/`) needs a code owner’s approval before merge.
 - **Why:** Only members of the maintainers team can approve and merge; other collaborators cannot merge their own PRs or change workflows without a maintainer’s review.
 
