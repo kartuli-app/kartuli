@@ -17,6 +17,18 @@ on:
         description: PR number (for commenting when called from orchestrator).
         required: false
         type: string
+      telegram_bot_token:
+        description: Telegram bot token for deploy notifications (optional).
+        required: false
+        type: string
+      telegram_chat_id:
+        description: Telegram group chat id for deploy notifications (optional).
+        required: false
+        type: string
+      telegram_topic_preview_deployments_id:
+        description: Telegram topic id for Deployments – Preview (optional).
+        required: false
+        type: string
     secrets:
       TURBO_TOKEN:
         required: true
@@ -31,12 +43,6 @@ on:
       VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT:
         required: false
       VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT:
-        required: false
-      KARTULIAPP_TEAM_BOT_TOKEN:
-        required: false
-      KARTULIAPP_TEAM_GROUP_CHAT_ID:
-        required: false
-      KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID:
         required: false
   workflow_dispatch:
     inputs:
@@ -246,9 +252,9 @@ jobs:
         if: inputs.deploy_target == 'vercel'
         uses: ./.github/actions/telegram-send-message
         with:
-          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
-          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
-          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID }}
+          telegram_bot_token: ${{ inputs.telegram_bot_token }}
+          chat_id: ${{ inputs.telegram_chat_id }}
+          message_thread_id: ${{ inputs.telegram_topic_preview_deployments_id }}
           message: ${{ steps.notify_preview.outputs.message }}
 
       - name: Setup Playwright

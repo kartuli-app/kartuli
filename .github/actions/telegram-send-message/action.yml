@@ -32,7 +32,7 @@ runs:
         fi
         PAYLOAD=$(jq -n --arg chat "$CHAT_ID" --arg text "$MESSAGE" '{chat_id: $chat, text: $text}')
         if [ -n "$THREAD_ID" ]; then
-          PAYLOAD=$(echo "$PAYLOAD" | jq --argjson mid "$THREAD_ID" '. + {message_thread_id: $mid}')
+          PAYLOAD=$(echo "$PAYLOAD" | jq --arg mid "$THREAD_ID" '. + {message_thread_id: $mid}')
         fi
         curl -sS -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://api.telegram.org/bot${TOKEN}/sendMessage"
       shell: bash

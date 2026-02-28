@@ -97,6 +97,9 @@ jobs:
       target: ${{ matrix.target }}
       deploy_target: ${{ matrix.deploy_target }}
       pull_request_number: ${{ github.event.pull_request.number || '' }}
+      telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+      telegram_chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+      telegram_topic_preview_deployments_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID }}
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -105,9 +108,6 @@ jobs:
       VERCEL_PROJECT_ID_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
       VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT }}
       VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT }}
-      KARTULIAPP_TEAM_BOT_TOKEN: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
-      KARTULIAPP_TEAM_GROUP_CHAT_ID: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
-      KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID }}
 
   call-web-docs-staging-workflow:
     name: Staging CI Online documentation
