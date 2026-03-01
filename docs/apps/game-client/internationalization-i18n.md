@@ -22,10 +22,11 @@ Product context and phases: [Offline Multilanguage Game POC](../../product/offli
 | **Locale from URL** | First path segment; parsed in `pathToLang()` and in `parseRoute()` for view routing |
 | **i18n runtime** | `i18next` + `react-i18next`; initialized in `config.ts` with namespace resources |
 | **Provider** | `I18nShell` wraps the app: derives `lang` from path, sets `document.documentElement.lang`, redirects `/` to preferred locale, wraps children in `I18nProvider` which calls `i18n.changeLanguage(lang)` |
-| **Locale files** | `apps/game-client/src/locales/{lang}/{namespace}.ts` (e.g. `en/common.ts`, `ru/game.ts`) with `as const` exports |
+| **Locale files** | `apps/game-client/src/locales/{lang}/{namespace}.ts` (e.g. `en/common.ts`, `ru/game.ts`, `en/metadata.ts`) with `as const` exports |
+| **Metadata (SEO)** | `metadata` namespace holds `title`, `description`, and `keywords` per locale. `getLocaleMetadata(lang, pathSegments)` returns locale-specific overrides (title, description, keywords, openGraph locale/title/description, twitter title/description); the root layout provides shared openGraph/twitter defaults and a title template (`%s \| Kartuli`), so the document title is e.g. "Title \| Kartuli". Next.js merges layout and page metadata. When path segments are passed, adds `alternates.canonical`, `alternates.languages` (hreflang), and sets `openGraph.url` to the page canonical. Root (`/`) is treated as default locale: canonical and `x-default` point to `/en`. |
 | **Type-safe keys** | `i18next.d.ts` augments i18next so `t('common.save')` etc. are type-checked against the locale shape |
 | **Language switcher** | `LanguageSwitcher` in the shell header; switches locale + URL and persists to `localStorage` |
-| **Supported locales** | Defined in `config.ts` (`supportedLngs`) and in `route-utils.ts` (`SUPPORTED_LANGS`); both must stay in sync |
+| **Supported locales** | Single source: `domains/i18n/supported-locales.ts` (`supportedLngs`); re-exported by `config.ts`. Keep in sync with `route-utils.ts` (`SUPPORTED_LANGS`). |
 | **Static paths** | `generateStaticParams` in `app/[[...spaRoute]]/page.tsx` pre-renders `/`, `/en`, `/ru` (and any new locale roots you add) |
 
 ---
@@ -35,7 +36,7 @@ Product context and phases: [Offline Multilanguage Game POC](../../product/offli
 ### Working with translations
 
 1. **Use the correct namespace**  
-   Namespaces are per domain: `common` (shared: save, cancel, home, language names, SW banner, etc.), `game`, `learn`, `debug`. Use the namespace that owns the string (e.g. learn screen → `useTranslation('learn')`).
+   Namespaces are per domain: `common` (shared: save, cancel, home, language names, SW banner, etc.), `game`, `learn`, `debug`, `metadata` (SEO title, description, keywords; used server-side by `generateMetadata`, not via `t()` in UI). Use the namespace that owns the string (e.g. learn screen → `useTranslation('learn')`).
 
 2. **Call `t()` with typed keys**  
    Keys are inferred from the locale modules. Use dot notation for nested keys: `t('common.sw.dismiss')`, `t('learn.back')`. If you add a new key to a locale file, add it to **all** locale files for that namespace (en, ru, and any future locales) so types and runtime stay consistent.
@@ -69,16 +70,21 @@ Create a new folder and one file per namespace, mirroring the existing locales:
 - `apps/game-client/src/locales/es/debug.ts`
 - `apps/game-client/src/locales/es/game.ts`
 - `apps/game-client/src/locales/es/learn.ts`
+- `apps/game-client/src/locales/es/metadata.ts` (title, description, keywords for SEO; used by `generateMetadata`)
 
 Copy the structure from `locales/en/*.ts` (or `ru`) and replace the values with Spanish. Export with `as const` so types stay consistent.
 
 ### 2. i18n config
 
+**File:** `apps/game-client/src/domains/i18n/supported-locales.ts`
+
+- Add `'es'` to `supportedLngs`: change to `['en', 'ru', 'es'] as const`. This file is the single source; `config.ts` re-exports it.
+
 **File:** `apps/game-client/src/domains/i18n/config.ts`
 
-- Add `supportedLngs`: change to `['en', 'ru', 'es'] as const`.
-- Import the new locale modules (e.g. `esCommon`, `esDebug`, `esGame`, `esLearn`).
-- Add an `es` key to the `resources` object with the same namespace structure as `en` and `ru`.
+- Import the new locale modules (e.g. `esCommon`, `esDebug`, `esGame`, `esLearn`, `esMetadata`).
+- Add an `es` key to the `resources` object with the same namespace structure as `en` and `ru` (including `metadata`).
+- Add `'metadata'` to the `ns` array if not already present.
 
 ### 3. Routing (app shell)
 
@@ -93,7 +99,16 @@ Copy the structure from `locales/en/*.ts` (or `ru`) and replace the values with 
 
 - Add the new locale root to `STATIC_PATHS`, e.g. `{ spaRoute: ['es'] }`, so that `/es` is pre-rendered at build time.
 
-### 5. Language switcher (UX)
+### 5. Locale-specific metadata (SEO)
+
+**File:** `apps/game-client/src/config/get-locale-metadata.ts`
+
+- Import the new locale’s metadata module (e.g. `esMetadata` from `../locales/es/metadata`).
+- Add `es: esMetadata` to `metadataByLocale` (must include `title`, `description`, `keywords`).
+- Add `es: 'es_ES'` (or the appropriate [Open Graph locale](https://ogp.me/#optional)) to `ogLocaleByLang`.
+- Add `es: 'es'` to `hreflangByLang` so alternates.languages (hreflang) uses the correct code.
+
+### 6. Language switcher (UX)
 
 **File:** `apps/game-client/src/domains/i18n/LanguageSwitcher.tsx`
 
@@ -103,7 +118,7 @@ Copy the structure from `locales/en/*.ts` (or `ru`) and replace the values with 
 
 - Add the new language label to **common** in every locale: e.g. `langEs: 'Spanish'` (and the localized form in each language). Use it in the switcher UI for the new option.
 
-### 6. Service worker (offline)
+### 7. Service worker (offline)
 
 The service worker currently precaches only `/en` and serves `/en` and `/en/*` from cache. To support `/es` (and `/ru`) offline:
 
@@ -113,12 +128,12 @@ The service worker currently precaches only `/en` and serves `/en` and `/en/*` f
 - **File:** `apps/game-client/src/domains/service-worker/service-worker.ts`  
   Update the fetch handler so that navigation to `/es` and `/es/*` (and other locale roots) is served from the precached shell for that locale, in the same way as `/en` and `/en/*`. Today the logic is hardcoded to `/en`; it would need to branch on the first path segment or a small allowlist of locale roots.
 
-### 7. E2E and debug expectations (optional)
+### 8. E2E and debug expectations (optional)
 
 - If you have e2e tests that assert locale-specific content, add a test for `/es` (and the switcher to/from `es`) in `tools/e2e/tests/game-client/production/i18n.spec.ts`.
 - If you use shared debug-page expectations and want the debug page under `/es/debug` to be covered, extend the expectations or e2e config as needed (e.g. add `es` to the list of locales under test).
 
-### 8. i18next type declarations (optional)
+### 9. i18next type declarations (optional)
 
 **File:** `apps/game-client/src/domains/i18n/i18next.d.ts`
 
@@ -133,7 +148,9 @@ The service worker currently precaches only `/en` and serves `/en` and `/en/*` f
 - [I18n config](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/domains/i18n/config.ts)
 - [Route utils (SUPPORTED_LANGS)](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/domains/app-shell/route-utils.ts)
 - [Locale files](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/locales/)
-- [Static params](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/app/[[...spaRoute]]/page.tsx)
+- [Static params and generateMetadata](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/app/[[...spaRoute]]/page.tsx)
+- [getLocaleMetadata](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/config/get-locale-metadata.ts)
+- [supported-locales](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/domains/i18n/supported-locales.ts)
 
 ### Related docs
 
