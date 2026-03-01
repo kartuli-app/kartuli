@@ -10,10 +10,10 @@ import ruDebug from '../../locales/ru/debug';
 import ruGame from '../../locales/ru/game';
 import ruLearn from '../../locales/ru/learn';
 import ruMetadata from '../../locales/ru/metadata';
+import { type SupportedLng, supportedLngs } from './supported-locales';
 
 export const defaultNS = 'common' as const;
-export const supportedLngs = ['en', 'ru'] as const;
-export type SupportedLng = (typeof supportedLngs)[number];
+export { supportedLngs, type SupportedLng };
 
 const resources = {
   en: {

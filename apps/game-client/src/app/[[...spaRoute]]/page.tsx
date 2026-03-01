@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { getLocaleMetadata } from '../../config/get-locale-metadata';
-import type { SupportedLng } from '../../domains/i18n/config';
-import { supportedLngs } from '../../domains/i18n/config';
+import { type SupportedLng, supportedLngs } from '../../domains/i18n/supported-locales';
 
 /** Minimal static paths for SSG: root and locale roots only. Other routes work client-side. */
 const STATIC_PATHS: { spaRoute: string[] }[] = [
