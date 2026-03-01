@@ -2,10 +2,12 @@ import { expect, test } from '@playwright/test';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 
 // Expected metadata per locale (must match apps/game-client locales/{en,ru}/metadata.ts)
+// Layout applies title template "%s | Kartuli", so document title is title + " | Kartuli"
 const EN_TITLE = 'Kartuli - Learn Georgian Language Through Games';
+const RU_TITLE = 'Картули — учите грузинский язык через игры';
+const TITLE_SUFFIX = ' | Kartuli';
 const EN_DESCRIPTION =
   'Interactive Georgian language learning platform. Master Georgian vocabulary, grammar, and pronunciation through engaging games and exercises.';
-const RU_TITLE = 'Картули — учите грузинский язык через игры';
 const RU_DESCRIPTION =
   'Интерактивная платформа для изучения грузинского языка. Осваивайте лексику, грамматику и произношение с помощью игр и упражнений.';
 
@@ -17,7 +19,7 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page).toHaveTitle(EN_TITLE);
+    await expect(page).toHaveTitle(EN_TITLE + TITLE_SUFFIX);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       'content',
       EN_DESCRIPTION,
@@ -33,7 +35,7 @@ test.describe('Game Client i18n', () => {
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page).toHaveTitle(RU_TITLE);
+    await expect(page).toHaveTitle(RU_TITLE + TITLE_SUFFIX);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       'content',
       RU_DESCRIPTION,
