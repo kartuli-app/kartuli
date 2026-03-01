@@ -42,7 +42,8 @@ function buildAlternates(
     const segments = [l, ...pathSuffix];
     languages[hreflangByLang[l]] = `${base}/${segments.join('/')}`;
   }
-  languages['x-default'] = `${base}/en${pathSuffix.length > 0 ? `/${pathSuffix.join('/')}` : ''}`;
+  const enPathSuffix = pathSuffix.length > 0 ? `/${pathSuffix.join('/')}` : '';
+  languages['x-default'] = `${base}/en${enPathSuffix}`;
 
   return { canonical, languages };
 }
@@ -85,7 +86,7 @@ export function getLocaleMetadata(lang: SupportedLng, pathSegments?: string[]): 
     },
   };
 
-  if (pathSegments && pathSegments.length >= 0) {
+  if (pathSegments !== undefined) {
     const { canonical, languages } = buildAlternates(pathSegments, lang);
     result.alternates = { canonical, languages };
   }
