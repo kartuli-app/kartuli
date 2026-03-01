@@ -13,7 +13,7 @@ interface I18nProviderProps {
 
 export function I18nProvider({ lang, children }: I18nProviderProps) {
   useEffect(() => {
-    void i18n.changeLanguage(lang);
+    i18n.changeLanguage(lang).catch(() => {});
   }, [lang]);
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;

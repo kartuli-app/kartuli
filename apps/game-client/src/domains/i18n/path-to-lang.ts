@@ -6,7 +6,7 @@ import { supportedLngs } from './config';
  * Paths: /en, /en/debug, /ru/learn/lesson-1. Unknown segment falls back to 'en'.
  */
 export function pathToLang(pathname: string): SupportedLng {
-  const first = pathname.split('/').filter(Boolean)[0];
+  const first = pathname.split('/').find(Boolean);
   if (first && supportedLngs.includes(first as SupportedLng)) {
     return first as SupportedLng;
   }
