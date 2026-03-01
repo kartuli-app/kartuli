@@ -21,6 +21,28 @@ import { SKIP_WAITING, SW_READY_OFFLINE, SW_WAITING } from './service-worker-mes
 /** Locale paths we precache and serve for offline (e.g. /en, /ru). Add a locale in supported-locales to include it here. */
 const SHELL_LOCALE_PATHS = supportedLngs.map((l) => `/${l}`);
 
+const OFFLINE_FALLBACK = new Response('Offline', {
+  status: 503,
+  statusText: 'Service Unavailable',
+});
+
+/**
+ * Serves a navigation request: try precached shell at precachePath, then network, then /~offline.
+ * Used for / and for locale paths (e.g. /en, /ru).
+ */
+function serveShellOrOffline(request: Request, precachePath: string): Promise<Response> {
+  return serwist.matchPrecache(precachePath).then((r) => {
+    if (r) return r.clone();
+    return fetch(request)
+      .then((res) => (res.ok ? res : Promise.reject(new Error(`Non-ok response: ${res.status}`))))
+      .catch(() =>
+        serwist
+          .matchPrecache('/~offline')
+          .then((offline) => offline?.clone() ?? OFFLINE_FALLBACK.clone()),
+      );
+  });
+}
+
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
     /** Injected at build time by the Serwist route from additionalPrecacheEntries. */
@@ -63,25 +85,7 @@ self.addEventListener(
       url.pathname === '/' &&
       (event.request.mode === 'navigate' || event.request.destination === 'document');
     if (isRootDocument) {
-      event.respondWith(
-        serwist.matchPrecache('/').then((r) => {
-          if (r) return r.clone();
-          return fetch(event.request)
-            .then((res) =>
-              res.ok ? res : Promise.reject(new Error(`Non-ok response: ${res.status}`)),
-            )
-            .catch(() =>
-              serwist.matchPrecache('/~offline').then(
-                (offline) =>
-                  offline?.clone() ??
-                  new Response('Offline', {
-                    status: 503,
-                    statusText: 'Service Unavailable',
-                  }),
-              ),
-            );
-        }),
-      );
+      event.respondWith(serveShellOrOffline(event.request, '/'));
       event.stopImmediatePropagation();
       return;
     }
@@ -96,25 +100,7 @@ self.addEventListener(
         null)
       : null;
     if (shellLocale !== null) {
-      event.respondWith(
-        serwist.matchPrecache(shellLocale).then((r) => {
-          if (r) return r.clone();
-          return fetch(event.request)
-            .then((res) =>
-              res.ok ? res : Promise.reject(new Error(`Non-ok response: ${res.status}`)),
-            )
-            .catch(() =>
-              serwist.matchPrecache('/~offline').then(
-                (offline) =>
-                  offline?.clone() ??
-                  new Response('Offline', {
-                    status: 503,
-                    statusText: 'Service Unavailable',
-                  }),
-              ),
-            );
-        }),
-      );
+      event.respondWith(serveShellOrOffline(event.request, shellLocale));
       event.stopImmediatePropagation();
     }
   },
