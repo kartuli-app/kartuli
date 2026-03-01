@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { useRouterContext } from '../app-shell/use-router-context';
 import { setDocumentLang } from '../utils/browser';
-import type { SupportedLng } from './config';
+import { type SupportedLng, supportedLngs } from './config';
 import { I18nProvider } from './I18nProvider';
 import { pathToLang } from './path-to-lang';
 
@@ -13,7 +13,10 @@ export const PREFERRED_LOCALE_KEY = 'preferredLocale';
 function getPreferredLocale(): SupportedLng {
   if (typeof localStorage === 'undefined') return 'en';
   const stored = localStorage.getItem(PREFERRED_LOCALE_KEY);
-  return stored === 'ru' ? 'ru' : 'en';
+  if (stored && supportedLngs.includes(stored as SupportedLng)) {
+    return stored as SupportedLng;
+  }
+  return 'en';
 }
 
 interface I18nShellProps {

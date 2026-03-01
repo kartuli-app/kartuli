@@ -49,6 +49,17 @@ describe('parseRoute', () => {
     });
   });
 
+  it('returns user for /ru/user', () => {
+    expect(parseRoute('/ru/user')).toEqual({ view: 'user' });
+  });
+
+  it('returns game with lessonId for /ru/game/:id', () => {
+    expect(parseRoute('/ru/game/lesson-2')).toEqual({
+      view: 'game',
+      lessonId: 'lesson-2',
+    });
+  });
+
   it('returns null for unsupported locale or unknown paths', () => {
     expect(parseRoute('/')).toBeNull();
     expect(parseRoute('/fr')).toBeNull();

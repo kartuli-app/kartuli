@@ -60,6 +60,17 @@ describe('AppShell', () => {
     expect(within(container).getByTestId('game-debug')).toBeInTheDocument();
   });
 
+  it('renders UserPage for /ru/user', () => {
+    const { container } = renderShell('/ru/user');
+    expect(within(container).getByTestId('game-user')).toBeInTheDocument();
+  });
+
+  it('renders GamePage for /ru/game/:id', () => {
+    const { container } = renderShell('/ru/game/lesson-1');
+    expect(within(container).getByTestId('game-game')).toBeInTheDocument();
+    expect(within(container).getByTestId('game-lesson-id')).toHaveTextContent('lesson-1');
+  });
+
   it('falls back to HomePage for unknown path', () => {
     const { container } = renderShell('/en/unknown/segment');
     expect(within(container).getByTestId('game-home')).toBeInTheDocument();

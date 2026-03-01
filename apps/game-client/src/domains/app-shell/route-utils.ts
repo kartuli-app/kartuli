@@ -1,5 +1,11 @@
 const SUPPORTED_LANGS = ['en', 'ru'] as const;
 
+type SupportedLang = (typeof SUPPORTED_LANGS)[number];
+
+function isSupportedLang(lang: string): lang is SupportedLang {
+  return (SUPPORTED_LANGS as readonly string[]).includes(lang);
+}
+
 export type ViewType = 'home' | 'learn' | 'game' | 'user' | 'debug';
 
 export interface RouteResult {
@@ -14,8 +20,7 @@ export interface RouteResult {
  */
 export function parseRoute(pathname: string): RouteResult | null {
   const segments = pathname.split('/').filter((s) => s !== '');
-  if (!segments[0] || !SUPPORTED_LANGS.includes(segments[0] as (typeof SUPPORTED_LANGS)[number]))
-    return null;
+  if (!segments[0] || !isSupportedLang(segments[0])) return null;
   if (segments.length === 1) return { view: 'home' };
   if (segments[1] === 'debug' && segments.length === 2) return { view: 'debug' };
   if (segments[1] === 'user' && segments.length === 2) return { view: 'user' };
