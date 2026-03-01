@@ -102,8 +102,7 @@ export function DeploymentDebugPanel({
   showDetailed = false,
   className,
 }: Readonly<DeploymentDebugPanelProps>) {
-  const labels =
-    labelsProp == null ? { ...DEFAULT_LABELS } : { ...DEFAULT_LABELS, ...labelsProp };
+  const labels = labelsProp == null ? { ...DEFAULT_LABELS } : { ...DEFAULT_LABELS, ...labelsProp };
   // === BUILD TIME (static, set at build) ===
   // Use only NEXT_PUBLIC_BUILD_TIME so server and client render the same (no hydration mismatch).
   const buildTimeRaw = process.env.NEXT_PUBLIC_BUILD_TIME;
