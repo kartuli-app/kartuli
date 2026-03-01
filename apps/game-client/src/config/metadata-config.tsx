@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import enMetadata from '../locales/en/metadata';
 
 // Social Media URLs and External Links
 const socialLinks = {
@@ -22,26 +23,11 @@ const verificationTokens = {
 
 export const siteConfig = {
   name: 'Kartuli',
-  title: 'Kartuli - Learn Georgian Language Through Games',
-  description:
-    'Interactive Georgian language learning platform. Master Georgian vocabulary, grammar, and pronunciation through engaging games and exercises.',
+  /** Title and description live in locales/{lang}/metadata.ts; default (en) used by layout. */
   url: 'https://www.kartuli.app',
   ogImage: '/og-image.png', // Will need to be created
   twitterImage: '/twitter-image.png', // Will need to be created
-  keywords: [
-    'Georgian language',
-    'language learning',
-    'learn Georgian',
-    'Georgian games',
-    'Georgian vocabulary',
-    'Georgian grammar',
-    'kartuli',
-    'educational games',
-    'Georgian alphabet',
-    'Georgian pronunciation',
-    'language app',
-    'educational technology',
-  ],
+  /** Keywords live in locales/{lang}/metadata.ts (translated per locale for SEO). */
   authors: [
     {
       name: 'Kartuli Team',
@@ -57,11 +43,11 @@ export const siteConfig = {
 export const metadataConfig: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.title,
+    default: enMetadata.title,
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
-  keywords: siteConfig.keywords,
+  description: enMetadata.description,
+  keywords: [...enMetadata.keywords],
   authors: siteConfig.authors,
   creator: siteConfig.creator,
   publisher: siteConfig.publisher,
@@ -93,13 +79,13 @@ export const metadataConfig: Metadata = {
     },
   },
 
-  // Open Graph
+  // Open Graph (default locale en; page-level generateMetadata overrides for /ru etc.)
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
+    title: enMetadata.title,
+    description: enMetadata.description,
     siteName: siteConfig.name,
     images: [
       {
@@ -112,11 +98,11 @@ export const metadataConfig: Metadata = {
     ],
   },
 
-  // Twitter
+  // Twitter (default locale en; page-level generateMetadata overrides for /ru etc.)
   twitter: {
     card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
+    title: enMetadata.title,
+    description: enMetadata.description,
     images: [siteConfig.twitterImage],
     creator: socialLinks.twitter,
     site: socialLinks.twitter,
@@ -160,7 +146,7 @@ export const metadataConfig: Metadata = {
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': siteConfig.name,
     'application-name': siteConfig.name,
-    'msapplication-tooltip': siteConfig.description,
+    'msapplication-tooltip': enMetadata.description,
     'msapplication-starturl': '/',
     'mobile-web-app-capable': 'yes',
   },
@@ -172,12 +158,5 @@ export const metadataConfig: Metadata = {
     title: siteConfig.name,
   },
 
-  // Alternates for internationalization (future consideration)
-  // alternates: {
-  //   canonical: siteConfig.url,
-  //   languages: {
-  //     'en-US': siteConfig.url,
-  //     'ka-GE': `${siteConfig.url}/ka`,
-  //   },
-  // },
+  // alternates (canonical + hreflang) are set per-page in generateMetadata via getLocaleMetadata(lang, pathSegments)
 };
