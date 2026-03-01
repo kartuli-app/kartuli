@@ -9,7 +9,7 @@
  * - For fonts we use revision: null. Next emits hashed filenames (e.g. .../media/font-abc123.woff2),
  *   so the URL itself changes per build. Cache is keyed by URL; no extra revision needed.
  *
- * Precaching /en stores only the response of GET /en (the shell HTML). JS, CSS, and font requests
+ * Precaching / and /en stores the response of GET / and GET /en (the shell HTML). JS, CSS, and font requests
  * are separate URLs and separate cache entries (fonts listed here, JS/CSS via runtime or build).
  */
 
@@ -59,8 +59,9 @@ function getFontPrecacheEntries(): Array<{ url: string; revision: null }> {
  * The four entries below use a revision so that on each deploy the SW re-fetches them and we
  * don't serve stale content (same URL, new body). Font entries use revision: null (URL is enough).
  *
- * Why each of the four needs a revision:
- * - /en: App shell (HTML only). SW redirects / to /en and serves this offline. Same URL every deploy; without revision we'd serve old HTML.
+ * Why each of the five needs a revision:
+ * - /: Root shell. Served offline so the app loads and I18nShell can redirect to preferred locale from localStorage. Same URL every deploy; without revision we'd serve old HTML.
+ * - /en: App shell (HTML only). Served for /en and /en/* offline. Same URL every deploy; without revision we'd serve old HTML.
  * - /~offline: Offline fallback page. Same URL; revision so we serve the latest fallback after a deploy.
  * - /icon.svg, /favicon.ico: Same URLs; revision so icon/favicon updates are picked up after deploy.
  */
@@ -68,6 +69,7 @@ export const getAdditionalPrecacheEntries = () => {
   const revision = getRevision();
   const fontEntries = getFontPrecacheEntries();
   return [
+    { url: '/', revision },
     { url: '/en', revision },
     { url: '/~offline', revision },
     { url: '/icon.svg', revision },

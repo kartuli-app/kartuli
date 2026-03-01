@@ -3,7 +3,7 @@
  *
  * Responsibilities:
  * - Precaches the app shell (/en), offline page, icons, and fonts so the app works offline
- * - On fetch: redirects / to /en, serves shell or offline fallback for /en and /en/*
+ * - On fetch: for navigation to /, serves precached / if available (offline) else fetches so the app loads and I18nShell can redirect from localStorage. For /en and /en/*, serves precached shell or offline fallback.
  * - Listens for SKIP_WAITING from the page so the user can activate a waiting update
  * - Notifies the page via postMessage when: a new worker is waiting (SW_WAITING), or this worker is ready (SW_READY_OFFLINE)
  */
@@ -45,21 +45,39 @@ const serwist = new Serwist({
   },
 });
 
-// --- Fetch: redirect / → /en, then serve shell or offline for /en and /en/* ---
+// --- Fetch: serve / from precache or network so app can redirect; serve /en and /en/* from precache or offline ---
 // We use capture: true so this runs before Serwist's fetch handler (which would try fetch() and fail when offline).
 self.addEventListener(
   'fetch',
   (event) => {
     const url = new URL(event.request.url);
 
-    // Navigation to / → redirect to /en (same as Next.js when online).
+    // Navigation to /: serve precached / if available (offline), else fetch. App loads and I18nShell redirects to preferred locale.
     const isRootDocument =
+      event.request.method === 'GET' &&
       url.origin === self.location.origin &&
       url.pathname === '/' &&
       (event.request.mode === 'navigate' || event.request.destination === 'document');
     if (isRootDocument) {
-      const target = `${url.origin}/en${url.search}${url.hash}`;
-      event.respondWith(Response.redirect(target, 302));
+      event.respondWith(
+        serwist.matchPrecache('/').then((r) => {
+          if (r) return r.clone();
+          return fetch(event.request)
+            .then((res) =>
+              res.ok ? res : Promise.reject(new Error(`Non-ok response: ${res.status}`)),
+            )
+            .catch(() =>
+              serwist.matchPrecache('/~offline').then(
+                (offline) =>
+                  offline?.clone() ??
+                  new Response('Offline', {
+                    status: 503,
+                    statusText: 'Service Unavailable',
+                  }),
+              ),
+            );
+        }),
+      );
       event.stopImmediatePropagation();
       return;
     }

@@ -75,4 +75,21 @@ test.describe('Game Client i18n', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('heading', { name: /home/i })).toBeVisible({ timeout: 5000 });
   });
+
+  test('root / redirects to preferred locale: after switching to Russian, visiting / shows Russian', async ({
+    page,
+  }) => {
+    await applyVercelProtectionBypass(page);
+    await page.goto('/en');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+
+    await page.getByRole('button', { name: /switch to ru/i }).click();
+    await expect(page).toHaveURL(/\/ru(\/|$)/);
+    await expect(page.getByRole('heading', { name: 'Главная' })).toBeVisible({ timeout: 5000 });
+
+    await page.goto('/');
+    await expect(page).toHaveURL(/\/ru(\/|$)/, { timeout: 10000 });
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
+    await expect(page.getByRole('heading', { name: 'Главная' })).toBeVisible();
+  });
 });
