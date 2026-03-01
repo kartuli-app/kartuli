@@ -23,10 +23,10 @@ Product context and phases: [Offline Multilanguage Game POC](../../product/offli
 | **i18n runtime** | `i18next` + `react-i18next`; initialized in `config.ts` with namespace resources |
 | **Provider** | `I18nShell` wraps the app: derives `lang` from path, sets `document.documentElement.lang`, redirects `/` to preferred locale, wraps children in `I18nProvider` which calls `i18n.changeLanguage(lang)` |
 | **Locale files** | `apps/game-client/src/locales/{lang}/{namespace}.ts` (e.g. `en/common.ts`, `ru/game.ts`, `en/metadata.ts`) with `as const` exports |
-| **Metadata (SEO)** | `metadata` namespace holds `title`, `description`, and `keywords` per locale; `getLocaleMetadata(lang, pathSegments)` builds Next.js `Metadata` (title, description, keywords, openGraph, twitter) and, when path segments are passed, `alternates.canonical` and `alternates.languages` (hreflang). `generateMetadata` in the catch-all page calls it so each route gets locale-specific meta and correct canonical + language links. |
+| **Metadata (SEO)** | `metadata` namespace holds `title`, `description`, and `keywords` per locale. `getLocaleMetadata(lang, pathSegments)` returns locale-specific overrides (title, description, keywords, openGraph locale/title/description, twitter title/description); the root layout provides shared openGraph/twitter defaults and a title template (`%s \| Kartuli`), so the document title is e.g. "Title \| Kartuli". Next.js merges layout and page metadata. When path segments are passed, adds `alternates.canonical`, `alternates.languages` (hreflang), and sets `openGraph.url` to the page canonical. Root (`/`) is treated as default locale: canonical and `x-default` point to `/en`. |
 | **Type-safe keys** | `i18next.d.ts` augments i18next so `t('common.save')` etc. are type-checked against the locale shape |
 | **Language switcher** | `LanguageSwitcher` in the shell header; switches locale + URL and persists to `localStorage` |
-| **Supported locales** | Defined in `config.ts` (`supportedLngs`) and in `route-utils.ts` (`SUPPORTED_LANGS`); both must stay in sync |
+| **Supported locales** | Single source: `domains/i18n/supported-locales.ts` (`supportedLngs`); re-exported by `config.ts`. Keep in sync with `route-utils.ts` (`SUPPORTED_LANGS`). |
 | **Static paths** | `generateStaticParams` in `app/[[...spaRoute]]/page.tsx` pre-renders `/`, `/en`, `/ru` (and any new locale roots you add) |
 
 ---
@@ -76,9 +76,12 @@ Copy the structure from `locales/en/*.ts` (or `ru`) and replace the values with 
 
 ### 2. i18n config
 
+**File:** `apps/game-client/src/domains/i18n/supported-locales.ts`
+
+- Add `'es'` to `supportedLngs`: change to `['en', 'ru', 'es'] as const`. This file is the single source; `config.ts` re-exports it.
+
 **File:** `apps/game-client/src/domains/i18n/config.ts`
 
-- Add `supportedLngs`: change to `['en', 'ru', 'es'] as const`.
 - Import the new locale modules (e.g. `esCommon`, `esDebug`, `esGame`, `esLearn`, `esMetadata`).
 - Add an `es` key to the `resources` object with the same namespace structure as `en` and `ru` (including `metadata`).
 - Add `'metadata'` to the `ns` array if not already present.
@@ -147,6 +150,7 @@ The service worker currently precaches only `/en` and serves `/en` and `/en/*` f
 - [Locale files](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/locales/)
 - [Static params and generateMetadata](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/app/[[...spaRoute]]/page.tsx)
 - [getLocaleMetadata](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/config/get-locale-metadata.ts)
+- [supported-locales](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/domains/i18n/supported-locales.ts)
 
 ### Related docs
 
