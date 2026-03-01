@@ -33,9 +33,37 @@ describe('parseRoute', () => {
     });
   });
 
-  it('returns null for non-en or unknown paths', () => {
+  it('returns home for /ru', () => {
+    expect(parseRoute('/ru')).toEqual({ view: 'home' });
+    expect(parseRoute('/ru/')).toEqual({ view: 'home' });
+  });
+
+  it('returns debug for /ru/debug', () => {
+    expect(parseRoute('/ru/debug')).toEqual({ view: 'debug' });
+  });
+
+  it('returns learn with lessonId for /ru/learn/:id', () => {
+    expect(parseRoute('/ru/learn/lesson-1')).toEqual({
+      view: 'learn',
+      lessonId: 'lesson-1',
+    });
+  });
+
+  it('returns user for /ru/user', () => {
+    expect(parseRoute('/ru/user')).toEqual({ view: 'user' });
+  });
+
+  it('returns game with lessonId for /ru/game/:id', () => {
+    expect(parseRoute('/ru/game/lesson-2')).toEqual({
+      view: 'game',
+      lessonId: 'lesson-2',
+    });
+  });
+
+  it('returns null for unsupported locale or unknown paths', () => {
     expect(parseRoute('/')).toBeNull();
-    expect(parseRoute('/ru')).toBeNull();
+    expect(parseRoute('/fr')).toBeNull();
+    expect(parseRoute('/de')).toBeNull();
     expect(parseRoute('/en/learn')).toBeNull();
     expect(parseRoute('/en/game')).toBeNull();
   });

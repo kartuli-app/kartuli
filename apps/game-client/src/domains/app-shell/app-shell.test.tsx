@@ -14,6 +14,7 @@ vi.mock('../utils/browser', () => ({
   navigateBack: vi.fn(),
   getServiceWorkerContainer: vi.fn(() => null),
   reloadWindow: vi.fn(),
+  setDocumentLang: vi.fn(),
 }));
 
 function renderShell(initialPath: string) {
@@ -47,6 +48,27 @@ describe('AppShell', () => {
   it('renders UserPage for /en/user', () => {
     const { container } = renderShell('/en/user');
     expect(within(container).getByTestId('game-user')).toBeInTheDocument();
+  });
+
+  it('renders HomePage for /ru', () => {
+    const { container } = renderShell('/ru');
+    expect(within(container).getByTestId('game-home')).toBeInTheDocument();
+  });
+
+  it('renders DebugPage for /ru/debug', () => {
+    const { container } = renderShell('/ru/debug');
+    expect(within(container).getByTestId('game-debug')).toBeInTheDocument();
+  });
+
+  it('renders UserPage for /ru/user', () => {
+    const { container } = renderShell('/ru/user');
+    expect(within(container).getByTestId('game-user')).toBeInTheDocument();
+  });
+
+  it('renders GamePage for /ru/game/:id', () => {
+    const { container } = renderShell('/ru/game/lesson-1');
+    expect(within(container).getByTestId('game-game')).toBeInTheDocument();
+    expect(within(container).getByTestId('game-lesson-id')).toHaveTextContent('lesson-1');
   });
 
   it('falls back to HomePage for unknown path', () => {

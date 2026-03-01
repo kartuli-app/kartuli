@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 
+/** Offline tests require production build (next start or Vercel); "ready for offline" banner does not appear in dev. */
 test.describe('Game Client Offline', () => {
   test.afterEach(async ({ context }) => {
     await context.setOffline(false);

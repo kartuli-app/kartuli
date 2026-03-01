@@ -30,6 +30,10 @@ See [Root scripts](../../tech/development/root-scripts.md) for the full list of 
 
 - [Offline PWA and Service Worker](./offline-pwa-service-worker.md) — Service worker implementation (Serwist), dev vs prod, and Vercel allowlist for `/serwist/`.
 
+## Internationalization (i18n)
+
+- [Internationalization (i18n)](./internationalization-i18n.md) — URL-based locale, type-safe translations, developer experience, and how to add a new locale (e.g. Spanish).
+
 ## CI/CD
 
 - [CI/CD Staging](./ci-cd-staging.md) — Runs on PR when the game client (or backoffice) is affected; build, optional Vercel preview, E2E, Lighthouse.

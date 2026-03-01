@@ -1,7 +1,7 @@
 import { AppShell } from '../app-shell/app-shell';
 
 function pathFromSegments(segments: string[] | undefined): string {
-  if (!segments?.length) return '/en';
+  if (!segments?.length) return '/';
   return `/${segments.join('/')}`;
 }
 

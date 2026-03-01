@@ -11,6 +11,7 @@ export interface BrowserGlobal {
 }
 
 const globalCast = globalThis as unknown as {
+  document?: { documentElement: { lang: string } };
   window?: {
     location: { pathname: string; reload(): void };
     navigator?: { serviceWorker?: ServiceWorkerContainer };
@@ -21,6 +22,14 @@ const globalCast = globalThis as unknown as {
   addEventListener?: (type: string, listener: () => void) => void;
   removeEventListener?: (type: string, listener: () => void) => void;
 };
+
+/** Sets the document's html lang attribute. No-op when document is not available (e.g. SSR). */
+export function setDocumentLang(lang: string): void {
+  const doc = globalCast.document;
+  if (doc?.documentElement) {
+    doc.documentElement.lang = lang;
+  }
+}
 
 /** Returns a typed browser-like global, or null if not in a browser environment. */
 export function getBrowserGlobal(): BrowserGlobal | null {

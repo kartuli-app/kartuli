@@ -21,7 +21,9 @@
     "postcss": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "tailwindcss": "catalog:"
+    "tailwindcss": "catalog:",
+    "i18next": "catalog:",
+    "react-i18next": "catalog:"
   },
   "devDependencies": {
     "@serwist/turbopack": "catalog:",

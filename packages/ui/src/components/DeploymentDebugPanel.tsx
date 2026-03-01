@@ -11,6 +11,32 @@ function getNavigatorPlatform(nav: Navigator): string {
   return (nav as NavigatorWithUACH).userAgentData?.platform ?? 'Browser';
 }
 
+/** Optional translated labels; when provided, these replace the default English strings (e.g. for i18n). */
+export interface DeploymentDebugPanelLabels {
+  debugInfo?: string;
+  app?: string;
+  version?: string;
+  environment?: string;
+  vercelEnv?: string;
+  branch?: string;
+  commit?: string;
+  url?: string;
+  region?: string;
+  userAgent?: string;
+  platform?: string;
+  language?: string;
+  buildTime?: string;
+  deploymentType?: string;
+  production?: string;
+  preview?: string;
+  development?: string;
+  unknown?: string;
+  local?: string;
+  unavailableOnClient?: string;
+  serverSide?: string;
+  server?: string;
+}
+
 /**
  * DeploymentDebugPanel Component Props
  */
@@ -19,6 +45,8 @@ interface DeploymentDebugPanelProps {
   appName: string;
   /** Application version (required for proper debugging) */
   appVersion: string;
+  /** Optional translated labels for all UI strings (consumer passes t('debug.xxx')) */
+  labels?: DeploymentDebugPanelLabels;
   /** Show additional debug information */
   showDetailed?: boolean;
   /** Class name for the component */
@@ -43,12 +71,38 @@ interface DeploymentDebugPanelProps {
  * @param showDetailed - Optional flag to show additional runtime information
  * @param className - Optional class name for the component
  */
+const DEFAULT_LABELS = {
+  debugInfo: 'Debug Info',
+  app: 'App',
+  version: 'Version',
+  environment: 'Environment',
+  vercelEnv: 'Vercel Env',
+  branch: 'Branch',
+  commit: 'Commit',
+  url: 'URL',
+  region: 'Region',
+  userAgent: 'User Agent',
+  platform: 'Platform',
+  language: 'Language',
+  buildTime: 'Build',
+  production: 'Production',
+  preview: 'Preview',
+  development: 'Development',
+  unknown: 'Unknown',
+  local: 'local',
+  unavailableOnClient: 'unavailable on client',
+  serverSide: 'Server-side',
+  server: 'Server',
+} as const;
+
 export function DeploymentDebugPanel({
   appName,
   appVersion,
+  labels: labelsProp,
   showDetailed = false,
   className,
 }: Readonly<DeploymentDebugPanelProps>) {
+  const labels = labelsProp == null ? { ...DEFAULT_LABELS } : { ...DEFAULT_LABELS, ...labelsProp };
   // === BUILD TIME (static, set at build) ===
   // Use only NEXT_PUBLIC_BUILD_TIME so server and client render the same (no hydration mismatch).
   const buildTimeRaw = process.env.NEXT_PUBLIC_BUILD_TIME;
@@ -97,16 +151,16 @@ export function DeploymentDebugPanel({
       : undefined;
   const branchName = vercelGitCommitRef || undefined;
 
-  // Determine deployment type
+  // Determine deployment type (use labels when provided)
   let deploymentType: string;
   if (isProduction) {
-    deploymentType = 'Production';
+    deploymentType = labels.production ?? 'Production';
   } else if (isPreview) {
-    deploymentType = 'Preview';
+    deploymentType = labels.preview ?? 'Preview';
   } else if (isDevelopment) {
-    deploymentType = 'Development';
+    deploymentType = labels.development ?? 'Development';
   } else {
-    deploymentType = 'Unknown';
+    deploymentType = labels.unknown ?? 'Unknown';
   }
 
   const debugPanelClassName = clsx(
@@ -117,50 +171,54 @@ export function DeploymentDebugPanel({
 
   return (
     <div className={debugPanelClassName}>
-      <div className="font-bold mb-3">🔧 Debug Info ({deploymentType})</div>
+      <div className="font-bold mb-3">
+        🔧 {labels.debugInfo} ({deploymentType})
+      </div>
 
       <div className="space-y-2">
         {/* Application Information */}
         <div>
-          <span className="opacity-70">App:</span> <span className="font-bold">{appName}</span>
+          <span className="opacity-70">{labels.app}:</span>{' '}
+          <span className="font-bold">{appName}</span>
         </div>
 
         <div>
-          <span className="opacity-70">Version:</span> <span>{appVersion}</span>
+          <span className="opacity-70">{labels.version}:</span> <span>{appVersion}</span>
         </div>
 
         {/* Environment Information */}
         <div>
-          <span className="opacity-70">Environment:</span>{' '}
+          <span className="opacity-70">{labels.environment}:</span>{' '}
           <span className="font-bold">{nodeEnv}</span>
         </div>
 
         <div>
-          <span className="opacity-70">Vercel Env:</span>{' '}
-          <span className="font-bold">{vercelEnv || 'local'}</span>
+          <span className="opacity-70">{labels.vercelEnv}:</span>{' '}
+          <span className="font-bold">{vercelEnv || labels.local}</span>
         </div>
 
         {/* Git Information */}
         <div>
-          <span className="opacity-70">Branch:</span>{' '}
-          <span>{branchName ?? 'unavailable on client'}</span>
+          <span className="opacity-70">{labels.branch}:</span>{' '}
+          <span>{branchName ?? labels.unavailableOnClient}</span>
         </div>
 
         <div>
-          <span className="opacity-70">Commit:</span>{' '}
-          <span>{shortCommitSha ?? 'unavailable on client'}</span>
+          <span className="opacity-70">{labels.commit}:</span>{' '}
+          <span>{shortCommitSha ?? labels.unavailableOnClient}</span>
         </div>
 
         {/* Deployment Information */}
         {vercelUrl && (
           <div>
-            <span className="opacity-70">URL:</span> <span className="break-all">{vercelUrl}</span>
+            <span className="opacity-70">{labels.url}:</span>{' '}
+            <span className="break-all">{vercelUrl}</span>
           </div>
         )}
 
         {vercelRegion && (
           <div>
-            <span className="opacity-70">Region:</span> <span>{vercelRegion}</span>
+            <span className="opacity-70">{labels.region}:</span> <span>{vercelRegion}</span>
           </div>
         )}
 
@@ -170,21 +228,21 @@ export function DeploymentDebugPanel({
             {/* Runtime Information */}
             <div className="pt-2 border-t">
               <div>
-                <span className="opacity-70">User Agent:</span>{' '}
+                <span className="opacity-70">{labels.userAgent}:</span>{' '}
                 <span className="text-xs break-all">
                   {(globalThis as unknown as { window?: { navigator: Navigator } }).window ===
                   undefined
-                    ? 'Server-side'
+                    ? labels.serverSide
                     : `${(globalThis as unknown as { window: { navigator: Navigator } }).window.navigator.userAgent.substring(0, 50)}...`}
                 </span>
               </div>
 
               <div>
-                <span className="opacity-70">Platform:</span>{' '}
+                <span className="opacity-70">{labels.platform}:</span>{' '}
                 <span>
                   {(globalThis as unknown as { window?: { navigator: Navigator } }).window ===
                   undefined
-                    ? 'Server'
+                    ? labels.server
                     : getNavigatorPlatform(
                         (globalThis as unknown as { window: { navigator: Navigator } }).window
                           .navigator,
@@ -193,11 +251,11 @@ export function DeploymentDebugPanel({
               </div>
 
               <div>
-                <span className="opacity-70">Language:</span>{' '}
+                <span className="opacity-70">{labels.language}:</span>{' '}
                 <span>
                   {(globalThis as unknown as { window?: { navigator: Navigator } }).window ===
                   undefined
-                    ? 'Server'
+                    ? labels.server
                     : (globalThis as unknown as { window: { navigator: Navigator } }).window
                         .navigator.language}
                 </span>
@@ -209,7 +267,7 @@ export function DeploymentDebugPanel({
         {/* Build Information */}
         <div className="pt-2 border-t">
           <div>
-            <span className="opacity-70">Build:</span>{' '}
+            <span className="opacity-70">{labels.buildTime}:</span>{' '}
             <span className="text-xs">{buildTimeFormatted}</span>
           </div>
 
