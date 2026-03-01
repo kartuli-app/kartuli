@@ -9,7 +9,7 @@ test.describe('Game Client Smoke Tests', () => {
 
   test('debug page has minimal structure', async ({ page }) => {
     await applyVercelProtectionBypass(page);
-    await page.goto('/debug');
+    await page.goto('/en/debug');
 
     await expect(page.getByText(/🔧 Debug Info/)).toBeVisible({
       timeout: 10000,

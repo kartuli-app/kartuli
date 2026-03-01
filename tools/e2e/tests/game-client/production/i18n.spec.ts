@@ -27,9 +27,9 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: 'Russian' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /switch to ru/i })).toBeVisible();
 
-    await page.getByRole('button', { name: 'Russian' }).click();
+    await page.getByRole('button', { name: /switch to ru/i }).click();
 
     await expect(page).toHaveURL(/\/ru(\/|$)/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
@@ -43,9 +43,9 @@ test.describe('Game Client i18n', () => {
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('button', { name: 'English' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /switch to en/i })).toBeVisible();
 
-    await page.getByRole('button', { name: 'English' }).click();
+    await page.getByRole('button', { name: /switch to en/i }).click();
 
     await expect(page).toHaveURL(/\/en(\/|$)/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
