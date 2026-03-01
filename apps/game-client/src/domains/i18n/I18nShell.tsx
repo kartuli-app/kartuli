@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { useRouterContext } from '../app-shell/use-router-context';
+import { setDocumentLang } from '../utils/browser';
 import type { SupportedLng } from './config';
 import { I18nProvider } from './I18nProvider';
 import { pathToLang } from './path-to-lang';
@@ -25,11 +26,7 @@ export function I18nShell({ children }: I18nShellProps) {
 
   useEffect(() => {
     if (!hasSyncedFromUrl) return;
-    const doc = (globalThis as unknown as { document?: { documentElement: { lang: string } } })
-      .document;
-    if (doc?.documentElement) {
-      doc.documentElement.lang = lang;
-    }
+    setDocumentLang(lang);
   }, [lang, hasSyncedFromUrl]);
 
   // When user visits /, redirect to preferred locale (no middleware)
