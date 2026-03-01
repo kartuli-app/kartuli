@@ -14,6 +14,7 @@ vi.mock('../utils/browser', () => ({
   navigateBack: vi.fn(),
   getServiceWorkerContainer: vi.fn(() => null),
   reloadWindow: vi.fn(),
+  setDocumentLang: vi.fn(),
 }));
 
 function renderShell(initialPath: string) {
