@@ -24,7 +24,9 @@ export function parseRoute(pathname: string): RouteResult | null {
   if (segments.length === 1) return { view: 'home' };
   if (segments[1] === 'debug' && segments.length === 2) return { view: 'debug' };
   if (segments[1] === 'user' && segments.length === 2) return { view: 'user' };
-  if (segments[1] === 'learn' && segments[2]) return { view: 'learn', lessonId: segments[2] };
-  if (segments[1] === 'game' && segments[2]) return { view: 'game', lessonId: segments[2] };
+  if (segments[1] === 'learn' && segments.length === 3 && segments[2])
+    return { view: 'learn', lessonId: segments[2] };
+  if (segments[1] === 'game' && segments.length === 3 && segments[2])
+    return { view: 'game', lessonId: segments[2] };
   return null;
 }

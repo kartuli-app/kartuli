@@ -12,9 +12,13 @@ export const PREFERRED_LOCALE_KEY = 'preferredLocale';
 
 function getPreferredLocale(): SupportedLng {
   if (typeof localStorage === 'undefined') return 'en';
-  const stored = localStorage.getItem(PREFERRED_LOCALE_KEY);
-  if (stored && supportedLngs.includes(stored as SupportedLng)) {
-    return stored as SupportedLng;
+  try {
+    const stored = localStorage.getItem(PREFERRED_LOCALE_KEY);
+    if (stored && supportedLngs.includes(stored as SupportedLng)) {
+      return stored as SupportedLng;
+    }
+  } catch {
+    // ignore storage access errors and fall back
   }
   return 'en';
 }

@@ -13,7 +13,13 @@ interface I18nProviderProps {
 
 export function I18nProvider({ lang, children }: I18nProviderProps) {
   useEffect(() => {
-    i18n.changeLanguage(lang).catch(() => {});
+    if (i18n.resolvedLanguage === lang) return;
+
+    i18n.changeLanguage(lang).catch(() => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('[i18n] Failed to change language');
+      }
+    });
   }, [lang]);
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
