@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
+import { expectDebugPageStructure } from '../../helpers/expect-debug-page';
 import { expectNoCriticalErrors } from '../../helpers/expect-no-critical-errors';
 
 test.describe('Game Client Smoke Tests', () => {
@@ -9,17 +10,12 @@ test.describe('Game Client Smoke Tests', () => {
 
   test('debug page has minimal structure', async ({ page }) => {
     await applyVercelProtectionBypass(page);
-    await page.goto('/en/debug');
-
-    await expect(page.getByText(/🔧 Debug Info/)).toBeVisible({
-      timeout: 10000,
+    await expectDebugPageStructure(page, {
+      path: '/en/debug',
+      heading: /🔧 Debug Info/,
+      appLabel: 'App: @kartuli/game-client',
+      testId: 'game-debug',
     });
-
-    await expect(page.getByText('App: @kartuli/game-client')).toBeVisible({
-      timeout: 10000,
-    });
-
-    await expect(page.getByTestId('game-debug')).toBeVisible({ timeout: 10000 });
   });
 
   test('navigate home → learn → back returns to home', async ({ page }) => {
