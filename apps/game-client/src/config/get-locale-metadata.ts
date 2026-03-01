@@ -25,32 +25,36 @@ const hreflangByLang: Record<SupportedLng, string> = {
 
 /**
  * Builds canonical URL and language alternates (hreflang) for the current path.
- * pathSegments: full route segments e.g. ['en'] or ['ru', 'learn', 'lesson-1'].
+ * pathSegments: full route segments e.g. [] (root), ['en'], or ['ru', 'learn', 'lesson-1'].
+ * Root ([]) is treated as default locale: canonical and x-default point to /en.
  */
 function buildAlternates(
   pathSegments: string[],
-  lang: SupportedLng,
+  _lang: SupportedLng,
 ): { canonical: string; languages: Record<string, string> } {
   const base = siteConfig.url.replace(/\/$/, '');
-  const pathSuffix = pathSegments.slice(1);
-  const canonicalPath = pathSegments.length > 0 ? pathSegments : [lang];
-  const canonical = `${base}/${canonicalPath.join('/')}`;
+  const isRoot = pathSegments.length === 0;
+  const pathSuffix = isRoot ? [] : pathSegments.slice(1);
+  const canonical = isRoot ? `${base}/en` : `${base}/${pathSegments.join('/')}`;
 
   const languages: Record<string, string> = {};
   for (const l of supportedLngs) {
     const segments = [l, ...pathSuffix];
     languages[hreflangByLang[l]] = `${base}/${segments.join('/')}`;
   }
-  const enPathSuffix = pathSuffix.length > 0 ? `/${pathSuffix.join('/')}` : '';
-  languages['x-default'] = `${base}/en${enPathSuffix}`;
+  languages['x-default'] = `${base}/en`;
+  if (pathSuffix.length > 0) {
+    languages['x-default'] = `${base}/en/${pathSuffix.join('/')}`;
+  }
 
   return { canonical, languages };
 }
 
 /**
  * Returns locale-specific metadata (title, description, keywords, openGraph, twitter, optional alternates).
- * Used by generateMetadata in the catch-all page. Merge with layout metadata.
- * When pathSegments is provided, adds alternates.canonical and alternates.languages (hreflang).
+ * Used by generateMetadata in the catch-all page. Merged with layout metadata (layout provides
+ * openGraph.type, url, siteName, images and twitter.card, images).
+ * When pathSegments is provided, adds alternates and sets openGraph.url to the page canonical URL.
  */
 export function getLocaleMetadata(lang: SupportedLng, pathSegments?: string[]): Metadata {
   const meta = metadataByLocale[lang] ?? metadataByLocale.en;
@@ -61,33 +65,20 @@ export function getLocaleMetadata(lang: SupportedLng, pathSegments?: string[]): 
     description: meta.description,
     keywords: [...meta.keywords],
     openGraph: {
-      type: 'website',
       locale: ogLocale,
-      url: siteConfig.url,
       title: meta.title,
       description: meta.description,
-      siteName: siteConfig.name,
-      images: [
-        {
-          url: siteConfig.ogImage,
-          width: 1200,
-          height: 630,
-          alt: siteConfig.name,
-          type: 'image/png',
-        },
-      ],
     },
     twitter: {
-      card: 'summary_large_image',
       title: meta.title,
       description: meta.description,
-      images: [siteConfig.twitterImage],
     },
   };
 
   if (pathSegments !== undefined) {
     const { canonical, languages } = buildAlternates(pathSegments, lang);
     result.alternates = { canonical, languages };
+    result.openGraph = { ...result.openGraph, url: canonical };
   }
 
   return result;
