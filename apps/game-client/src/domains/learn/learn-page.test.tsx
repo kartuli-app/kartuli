@@ -15,14 +15,16 @@ function renderLearnPage(lessonId: string, initialPath = '/en/learn/lesson-1') {
 describe('LearnPage', () => {
   it('renders Learn heading and lesson id', () => {
     const { container } = renderLearnPage('lesson-1');
-    expect(within(container).getByRole('heading', { name: /learn/i })).toBeInTheDocument();
-    expect(within(container).getByTestId('learn-lesson-id')).toHaveTextContent('lesson-1');
+    expect(document.contains(within(container).getByRole('heading', { name: /learn/i }))).toBe(
+      true,
+    );
+    expect(within(container).getByTestId('learn-lesson-id').textContent).toContain('lesson-1');
   });
 
   it('has Play and Back buttons', () => {
     const { container } = renderLearnPage('lesson-2');
-    expect(within(container).getByRole('button', { name: /play/i })).toBeInTheDocument();
-    expect(within(container).getByRole('button', { name: /back/i })).toBeInTheDocument();
+    expect(document.contains(within(container).getByRole('button', { name: /play/i }))).toBe(true);
+    expect(document.contains(within(container).getByRole('button', { name: /back/i }))).toBe(true);
   });
 
   it('navigates to game when Play is clicked', async () => {
