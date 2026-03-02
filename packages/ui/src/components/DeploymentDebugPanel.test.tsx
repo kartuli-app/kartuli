@@ -50,69 +50,69 @@ describe('DeploymentDebugPanel', () => {
   it('renders with required props', () => {
     render(<DeploymentDebugPanel {...defaultProps} />);
 
-    expect(screen.getByText('🔧 Debug Info (Preview)')).toBeInTheDocument();
-    expect(screen.getByText('test-app')).toBeInTheDocument();
-    expect(screen.getByText('1.0.0')).toBeInTheDocument();
-    expect(screen.getByText('test')).toBeInTheDocument();
-    expect(screen.getByText('preview')).toBeInTheDocument();
+    expect(document.contains(screen.getByText('🔧 Debug Info (Preview)'))).toBe(true);
+    expect(document.contains(screen.getByText('test-app'))).toBe(true);
+    expect(document.contains(screen.getByText('1.0.0'))).toBe(true);
+    expect(document.contains(screen.getByText('test'))).toBe(true);
+    expect(document.contains(screen.getByText('preview'))).toBe(true);
   });
 
   it('displays custom app name when provided', () => {
     render(<DeploymentDebugPanel appName="custom-app" appVersion="1.0.0" />);
 
-    expect(screen.getByText('custom-app')).toBeInTheDocument();
+    expect(document.contains(screen.getByText('custom-app'))).toBe(true);
   });
 
   it('displays custom app version when provided', () => {
     render(<DeploymentDebugPanel appName="test-app" appVersion="1.2.3" />);
 
-    expect(screen.getByText('1.2.3')).toBeInTheDocument();
+    expect(document.contains(screen.getByText('1.2.3'))).toBe(true);
   });
 
   it('displays both custom app name and version when provided', () => {
     render(<DeploymentDebugPanel appName="my-app" appVersion="2.0.0" />);
 
-    expect(screen.getByText('my-app')).toBeInTheDocument();
-    expect(screen.getByText('2.0.0')).toBeInTheDocument();
+    expect(document.contains(screen.getByText('my-app'))).toBe(true);
+    expect(document.contains(screen.getByText('2.0.0'))).toBe(true);
   });
 
   it('shows detailed information when showDetailed is true', () => {
     render(<DeploymentDebugPanel {...defaultProps} showDetailed={true} />);
 
     // Should show runtime information
-    expect(screen.getByText('User Agent:')).toBeInTheDocument();
-    expect(screen.getByText('Platform:')).toBeInTheDocument();
-    expect(screen.getByText('Language:')).toBeInTheDocument();
+    expect(document.contains(screen.getByText('User Agent:'))).toBe(true);
+    expect(document.contains(screen.getByText('Platform:'))).toBe(true);
+    expect(document.contains(screen.getByText('Language:'))).toBe(true);
   });
 
   it('does not show detailed information when showDetailed is false', () => {
     render(<DeploymentDebugPanel {...defaultProps} showDetailed={false} />);
 
     // Should not show runtime information section
-    expect(screen.queryByText('User Agent:')).not.toBeInTheDocument();
-    expect(screen.queryByText('Language:')).not.toBeInTheDocument();
-    expect(screen.queryByText('Platform:')).not.toBeInTheDocument();
+    expect(screen.queryByText('User Agent:')).toBeNull();
+    expect(screen.queryByText('Language:')).toBeNull();
+    expect(screen.queryByText('Platform:')).toBeNull();
   });
 
   it('displays deployment type correctly for production', () => {
     process.env.VERCEL_ENV = 'production';
     render(<DeploymentDebugPanel {...defaultProps} />);
 
-    expect(screen.getByText('🔧 Debug Info (Production)')).toBeInTheDocument();
+    expect(document.contains(screen.getByText('🔧 Debug Info (Production)'))).toBe(true);
   });
 
   it('displays deployment type correctly for development', () => {
     process.env.VERCEL_ENV = 'development';
     render(<DeploymentDebugPanel {...defaultProps} />);
 
-    expect(screen.getByText('🔧 Debug Info (Development)')).toBeInTheDocument();
+    expect(document.contains(screen.getByText('🔧 Debug Info (Development)'))).toBe(true);
   });
 
   it('displays build time information', () => {
     render(<DeploymentDebugPanel {...defaultProps} />);
 
     // Should show build time information (static: NEXT_PUBLIC_BUILD_TIME or "unknown")
-    expect(screen.getByText(/Build:/)).toBeInTheDocument();
+    expect(document.contains(screen.getByText(/Build:/))).toBe(true);
 
     const buildTimeContainer = screen.getByText(/Build:/).parentElement;
     // Anchored regex with fixed quantifiers to avoid ReDoS; matches full line (Build: <date> or Build: unknown)
