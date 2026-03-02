@@ -36,9 +36,6 @@ catalogs:
     '@testing-library/dom':
       specifier: ^10.4.0
       version: 10.4.1
-    '@testing-library/jest-dom':
-      specifier: ^6.6.3
-      version: 6.9.1
     '@testing-library/react':
       specifier: ^16.3.2
       version: 16.3.2
@@ -165,9 +162,6 @@ importers:
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.1
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
       '@testing-library/react':
         specifier: 'catalog:'
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -185,7 +179,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       '@vitejs/plugin-react':
         specifier: 'catalog:'
-        version: 5.1.4(vite@7.3.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1))
+        version: 5.1.4(vite@7.1.11(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1))
       happy-dom:
         specifier: 'catalog:'
         version: 20.7.0
@@ -234,13 +228,10 @@ importers:
     devDependencies:
       '@serwist/turbopack':
         specifier: 'catalog:'
-        version: 9.5.6(esbuild@0.25.12)(next@16.1.6(@babel/core@7.29.0)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+        version: 9.5.6(esbuild@0.25.12)(next@16.1.6(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.1
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
       '@testing-library/react':
         specifier: 'catalog:'
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -258,7 +249,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       '@vitejs/plugin-react':
         specifier: 'catalog:'
-        version: 5.1.4(vite@7.1.11(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1))
+        version: 5.1.4(vite@7.3.1(@types/node@24.10.13)(jiti@2.6.1)(lightningcss@1.31.1))
       esbuild:
         specifier: 'catalog:'
         version: 0.25.12
@@ -267,7 +258,7 @@ importers:
         version: 20.7.0
       serwist:
         specifier: 'catalog:'
-        version: 9.5.6(browserslist@4.26.3)(typescript@5.9.3)
+        version: 9.5.6(browserslist@4.28.1)(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -328,9 +319,6 @@ importers:
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.1
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
       '@testing-library/react':
         specifier: 'catalog:'
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -5712,7 +5700,7 @@ snapshots:
     transitivePeerDependencies:
       - browserslist
 
-  '@serwist/turbopack@9.5.6(esbuild@0.25.12)(next@16.1.6(@babel/core@7.29.0)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)':
+  '@serwist/turbopack@9.5.6(esbuild@0.25.12)(next@16.1.6(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)':
     dependencies:
       '@serwist/build': 9.5.6(browserslist@4.28.1)(typescript@5.9.3)
       '@serwist/utils': 9.5.6(browserslist@4.28.1)
@@ -5730,10 +5718,6 @@ snapshots:
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@swc/helpers'
-
-  '@serwist/utils@9.5.6(browserslist@4.26.3)':
-    optionalDependencies:
-      browserslist: 4.26.3
 
   '@serwist/utils@9.5.6(browserslist@4.28.1)':
     optionalDependencies:
@@ -8075,15 +8059,6 @@ snapshots:
       send: 0.19.0
     transitivePeerDependencies:
       - supports-color
-
-  serwist@9.5.6(browserslist@4.26.3)(typescript@5.9.3):
-    dependencies:
-      '@serwist/utils': 9.5.6(browserslist@4.26.3)
-      idb: 8.0.3
-    optionalDependencies:
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - browserslist
 
   serwist@9.5.6(browserslist@4.28.1)(typescript@5.9.3):
     dependencies:
