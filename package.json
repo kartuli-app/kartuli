@@ -15,10 +15,14 @@
   },
   "packageManager": "pnpm@10.30.2+sha512.36cdc707e7b7940a988c9c1ecf88d084f8514b5c3f085f53a2e244c2921d3b2545bc20dd4ebe1fc245feec463bb298aecea7a63ed1f7680b877dc6379d8d0cb4",
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "test": "turbo run test --filter='!@kartuli/e2e'",
-    "test:coverage": "turbo run test:coverage --filter='!@kartuli/e2e'",
+    "dev:all": "turbo run dev",
+    "build:all": "turbo run build",
+    "lint:all": "turbo run lint",
+    "typecheck:all": "turbo run typecheck",
+    "test:all": "turbo run test:all:internal",
+    "test:all:internal": "vitest run",
+    "test:all:coverage": "turbo run test:all:coverage:internal",
+    "test:all:coverage:internal": "vitest run --coverage",
     "test:e2e": "pnpm --filter @kartuli/e2e test",
     "test:e2e:ui": "pnpm --filter @kartuli/e2e test:ui",
     "c:e2e:game-client": "BASE_URL=http://localhost:3000 pnpm --filter @kartuli/e2e exec playwright test tests/game-client",
@@ -26,9 +30,7 @@
     "c:e2e:storybook": "BASE_URL=http://localhost:6006 pnpm --filter @kartuli/e2e exec playwright test tests/storybook",
     "c:e2e:web-docs-client": "BASE_URL=http://localhost:4173 pnpm --filter @kartuli/e2e exec playwright test tests/web-docs-client",
     "lighthouse": "lhci autorun",
-    "lint": "turbo run lint",
     "lint:fix": "turbo run lint -- --write",
-    "typecheck": "turbo run typecheck",
     "c:build:game-client": "turbo run build --filter=@kartuli/game-client",
     "c:build:backoffice-client": "turbo run build --filter=@kartuli/backoffice-client",
     "c:build:storybook": "turbo run build --filter=@kartuli/storybook",
@@ -50,6 +52,8 @@
     "@lhci/cli": "^0.15.0",
     "lefthook": "^2.0.0",
     "turbo": "^2.8.10",
-    "vitepress": "catalog:"
+    "vitepress": "catalog:",
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:"
   }
 }
