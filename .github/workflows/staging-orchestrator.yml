@@ -130,7 +130,7 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
   validate-all-monorepo:
-    name: Validate E2E
+    name: Validate all monorepo
     runs-on: ubuntu-latest
     permissions:
       contents: read
