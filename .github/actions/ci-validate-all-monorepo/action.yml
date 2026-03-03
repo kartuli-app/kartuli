@@ -18,3 +18,7 @@ runs:
         fi
         exit 0
       shell: bash
+
+    - name: Report Coverage
+      if: always()
+      uses: davelosert/vitest-coverage-report-action@2500dafcee7dd64f85ab689c0b83798a8359770e
