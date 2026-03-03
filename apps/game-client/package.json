@@ -9,6 +9,7 @@
     "start": "next start --port 3000",
     "preview": "next build && next start --port 3000",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "lint": "biome check .",
     "typecheck": "tsc --noEmit"
   },
@@ -38,6 +39,7 @@
     "happy-dom": "catalog:",
     "serwist": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:"
   }
 }

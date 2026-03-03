@@ -23,6 +23,10 @@
       "outputs": [".vitepress/dist/**"]
     },
     "test": {},
+    "test:coverage": {
+      "cache": false,
+      "outputs": ["coverage/**"]
+    },
     "test:e2e": { "cache": false, "dependsOn": [] },
     "lint": {
       "cache": true,

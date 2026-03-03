@@ -11,5 +11,17 @@ export default defineConfig({
     },
     setupFiles: ['./setupTests.ts'],
     globals: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'text-summary', 'html', 'json', 'json-summary'],
+      outputDir: 'coverage',
+      exclude: [
+        'node_modules/',
+        '**/*.test.{ts,tsx}',
+        '**/*.config.{ts,js}',
+        'setupTests.ts',
+        '**/types/**',
+      ],
+    },
   },
 });
