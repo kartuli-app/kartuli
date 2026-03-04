@@ -1,0 +1,26 @@
+name: CI validate all monorepo
+description: Run typecheck, lint, and test for all packages in the monorepo (run ci-setup-node first).
+
+runs:
+  using: composite
+  steps:
+    # Run all three in parallel: & backgrounds the process; wait collects exit codes; fail step if any failed.
+    - name: Run typecheck, lint, and test (parallel)
+      run: |
+        pnpm run typecheck:all & PID1=$!
+        pnpm run lint:all & PID2=$!
+        pnpm run test:all:coverage & PID3=$!
+        wait $PID1; E1=$?
+        wait $PID2; E2=$?
+        wait $PID3; E3=$?
+        if [ "$E1" -ne 0 ] || [ "$E2" -ne 0 ] || [ "$E3" -ne 0 ]; then
+          exit 1
+        fi
+        exit 0
+      shell: bash
+
+    - name: Report Coverage
+      if: always()
+      uses: davelosert/vitest-coverage-report-action@2500dafcee7dd64f85ab689c0b83798a8359770e
+      with:
+        file-coverage-mode: all

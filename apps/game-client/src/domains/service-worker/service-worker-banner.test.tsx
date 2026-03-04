@@ -46,7 +46,7 @@ describe('ServiceWorkerBanner', () => {
 
   it('renders nothing when there is no service worker container', () => {
     render(<ServiceWorkerBanner />);
-    expect(screen.queryByTestId('sw-banner')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('sw-banner')).toBeNull();
   });
 
   it('shows "ready for offline" when SW is registered and user not informed', async () => {
@@ -73,8 +73,10 @@ describe('ServiceWorkerBanner', () => {
     render(<ServiceWorkerBanner />);
 
     await waitFor(() => {
-      expect(screen.getByText(/new version is available/i)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /go to next version/i })).toBeInTheDocument();
+      expect(document.contains(screen.getByText(/new version is available/i))).toBe(true);
+      expect(document.contains(screen.getByRole('button', { name: /go to next version/i }))).toBe(
+        true,
+      );
     });
   });
 });

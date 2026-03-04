@@ -5,6 +5,7 @@
   "globalEnv": ["ENABLE_EXPERIMENTAL_COREPACK"],
   "tasks": {
     "dev": { "cache": false, "persistent": true },
+    "dev:all": { "cache": false, "persistent": true },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$"],
@@ -18,11 +19,20 @@
         ".vitepress/dist/**"
       ]
     },
+    "build:all": {
+      "cache": true,
+      "inputs": ["$TURBO_DEFAULT$"]
+    },
     "@kartuli/web-docs-client#build": {
       "inputs": ["$TURBO_DEFAULT$", "pnpm-lock.yaml", "../../docs/**", "scripts/**"],
       "outputs": [".vitepress/dist/**"]
     },
-    "test": {},
+    "test": { "cache": true },
+    "test:all:internal": { "cache": true },
+    "test:all:coverage:internal": {
+      "cache": true,
+      "outputs": ["coverage/**"]
+    },
     "test:e2e": { "cache": false, "dependsOn": [] },
     "lint": {
       "cache": true,
@@ -36,7 +46,33 @@
         "pnpm-lock.yaml"
       ]
     },
+    "lint:all": {
+      "cache": true,
+      "inputs": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.json",
+        "biome.json",
+        "pnpm-lock.yaml"
+      ]
+    },
     "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "cache": true,
+      "inputs": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.d.ts",
+        "tsconfig.json",
+        "tsconfig.*.json",
+        "package.json",
+        "pnpm-lock.yaml"
+      ],
+      "outputs": []
+    },
+    "typecheck:all": {
       "dependsOn": ["^typecheck"],
       "cache": true,
       "inputs": [

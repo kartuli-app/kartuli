@@ -14,6 +14,8 @@ function renderOfflinePage(initialPath = '/en') {
 describe('Game Client Offline Page', () => {
   it('renders Offline heading', () => {
     const { container } = renderOfflinePage();
-    expect(within(container).getByRole('heading', { name: /offline/i })).toBeInTheDocument();
+    expect(document.contains(within(container).getByRole('heading', { name: /offline/i }))).toBe(
+      true,
+    );
   });
 });

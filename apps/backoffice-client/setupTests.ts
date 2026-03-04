@@ -1,4 +1,1 @@
-import * as matchers from '@testing-library/jest-dom/matchers';
-import { expect } from 'vitest';
-
-expect.extend(matchers);
+// Vitest setup; DOM types via tsconfig lib or vitest-setup.d.ts

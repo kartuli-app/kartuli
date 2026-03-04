@@ -1,7 +1,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["@testing-library/jest-dom"]
+    "baseUrl": ".",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@kartuli/ui/*": ["../../packages/ui/src/*"]
+    }
   },
-  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "setupTests.ts"]
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "setupTests.ts"],
+  "exclude": []
 }

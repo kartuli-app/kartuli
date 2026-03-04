@@ -25,6 +25,7 @@ jobs:
         uses: ./.github/actions/ci-setup-node
 
       - name: CI validate monorepo package
+        if: github.event_name == 'workflow_dispatch'
         uses: ./.github/actions/ci-validate-monorepo-package
         with:
           target: web-docs-client

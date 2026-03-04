@@ -129,11 +129,12 @@ jobs:
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
 
-  validate-e2e:
-    name: Validate E2E
+  validate-all-monorepo:
+    name: Validate all monorepo
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
@@ -144,8 +145,6 @@ jobs:
       - name: CI setup node
         uses: ./.github/actions/ci-setup-node
 
-      - name: Lint e2e
-        run: pnpm turbo run lint --filter=@kartuli/e2e
+      - name: Validate all monorepo
+        uses: ./.github/actions/ci-validate-all-monorepo
 
-      - name: Typecheck e2e
-        run: pnpm turbo run typecheck --filter=@kartuli/e2e

@@ -6,8 +6,8 @@ describe('Backoffice Client Home Page', () => {
   it('renders kartuli.app heading and backoffice subheading', () => {
     render(<HomePage />);
     const heading = screen.getByRole('heading', { name: /kartuli\.app/i });
-    expect(heading).toBeInTheDocument();
+    expect(document.contains(heading)).toBe(true);
     const subheading = screen.getByRole('heading', { name: /backoffice/i });
-    expect(subheading).toBeInTheDocument();
+    expect(document.contains(subheading)).toBe(true);
   });
 });

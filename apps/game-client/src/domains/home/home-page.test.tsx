@@ -15,9 +15,13 @@ function renderHomePage(initialPath = '/en') {
 describe('Game Client Home Page', () => {
   it('renders Home heading and lesson list', () => {
     const { container } = renderHomePage();
-    expect(within(container).getByRole('heading', { name: /home/i })).toBeInTheDocument();
-    expect(within(container).getByRole('button', { name: 'lesson-1' })).toBeInTheDocument();
-    expect(within(container).getByRole('button', { name: 'lesson-2' })).toBeInTheDocument();
+    expect(document.contains(within(container).getByRole('heading', { name: /home/i }))).toBe(true);
+    expect(document.contains(within(container).getByRole('button', { name: 'lesson-1' }))).toBe(
+      true,
+    );
+    expect(document.contains(within(container).getByRole('button', { name: 'lesson-2' }))).toBe(
+      true,
+    );
   });
 
   it('navigates to learn page when lesson is clicked', async () => {
