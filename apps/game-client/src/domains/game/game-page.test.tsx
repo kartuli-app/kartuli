@@ -6,7 +6,7 @@ describe('GamePage', () => {
   it('renders Game heading and lesson id', () => {
     const { container } = render(<GamePage lessonId="lesson-1" />);
     expect(document.contains(within(container).getByRole('heading', { name: /game/i }))).toBe(true);
-    expect(within(container).getByTestId('game-lesson-id').textContent).toContain('lesson-1');
+    expect(within(container).getByTestId('game-lesson-id').textContent ?? '').toContain('lesson-1');
   });
 
   it('has Back button', () => {

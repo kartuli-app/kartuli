@@ -36,13 +36,15 @@ describe('AppShell', () => {
   it('renders LearnPage for /en/learn/lesson-1', () => {
     const { container } = renderShell('/en/learn/lesson-1');
     expect(document.contains(within(container).getByTestId('game-learn'))).toBe(true);
-    expect(within(container).getByTestId('learn-lesson-id').textContent).toContain('lesson-1');
+    expect(within(container).getByTestId('learn-lesson-id').textContent ?? '').toContain(
+      'lesson-1',
+    );
   });
 
   it('renders GamePage for /en/game/lesson-2', () => {
     const { container } = renderShell('/en/game/lesson-2');
     expect(document.contains(within(container).getByTestId('game-game'))).toBe(true);
-    expect(within(container).getByTestId('game-lesson-id').textContent).toContain('lesson-2');
+    expect(within(container).getByTestId('game-lesson-id').textContent ?? '').toContain('lesson-2');
   });
 
   it('renders UserPage for /en/user', () => {
@@ -68,7 +70,7 @@ describe('AppShell', () => {
   it('renders GamePage for /ru/game/:id', () => {
     const { container } = renderShell('/ru/game/lesson-1');
     expect(document.contains(within(container).getByTestId('game-game'))).toBe(true);
-    expect(within(container).getByTestId('game-lesson-id').textContent).toContain('lesson-1');
+    expect(within(container).getByTestId('game-lesson-id').textContent ?? '').toContain('lesson-1');
   });
 
   it('falls back to HomePage for unknown path', () => {

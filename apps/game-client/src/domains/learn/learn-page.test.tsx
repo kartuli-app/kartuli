@@ -18,7 +18,9 @@ describe('LearnPage', () => {
     expect(document.contains(within(container).getByRole('heading', { name: /learn/i }))).toBe(
       true,
     );
-    expect(within(container).getByTestId('learn-lesson-id').textContent).toContain('lesson-1');
+    expect(within(container).getByTestId('learn-lesson-id').textContent ?? '').toContain(
+      'lesson-1',
+    );
   });
 
   it('has Play and Back buttons', () => {
