@@ -1,44 +1,19 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DeploymentDebugPanel } from './DeploymentDebugPanel';
-
-// Mock environment variables
-const ENV_KEYS = [
-  'NODE_ENV',
-  'VERCEL_ENV',
-  'VERCEL_GIT_COMMIT_REF',
-  'VERCEL_GIT_COMMIT_SHA',
-  'VERCEL_URL',
-] as const;
-
-type EnvKey = (typeof ENV_KEYS)[number];
-const originalEnvValues: Partial<Record<EnvKey, string | undefined>> = {};
 
 beforeEach(() => {
   cleanup();
-  // snapshot
-  for (const key of ENV_KEYS) {
-    originalEnvValues[key] = process.env[key];
-  }
-  // set test values
-  process.env.NODE_ENV = 'test';
-  process.env.VERCEL_ENV = 'preview';
-  process.env.VERCEL_GIT_COMMIT_REF = 'feature/test-branch';
-  process.env.VERCEL_GIT_COMMIT_SHA = 'abc123def456';
-  process.env.VERCEL_URL = 'test-app.vercel.app';
+  vi.stubEnv('NODE_ENV', 'test');
+  vi.stubEnv('VERCEL_ENV', 'preview');
+  vi.stubEnv('VERCEL_GIT_COMMIT_REF', 'feature/test-branch');
+  vi.stubEnv('VERCEL_GIT_COMMIT_SHA', 'abc123def456');
+  vi.stubEnv('VERCEL_URL', 'test-app.vercel.app');
 });
 
 afterEach(() => {
   cleanup();
-  // restore snapshot
-  for (const key of ENV_KEYS) {
-    const val = originalEnvValues[key];
-    if (val === undefined) {
-      delete process.env[key];
-    } else {
-      process.env[key] = val;
-    }
-  }
+  vi.unstubAllEnvs();
 });
 
 describe('DeploymentDebugPanel', () => {
@@ -95,14 +70,14 @@ describe('DeploymentDebugPanel', () => {
   });
 
   it('displays deployment type correctly for production', () => {
-    process.env.VERCEL_ENV = 'production';
+    vi.stubEnv('VERCEL_ENV', 'production');
     render(<DeploymentDebugPanel {...defaultProps} />);
 
     expect(document.contains(screen.getByText('🔧 Debug Info (Production)'))).toBe(true);
   });
 
   it('displays deployment type correctly for development', () => {
-    process.env.VERCEL_ENV = 'development';
+    vi.stubEnv('VERCEL_ENV', 'development');
     render(<DeploymentDebugPanel {...defaultProps} />);
 
     expect(document.contains(screen.getByText('🔧 Debug Info (Development)'))).toBe(true);

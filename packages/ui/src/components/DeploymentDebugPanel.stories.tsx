@@ -1,5 +1,5 @@
-import { DeploymentDebugPanel } from '@kartuli/ui/components/DeploymentDebugPanel';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { DeploymentDebugPanel } from './DeploymentDebugPanel';
 
 const meta: Meta<typeof DeploymentDebugPanel> = {
   title: 'Components/DeploymentDebugPanel',

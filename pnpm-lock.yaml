@@ -325,6 +325,12 @@ importers:
         specifier: 'catalog:'
         version: 5.9.3
     devDependencies:
+      '@storybook/react':
+        specifier: 'catalog:'
+        version: 10.2.14(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.14(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
+      '@storybook/react-vite':
+        specifier: 'catalog:'
+        version: 10.2.14(esbuild@0.27.3)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@4.59.0)(storybook@10.2.14(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)(vite@7.3.1(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1))
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.1
