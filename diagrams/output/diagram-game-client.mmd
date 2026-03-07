@@ -1,0 +1,283 @@
+flowchart LR
+
+subgraph 0["src"]
+subgraph 1["app"]
+subgraph 2["[[...spaRoute]]"]
+3["page.tsx"]
+end
+28["layout.tsx"]
+subgraph 2M["serwist"]
+subgraph 2N["[path]"]
+2O["route.ts"]
+end
+end
+subgraph 2V["~offline"]
+2W["page.tsx"]
+end
+end
+subgraph E["config"]
+F["get-locale-metadata.ts"]
+O["metadata-config.tsx"]
+29["viewport-config.tsx"]
+end
+subgraph G["domains"]
+subgraph H["i18n"]
+I["supported-locales.ts"]
+T["I18nShell.tsx"]
+12["config.ts"]
+1J["I18nProvider.tsx"]
+1K["path-to-lang.ts"]
+1L["LanguageSwitcher.tsx"]
+1M["use-lang.ts"]
+2Z["i18next.d.ts"]
+end
+subgraph P["spa-route"]
+Q["spa-route-page.tsx"]
+end
+subgraph R["app-shell"]
+S["app-shell.tsx"]
+Y["use-router-context.ts"]
+Z["router-context.tsx"]
+1R["app-shell-outlet.tsx"]
+27["route-utils.ts"]
+2A["root-layout.tsx"]
+2B["globals.css"]
+end
+subgraph 10["utils"]
+11["browser.ts"]
+end
+subgraph 1N["service-worker"]
+1O["service-worker-banner.tsx"]
+1P["service-worker-messages.ts"]
+1Q["service-worker-script-url.ts"]
+2F["service-worker-provider.tsx"]
+2R["get-aditional-precache-entries.ts"]
+2U["service-worker-source-url.ts"]
+30["service-worker.ts"]
+end
+subgraph 1S["debug"]
+1T["debug-page.tsx"]
+end
+subgraph 1Z["game"]
+20["game-page.tsx"]
+end
+subgraph 21["home"]
+22["home-page.tsx"]
+end
+subgraph 23["learn"]
+24["learn-page.tsx"]
+end
+subgraph 25["user"]
+26["user-page.tsx"]
+end
+subgraph 2X["offline"]
+2Y["offline-page.tsx"]
+end
+end
+subgraph J["locales"]
+subgraph K["en"]
+L["metadata.ts"]
+1B["common.ts"]
+1C["debug.ts"]
+1D["game.ts"]
+1E["learn.ts"]
+end
+subgraph M["ru"]
+N["metadata.ts"]
+1F["common.ts"]
+1G["debug.ts"]
+1H["game.ts"]
+1I["learn.ts"]
+end
+end
+37["vitest-setup.d.ts"]
+end
+subgraph 4[".."]
+subgraph 5[".."]
+subgraph 6["node_modules"]
+subgraph 7[".pnpm"]
+subgraph 8["next@16.1.6_@babel+core@7.29.0_@playwright+test@1.58.2_react-dom@19.2.4_react@19.2.4__react@19.2.4"]
+subgraph 9["node_modules"]
+subgraph A["next"]
+subgraph B["dist"]
+subgraph C["server"]
+D["next.js"]
+end
+end
+subgraph 2C["font"]
+subgraph 2D["google"]
+2E["index.js"]
+end
+end
+2Q["server.js"]
+end
+end
+end
+subgraph U["react@19.2.4"]
+subgraph V["node_modules"]
+subgraph W["react"]
+X["index.js"]
+end
+end
+end
+subgraph 13["i18next@25.8.14_typescript@5.9.3"]
+subgraph 14["node_modules"]
+subgraph 15["i18next"]
+16["index.d.mts"]
+end
+end
+end
+subgraph 17["react-i18next@16.5.6_i18next@25.8.14_typescript@5.9.3__react-dom@19.2.4_react@19.2.4__react@19.2.4_typescript@5.9.3"]
+subgraph 18["node_modules"]
+subgraph 19["react-i18next"]
+1A["index.d.ts"]
+end
+end
+end
+subgraph 2G["@serwist+turbopack@9.5.6_esbuild@0.27.3_next@16.1.6_@playwright+test@1.58.2_react-dom@1_b8941138ece5d416229823d5e8d603d7"]
+subgraph 2H["node_modules"]
+subgraph 2I["@serwist"]
+subgraph 2J["turbopack"]
+subgraph 2K["dist"]
+2L["index.react.d.ts"]
+2P["index.d.ts"]
+31["index.worker.d.ts"]
+end
+end
+end
+end
+end
+subgraph 32["serwist@9.5.6_browserslist@4.28.1_typescript@5.9.3"]
+subgraph 33["node_modules"]
+subgraph 34["serwist"]
+subgraph 35["dist"]
+36["index.d.ts"]
+end
+end
+end
+end
+end
+end
+subgraph 1U["packages"]
+subgraph 1V["ui"]
+subgraph 1W["src"]
+subgraph 1X["components"]
+1Y["DeploymentDebugPanel.tsx"]
+end
+end
+end
+end
+end
+end
+2S["fs"]
+2T["path"]
+3-->F
+3-->I
+3-->Q
+3-->D
+F-->I
+F-->L
+F-->N
+F-->O
+F-->D
+O-->L
+O-->D
+Q-->S
+S-->T
+S-->1L
+S-->1O
+S-->1R
+S-->Z
+T-->Y
+T-->11
+T-->12
+T-->1J
+T-->1K
+T-->X
+T-->X
+Y-->Z
+Y-->X
+Z-->11
+Z-->X
+12-->1B
+12-->1C
+12-->1D
+12-->1E
+12-->L
+12-->1F
+12-->1G
+12-->1H
+12-->1I
+12-->N
+12-->I
+12-->16
+12-->1A
+1J-->12
+1J-->12
+1J-->X
+1J-->X
+1J-->1A
+1K-->12
+1K-->12
+1L-->Y
+1L-->12
+1L-->T
+1L-->1M
+1L-->1A
+1M-->Y
+1M-->12
+1M-->1K
+1O-->11
+1O-->1P
+1O-->1Q
+1O-->X
+1O-->1A
+1R-->1T
+1R-->20
+1R-->22
+1R-->24
+1R-->26
+1R-->27
+1R-->Y
+1T-->1Y
+1T-->1Y
+1T-->1A
+20-->11
+20-->1A
+22-->Y
+22-->1M
+22-->1A
+24-->Y
+24-->1M
+24-->11
+24-->1A
+26-->11
+26-->1A
+28-->O
+28-->29
+28-->2A
+28-->D
+29-->D
+2A-->2F
+2A-->2B
+2A-->2E
+2F-->1Q
+2F-->2L
+2O-->2R
+2O-->2U
+2O-->2P
+2O-->2Q
+2R-->I
+2R-->2S
+2R-->2T
+2W-->2Y
+2Z-->1B
+2Z-->1C
+2Z-->1D
+2Z-->1E
+2Z-->L
+30-->I
+30-->1P
+30-->31
+30-->36
+30-->36

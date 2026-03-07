@@ -1,0 +1,68 @@
+flowchart LR
+
+subgraph 0["src"]
+subgraph 1["app"]
+subgraph 2["en"]
+subgraph 3["debug"]
+4["page.tsx"]
+end
+F["page.tsx"]
+end
+I["layout.tsx"]
+end
+subgraph 5["domains"]
+subgraph 6["debug"]
+7["debug-page.tsx"]
+end
+subgraph G["home"]
+H["home-page.tsx"]
+end
+subgraph U["app-shell"]
+V["root-layout.tsx"]
+W["globals.css"]
+end
+end
+subgraph R["config"]
+S["metadata-config.tsx"]
+T["viewport-config.tsx"]
+end
+X["vitest-setup.d.ts"]
+end
+subgraph 8[".."]
+subgraph 9[".."]
+subgraph A["packages"]
+subgraph B["ui"]
+subgraph C["src"]
+subgraph D["components"]
+E["DeploymentDebugPanel.tsx"]
+end
+end
+end
+end
+subgraph J["node_modules"]
+subgraph K[".pnpm"]
+subgraph L["next@16.1.6_@babel+core@7.29.0_@playwright+test@1.58.2_react-dom@19.2.4_react@19.2.4__react@19.2.4"]
+subgraph M["node_modules"]
+subgraph N["next"]
+subgraph O["dist"]
+subgraph P["server"]
+Q["next.js"]
+end
+end
+end
+end
+end
+end
+end
+end
+end
+4-->7
+7-->E
+F-->H
+I-->S
+I-->T
+I-->V
+I-->Q
+S-->Q
+T-->Q
+V-->W
