@@ -6,5 +6,16 @@ module.exports = {
   options: {
     ...base.options,
     tsConfig: { fileName: 'tsconfig.json' },
+    exclude: {
+      path: [
+        '/\\.next/',
+        '/coverage/',
+        'coverage/',
+        '/dist/',
+        'storybook-static',
+        '/\\.vitepress\\/cache/',
+        'node_modules',
+      ],
+    },
   },
 };
