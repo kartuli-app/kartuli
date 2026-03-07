@@ -6,8 +6,11 @@ module.exports = {
   options: {
     ...base.options,
     tsConfig: { fileName: 'tsconfig.json' },
+    collapse: '^(apps/[^/]+|packages/[^/]+|tools/[^/]+|docs)(/|$)',
     exclude: {
       path: [
+        // Unresolved path-alias refs (@/...) when cruising from root — they are internal to each app, not a separate workspace
+        '^@',
         '/\\.next/',
         '/coverage/',
         'coverage/',

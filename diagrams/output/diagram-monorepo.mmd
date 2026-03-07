@@ -2,377 +2,57 @@ flowchart LR
 
 subgraph 0["apps"]
 subgraph 1["backoffice-client"]
-2["next-env.d.ts"]
-3["next.config.ts"]
-7["postcss.config.mjs"]
-8["setupTests.ts"]
-subgraph 9["src"]
-subgraph A["app"]
-subgraph B["en"]
-subgraph C["debug"]
-D["page.tsx"]
+2[" "]
 end
-M["page.tsx"]
-end
-P["layout.tsx"]
-end
-subgraph E["domains"]
-subgraph F["debug"]
-G["debug-page.tsx"]
-W["debug-page.test.tsx"]
-end
-subgraph N["home"]
-O["home-page.tsx"]
-X["home-page.test.tsx"]
-end
-subgraph T["app-shell"]
-U["root-layout.tsx"]
-V["globals.css"]
+subgraph 3["game-client"]
+4[" "]
 end
 end
-subgraph Q["config"]
-R["metadata-config.tsx"]
-S["viewport-config.tsx"]
-end
-Y["vitest-setup.d.ts"]
-end
-Z["vitest.config.ts"]
-end
-subgraph 10["game-client"]
-11["next-env.d.ts"]
-12["next.config.ts"]
-13["postcss.config.mjs"]
-14["setupTests.ts"]
-subgraph 15["src"]
-subgraph 16["domains"]
-subgraph 17["i18n"]
-18["config.ts"]
-1M["supported-locales.ts"]
-1X["I18nShell.tsx"]
-22["I18nProvider.tsx"]
-23["path-to-lang.ts"]
-24["LanguageSwitcher.tsx"]
-25["use-lang.ts"]
-39["i18next.d.ts"]
-end
-subgraph 1T["spa-route"]
-1U["spa-route-page.tsx"]
-end
-subgraph 1V["app-shell"]
-1W["app-shell.tsx"]
-1Y["use-router-context.ts"]
-1Z["router-context.tsx"]
-2A["app-shell-outlet.tsx"]
-2L["route-utils.ts"]
-2O["root-layout.tsx"]
-2P["globals.css"]
-30["app-shell.test.tsx"]
-35["route-utils.test.ts"]
-end
-subgraph 20["utils"]
-21["browser.ts"]
-end
-subgraph 26["service-worker"]
-27["service-worker-banner.tsx"]
-28["service-worker-messages.ts"]
-29["service-worker-script-url.ts"]
-2Q["service-worker-provider.tsx"]
-2U["get-aditional-precache-entries.ts"]
-2V["service-worker-source-url.ts"]
-3C["service-worker-banner.test.tsx"]
-3D["service-worker.ts"]
-end
-subgraph 2B["debug"]
-2C["debug-page.tsx"]
-36["debug-page.test.tsx"]
-end
-subgraph 2D["game"]
-2E["game-page.tsx"]
-37["game-page.test.tsx"]
-end
-subgraph 2F["home"]
-2G["home-page.tsx"]
-38["home-page.test.tsx"]
-end
-subgraph 2H["learn"]
-2I["learn-page.tsx"]
-3A["learn-page.test.tsx"]
-end
-subgraph 2J["user"]
-2K["user-page.tsx"]
-3E["user-page.test.tsx"]
-end
-subgraph 2Y["offline"]
-2Z["offline-page.tsx"]
-3B["offline-page.test.tsx"]
+subgraph 5["diagrams"]
+subgraph 6["config"]
+7["dependency-cruiser.base.js"]
+8["dependency-cruiser.monorepo.js"]
+9["dependency-cruiser.nextjs-app.js"]
 end
 end
-subgraph 19["locales"]
-subgraph 1A["en"]
-1B["common.ts"]
-1C["debug.ts"]
-1D["game.ts"]
-1E["learn.ts"]
-1F["metadata.ts"]
+A["fs"]
+subgraph B["packages"]
+subgraph C["tailwind-config"]
+D[" "]
 end
-subgraph 1G["ru"]
-1H["common.ts"]
-1I["debug.ts"]
-1J["game.ts"]
-1K["learn.ts"]
-1L["metadata.ts"]
+subgraph E["ui"]
+F[" "]
 end
 end
-subgraph 1N["app"]
-subgraph 1O["[[...spaRoute]]"]
-1P["page.tsx"]
+subgraph G["path"]
+H["posix"]
 end
-2M["layout.tsx"]
-subgraph 2R["serwist"]
-subgraph 2S["[path]"]
-2T["route.ts"]
+subgraph I["tools"]
+subgraph J["e2e"]
+K[" "]
 end
+subgraph L["storybook"]
+M[" "]
 end
-subgraph 2W["~offline"]
-2X["page.tsx"]
-end
-end
-subgraph 1Q["config"]
-1R["get-locale-metadata.ts"]
-1S["metadata-config.tsx"]
-2N["viewport-config.tsx"]
-end
-3F["vitest-setup.d.ts"]
-end
-3G["vitest.config.ts"]
+subgraph N["web-docs-client"]
+O[" "]
 end
 end
-4["fs"]
-subgraph 5["path"]
-4O["posix"]
-end
-6["url"]
-subgraph H["packages"]
-subgraph I["ui"]
-subgraph J["src"]
-subgraph K["components"]
-L["DeploymentDebugPanel.tsx"]
-3P["DeploymentDebugPanel.stories.tsx"]
-3Q["DeploymentDebugPanel.test.tsx"]
-end
-3R["vitest-setup.d.ts"]
-end
-3O["setupTests.ts"]
-3S["vitest.config.ts"]
-end
-subgraph 3M["tailwind-config"]
-3N["postcss.config.js"]
-end
-end
-subgraph 31["@"]
-subgraph 32["domains"]
-subgraph 33["utils"]
-34["browser"]
-end
-end
-end
-subgraph 3H["diagrams"]
-subgraph 3I["config"]
-3J["dependency-cruiser.base.js"]
-3K["dependency-cruiser.monorepo.js"]
-3L["dependency-cruiser.nextjs-app.js"]
-end
-end
-subgraph 3T["tools"]
-subgraph 3U["e2e"]
-3V["playwright.config.ts"]
-subgraph 3W["tests"]
-subgraph 3X["backoffice-client"]
-subgraph 3Y["production"]
-3Z["smoke.spec.ts"]
-end
-end
-subgraph 40["helpers"]
-41["apply-vercel-protection-bypass.ts"]
-42["expect-debug-page.ts"]
-43["expect-no-critical-errors.ts"]
-end
-subgraph 44["game-client"]
-subgraph 45["production"]
-46["i18n.spec.ts"]
-47["offline.spec.ts"]
-48["smoke.spec.ts"]
-end
-end
-subgraph 49["storybook"]
-4A["smoke.spec.ts"]
-end
-subgraph 4B["web-docs-client"]
-4C["smoke.spec.ts"]
-end
-end
-end
-subgraph 4D["storybook"]
-subgraph 4E[".storybook"]
-4F["main.ts"]
-4G["preview.tsx"]
-4H["storybook.css"]
-4I["theme-wrappers.tsx"]
-end
-end
-subgraph 4J["web-docs-client"]
-subgraph 4K[".vitepress"]
-4L["config.mts"]
-end
-subgraph 4M["scripts"]
-4N["docs-processor.js"]
-4P["copy-llm-bundle.js"]
-4Q["generate-llm-bundle.js"]
-end
-end
-end
-4R["vitest.config.mts"]
-3-->4
-3-->5
-3-->6
-D-->G
-G-->L
-M-->O
-P-->R
-P-->S
-P-->U
-U-->V
-W-->G
-X-->O
-Z-->5
-12-->4
-12-->5
-12-->6
-14-->18
-18-->1B
-18-->1C
-18-->1D
-18-->1E
-18-->1F
-18-->1H
-18-->1I
-18-->1J
-18-->1K
-18-->1L
-18-->1M
-1P-->1R
-1P-->1M
-1P-->1U
-1R-->1M
-1R-->1F
-1R-->1L
-1R-->1S
-1S-->1F
-1U-->1W
-1W-->1X
-1W-->24
-1W-->27
-1W-->2A
-1W-->1Z
-1X-->1Y
-1X-->21
-1X-->18
-1X-->22
-1X-->23
-1Y-->1Z
-1Z-->21
-22-->18
-22-->18
-23-->18
-23-->18
-24-->1Y
-24-->18
-24-->1X
-24-->25
-25-->1Y
-25-->18
-25-->23
-27-->21
-27-->28
-27-->29
-2A-->2C
-2A-->2E
-2A-->2G
-2A-->2I
-2A-->2K
-2A-->2L
-2A-->1Y
-2C-->L
-2C-->L
-2E-->21
-2G-->1Y
-2G-->25
-2I-->1Y
-2I-->25
-2I-->21
-2K-->21
-2M-->1S
-2M-->2N
-2M-->2O
-2O-->2Q
-2O-->2P
-2Q-->29
-2T-->2U
-2T-->2V
-2U-->1M
-2U-->4
-2U-->5
-2X-->2Z
-30-->1W
-30-->34
-35-->2L
-36-->2C
-37-->2E
-38-->1Z
-38-->2G
-39-->1B
-39-->1C
-39-->1D
-39-->1E
-39-->1F
-3A-->1Z
-3A-->2I
-3B-->1Z
-3B-->2Z
-3C-->21
-3C-->27
-3D-->1M
-3D-->28
-3E-->2K
-3G-->5
-3K-->3J
-3L-->3J
-3P-->L
-3Q-->L
-3Z-->41
-3Z-->42
-3Z-->43
-43-->41
-46-->41
-47-->41
-48-->41
-48-->42
-48-->43
-4A-->43
-4C-->43
-4F-->5
-4F-->6
-4G-->4H
-4G-->4I
-4L-->4N
-4N-->4
-4N-->5
-4N-->4O
-4N-->6
-4P-->4
-4P-->5
-4P-->6
-4Q-->4N
-4Q-->4
-4Q-->5
-4Q-->6
+P["url"]
+Q["vitest.config.mts"]
+2-->A
+2-->G
+2-->P
+2-->F
+4-->A
+4-->G
+4-->P
+4-->F
+8-->7
+9-->7
+M-->G
+M-->P
+O-->A
+O-->G
+O-->H
+O-->P
