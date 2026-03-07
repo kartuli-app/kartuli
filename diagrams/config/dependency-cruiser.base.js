@@ -5,21 +5,21 @@ const base = {
       name: 'no-circular',
       severity: 'warn',
       comment:
-        "This dependency is part of a circular relationship. You might want to revise " +
-        "your solution (i.e. use dependency inversion, make sure the modules have a single responsibility) ",
+        'This dependency is part of a circular relationship. You might want to revise ' +
+        'your solution (i.e. use dependency inversion, make sure the modules have a single responsibility) ',
       from: {},
       to: {
-        circular: true
-      }
+        circular: true,
+      },
     },
     {
       name: 'no-orphans',
       comment:
         "This is an orphan module - it's likely not used (anymore?). Either use it or " +
         "remove it. If it's logical this module is an orphan (i.e. it's a config file), " +
-        "add an exception for it in your dependency-cruiser configuration. By default " +
-        "this rule does not scrutinize dot-files (e.g. .eslintrc.js), TypeScript declaration " +
-        "files (.d.ts), tsconfig.json and some of the babel and webpack configs.",
+        'add an exception for it in your dependency-cruiser configuration. By default ' +
+        'this rule does not scrutinize dot-files (e.g. .eslintrc.js), TypeScript declaration ' +
+        'files (.d.ts), tsconfig.json and some of the babel and webpack configs.',
       severity: 'warn',
       from: {
         orphan: true,
@@ -27,8 +27,8 @@ const base = {
           '(^|/)[.][^/]+[.](?:js|cjs|mjs|ts|cts|mts|json)$',
           '[.]d[.]ts$',
           '(^|/)tsconfig[.]json$',
-          '(^|/)(?:babel|webpack)[.]config[.](?:js|cjs|mjs|ts|cts|mts|json)$'
-        ]
+          '(^|/)(?:babel|webpack)[.]config[.](?:js|cjs|mjs|ts|cts|mts|json)$',
+        ],
       },
       to: {},
     },
@@ -61,9 +61,9 @@ const base = {
           '^constants$',
           '^sys$',
           '^_linklist$',
-          '^_stream_wrap$'
+          '^_stream_wrap$',
         ],
-      }
+      },
     },
     {
       name: 'not-to-deprecated',
@@ -72,7 +72,7 @@ const base = {
         'version of that module, or find an alternative. Deprecated modules are a security risk.',
       severity: 'warn',
       from: {},
-      to: { dependencyTypes: ['deprecated'] }
+      to: { dependencyTypes: ['deprecated'] },
     },
     {
       name: 'no-non-package-json',
@@ -80,10 +80,10 @@ const base = {
       comment:
         "This module depends on an npm package that isn't in the 'dependencies' section of your package.json. " +
         "That's problematic as the package either (1) won't be available on live (2 - worse) will be " +
-        "available on live with an non-guaranteed version. Fix it by adding the package to the dependencies " +
-        "in your package.json.",
+        'available on live with an non-guaranteed version. Fix it by adding the package to the dependencies ' +
+        'in your package.json.',
       from: {},
-      to: { dependencyTypes: ['npm-no-pkg', 'npm-unknown'] }
+      to: { dependencyTypes: ['npm-no-pkg', 'npm-unknown'] },
     },
     {
       name: 'not-to-unresolvable',
@@ -92,20 +92,20 @@ const base = {
         'module: add it to your package.json. In all other cases you likely already know what to do.',
       severity: 'error',
       from: {},
-      to: { couldNotResolve: true }
+      to: { couldNotResolve: true },
     },
     {
       name: 'no-duplicate-dep-types',
       comment:
         "Likely this module depends on an external ('npm') package that occurs more than once " +
-        "in your package.json i.e. bot as a devDependencies and in dependencies. This will cause " +
-        "maintenance problems later on.",
+        'in your package.json i.e. bot as a devDependencies and in dependencies. This will cause ' +
+        'maintenance problems later on.',
       severity: 'warn',
       from: {},
       to: {
         moreThanOneDependencyType: true,
-        dependencyTypesNot: ['type-only']
-      }
+        dependencyTypesNot: ['type-only'],
+      },
     },
     {
       name: 'not-to-spec',
@@ -116,8 +116,8 @@ const base = {
       severity: 'error',
       from: {},
       to: {
-        path: '[.](?:spec|test)[.](?:js|mjs|cjs|jsx|ts|mts|cts|tsx)$'
-      }
+        path: '[.](?:spec|test)[.](?:js|mjs|cjs|jsx|ts|mts|cts|tsx)$',
+      },
     },
     {
       name: 'not-to-dev-dep',
@@ -130,43 +130,44 @@ const base = {
         'from.pathNot re of the not-to-dev-dep rule in the dependency-cruiser configuration',
       from: {
         path: '^(packages)',
-        pathNot: '[.](?:spec|test)[.](?:js|mjs|cjs|jsx|ts|mts|cts|tsx)$'
+        pathNot: '[.](?:spec|test)[.](?:js|mjs|cjs|jsx|ts|mts|cts|tsx)$',
       },
       to: {
         dependencyTypes: ['npm-dev'],
         dependencyTypesNot: ['type-only'],
-        pathNot: ['node_modules/@types/']
-      }
+        pathNot: ['node_modules/@types/'],
+      },
     },
     {
       name: 'optional-deps-used',
       severity: 'info',
       comment:
-        "This module depends on an npm package that is declared as an optional dependency " +
+        'This module depends on an npm package that is declared as an optional dependency ' +
         "in your package.json. As this makes sense in limited situations only, it's flagged here. " +
-        "If you use an optional dependency here by design - add an exception to your" +
-        "dependency-cruiser configuration.",
+        'If you use an optional dependency here by design - add an exception to your' +
+        'dependency-cruiser configuration.',
       from: {},
-      to: { dependencyTypes: ['npm-optional'] }
+      to: { dependencyTypes: ['npm-optional'] },
     },
     {
       name: 'peer-deps-used',
       comment:
-        "This module depends on an npm package that is declared as a peer dependency " +
+        'This module depends on an npm package that is declared as a peer dependency ' +
         "in your package.json. This makes sense if you're e.g. a plugin, but in " +
-        "other cases - maybe not so much. If the use of a peer dependency is intentional " +
-        "add an exception to your dependency-cruiser configuration.",
+        'other cases - maybe not so much. If the use of a peer dependency is intentional ' +
+        'add an exception to your dependency-cruiser configuration.',
       severity: 'warn',
       from: {},
-      to: { dependencyTypes: ['npm-peer'] }
-    }
+      to: { dependencyTypes: ['npm-peer'] },
+    },
   ],
   options: {
     doNotFollow: { path: ['node_modules'] },
+    exclude: { path: ['node_modules', 'fs', 'path', 'url'] },
     tsPreCompilationDeps: true,
     combinedDependencies: true,
     tsConfig: {
-      fileName: 'tsconfig.json'
+      fileName: 'tsconfig.json',
     },
     enhancedResolveOptions: {
       exportsFields: ['exports'],
@@ -179,13 +180,14 @@ const base = {
         collapsePattern: 'node_modules/(?:@[^/]+/[^/]+|[^/]+)',
       },
       archi: {
-        collapsePattern: '^(?:packages|src|lib(s?)|app(s?)|bin|test(s?)|spec(s?))/[^/]+|node_modules/(?:@[^/]+/[^/]+|[^/]+)',
+        collapsePattern:
+          '^(?:packages|src|lib(s?)|app(s?)|bin|test(s?)|spec(s?))/[^/]+|node_modules/(?:@[^/]+/[^/]+|[^/]+)',
       },
       text: {
-        highlightFocused: true
+        highlightFocused: true,
       },
-    }
-  }
+    },
+  },
 };
 
 module.exports = base;

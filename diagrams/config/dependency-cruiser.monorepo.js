@@ -9,6 +9,7 @@ module.exports = {
     collapse: '^(apps/[^/]+|packages/[^/]+|tools/[^/]+|docs)(/|$)',
     exclude: {
       path: [
+        ...(base.options.exclude?.path ?? []),
         // Unresolved path-alias refs (@/...) when cruising from root — they are internal to each app, not a separate workspace
         '^@',
         '/\\.next/',
@@ -17,7 +18,6 @@ module.exports = {
         '/dist/',
         'storybook-static',
         '/\\.vitepress\\/cache/',
-        'node_modules',
       ],
     },
   },

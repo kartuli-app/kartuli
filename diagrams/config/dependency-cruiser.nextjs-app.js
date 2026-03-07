@@ -12,8 +12,8 @@ module.exports = {
     },
     exclude: {
       path: [
+        ...(base.options.exclude?.path ?? []),
         '[.](?:spec|test)[.](?:ts|tsx)$',
-        'node_modules',
       ],
     },
   },

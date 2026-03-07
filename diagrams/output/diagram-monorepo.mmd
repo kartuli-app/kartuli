@@ -15,44 +15,27 @@ subgraph 6["config"]
 9["dependency-cruiser.nextjs-app.js"]
 end
 end
-A["fs"]
-subgraph B["packages"]
-subgraph C["tailwind-config"]
-D[" "]
+subgraph A["packages"]
+subgraph B["tailwind-config"]
+C[" "]
 end
-subgraph E["ui"]
-F[" "]
-end
-end
-subgraph G["path"]
-H["posix"]
-end
-subgraph I["tools"]
-subgraph J["e2e"]
-K[" "]
-end
-subgraph L["storybook"]
-M[" "]
-end
-subgraph N["web-docs-client"]
-O[" "]
+subgraph D["ui"]
+E[" "]
 end
 end
-P["url"]
-Q["vitest.config.mts"]
-2-->A
-2-->G
-2-->P
-2-->F
-4-->A
-4-->G
-4-->P
-4-->F
+subgraph F["tools"]
+subgraph G["e2e"]
+H[" "]
+end
+subgraph I["storybook"]
+J[" "]
+end
+subgraph K["web-docs-client"]
+L[" "]
+end
+end
+M["vitest.config.mts"]
+2-->E
+4-->E
 8-->7
 9-->7
-M-->G
-M-->P
-O-->A
-O-->G
-O-->H
-O-->P
