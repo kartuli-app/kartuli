@@ -14,6 +14,7 @@ module.exports = {
       path: [
         ...(base.options.exclude?.path ?? []),
         '[.](?:spec|test)[.](?:ts|tsx)$',
+        'vitest-setup.d.ts',
       ],
     },
   },

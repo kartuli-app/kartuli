@@ -216,14 +216,5 @@
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M231.12,-391C263.41,-391 308.49,-391 340.16,-391"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="340.31,-393.1 346.31,-391 340.31,-388.9 340.31,-393.1"/>
 </g>
-<!-- src/vitest&#45;setup.d.ts -->
-<g id="node11" class="node">
-<title>src/vitest&#45;setup.d.ts</title>
-<g id="a_node11"><a xlink:href="src/vitest-setup.d.ts" xlink:title="vitest&#45;setup.d.ts">
-<path fill="#ccffcc" stroke="black" d="M107,-264C107,-264 29,-264 29,-264 26,-264 23,-261 23,-258 23,-258 23,-252 23,-252 23,-249 26,-246 29,-246 29,-246 107,-246 107,-246 110,-246 113,-249 113,-252 113,-252 113,-258 113,-258 113,-261 110,-264 107,-264"/>
-<text text-anchor="start" x="31" y="-252.8" font-family="Helvetica,sans-Serif" font-size="9.00">vitest&#45;setup.d.ts</text>
-</a>
-</g>
-</g>
 </g>
 </svg>

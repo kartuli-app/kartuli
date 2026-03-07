@@ -8,34 +8,24 @@ subgraph 3["game-client"]
 4[" "]
 end
 end
-subgraph 5["diagrams"]
-subgraph 6["config"]
-7["dependency-cruiser.base.js"]
-8["dependency-cruiser.monorepo.js"]
-9["dependency-cruiser.nextjs-app.js"]
+subgraph 5["packages"]
+subgraph 6["tailwind-config"]
+7[" "]
+end
+subgraph 8["ui"]
+9[" "]
 end
 end
-subgraph A["packages"]
-subgraph B["tailwind-config"]
+subgraph A["tools"]
+subgraph B["e2e"]
 C[" "]
 end
-subgraph D["ui"]
+subgraph D["storybook"]
 E[" "]
 end
-end
-subgraph F["tools"]
-subgraph G["e2e"]
-H[" "]
-end
-subgraph I["storybook"]
-J[" "]
-end
-subgraph K["web-docs-client"]
-L[" "]
+subgraph F["web-docs-client"]
+G[" "]
 end
 end
-M["vitest.config.mts"]
-2-->E
-4-->E
-8-->7
-9-->7
+2-->9
+4-->9

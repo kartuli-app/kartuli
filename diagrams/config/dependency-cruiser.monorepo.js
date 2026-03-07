@@ -18,6 +18,8 @@ module.exports = {
         '/dist/',
         'storybook-static',
         '/\\.vitepress\\/cache/',
+        'diagrams/',
+        'vitest.config.mts',
       ],
     },
   },
