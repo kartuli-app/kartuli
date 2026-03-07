@@ -10,8 +10,7 @@ module.exports = {
     exclude: {
       path: [
         ...(base.options.exclude?.path ?? []),
-        // Unresolved path-alias refs (@/...) when cruising from root — they are internal to each app, not a separate workspace
-        // '^@',
+        '[.](?:spec|test)[.](?:ts|tsx)$',
         '/\\.next/',
         '/coverage/',
         'coverage/',

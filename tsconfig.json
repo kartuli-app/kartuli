@@ -2,6 +2,12 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": ".",
+    "paths": {
+      "@game-client/*": ["apps/game-client/src/*"],
+      "@backoffice-client/*": ["apps/backoffice-client/src/*"],
+      "@kartuli/ui/*": ["packages/ui/src/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
