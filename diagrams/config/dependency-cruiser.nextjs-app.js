@@ -11,7 +11,10 @@ module.exports = {
       path: ['node_modules', '^.*/packages/'],
     },
     exclude: {
-      path: ['[.](?:spec|test)[.](?:ts|tsx)$'],
+      path: [
+        '[.](?:spec|test)[.](?:ts|tsx)$',
+        'node_modules',
+      ],
     },
   },
 };

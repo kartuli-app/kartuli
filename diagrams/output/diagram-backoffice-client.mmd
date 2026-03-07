@@ -17,16 +17,16 @@ end
 subgraph G["home"]
 H["home-page.tsx"]
 end
-subgraph U["app-shell"]
-V["root-layout.tsx"]
-W["globals.css"]
+subgraph M["app-shell"]
+N["root-layout.tsx"]
+O["globals.css"]
 end
 end
-subgraph R["config"]
-S["metadata-config.tsx"]
-T["viewport-config.tsx"]
+subgraph J["config"]
+K["metadata-config.tsx"]
+L["viewport-config.tsx"]
 end
-X["vitest-setup.d.ts"]
+P["vitest-setup.d.ts"]
 end
 subgraph 8[".."]
 subgraph 9[".."]
@@ -39,30 +39,12 @@ end
 end
 end
 end
-subgraph J["node_modules"]
-subgraph K[".pnpm"]
-subgraph L["next@16.1.6_@babel+core@7.29.0_@playwright+test@1.58.2_react-dom@19.2.4_react@19.2.4__react@19.2.4"]
-subgraph M["node_modules"]
-subgraph N["next"]
-subgraph O["dist"]
-subgraph P["server"]
-Q["next.js"]
-end
-end
-end
-end
-end
-end
-end
 end
 end
 4-->7
 7-->E
 F-->H
-I-->S
-I-->T
-I-->V
-I-->Q
-S-->Q
-T-->Q
-V-->W
+I-->K
+I-->L
+I-->N
+N-->O
