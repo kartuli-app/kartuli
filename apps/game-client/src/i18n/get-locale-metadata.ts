@@ -1,9 +1,6 @@
-import { resources } from '@game-client/i18n/resources/resources';
+import { metadataByLocale } from '@game-client/i18n/resources/metadata-by-locale';
 import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
 import type { Metadata } from 'next';
-
-const enMetadata = resources.en.metadata;
-const ruMetadata = resources.ru.metadata;
 
 // Social Media URLs and External Links
 const socialLinks = {
@@ -153,14 +150,6 @@ const baseMetadata: Metadata = {
   },
 };
 
-const metadataByLocale: Record<
-  SupportedLng,
-  { title: string; description: string; keywords: readonly string[] }
-> = {
-  en: enMetadata,
-  ru: ruMetadata,
-};
-
 const ogLocaleByLang: Record<SupportedLng, string> = {
   en: 'en_US',
   ru: 'ru_RU',
@@ -176,6 +165,7 @@ const hreflangByLang: Record<SupportedLng, string> = {
  * Builds canonical URL and language alternates (hreflang) for the current path.
  * pathSegments: full route segments e.g. [] (root), ['en'], or ['ru', 'learn', 'lesson-1'].
  * Root ([]) is treated as default locale: canonical and x-default point to /en.
+ * Call only when path is root or first segment is a supported locale (see getLocaleMetadata).
  */
 function buildAlternates(
   pathSegments: string[],
@@ -208,7 +198,13 @@ export function getLocaleMetadata(lang: SupportedLng, pathSegments?: string[]): 
   const meta = metadataByLocale[lang] ?? metadataByLocale.en;
   const ogLocale = ogLocaleByLang[lang] ?? ogLocaleByLang.en;
 
-  const alternates = pathSegments !== undefined ? buildAlternates(pathSegments, lang) : undefined;
+  const shouldBuildAlternates =
+    pathSegments !== undefined &&
+    (pathSegments.length === 0 || supportedLngs.includes(pathSegments[0] as SupportedLng));
+  const alternates =
+    pathSegments !== undefined && shouldBuildAlternates
+      ? buildAlternates(pathSegments, lang)
+      : undefined;
 
   return {
     ...baseMetadata,
