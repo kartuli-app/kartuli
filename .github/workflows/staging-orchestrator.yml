@@ -32,16 +32,12 @@ jobs:
       - name: Fetch origin/main
         run: git fetch origin main
 
-      # Which packages would run `build` when compared to origin/main (Turbo affected).
+      # Same logic as pnpm run turbo:detect-affected:pr (single source of truth).
       - name: Detect affected packages (build)
         id: affected
-        env:
-          TURBO_SCM_BASE: origin/main
         run: |
-          # Dry run: output task list as JSON; empty or missing file is ok (no affected).
-          pnpm exec turbo run build --dry=json --affected > turbo-dry.json 2>/dev/null || true
-          # Extract package names (e.g. @kartuli/game-client), dedupe, output as JSON array for later steps.
-          AFFECTED_BUILD=$(jq -r '.tasks[]? | .package' turbo-dry.json 2>/dev/null | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          # Only treat lines matching @kartuli/<pkg> as packages (ignore pnpm banners/warnings).
+          AFFECTED_BUILD=$(pnpm run turbo:detect-affected:pr 2>/dev/null | jq -R -s -c 'split("\n") | map(select(length > 0 and startswith("@kartuli/")))')
           echo "packages=${AFFECTED_BUILD}" >> "$GITHUB_OUTPUT"
 
       # Split affected package list into per-workflow target arrays (e.g. ["game-client"] for Next.js).
@@ -75,7 +71,7 @@ jobs:
             echo "$BUILD_PKGS" | jq -r '.[]' 2>/dev/null | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "*Using \`turbo run build --dry=json --affected\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
+          echo "*Uses \`pnpm run turbo:detect-affected:pr\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
 
   # One reusable workflow run per target (e.g. game-client, backoffice-client); only if that list is non-empty.
   # Use fromJson()[0] != null so whitespace/formatting in the output doesn't break the condition.

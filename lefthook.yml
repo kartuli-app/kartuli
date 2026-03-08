@@ -11,7 +11,7 @@ pre-commit:
       run: CI=true TURBO_CI=1 pnpm turbo lint --concurrency=1 --no-daemon
       fail_text: |
         ❌ Linting failed. Please fix the errors above.
-        Run 'pnpm lint:fix' to auto-fix issues.
+        Run 'pnpm lint:all:fix' to auto-fix issues.
     
     # Check for merge conflict markers
     conflict-markers:
