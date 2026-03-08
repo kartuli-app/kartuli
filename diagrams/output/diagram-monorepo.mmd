@@ -62,12 +62,13 @@ end
 end
 19["resources-ru.ts"]
 1G["same-keys-as-reference-resources.ts"]
+2E["metadata-by-locale.ts"]
 end
 1J["path-to-lang.ts"]
 1Q["language-switcher.tsx"]
 1R["use-lang.ts"]
 2D["get-locale-metadata.ts"]
-2V["i18next.d.ts"]
+2W["i18next.d.ts"]
 end
 subgraph 1H["utils"]
 1I["deep-same-keys.ts"]
@@ -104,35 +105,35 @@ subgraph 25["service-worker"]
 26["service-worker-banner.tsx"]
 27["service-worker-messages.ts"]
 28["service-worker-script-url.ts"]
-2M["service-worker-provider.tsx"]
-2Q["get-aditional-precache-entries.ts"]
-2R["service-worker-source-url.ts"]
-2W["service-worker.ts"]
+2N["service-worker-provider.tsx"]
+2R["get-aditional-precache-entries.ts"]
+2S["service-worker-source-url.ts"]
+2X["service-worker.ts"]
 end
 subgraph 2A["app"]
 subgraph 2B["[[...spaRoute]]"]
 2C["page.tsx"]
 end
-2G["layout.tsx"]
-subgraph 2N["serwist"]
-subgraph 2O["[path]"]
-2P["route.ts"]
+2H["layout.tsx"]
+subgraph 2O["serwist"]
+subgraph 2P["[path]"]
+2Q["route.ts"]
 end
 end
-subgraph 2S["~offline"]
-2T["offline-page.tsx"]
-2U["page.tsx"]
+subgraph 2T["~offline"]
+2U["offline-page.tsx"]
+2V["page.tsx"]
 end
 end
-subgraph 2E["spa-route"]
-2F["spa-route-page.tsx"]
+subgraph 2F["spa-route"]
+2G["spa-route-page.tsx"]
 end
-subgraph 2H["config"]
-2I["viewport-config.tsx"]
+subgraph 2I["config"]
+2J["viewport-config.tsx"]
 end
-subgraph 2J["root-layout"]
-2K["root-layout.tsx"]
-2L["globals.css"]
+subgraph 2K["root-layout"]
+2L["root-layout.tsx"]
+2M["globals.css"]
 end
 end
 end
@@ -142,37 +143,37 @@ subgraph B["ui"]
 subgraph C["src"]
 subgraph D["components"]
 E["DeploymentDebugPanel.tsx"]
-2X["DeploymentDebugPanel.stories.tsx"]
+2Y["DeploymentDebugPanel.stories.tsx"]
 end
 end
 end
 end
-subgraph 2Y["tools"]
-subgraph 2Z["e2e"]
-subgraph 30["tests"]
-subgraph 31["helpers"]
-32["apply-vercel-protection-bypass.ts"]
-33["expect-debug-page.ts"]
-34["expect-no-critical-errors.ts"]
+subgraph 2Z["tools"]
+subgraph 30["e2e"]
+subgraph 31["tests"]
+subgraph 32["helpers"]
+33["apply-vercel-protection-bypass.ts"]
+34["expect-debug-page.ts"]
+35["expect-no-critical-errors.ts"]
 end
 end
 end
-subgraph 35["storybook"]
-subgraph 36[".storybook"]
-37["main.ts"]
-38["preview.tsx"]
-39["storybook.css"]
-3A["theme-wrappers.tsx"]
+subgraph 36["storybook"]
+subgraph 37[".storybook"]
+38["main.ts"]
+39["preview.tsx"]
+3A["storybook.css"]
+3B["theme-wrappers.tsx"]
 end
 end
-subgraph 3B["web-docs-client"]
-subgraph 3C[".vitepress"]
-3D["config.mts"]
+subgraph 3C["web-docs-client"]
+subgraph 3D[".vitepress"]
+3E["config.mts"]
 end
-subgraph 3E["scripts"]
-3F["docs-processor.js"]
-3G["copy-llm-bundle.js"]
-3H["generate-llm-bundle.js"]
+subgraph 3F["scripts"]
+3G["docs-processor.js"]
+3H["copy-llm-bundle.js"]
+3I["generate-llm-bundle.js"]
 end
 end
 end
@@ -250,27 +251,30 @@ Y-->W
 26-->1P
 2C-->2D
 2C-->W
-2C-->2F
-2D-->10
+2C-->2G
+2D-->2E
 2D-->W
-2F-->S
-2G-->2I
-2G-->V
-2G-->2D
-2G-->2K
-2K-->2L
-2K-->2M
-2M-->28
-2P-->2Q
-2P-->2R
-2Q-->W
-2U-->2T
-2V-->11
-2W-->27
-2W-->W
-2X-->E
-34-->32
-38-->39
-38-->3A
-3D-->3F
-3H-->3F
+2E-->18
+2E-->1F
+2E-->W
+2G-->S
+2H-->2J
+2H-->V
+2H-->2D
+2H-->2L
+2L-->2M
+2L-->2N
+2N-->28
+2Q-->2R
+2Q-->2S
+2R-->W
+2V-->2U
+2W-->11
+2X-->27
+2X-->W
+2Y-->E
+35-->33
+39-->3A
+39-->3B
+3E-->3G
+3I-->3G
