@@ -16,8 +16,14 @@ Produce a **PR title** (text, conventional commit format) and **PR description**
 
 1. **Get the diff and context**
    - Ensure `origin/main` is available (e.g. `git fetch origin main`); in shallow/CI/agent checkouts a local `main` may be missing or stale.
-   - Compare current branch to `origin/main`: `git diff origin/main...HEAD` and `git log origin/main..HEAD --oneline`.
-   - Use this to infer what the PR does (scope, type, description).
+   - Compare current branch to `origin/main`:
+     - **Summary:** `git diff origin/main...HEAD --stat` and `git log origin/main..HEAD --oneline`.
+     - **Full diff (for content):** `git diff origin/main...HEAD` — use this (or path-specific invocations like `git diff origin/main...HEAD -- tsconfig.json 'apps/*/tsconfig.json'`) to review config and source file changes when inferring themes for the description.
+   - **Inspect substantive diffs, not only stat and commit messages.** Commit messages are often narrowly scoped (e.g. all "chore(diagrams):"); the PR may include other important changes. To avoid omitting them:
+     - Review the **content** of diffs for config and tooling (e.g. `tsconfig.json`, `vitest.config.*`, `vite.config.*`, root and app-level), so path alias changes, baseUrl, or resolver config are captured.
+     - Review the **content** of diffs for source files (e.g. changed imports, path alias usage like `@app/...` or `@domain/...`), so refactors and import migrations are captured.
+     - If the stat shows changes in both config and source, treat them as separate themes until the diff shows they are the same (e.g. diagram tooling only).
+   - Use diff content and log together to infer what the PR does (scope, type, description).
 
 2. **Optional: related issue**
    - If the user provides a related issue—either an issue number (e.g. `#42`, "issue 42") or a GitHub issue URL (e.g. `https://github.com/org/repo/issues/42`)—reference it in the description under **Linked Issues** using GitHub keywords: `Closes #42`, `Fixes #42`, or `Resolves #42`. Extract the issue number from a URL if needed.
@@ -25,7 +31,7 @@ Produce a **PR title** (text, conventional commit format) and **PR description**
 3. **Follow the PR template**
    - When running in a repository checkout, read `.github/pull_request_template.md` from the workspace (current branch) so PR-local changes to the template are applied. Fallback / human reference: [.github/pull_request_template.md on main](https://github.com/kartuli-app/kartuli/blob/main/.github/pull_request_template.md).
    - Fill sections in this order:
-     - **Description**: Clear summary of what the PR does and why (from diff/log).
+     - **Description**: Clear summary of what the PR does and why (from diff content and log). Include every substantive theme found in the diff (e.g. diagram tooling and path alias refactors), not only the theme that dominates the commit messages.
      - **Linked Issues**: `Closes #N` (or none) if user gave an issue.
      - **Type**: Check the one that matches the change (`feat`, `chore`, `fix`, `docs`, `test`).
      - **Scope**: Check all that apply (`game-client`, `backoffice-client`, `ui`, `storybook`, `e2e`, `global`).
