@@ -16,7 +16,9 @@ Produce a **PR title** (text, conventional commit format) and **PR description**
 
 1. **Get the diff and context**
    - Ensure `origin/main` is available (e.g. `git fetch origin main`); in shallow/CI/agent checkouts a local `main` may be missing or stale.
-   - Compare current branch to `origin/main`: `git diff origin/main...HEAD --stat` and `git log origin/main..HEAD --oneline`.
+   - Compare current branch to `origin/main`:
+     - **Summary:** `git diff origin/main...HEAD --stat` and `git log origin/main..HEAD --oneline`.
+     - **Full diff (for content):** `git diff origin/main...HEAD` — use this (or path-specific invocations like `git diff origin/main...HEAD -- tsconfig.json 'apps/*/tsconfig.json'`) to review config and source file changes when inferring themes for the description.
    - **Inspect substantive diffs, not only stat and commit messages.** Commit messages are often narrowly scoped (e.g. all "chore(diagrams):"); the PR may include other important changes. To avoid omitting them:
      - Review the **content** of diffs for config and tooling (e.g. `tsconfig.json`, `vitest.config.*`, `vite.config.*`, root and app-level), so path alias changes, baseUrl, or resolver config are captured.
      - Review the **content** of diffs for source files (e.g. changed imports, path alias usage like `@app/...` or `@domain/...`), so refactors and import migrations are captured.
