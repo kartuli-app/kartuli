@@ -164,14 +164,17 @@ const base = {
   options: {
     doNotFollow: { path: ['node_modules'] },
     // Exclude Node built-ins from graph; use anchored regex so we don't exclude our own files (e.g. path-to-lang.ts).
+    // Include path/ and node:path/ so subpaths like path/posix are excluded.
     exclude: {
       path: [
         'node_modules',
         '^fs$',
         '^path$',
+        '^path/',
         '^url$',
         '^node:fs$',
         '^node:path$',
+        '^node:path/',
         '^node:url$',
       ],
     },
@@ -189,6 +192,12 @@ const base = {
     reporterOptions: {
       dot: {
         collapsePattern: 'node_modules/(?:@[^/]+/[^/]+|[^/]+)',
+        // Reporter-level filter: hide Node built-ins from dot/archi/ddot (and possibly mermaid) output.
+        filters: {
+          exclude: {
+            path: '^(node:)?(path|posix|fs|url)(/.*)?$',
+          },
+        },
       },
       archi: {
         collapsePattern:
