@@ -8,7 +8,7 @@ description: Lint, typecheck, tests, E2E, Lighthouse, git hooks, and dependency 
 
 ## Lint and typecheck
 
-- **Lint:** `pnpm lint` (Turbo, all workspaces). Auto-fix: `pnpm lint:fix`. Uses Biome (see [Biome](https://biomejs.dev/)).
+- **Lint:** `pnpm lint` (Turbo, all workspaces). Auto-fix: `pnpm lint:all:fix`. Uses Biome (see [Biome](https://biomejs.dev/)).
 - **Typecheck:** `pnpm typecheck` (Turbo, all workspaces). TypeScript strict mode across the monorepo.
 
 ## Tests

@@ -14,7 +14,7 @@ All commands below are run from the **repository root** with `pnpm`. See per-app
 
 | Script | Description |
 |--------|-------------|
-| `pnpm dev` | Run `dev` in all workspaces (Turbo) |
+| `pnpm dev:all` | Run `dev` in all workspaces (Turbo) |
 | `pnpm c:dev:game-client` | Start game client dev server (port 3000) |
 | `pnpm c:dev:backoffice-client` | Start backoffice dev server (port 3001) |
 | `pnpm c:dev:storybook` | Start Storybook dev server (port 6006) |
@@ -24,7 +24,8 @@ All commands below are run from the **repository root** with `pnpm`. See per-app
 
 | Script | Description |
 |--------|-------------|
-| `pnpm build` | Run `build` in all workspaces (Turbo) |
+| `pnpm build:all` | Run `build` in all workspaces (Turbo) |
+| `pnpm build:all:no-cache` | Same as `build:all` but skip Turbo cache (`--force`) |
 | `pnpm c:build:game-client` | Build game client only |
 | `pnpm c:build:backoffice-client` | Build backoffice client only |
 | `pnpm c:build:storybook` | Build Storybook static site |
@@ -43,7 +44,9 @@ All commands below are run from the **repository root** with `pnpm`. See per-app
 
 | Script | Description |
 |--------|-------------|
-| `pnpm test` | Run unit tests in all workspaces except E2E (Turbo) |
+| `pnpm test:all` | Run unit tests in all workspaces except E2E (Turbo) |
+| `pnpm test:all:no-cache` | Same as `test:all` but skip Turbo cache (`--force`) |
+| `pnpm test:all:coverage` | Run Vitest with coverage from root |
 | `pnpm test:e2e` | Run all E2E tests (set BASE_URL or use per-target scripts below) |
 | `pnpm test:e2e:ui` | Run Playwright UI mode |
 | `pnpm c:e2e:game-client` | E2E vs game client (localhost:3000) |
@@ -55,21 +58,24 @@ All commands below are run from the **repository root** with `pnpm`. See per-app
 
 | Script | Description |
 |--------|-------------|
-| `pnpm lint` | Run lint in all workspaces (Turbo) |
-| `pnpm lint:fix` | Lint with auto-fix (Turbo) |
-| `pnpm typecheck` | Run typecheck in all workspaces (Turbo) |
+| `pnpm lint:all` | Run lint in all workspaces (Turbo) |
+| `pnpm lint:all:fix` | Lint with auto-fix (Turbo) |
+| `pnpm lint:all:no-cache` | Same as `lint:all` but skip Turbo cache (`--force`) |
+| `pnpm typecheck:all` | Run typecheck in all workspaces (Turbo) |
+| `pnpm typecheck:all:no-cache` | Same as `typecheck:all` but skip Turbo cache (`--force`) |
 
 ## Affected (CI / local)
 
 | Script | Description |
 |--------|-------------|
-| `pnpm affected:pr` | List packages affected vs `origin/main` (Turbo build affected; needs git fetch) |
-| `pnpm affected:prod` | List packages affected vs previous commit (Turbo build affected) |
+| `pnpm turbo:detect-affected:pr` | List packages affected vs `origin/main` (Turbo build affected; used by staging orchestrator; needs git fetch) |
+| `pnpm turbo:detect-affected:prod` | List packages affected vs previous commit (Turbo build affected) |
 
 ## Other
 
 | Script | Description |
 |--------|-------------|
+| `pnpm turbo:cache:wipe` | Remove local Turbo cache (`.turbo`); remote cache unchanged |
 | `pnpm lighthouse` | Run Lighthouse CI (e.g. `lhci autorun`) |
 | `pnpm prepare` | Install lefthook git hooks (runs post-install) |
 
