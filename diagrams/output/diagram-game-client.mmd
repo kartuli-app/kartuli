@@ -10,77 +10,79 @@ subgraph 3["i18n"]
 6["supported-locales.ts"]
 7["i18n-provider.tsx"]
 8["i18n-config.ts"]
-Q["deep-same-keys.ts"]
-R["path-to-lang.ts"]
-Z["language-switcher.tsx"]
-10["use-lang.ts"]
+subgraph 9["resources"]
+A["resources.ts"]
+B["resources-en.ts"]
+subgraph C["messages"]
+subgraph D["en"]
+E["common.ts"]
+F["debug.ts"]
+G["game.ts"]
+H["learn.ts"]
+I["metadata.ts"]
+end
+subgraph K["ru"]
+L["common.ts"]
+M["debug.ts"]
+N["game.ts"]
+O["learn.ts"]
+P["metadata.ts"]
+end
+end
+J["resources-ru.ts"]
+Q["same-keys-as-reference-resources.ts"]
+end
+T["path-to-lang.ts"]
+10["language-switcher.tsx"]
+11["use-lang.ts"]
+1U["get-locale-metadata.ts"]
 2C["i18next.d.ts"]
 end
-subgraph 9["resources"]
-A["resources-en.ts"]
-I["resources-ru.ts"]
-P["same-keys-as-en-resources.ts"]
+subgraph R["utils"]
+S["deep-same-keys.ts"]
+Z["browser.ts"]
 end
-subgraph B["locales"]
-subgraph C["en"]
-D["common.ts"]
-E["debug.ts"]
-F["game.ts"]
-G["learn.ts"]
-H["metadata.ts"]
+subgraph U["local-storage"]
+V["preferred-locale-key.ts"]
+1Q["is-service-worker-ready-informed-key.ts"]
 end
-subgraph J["ru"]
-K["common.ts"]
-L["debug.ts"]
-M["game.ts"]
-N["learn.ts"]
-O["metadata.ts"]
+subgraph W["router-outlet"]
+X["use-router-context.ts"]
+Y["router-context.tsx"]
+12["router-outlet.tsx"]
+13["route-utils.ts"]
 end
+subgraph 14["screens"]
+subgraph 15["debug"]
+16["debug-page.tsx"]
 end
-subgraph S["local-storage"]
-T["preferred-locale-key.ts"]
-1P["is-service-worker-ready-informed-key.ts"]
+subgraph 1E["game"]
+1F["game-page.tsx"]
 end
-subgraph U["router-outlet"]
-V["use-router-context.ts"]
-W["router-context.tsx"]
-11["router-outlet.tsx"]
-12["route-utils.ts"]
+subgraph 1G["home"]
+1H["home-page.tsx"]
 end
-subgraph X["utils"]
-Y["browser.ts"]
+subgraph 1I["learn"]
+1J["learn-page.tsx"]
 end
-subgraph 13["screens"]
-subgraph 14["debug"]
-15["debug-page.tsx"]
-end
-subgraph 1D["game"]
-1E["game-page.tsx"]
-end
-subgraph 1F["home"]
-1G["home-page.tsx"]
-end
-subgraph 1H["learn"]
-1I["learn-page.tsx"]
-end
-subgraph 1J["user"]
-1K["user-page.tsx"]
+subgraph 1K["user"]
+1L["user-page.tsx"]
 end
 end
-subgraph 1L["service-worker"]
-1M["service-worker-banner.tsx"]
-1N["service-worker-messages.ts"]
-1O["service-worker-script-url.ts"]
+subgraph 1M["service-worker"]
+1N["service-worker-banner.tsx"]
+1O["service-worker-messages.ts"]
+1P["service-worker-script-url.ts"]
 23["service-worker-provider.tsx"]
 27["get-aditional-precache-entries.ts"]
 28["service-worker-source-url.ts"]
 2D["service-worker.ts"]
 end
-subgraph 1Q["app"]
-subgraph 1R["[[...spaRoute]]"]
-1S["page.tsx"]
+subgraph 1R["app"]
+subgraph 1S["[[...spaRoute]]"]
+1T["page.tsx"]
 end
-1Y["layout.tsx"]
+1X["layout.tsx"]
 subgraph 24["serwist"]
 subgraph 25["[path]"]
 26["route.ts"]
@@ -91,26 +93,24 @@ subgraph 29["~offline"]
 2B["page.tsx"]
 end
 end
-subgraph 1T["config"]
-1U["get-locale-metadata.ts"]
-1V["metadata-config.tsx"]
-1Z["viewport-config.tsx"]
+subgraph 1V["spa-route"]
+1W["spa-route-page.tsx"]
 end
-subgraph 1W["spa-route"]
-1X["spa-route-page.tsx"]
+subgraph 1Y["config"]
+1Z["viewport-config.tsx"]
 end
 subgraph 20["root-layout"]
 21["root-layout.tsx"]
 22["globals.css"]
 end
 end
-subgraph 16[".."]
 subgraph 17[".."]
-subgraph 18["packages"]
-subgraph 19["ui"]
-subgraph 1A["src"]
-subgraph 1B["components"]
-1C["DeploymentDebugPanel.tsx"]
+subgraph 18[".."]
+subgraph 19["packages"]
+subgraph 1A["ui"]
+subgraph 1B["src"]
+subgraph 1C["components"]
+1D["DeploymentDebugPanel.tsx"]
 end
 end
 end
@@ -118,87 +118,87 @@ end
 end
 end
 2-->4
-2-->Z
-2-->W
-2-->11
-2-->1M
+2-->10
+2-->Y
+2-->12
+2-->1N
 4-->5
 4-->7
-4-->R
-4-->6
 4-->T
+4-->6
 4-->V
-4-->Y
+4-->X
+4-->Z
 5-->6
 7-->8
 7-->6
+8-->5
 8-->A
-8-->I
-A-->D
-A-->E
-A-->F
-A-->G
-A-->H
-I-->K
-I-->L
-I-->M
-I-->N
-I-->O
-I-->P
-P-->Q
-P-->A
-R-->5
-R-->6
-V-->W
-W-->Y
-Z-->5
-Z-->6
-Z-->10
-Z-->T
-Z-->V
-10-->R
+8-->6
+A-->B
+A-->J
+B-->E
+B-->F
+B-->G
+B-->H
+B-->I
+J-->L
+J-->M
+J-->N
+J-->O
+J-->P
+J-->Q
+Q-->B
+Q-->S
+T-->5
+T-->6
+X-->Y
+Y-->Z
+10-->5
 10-->6
+10-->11
 10-->V
-11-->12
-11-->V
-11-->15
-11-->1E
-11-->1G
-11-->1I
-11-->1K
-15-->1C
-15-->1C
-1E-->Y
-1G-->10
-1G-->V
-1I-->10
-1I-->V
-1I-->Y
-1K-->Y
-1M-->1N
-1M-->1O
-1M-->1P
-1M-->Y
-1S-->1U
-1S-->6
-1S-->1X
+10-->X
+11-->T
+11-->6
+11-->X
+12-->13
+12-->X
+12-->16
+12-->1F
+12-->1H
+12-->1J
+12-->1L
+16-->1D
+16-->1D
+1F-->Z
+1H-->11
+1H-->X
+1J-->11
+1J-->X
+1J-->Z
+1L-->Z
+1N-->1O
+1N-->1P
+1N-->1Q
+1N-->Z
+1T-->1U
+1T-->6
+1T-->1W
+1U-->A
 1U-->6
-1U-->H
-1U-->O
-1U-->1V
-1V-->H
-1X-->2
-1Y-->1U
-1Y-->1Z
-1Y-->5
-1Y-->21
+1W-->2
+1X-->1Z
+1X-->5
+1X-->1U
+1X-->21
 21-->22
 21-->23
-23-->1O
+23-->1P
 26-->27
 26-->28
 27-->6
 2B-->2A
-2C-->A
-2D-->1N
+2C-->B
+2D-->1O
 2D-->6

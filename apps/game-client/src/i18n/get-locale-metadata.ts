@@ -1,7 +1,9 @@
+import { resources } from '@game-client/i18n/resources/resources';
 import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
-import enMetadata from '@game-client/locales/en/metadata';
-import ruMetadata from '@game-client/locales/ru/metadata';
 import type { Metadata } from 'next';
+
+const enMetadata = resources.en.metadata;
+const ruMetadata = resources.ru.metadata;
 
 // Social Media URLs and External Links
 const socialLinks = {

@@ -1,4 +1,4 @@
-import type { enResources } from '@game-client/resources/resources-en';
+import type { enResources } from '@game-client/i18n/resources/resources-en';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
