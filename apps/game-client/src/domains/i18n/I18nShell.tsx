@@ -7,6 +7,7 @@ import { setDocumentLang } from '../utils/browser';
 import { type SupportedLng, supportedLngs } from './config';
 import { I18nProvider } from './I18nProvider';
 import { pathToLang } from './path-to-lang';
+// test comment
 
 export const PREFERRED_LOCALE_KEY = 'preferredLocale';
 
