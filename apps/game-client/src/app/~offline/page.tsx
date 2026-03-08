@@ -1,1 +1,1 @@
-export { OfflinePage as default } from '../../domains/offline/offline-page';
+export { OfflinePage as default } from '@game-client/app/~offline/offline-page';

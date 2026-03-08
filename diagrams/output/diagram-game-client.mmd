@@ -1,190 +1,208 @@
 flowchart LR
 
 subgraph 0["src"]
-subgraph 1["app"]
-subgraph 2["[[...spaRoute]]"]
-3["page.tsx"]
+subgraph 1["app-shell"]
+2["app-shell.tsx"]
 end
-1S["layout.tsx"]
-subgraph 1X["serwist"]
-subgraph 1Y["[path]"]
-1Z["route.ts"]
+subgraph 3["i18n"]
+4["I18n-shell.tsx"]
+5["default-locale.ts"]
+6["supported-locales.ts"]
+7["i18n-provider.tsx"]
+8["i18n-config.ts"]
+subgraph 9["resources"]
+A["resources.ts"]
+B["resources-en.ts"]
+subgraph C["messages"]
+subgraph D["en"]
+E["common.ts"]
+F["debug.ts"]
+G["game.ts"]
+H["learn.ts"]
+I["metadata.ts"]
 end
-end
-subgraph 22["~offline"]
-23["page.tsx"]
-end
-end
-subgraph 4["config"]
-5["get-locale-metadata.ts"]
-E["metadata-config.tsx"]
-1T["viewport-config.tsx"]
-end
-subgraph 6["domains"]
-subgraph 7["i18n"]
-8["supported-locales.ts"]
-J["I18nShell.tsx"]
-O["config.ts"]
-P["resources-en.ts"]
-U["resources-ru.ts"]
-V["same-keys-as-en-resources.ts"]
-W["deep-same-keys.ts"]
-11["I18nProvider.tsx"]
-12["path-to-lang.ts"]
-13["LanguageSwitcher.tsx"]
-14["use-lang.ts"]
-26["i18next.d.ts"]
-end
-subgraph F["spa-route"]
-G["spa-route-page.tsx"]
-end
-subgraph H["app-shell"]
-I["app-shell.tsx"]
-K["use-router-context.ts"]
-L["router-context.tsx"]
-19["app-shell-outlet.tsx"]
-1R["route-utils.ts"]
-1U["root-layout.tsx"]
-1V["globals.css"]
-end
-subgraph M["utils"]
-N["browser.ts"]
-end
-subgraph 15["service-worker"]
-16["service-worker-banner.tsx"]
-17["service-worker-messages.ts"]
-18["service-worker-script-url.ts"]
-1W["service-worker-provider.tsx"]
-20["get-aditional-precache-entries.ts"]
-21["service-worker-source-url.ts"]
-27["service-worker.ts"]
-end
-subgraph 1A["debug"]
-1B["debug-page.tsx"]
-end
-subgraph 1J["game"]
-1K["game-page.tsx"]
-end
-subgraph 1L["home"]
-1M["home-page.tsx"]
-end
-subgraph 1N["learn"]
-1O["learn-page.tsx"]
-end
-subgraph 1P["user"]
-1Q["user-page.tsx"]
-end
-subgraph 24["offline"]
-25["offline-page.tsx"]
+subgraph K["ru"]
+L["common.ts"]
+M["debug.ts"]
+N["game.ts"]
+O["learn.ts"]
+P["metadata.ts"]
 end
 end
-subgraph 9["locales"]
-subgraph A["en"]
-B["metadata.ts"]
-Q["common.ts"]
-R["debug.ts"]
-S["game.ts"]
-T["learn.ts"]
+J["resources-ru.ts"]
+Q["same-keys-as-reference-resources.ts"]
+1V["metadata-by-locale.ts"]
 end
-subgraph C["ru"]
-D["metadata.ts"]
-X["common.ts"]
-Y["debug.ts"]
-Z["game.ts"]
-10["learn.ts"]
+T["path-to-lang.ts"]
+10["language-switcher.tsx"]
+11["use-lang.ts"]
+1U["get-locale-metadata.ts"]
+2D["i18next.d.ts"]
+end
+subgraph R["utils"]
+S["deep-same-keys.ts"]
+Z["browser.ts"]
+end
+subgraph U["local-storage"]
+V["preferred-locale-key.ts"]
+1Q["is-service-worker-ready-informed-key.ts"]
+end
+subgraph W["router-outlet"]
+X["use-router-context.ts"]
+Y["router-context.tsx"]
+12["router-outlet.tsx"]
+13["route-utils.ts"]
+end
+subgraph 14["screens"]
+subgraph 15["debug"]
+16["debug-page.tsx"]
+end
+subgraph 1E["game"]
+1F["game-page.tsx"]
+end
+subgraph 1G["home"]
+1H["home-page.tsx"]
+end
+subgraph 1I["learn"]
+1J["learn-page.tsx"]
+end
+subgraph 1K["user"]
+1L["user-page.tsx"]
+end
+end
+subgraph 1M["service-worker"]
+1N["service-worker-banner.tsx"]
+1O["service-worker-messages.ts"]
+1P["service-worker-script-url.ts"]
+24["service-worker-provider.tsx"]
+28["get-aditional-precache-entries.ts"]
+29["service-worker-source-url.ts"]
+2E["service-worker.ts"]
+end
+subgraph 1R["app"]
+subgraph 1S["[[...spaRoute]]"]
+1T["page.tsx"]
+end
+1Y["layout.tsx"]
+subgraph 25["serwist"]
+subgraph 26["[path]"]
+27["route.ts"]
+end
+end
+subgraph 2A["~offline"]
+2B["offline-page.tsx"]
+2C["page.tsx"]
+end
+end
+subgraph 1W["spa-route"]
+1X["spa-route-page.tsx"]
+end
+subgraph 1Z["config"]
+20["viewport-config.tsx"]
+end
+subgraph 21["root-layout"]
+22["root-layout.tsx"]
+23["globals.css"]
+end
+end
+subgraph 17[".."]
+subgraph 18[".."]
+subgraph 19["packages"]
+subgraph 1A["ui"]
+subgraph 1B["src"]
+subgraph 1C["components"]
+1D["DeploymentDebugPanel.tsx"]
 end
 end
 end
-subgraph 1C[".."]
-subgraph 1D[".."]
-subgraph 1E["packages"]
-subgraph 1F["ui"]
-subgraph 1G["src"]
-subgraph 1H["components"]
-1I["DeploymentDebugPanel.tsx"]
 end
 end
 end
-end
-end
-end
-3-->5
-3-->8
-3-->G
-5-->8
-5-->B
-5-->D
-5-->E
-E-->B
-G-->I
-I-->J
-I-->13
-I-->16
-I-->19
-I-->L
-J-->K
+2-->4
+2-->10
+2-->Y
+2-->12
+2-->1N
+4-->5
+4-->7
+4-->T
+4-->6
+4-->V
+4-->X
+4-->Z
+5-->6
+7-->8
+7-->6
+8-->5
+8-->A
+8-->6
+A-->B
+A-->J
+B-->E
+B-->F
+B-->G
+B-->H
+B-->I
+J-->L
+J-->M
 J-->N
 J-->O
-J-->11
-J-->12
-K-->L
-L-->N
-O-->P
-O-->U
-O-->8
-P-->Q
-P-->R
-P-->S
-P-->T
-P-->B
-U-->V
-U-->X
-U-->Y
-U-->Z
-U-->10
-U-->D
-V-->W
-V-->P
-11-->O
-11-->O
-12-->O
-12-->O
-13-->K
-13-->O
-13-->J
-13-->14
-14-->K
-14-->O
-14-->12
-16-->N
-16-->17
-16-->18
-19-->1B
-19-->1K
-19-->1M
-19-->1O
-19-->1Q
-19-->1R
-19-->K
-1B-->1I
-1B-->1I
-1K-->N
-1M-->K
-1M-->14
-1O-->K
-1O-->14
-1O-->N
-1Q-->N
-1S-->E
-1S-->1T
-1S-->1U
-1U-->1W
+J-->P
+J-->Q
+Q-->B
+Q-->S
+T-->5
+T-->6
+X-->Y
+Y-->Z
+10-->5
+10-->6
+10-->11
+10-->V
+10-->X
+11-->T
+11-->6
+11-->X
+12-->13
+12-->X
+12-->16
+12-->1F
+12-->1H
+12-->1J
+12-->1L
+16-->1D
+16-->1D
+1F-->Z
+1H-->11
+1H-->X
+1J-->11
+1J-->X
+1J-->Z
+1L-->Z
+1N-->1O
+1N-->1P
+1N-->1Q
+1N-->Z
+1T-->1U
+1T-->6
+1T-->1X
 1U-->1V
-1W-->18
-1Z-->20
-1Z-->21
-20-->8
-23-->25
-26-->P
-27-->8
-27-->17
+1U-->6
+1V-->I
+1V-->P
+1V-->6
+1X-->2
+1Y-->20
+1Y-->5
+1Y-->1U
+1Y-->22
+22-->23
+22-->24
+24-->1P
+27-->28
+27-->29
+28-->6
+2C-->2B
+2D-->B
+2E-->1O
+2E-->6

@@ -15,10 +15,10 @@ The game client uses a **service worker** (Serwist) to support offline use after
 
 | What | Where / how |
 |------|--------------|
-| SW source | `apps/game-client/src/domains/service-worker/service-worker.ts` |
+| SW source | `apps/game-client/src/service-worker/service-worker.ts` |
 | SW URL | `/serwist/sw.js` (Next.js route) |
 | Route handler | `apps/game-client/src/app/serwist/[path]/route.ts` — builds SW with injected precache manifest, serves script in production only |
-| Registration | `ServiceWorkerProvider` (wraps `SerwistProvider`) in `src/domains/service-worker/service-worker-provider.tsx`; registers `swUrl="/serwist/sw.js"`, disabled in development |
+| Registration | `ServiceWorkerProvider` (wraps `SerwistProvider`) in `src/service-worker/service-worker-provider.tsx`; registers `swUrl="/serwist/sw.js"`, disabled in development |
 | Precached by default | `/en`, `/~offline`, `/icon.svg`, `/favicon.ico` plus build-discovered fonts in `.next/static/media`; stable URLs use a revision (package version + short git SHA), fonts use `revision: null` (hashed URLs) |
 | Custom fetch | Capture-phase listener in SW: `/` → redirect to `/en`; same-origin GETs to `/en` and `/en/*` → serve precached `/en` shell (or `/~offline` on failure) |
 

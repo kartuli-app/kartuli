@@ -26,7 +26,7 @@ Product context and phases: [Offline Multilanguage Game POC](../../product/offli
 | **Metadata (SEO)** | `metadata` namespace holds `title`, `description`, and `keywords` per locale. `getLocaleMetadata(lang, pathSegments)` returns locale-specific overrides (title, description, keywords, openGraph locale/title/description, twitter title/description); the root layout provides shared openGraph/twitter defaults and a title template (`%s \| Kartuli`), so the document title is e.g. "Title \| Kartuli". Next.js merges layout and page metadata. When path segments are passed, adds `alternates.canonical`, `alternates.languages` (hreflang), and sets `openGraph.url` to the page canonical. Root (`/`) is treated as default locale: canonical and `x-default` point to `/en`. |
 | **Type-safe keys** | `i18next.d.ts` augments i18next so `t('common.save')` etc. are type-checked against the locale shape |
 | **Language switcher** | `LanguageSwitcher` in the shell header; switches locale + URL and persists to `localStorage` |
-| **Supported locales** | Single source: `domains/i18n/supported-locales.ts` (`supportedLngs`); re-exported by `config.ts`. Keep in sync with `route-utils.ts` (`SUPPORTED_LANGS`). |
+| **Supported locales** | Single source: `i18n/supported-locales.ts` (`supportedLngs`); re-exported by `config.ts`. Keep in sync with `route-utils.ts` (`SUPPORTED_LANGS`). |
 | **Static paths** | `generateStaticParams` in `app/[[...spaRoute]]/page.tsx` pre-renders `/`, `/en`, `/ru` (and any new locale roots you add) |
 
 ---
@@ -45,7 +45,7 @@ Product context and phases: [Offline Multilanguage Game POC](../../product/offli
    Do **not** put i18n inside the shared package. The consumer (game-client) calls `t()` and passes the result as props. Example: `DeploymentDebugPanel` receives `labels` and `appName`; the game-client debug page builds `labels` from `t('debug.…')` and passes them in.
 
 4. **Navigation and `lang`**  
-   Use `useLang()` from `domains/i18n/use-lang` to get the current locale and build paths: `navigate(\`/${lang}/learn/${lessonId}\`)` so links stay locale-aware.
+   Use `useLang()` from `i18n/use-lang` to get the current locale and build paths: `navigate(\`/${lang}/learn/${lessonId}\`)` so links stay locale-aware.
 
 5. **Testing**  
    Unit tests that render the shell mock `../utils/browser` (including `setDocumentLang`). E2E smoke tests for locale and language switcher live in `tools/e2e/tests/game-client/production/i18n.spec.ts` and assert `html` `lang` and visible content per locale.
@@ -76,11 +76,11 @@ Copy the structure from `locales/en/*.ts` (or `ru`) and replace the values with 
 
 ### 2. i18n config
 
-**File:** `apps/game-client/src/domains/i18n/supported-locales.ts`
+**File:** `apps/game-client/src/i18n/supported-locales.ts`
 
 - Add `'es'` to `supportedLngs`: change to `['en', 'ru', 'es'] as const`. This file is the single source; `config.ts` re-exports it.
 
-**File:** `apps/game-client/src/domains/i18n/config.ts`
+**File:** `apps/game-client/src/i18n/config.ts`
 
 - Import the new locale modules (e.g. `esCommon`, `esDebug`, `esGame`, `esLearn`, `esMetadata`).
 - Add an `es` key to the `resources` object with the same namespace structure as `en` and `ru` (including `metadata`).
@@ -110,7 +110,7 @@ Copy the structure from `locales/en/*.ts` (or `ru`) and replace the values with 
 
 ### 6. Language switcher (UX)
 
-**File:** `apps/game-client/src/domains/i18n/LanguageSwitcher.tsx`
+**File:** `apps/game-client/src/i18n/LanguageSwitcher.tsx`
 
 - Currently the switcher is built for **two** locales (`OTHER_LANG: Record<SupportedLng, SupportedLng>` and a single “other” button). For a **third** locale you have two options:
   - **Option A:** Extend the mapping (e.g. cycle: en → ru → es → en) and keep a single “Switch to next” button.
@@ -125,7 +125,7 @@ The service worker currently precaches only `/en` and serves `/en` and `/en/*` f
 - **File:** `apps/game-client/src/domains/service-worker/get-aditional-precache-entries.ts`  
   Add entries for each locale root you want offline, e.g. `{ url: '/es', revision }` (and `/ru` if not already there), using the same `revision` as for `/en`.
 
-- **File:** `apps/game-client/src/domains/service-worker/service-worker.ts`  
+- **File:** `apps/game-client/src/service-worker/service-worker.ts`  
   Update the fetch handler so that navigation to `/es` and `/es/*` (and other locale roots) is served from the precached shell for that locale, in the same way as `/en` and `/en/*`. Today the logic is hardcoded to `/en`; it would need to branch on the first path segment or a small allowlist of locale roots.
 
 ### 8. E2E and debug expectations (optional)
@@ -135,7 +135,7 @@ The service worker currently precaches only `/en` and serves `/en` and `/en/*` f
 
 ### 9. i18next type declarations (optional)
 
-**File:** `apps/game-client/src/domains/i18n/i18next.d.ts`
+**File:** `apps/game-client/src/i18n/i18next.d.ts`
 
 - The `resources` type there is used for **key** structure, not for listing every locale. Typically it’s driven by one locale (e.g. English). You do **not** need to add `es` to this file unless you introduce a new namespace or key shape that TypeScript should know about.
 
@@ -145,12 +145,12 @@ The service worker currently precaches only `/en` and serves `/en` and `/en/*` f
 
 ### In-repo code
 
-- [I18n config](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/domains/i18n/config.ts)
+- [I18n config](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/i18n/config.ts)
 - [Route utils (SUPPORTED_LANGS)](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/domains/app-shell/route-utils.ts)
 - [Locale files](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/locales/)
 - [Static params and generateMetadata](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/app/[[...spaRoute]]/page.tsx)
 - [getLocaleMetadata](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/config/get-locale-metadata.ts)
-- [supported-locales](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/domains/i18n/supported-locales.ts)
+- [supported-locales](https://github.com/kartuli-app/kartuli/blob/main/apps/game-client/src/i18n/supported-locales.ts)
 
 ### Related docs
 
