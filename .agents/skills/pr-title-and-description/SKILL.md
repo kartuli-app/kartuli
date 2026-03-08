@@ -15,7 +15,8 @@ Produce a **PR title** (text, conventional commit format) and **PR description**
 ## Steps
 
 1. **Get the diff and context**
-   - Compare current branch to `main`: `git diff main...HEAD` and `git log main..HEAD --oneline`.
+   - Ensure `origin/main` is available (e.g. `git fetch origin main`); in shallow/CI/agent checkouts a local `main` may be missing or stale.
+   - Compare current branch to `origin/main`: `git diff origin/main...HEAD` and `git log origin/main..HEAD --oneline`.
    - Use this to infer what the PR does (scope, type, description).
 
 2. **Optional: related issue**
