@@ -1,5 +1,7 @@
+import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
+import enMetadata from '@game-client/locales/en/metadata';
+import ruMetadata from '@game-client/locales/ru/metadata';
 import type { Metadata } from 'next';
-import enMetadata from '../locales/en/metadata';
 
 // Social Media URLs and External Links
 const socialLinks = {
@@ -21,13 +23,11 @@ const verificationTokens = {
   pinterest: '', // Add Pinterest verification token
 };
 
-export const siteConfig = {
+const siteConfig = {
   name: 'Kartuli',
-  /** Title and description live in locales/{lang}/metadata.ts; default (en) used by layout. */
   url: 'https://www.kartuli.app',
   ogImage: '/og-image.png', // Will need to be created
   twitterImage: '/twitter-image.png', // Will need to be created
-  /** Keywords live in locales/{lang}/metadata.ts (translated per locale for SEO). */
   authors: [
     {
       name: 'Kartuli Team',
@@ -40,14 +40,12 @@ export const siteConfig = {
   classification: 'Educational Software',
 };
 
-export const metadataConfig: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: enMetadata.title,
+    default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
-  description: enMetadata.description,
-  keywords: [...enMetadata.keywords],
   authors: siteConfig.authors,
   creator: siteConfig.creator,
   publisher: siteConfig.publisher,
@@ -79,13 +77,9 @@ export const metadataConfig: Metadata = {
     },
   },
 
-  // Open Graph (default locale en; page-level generateMetadata overrides for /ru etc.)
+  // Open Graph (locale, title, description, url set per-locale in getLocaleMetadata)
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: siteConfig.url,
-    title: enMetadata.title,
-    description: enMetadata.description,
     siteName: siteConfig.name,
     images: [
       {
@@ -98,11 +92,9 @@ export const metadataConfig: Metadata = {
     ],
   },
 
-  // Twitter (default locale en; page-level generateMetadata overrides for /ru etc.)
+  // Twitter (title, description set per-locale in getLocaleMetadata)
   twitter: {
     card: 'summary_large_image',
-    title: enMetadata.title,
-    description: enMetadata.description,
     images: [siteConfig.twitterImage],
     creator: socialLinks.twitter,
     site: socialLinks.twitter,
@@ -146,7 +138,7 @@ export const metadataConfig: Metadata = {
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': siteConfig.name,
     'application-name': siteConfig.name,
-    'msapplication-tooltip': enMetadata.description,
+    'msapplication-tooltip': siteConfig.name,
     'msapplication-starturl': '/',
     'mobile-web-app-capable': 'yes',
   },
@@ -157,6 +149,87 @@ export const metadataConfig: Metadata = {
     statusBarStyle: 'default',
     title: siteConfig.name,
   },
-
-  // alternates (canonical + hreflang) are set per-page in generateMetadata via getLocaleMetadata(lang, pathSegments)
 };
+
+const metadataByLocale: Record<
+  SupportedLng,
+  { title: string; description: string; keywords: readonly string[] }
+> = {
+  en: enMetadata,
+  ru: ruMetadata,
+};
+
+const ogLocaleByLang: Record<SupportedLng, string> = {
+  en: 'en_US',
+  ru: 'ru_RU',
+};
+
+/** hreflang locale codes for alternates.languages (Next.js uses these in link tags). */
+const hreflangByLang: Record<SupportedLng, string> = {
+  en: 'en',
+  ru: 'ru',
+};
+
+/**
+ * Builds canonical URL and language alternates (hreflang) for the current path.
+ * pathSegments: full route segments e.g. [] (root), ['en'], or ['ru', 'learn', 'lesson-1'].
+ * Root ([]) is treated as default locale: canonical and x-default point to /en.
+ */
+function buildAlternates(
+  pathSegments: string[],
+  _lang: SupportedLng,
+): { canonical: string; languages: Record<string, string> } {
+  const base = siteConfig.url.replace(/\/$/, '');
+  const isRoot = pathSegments.length === 0;
+  const pathSuffix = isRoot ? [] : pathSegments.slice(1);
+  const canonical = isRoot ? `${base}/en` : `${base}/${pathSegments.join('/')}`;
+
+  const languages: Record<string, string> = {};
+  for (const l of supportedLngs) {
+    const segments = [l, ...pathSuffix];
+    languages[hreflangByLang[l]] = `${base}/${segments.join('/')}`;
+  }
+  languages['x-default'] = `${base}/en`;
+  if (pathSuffix.length > 0) {
+    languages['x-default'] = `${base}/en/${pathSuffix.join('/')}`;
+  }
+
+  return { canonical, languages };
+}
+
+/**
+ * Returns full metadata by extending baseMetadata with locale-specific title, description, keywords,
+ * openGraph locale/title/description (and url + alternates when pathSegments is provided).
+ * Used by root layout and by generateMetadata in the SPA catch-all route.
+ */
+export function getLocaleMetadata(lang: SupportedLng, pathSegments?: string[]): Metadata {
+  const meta = metadataByLocale[lang] ?? metadataByLocale.en;
+  const ogLocale = ogLocaleByLang[lang] ?? ogLocaleByLang.en;
+
+  const alternates = pathSegments !== undefined ? buildAlternates(pathSegments, lang) : undefined;
+
+  return {
+    ...baseMetadata,
+    title: {
+      default: meta.title,
+      template: `%s | ${siteConfig.name}`,
+    },
+    description: meta.description,
+    keywords: [...meta.keywords],
+    openGraph: {
+      ...baseMetadata.openGraph,
+      locale: ogLocale,
+      title: meta.title,
+      description: meta.description,
+      ...(alternates && { url: alternates.canonical }),
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      title: meta.title,
+      description: meta.description,
+    },
+    ...(alternates && {
+      alternates: { canonical: alternates.canonical, languages: alternates.languages },
+    }),
+  };
+}

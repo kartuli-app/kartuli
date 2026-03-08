@@ -1,6 +1,6 @@
-import { getLocaleMetadata } from '@game-client/config/get-locale-metadata';
 import { viewportConfig } from '@game-client/config/viewport-config';
 import { defaultLng } from '@game-client/i18n/default-locale';
+import { getLocaleMetadata } from '@game-client/i18n/get-locale-metadata';
 import type { Metadata, Viewport } from 'next';
 
 const defaultMetadata: Metadata = getLocaleMetadata(defaultLng);

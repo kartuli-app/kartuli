@@ -1,4 +1,4 @@
-import { getLocaleMetadata } from '@game-client/config/get-locale-metadata';
+import { getLocaleMetadata } from '@game-client/i18n/get-locale-metadata';
 import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
 import type { Metadata } from 'next';
 
