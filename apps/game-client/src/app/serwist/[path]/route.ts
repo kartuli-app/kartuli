@@ -9,10 +9,10 @@
  * In development we return 404 so no SW is registered and local changes are always visible.
  */
 
+import { getAdditionalPrecacheEntries } from '@game-client/service-worker/get-aditional-precache-entries';
+import { SERVICE_WORKER_SOURCE_URL } from '@game-client/service-worker/service-worker-source-url';
 import { createSerwistRoute } from '@serwist/turbopack';
 import { NextResponse } from 'next/server';
-import { getAdditionalPrecacheEntries } from '../../../domains/service-worker/get-aditional-precache-entries';
-import { SERVICE_WORKER_SOURCE_URL } from '../../../domains/service-worker/service-worker-source-url';
 
 const serwistRoute = createSerwistRoute({
   /** Shell pages, offline fallback, icons, and fonts to cache when the SW installs. */

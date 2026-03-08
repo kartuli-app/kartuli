@@ -1,1 +1,1 @@
-import './src/domains/i18n/config';
+import '@game-client/i18n/i18n-config';

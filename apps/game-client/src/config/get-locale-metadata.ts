@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { type SupportedLng, supportedLngs } from '../domains/i18n/supported-locales';
+import { type SupportedLng, supportedLngs } from '../i18n/supported-locales';
 import enMetadata from '../locales/en/metadata';
 import ruMetadata from '../locales/ru/metadata';
 import { siteConfig } from './metadata-config';

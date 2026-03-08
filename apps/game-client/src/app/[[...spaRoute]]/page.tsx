@@ -1,6 +1,6 @@
+import { getLocaleMetadata } from '@game-client/config/get-locale-metadata';
+import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
 import type { Metadata } from 'next';
-import { getLocaleMetadata } from '../../config/get-locale-metadata';
-import { type SupportedLng, supportedLngs } from '../../domains/i18n/supported-locales';
 
 /** Minimal static paths for SSG: root and locale roots only. Other routes work client-side. */
 const STATIC_PATHS: { spaRoute: string[] }[] = [
@@ -32,4 +32,4 @@ export async function generateMetadata({
   return getLocaleMetadata(lang, segments);
 }
 
-export { SpaRoutePage as default } from '../../domains/spa-route/spa-route-page';
+export { SpaRoutePage as default } from '@game-client/spa-route/spa-route-page';
