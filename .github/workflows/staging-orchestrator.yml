@@ -36,7 +36,8 @@ jobs:
       - name: Detect affected packages (build)
         id: affected
         run: |
-          AFFECTED_BUILD=$(pnpm run turbo:detect-affected:pr 2>/dev/null | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          # Only treat lines matching @kartuli/<pkg> as packages (ignore pnpm banners/warnings).
+          AFFECTED_BUILD=$(pnpm run turbo:detect-affected:pr 2>/dev/null | jq -R -s -c 'split("\n") | map(select(length > 0 and startswith("@kartuli/")))')
           echo "packages=${AFFECTED_BUILD}" >> "$GITHUB_OUTPUT"
 
       # Split affected package list into per-workflow target arrays (e.g. ["game-client"] for Next.js).
