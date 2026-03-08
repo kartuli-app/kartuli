@@ -1,9 +1,9 @@
+import * as browser from '@game-client/domains/utils/browser';
 import { render, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import * as browser from '@/domains/utils/browser';
 import { AppShell } from './app-shell';
 
-vi.mock('@/domains/utils/browser', () => ({
+vi.mock('@game-client/domains/utils/browser', () => ({
   getLocationPathname: vi.fn(),
   getBrowserGlobal: vi.fn(() => ({
     location: { pathname: '' },

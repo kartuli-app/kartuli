@@ -1,0 +1,185 @@
+flowchart LR
+
+subgraph 0["src"]
+subgraph 1["app"]
+subgraph 2["[[...spaRoute]]"]
+3["page.tsx"]
+end
+1O["layout.tsx"]
+subgraph 1T["serwist"]
+subgraph 1U["[path]"]
+1V["route.ts"]
+end
+end
+subgraph 1Y["~offline"]
+1Z["page.tsx"]
+end
+end
+subgraph 4["config"]
+5["get-locale-metadata.ts"]
+E["metadata-config.tsx"]
+1P["viewport-config.tsx"]
+end
+subgraph 6["domains"]
+subgraph 7["i18n"]
+8["supported-locales.ts"]
+J["I18nShell.tsx"]
+O["config.ts"]
+X["I18nProvider.tsx"]
+Y["path-to-lang.ts"]
+Z["LanguageSwitcher.tsx"]
+10["use-lang.ts"]
+22["i18next.d.ts"]
+end
+subgraph F["spa-route"]
+G["spa-route-page.tsx"]
+end
+subgraph H["app-shell"]
+I["app-shell.tsx"]
+K["use-router-context.ts"]
+L["router-context.tsx"]
+15["app-shell-outlet.tsx"]
+1N["route-utils.ts"]
+1Q["root-layout.tsx"]
+1R["globals.css"]
+end
+subgraph M["utils"]
+N["browser.ts"]
+end
+subgraph 11["service-worker"]
+12["service-worker-banner.tsx"]
+13["service-worker-messages.ts"]
+14["service-worker-script-url.ts"]
+1S["service-worker-provider.tsx"]
+1W["get-aditional-precache-entries.ts"]
+1X["service-worker-source-url.ts"]
+23["service-worker.ts"]
+end
+subgraph 16["debug"]
+17["debug-page.tsx"]
+end
+subgraph 1F["game"]
+1G["game-page.tsx"]
+end
+subgraph 1H["home"]
+1I["home-page.tsx"]
+end
+subgraph 1J["learn"]
+1K["learn-page.tsx"]
+end
+subgraph 1L["user"]
+1M["user-page.tsx"]
+end
+subgraph 20["offline"]
+21["offline-page.tsx"]
+end
+end
+subgraph 9["locales"]
+subgraph A["en"]
+B["metadata.ts"]
+P["common.ts"]
+Q["debug.ts"]
+R["game.ts"]
+S["learn.ts"]
+end
+subgraph C["ru"]
+D["metadata.ts"]
+T["common.ts"]
+U["debug.ts"]
+V["game.ts"]
+W["learn.ts"]
+end
+end
+end
+subgraph 18[".."]
+subgraph 19[".."]
+subgraph 1A["packages"]
+subgraph 1B["ui"]
+subgraph 1C["src"]
+subgraph 1D["components"]
+1E["DeploymentDebugPanel.tsx"]
+end
+end
+end
+end
+end
+end
+3-->5
+3-->8
+3-->G
+5-->8
+5-->B
+5-->D
+5-->E
+E-->B
+G-->I
+I-->J
+I-->Z
+I-->12
+I-->15
+I-->L
+J-->K
+J-->N
+J-->O
+J-->X
+J-->Y
+K-->L
+L-->N
+O-->P
+O-->Q
+O-->R
+O-->S
+O-->B
+O-->T
+O-->U
+O-->V
+O-->W
+O-->D
+O-->8
+X-->O
+X-->O
+Y-->O
+Y-->O
+Z-->K
+Z-->O
+Z-->J
+Z-->10
+10-->K
+10-->O
+10-->Y
+12-->N
+12-->13
+12-->14
+15-->17
+15-->1G
+15-->1I
+15-->1K
+15-->1M
+15-->1N
+15-->K
+17-->1E
+17-->1E
+1G-->N
+1I-->K
+1I-->10
+1K-->K
+1K-->10
+1K-->N
+1M-->N
+1O-->E
+1O-->1P
+1O-->1Q
+1Q-->1S
+1Q-->1R
+1S-->14
+1V-->1W
+1V-->1X
+1W-->8
+1Z-->21
+22-->P
+22-->Q
+22-->R
+22-->S
+22-->B
+23-->8
+23-->13

@@ -1,12 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "paths": {
-      "@/*": ["./src/*"],
-      "@kartuli/ui/*": ["../../packages/ui/src/*"]
-    }
+    "lib": ["dom", "dom.iterable", "esnext"]
   },
   "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "setupTests.ts"],
   "exclude": []
