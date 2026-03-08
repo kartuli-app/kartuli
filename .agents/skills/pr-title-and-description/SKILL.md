@@ -22,7 +22,8 @@ Produce a **PR title** (text, conventional commit format) and **PR description**
    - If the user provides a related issue—either an issue number (e.g. `#42`, "issue 42") or a GitHub issue URL (e.g. `https://github.com/org/repo/issues/42`)—reference it in the description under **Linked Issues** using GitHub keywords: `Closes #42`, `Fixes #42`, or `Resolves #42`. Extract the issue number from a URL if needed.
 
 3. **Follow the PR template**
-   - Read [.github/pull_request_template.md](.github/pull_request_template.md) and fill sections in this order:
+   - When running in a repository checkout, read `.github/pull_request_template.md` from the workspace (current branch) so PR-local changes to the template are applied. Fallback / human reference: [.github/pull_request_template.md on main](https://github.com/kartuli-app/kartuli/blob/main/.github/pull_request_template.md).
+   - Fill sections in this order:
      - **Description**: Clear summary of what the PR does and why (from diff/log).
      - **Linked Issues**: `Closes #N` (or none) if user gave an issue.
      - **Type**: Check the one that matches the change (`feat`, `chore`, `fix`, `docs`, `test`).
