@@ -5,15 +5,20 @@ subgraph 1["app"]
 subgraph 2["[[...spaRoute]]"]
 3["page.tsx"]
 end
-1M["layout.tsx"]
-subgraph 1R["~offline"]
-1S["page.tsx"]
+1O["layout.tsx"]
+subgraph 1T["serwist"]
+subgraph 1U["[path]"]
+1V["route.ts"]
+end
+end
+subgraph 1Y["~offline"]
+1Z["page.tsx"]
 end
 end
 subgraph 4["config"]
 5["get-locale-metadata.ts"]
 E["metadata-config.tsx"]
-1N["viewport-config.tsx"]
+1P["viewport-config.tsx"]
 end
 subgraph 6["domains"]
 subgraph 7["i18n"]
@@ -21,9 +26,10 @@ subgraph 7["i18n"]
 J["I18nShell.tsx"]
 O["config.ts"]
 X["I18nProvider.tsx"]
-Y["LanguageSwitcher.tsx"]
-Z["use-lang.ts"]
-1V["i18next.d.ts"]
+Y["path-to-lang.ts"]
+Z["LanguageSwitcher.tsx"]
+10["use-lang.ts"]
+22["i18next.d.ts"]
 end
 subgraph F["spa-route"]
 G["spa-route-page.tsx"]
@@ -32,38 +38,40 @@ subgraph H["app-shell"]
 I["app-shell.tsx"]
 K["use-router-context.ts"]
 L["router-context.tsx"]
-13["app-shell-outlet.tsx"]
-1L["route-utils.ts"]
-1O["root-layout.tsx"]
-1P["globals.css"]
+15["app-shell-outlet.tsx"]
+1N["route-utils.ts"]
+1Q["root-layout.tsx"]
+1R["globals.css"]
 end
 subgraph M["utils"]
 N["browser.ts"]
 end
-subgraph 10["service-worker"]
-11["service-worker-banner.tsx"]
-12["service-worker-messages.ts"]
-1Q["service-worker-provider.tsx"]
+subgraph 11["service-worker"]
+12["service-worker-banner.tsx"]
+13["service-worker-messages.ts"]
+14["service-worker-script-url.ts"]
+1S["service-worker-provider.tsx"]
 1W["get-aditional-precache-entries.ts"]
-1X["service-worker.ts"]
+1X["service-worker-source-url.ts"]
+23["service-worker.ts"]
 end
-subgraph 14["debug"]
-15["debug-page.tsx"]
+subgraph 16["debug"]
+17["debug-page.tsx"]
 end
-subgraph 1D["game"]
-1E["game-page.tsx"]
+subgraph 1F["game"]
+1G["game-page.tsx"]
 end
-subgraph 1F["home"]
-1G["home-page.tsx"]
+subgraph 1H["home"]
+1I["home-page.tsx"]
 end
-subgraph 1H["learn"]
-1I["learn-page.tsx"]
+subgraph 1J["learn"]
+1K["learn-page.tsx"]
 end
-subgraph 1J["user"]
-1K["user-page.tsx"]
+subgraph 1L["user"]
+1M["user-page.tsx"]
 end
-subgraph 1T["offline"]
-1U["offline-page.tsx"]
+subgraph 20["offline"]
+21["offline-page.tsx"]
 end
 end
 subgraph 9["locales"]
@@ -83,13 +91,13 @@ W["learn.ts"]
 end
 end
 end
-subgraph 16[".."]
-subgraph 17[".."]
-subgraph 18["packages"]
-subgraph 19["ui"]
-subgraph 1A["src"]
-subgraph 1B["components"]
-1C["DeploymentDebugPanel.tsx"]
+subgraph 18[".."]
+subgraph 19[".."]
+subgraph 1A["packages"]
+subgraph 1B["ui"]
+subgraph 1C["src"]
+subgraph 1D["components"]
+1E["DeploymentDebugPanel.tsx"]
 end
 end
 end
@@ -106,14 +114,15 @@ end
 E-->B
 G-->I
 I-->J
-I-->Y
-I-->11
-I-->13
+I-->Z
+I-->12
+I-->15
 I-->L
 J-->K
 J-->N
 J-->O
 J-->X
+J-->Y
 K-->L
 L-->N
 O-->P
@@ -129,41 +138,48 @@ O-->D
 O-->8
 X-->O
 X-->O
-Y-->K
 Y-->O
-Y-->J
-Y-->Z
+Y-->O
 Z-->K
 Z-->O
-11-->N
-11-->12
-13-->15
-13-->1E
-13-->1G
-13-->1I
-13-->1K
-13-->1L
-13-->K
-15-->1C
-15-->1C
-1E-->N
-1G-->K
-1G-->Z
+Z-->J
+Z-->10
+10-->K
+10-->O
+10-->Y
+12-->N
+12-->13
+12-->14
+15-->17
+15-->1G
+15-->1I
+15-->1K
+15-->1M
+15-->1N
+15-->K
+17-->1E
+17-->1E
+1G-->N
 1I-->K
-1I-->Z
-1I-->N
+1I-->10
+1K-->K
+1K-->10
 1K-->N
-1M-->E
-1M-->1N
-1M-->1O
-1O-->1Q
+1M-->N
+1O-->E
 1O-->1P
-1S-->1U
-1V-->P
-1V-->Q
-1V-->R
-1V-->S
-1V-->B
+1O-->1Q
+1Q-->1S
+1Q-->1R
+1S-->14
+1V-->1W
+1V-->1X
 1W-->8
-1X-->8
-1X-->12
+1Z-->21
+22-->P
+22-->Q
+22-->R
+22-->S
+22-->B
+23-->8
+23-->13

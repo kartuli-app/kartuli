@@ -163,7 +163,18 @@ const base = {
   ],
   options: {
     doNotFollow: { path: ['node_modules'] },
-    exclude: { path: ['node_modules', 'fs', 'path', 'url'] },
+    // Exclude Node built-ins from graph; use anchored regex so we don't exclude our own files (e.g. path-to-lang.ts).
+    exclude: {
+      path: [
+        'node_modules',
+        '^fs$',
+        '^path$',
+        '^url$',
+        '^node:fs$',
+        '^node:path$',
+        '^node:url$',
+      ],
+    },
     tsPreCompilationDeps: true,
     combinedDependencies: true,
     tsConfig: {

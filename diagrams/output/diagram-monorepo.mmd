@@ -36,15 +36,20 @@ subgraph R["app"]
 subgraph S["[[...spaRoute]]"]
 T["page.tsx"]
 end
-25["layout.tsx"]
-subgraph 2A["~offline"]
-2B["page.tsx"]
+27["layout.tsx"]
+subgraph 2C["serwist"]
+subgraph 2D["[path]"]
+2E["route.ts"]
+end
+end
+subgraph 2H["~offline"]
+2I["page.tsx"]
 end
 end
 subgraph U["config"]
 V["get-locale-metadata.ts"]
 14["metadata-config.tsx"]
-26["viewport-config.tsx"]
+28["viewport-config.tsx"]
 end
 subgraph W["domains"]
 subgraph X["i18n"]
@@ -52,9 +57,10 @@ Y["supported-locales.ts"]
 19["I18nShell.tsx"]
 1E["config.ts"]
 1N["I18nProvider.tsx"]
-1O["LanguageSwitcher.tsx"]
-1P["use-lang.ts"]
-2E["i18next.d.ts"]
+1O["path-to-lang.ts"]
+1P["LanguageSwitcher.tsx"]
+1Q["use-lang.ts"]
+2L["i18next.d.ts"]
 end
 subgraph 15["spa-route"]
 16["spa-route-page.tsx"]
@@ -63,38 +69,40 @@ subgraph 17["app-shell"]
 18["app-shell.tsx"]
 1A["use-router-context.ts"]
 1B["router-context.tsx"]
-1T["app-shell-outlet.tsx"]
-24["route-utils.ts"]
-27["root-layout.tsx"]
-28["globals.css"]
+1V["app-shell-outlet.tsx"]
+26["route-utils.ts"]
+29["root-layout.tsx"]
+2A["globals.css"]
 end
 subgraph 1C["utils"]
 1D["browser.ts"]
 end
-subgraph 1Q["service-worker"]
-1R["service-worker-banner.tsx"]
-1S["service-worker-messages.ts"]
-29["service-worker-provider.tsx"]
+subgraph 1R["service-worker"]
+1S["service-worker-banner.tsx"]
+1T["service-worker-messages.ts"]
+1U["service-worker-script-url.ts"]
+2B["service-worker-provider.tsx"]
 2F["get-aditional-precache-entries.ts"]
-2G["service-worker.ts"]
+2G["service-worker-source-url.ts"]
+2M["service-worker.ts"]
 end
-subgraph 1U["debug"]
-1V["debug-page.tsx"]
+subgraph 1W["debug"]
+1X["debug-page.tsx"]
 end
-subgraph 1W["game"]
-1X["game-page.tsx"]
+subgraph 1Y["game"]
+1Z["game-page.tsx"]
 end
-subgraph 1Y["home"]
-1Z["home-page.tsx"]
+subgraph 20["home"]
+21["home-page.tsx"]
 end
-subgraph 20["learn"]
-21["learn-page.tsx"]
+subgraph 22["learn"]
+23["learn-page.tsx"]
 end
-subgraph 22["user"]
-23["user-page.tsx"]
+subgraph 24["user"]
+25["user-page.tsx"]
 end
-subgraph 2C["offline"]
-2D["offline-page.tsx"]
+subgraph 2J["offline"]
+2K["offline-page.tsx"]
 end
 end
 subgraph Z["locales"]
@@ -121,39 +129,42 @@ subgraph B["ui"]
 subgraph C["src"]
 subgraph D["components"]
 E["DeploymentDebugPanel.tsx"]
-2H["DeploymentDebugPanel.stories.tsx"]
+2N["DeploymentDebugPanel.stories.tsx"]
 end
 end
 end
 end
-subgraph 2I["tools"]
-subgraph 2J["e2e"]
-subgraph 2K["tests"]
-subgraph 2L["helpers"]
-2M["apply-vercel-protection-bypass.ts"]
-2N["expect-debug-page.ts"]
-2O["expect-no-critical-errors.ts"]
+subgraph 2O["tools"]
+subgraph 2P["e2e"]
+subgraph 2Q["tests"]
+subgraph 2R["helpers"]
+2S["apply-vercel-protection-bypass.ts"]
+2T["expect-debug-page.ts"]
+2U["expect-no-critical-errors.ts"]
 end
 end
 end
-subgraph 2P["storybook"]
-subgraph 2Q[".storybook"]
-2R["main.ts"]
-2S["preview.tsx"]
-2T["storybook.css"]
-2U["theme-wrappers.tsx"]
+subgraph 2V["storybook"]
+subgraph 2W[".storybook"]
+2X["main.ts"]
+2Y["preview.tsx"]
+2Z["storybook.css"]
+30["theme-wrappers.tsx"]
 end
 end
-subgraph 2V["web-docs-client"]
-subgraph 2W[".vitepress"]
-2X["config.mts"]
+subgraph 31["web-docs-client"]
+subgraph 32[".vitepress"]
+33["config.mts"]
 end
-subgraph 2Y["scripts"]
-2Z["docs-processor.js"]
-30["copy-llm-bundle.js"]
-31["generate-llm-bundle.js"]
+subgraph 34["scripts"]
+35["docs-processor.js"]
+38["copy-llm-bundle.js"]
+39["generate-llm-bundle.js"]
 end
 end
+end
+subgraph 36["path"]
+37["posix"]
 end
 6-->9
 9-->E
@@ -172,14 +183,15 @@ V-->14
 14-->11
 16-->18
 18-->19
-18-->1O
-18-->1R
-18-->1T
+18-->1P
+18-->1S
+18-->1V
 18-->1B
 19-->1A
 19-->1D
 19-->1E
 19-->1N
+19-->1O
 1A-->1B
 1B-->1D
 1E-->1F
@@ -195,47 +207,55 @@ V-->14
 1E-->Y
 1N-->1E
 1N-->1E
-1O-->1A
 1O-->1E
-1O-->19
-1O-->1P
+1O-->1E
 1P-->1A
 1P-->1E
-1R-->1D
-1R-->1S
-1T-->1V
-1T-->1X
-1T-->1Z
-1T-->21
-1T-->23
-1T-->24
-1T-->1A
-1V-->E
-1V-->E
-1X-->1D
-1Z-->1A
-1Z-->1P
+1P-->19
+1P-->1Q
+1Q-->1A
+1Q-->1E
+1Q-->1O
+1S-->1D
+1S-->1T
+1S-->1U
+1V-->1X
+1V-->1Z
+1V-->21
+1V-->23
+1V-->25
+1V-->26
+1V-->1A
+1X-->E
+1X-->E
+1Z-->1D
 21-->1A
-21-->1P
-21-->1D
+21-->1Q
+23-->1A
+23-->1Q
 23-->1D
-25-->14
-25-->26
-25-->27
-27-->29
+25-->1D
+27-->14
 27-->28
-2B-->2D
-2E-->1F
-2E-->1G
-2E-->1H
-2E-->1I
-2E-->11
+27-->29
+29-->2B
+29-->2A
+2B-->1U
+2E-->2F
+2E-->2G
 2F-->Y
-2G-->Y
-2G-->1S
-2H-->E
-2O-->2M
-2S-->2T
-2S-->2U
-2X-->2Z
-31-->2Z
+2I-->2K
+2L-->1F
+2L-->1G
+2L-->1H
+2L-->1I
+2L-->11
+2M-->Y
+2M-->1T
+2N-->E
+2U-->2S
+2Y-->2Z
+2Y-->30
+33-->35
+35-->37
+39-->35
