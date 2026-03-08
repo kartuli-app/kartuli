@@ -109,6 +109,22 @@ jobs:
       KARTULIAPP_TEAM_GROUP_CHAT_ID: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
       KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID }}
 
+  call-nextjs-diagram-workflow:
+    name: Staging CI Next.js diagram
+    needs: detect-affected
+    if: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets)[0] != null }}
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
+    uses: ./.github/workflows/staging-w-app-nextjs-diagram.yml
+    with:
+      target: ${{ matrix.target }}
+      pull_request_number: ${{ github.event.pull_request.number || '' }}
+
   call-web-docs-staging-workflow:
     name: Staging CI Online documentation
     needs: detect-affected
