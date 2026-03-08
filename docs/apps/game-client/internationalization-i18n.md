@@ -125,7 +125,7 @@ The service worker currently precaches only `/en` and serves `/en` and `/en/*` f
 - **File:** `apps/game-client/src/domains/service-worker/get-aditional-precache-entries.ts`  
   Add entries for each locale root you want offline, e.g. `{ url: '/es', revision }` (and `/ru` if not already there), using the same `revision` as for `/en`.
 
-- **File:** `apps/game-client/src/domains/service-worker/service-worker.ts`  
+- **File:** `apps/game-client/src/service-worker/service-worker.ts`  
   Update the fetch handler so that navigation to `/es` and `/es/*` (and other locale roots) is served from the precached shell for that locale, in the same way as `/en` and `/en/*`. Today the logic is hardcoded to `/en`; it would need to branch on the first path segment or a small allowlist of locale roots.
 
 ### 8. E2E and debug expectations (optional)
