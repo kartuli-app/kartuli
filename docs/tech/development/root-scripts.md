@@ -56,15 +56,15 @@ All commands below are run from the **repository root** with `pnpm`. See per-app
 | Script | Description |
 |--------|-------------|
 | `pnpm lint` | Run lint in all workspaces (Turbo) |
-| `pnpm lint:fix` | Lint with auto-fix (Turbo) |
+| `pnpm lint:all:fix` | Lint with auto-fix (Turbo) |
 | `pnpm typecheck` | Run typecheck in all workspaces (Turbo) |
 
 ## Affected (CI / local)
 
 | Script | Description |
 |--------|-------------|
-| `pnpm affected:pr` | List packages affected vs `origin/main` (Turbo build affected; needs git fetch) |
-| `pnpm affected:prod` | List packages affected vs previous commit (Turbo build affected) |
+| `pnpm turbo:detect-affected:pr` | List packages affected vs `origin/main` (Turbo build affected; used by staging orchestrator; needs git fetch) |
+| `pnpm turbo:detect-affected:prod` | List packages affected vs previous commit (Turbo build affected) |
 
 ## Other
 

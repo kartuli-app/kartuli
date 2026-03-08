@@ -28,11 +28,6 @@
       "outputs": [".vitepress/dist/**"]
     },
     "test": { "cache": true },
-    "test:all:internal": { "cache": true },
-    "test:all:coverage:internal": {
-      "cache": true,
-      "outputs": ["coverage/**"]
-    },
     "test:e2e": { "cache": false, "dependsOn": [] },
     "lint": {
       "cache": true,
