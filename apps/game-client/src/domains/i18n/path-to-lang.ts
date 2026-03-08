@@ -1,5 +1,5 @@
-import type { SupportedLng } from './config';
-import { supportedLngs } from './config';
+import type { SupportedLng } from '@game-client/domains/i18n/config';
+import { supportedLngs } from '@game-client/domains/i18n/config';
 
 /**
  * Derives the locale from the path (first segment).

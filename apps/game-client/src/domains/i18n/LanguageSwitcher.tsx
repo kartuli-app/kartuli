@@ -1,10 +1,10 @@
 'use client';
 
+import type { SupportedLng } from '@game-client/domains/i18n/config';
+import { PREFERRED_LOCALE_KEY } from '@game-client/domains/i18n/I18nShell';
+import { useLang } from '@game-client/domains/i18n/use-lang';
 import { useTranslation } from 'react-i18next';
 import { useRouterContext } from '../app-shell/use-router-context';
-import type { SupportedLng } from './config';
-import { PREFERRED_LOCALE_KEY } from './I18nShell';
-import { useLang } from './use-lang';
 
 const OTHER_LANG: Record<SupportedLng, SupportedLng> = {
   en: 'ru',

@@ -36,31 +36,35 @@ subgraph R["app"]
 subgraph S["[[...spaRoute]]"]
 T["page.tsx"]
 end
-27["layout.tsx"]
-subgraph 2C["serwist"]
-subgraph 2D["[path]"]
-2E["route.ts"]
+2B["layout.tsx"]
+subgraph 2G["serwist"]
+subgraph 2H["[path]"]
+2I["route.ts"]
 end
 end
-subgraph 2H["~offline"]
-2I["page.tsx"]
+subgraph 2L["~offline"]
+2M["page.tsx"]
 end
 end
 subgraph U["config"]
 V["get-locale-metadata.ts"]
 14["metadata-config.tsx"]
-28["viewport-config.tsx"]
+2C["viewport-config.tsx"]
 end
 subgraph W["domains"]
 subgraph X["i18n"]
 Y["supported-locales.ts"]
 19["I18nShell.tsx"]
 1E["config.ts"]
-1N["I18nProvider.tsx"]
-1O["path-to-lang.ts"]
-1P["LanguageSwitcher.tsx"]
-1Q["use-lang.ts"]
-2L["i18next.d.ts"]
+1F["resources-en.ts"]
+1K["resources-ru.ts"]
+1L["same-keys-as-en-resources.ts"]
+1M["deep-same-keys.ts"]
+1R["I18nProvider.tsx"]
+1S["path-to-lang.ts"]
+1T["LanguageSwitcher.tsx"]
+1U["use-lang.ts"]
+2P["i18next.d.ts"]
 end
 subgraph 15["spa-route"]
 16["spa-route-page.tsx"]
@@ -69,56 +73,56 @@ subgraph 17["app-shell"]
 18["app-shell.tsx"]
 1A["use-router-context.ts"]
 1B["router-context.tsx"]
-1V["app-shell-outlet.tsx"]
-26["route-utils.ts"]
-29["root-layout.tsx"]
-2A["globals.css"]
+1Z["app-shell-outlet.tsx"]
+2A["route-utils.ts"]
+2D["root-layout.tsx"]
+2E["globals.css"]
 end
 subgraph 1C["utils"]
 1D["browser.ts"]
 end
-subgraph 1R["service-worker"]
-1S["service-worker-banner.tsx"]
-1T["service-worker-messages.ts"]
-1U["service-worker-script-url.ts"]
-2B["service-worker-provider.tsx"]
-2F["get-aditional-precache-entries.ts"]
-2G["service-worker-source-url.ts"]
-2M["service-worker.ts"]
+subgraph 1V["service-worker"]
+1W["service-worker-banner.tsx"]
+1X["service-worker-messages.ts"]
+1Y["service-worker-script-url.ts"]
+2F["service-worker-provider.tsx"]
+2J["get-aditional-precache-entries.ts"]
+2K["service-worker-source-url.ts"]
+2Q["service-worker.ts"]
 end
-subgraph 1W["debug"]
-1X["debug-page.tsx"]
+subgraph 20["debug"]
+21["debug-page.tsx"]
 end
-subgraph 1Y["game"]
-1Z["game-page.tsx"]
+subgraph 22["game"]
+23["game-page.tsx"]
 end
-subgraph 20["home"]
-21["home-page.tsx"]
+subgraph 24["home"]
+25["home-page.tsx"]
 end
-subgraph 22["learn"]
-23["learn-page.tsx"]
+subgraph 26["learn"]
+27["learn-page.tsx"]
 end
-subgraph 24["user"]
-25["user-page.tsx"]
+subgraph 28["user"]
+29["user-page.tsx"]
 end
-subgraph 2J["offline"]
-2K["offline-page.tsx"]
+subgraph 2N["offline"]
+2O["offline-page.tsx"]
 end
 end
 subgraph Z["locales"]
 subgraph 10["en"]
 11["metadata.ts"]
-1F["common.ts"]
-1G["debug.ts"]
-1H["game.ts"]
-1I["learn.ts"]
+1G["common.ts"]
+1H["debug.ts"]
+1I["game.ts"]
+1J["learn.ts"]
 end
 subgraph 12["ru"]
 13["metadata.ts"]
-1J["common.ts"]
-1K["debug.ts"]
-1L["game.ts"]
-1M["learn.ts"]
+1N["common.ts"]
+1O["debug.ts"]
+1P["game.ts"]
+1Q["learn.ts"]
 end
 end
 end
@@ -129,37 +133,37 @@ subgraph B["ui"]
 subgraph C["src"]
 subgraph D["components"]
 E["DeploymentDebugPanel.tsx"]
-2N["DeploymentDebugPanel.stories.tsx"]
+2R["DeploymentDebugPanel.stories.tsx"]
 end
 end
 end
 end
-subgraph 2O["tools"]
-subgraph 2P["e2e"]
-subgraph 2Q["tests"]
-subgraph 2R["helpers"]
-2S["apply-vercel-protection-bypass.ts"]
-2T["expect-debug-page.ts"]
-2U["expect-no-critical-errors.ts"]
+subgraph 2S["tools"]
+subgraph 2T["e2e"]
+subgraph 2U["tests"]
+subgraph 2V["helpers"]
+2W["apply-vercel-protection-bypass.ts"]
+2X["expect-debug-page.ts"]
+2Y["expect-no-critical-errors.ts"]
 end
 end
 end
-subgraph 2V["storybook"]
-subgraph 2W[".storybook"]
-2X["main.ts"]
-2Y["preview.tsx"]
-2Z["storybook.css"]
-30["theme-wrappers.tsx"]
+subgraph 2Z["storybook"]
+subgraph 30[".storybook"]
+31["main.ts"]
+32["preview.tsx"]
+33["storybook.css"]
+34["theme-wrappers.tsx"]
 end
 end
-subgraph 31["web-docs-client"]
-subgraph 32[".vitepress"]
-33["config.mts"]
+subgraph 35["web-docs-client"]
+subgraph 36[".vitepress"]
+37["config.mts"]
 end
-subgraph 34["scripts"]
-35["docs-processor.js"]
-36["copy-llm-bundle.js"]
-37["generate-llm-bundle.js"]
+subgraph 38["scripts"]
+39["docs-processor.js"]
+3A["copy-llm-bundle.js"]
+3B["generate-llm-bundle.js"]
 end
 end
 end
@@ -180,78 +184,79 @@ V-->14
 14-->11
 16-->18
 18-->19
-18-->1P
-18-->1S
-18-->1V
+18-->1T
+18-->1W
+18-->1Z
 18-->1B
 19-->1A
 19-->1D
 19-->1E
-19-->1N
-19-->1O
+19-->1R
+19-->1S
 1A-->1B
 1B-->1D
 1E-->1F
-1E-->1G
-1E-->1H
-1E-->1I
-1E-->11
-1E-->1J
 1E-->1K
-1E-->1L
-1E-->1M
-1E-->13
 1E-->Y
-1N-->1E
-1N-->1E
-1O-->1E
-1O-->1E
-1P-->1A
-1P-->1E
-1P-->19
-1P-->1Q
-1Q-->1A
-1Q-->1E
-1Q-->1O
-1S-->1D
-1S-->1T
-1S-->1U
-1V-->1X
-1V-->1Z
-1V-->21
-1V-->23
-1V-->25
-1V-->26
-1V-->1A
-1X-->E
-1X-->E
-1Z-->1D
-21-->1A
-21-->1Q
-23-->1A
-23-->1Q
+1F-->1G
+1F-->1H
+1F-->1I
+1F-->1J
+1F-->11
+1K-->1L
+1K-->1N
+1K-->1O
+1K-->1P
+1K-->1Q
+1K-->13
+1L-->1M
+1L-->1F
+1R-->1E
+1R-->1E
+1S-->1E
+1S-->1E
+1T-->1A
+1T-->1E
+1T-->19
+1T-->1U
+1U-->1A
+1U-->1E
+1U-->1S
+1W-->1D
+1W-->1X
+1W-->1Y
+1Z-->21
+1Z-->23
+1Z-->25
+1Z-->27
+1Z-->29
+1Z-->2A
+1Z-->1A
+21-->E
+21-->E
 23-->1D
-25-->1D
-27-->14
-27-->28
-27-->29
-29-->2B
-29-->2A
-2B-->1U
-2E-->2F
-2E-->2G
-2F-->Y
+25-->1A
+25-->1U
+27-->1A
+27-->1U
+27-->1D
+29-->1D
+2B-->14
+2B-->2C
+2B-->2D
+2D-->2F
+2D-->2E
+2F-->1Y
+2I-->2J
 2I-->2K
-2L-->1F
-2L-->1G
-2L-->1H
-2L-->1I
-2L-->11
-2M-->Y
-2M-->1T
-2N-->E
-2U-->2S
-2Y-->2Z
-2Y-->30
-33-->35
-37-->35
+2J-->Y
+2M-->2O
+2P-->1F
+2Q-->Y
+2Q-->1X
+2R-->E
+2Y-->2W
+32-->33
+32-->34
+37-->39
+3B-->39
