@@ -1,12 +1,12 @@
 'use client';
 
+import { type SupportedLng, supportedLngs } from '@game-client/domains/i18n/config';
+import { I18nProvider } from '@game-client/domains/i18n/I18nProvider';
+import { pathToLang } from '@game-client/domains/i18n/path-to-lang';
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { useRouterContext } from '../app-shell/use-router-context';
 import { setDocumentLang } from '../utils/browser';
-import { type SupportedLng, supportedLngs } from './config';
-import { I18nProvider } from './I18nProvider';
-import { pathToLang } from './path-to-lang';
 
 export const PREFERRED_LOCALE_KEY = 'preferredLocale';
 

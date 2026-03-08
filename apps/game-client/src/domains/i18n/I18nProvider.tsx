@@ -1,10 +1,10 @@
 'use client';
 
+import type { SupportedLng } from '@game-client/domains/i18n/config';
+import { i18n } from '@game-client/domains/i18n/config';
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import type { SupportedLng } from './config';
-import { i18n } from './config';
 
 interface I18nProviderProps {
   readonly lang: SupportedLng;

@@ -5,31 +5,35 @@ subgraph 1["app"]
 subgraph 2["[[...spaRoute]]"]
 3["page.tsx"]
 end
-1O["layout.tsx"]
-subgraph 1T["serwist"]
-subgraph 1U["[path]"]
-1V["route.ts"]
+1S["layout.tsx"]
+subgraph 1X["serwist"]
+subgraph 1Y["[path]"]
+1Z["route.ts"]
 end
 end
-subgraph 1Y["~offline"]
-1Z["page.tsx"]
+subgraph 22["~offline"]
+23["page.tsx"]
 end
 end
 subgraph 4["config"]
 5["get-locale-metadata.ts"]
 E["metadata-config.tsx"]
-1P["viewport-config.tsx"]
+1T["viewport-config.tsx"]
 end
 subgraph 6["domains"]
 subgraph 7["i18n"]
 8["supported-locales.ts"]
 J["I18nShell.tsx"]
 O["config.ts"]
-X["I18nProvider.tsx"]
-Y["path-to-lang.ts"]
-Z["LanguageSwitcher.tsx"]
-10["use-lang.ts"]
-22["i18next.d.ts"]
+P["resources-en.ts"]
+U["resources-ru.ts"]
+V["same-keys-as-en-resources.ts"]
+W["deep-same-keys.ts"]
+11["I18nProvider.tsx"]
+12["path-to-lang.ts"]
+13["LanguageSwitcher.tsx"]
+14["use-lang.ts"]
+26["i18next.d.ts"]
 end
 subgraph F["spa-route"]
 G["spa-route-page.tsx"]
@@ -38,66 +42,66 @@ subgraph H["app-shell"]
 I["app-shell.tsx"]
 K["use-router-context.ts"]
 L["router-context.tsx"]
-15["app-shell-outlet.tsx"]
-1N["route-utils.ts"]
-1Q["root-layout.tsx"]
-1R["globals.css"]
+19["app-shell-outlet.tsx"]
+1R["route-utils.ts"]
+1U["root-layout.tsx"]
+1V["globals.css"]
 end
 subgraph M["utils"]
 N["browser.ts"]
 end
-subgraph 11["service-worker"]
-12["service-worker-banner.tsx"]
-13["service-worker-messages.ts"]
-14["service-worker-script-url.ts"]
-1S["service-worker-provider.tsx"]
-1W["get-aditional-precache-entries.ts"]
-1X["service-worker-source-url.ts"]
-23["service-worker.ts"]
+subgraph 15["service-worker"]
+16["service-worker-banner.tsx"]
+17["service-worker-messages.ts"]
+18["service-worker-script-url.ts"]
+1W["service-worker-provider.tsx"]
+20["get-aditional-precache-entries.ts"]
+21["service-worker-source-url.ts"]
+27["service-worker.ts"]
 end
-subgraph 16["debug"]
-17["debug-page.tsx"]
+subgraph 1A["debug"]
+1B["debug-page.tsx"]
 end
-subgraph 1F["game"]
-1G["game-page.tsx"]
+subgraph 1J["game"]
+1K["game-page.tsx"]
 end
-subgraph 1H["home"]
-1I["home-page.tsx"]
+subgraph 1L["home"]
+1M["home-page.tsx"]
 end
-subgraph 1J["learn"]
-1K["learn-page.tsx"]
+subgraph 1N["learn"]
+1O["learn-page.tsx"]
 end
-subgraph 1L["user"]
-1M["user-page.tsx"]
+subgraph 1P["user"]
+1Q["user-page.tsx"]
 end
-subgraph 20["offline"]
-21["offline-page.tsx"]
+subgraph 24["offline"]
+25["offline-page.tsx"]
 end
 end
 subgraph 9["locales"]
 subgraph A["en"]
 B["metadata.ts"]
-P["common.ts"]
-Q["debug.ts"]
-R["game.ts"]
-S["learn.ts"]
+Q["common.ts"]
+R["debug.ts"]
+S["game.ts"]
+T["learn.ts"]
 end
 subgraph C["ru"]
 D["metadata.ts"]
-T["common.ts"]
-U["debug.ts"]
-V["game.ts"]
-W["learn.ts"]
+X["common.ts"]
+Y["debug.ts"]
+Z["game.ts"]
+10["learn.ts"]
 end
 end
 end
-subgraph 18[".."]
-subgraph 19[".."]
-subgraph 1A["packages"]
-subgraph 1B["ui"]
-subgraph 1C["src"]
-subgraph 1D["components"]
-1E["DeploymentDebugPanel.tsx"]
+subgraph 1C[".."]
+subgraph 1D[".."]
+subgraph 1E["packages"]
+subgraph 1F["ui"]
+subgraph 1G["src"]
+subgraph 1H["components"]
+1I["DeploymentDebugPanel.tsx"]
 end
 end
 end
@@ -114,72 +118,73 @@ end
 E-->B
 G-->I
 I-->J
-I-->Z
-I-->12
-I-->15
+I-->13
+I-->16
+I-->19
 I-->L
 J-->K
 J-->N
 J-->O
-J-->X
-J-->Y
+J-->11
+J-->12
 K-->L
 L-->N
 O-->P
-O-->Q
-O-->R
-O-->S
-O-->B
-O-->T
 O-->U
-O-->V
-O-->W
-O-->D
 O-->8
-X-->O
-X-->O
-Y-->O
-Y-->O
-Z-->K
-Z-->O
-Z-->J
-Z-->10
-10-->K
-10-->O
-10-->Y
-12-->N
-12-->13
-12-->14
-15-->17
-15-->1G
-15-->1I
-15-->1K
-15-->1M
-15-->1N
-15-->K
-17-->1E
-17-->1E
-1G-->N
-1I-->K
-1I-->10
-1K-->K
-1K-->10
+P-->Q
+P-->R
+P-->S
+P-->T
+P-->B
+U-->V
+U-->X
+U-->Y
+U-->Z
+U-->10
+U-->D
+V-->W
+V-->P
+11-->O
+11-->O
+12-->O
+12-->O
+13-->K
+13-->O
+13-->J
+13-->14
+14-->K
+14-->O
+14-->12
+16-->N
+16-->17
+16-->18
+19-->1B
+19-->1K
+19-->1M
+19-->1O
+19-->1Q
+19-->1R
+19-->K
+1B-->1I
+1B-->1I
 1K-->N
-1M-->N
-1O-->E
-1O-->1P
-1O-->1Q
-1Q-->1S
-1Q-->1R
-1S-->14
-1V-->1W
-1V-->1X
-1W-->8
+1M-->K
+1M-->14
+1O-->K
+1O-->14
+1O-->N
+1Q-->N
+1S-->E
+1S-->1T
+1S-->1U
+1U-->1W
+1U-->1V
+1W-->18
+1Z-->20
 1Z-->21
-22-->P
-22-->Q
-22-->R
-22-->S
-22-->B
-23-->8
-23-->13
+20-->8
+23-->25
+26-->P
+27-->8
+27-->17
