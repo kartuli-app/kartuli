@@ -52,16 +52,16 @@ pnpm c:e2e:storybook
 pnpm c:e2e:web-docs-client
 ```
 
-Each script sets the appropriate `BASE_URL` (localhost + port). To run all e2e tests: `pnpm test:e2e`.
+Each script sets the appropriate `BASE_URL` (localhost + port). To run all e2e tests: `pnpm e2e`.
 
 For Vercel preview URLs, set the bypass secret:
 
 ```bash
 export VERCEL_PROTECTION_BYPASS_SECRET="your-secret-here"
-pnpm test:e2e
+pnpm e2e
 ```
 
-Or inline: `VERCEL_PROTECTION_BYPASS_SECRET="your-secret-here" pnpm test:e2e`
+Or inline: `VERCEL_PROTECTION_BYPASS_SECRET="your-secret-here" pnpm e2e`
 
 ### Security Notes
 
