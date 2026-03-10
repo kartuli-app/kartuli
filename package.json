@@ -61,7 +61,8 @@
     "diagrams:monorepo:mermaid": "dependency-cruise --config diagrams/config/dependency-cruiser.monorepo.js . --output-type mermaid -f ./diagrams/output/diagram-monorepo.mmd",
     "diagrams:monorepo:web": "dependency-cruise --config diagrams/config/dependency-cruiser.monorepo.js . --output-type dot | dot -T svg | node node_modules/dependency-cruiser/bin/wrap-stream-in-html.mjs > ./diagrams/output/diagram-monorepo.html",
     "diagrams:monorepo": "pnpm run diagrams:monorepo:dot & pnpm run diagrams:monorepo:mermaid & pnpm run diagrams:monorepo:web & wait",
-    "diagrams:all": "pnpm diagrams:game-client & pnpm diagrams:backoffice-client & pnpm diagrams:monorepo & wait"
+    "diagrams:all": "pnpm diagrams:game-client & pnpm diagrams:backoffice-client & pnpm diagrams:monorepo & wait",
+    "validate:all": "pnpm run lint:all && pnpm run typecheck:all && pnpm run test:all"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
