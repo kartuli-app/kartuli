@@ -1,6 +1,5 @@
 'use client';
 
-import { defaultLng } from '@game-client/i18n/default-locale';
 import type { SupportedLng } from '@game-client/i18n/supported-locales';
 import { useLang } from '@game-client/i18n/use-lang';
 import { PREFERRED_LOCALE_KEY } from '@game-client/local-storage/preferred-locale-key';
