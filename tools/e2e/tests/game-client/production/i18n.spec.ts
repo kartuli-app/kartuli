@@ -25,7 +25,7 @@ test.describe('Game Client i18n', () => {
       EN_DESCRIPTION,
     );
     await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 10000 });
-    await expect(page.getByRole('heading', { name: /home/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /გამარჯობა /i })).toBeVisible();
   });
 
   test('/ru has html lang="ru", Russian content, and locale-specific metadata', async ({
@@ -41,7 +41,7 @@ test.describe('Game Client i18n', () => {
       RU_DESCRIPTION,
     );
     await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 10000 });
-    await expect(page.getByRole('heading', { name: 'Главная' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Давайте выучим грузинский/i })).toBeVisible();
   });
 
   test('language switcher: from /en switch to Russian updates URL, html lang and content', async ({
@@ -51,13 +51,15 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('button', { name: /switch to ru/i })).toBeVisible();
+    await expect(page.getByRole('combobox')).toBeVisible();
 
-    await page.getByRole('button', { name: /switch to ru/i }).click();
+    await page.getByRole('combobox').selectOption('ru');
 
     await expect(page).toHaveURL(/\/ru(\/|$)/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('heading', { name: 'Главная' })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('heading', { name: /Давайте выучим грузинский/i })).toBeVisible({
+      timeout: 5000,
+    });
   });
 
   test('language switcher: from /ru switch to English updates URL, html lang and content', async ({
@@ -67,13 +69,13 @@ test.describe('Game Client i18n', () => {
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('button', { name: /switch to en/i })).toBeVisible();
+    await expect(page.getByRole('combobox')).toBeVisible();
 
-    await page.getByRole('button', { name: /switch to en/i }).click();
+    await page.getByRole('combobox').selectOption('en');
 
     await expect(page).toHaveURL(/\/en(\/|$)/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('heading', { name: /home/i })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('heading', { name: /გამარჯობა /i })).toBeVisible({ timeout: 5000 });
   });
 
   test('root / redirects to preferred locale: after switching to Russian, visiting / shows Russian', async ({
@@ -83,13 +85,15 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
-    await page.getByRole('button', { name: /switch to ru/i }).click();
+    await page.getByRole('combobox').selectOption('ru');
     await expect(page).toHaveURL(/\/ru(\/|$)/);
-    await expect(page.getByRole('heading', { name: 'Главная' })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('heading', { name: /Давайте выучим грузинский/i })).toBeVisible({
+      timeout: 5000,
+    });
 
     await page.goto('/');
     await expect(page).toHaveURL(/\/ru(\/|$)/, { timeout: 10000 });
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('heading', { name: 'Главная' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Давайте выучим грузинский/i })).toBeVisible();
   });
 });

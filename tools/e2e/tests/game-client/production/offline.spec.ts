@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+// TODO: set paths in tsconfig.json so we can import from the game-client package directly with @game-client/core/library
+import { lessons } from '../../../../../apps/game-client/src/core/library';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 
 /** Offline tests require production build (next start or Vercel); "ready for offline" banner does not appear in dev. */
@@ -26,9 +28,9 @@ test.describe('Game Client Offline', () => {
 
     await context.setOffline(true);
 
-    await page.getByRole('button', { name: 'lesson-1' }).click();
+    await page.getByRole('button', { name: lessons[0].title }).click();
     await expect(page.getByTestId('game-learn')).toBeVisible({ timeout: 5000 });
-    await expect(page.getByTestId('learn-lesson-id')).toHaveText('lesson-1');
+    await expect(page.getByTestId('learn-lesson-id')).toHaveText(lessons[0].id);
 
     await page.getByRole('button', { name: /back/i }).first().click();
     await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 5000 });
