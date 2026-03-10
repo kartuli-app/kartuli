@@ -147,11 +147,6 @@ export function HomePage() {
                         aria-label={lesson.title}
                         type="button"
                         tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            navigate(`/${lang}/learn/${encodeURIComponent(lessonId)}`);
-                          }
-                        }}
                         onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lessonId)}`)}
                         key={lessonId}
                         className={clsx(
