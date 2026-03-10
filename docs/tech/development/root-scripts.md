@@ -44,11 +44,11 @@ All commands below are run from the **repository root** with `pnpm`. See per-app
 
 | Script | Description |
 |--------|-------------|
-| `pnpm test:all` | Run unit tests in all workspaces except E2E (Turbo) |
+| `pnpm test:all` | Run unit tests in all workspaces (Turbo; E2E package has no `test` script so is not run) |
 | `pnpm test:all:no-cache` | Same as `test:all` but skip Turbo cache (`--force`) |
 | `pnpm test:all:coverage` | Run Vitest with coverage from root |
-| `pnpm test:e2e` | Run all E2E tests (set BASE_URL or use per-target scripts below) |
-| `pnpm test:e2e:ui` | Run Playwright UI mode |
+| `pnpm e2e` | Run all E2E tests (set BASE_URL or use per-target scripts below) |
+| `pnpm e2e:ui` | Run Playwright UI mode |
 | `pnpm c:e2e:game-client` | E2E vs game client (localhost:3000) |
 | `pnpm c:e2e:backoffice-client` | E2E vs backoffice (localhost:3001) |
 | `pnpm c:e2e:storybook` | E2E vs Storybook (localhost:6006) |
