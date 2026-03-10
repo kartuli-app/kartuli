@@ -72,5 +72,8 @@
     "turbo": "^2.8.10",
     "vitepress": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "clsx": "catalog:"
   }
 }

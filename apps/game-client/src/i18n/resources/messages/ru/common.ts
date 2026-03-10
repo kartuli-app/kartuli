@@ -2,7 +2,7 @@ export default {
   save: 'Сохранить',
   cancel: 'Отмена',
   back: 'Назад',
-  home: 'Главная',
+  homeHeading: 'Давайте выучим грузинский язык!',
   user: 'Пользователь',
   anonymousUser: 'анонимный пользователь',
   langEn: 'English',
