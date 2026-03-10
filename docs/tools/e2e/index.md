@@ -21,7 +21,7 @@ The E2E package (`@kartuli/e2e`) runs Playwright tests against the game client, 
 | `pnpm c:e2e:backoffice-client` | E2E vs backoffice (BASE_URL=http://localhost:3001) |
 | `pnpm c:e2e:storybook` | E2E vs Storybook (BASE_URL=http://localhost:6006) |
 | `pnpm c:e2e:web-docs-client` | E2E vs web-docs (BASE_URL=http://localhost:4173) |
-| `pnpm test:e2e` | Run all E2E tests (caller must set BASE_URL or use root scripts per target) |
+| `pnpm e2e` | Run all E2E tests (caller must set BASE_URL or use root scripts per target) |
 
 See [Root scripts](../../tech/development/root-scripts.md) for the full list.
 
