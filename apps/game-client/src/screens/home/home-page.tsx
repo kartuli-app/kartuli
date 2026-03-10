@@ -23,12 +23,11 @@ export function HomePage() {
       )}
     >
       {/* screen app bar */}
-
       <div
         className={clsx(
           //
           'sticky top-0 z-10',
-          'w-full grow overflow-y-auto',
+          'w-full',
           'bg-black',
           'border-b-2 border-white',
           'text-white',
@@ -65,6 +64,7 @@ export function HomePage() {
           </div>
         </div>
       </div>
+
       {/* screen content */}
       <div
         className={clsx(
