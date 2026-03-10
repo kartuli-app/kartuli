@@ -1,6 +1,5 @@
 'use client';
 
-import { defaultLng } from '@game-client/i18n/default-locale';
 import type { SupportedLng } from '@game-client/i18n/supported-locales';
 import { useLang } from '@game-client/i18n/use-lang';
 import { PREFERRED_LOCALE_KEY } from '@game-client/local-storage/preferred-locale-key';
@@ -12,7 +11,7 @@ const OTHER_LANG: Record<SupportedLng, SupportedLng> = {
   ru: 'en',
 };
 
-export function LanguageSwitcher() {
+export function LanguageSelect() {
   const { t } = useTranslation('common');
   const lang = useLang();
   const { path, navigate } = useRouterContext();
@@ -29,16 +28,9 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-sm opacity-80">{lang === defaultLng ? t('langEn') : t('langRu')}</span>
-      <button
-        type="button"
-        onClick={switchLang}
-        className="rounded border border-input bg-background px-2 py-1 text-sm hover:bg-muted"
-        aria-label={`Switch to ${other}`}
-      >
-        {other === defaultLng ? t('langEn') : t('langRu')}
-      </button>
-    </div>
+    <select value={lang} onChange={switchLang} className="text-white [&>option]:text-black">
+      <option value="en">{t('langEn')}</option>
+      <option value="ru">{t('langRu')}</option>
+    </select>
   );
 }

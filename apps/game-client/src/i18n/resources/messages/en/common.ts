@@ -2,11 +2,11 @@ export default {
   save: 'Save',
   cancel: 'Cancel',
   back: 'Back',
-  home: 'Home',
+  homeHeading: 'Lets learn Georgian!',
   user: 'User',
   anonymousUser: 'anonymous user',
   langEn: 'English',
-  langRu: 'Russian',
+  langRu: 'Русский',
   sw: {
     devMessage: 'Development mode: a service worker is installed and may hide your local changes.',
     readyOffline: 'The game is ready to be played offline.',

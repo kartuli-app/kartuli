@@ -31,13 +31,13 @@ end
 end
 J["resources-ru.ts"]
 Q["same-keys-as-reference-resources.ts"]
-1V["metadata-by-locale.ts"]
+1X["metadata-by-locale.ts"]
 end
 T["path-to-lang.ts"]
-10["language-switcher.tsx"]
-11["use-lang.ts"]
-1U["get-locale-metadata.ts"]
-2D["i18next.d.ts"]
+1I["language-select.tsx"]
+1J["use-lang.ts"]
+1W["get-locale-metadata.ts"]
+2F["i18next.d.ts"]
 end
 subgraph R["utils"]
 S["deep-same-keys.ts"]
@@ -45,73 +45,76 @@ Z["browser.ts"]
 end
 subgraph U["local-storage"]
 V["preferred-locale-key.ts"]
-1Q["is-service-worker-ready-informed-key.ts"]
+1S["is-service-worker-ready-informed-key.ts"]
 end
 subgraph W["router-outlet"]
 X["use-router-context.ts"]
 Y["router-context.tsx"]
-12["router-outlet.tsx"]
-13["route-utils.ts"]
+10["router-outlet.tsx"]
+11["route-utils.ts"]
 end
-subgraph 14["screens"]
-subgraph 15["debug"]
-16["debug-page.tsx"]
+subgraph 12["screens"]
+subgraph 13["debug"]
+14["debug-page.tsx"]
 end
-subgraph 1E["game"]
-1F["game-page.tsx"]
+subgraph 1C["game"]
+1D["game-page.tsx"]
 end
-subgraph 1G["home"]
-1H["home-page.tsx"]
+subgraph 1E["home"]
+1F["home-page.tsx"]
 end
-subgraph 1I["learn"]
-1J["learn-page.tsx"]
+subgraph 1K["learn"]
+1L["learn-page.tsx"]
 end
-subgraph 1K["user"]
-1L["user-page.tsx"]
-end
-end
-subgraph 1M["service-worker"]
-1N["service-worker-banner.tsx"]
-1O["service-worker-messages.ts"]
-1P["service-worker-script-url.ts"]
-24["service-worker-provider.tsx"]
-28["get-aditional-precache-entries.ts"]
-29["service-worker-source-url.ts"]
-2E["service-worker.ts"]
-end
-subgraph 1R["app"]
-subgraph 1S["[[...spaRoute]]"]
-1T["page.tsx"]
-end
-1Y["layout.tsx"]
-subgraph 25["serwist"]
-subgraph 26["[path]"]
-27["route.ts"]
+subgraph 1M["user"]
+1N["user-page.tsx"]
 end
 end
-subgraph 2A["~offline"]
-2B["offline-page.tsx"]
-2C["page.tsx"]
+subgraph 1G["core"]
+1H["library.ts"]
+end
+subgraph 1O["service-worker"]
+1P["service-worker-banner.tsx"]
+1Q["service-worker-messages.ts"]
+1R["service-worker-script-url.ts"]
+26["service-worker-provider.tsx"]
+2A["get-aditional-precache-entries.ts"]
+2B["service-worker-source-url.ts"]
+2G["service-worker.ts"]
+end
+subgraph 1T["app"]
+subgraph 1U["[[...spaRoute]]"]
+1V["page.tsx"]
+end
+20["layout.tsx"]
+subgraph 27["serwist"]
+subgraph 28["[path]"]
+29["route.ts"]
 end
 end
-subgraph 1W["spa-route"]
-1X["spa-route-page.tsx"]
-end
-subgraph 1Z["config"]
-20["viewport-config.tsx"]
-end
-subgraph 21["root-layout"]
-22["root-layout.tsx"]
-23["globals.css"]
+subgraph 2C["~offline"]
+2D["offline-page.tsx"]
+2E["page.tsx"]
 end
 end
-subgraph 17[".."]
-subgraph 18[".."]
-subgraph 19["packages"]
-subgraph 1A["ui"]
-subgraph 1B["src"]
-subgraph 1C["components"]
-1D["DeploymentDebugPanel.tsx"]
+subgraph 1Y["spa-route"]
+1Z["spa-route-page.tsx"]
+end
+subgraph 21["config"]
+22["viewport-config.tsx"]
+end
+subgraph 23["root-layout"]
+24["root-layout.tsx"]
+25["globals.css"]
+end
+end
+subgraph 15[".."]
+subgraph 16[".."]
+subgraph 17["packages"]
+subgraph 18["ui"]
+subgraph 19["src"]
+subgraph 1A["components"]
+1B["DeploymentDebugPanel.tsx"]
 end
 end
 end
@@ -119,10 +122,9 @@ end
 end
 end
 2-->4
-2-->10
 2-->Y
-2-->12
-2-->1N
+2-->10
+2-->1P
 4-->5
 4-->7
 4-->T
@@ -135,7 +137,6 @@ end
 7-->6
 8-->5
 8-->A
-8-->6
 A-->B
 A-->J
 B-->E
@@ -155,54 +156,55 @@ T-->5
 T-->6
 X-->Y
 Y-->Z
-10-->5
-10-->6
 10-->11
-10-->V
 10-->X
-11-->T
-11-->6
-11-->X
-12-->13
-12-->X
-12-->16
-12-->1F
-12-->1H
-12-->1J
-12-->1L
-16-->1D
-16-->1D
-1F-->Z
-1H-->11
-1H-->X
-1J-->11
+10-->14
+10-->1D
+10-->1F
+10-->1L
+10-->1N
+14-->1B
+14-->1B
+1D-->Z
+1F-->1H
+1F-->1I
+1F-->1J
+1F-->X
+1I-->6
+1I-->1J
+1I-->V
+1I-->X
+1J-->T
+1J-->6
 1J-->X
-1J-->Z
+1L-->1J
+1L-->X
 1L-->Z
-1N-->1O
-1N-->1P
-1N-->1Q
 1N-->Z
-1T-->1U
-1T-->6
-1T-->1X
-1U-->1V
-1U-->6
-1V-->I
-1V-->P
+1P-->1Q
+1P-->1R
+1P-->1S
+1P-->Z
+1V-->1W
 1V-->6
-1X-->2
-1Y-->20
-1Y-->5
-1Y-->1U
-1Y-->22
-22-->23
-22-->24
-24-->1P
-27-->28
-27-->29
-28-->6
-2C-->2B
-2D-->B
-2E-->1O
-2E-->6
+1V-->1Z
+1W-->1X
+1W-->6
+1X-->I
+1X-->P
+1X-->6
+1Z-->2
+20-->22
+20-->5
+20-->1W
+20-->24
+24-->25
+24-->26
+26-->1R
+29-->2A
+29-->2B
+2A-->6
+2E-->2D
+2F-->B
+2G-->1Q
+2G-->6
