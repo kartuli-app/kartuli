@@ -13,7 +13,7 @@ description: Lint, typecheck, tests, E2E, Lighthouse, git hooks, and dependency 
 
 ## Tests
 
-- **Unit tests:** `pnpm test:all` runs tests in all workspaces (Turbo; E2E package has no `test` script so is skipped). Run from root or per-package.
+- **Unit tests:** From repo root, `pnpm test:all` runs tests in all workspaces (Turbo; E2E package has no `test` script so is skipped). From a workspace directory, run `pnpm test` to run that package's unit tests only.
 - **E2E:** Playwright in `@kartuli/e2e`. Use root scripts `pnpm c:e2e:game-client`, etc., or `pnpm e2e` with `BASE_URL` set. See [E2E Hub](../../tools/e2e/index.md) and [tools/e2e/README.md](https://github.com/kartuli-app/kartuli/blob/main/tools/e2e/README.md).
 
 ## Lighthouse
