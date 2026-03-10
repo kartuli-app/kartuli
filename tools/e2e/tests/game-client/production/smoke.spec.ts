@@ -1,6 +1,5 @@
+import { lessons } from '@game-client/core/library';
 import { expect, test } from '@playwright/test';
-// TODO: set paths in tsconfig.json so we can import from the game-client package directly with @game-client/core/library
-import { lessons } from '../../../../../apps/game-client/src/core/library';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 import { expectDebugPageStructure } from '../../helpers/expect-debug-page';
 import { expectNoCriticalErrors } from '../../helpers/expect-no-critical-errors';

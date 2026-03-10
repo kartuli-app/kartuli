@@ -1,6 +1,5 @@
+import { lessons } from '@game-client/core/library';
 import { expect, test } from '@playwright/test';
-// TODO: set paths in tsconfig.json so we can import from the game-client package directly with @game-client/core/library
-import { lessons } from '../../../../../apps/game-client/src/core/library';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 
 /** Offline tests require production build (next start or Vercel); "ready for offline" banner does not appear in dev. */
