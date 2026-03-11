@@ -1,7 +1,7 @@
 import * as browser from '@game-client/utils/browser';
 import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ServiceWorkerBanner } from './service-worker-banner';
+import { PWANotifications } from './pwa-notifications';
 
 const SW_SCRIPT_URL = '/serwist/sw.js';
 
@@ -32,7 +32,7 @@ vi.mock('@game-client/utils/browser', () => ({
   reloadWindow: vi.fn(),
 }));
 
-describe('ServiceWorkerBanner', () => {
+describe('PWANotifications', () => {
   beforeEach(() => {
     vi.mocked(browser.getServiceWorkerContainer).mockReturnValue(null);
     if (typeof localStorage !== 'undefined') {
@@ -44,36 +44,41 @@ describe('ServiceWorkerBanner', () => {
     vi.clearAllMocks();
   });
 
-  it('renders nothing when there is no service worker container', () => {
-    render(<ServiceWorkerBanner />);
-    expect(screen.queryByTestId('sw-banner')).toBeNull();
+  it('renders no banner when there is no service worker container', () => {
+    render(<PWANotifications />);
+    expect(screen.queryByTestId('pwa-notification-dev-mode')).toBeNull();
+    expect(screen.queryByTestId('pwa-notification-game-ready-for-offline')).toBeNull();
+    expect(screen.queryByTestId('pwa-notification-new-version-installed')).toBeNull();
   });
 
-  it('shows "ready for offline" when SW is registered and user not informed', async () => {
+  it('shows game-ready-for-offline banner when SW is registered and user not informed', async () => {
     const registration = createMockRegistration({ waiting: null });
     const sw = createMockSwContainer(registration);
     vi.mocked(browser.getServiceWorkerContainer).mockReturnValue(
       sw as unknown as ServiceWorkerContainer,
     );
 
-    render(<ServiceWorkerBanner />);
+    render(<PWANotifications />);
 
     await waitFor(() => {
-      expect(screen.queryAllByText(/ready to be played offline/i).length).toBeGreaterThan(0);
+      const banner = screen.getByTestId('pwa-notification-game-ready-for-offline');
+      expect(banner.textContent).toMatch(/ready to be played offline/i);
     });
+    expect(screen.queryByTestId('pwa-notification-new-version-installed')).toBeNull();
   });
 
-  it('shows "update" when registration has a waiting worker', async () => {
+  it('shows new-version-installed banner when registration has a waiting worker', async () => {
     const registration = createMockRegistration({ waiting: { state: 'installed' } });
     const sw = createMockSwContainer(registration);
     vi.mocked(browser.getServiceWorkerContainer).mockReturnValue(
       sw as unknown as ServiceWorkerContainer,
     );
 
-    render(<ServiceWorkerBanner />);
+    render(<PWANotifications />);
 
     await waitFor(() => {
-      expect(document.contains(screen.getByText(/new version is available/i))).toBe(true);
+      const banner = screen.getByTestId('pwa-notification-new-version-installed');
+      expect(banner.textContent).toMatch(/new version is available/i);
       expect(document.contains(screen.getByRole('button', { name: /go to next version/i }))).toBe(
         true,
       );
