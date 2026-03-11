@@ -5,26 +5,17 @@ import type {
   HomeLessonCardView,
   HomeLessonPreviewItem,
   HomeModuleView,
-  LetterItemRecord,
   LibraryItemRecord,
-  RuleItemRecord,
-  WordItemRecord,
 } from './types';
 
 function projectItemToPreview(item: LibraryItemRecord): HomeLessonPreviewItem | null {
   switch (item.type) {
-    case 'letter': {
-      const letter = item as LetterItemRecord;
-      return { id: letter.id, type: 'letter', text: letter.targetScript };
-    }
-    case 'word': {
-      const word = item as WordItemRecord;
-      return { id: word.id, type: 'word', imageUrl: word.imageUrl, alt: '' };
-    }
-    case 'rule': {
-      const rule = item as RuleItemRecord;
-      return { id: rule.id, type: 'rule', label: '' };
-    }
+    case 'letter':
+      return { id: item.id, type: 'letter', text: item.targetScript };
+    case 'word':
+      return { id: item.id, type: 'word', imageUrl: item.imageUrl, alt: '' };
+    case 'rule':
+      return { id: item.id, type: 'rule', label: '' };
     default:
       return null;
   }

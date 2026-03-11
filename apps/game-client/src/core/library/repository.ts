@@ -39,11 +39,11 @@ export function createBundledLibraryRepository(): LibraryContentRepository {
     },
 
     async getLessonsByIds(ids: string[]) {
-      return ids.map((id) => lessonsById[id]).filter(Boolean) as LessonRecord[];
+      return ids.map((id) => lessonsById[id]).filter((x): x is LessonRecord => x != null);
     },
 
     async getItemsByIds(ids: string[]) {
-      return ids.map((id) => itemsById[id]).filter(Boolean) as LibraryItemRecord[];
+      return ids.map((id) => itemsById[id]).filter((x): x is LibraryItemRecord => x != null);
     },
 
     async getLocalePack(locale: AppLocale) {
@@ -55,8 +55,6 @@ export function createBundledLibraryRepository(): LibraryContentRepository {
 let defaultRepository: LibraryContentRepository | null = null;
 
 export function getDefaultRepository(): LibraryContentRepository {
-  if (!defaultRepository) {
-    defaultRepository = createBundledLibraryRepository();
-  }
+  defaultRepository ??= createBundledLibraryRepository();
   return defaultRepository;
 }
