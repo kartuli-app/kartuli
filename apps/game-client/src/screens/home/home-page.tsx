@@ -1,20 +1,39 @@
 'use client';
 
-import { getLessonById, getModules, lettersById } from '@game-client/core/library';
+import {
+  getDefaultRepository,
+  getHomeModulesView,
+  type HomeModuleView,
+} from '@game-client/core/library';
 import { LanguageSelect } from '@game-client/i18n/language-select';
 import { useLang } from '@game-client/i18n/use-lang';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export function HomePage() {
   const { t } = useTranslation('common');
   const lang = useLang();
   const { navigate } = useRouterContext();
-  const modules = getModules();
+  const [modules, setModules] = useState<HomeModuleView[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    const repo = getDefaultRepository();
+    getHomeModulesView(repo, lang).then((view) => {
+      if (!cancelled) {
+        setModules(view);
+        setLoading(false);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [lang]);
 
   return (
-    // screen wraper
     <div
       data-testid="game-home"
       className={clsx(
@@ -47,17 +66,7 @@ export function HomePage() {
               'flex justify-between items-center',
             )}
           >
-            {/* logo */}
-            <div
-              className={clsx(
-                //
-                'text-2xl',
-                'font-bold',
-              )}
-            >
-              kartuli.app
-            </div>
-            {/* actions */}
+            <div className={clsx('text-2xl', 'font-bold')}>kartuli.app</div>
             <div className="flex gap-2">
               <LanguageSelect />
             </div>
@@ -82,75 +91,26 @@ export function HomePage() {
             'flex flex-col',
           )}
         >
-          {/* screen title */}
-          <h1
-            className={clsx(
-              //
-              'text-5xl font-boldd',
-              'mt-16',
-            )}
-          >
-            გამარჯობა anon
-          </h1>
-          <h2
-            className={clsx(
-              //
-              'text-3xl font-bold',
-              'mt-4',
-              'mb-16',
-            )}
-          >
-            {t('homeHeading')}
-          </h2>
+          <h1 className={clsx('text-5xl font-boldd', 'mt-16')}>გამარჯობა anon</h1>
+          <h2 className={clsx('text-3xl font-bold', 'mt-4', 'mb-16')}>{t('homeHeading')}</h2>
 
           {/* modules list */}
-          <div
-            className={clsx(
-              //
-              'flex flex-col gap-2',
-              'mb-4',
-            )}
-          >
-            {modules.map((module) => (
-              // module item
-              <div
-                key={module.id}
-                className={clsx(
-                  //
-                  'flex flex-col',
-                  // 'bg-blue-500',
-                  'gap-4',
-                )}
-              >
-                {/* module title */}
-                <div
-                  className={clsx(
-                    //
-                    'text-2xl',
-                  )}
-                >
-                  {module.title}
-                </div>
-                {/* lessons list */}
-                <div
-                  className={clsx(
-                    //
-                    'flex flex-col gap-4',
-                  )}
-                >
-                  {module.lessonIds.map((lessonId) => {
-                    const lesson = getLessonById(lessonId);
-                    if (!lesson) return null;
-                    return (
-                      // lesson item
+          <div className={clsx('flex flex-col gap-2', 'mb-4')}>
+            {loading ? (
+              <div className="text-xl">Loading...</div>
+            ) : (
+              modules.map((module) => (
+                <div key={module.id} className={clsx('flex flex-col', 'gap-4')}>
+                  <div className={clsx('text-2xl')}>{module.title}</div>
+                  <div className={clsx('flex flex-col gap-4')}>
+                    {module.lessons.map((lesson) => (
                       <button
+                        key={lesson.id}
                         aria-label={lesson.title}
                         type="button"
                         tabIndex={0}
-                        onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lessonId)}`)}
-                        key={lessonId}
+                        onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`)}
                         className={clsx(
-                          //
                           'bg-gray-800',
                           'hover:bg-gray-700',
                           'active:bg-gray-700',
@@ -162,36 +122,35 @@ export function HomePage() {
                           'text-left',
                         )}
                       >
-                        {/* lesson title */}
-                        <div
-                          className={clsx(
-                            //
-                            'text-xl',
-                            'font-bold',
-                          )}
-                        >
-                          {lesson.title}
-                        </div>
-                        {/* lesson items */}
+                        <div className={clsx('text-xl', 'font-bold')}>{lesson.title}</div>
                         <div className="flex gap-2 flex-wrap">
-                          {lesson.itemIds.map((itemId) => {
-                            const item = lettersById[itemId];
-                            return (
-                              <div
-                                key={itemId}
-                                className="bg-white text-black  rounded-md size-12 shrink-0 flex items-center justify-center"
-                              >
-                                <div className="text-4xl">{item?.targetScript}</div>
-                              </div>
-                            );
-                          })}
+                          {lesson.previewItems.map((previewItem) => (
+                            <div
+                              key={previewItem.id}
+                              className="bg-white text-black rounded-md size-12 shrink-0 flex items-center justify-center"
+                            >
+                              {previewItem.type === 'letter' && (
+                                <div className="text-4xl">{previewItem.text}</div>
+                              )}
+                              {previewItem.type === 'word' && (
+                                <img
+                                  src={previewItem.imageUrl}
+                                  alt={previewItem.alt}
+                                  className="size-10 object-contain"
+                                />
+                              )}
+                              {previewItem.type === 'rule' && (
+                                <div className="text-sm truncate px-1">{previewItem.label}</div>
+                              )}
+                            </div>
+                          ))}
                         </div>
                       </button>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
-import { lessons } from '@game-client/core/library';
+import { getFirstLessonFixtureEn } from '@game-client/core/library';
 import { RouterProvider } from '@game-client/router-outlet/router-context';
-import { render, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { HomePage } from './home-page';
 
 function renderHomePage(initialPath = '/en') {
@@ -14,28 +14,44 @@ function renderHomePage(initialPath = '/en') {
 }
 
 describe('Game Client Home Page', () => {
-  it('renders Home heading and lesson list', () => {
+  let firstLessonId: string;
+  let firstLessonTitleEn: string;
+
+  beforeAll(async () => {
+    const fixture = await getFirstLessonFixtureEn();
+    firstLessonId = fixture.firstLessonId;
+    firstLessonTitleEn = fixture.firstLessonTitleEn;
+  });
+
+  it('renders Home heading and lesson list', async () => {
     const { container } = renderHomePage();
     expect(document.contains(within(container).getByRole('heading', { name: /გამარჯობა /i }))).toBe(
       true,
     );
-    expect(
-      document.contains(within(container).getByRole('button', { name: lessons[0].title })),
-    ).toBe(true);
-    expect(
-      document.contains(within(container).getByRole('button', { name: lessons[1].title })),
-    ).toBe(true);
+    const firstLessonButton = await screen.findByRole(
+      'button',
+      { name: firstLessonTitleEn },
+      { timeout: 3000 },
+    );
+    expect(document.contains(firstLessonButton)).toBe(true);
+    const secondLessonButton = screen.getByRole('button', { name: 'Sounds You Know' });
+    expect(document.contains(secondLessonButton)).toBe(true);
   });
 
   it('navigates to learn page when lesson is clicked', async () => {
     const pushStateSpy = vi.spyOn(globalThis.history, 'pushState');
     const user = userEvent.setup();
-    const { container } = renderHomePage();
-    await user.click(within(container).getByRole('button', { name: lessons[0].title }));
+    renderHomePage();
+    const firstLessonButton = await screen.findByRole(
+      'button',
+      { name: firstLessonTitleEn },
+      { timeout: 3000 },
+    );
+    await user.click(firstLessonButton);
     expect(pushStateSpy).toHaveBeenCalledWith(
       null,
       '',
-      `/en/learn/${encodeURIComponent(lessons[0].id)}`,
+      `/en/learn/${encodeURIComponent(firstLessonId)}`,
     );
     pushStateSpy.mockRestore();
   });
