@@ -1,6 +1,8 @@
-import { lessons } from '@game-client/core/library';
+import { getFirstLessonFixtureEn } from '@game-client/core/library';
 import { expect, test } from '@playwright/test';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
+
+const { firstLessonId, firstLessonTitleEn } = await getFirstLessonFixtureEn();
 
 /** Offline tests require production build (next start or Vercel); "ready for offline" banner does not appear in dev. */
 test.describe('Game Client Offline', () => {
@@ -27,9 +29,9 @@ test.describe('Game Client Offline', () => {
 
     await context.setOffline(true);
 
-    await page.getByRole('button', { name: lessons[0].title }).click();
+    await page.getByRole('button', { name: firstLessonTitleEn }).click();
     await expect(page.getByTestId('game-learn')).toBeVisible({ timeout: 5000 });
-    await expect(page.getByTestId('learn-lesson-id')).toHaveText(lessons[0].id);
+    await expect(page.getByTestId('learn-lesson-id')).toHaveText(firstLessonId);
 
     await page.getByRole('button', { name: /back/i }).first().click();
     await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 5000 });
