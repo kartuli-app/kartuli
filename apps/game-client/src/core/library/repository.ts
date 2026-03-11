@@ -1,6 +1,6 @@
-import { localePackEn } from './data.locale.en';
-import { localePackRu } from './data.locale.ru';
-import { modulesShared } from './data.shared';
+import { localePackEn } from './data/data.locale.en';
+import { localePackRu } from './data/data.locale.ru';
+import { modulesShared } from './data/data.shared';
 import { itemsById, lessonsById, modulesById } from './indexes';
 import type {
   AppLocale,

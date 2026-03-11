@@ -1,4 +1,4 @@
-import type { LessonRecord, LetterItemRecord, LibraryItemRecord, ModuleRecord } from './types';
+import type { LessonRecord, LetterItemRecord, LibraryItemRecord, ModuleRecord } from '../types';
 
 export const modulesShared: ModuleRecord[] = [
   {

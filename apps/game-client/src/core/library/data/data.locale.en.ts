@@ -1,18 +1,17 @@
-import type { LibraryLocalePack } from './types';
+import type { LibraryLocalePack } from '../types';
 
-/** Russian locale pack. Lesson and module titles translated to Russian. */
-export const localePackRu: LibraryLocalePack = {
+export const localePackEn: LibraryLocalePack = {
   modules: {
-    'module-alphabet': { title: 'Алфавит' },
+    'module-alphabet': { title: 'Alphabet' },
   },
   lessons: {
-    'lesson-alphabet-vowels': { title: 'Пять гласных' },
-    'lesson-alphabet-sounds-you-know': { title: 'Знакомые звуки' },
-    'lesson-alphabet-more-easy-sounds': { title: 'Ещё простые звуки' },
-    'lesson-alphabet-puff-and-pop': { title: 'Придыхание и взрыв' },
-    'lesson-alphabet-k-family': { title: 'Семейство К' },
-    'lesson-alphabet-hissing-sounds': { title: 'Шипящие звуки' },
-    'lesson-alphabet-buzzing-sounds': { title: 'Жужжащие звуки' },
+    'lesson-alphabet-vowels': { title: 'The Five Vowels' },
+    'lesson-alphabet-sounds-you-know': { title: 'Sounds You Know' },
+    'lesson-alphabet-more-easy-sounds': { title: 'More Easy Sounds' },
+    'lesson-alphabet-puff-and-pop': { title: 'Puff and Pop' },
+    'lesson-alphabet-k-family': { title: 'The K Family' },
+    'lesson-alphabet-hissing-sounds': { title: 'Hissing Sounds' },
+    'lesson-alphabet-buzzing-sounds': { title: 'Buzzing Sounds' },
   },
   items: {
     'letter-ani': { nativeName: 'Ani', pronunciationHint: "like 'a' in 'father'" },

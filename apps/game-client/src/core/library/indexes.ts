@@ -1,4 +1,4 @@
-import { itemsShared, lessonsShared, modulesShared } from './data.shared';
+import { itemsShared, lessonsShared, modulesShared } from './data/data.shared';
 import type { LessonRecord, LibraryItemRecord, ModuleRecord } from './types';
 
 export const modulesById: Record<string, ModuleRecord> = Object.fromEntries(
