@@ -12,22 +12,47 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+function HomeModulesLoading() {
+  return <div className="text-xl">Loading...</div>;
+}
+
+function HomeModulesError({ message }: { message: string }) {
+  return (
+    <div
+      className={clsx('rounded-md border border-red-500 bg-red-950/50 p-4 text-red-200', 'text-lg')}
+      role="alert"
+    >
+      {message}
+    </div>
+  );
+}
+
 export function HomePage() {
   const { t } = useTranslation('common');
   const lang = useLang();
   const { navigate } = useRouterContext();
   const [modules, setModules] = useState<HomeModuleView[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
+    setError(null);
     const repo = getDefaultRepository();
-    getHomeModulesView(repo, lang).then((view) => {
-      if (!cancelled) {
-        setModules(view);
-        setLoading(false);
-      }
-    });
+    getHomeModulesView(repo, lang)
+      .then((view) => {
+        if (!cancelled) {
+          setModules(view);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setError(err instanceof Error ? err : new Error(String(err)));
+          setLoading(false);
+        }
+      });
     return () => {
       cancelled = true;
     };
@@ -97,7 +122,9 @@ export function HomePage() {
           {/* modules list */}
           <div className={clsx('flex flex-col gap-2', 'mb-4')}>
             {loading ? (
-              <div className="text-xl">Loading...</div>
+              <HomeModulesLoading />
+            ) : error ? (
+              <HomeModulesError message={error.message} />
             ) : (
               modules.map((module) => (
                 <div key={module.id} className={clsx('flex flex-col', 'gap-4')}>
