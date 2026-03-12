@@ -4,17 +4,14 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./styles.css": "./dist/index.css",
     "./*": "./src/*",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "build:components": "tsc --project tsconfig.build.json",
-    "build": "pnpm run build:styles && pnpm run build:components",
-    "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
+    "build": "pnpm run build:components",
     "dev:components": "tsc --watch",
-    "dev": "pnpm run dev:styles & pnpm run dev:components",
+    "dev": "pnpm run dev:components",
     "lint": "biome check .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -27,10 +24,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/node": "catalog:",
-    "@kartuli/tailwind-config": "workspace:*",
-    "@tailwindcss/cli": "catalog:",
-    "@tailwindcss/postcss": "catalog:",
-    "tailwindcss": "catalog:",
     "typescript": "catalog:"
   },
   "devDependencies": {

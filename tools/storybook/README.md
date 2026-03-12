@@ -23,11 +23,10 @@ pnpm test   # Run tests
 
 ## Theming in Storybook
 
-Import UI styles in your Storybook preview file and optionally override semantic tokens:
+Import Storybook styles in your preview file and optionally override semantic tokens:
 
 ```ts
 // .storybook/preview.ts
-import '@kartuli/ui/styles.css';
 import './storybook.css'; // optional: overrides :root tokens
 ```
 
