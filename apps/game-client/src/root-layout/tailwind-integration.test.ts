@@ -17,7 +17,7 @@ async function compileCssFromEntry(entryFileName: string): Promise<string> {
 describe('tailwind integration (game-client)', () => {
   it('generates the UI-only arbitrary background utility in consumer output', async () => {
     const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('.bg-\\[rebeccapurple\\]');
+    expect(css).toContain(String.raw`.bg-\[rebeccapurple\]`);
   });
 
   it('keeps shared token defaults and applies app override for only one token', async () => {
