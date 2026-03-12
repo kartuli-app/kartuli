@@ -1,6 +1,6 @@
 'use client';
 
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 import type { ReactNode } from 'react';
 import { BUTTON_BASE_CLASSES } from '../button';
 
