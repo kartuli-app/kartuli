@@ -13,7 +13,7 @@ const OTHER_LANG: Record<SupportedLng, SupportedLng> = {
   ru: 'en',
 };
 
-export function LanguageSelect({ className }: { className?: string }) {
+export function LanguageSelect({ className }: Readonly<{ className?: string }>) {
   const { t } = useTranslation('common');
   const lang = useLang();
   const { path, navigate } = useRouterContext();

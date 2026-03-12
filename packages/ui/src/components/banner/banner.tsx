@@ -13,10 +13,10 @@ export type BannerAction = {
 export function BannerMessage({
   children,
   className,
-}: {
+}: Readonly<{
   children: ReactNode;
   className?: string;
-}) {
+}>) {
   return (
     <p
       className={clsx(
@@ -35,7 +35,7 @@ export function BannerButton({
   onClick,
   children,
   className,
-}: BannerAction & { className?: string }) {
+}: Readonly<BannerAction & { className?: string }>) {
   return (
     <button
       type="button"
@@ -56,11 +56,11 @@ export function BannerCloseButton({
   onDismiss,
   dismissLabel,
   className,
-}: {
+}: Readonly<{
   onDismiss: () => void;
   dismissLabel: string;
   className?: string;
-}) {
+}>) {
   return (
     <button
       type="button"
@@ -97,7 +97,7 @@ export function Banner({
   testId,
   ariaLive = 'polite',
   className,
-}: BannerProps) {
+}: Readonly<BannerProps>) {
   return (
     <output
       data-testid={testId}
@@ -122,8 +122,8 @@ export function Banner({
       >
         <div className="flex-1 min-w-0">{children}</div>
         <div className="flex items-center gap-2">
-          {actions?.map((action, i) => (
-            <BannerButton key={i} label={action.label} onClick={action.onClick}>
+          {actions?.map((action) => (
+            <BannerButton key={action.label} label={action.label} onClick={action.onClick}>
               {action.children}
             </BannerButton>
           ))}

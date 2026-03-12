@@ -28,6 +28,24 @@ function reloadToUpdate(): void {
   });
 }
 
+function attachUpdateFoundListener(
+  registration: ServiceWorkerRegistration,
+  container: ServiceWorkerContainer,
+  setVisible: (visible: boolean) => void,
+): () => void {
+  const onUpdateFound = () => {
+    const newWorker = registration.installing ?? registration.waiting;
+    if (!newWorker) return;
+    const checkState = () => {
+      if (newWorker.state === 'installed' && container.controller) setVisible(true);
+    };
+    newWorker.addEventListener('statechange', checkState);
+    checkState();
+  };
+  registration.addEventListener('updatefound', onUpdateFound);
+  return () => registration.removeEventListener('updatefound', onUpdateFound);
+}
+
 /** New game version installed: show in prod when there is a waiting worker. */
 function useNewGameVersionInstalledBanner() {
   const [visible, setVisible] = useState(false);
@@ -60,18 +78,7 @@ function useNewGameVersionInstalledBanner() {
     let removeUpdateFound: (() => void) | null = null;
     sw.getRegistration(SERVICE_WORKER_SCRIPT_URL).then((registration) => {
       if (!registration) return;
-      const container = sw;
-      const onUpdateFound = () => {
-        const newWorker = registration.installing ?? registration.waiting;
-        if (!newWorker) return;
-        const checkState = () => {
-          if (newWorker.state === 'installed' && container.controller) setVisible(true);
-        };
-        newWorker.addEventListener('statechange', checkState);
-        checkState();
-      };
-      registration.addEventListener('updatefound', onUpdateFound);
-      removeUpdateFound = () => registration.removeEventListener('updatefound', onUpdateFound);
+      removeUpdateFound = attachUpdateFoundListener(registration, sw, setVisible);
     });
 
     return () => {
