@@ -4,30 +4,8 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SW_READY_OFFLINE } from '../../service-worker-messages';
-import { SERVICE_WORKER_SCRIPT_URL } from '../../service-worker-script-url';
+import { createMockRegistration, createMockSwContainer } from '../test-helpers';
 import { GameReadyForOfflineBanner } from './game-ready-for-offline-banner';
-
-function createMockRegistration(overrides: { waiting?: unknown } = {}) {
-  return {
-    installing: null,
-    waiting: overrides.waiting ?? null,
-    active: {},
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  };
-}
-
-function createMockSwContainer(registration: ReturnType<typeof createMockRegistration> | null) {
-  return {
-    getRegistration: vi.fn((url: string) =>
-      Promise.resolve(url === SERVICE_WORKER_SCRIPT_URL ? registration : null),
-    ),
-    getRegistrations: vi.fn(() => Promise.resolve(registration ? [registration] : [])),
-    ready: Promise.resolve(registration ?? undefined),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  };
-}
 
 vi.mock('@game-client/utils/browser', () => ({
   getServiceWorkerContainer: vi.fn(() => null),

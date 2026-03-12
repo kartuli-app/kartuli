@@ -3,30 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SW_READY_OFFLINE } from '../service-worker-messages';
 import { PWANotifications } from './pwa-notifications';
-
-const SW_SCRIPT_URL = '/serwist/sw.js';
-
-function createMockRegistration(overrides: { waiting?: unknown } = {}) {
-  return {
-    installing: null,
-    waiting: overrides.waiting ?? null,
-    active: {},
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  };
-}
-
-function createMockSwContainer(registration: ReturnType<typeof createMockRegistration> | null) {
-  return {
-    getRegistration: vi.fn((url: string) =>
-      Promise.resolve(url === SW_SCRIPT_URL ? registration : null),
-    ),
-    getRegistrations: vi.fn(() => Promise.resolve(registration ? [registration] : [])),
-    ready: Promise.resolve(registration ?? undefined),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  };
-}
+import { createMockRegistration, createMockSwContainer } from './test-helpers';
 
 vi.mock('@game-client/utils/browser', () => ({
   getServiceWorkerContainer: vi.fn(() => null),
