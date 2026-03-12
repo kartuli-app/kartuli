@@ -1,16 +1,15 @@
 /**
  * Storybook Global Styles
  *
- * This file imports Tailwind and the theme contract.
- * Individual theme wrappers will import their specific theme CSS.
+ * This file imports Tailwind and the shared theme contract.
+ * Storybook compiles all classes used by stories and UI source.
  */
 
 /* All imports must come first */
 @import "tailwindcss";
+/* `@import` resolves package exports; this loads the shared token contract CSS. */
 @import "@kartuli/tailwind-config";
 
-/* Import pre-built UI component styles */
-@import "@kartuli/ui/styles.css";
-
-/* Tell Tailwind to scan story files for classes */
+/* `@source` is for Tailwind class discovery and expects filesystem paths. */
 @source "../";
+@source "../../../packages/ui/src";

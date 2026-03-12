@@ -60,7 +60,7 @@ export const CustomStyling: Story = {
   args: {
     appName: 'Custom App',
     appVersion: '3.0.0-beta',
-    className: 'border-2 border-dashed',
+    className: 'border-2 border-dashed bg-[rebeccapurple]',
   },
 };
 

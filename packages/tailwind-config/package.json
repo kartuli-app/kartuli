@@ -4,19 +4,12 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./shared-styles.css",
-    "./postcss": "./postcss.config.js"
+    ".": "./shared-styles.css"
   },
   "files": [
-    "shared-styles.css",
-    "postcss.config.js"
+    "shared-styles.css"
   ],
   "scripts": {
     "lint": "biome check ."
-  },
-  "dependencies": {
-    "postcss": "catalog:",
-    "@tailwindcss/postcss": "catalog:",
-    "tailwindcss": "catalog:"
   }
 }
