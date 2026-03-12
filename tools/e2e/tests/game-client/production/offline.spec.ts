@@ -17,7 +17,9 @@ test.describe('Game Client Offline', () => {
     await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 10000 });
 
     await expect(
-      page.getByTestId('sw-banner').filter({ hasText: /ready to be played offline/i }),
+      page
+        .getByTestId('pwa-notification-game-ready-for-offline')
+        .filter({ hasText: /ready to be played offline/i }),
     ).toBeVisible({ timeout: 15000 });
   });
 

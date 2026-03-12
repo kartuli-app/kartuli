@@ -1,9 +1,9 @@
 'use client';
 
 import { getServiceWorkerContainer, reloadWindow } from '@game-client/utils/browser';
+import { Banner, BannerMessage } from '@kartuli/ui/components/banner/banner';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Banner, BannerMessage } from '../banner';
 
 /** Unregister all service workers and reload so local changes are visible in dev. */
 function unregisterServiceWorkers(): void {

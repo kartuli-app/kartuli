@@ -2,11 +2,11 @@
 
 import { IS_SERVICE_WORKER_READY_INFORMED_KEY } from '@game-client/local-storage/is-service-worker-ready-informed-key';
 import { getServiceWorkerContainer } from '@game-client/utils/browser';
+import { Banner, BannerMessage } from '@kartuli/ui/components/banner/banner';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isSWToClientMessage, SW_READY_OFFLINE } from '../../service-worker-messages';
 import { SERVICE_WORKER_SCRIPT_URL } from '../../service-worker-script-url';
-import { Banner, BannerMessage } from '../banner';
 
 function isReadyInformed(): boolean {
   if (typeof localStorage === 'undefined') return false;

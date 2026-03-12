@@ -2,6 +2,7 @@
 
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
+import { BUTTON_BASE_CLASSES } from '../button';
 
 export type BannerAction = {
   label: string;
@@ -20,7 +21,7 @@ export function BannerMessage({
     <p
       className={clsx(
         //
-        'font-bold text-xl',
+        'font-bold text-md',
         className,
       )}
     >
@@ -41,9 +42,7 @@ export function BannerButton({
       onClick={onClick}
       className={clsx(
         //
-        'px-3 py-1.5',
-        'border border-white rounded',
-        'hover:bg-white hover:text-black',
+        BUTTON_BASE_CLASSES,
         className,
       )}
       aria-label={label}
@@ -68,9 +67,7 @@ export function BannerCloseButton({
       onClick={onDismiss}
       className={clsx(
         //
-        'px-3 py-1.5',
-        'border border-white rounded',
-        'hover:bg-white hover:text-black',
+        BUTTON_BASE_CLASSES,
         className,
       )}
       aria-label={dismissLabel}
@@ -85,7 +82,7 @@ type BannerProps = {
   actions?: BannerAction[];
   onDismiss: () => void;
   dismissLabel: string;
-  dismissable?: boolean;
+  showDismissButton?: boolean;
   testId?: string;
   ariaLive?: 'polite' | 'assertive';
   className?: string;
@@ -96,7 +93,7 @@ export function Banner({
   actions,
   onDismiss,
   dismissLabel,
-  dismissable = true,
+  showDismissButton = true,
   testId,
   ariaLive = 'polite',
   className,
@@ -106,20 +103,34 @@ export function Banner({
       data-testid={testId}
       className={clsx(
         //
-        'border-2 border-black bg-black text-white p-4',
-        'flex flex-wrap items-center gap-3',
+        'bg-zinc-900 text-white w-full',
+        'flex flex-wrap',
         className,
       )}
       aria-live={ariaLive}
     >
-      <div className="flex-1 min-w-0">{children}</div>
-      <div className="flex items-center gap-2">
-        {actions?.map((action, i) => (
-          <BannerButton key={i} label={action.label} onClick={action.onClick}>
-            {action.children}
-          </BannerButton>
-        ))}
-        {dismissable && <BannerCloseButton onDismiss={onDismiss} dismissLabel={dismissLabel} />}
+      <div
+        className={clsx(
+          //
+          'mx-auto max-w-md w-full',
+          'p-4',
+          'justify-between',
+          'items-center',
+          'flex',
+          'gap-2',
+        )}
+      >
+        <div className="flex-1 min-w-0">{children}</div>
+        <div className="flex items-center gap-2">
+          {actions?.map((action, i) => (
+            <BannerButton key={i} label={action.label} onClick={action.onClick}>
+              {action.children}
+            </BannerButton>
+          ))}
+          {showDismissButton && (
+            <BannerCloseButton onDismiss={onDismiss} dismissLabel={dismissLabel} />
+          )}
+        </div>
       </div>
     </output>
   );

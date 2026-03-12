@@ -14,7 +14,7 @@ export function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${notoSansGeorgian.variable}`}>
+    <html lang="en" className={`${notoSansGeorgian.variable} scrollbar-gutter-stable bg-black`}>
       <body className="h-dvh flex font-noto-sans-georgian">
         <ServiceWorkerProvider>{children}</ServiceWorkerProvider>
       </body>

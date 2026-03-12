@@ -1,11 +1,11 @@
 'use client';
 
 import { getServiceWorkerContainer, reloadWindow } from '@game-client/utils/browser';
+import { Banner, BannerMessage } from '@kartuli/ui/components/banner/banner';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isSWToClientMessage, SKIP_WAITING, SW_WAITING } from '../../service-worker-messages';
 import { SERVICE_WORKER_SCRIPT_URL } from '../../service-worker-script-url';
-import { Banner, BannerMessage } from '../banner';
 
 /** Tell the waiting worker to skipWaiting(); when controllerchange fires we reload. */
 function reloadToUpdate(): void {
