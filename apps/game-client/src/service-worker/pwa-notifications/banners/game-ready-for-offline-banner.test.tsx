@@ -3,6 +3,7 @@ import * as browser from '@game-client/utils/browser';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { SW_READY_OFFLINE } from '../../service-worker-messages';
 import { SERVICE_WORKER_SCRIPT_URL } from '../../service-worker-script-url';
 import { GameReadyForOfflineBanner } from './game-ready-for-offline-banner';
 
@@ -66,7 +67,7 @@ describe('GameReadyForOfflineBanner', () => {
     });
   });
 
-  it('shows banner when SW is registered, no waiting worker, and user not informed', async () => {
+  it('shows banner when SW sends SW_READY_OFFLINE and user not informed', async () => {
     const registration = createMockRegistration({ waiting: null });
     const sw = createMockSwContainer(registration);
     vi.mocked(browser.getServiceWorkerContainer).mockReturnValue(
@@ -74,6 +75,12 @@ describe('GameReadyForOfflineBanner', () => {
     );
 
     render(<GameReadyForOfflineBanner />);
+
+    const messageHandler = vi
+      .mocked(sw.addEventListener)
+      .mock.calls.find((call) => call[0] === 'message')?.[1] as (e: MessageEvent) => void;
+    expect(messageHandler).toBeDefined();
+    messageHandler({ data: { type: SW_READY_OFFLINE } } as MessageEvent);
 
     await waitFor(() => {
       const banner = screen.getByTestId('pwa-notification-game-ready-for-offline');
@@ -90,6 +97,11 @@ describe('GameReadyForOfflineBanner', () => {
     );
 
     render(<GameReadyForOfflineBanner />);
+
+    const messageHandler = vi
+      .mocked(sw.addEventListener)
+      .mock.calls.find((call) => call[0] === 'message')?.[1] as (e: MessageEvent) => void;
+    messageHandler?.({ data: { type: SW_READY_OFFLINE } } as MessageEvent);
 
     await waitFor(() => {
       expect(screen.getByTestId('pwa-notification-game-ready-for-offline')).toBeTruthy();

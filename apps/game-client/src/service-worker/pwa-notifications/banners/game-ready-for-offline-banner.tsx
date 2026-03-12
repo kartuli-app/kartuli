@@ -13,16 +13,20 @@ function isReadyInformed(): boolean {
   return localStorage.getItem(IS_SERVICE_WORKER_READY_INFORMED_KEY) === 'true';
 }
 
-/** Game ready for offline: show in prod when we have a registration, no waiting worker, and user not yet informed. */
+/** Game ready for offline: show only after SW sends SW_READY_OFFLINE (activate + precache done). evaluate() only hides when we should not show. */
 function useGameReadyForOfflineBanner() {
   const [visible, setVisible] = useState(false);
 
   const evaluate = useCallback(() => {
     if (process.env.NODE_ENV === 'development') return;
     const sw = getServiceWorkerContainer();
-    if (!sw) return;
+    if (!sw) {
+      setVisible(false);
+      return;
+    }
     sw.getRegistration(SERVICE_WORKER_SCRIPT_URL).then((registration) => {
-      setVisible(!!(registration && !registration.waiting && !isReadyInformed()));
+      const shouldHide = !registration || !!registration.waiting || isReadyInformed();
+      if (shouldHide) setVisible(false);
     });
   }, []);
 
