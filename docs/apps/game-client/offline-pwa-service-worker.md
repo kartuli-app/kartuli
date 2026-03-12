@@ -31,7 +31,7 @@ The game client uses a **service worker** (Serwist) to support offline use after
 
 - **Precache revision:** Stable URLs (`/en`, `/~offline`, icons) use a revision (package version + short git SHA from `get-aditional-precache-entries.ts`). A new deploy produces a new `sw.js` and new manifest; on activate, Serwist refreshes precache. Fonts use `revision: null` (URLs are hashed by the build).
 - **App version:** `NEXT_PUBLIC_APP_VERSION` is set in Next.js config (from `package.json` or CI) and shown on the debug page.
-- **Banner (ServiceWorkerBanner):** Shows three states: (1) **Dev** — a SW is registered (with Unregister button). (2) **Ready for offline** — one-time message after first SW activation; dismiss stores a flag in `localStorage` so we don’t show it again on new versions. (3) **New version available** — when a waiting worker exists; “Go to next version” sends `SKIP_WAITING` and reloads. Typed messages are in `service-worker-messages.ts`.
+- **Banner (PWANotifications):** Shows three states: (1) **Dev** — a SW is registered (with Unregister button). (2) **Ready for offline** — one-time message after first SW activation; dismiss stores a flag in `localStorage` so we don’t show it again on new versions. (3) **New version available** — when a waiting worker exists; “Go to next version” sends `SKIP_WAITING` and reloads. Typed messages are in `service-worker-messages.ts`.
 
 ## Deployment: Vercel Deployment Protection
 
