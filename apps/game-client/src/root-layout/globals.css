@@ -4,27 +4,21 @@
  * Order matters:
  * 1. Tailwind directives
  * 2. Theme contract from @kartuli/tailwind-config
- * 3. Pre-built UI component styles
- * 4. App-specific value overrides
+ * 3. App-specific value overrides
  */
 
 /* Tailwind v4 import */
 @import "tailwindcss";
 
-/* Import shared theme configuration */
+/* `@import` resolves packages/modules (like Node resolution), so package names are correct here. */
 @import "@kartuli/tailwind-config";
-
-/* Import pre-built UI component styles */
-@import "@kartuli/ui/styles.css";
 
 /* Import app-specific theme overrides */
 @import "./theme.css";
 
-/* Tell Tailwind to scan app files for classes */
-@source "@game-client/";
-
-/* Import pre-built UI component styles */
-@source "@kartuli/ui/";
+/* `@source` is Tailwind's file scanner, so use real filesystem paths (not TS aliases). */
+@source "../";
+@source "../../../../packages/ui/src";
 
 /* Apply theme font to body last so it wins over Tailwind base. Variable name must match root-layout (e.g. --font-noto-georgian). */
 @layer utilities {

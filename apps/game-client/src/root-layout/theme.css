@@ -9,4 +9,5 @@
   /* Minimal semantic overrides */
   --color-ink: oklch(64.884% 0.23697 26.959);
   --color-canvas: oklch(95.383% 0.20324 115.598);
+  --color-brand: oklch(72.114% 0.179 155.2);
 }
