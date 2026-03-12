@@ -1,4 +1,4 @@
-import { AppShell } from '@game-client/app-shell/app-shell';
+import { SpaShell } from '@game-client/spa-shell/spa-shell';
 
 function pathFromSegments(segments: string[] | undefined): string {
   if (!segments?.length) return '/';
@@ -13,5 +13,5 @@ export async function SpaRoutePage({ params }: SpaRoutePageProps) {
   const resolved = await params;
   const segments = resolved.spaRoute;
   const initialPath = pathFromSegments(segments);
-  return <AppShell initialPath={initialPath} />;
+  return <SpaShell initialPath={initialPath} />;
 }

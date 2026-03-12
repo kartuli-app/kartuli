@@ -1,5 +1,6 @@
 import { ServiceWorkerProvider } from '@game-client/service-worker/service-worker-provider';
 import './globals.css';
+import clsx from 'clsx';
 import { Noto_Sans_Georgian } from 'next/font/google';
 
 const notoSansGeorgian = Noto_Sans_Georgian({
@@ -14,7 +15,16 @@ export function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${notoSansGeorgian.variable} scrollbar-gutter-stable bg-black`}>
+    <html
+      lang="en"
+      className={clsx(
+        notoSansGeorgian.variable,
+        //
+        'bg-brand-neutral-100',
+        'text-brand-neutral-900',
+        'scrollbar-gutter-stable',
+      )}
+    >
       <body className="h-dvh flex font-noto-sans-georgian">
         <ServiceWorkerProvider>{children}</ServiceWorkerProvider>
       </body>

@@ -4,7 +4,6 @@ import type { SupportedLng } from '@game-client/i18n/supported-locales';
 import { useLang } from '@game-client/i18n/use-lang';
 import { PREFERRED_LOCALE_KEY } from '@game-client/local-storage/preferred-locale-key';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
-import { BUTTON_BASE_CLASSES } from '@kartuli/ui/components/button';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -35,8 +34,15 @@ export function LanguageSelect({ className }: Readonly<{ className?: string }>) 
       onChange={switchLang}
       className={clsx(
         //
-        BUTTON_BASE_CLASSES,
-        '[&>option]:text-black',
+        'p-brand-regular',
+        'rounded-lg',
+        'text-sm',
+        'cursor-pointer',
+        'border',
+        'border-brand-neutral-50',
+        'text-brand-neutral-50',
+        'hover:bg-brand-primary-400',
+        '[&>option]:text-brand-neutral-900',
         className,
       )}
     >

@@ -58,6 +58,8 @@ export async function getHomeModulesView(
     });
   }
 
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   return result;
 }
 
