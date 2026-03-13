@@ -1,185 +1,21 @@
-'use client';
-
-import {
-  getDefaultRepository,
-  getHomeModulesView,
-  type HomeModuleView,
-} from '@game-client/core/library';
-import { LanguageSelect } from '@game-client/i18n/language-select';
-import { useLang } from '@game-client/i18n/use-lang';
-import { useRouterContext } from '@game-client/router-outlet/use-router-context';
-import clsx from 'clsx';
-import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-
-function HomeModulesLoading() {
-  return <div className="text-xl">Loading...</div>;
-}
-
-function HomeModulesError({ message }: { readonly message: string }) {
-  return (
-    <div
-      className={clsx('rounded-md border border-red-500 bg-red-950/50 p-4 text-red-200', 'text-lg')}
-      role="alert"
-    >
-      {message}
-    </div>
-  );
-}
+import { AppBar } from '@kartuli/ui/components/layout/app-bar';
+import { AppContent } from '@kartuli/ui/components/layout/app-content';
+import { AppScreen } from '@kartuli/ui/components/layout/app-screen';
+import { HomeBarContent } from './home-bar-content';
+import { HomeHeading } from './home-heading';
+import { ModulesList } from './modules-list';
 
 export function HomePage() {
-  const { t } = useTranslation('common');
-  const lang = useLang();
-  const { navigate } = useRouterContext();
-  const [modules, setModules] = useState<HomeModuleView[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    setError(null);
-    const repo = getDefaultRepository();
-    getHomeModulesView(repo, lang)
-      .then((view) => {
-        if (!cancelled) {
-          setModules(view);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setError(err instanceof Error ? err : new Error(String(err)));
-          setLoading(false);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [lang]);
-
-  let modulesContent: ReactNode;
-  if (loading) modulesContent = <HomeModulesLoading />;
-  else if (error) modulesContent = <HomeModulesError message={error.message} />;
-  else
-    modulesContent = modules.map((module) => (
-      <div key={module.id} className={clsx('flex flex-col', 'gap-4')}>
-        <div className={clsx('text-2xl')}>{module.title}</div>
-        <div className={clsx('flex flex-col gap-4')}>
-          {module.lessons.map((lesson) => (
-            <button
-              key={lesson.id}
-              aria-label={lesson.title}
-              type="button"
-              tabIndex={0}
-              onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`)}
-              className={clsx(
-                'bg-gray-800',
-                'hover:bg-gray-700',
-                'active:bg-gray-700',
-                'active:scale-105',
-                'cursor-pointer',
-                'p-2',
-                'rounded-md',
-                'flex flex-col gap-2',
-                'text-left',
-              )}
-            >
-              <div className={clsx('text-xl', 'font-bold')}>{lesson.title}</div>
-              <div className="flex gap-2 flex-wrap">
-                {lesson.previewItems.map((previewItem) => (
-                  <div
-                    key={previewItem.id}
-                    className="bg-white text-black rounded-md size-12 shrink-0 flex items-center justify-center"
-                  >
-                    {previewItem.type === 'letter' && (
-                      <div className="text-4xl">{previewItem.text}</div>
-                    )}
-                    {previewItem.type === 'word' && (
-                      <img
-                        src={previewItem.imageUrl}
-                        alt={previewItem.alt}
-                        className="size-10 object-contain"
-                      />
-                    )}
-                    {previewItem.type === 'rule' && (
-                      <div className="text-sm truncate px-1">{previewItem.label}</div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    ));
-
   return (
-    <div
-      data-testid="game-home"
-      className={clsx(
-        //
-        'flex grow flex-col',
-      )}
-    >
-      {/* screen app bar */}
-      <div
-        className={clsx(
-          //
-          'sticky top-0 z-10',
-          'w-full',
-          'bg-black',
-          'border-b-2 border-white',
-          'text-white',
-        )}
-      >
-        <div
-          className={clsx(
-            //
-            'mx-auto max-w-md w-full',
-            'p-4',
-            'pb-8',
-          )}
-        >
-          <div
-            className={clsx(
-              //
-              'flex justify-between items-center',
-            )}
-          >
-            <div className={clsx('text-2xl', 'font-bold')}>kartuli.app</div>
-            <div className="flex gap-2">
-              <LanguageSelect />
-            </div>
-          </div>
-        </div>
-      </div>
+    <AppScreen testId="game-home">
+      <AppBar isSticky>
+        <HomeBarContent />
+      </AppBar>
 
-      {/* screen content */}
-      <div
-        className={clsx(
-          //
-          'w-full grow',
-          'bg-black',
-          'text-white',
-        )}
-      >
-        <div
-          className={clsx(
-            //
-            'mx-auto max-w-md w-full grow',
-            'p-4',
-            'flex flex-col',
-          )}
-        >
-          <h1 className={clsx('text-5xl font-boldd', 'mt-16')}>გამარჯობა anon</h1>
-          <h2 className={clsx('text-3xl font-bold', 'mt-4', 'mb-16')}>{t('homeHeading')}</h2>
-
-          {/* modules list */}
-          <div className={clsx('flex flex-col gap-2', 'mb-4')}>{modulesContent}</div>
-        </div>
-      </div>
-    </div>
+      <AppContent>
+        <HomeHeading />
+        <ModulesList />
+      </AppContent>
+    </AppScreen>
   );
 }

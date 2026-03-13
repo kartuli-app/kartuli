@@ -15,6 +15,7 @@
   "dependencies": {
     "@kartuli/tailwind-config": "workspace:*",
     "@kartuli/ui": "workspace:*",
+    "@base-ui/react": "catalog:",
     "@tailwindcss/postcss": "catalog:",
     "clsx": "catalog:",
     "next": "catalog:",
@@ -23,7 +24,8 @@
     "react-dom": "catalog:",
     "tailwindcss": "catalog:",
     "i18next": "catalog:",
-    "react-i18next": "catalog:"
+    "react-i18next": "catalog:",
+    "lucide-react": "catalog:"
   },
   "devDependencies": {
     "@serwist/turbopack": "catalog:",

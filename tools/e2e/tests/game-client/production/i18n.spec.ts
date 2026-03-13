@@ -6,6 +6,8 @@ import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protecti
 const en_description = enResources.metadata.description;
 const en_title = enResources.metadata.title;
 const en_home_heading = enResources.common.homeHeading;
+const en_lang_label = enResources.common.langEn;
+const ru_lang_label = enResources.common.langRu;
 const ru_description = ruResources.metadata.description;
 const ru_title = ruResources.metadata.title;
 const ru_home_heading = ruResources.common.homeHeading;
@@ -55,9 +57,10 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('combobox')).toBeVisible();
+    await expect(page.getByRole('combobox', { name: 'Language' })).toBeVisible();
 
-    await page.getByRole('combobox').selectOption('ru');
+    await page.getByRole('combobox', { name: 'Language' }).click();
+    await page.getByRole('option', { name: ru_lang_label }).click();
 
     await expect(page).toHaveURL(/\/ru(\/|$)/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
@@ -73,9 +76,10 @@ test.describe('Game Client i18n', () => {
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('combobox')).toBeVisible();
+    await expect(page.getByRole('combobox', { name: 'Language' })).toBeVisible();
 
-    await page.getByRole('combobox').selectOption('en');
+    await page.getByRole('combobox', { name: 'Language' }).click();
+    await page.getByRole('option', { name: en_lang_label }).click();
 
     await expect(page).toHaveURL(/\/en(\/|$)/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
@@ -91,7 +95,8 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
-    await page.getByRole('combobox').selectOption('ru');
+    await page.getByRole('combobox', { name: 'Language' }).click();
+    await page.getByRole('option', { name: ru_lang_label }).click();
     await expect(page).toHaveURL(/\/ru(\/|$)/);
     await expect(page.getByRole('heading', { name: ru_home_heading })).toBeVisible({
       timeout: 5000,

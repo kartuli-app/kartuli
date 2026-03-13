@@ -7,6 +7,7 @@ export default {
   anonymousUser: 'anonymous user',
   langEn: 'English',
   langRu: 'Русский',
+  loading: 'Loading',
   sw: {
     devMessage: 'Development mode: a service worker is installed and may hide your local changes.',
     readyOffline: 'The game is ready to be played offline.',

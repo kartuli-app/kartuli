@@ -3,11 +3,11 @@ import { RouterProvider } from '@game-client/router-outlet/router-context';
 import { RouterOutlet } from '@game-client/router-outlet/router-outlet';
 import { PWANotifications } from '@game-client/service-worker/pwa-notifications/pwa-notifications';
 
-interface AppShellProps {
+interface SpaShellProps {
   readonly initialPath: string;
 }
 
-export function AppShell({ initialPath }: AppShellProps) {
+export function SpaShell({ initialPath }: SpaShellProps) {
   return (
     <div className="flex flex-1 flex-col">
       <RouterProvider initialPath={initialPath}>
