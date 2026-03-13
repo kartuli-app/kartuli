@@ -23,53 +23,52 @@ function projectItemToPreview(item: LibraryItemRecord): HomeLessonPreviewItem | 
   }
 }
 
-function isItemAvailableInLocale(item: LibraryItemRecord, localePack: LibraryLocalePack): boolean {
-  const localized = localePack.items[item.id];
+/** Returns true if the item has locale text in the pack. Uses only localePack (no repository I/O). */
+function isItemIdAvailableInLocale(itemId: string, localePack: LibraryLocalePack): boolean {
+  const localized = localePack.items[itemId];
   if (!localized) return false;
 
-  switch (item.type) {
-    case 'letter':
-      return (
-        typeof (localized as { nativeName?: string }).nativeName === 'string' &&
-        (localized as { nativeName: string }).nativeName.trim() !== '' &&
-        typeof (localized as { pronunciationHint?: string }).pronunciationHint === 'string' &&
-        (localized as { pronunciationHint: string }).pronunciationHint.trim() !== ''
-      );
-    case 'word':
-      return (
-        typeof (localized as { label?: string }).label === 'string' &&
-        (localized as { label: string }).label.trim() !== ''
-      );
-    case 'rule':
-      return (
-        typeof (localized as { title?: string }).title === 'string' &&
-        (localized as { title: string }).title.trim() !== ''
-      );
-    default:
-      return false;
+  if (
+    'nativeName' in localized &&
+    'pronunciationHint' in localized &&
+    typeof localized.nativeName === 'string' &&
+    localized.nativeName.trim() !== '' &&
+    typeof localized.pronunciationHint === 'string' &&
+    localized.pronunciationHint.trim() !== ''
+  ) {
+    return true;
   }
+  if (
+    'label' in localized &&
+    typeof localized.label === 'string' &&
+    localized.label.trim() !== ''
+  ) {
+    return true;
+  }
+  if (
+    'title' in localized &&
+    typeof localized.title === 'string' &&
+    localized.title.trim() !== ''
+  ) {
+    return true;
+  }
+  return false;
 }
 
-function isLessonAvailableInLocale(
+/** Checks lesson availability using only localePack (no repository getItemsByIds). */
+function isLessonAvailableInLocaleWithoutFetch(
   lesson: LessonRecord,
-  items: LibraryItemRecord[],
   localePack: LibraryLocalePack,
 ): boolean {
   const lessonText = localePack.lessons[lesson.id];
   if (!lessonText || typeof lessonText.title !== 'string' || lessonText.title.trim() === '') {
     return false;
   }
-
-  if (items.length !== lesson.itemIds.length) {
-    return false;
-  }
-
-  for (const item of items) {
-    if (!isItemAvailableInLocale(item, localePack)) {
+  for (const itemId of lesson.itemIds) {
+    if (!isItemIdAvailableInLocale(itemId, localePack)) {
       return false;
     }
   }
-
   return true;
 }
 
@@ -94,11 +93,10 @@ export async function getHomeModulesView(
     const lessonViews: HomeLessonCardView[] = [];
 
     for (const lesson of lessons) {
-      const items = await repository.getItemsByIds(lesson.itemIds);
-      if (!isLessonAvailableInLocale(lesson, items, localePack)) {
+      if (!isLessonAvailableInLocaleWithoutFetch(lesson, localePack)) {
         continue;
       }
-
+      const items = await repository.getItemsByIds(lesson.itemIds);
       const previewItems = items
         .map(projectItemToPreview)
         .filter((p: HomeLessonPreviewItem | null): p is HomeLessonPreviewItem => p !== null);
