@@ -38,13 +38,11 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.25rem;
 }
 ::-webkit-scrollbar-track {
-  /* background: linear-gradient(to bottom, #c0081c 80px, #dadbd6 80px, #dadbd6 100%); */
-  background: transparent;
+  background: var(--color-brand-primary-900);
 }
 ::-webkit-scrollbar-thumb {
-  border-radius: 0.815rem;
-  background-color: #484845;
+  background-color: var(--color-brand-primary-200);
 }
