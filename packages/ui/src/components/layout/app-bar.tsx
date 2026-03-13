@@ -22,18 +22,15 @@ export function AppBar({ className, children, isSticky = false }: Readonly<AppBa
         'border-brand-primary-900',
       )}
     >
-      <ResponsiveContainer>
-        <div
-          className={clsx(
-            //
-            'flex',
-            'justify-between',
-            'items-center',
-            className,
-          )}
-        >
-          {children}
-        </div>
+      <ResponsiveContainer
+        className={clsx(
+          //
+          'justify-between',
+          'items-center',
+          className,
+        )}
+      >
+        {children}
       </ResponsiveContainer>
     </div>
   );

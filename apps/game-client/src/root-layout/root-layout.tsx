@@ -25,7 +25,7 @@ export function RootLayout({
         'scrollbar-gutter-stable',
       )}
     >
-      <body className="h-dvh flex font-noto-sans-georgian">
+      <body className="h-dvh flex font-noto-sans-georgian ">
         <ServiceWorkerProvider>{children}</ServiceWorkerProvider>
       </body>
     </html>

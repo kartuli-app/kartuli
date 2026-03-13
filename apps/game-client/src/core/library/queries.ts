@@ -58,7 +58,7 @@ export async function getHomeModulesView(
     });
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   return result;
 }

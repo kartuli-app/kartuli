@@ -10,6 +10,7 @@ import { useLang } from '@game-client/i18n/use-lang';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function ModulesListError() {
   return (
@@ -30,43 +31,59 @@ function ModulesListError() {
   );
 }
 
-function ModulesListSkeleton() {
+function ModuleCardSkeleton() {
+  const { t } = useTranslation('common');
   return (
-    <div className={clsx('flex flex-col', 'gap-brand-regular')}>
-      <div
-        className={clsx(
-          //
-          'w-full h-[126px]',
-          'rounded-lg',
-          'bg-brand-primary-100',
-          'border-brand-primary-200 border',
-        )}
-      />
-      <div
-        className={clsx(
-          //
-          'w-full h-[126px]',
-          'rounded-lg',
-          'bg-brand-primary-100',
-          'border-brand-primary-200 border',
-        )}
-      />
+    <div className={clsx('flex flex-col')}>
+      <div className={clsx('text-2xl text-brand-neutral-400 font-semibold h-12 animate-pulse')}>
+        {t('loading')}...
+      </div>
+      <div className={clsx('flex flex-col gap-brand-large')}>
+        <LessonCardSkeleton />
+        <LessonCardSkeleton />
+        <LessonCardSkeleton />
+      </div>
     </div>
   );
 }
 
 function ModuleCard({ module }: { readonly module: HomeModuleView }) {
   return (
-    <div key={module.id} className={clsx('flex flex-col gap-brand-regular', 'mb-brand-xlarge')}>
-      <div className={clsx('flex flex-col', 'gap-brand-large')}>
-        {/* <div className={clsx('text-2xl font-semibold')}>{module.title}</div> */}
-        <div className={clsx('flex flex-col gap-brand-large')}>
-          {module.lessons.map((lesson) => (
-            <LessonCard key={lesson.id} lesson={lesson} />
-          ))}
-        </div>
+    <div key={module.id} className={clsx('flex flex-col')}>
+      <div className={clsx('text-2xl font-semibold h-12')}>{module.title}</div>
+      <div className={clsx('flex flex-col gap-brand-large')}>
+        {module.lessons.map((lesson) => (
+          <LessonCard key={lesson.id} lesson={lesson} />
+        ))}
       </div>
     </div>
+  );
+}
+
+function LessonCardSkeleton() {
+  return (
+    <div
+      className={clsx(
+        //
+        'h-32',
+        'justify-center',
+        //
+        'flex flex-col',
+        //
+        'rounded-lg',
+        'bg-brand-primary-100',
+        'border-brand-primary-200 border',
+        'hover:bg-brand-primary-200',
+        'active:bg-brand-primary-300',
+        'active:scale-105',
+        'cursor-pointer',
+        'px-brand-large',
+        'gap-brand-large',
+        'text-left',
+        'shadow-md',
+        'animate-pulse',
+      )}
+    />
   );
 }
 
@@ -81,6 +98,8 @@ function LessonCard({ lesson }: { readonly lesson: HomeLessonCardView }) {
       tabIndex={0}
       onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`)}
       className={clsx(
+        'h-36',
+        'justify-center',
         //
         'flex flex-col',
         //
@@ -91,14 +110,14 @@ function LessonCard({ lesson }: { readonly lesson: HomeLessonCardView }) {
         'active:bg-brand-primary-300',
         'active:scale-105',
         'cursor-pointer',
-        'p-brand-large',
+        'px-brand-large',
         'gap-brand-large',
         'text-left',
-        'group',
+        'shadow-md',
       )}
     >
       <div className={clsx('text-2xl', 'font-bold')}>{lesson.title}</div>
-      <div className="flex gap-brand-regular flex-wrap">
+      <div className="flex gap-brand-small flex-wrap">
         {lesson.previewItems.map((previewItem) => (
           <div
             key={previewItem.id}
@@ -107,15 +126,14 @@ function LessonCard({ lesson }: { readonly lesson: HomeLessonCardView }) {
               'bg-brand-neutral-100',
               'shadow-md',
               'rounded-lg',
-              'size-11',
+              'w-14 h-18',
               'shrink-0',
               'flex',
               'items-center',
               'justify-center',
-              'group-hover:rotate-2',
             )}
           >
-            {previewItem.type === 'letter' && <div className="text-4xl">{previewItem.text}</div>}
+            {previewItem.type === 'letter' && <div className="text-5xl">{previewItem.text}</div>}
             {previewItem.type === 'word' && (
               <img
                 src={previewItem.imageUrl}
@@ -162,7 +180,13 @@ export function ModulesList() {
     };
   }, [lang]);
 
-  if (loading) return <ModulesListSkeleton />;
-  else if (error) return <ModulesListError />;
-  else return modules.map((module) => <ModuleCard key={module.id} module={module} />);
+  return (
+    <div className={clsx('flex flex-col gap-brand-large', 'my-brand-xlarge')}>
+      {loading ? <ModuleCardSkeleton /> : null}
+      {error ? <ModulesListError /> : null}
+      {!loading && !error
+        ? modules.map((module) => <ModuleCard key={module.id} module={module} />)
+        : null}
+    </div>
+  );
 }

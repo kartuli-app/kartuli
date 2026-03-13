@@ -31,4 +31,20 @@
   .font-noto-sans-georgian {
     font-family: var(--font-noto-sans-georgian, system-ui);
   }
+
+  .root {
+    isolation: isolate;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+::-webkit-scrollbar-track {
+  /* background: linear-gradient(to bottom, #c0081c 80px, #dadbd6 80px, #dadbd6 100%); */
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 0.815rem;
+  background-color: #484845;
 }

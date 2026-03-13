@@ -13,7 +13,7 @@ export function AppContent({
         'w-full grow',
       )}
     >
-      <ResponsiveContainer className={className}>{children}</ResponsiveContainer>
+      <ResponsiveContainer className={clsx('flex-col', className)}>{children}</ResponsiveContainer>
     </div>
   );
 }

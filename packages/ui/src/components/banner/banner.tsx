@@ -47,10 +47,10 @@ export function BannerButton({
         'rounded-lg',
         'text-sm',
         'cursor-pointer',
-        'border-brand-neutral-50',
-        'text-brand-neutral-50',
-        'bg-brand-primary-300',
-        'hover:bg-brand-primary-400',
+        'border-brand-neutral-100',
+        'text-brand-neutral-900',
+        'bg-brand-neutral-200',
+        'hover:bg-brand-neutral-300',
         className,
       )}
       aria-label={label}
@@ -79,10 +79,10 @@ export function BannerCloseButton({
         'rounded-lg',
         'text-sm',
         'cursor-pointer',
-        'border-brand-neutral-50',
-        'text-brand-neutral-50',
-        'bg-brand-primary-300',
-        'hover:bg-brand-primary-400',
+        'border-brand-neutral-100',
+        'text-brand-neutral-900',
+        'bg-brand-neutral-200',
+        'hover:bg-brand-neutral-300',
         className,
       )}
       aria-label={dismissLabel}
@@ -118,11 +118,12 @@ export function Banner({
       data-testid={testId}
       className={clsx(
         //
-        'w-full',
         'flex flex-wrap',
+        'w-full',
         //
         'bg-brand-primary-600',
         'text-brand-neutral-100',
+        //
         'border-b-2',
         'border-brand-primary-600',
         className,
@@ -130,10 +131,30 @@ export function Banner({
       aria-live={ariaLive}
     >
       <ResponsiveContainer
-        className={clsx('justify-between', 'items-center', 'flex', 'gap-brand-regular')}
+        className={clsx(
+          //
+          'justify-between',
+          'items-center',
+        )}
       >
-        <div className="flex-1 min-w-0">{children}</div>
-        <div className="flex items-center gap-brand-regular">
+        <div
+          className={clsx(
+            //
+            'flex flex-1',
+          )}
+        >
+          {children}
+        </div>
+        <div
+          className={clsx(
+            //
+            'flex',
+            //
+            'items-center',
+            //
+            'gap-brand-regular',
+          )}
+        >
           {actions?.map((action) => (
             <BannerButton key={action.label} label={action.label} onClick={action.onClick}>
               {action.children}

@@ -7,6 +7,7 @@ export default {
   anonymousUser: 'анонимный пользователь',
   langEn: 'English',
   langRu: 'Русский',
+  loading: 'Загрузка',
   sw: {
     devMessage:
       'Режим разработки: установлен сервис-воркер, он может скрывать локальные изменения.',

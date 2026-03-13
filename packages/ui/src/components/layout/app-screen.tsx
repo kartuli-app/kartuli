@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
 
-export function PageWrapper({
+export function AppScreen({
   children,
   testId,
 }: {

@@ -1,13 +1,13 @@
 import { AppBar } from '@kartuli/ui/components/layout/app-bar';
-import { AppContent } from './app-content';
+import { AppContent } from '@kartuli/ui/components/layout/app-content';
+import { AppScreen } from '@kartuli/ui/components/layout/app-screen';
 import { HomeBarContent } from './home-bar-content';
 import { HomeHeading } from './home-heading';
 import { ModulesList } from './modules-list';
-import { PageWrapper } from './page-wrapper';
 
 export function HomePage() {
   return (
-    <PageWrapper testId="game-home">
+    <AppScreen testId="game-home">
       <AppBar isSticky>
         <HomeBarContent />
       </AppBar>
@@ -16,6 +16,6 @@ export function HomePage() {
         <HomeHeading />
         <ModulesList />
       </AppContent>
-    </PageWrapper>
+    </AppScreen>
   );
 }
