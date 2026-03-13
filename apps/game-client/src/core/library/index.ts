@@ -1,4 +1,4 @@
-export { getFirstLessonFixtureEn, getHomeModulesView } from './queries';
+export { getHomeModulesView } from './queries';
 export type { LibraryContentRepository } from './repository';
 export { createBundledLibraryRepository, getDefaultRepository } from './repository';
 export type {

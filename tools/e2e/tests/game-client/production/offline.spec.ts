@@ -1,6 +1,6 @@
-import { getFirstLessonFixtureEn } from '@game-client/core/library';
 import { expect, test } from '@playwright/test';
 import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
+import { getFirstLessonFixtureEn } from '../../helpers/first-lesson-fixture';
 
 const { firstLessonId, firstLessonTitleEn } = await getFirstLessonFixtureEn();
 

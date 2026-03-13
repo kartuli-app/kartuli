@@ -1,11 +1,13 @@
 import type { LibraryContentRepository } from './repository';
-import { getDefaultRepository } from './repository';
 import type {
   AppLocale,
   HomeLessonCardView,
   HomeLessonPreviewItem,
   HomeModuleView,
+  LessonRecord,
   LibraryItemRecord,
+  LibraryLocalePack,
+  ModuleRecord,
 } from './types';
 
 function projectItemToPreview(item: LibraryItemRecord): HomeLessonPreviewItem | null {
@@ -19,6 +21,60 @@ function projectItemToPreview(item: LibraryItemRecord): HomeLessonPreviewItem | 
     default:
       return null;
   }
+}
+
+/** Returns true if the item has locale text in the pack. Uses only localePack (no repository I/O). */
+function isItemIdAvailableInLocale(itemId: string, localePack: LibraryLocalePack): boolean {
+  const localized = localePack.items[itemId];
+  if (!localized) return false;
+
+  if (
+    'nativeName' in localized &&
+    'pronunciationHint' in localized &&
+    typeof localized.nativeName === 'string' &&
+    localized.nativeName.trim() !== '' &&
+    typeof localized.pronunciationHint === 'string' &&
+    localized.pronunciationHint.trim() !== ''
+  ) {
+    return true;
+  }
+  if (
+    'label' in localized &&
+    typeof localized.label === 'string' &&
+    localized.label.trim() !== ''
+  ) {
+    return true;
+  }
+  if (
+    'title' in localized &&
+    typeof localized.title === 'string' &&
+    localized.title.trim() !== ''
+  ) {
+    return true;
+  }
+  return false;
+}
+
+/** Checks lesson availability using only localePack (no repository getItemsByIds). */
+function isLessonAvailableInLocaleWithoutFetch(
+  lesson: LessonRecord,
+  localePack: LibraryLocalePack,
+): boolean {
+  const lessonText = localePack.lessons[lesson.id];
+  if (!lessonText || typeof lessonText.title !== 'string' || lessonText.title.trim() === '') {
+    return false;
+  }
+  for (const itemId of lesson.itemIds) {
+    if (!isItemIdAvailableInLocale(itemId, localePack)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isModuleAvailableInLocale(module: ModuleRecord, localePack: LibraryLocalePack): boolean {
+  const moduleText = localePack.modules[module.id];
+  return !!moduleText && typeof moduleText.title === 'string' && moduleText.title.trim() !== '';
 }
 
 export async function getHomeModulesView(
@@ -37,6 +93,9 @@ export async function getHomeModulesView(
     const lessonViews: HomeLessonCardView[] = [];
 
     for (const lesson of lessons) {
+      if (!isLessonAvailableInLocaleWithoutFetch(lesson, localePack)) {
+        continue;
+      }
       const items = await repository.getItemsByIds(lesson.itemIds);
       const previewItems = items
         .map(projectItemToPreview)
@@ -50,6 +109,10 @@ export async function getHomeModulesView(
       });
     }
 
+    if (!isModuleAvailableInLocale(module, localePack) || lessonViews.length === 0) {
+      continue;
+    }
+
     const moduleText = localePack.modules[module.id];
     result.push({
       id: module.id,
@@ -61,21 +124,4 @@ export async function getHomeModulesView(
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   return result;
-}
-
-/** Test/E2E helper: first lesson id and English title. Resolves asynchronously. */
-export async function getFirstLessonFixtureEn(): Promise<{
-  firstLessonId: string;
-  firstLessonTitleEn: string;
-}> {
-  const repo = getDefaultRepository();
-  const view = await getHomeModulesView(repo, 'en');
-  const firstLesson = view[0]?.lessons[0];
-  if (!firstLesson) {
-    throw new Error('Library has no modules or lessons');
-  }
-  return {
-    firstLessonId: firstLesson.id,
-    firstLessonTitleEn: firstLesson.title,
-  };
 }
