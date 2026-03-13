@@ -1,4 +1,4 @@
-import { getFirstLessonFixtureEn } from '@game-client/core/library';
+import { getDefaultRepository, getHomeModulesView } from '@game-client/core/library';
 import { RouterProvider } from '@game-client/router-outlet/router-context';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -18,9 +18,12 @@ describe('Game Client Home Page', () => {
   let firstLessonTitleEn: string;
 
   beforeAll(async () => {
-    const fixture = await getFirstLessonFixtureEn();
-    firstLessonId = fixture.firstLessonId;
-    firstLessonTitleEn = fixture.firstLessonTitleEn;
+    const repo = getDefaultRepository();
+    const view = await getHomeModulesView(repo, 'en');
+    const first = view[0]?.lessons[0];
+    if (!first) throw new Error('Library has no modules or lessons');
+    firstLessonId = first.id;
+    firstLessonTitleEn = first.title;
   });
 
   it('renders Home heading and lesson list', async () => {
