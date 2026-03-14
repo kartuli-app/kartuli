@@ -29,18 +29,18 @@ function ModuleCardContent({
   children,
 }: Readonly<{
   className?: string;
-  children: React.ReactNode[];
+  children: React.ReactNode[] | React.ReactNode;
 }>) {
   return <div className={clsx('flex flex-col gap-brand-large', className)}>{children}</div>;
 }
 
 const lessonCardBaseClassnames = clsx(
   //
-  'h-36',
+  'h-40',
   'justify-center',
   //
   'px-brand-large',
-  'gap-brand-large',
+  'gap-brand-regular',
   //
   'flex flex-col',
   //
@@ -69,8 +69,8 @@ const lessonCardErrorClassnames = clsx(
 
 const lessonCardWithImageClassnames = clsx(
   //
-  // height = 2 skeletons + gap (36 + gap-brand-large)
-  'h-[calc()var(--spacing)_*_36+(var(--spacing-brand-large)))]',
+  // height = 2 skeletons + gap (40 + gap-brand-large)
+  'h-[calc((var(--spacing)*40*2)+(var(--spacing-brand-large)))]',
   //
   'p-brand-large',
   //
@@ -140,15 +140,32 @@ function ModuleCardWithLessons({ module }: { readonly module: HomeModuleView }) 
     <ModuleCard key={module.id}>
       <ModuleCardTitle className="text-brand-primary-500" title={module.title} />
       <ModuleCardContent>
-        {module.lessons.map((lesson) => (
-          <LessonCardWithContent key={lesson.id} lesson={lesson} />
-        ))}
+        <div
+          className={clsx(
+            //
+            'grid',
+            'grid-cols-1',
+            'sm:grid-cols-2',
+            'lg:grid-cols-3',
+            'gap-brand-large',
+          )}
+        >
+          {module.lessons.map((lesson) => (
+            <LessonCardWithContent key={lesson.id} lesson={lesson} className="" />
+          ))}
+        </div>
       </ModuleCardContent>
     </ModuleCard>
   );
 }
 
-function LessonCardWithContent({ lesson }: { readonly lesson: HomeLessonCardView }) {
+function LessonCardWithContent({
+  lesson,
+  className,
+}: Readonly<{
+  lesson: HomeLessonCardView;
+  className?: string;
+}>) {
   const lang = useLang();
   const { navigate } = useRouterContext();
   return (
@@ -158,10 +175,25 @@ function LessonCardWithContent({ lesson }: { readonly lesson: HomeLessonCardView
       type="button"
       tabIndex={0}
       onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`)}
-      className={clsx(lessonCardBaseClassnames, lessonCardWithContentClassnames)}
+      className={clsx(lessonCardBaseClassnames, lessonCardWithContentClassnames, className)}
     >
-      <div className={clsx('text-2xl', 'font-bold')}>{lesson.title}</div>
-      <div className="flex gap-brand-small flex-wrap">
+      <div
+        className={clsx(
+          //
+          'text-2xl',
+          'font-bold',
+        )}
+      >
+        {lesson.title}
+      </div>
+      <div
+        className={clsx(
+          //
+          'gap-brand-small',
+          'w-full',
+          'grid grid-cols-6',
+        )}
+      >
         {lesson.previewItems.map((previewItem) => (
           <div
             key={previewItem.id}
@@ -171,14 +203,22 @@ function LessonCardWithContent({ lesson }: { readonly lesson: HomeLessonCardView
               'bg-brand-neutral-100',
               'shadow-md',
               'rounded-lg',
-              'w-14 h-18',
-              'shrink-0',
+              'h-22',
               'flex',
               'items-center',
               'justify-center',
             )}
           >
-            {previewItem.type === 'letter' && <div className="text-5xl">{previewItem.text}</div>}
+            {previewItem.type === 'letter' && (
+              <div className="flex flex-col items-center justify-center gap-brand-small">
+                <div className="text-4xl">{previewItem.text}</div>
+                <div className="text-xl flex gap-brand-xsmall">
+                  <span className="text-orange-500">[</span>
+                  {previewItem.transliteration}
+                  <span className="text-orange-500">]</span>
+                </div>
+              </div>
+            )}
             {previewItem.type === 'word' && (
               <img
                 src={previewItem.imageUrl}
@@ -227,7 +267,7 @@ export function ModulesList() {
   }, [lang]);
 
   return (
-    <div className={clsx('flex flex-col gap-brand-xlarge', 'my-brand-xlarge')}>
+    <div className={clsx('flex flex-col gap-brand-xlarge', 'mt-brand-xlarge')}>
       {loading ? <ModuleCardSkeleton /> : null}
       {error ? (
         <ModuleCardError title={`მძღნერი = ${t('shit')}`} message={t('errorLoadingContent')} />
