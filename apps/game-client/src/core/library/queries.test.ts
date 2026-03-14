@@ -1,28 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { localePackRu } from './data/data.locale.ru';
 import { getHomeModulesView } from './queries';
-import type { LibraryContentRepository } from './repository';
 import { createBundledLibraryRepository } from './repository';
-import type { AppLocale } from './types';
+import {
+  createRepoThatThrows,
+  createRepoWithEmptyModules,
+  createRepoWithIncompleteRussian,
+} from './repository-fakes';
 
 const AFFECTED_LESSON_ID = 'lesson-alphabet-buzzing-sounds';
 const AFFECTED_LESSON_TITLE_EN = 'Buzzing Sounds';
-
-/** Repository that returns a Russian locale pack missing one item so one lesson is unavailable (for tests only). */
-function createRepoWithIncompleteRussian(): LibraryContentRepository {
-  const real = createBundledLibraryRepository();
-  const ruPackWithoutJani = {
-    ...localePackRu,
-    items: { ...localePackRu.items },
-  };
-  delete ruPackWithoutJani.items['letter-jani'];
-
-  return {
-    ...real,
-    getLocalePack: async (locale: AppLocale) =>
-      locale === 'ru' ? ruPackWithoutJani : real.getLocalePack(locale),
-  };
-}
 
 describe('getHomeModulesView', () => {
   const repo = createBundledLibraryRepository();
@@ -85,6 +71,25 @@ describe('getHomeModulesView', () => {
       const viewRu = await getHomeModulesView(repoIncompleteRu, 'ru');
       expect(viewEn[0].lessons.length).toBe(7);
       expect(viewRu[0].lessons.length).toBe(6);
+    });
+  });
+
+  describe('empty modules (test repo with no modules)', () => {
+    const repoEmpty = createRepoWithEmptyModules();
+
+    it('returns empty array for any locale', async () => {
+      const viewEn = await getHomeModulesView(repoEmpty, 'en');
+      const viewRu = await getHomeModulesView(repoEmpty, 'ru');
+      expect(viewEn).toEqual([]);
+      expect(viewRu).toEqual([]);
+    });
+  });
+
+  describe('error (test repo that throws)', () => {
+    const repoThatThrows = createRepoThatThrows(new Error('Network error'));
+
+    it('getHomeModulesView rejects with the same error', async () => {
+      await expect(getHomeModulesView(repoThatThrows, 'en')).rejects.toThrow('Network error');
     });
   });
 });
