@@ -120,17 +120,12 @@ function ModuleCardError({
   title: string;
   message: string;
 }>) {
-  const { t } = useTranslation('common');
   return (
     <ModuleCard>
       <ModuleCardTitle className="text-red-900" title={title} />
       <ModuleCardContent>
         <div className={clsx(lessonCardBaseClassnames, lessonCardWithImageClassnames)}>
-          <img
-            src={errorIllustration.src}
-            alt={t('error')}
-            className="w-full h-full object-contain"
-          />
+          <img src={errorIllustration.src} alt={message} className="w-full h-full object-contain" />
         </div>
         <div className={clsx(lessonCardBaseClassnames, lessonCardErrorClassnames)}>
           <LessonCardTitle title={message} />
