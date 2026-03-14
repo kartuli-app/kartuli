@@ -2,12 +2,20 @@ export default {
   save: 'Сохранить',
   cancel: 'Отмена',
   back: 'Назад',
-  homeHeading: 'Давайте выучим грузинский язык!',
   user: 'Пользователь',
   anonymousUser: 'анонимный пользователь',
   langEn: 'English',
   langRu: 'Русский',
+  // home
+  homeHeading: 'Давайте выучим грузинский язык!',
+  anon: 'анон',
+  // states
   loading: 'Загрузка',
+  noContentFound: 'Ничего не найдено',
+  errorLoadingContent: 'Ошибка загрузки контента',
+  shit: 'говно',
+  error: 'Ошибка',
+  //
   sw: {
     devMessage:
       'Режим разработки: установлен сервис-воркер, он может скрывать локальные изменения.',
