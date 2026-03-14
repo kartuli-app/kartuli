@@ -70,7 +70,7 @@ const lessonCardErrorClassnames = clsx(
 const lessonCardWithImageClassnames = clsx(
   //
   // height = 2 skeletons + gap (36 + gap-brand-large)
-  'h-[calc()var(--spacing)_*_36=+(var(--spacing-brand-large)))]',
+  'h-[calc()var(--spacing)_*_36+(var(--spacing-brand-large)))]',
   //
   'p-brand-large',
   //
