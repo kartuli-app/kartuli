@@ -31,6 +31,8 @@ describe('getHomeModulesView', () => {
     expect(letterPreview?.type).toBe('letter');
     expect(typeof (letterPreview as { text: string }).text).toBe('string');
     expect((letterPreview as { text: string }).text).toBe('ა');
+    expect(typeof (letterPreview as { transliteration: string }).transliteration).toBe('string');
+    expect((letterPreview as { transliteration: string }).transliteration).toBe('a');
   });
 
   it('with real data, en and ru both have all 7 lessons', async () => {

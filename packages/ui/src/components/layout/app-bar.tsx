@@ -19,7 +19,7 @@ export function AppBar({ className, children, isSticky = false }: Readonly<AppBa
         'bg-brand-primary-500',
         'text-brand-neutral-50',
         'border-b-2',
-        'border-brand-primary-900',
+        'border-brand-primary-600',
       )}
     >
       <ResponsiveContainer

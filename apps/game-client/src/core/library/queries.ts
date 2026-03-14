@@ -13,7 +13,12 @@ import type {
 function projectItemToPreview(item: LibraryItemRecord): HomeLessonPreviewItem | null {
   switch (item.type) {
     case 'letter':
-      return { id: item.id, type: 'letter', text: item.targetScript };
+      return {
+        id: item.id,
+        type: 'letter',
+        text: item.targetScript,
+        transliteration: item.transliteration,
+      };
     case 'word':
       return { id: item.id, type: 'word', imageUrl: item.imageUrl, alt: '' };
     case 'rule':

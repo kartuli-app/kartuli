@@ -90,6 +90,6 @@ export interface HomeLessonCardView {
 }
 
 export type HomeLessonPreviewItem =
-  | { id: string; type: 'letter'; text: string }
+  | { id: string; type: 'letter'; text: string; transliteration: string }
   | { id: string; type: 'word'; imageUrl: string; alt: string }
   | { id: string; type: 'rule'; label: string };

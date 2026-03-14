@@ -48,6 +48,7 @@
   /* ============================================
      SPACING
      ============================================ */
+  --spacing-brand-xsmall: calc(var(--spacing) * 0.5);
   --spacing-brand-small: calc(var(--spacing) * 1);
   --spacing-brand-regular: calc(var(--spacing) * 2);
   --spacing-brand-large: calc(var(--spacing) * 4);
