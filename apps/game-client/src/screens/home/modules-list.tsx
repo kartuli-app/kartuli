@@ -113,11 +113,17 @@ function ModuleCardSkeleton() {
   );
 }
 
-function ModuleCardEmpty() {
+function ModuleCardError({
+  title,
+  message,
+}: Readonly<{
+  title: string;
+  message: string;
+}>) {
   const { t } = useTranslation('common');
   return (
     <ModuleCard>
-      <ModuleCardTitle className="text-red-900" title={`მძღნერი = ${t('shit')}`} />
+      <ModuleCardTitle className="text-red-900" title={title} />
       <ModuleCardContent>
         <div className={clsx(lessonCardBaseClassnames, lessonCardWithImageClassnames)}>
           <img
@@ -127,28 +133,7 @@ function ModuleCardEmpty() {
           />
         </div>
         <div className={clsx(lessonCardBaseClassnames, lessonCardErrorClassnames)}>
-          <LessonCardTitle title={t('noContentFound')} />
-        </div>
-      </ModuleCardContent>
-    </ModuleCard>
-  );
-}
-
-function ModuleCardError() {
-  const { t } = useTranslation('common');
-  return (
-    <ModuleCard>
-      <ModuleCardTitle className="text-red-900" title={`მძღნერი = ${t('shit')}`} />
-      <ModuleCardContent>
-        <div className={clsx(lessonCardBaseClassnames, lessonCardWithImageClassnames)}>
-          <img
-            src={errorIllustration.src}
-            alt={t('error')}
-            className="w-full h-full object-contain"
-          />
-        </div>
-        <div className={clsx(lessonCardBaseClassnames, lessonCardErrorClassnames)}>
-          <LessonCardTitle title={t('errorLoadingContent')} />
+          <LessonCardTitle title={message} />
         </div>
       </ModuleCardContent>
     </ModuleCard>
@@ -217,6 +202,7 @@ function LessonCardWithContent({ lesson }: { readonly lesson: HomeLessonCardView
 }
 
 export function ModulesList() {
+  const { t } = useTranslation('common');
   const lang = useLang();
   const [modules, setModules] = useState<HomeModuleView[]>([]);
   const [loading, setLoading] = useState(true);
@@ -248,11 +234,15 @@ export function ModulesList() {
   return (
     <div className={clsx('flex flex-col gap-brand-xlarge', 'my-brand-xlarge')}>
       {loading ? <ModuleCardSkeleton /> : null}
-      {error ? <ModuleCardError /> : null}
+      {error ? (
+        <ModuleCardError title={`მძღნერი = ${t('shit')}`} message={t('errorLoadingContent')} />
+      ) : null}
+      {!loading && !error && modules.length === 0 ? (
+        <ModuleCardError title={`მძღნერი = ${t('shit')}`} message={t('noContentFound')} />
+      ) : null}
       {!loading && !error && modules.length > 0
         ? modules.map((module) => <ModuleCardWithLessons key={module.id} module={module} />)
         : null}
-      {!loading && !error && modules.length === 0 ? <ModuleCardEmpty /> : null}
     </div>
   );
 }
