@@ -7,87 +7,168 @@ import {
   type HomeModuleView,
 } from '@game-client/core/library';
 import { useLang } from '@game-client/i18n/use-lang';
+import errorIllustration from '@game-client/images/illustrations/error.svg';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function ModulesListError() {
-  return (
-    <div className={clsx('flex flex-col', 'gap-brand-regular')}>
-      <div
-        className={clsx(
-          //
-          'w-full h-[10dvh] bg-red-500 animate-pulse rounded-md',
-        )}
-      />
-      <div
-        className={clsx(
-          //
-          'w-full h-[30dvh] bg-red-500 animate-pulse rounded-md',
-        )}
-      />
-    </div>
-  );
+function ModuleCard({
+  className,
+  children,
+}: Readonly<{ className?: string; children: React.ReactNode[] }>) {
+  return <div className={clsx('flex flex-col gap-brand-regular', className)}>{children}</div>;
+}
+
+function ModuleCardTitle({ className, title }: Readonly<{ className: string; title: string }>) {
+  return <div className={clsx('text-2xl font-semibold', 'text-center', className)}>{title}</div>;
+}
+
+function ModuleCardContent({
+  className,
+  children,
+}: Readonly<{
+  className?: string;
+  children: React.ReactNode[];
+}>) {
+  return <div className={clsx('flex flex-col gap-brand-large', className)}>{children}</div>;
+}
+
+const lessonCardBaseClassnames = clsx(
+  //
+  'h-36',
+  'justify-center',
+  //
+  'px-brand-large',
+  'gap-brand-large',
+  //
+  'flex flex-col',
+  //
+  'rounded-lg',
+  'shadow-md',
+  'border',
+  //
+);
+
+const lessonCardSkeletonClassnames = clsx(
+  //
+  'bg-neutral-300',
+  'border-neutral-400',
+  'animate-pulse',
+);
+
+const lessonCardErrorClassnames = clsx(
+  //
+  'bg-red-200',
+  'border-red-300',
+  'text-red-800',
+  //
+  'items-center',
+  'text-center',
+);
+
+const lessonCardWithImageClassnames = clsx(
+  //
+  // height = 2 skeletons + gap (36 + gap-brand-large)
+  'h-[calc()var(--spacing)_*_36=+(var(--spacing-brand-large)))]',
+  //
+  'p-brand-large',
+  //
+  'border-transparent',
+  'bg-transparent',
+  //
+  'shadow-none',
+);
+
+const lessonCardWithContentClassnames = clsx(
+  //
+  'text-brand-primary-50',
+  'bg-brand-primary-400',
+  'border-brand-primary-500',
+  //
+  'hover:bg-brand-primary-500',
+  'active:bg-brand-primary-500',
+  'active:scale-105',
+  //
+  'cursor-pointer',
+  //
+  'text-left', // this is to override default button text alignment
+);
+
+function LessonCardTitle({ className, title }: Readonly<{ className?: string; title: string }>) {
+  return <div className={clsx('text-2xl', 'font-bold', className)}>{title}</div>;
 }
 
 function ModuleCardSkeleton() {
   const { t } = useTranslation('common');
   return (
-    <div className={clsx('flex flex-col')}>
-      <div className={clsx('text-2xl text-brand-neutral-400 font-semibold h-12 animate-pulse')}>
-        {t('loading')}...
-      </div>
-      <div className={clsx('flex flex-col gap-brand-large')}>
-        <LessonCardSkeleton />
-        <LessonCardSkeleton />
-        <LessonCardSkeleton />
-      </div>
-    </div>
+    <ModuleCard>
+      <ModuleCardTitle className="text-brand-neutral-400 animate-pulse" title={t('loading')} />
+      <ModuleCardContent>
+        <div className={clsx(lessonCardBaseClassnames, lessonCardSkeletonClassnames)} />
+        <div className={clsx(lessonCardBaseClassnames, lessonCardSkeletonClassnames)} />
+        <div className={clsx(lessonCardBaseClassnames, lessonCardSkeletonClassnames)} />
+      </ModuleCardContent>
+    </ModuleCard>
   );
 }
 
-function ModuleCard({ module }: { readonly module: HomeModuleView }) {
+function ModuleCardEmpty() {
+  const { t } = useTranslation('common');
   return (
-    <div key={module.id} className={clsx('flex flex-col')}>
-      <div className={clsx('text-2xl font-semibold h-12')}>{module.title}</div>
-      <div className={clsx('flex flex-col gap-brand-large')}>
+    <ModuleCard>
+      <ModuleCardTitle className="text-red-900" title={`მძღნერი = ${t('shit')}`} />
+      <ModuleCardContent>
+        <div className={clsx(lessonCardBaseClassnames, lessonCardWithImageClassnames)}>
+          <img
+            src={errorIllustration.src}
+            alt={t('error')}
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <div className={clsx(lessonCardBaseClassnames, lessonCardErrorClassnames)}>
+          <LessonCardTitle title={t('noContentFound')} />
+        </div>
+      </ModuleCardContent>
+    </ModuleCard>
+  );
+}
+
+function ModuleCardError() {
+  const { t } = useTranslation('common');
+  return (
+    <ModuleCard>
+      <ModuleCardTitle className="text-red-900" title={`მძღნერი = ${t('shit')}`} />
+      <ModuleCardContent>
+        <div className={clsx(lessonCardBaseClassnames, lessonCardWithImageClassnames)}>
+          <img
+            src={errorIllustration.src}
+            alt={t('error')}
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <div className={clsx(lessonCardBaseClassnames, lessonCardErrorClassnames)}>
+          <LessonCardTitle title={t('errorLoadingContent')} />
+        </div>
+      </ModuleCardContent>
+    </ModuleCard>
+  );
+}
+
+function ModuleCardWithLessons({ module }: { readonly module: HomeModuleView }) {
+  return (
+    <ModuleCard key={module.id}>
+      <ModuleCardTitle className="text-brand-primary-500" title={module.title} />
+      <ModuleCardContent>
         {module.lessons.map((lesson) => (
-          <LessonCard key={lesson.id} lesson={lesson} />
+          <LessonCardWithContent key={lesson.id} lesson={lesson} />
         ))}
-      </div>
-    </div>
+      </ModuleCardContent>
+    </ModuleCard>
   );
 }
 
-function LessonCardSkeleton() {
-  return (
-    <div
-      className={clsx(
-        //
-        'h-32',
-        'justify-center',
-        //
-        'flex flex-col',
-        //
-        'rounded-lg',
-        'bg-brand-primary-100',
-        'border-brand-primary-200 border',
-        'hover:bg-brand-primary-200',
-        'active:bg-brand-primary-300',
-        'active:scale-105',
-        'cursor-pointer',
-        'px-brand-large',
-        'gap-brand-large',
-        'text-left',
-        'shadow-md',
-        'animate-pulse',
-      )}
-    />
-  );
-}
-
-function LessonCard({ lesson }: { readonly lesson: HomeLessonCardView }) {
+function LessonCardWithContent({ lesson }: { readonly lesson: HomeLessonCardView }) {
   const lang = useLang();
   const { navigate } = useRouterContext();
   return (
@@ -97,24 +178,7 @@ function LessonCard({ lesson }: { readonly lesson: HomeLessonCardView }) {
       type="button"
       tabIndex={0}
       onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`)}
-      className={clsx(
-        'h-36',
-        'justify-center',
-        //
-        'flex flex-col',
-        //
-        'rounded-lg',
-        'bg-brand-primary-100',
-        'border-brand-primary-200 border',
-        'hover:bg-brand-primary-200',
-        'active:bg-brand-primary-300',
-        'active:scale-105',
-        'cursor-pointer',
-        'px-brand-large',
-        'gap-brand-large',
-        'text-left',
-        'shadow-md',
-      )}
+      className={clsx(lessonCardBaseClassnames, lessonCardWithContentClassnames)}
     >
       <div className={clsx('text-2xl', 'font-bold')}>{lesson.title}</div>
       <div className="flex gap-brand-small flex-wrap">
@@ -123,6 +187,7 @@ function LessonCard({ lesson }: { readonly lesson: HomeLessonCardView }) {
             key={previewItem.id}
             className={clsx(
               //
+              'text-brand-neutral-900',
               'bg-brand-neutral-100',
               'shadow-md',
               'rounded-lg',
@@ -181,12 +246,13 @@ export function ModulesList() {
   }, [lang]);
 
   return (
-    <div className={clsx('flex flex-col gap-brand-large', 'my-brand-xlarge')}>
+    <div className={clsx('flex flex-col gap-brand-xlarge', 'my-brand-xlarge')}>
       {loading ? <ModuleCardSkeleton /> : null}
-      {error ? <ModulesListError /> : null}
-      {!loading && !error
-        ? modules.map((module) => <ModuleCard key={module.id} module={module} />)
+      {error ? <ModuleCardError /> : null}
+      {!loading && !error && modules.length > 0
+        ? modules.map((module) => <ModuleCardWithLessons key={module.id} module={module} />)
         : null}
+      {!loading && !error && modules.length === 0 ? <ModuleCardEmpty /> : null}
     </div>
   );
 }
