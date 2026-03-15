@@ -1,0 +1,49 @@
+{
+  "modules": [
+    {
+      "id": "module-extended-mix",
+      "lessonIds": ["lesson-alphabet-vowels", "lesson-vocabulary-common-words"]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-extended-practice"
+    }
+  ],
+  "moduleLessonEdges": [
+    {
+      "moduleId": "module-extended-mix",
+      "lessonId": "lesson-alphabet-vowels",
+      "order": 0
+    },
+    {
+      "moduleId": "module-extended-mix",
+      "lessonId": "lesson-vocabulary-common-words",
+      "order": 1
+    },
+    {
+      "moduleId": "module-alphabet",
+      "lessonId": "lesson-extended-practice",
+      "order": 2
+    }
+  ],
+  "alphabetItems": [],
+  "vocabularyItems": [],
+  "lessonItemEdges": [
+    {
+      "lessonId": "lesson-extended-practice",
+      "itemId": "letter-bani",
+      "order": 0
+    },
+    {
+      "lessonId": "lesson-extended-practice",
+      "itemId": "letter-gani",
+      "order": 1
+    },
+    {
+      "lessonId": "lesson-alphabet-vowels",
+      "itemId": "letter-ani",
+      "order": 99
+    }
+  ]
+}
