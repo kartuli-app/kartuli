@@ -38,7 +38,10 @@ describe('mergeLocalizedContentData', () => {
     };
     const merged = mergeLocalizedContentData(defaultData, extendedData);
     expect(merged.localizedModules).toHaveLength(2);
-    expect(merged.localizedModules.map((m) => m.id).sort()).toEqual(['module-a', 'module-b']);
+    expect(merged.localizedModules.map((m) => m.id).sort((a, b) => a.localeCompare(b))).toEqual([
+      'module-a',
+      'module-b',
+    ]);
     expect(merged.localizedLessons).toHaveLength(2);
   });
 });

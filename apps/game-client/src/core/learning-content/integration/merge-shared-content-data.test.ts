@@ -86,7 +86,10 @@ describe('mergeSharedContentData', () => {
     };
     const merged = mergeSharedContentData(defaultData, extendedData);
     expect(merged.modules).toHaveLength(2);
-    expect(merged.modules.map((m) => m.id).sort()).toEqual(['module-a', 'module-b']);
+    expect(merged.modules.map((m) => m.id).sort((a, b) => a.localeCompare(b))).toEqual([
+      'module-a',
+      'module-b',
+    ]);
     expect(merged.lessons).toHaveLength(2);
     expect(merged.moduleLessonEdges).toHaveLength(2);
   });

@@ -12,7 +12,10 @@ describe('combinedSharedContentDataGet', () => {
     const result = await combinedSharedContentDataGet([getDefault, getExtended]);
 
     expect(result.modules).toHaveLength(2);
-    expect(result.modules.map((m) => m.id).sort()).toEqual(['module-a', 'module-b']);
+    expect(result.modules.map((m) => m.id).sort((a, b) => a.localeCompare(b))).toEqual([
+      'module-a',
+      'module-b',
+    ]);
     expect(result.lessons).toHaveLength(2);
     expect(result.lessonItemEdges).toHaveLength(1);
     expect(result.lessonItemEdges[0].order).toBe(99);
