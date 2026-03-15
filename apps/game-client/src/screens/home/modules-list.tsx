@@ -12,6 +12,7 @@ import { useRouterContext } from '@game-client/router-outlet/use-router-context'
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { NewModulesList } from './new-modules-list';
 
 function ModuleCard({
   className,
@@ -268,6 +269,7 @@ export function ModulesList() {
 
   return (
     <div className={clsx('flex flex-col gap-brand-xlarge', 'mt-brand-xlarge')}>
+      <NewModulesList />
       {loading ? <ModuleCardSkeleton /> : null}
       {error ? (
         <ModuleCardError title={`მძღნერი = ${t('shit')}`} message={t('errorLoadingContent')} />

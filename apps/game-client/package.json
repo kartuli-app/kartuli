@@ -16,6 +16,8 @@
     "@kartuli/tailwind-config": "workspace:*",
     "@kartuli/ui": "workspace:*",
     "@base-ui/react": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "zod": "catalog:",
     "@tailwindcss/postcss": "catalog:",
     "clsx": "catalog:",
     "next": "catalog:",

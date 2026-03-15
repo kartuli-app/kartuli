@@ -1,4 +1,5 @@
 import { getDefaultRepository, getHomeModulesView } from '@game-client/core/library';
+import { RootQueryClientProvider } from '@game-client/root-layout/root-query-client-provider';
 import { RouterProvider } from '@game-client/router-outlet/router-context';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -7,9 +8,11 @@ import { HomePage } from './home-page';
 
 function renderHomePage(initialPath = '/en') {
   return render(
-    <RouterProvider initialPath={initialPath}>
-      <HomePage />
-    </RouterProvider>,
+    <RootQueryClientProvider>
+      <RouterProvider initialPath={initialPath}>
+        <HomePage />
+      </RouterProvider>
+    </RootQueryClientProvider>,
   );
 }
 

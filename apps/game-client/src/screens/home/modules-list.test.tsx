@@ -1,4 +1,5 @@
 import { createBundledLibraryRepository, getDefaultRepository } from '@game-client/core/library';
+import { RootQueryClientProvider } from '@game-client/root-layout/root-query-client-provider';
 import { RouterProvider } from '@game-client/router-outlet/router-context';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -21,9 +22,11 @@ const mockedGetDefaultRepository = vi.mocked(getDefaultRepository);
 
 function renderModulesList(initialPath = '/en') {
   return render(
-    <RouterProvider initialPath={initialPath}>
-      <ModulesList />
-    </RouterProvider>,
+    <RootQueryClientProvider>
+      <RouterProvider initialPath={initialPath}>
+        <ModulesList />
+      </RouterProvider>
+    </RootQueryClientProvider>,
   );
 }
 

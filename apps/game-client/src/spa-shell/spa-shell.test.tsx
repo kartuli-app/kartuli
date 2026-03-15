@@ -1,3 +1,4 @@
+import { RootQueryClientProvider } from '@game-client/root-layout/root-query-client-provider';
 import * as browser from '@game-client/utils/browser';
 import { render, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
@@ -19,7 +20,11 @@ vi.mock('@game-client/utils/browser', () => ({
 
 function renderShell(initialPath: string) {
   vi.mocked(browser.getLocationPathname).mockReturnValue(initialPath);
-  return render(<SpaShell initialPath={initialPath} />);
+  return render(
+    <RootQueryClientProvider>
+      <SpaShell initialPath={initialPath} />
+    </RootQueryClientProvider>,
+  );
 }
 
 function expectShellRendersPage(path: string, testId: string) {
