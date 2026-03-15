@@ -1,8 +1,6 @@
 import ExtendedLocalizedDataEnJson from '../data-sources/extended-localized-data.en.json';
-import type { LocalizedContentData } from '../localized-content-data/localized-content-data';
-import type { LocalizedContentDataJson } from '../localized-content-data/localized-content-data-json-schema';
-import { localizedContentDataJsonSchema } from '../localized-content-data/localized-content-data-json-schema';
 import type { LocalizedContentDataRepository } from '../localized-content-data/localized-content-data-repository';
+import { parseAndMapLocalizedContentData } from '../localized-content-data/parse-and-map-localized-content-data';
 
 export function extendedLocalizedContentDataRepository(): LocalizedContentDataRepository {
   const source = 'extended';
@@ -13,28 +11,7 @@ export function extendedLocalizedContentDataRepository(): LocalizedContentDataRe
         throw new Error('Unsupported locale');
       }
 
-      const localizedContentDataJson: LocalizedContentDataJson =
-        localizedContentDataJsonSchema.parse(ExtendedLocalizedDataEnJson);
-
-      return mapJsonToLocalizedContentData(localizedContentDataJson, source);
+      return parseAndMapLocalizedContentData(ExtendedLocalizedDataEnJson, source);
     },
-  };
-}
-
-function mapJsonToLocalizedContentData(
-  json: LocalizedContentDataJson,
-  source: string,
-): LocalizedContentData {
-  return {
-    localizedModules: json.localizedModules.map((m) => ({ ...m, source })),
-    localizedLessons: json.localizedLessons.map((l) => ({ ...l, source })),
-    localizedAlphabetItems: json.localizedAlphabetItems.map((item) => ({
-      ...item,
-      source,
-    })),
-    localizedVocabularyItems: json.localizedVocabularyItems.map((item) => ({
-      ...item,
-      source,
-    })),
   };
 }

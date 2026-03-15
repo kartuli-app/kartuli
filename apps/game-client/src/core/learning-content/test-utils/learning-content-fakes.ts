@@ -17,8 +17,16 @@ export const minimalSharedContentDataDefault: SharedContentData = {
   moduleLessonEdges: [
     { moduleId: 'module-a', lessonId: 'lesson-a', order: 0, source: SOURCE_DEFAULT },
   ],
-  alphabetItems: [{ id: 'letter-a', source: SOURCE_DEFAULT }],
-  vocabularyItems: [{ id: 'word-a', source: SOURCE_DEFAULT }],
+  alphabetItems: [
+    {
+      id: 'letter-a',
+      targetScript: 'ა',
+      transliteration: 'a',
+      soundCategory: 'vowel',
+      source: SOURCE_DEFAULT,
+    },
+  ],
+  vocabularyItems: [{ id: 'word-a', targetScript: 'ქართული', source: SOURCE_DEFAULT }],
   lessonItemEdges: [{ lessonId: 'lesson-a', itemId: 'letter-a', order: 0, source: SOURCE_DEFAULT }],
 };
 

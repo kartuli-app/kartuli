@@ -18,11 +18,15 @@ interface SharedModuleLessonEdge {
 
 interface SharedAlphabetItem {
   id: string;
+  targetScript: string;
+  transliteration: string;
+  soundCategory: string;
   source: string;
 }
 
 interface SharedVocabularyItem {
   id: string;
+  targetScript: string;
   source: string;
 }
 

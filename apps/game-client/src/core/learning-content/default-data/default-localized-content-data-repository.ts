@@ -1,8 +1,6 @@
 import DefaultDataLocalizedEnJson from '../data-sources/default-localized-data.en.json';
-import type { LocalizedContentData } from '../localized-content-data/localized-content-data';
-import type { LocalizedContentDataJson } from '../localized-content-data/localized-content-data-json-schema';
-import { localizedContentDataJsonSchema } from '../localized-content-data/localized-content-data-json-schema';
 import type { LocalizedContentDataRepository } from '../localized-content-data/localized-content-data-repository';
+import { parseAndMapLocalizedContentData } from '../localized-content-data/parse-and-map-localized-content-data';
 
 export function defaultLocalizedContentDataRepository(): LocalizedContentDataRepository {
   const source = 'default';
@@ -13,30 +11,9 @@ export function defaultLocalizedContentDataRepository(): LocalizedContentDataRep
         throw new Error('Unsupported locale');
       }
 
-      const localizedContentDataJson: LocalizedContentDataJson =
-        localizedContentDataJsonSchema.parse(DefaultDataLocalizedEnJson);
-
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      return mapJsonToLocalizedContentData(localizedContentDataJson, source);
+      return parseAndMapLocalizedContentData(DefaultDataLocalizedEnJson, source);
     },
-  };
-}
-
-function mapJsonToLocalizedContentData(
-  json: LocalizedContentDataJson,
-  source: string,
-): LocalizedContentData {
-  return {
-    localizedModules: json.localizedModules.map((m) => ({ ...m, source })),
-    localizedLessons: json.localizedLessons.map((l) => ({ ...l, source })),
-    localizedAlphabetItems: json.localizedAlphabetItems.map((item) => ({
-      ...item,
-      source,
-    })),
-    localizedVocabularyItems: json.localizedVocabularyItems.map((item) => ({
-      ...item,
-      source,
-    })),
   };
 }
