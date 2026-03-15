@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":dependencyDashboard", "customManagers:biomeVersions"],
-  "enabledManagers": ["npm", "customManagers"],
+  "enabledManagers": ["npm", "custom.regex"],
   "ignorePaths": [".nvmrc"],
   "schedule": ["before 3am on Monday"],
   "labels": ["type:chore", "scope:global"],
