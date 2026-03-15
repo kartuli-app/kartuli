@@ -1,6 +1,5 @@
-import type { SharedContentData } from '../shared-content-data/shared-content-data';
+import { getSharedContentData } from '../shared-content-data/get-shared-content-data';
 import { defaultSharedContentDataRepository } from './default-shared-content-data-repository';
 
-export const defaultSharedContentDataGet = async (): Promise<SharedContentData> => {
-  return defaultSharedContentDataRepository().get();
-};
+export const defaultSharedContentDataGet = () =>
+  getSharedContentData(defaultSharedContentDataRepository());
