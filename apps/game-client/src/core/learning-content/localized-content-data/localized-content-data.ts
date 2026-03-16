@@ -1,22 +1,22 @@
-interface LocalizedModule {
+export interface LocalizedModule {
   id: string;
   title: string;
   source: string;
 }
 
-interface LocalizedLesson {
+export interface LocalizedLesson {
   id: string;
   title: string;
   source: string;
 }
 
-interface LocalizedAlphabetItem {
+export interface LocalizedAlphabetItem {
   id: string;
   pronunciationHint: string;
   source: string;
 }
 
-interface LocalizedVocabularyItem {
+export interface LocalizedVocabularyItem {
   id: string;
   translation: string;
   source: string;
