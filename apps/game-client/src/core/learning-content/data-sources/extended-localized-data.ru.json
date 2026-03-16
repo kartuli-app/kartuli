@@ -2,24 +2,24 @@
   "localizedModules": [
     {
       "id": "module-basic-vocabulary",
-      "title": "Basic Vocabulary"
+      "title": "Основный словарь"
     }
   ],
   "localizedLessons": [
     {
       "id": "lesson-georgian-101",
-      "title": "Georgian 101"
+      "title": "Грузинский 101"
     }
   ],
   "localizedAlphabetItems": [],
   "localizedVocabularyItems": [
     {
       "id": "word-gamarjoba",
-      "translation": "Hello"
+      "translation": "Привет"
     },
     {
       "id": "word-madloba",
-      "translation": "Thank you"
+      "translation": "Спасибо"
     }
   ]
 }

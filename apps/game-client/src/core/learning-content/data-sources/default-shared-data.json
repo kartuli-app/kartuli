@@ -2,11 +2,15 @@
   "modules": [
     {
       "id": "module-alphabet",
-      "lessonIds": ["lesson-alphabet-vowels", "lesson-alphabet-sounds-you-know"]
-    },
-    {
-      "id": "module-basic-vocabulary",
-      "lessonIds": ["lesson-vocabulary-common-words"]
+      "lessonIds": [
+        "lesson-alphabet-vowels",
+        "lesson-alphabet-sounds-you-know",
+        "lesson-alphabet-more-easy-sounds",
+        "lesson-alphabet-puff-and-pop",
+        "lesson-alphabet-k-family",
+        "lesson-alphabet-hissing-sounds",
+        "lesson-alphabet-buzzing-sounds"
+      ]
     }
   ],
   "lessons": [
@@ -17,7 +21,19 @@
       "id": "lesson-alphabet-sounds-you-know"
     },
     {
-      "id": "lesson-vocabulary-common-words"
+      "id": "lesson-alphabet-more-easy-sounds"
+    },
+    {
+      "id": "lesson-alphabet-puff-and-pop"
+    },
+    {
+      "id": "lesson-alphabet-k-family"
+    },
+    {
+      "id": "lesson-alphabet-hissing-sounds"
+    },
+    {
+      "id": "lesson-alphabet-buzzing-sounds"
     }
   ],
   "moduleLessonEdges": [
@@ -32,9 +48,29 @@
       "order": 1
     },
     {
-      "moduleId": "module-basic-vocabulary",
-      "lessonId": "lesson-vocabulary-common-words",
-      "order": 0
+      "moduleId": "module-alphabet",
+      "lessonId": "lesson-alphabet-more-easy-sounds",
+      "order": 2
+    },
+    {
+      "moduleId": "module-alphabet",
+      "lessonId": "lesson-alphabet-puff-and-pop",
+      "order": 3
+    },
+    {
+      "moduleId": "module-alphabet",
+      "lessonId": "lesson-alphabet-k-family",
+      "order": 4
+    },
+    {
+      "moduleId": "module-alphabet",
+      "lessonId": "lesson-alphabet-hissing-sounds",
+      "order": 5
+    },
+    {
+      "moduleId": "module-alphabet",
+      "lessonId": "lesson-alphabet-buzzing-sounds",
+      "order": 6
     }
   ],
   "alphabetItems": [
@@ -42,12 +78,6 @@
       "id": "letter-ani",
       "targetScript": "ა",
       "transliteration": "a",
-      "soundCategory": "vowel"
-    },
-    {
-      "id": "letter-eni",
-      "targetScript": "ე",
-      "transliteration": "e",
       "soundCategory": "vowel"
     },
     {
@@ -61,18 +91,189 @@
       "targetScript": "გ",
       "transliteration": "g",
       "soundCategory": "stop"
-    }
-  ],
-  "vocabularyItems": [
-    {
-      "id": "word-gamarjoba",
-      "targetScript": "გამარჯობა"
     },
     {
-      "id": "word-madloba",
-      "targetScript": "მადლობა"
+      "id": "letter-doni",
+      "targetScript": "დ",
+      "transliteration": "d",
+      "soundCategory": "stop"
+    },
+    {
+      "id": "letter-eni",
+      "targetScript": "ე",
+      "transliteration": "e",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-vini",
+      "targetScript": "ვ",
+      "transliteration": "v",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-zeni",
+      "targetScript": "ზ",
+      "transliteration": "z",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-tani",
+      "targetScript": "თ",
+      "transliteration": "t",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-ini",
+      "targetScript": "ი",
+      "transliteration": "i",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-kani",
+      "targetScript": "კ",
+      "transliteration": "k'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-lasi",
+      "targetScript": "ლ",
+      "transliteration": "l",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-mani",
+      "targetScript": "მ",
+      "transliteration": "m",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-nari",
+      "targetScript": "ნ",
+      "transliteration": "n",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-oni",
+      "targetScript": "ო",
+      "transliteration": "o",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-pari",
+      "targetScript": "პ",
+      "transliteration": "p'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-zhani",
+      "targetScript": "ჟ",
+      "transliteration": "zh",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-rae",
+      "targetScript": "რ",
+      "transliteration": "r",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-sani",
+      "targetScript": "ს",
+      "transliteration": "s",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-tari",
+      "targetScript": "ტ",
+      "transliteration": "t'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-uni",
+      "targetScript": "უ",
+      "transliteration": "u",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-pari-aspirated",
+      "targetScript": "ფ",
+      "transliteration": "p",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-kani-aspirated",
+      "targetScript": "ქ",
+      "transliteration": "k",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-ghani",
+      "targetScript": "ღ",
+      "transliteration": "gh",
+      "soundCategory": "throat"
+    },
+    {
+      "id": "letter-qari",
+      "targetScript": "ყ",
+      "transliteration": "q'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-shini",
+      "targetScript": "შ",
+      "transliteration": "sh",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-chini",
+      "targetScript": "ჩ",
+      "transliteration": "ch",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-tsani",
+      "targetScript": "ც",
+      "transliteration": "ts",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-dzili",
+      "targetScript": "ძ",
+      "transliteration": "dz",
+      "soundCategory": "affricate"
+    },
+    {
+      "id": "letter-tsili",
+      "targetScript": "წ",
+      "transliteration": "ts'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-chari",
+      "targetScript": "ჭ",
+      "transliteration": "ch'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-khani",
+      "targetScript": "ხ",
+      "transliteration": "kh",
+      "soundCategory": "throat"
+    },
+    {
+      "id": "letter-jani",
+      "targetScript": "ჯ",
+      "transliteration": "j",
+      "soundCategory": "affricate"
+    },
+    {
+      "id": "letter-hae",
+      "targetScript": "ჰ",
+      "transliteration": "h",
+      "soundCategory": "fricative"
     }
   ],
+  "vocabularyItems": [],
   "lessonItemEdges": [
     {
       "lessonId": "lesson-alphabet-vowels",
@@ -85,8 +286,23 @@
       "order": 1
     },
     {
+      "lessonId": "lesson-alphabet-vowels",
+      "itemId": "letter-ini",
+      "order": 2
+    },
+    {
+      "lessonId": "lesson-alphabet-vowels",
+      "itemId": "letter-oni",
+      "order": 3
+    },
+    {
+      "lessonId": "lesson-alphabet-vowels",
+      "itemId": "letter-uni",
+      "order": 4
+    },
+    {
       "lessonId": "lesson-alphabet-sounds-you-know",
-      "itemId": "word-gamarjoba",
+      "itemId": "letter-bani",
       "order": 0
     },
     {
@@ -95,14 +311,134 @@
       "order": 1
     },
     {
-      "lessonId": "lesson-vocabulary-common-words",
-      "itemId": "word-madloba",
+      "lessonId": "lesson-alphabet-sounds-you-know",
+      "itemId": "letter-doni",
+      "order": 2
+    },
+    {
+      "lessonId": "lesson-alphabet-sounds-you-know",
+      "itemId": "letter-vini",
+      "order": 3
+    },
+    {
+      "lessonId": "lesson-alphabet-sounds-you-know",
+      "itemId": "letter-zeni",
+      "order": 4
+    },
+    {
+      "lessonId": "lesson-alphabet-more-easy-sounds",
+      "itemId": "letter-lasi",
       "order": 0
     },
     {
-      "lessonId": "lesson-vocabulary-common-words",
-      "itemId": "word-madloba",
+      "lessonId": "lesson-alphabet-more-easy-sounds",
+      "itemId": "letter-mani",
       "order": 1
+    },
+    {
+      "lessonId": "lesson-alphabet-more-easy-sounds",
+      "itemId": "letter-nari",
+      "order": 2
+    },
+    {
+      "lessonId": "lesson-alphabet-more-easy-sounds",
+      "itemId": "letter-rae",
+      "order": 3
+    },
+    {
+      "lessonId": "lesson-alphabet-more-easy-sounds",
+      "itemId": "letter-sani",
+      "order": 4
+    },
+    {
+      "lessonId": "lesson-alphabet-more-easy-sounds",
+      "itemId": "letter-hae",
+      "order": 5
+    },
+    {
+      "lessonId": "lesson-alphabet-puff-and-pop",
+      "itemId": "letter-tani",
+      "order": 0
+    },
+    {
+      "lessonId": "lesson-alphabet-puff-and-pop",
+      "itemId": "letter-tari",
+      "order": 1
+    },
+    {
+      "lessonId": "lesson-alphabet-puff-and-pop",
+      "itemId": "letter-pari-aspirated",
+      "order": 2
+    },
+    {
+      "lessonId": "lesson-alphabet-puff-and-pop",
+      "itemId": "letter-pari",
+      "order": 3
+    },
+    {
+      "lessonId": "lesson-alphabet-k-family",
+      "itemId": "letter-kani-aspirated",
+      "order": 0
+    },
+    {
+      "lessonId": "lesson-alphabet-k-family",
+      "itemId": "letter-kani",
+      "order": 1
+    },
+    {
+      "lessonId": "lesson-alphabet-k-family",
+      "itemId": "letter-ghani",
+      "order": 2
+    },
+    {
+      "lessonId": "lesson-alphabet-k-family",
+      "itemId": "letter-khani",
+      "order": 3
+    },
+    {
+      "lessonId": "lesson-alphabet-k-family",
+      "itemId": "letter-qari",
+      "order": 4
+    },
+    {
+      "lessonId": "lesson-alphabet-hissing-sounds",
+      "itemId": "letter-shini",
+      "order": 0
+    },
+    {
+      "lessonId": "lesson-alphabet-hissing-sounds",
+      "itemId": "letter-chini",
+      "order": 1
+    },
+    {
+      "lessonId": "lesson-alphabet-hissing-sounds",
+      "itemId": "letter-tsani",
+      "order": 2
+    },
+    {
+      "lessonId": "lesson-alphabet-hissing-sounds",
+      "itemId": "letter-tsili",
+      "order": 3
+    },
+    {
+      "lessonId": "lesson-alphabet-hissing-sounds",
+      "itemId": "letter-chari",
+      "order": 4
+    },
+    {
+      "lessonId": "lesson-alphabet-buzzing-sounds",
+      "itemId": "letter-dzili",
+      "order": 0
+    },
+    {
+      "lessonId": "lesson-alphabet-buzzing-sounds",
+      "itemId": "letter-zhani",
+      "order": 1
+    },
+    {
+      "lessonId": "lesson-alphabet-buzzing-sounds",
+      "itemId": "letter-jani",
+      "order": 2
     }
   ]
 }

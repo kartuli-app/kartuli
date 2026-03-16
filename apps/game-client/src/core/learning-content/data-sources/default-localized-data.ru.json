@@ -2,37 +2,37 @@
   "localizedModules": [
     {
       "id": "module-alphabet",
-      "title": "Alphabet"
+      "title": "Алфавит"
     }
   ],
   "localizedLessons": [
     {
       "id": "lesson-alphabet-vowels",
-      "title": "The Five Vowels"
+      "title": "Пять гласных"
     },
     {
       "id": "lesson-alphabet-sounds-you-know",
-      "title": "Sounds You Know"
+      "title": "Знакомые звуки"
     },
     {
       "id": "lesson-alphabet-more-easy-sounds",
-      "title": "More Easy Sounds"
+      "title": "Ещё простые звуки"
     },
     {
       "id": "lesson-alphabet-puff-and-pop",
-      "title": "Puff and Pop"
+      "title": "Придыхание и взрыв"
     },
     {
       "id": "lesson-alphabet-k-family",
-      "title": "The K Family"
+      "title": "Семейство К"
     },
     {
       "id": "lesson-alphabet-hissing-sounds",
-      "title": "Hissing Sounds"
+      "title": "Шипящие звуки"
     },
     {
       "id": "lesson-alphabet-buzzing-sounds",
-      "title": "Buzzing Sounds"
+      "title": "Жужжащие звуки"
     }
   ],
   "localizedAlphabetItems": [

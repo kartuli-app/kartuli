@@ -1,49 +1,43 @@
 {
   "modules": [
     {
-      "id": "module-extended-mix",
+      "id": "module-basic-vocabulary",
       "lessonIds": ["lesson-alphabet-vowels", "lesson-vocabulary-common-words"]
     }
   ],
   "lessons": [
     {
-      "id": "lesson-extended-practice"
+      "id": "lesson-georgian-101"
     }
   ],
   "moduleLessonEdges": [
     {
-      "moduleId": "module-extended-mix",
-      "lessonId": "lesson-alphabet-vowels",
+      "moduleId": "module-basic-vocabulary",
+      "lessonId": "lesson-georgian-101",
       "order": 0
-    },
-    {
-      "moduleId": "module-extended-mix",
-      "lessonId": "lesson-vocabulary-common-words",
-      "order": 1
-    },
-    {
-      "moduleId": "module-alphabet",
-      "lessonId": "lesson-extended-practice",
-      "order": 2
     }
   ],
   "alphabetItems": [],
-  "vocabularyItems": [],
+  "vocabularyItems": [
+    {
+      "id": "word-gamarjoba",
+      "targetScript": "გამარჯობა"
+    },
+    {
+      "id": "word-madloba",
+      "targetScript": "მადლობა"
+    }
+  ],
   "lessonItemEdges": [
     {
-      "lessonId": "lesson-extended-practice",
-      "itemId": "letter-bani",
+      "lessonId": "lesson-georgian-101",
+      "itemId": "word-gamarjoba",
       "order": 0
     },
     {
-      "lessonId": "lesson-extended-practice",
-      "itemId": "letter-gani",
+      "lessonId": "lesson-georgian-101",
+      "itemId": "word-madloba",
       "order": 1
-    },
-    {
-      "lessonId": "lesson-alphabet-vowels",
-      "itemId": "letter-ani",
-      "order": 99
     }
   ]
 }
