@@ -1,0 +1,25 @@
+{
+  "localizedModules": [
+    {
+      "id": "module-basic-vocabulary",
+      "title": "Basic Vocabulary"
+    }
+  ],
+  "localizedLessons": [
+    {
+      "id": "lesson-georgian-101",
+      "title": "Georgian 101"
+    }
+  ],
+  "localizedAlphabetItems": [],
+  "localizedVocabularyItems": [
+    {
+      "id": "word-gamarjoba",
+      "translation": "Hello"
+    },
+    {
+      "id": "word-madloba",
+      "translation": "Thank you"
+    }
+  ]
+}
