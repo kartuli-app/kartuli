@@ -52,6 +52,9 @@ catalog:
 
   # Data / Server state
   '@tanstack/react-query': ^5.62.0
+  '@tanstack/db': ^0.5.0
+  '@tanstack/react-db': ^0.1.77
+  '@tanstack/query-db-collection': ^1.0.0
 
   # Build Tools
   vite: ^7.3.1

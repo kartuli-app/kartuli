@@ -1,22 +1,22 @@
-interface SharedModule {
+export interface SharedModule {
   id: string;
   lessonIds: string[];
   source: string;
 }
 
-interface SharedLesson {
+export interface SharedLesson {
   id: string;
   source: string;
 }
 
-interface SharedModuleLessonEdge {
+export interface SharedModuleLessonEdge {
   moduleId: string;
   lessonId: string;
   order: number;
   source: string;
 }
 
-interface SharedAlphabetItem {
+export interface SharedAlphabetItem {
   id: string;
   targetScript: string;
   transliteration: string;
@@ -24,13 +24,13 @@ interface SharedAlphabetItem {
   source: string;
 }
 
-interface SharedVocabularyItem {
+export interface SharedVocabularyItem {
   id: string;
   targetScript: string;
   source: string;
 }
 
-interface SharedLessonItemEdge {
+export interface SharedLessonItemEdge {
   lessonId: string;
   itemId: string;
   order: number;
