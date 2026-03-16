@@ -23,9 +23,3 @@ export interface HomeModuleView {
   title: string;
   lessons: HomeLessonView[];
 }
-
-export interface UseHomeModulesViewResult {
-  data: HomeModuleView[] | undefined;
-  isLoading: boolean;
-  isError: boolean;
-}

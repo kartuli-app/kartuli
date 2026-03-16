@@ -13,7 +13,6 @@ import type {
   HomeLessonView,
   HomeLessonVocabularyItemView,
   HomeModuleView,
-  UseHomeModulesViewResult,
 } from './home-modules-view-types';
 
 function buildItemView(
@@ -95,6 +94,12 @@ function buildHomeModulesViewFromOrdered(
   return result;
 }
 
+export interface UseHomeModulesViewResult {
+  data: HomeModuleView[] | undefined;
+  isLoading: boolean;
+  isError: boolean;
+}
+
 export function useHomeModulesView(locale: string): UseHomeModulesViewResult {
   const modulesCollection = useModulesCollection(locale);
   const orderedModuleLessonsCollection = useOrderedModuleLessonsCollection(locale);
@@ -123,9 +128,17 @@ export function useHomeModulesView(locale: string): UseHomeModulesViewResult {
 
   const isError = isErrorModules || isErrorOrderedModuleLessons || isErrorOrderedLessonItems;
 
+  const allReady =
+    !isLoading &&
+    modulesItems !== undefined &&
+    orderedModuleLessons !== undefined &&
+    orderedLessonItems !== undefined;
   const data = useMemo(
-    () => buildHomeModulesViewFromOrdered(modulesItems, orderedModuleLessons, orderedLessonItems),
-    [modulesItems, orderedModuleLessons, orderedLessonItems],
+    () =>
+      allReady
+        ? buildHomeModulesViewFromOrdered(modulesItems, orderedModuleLessons, orderedLessonItems)
+        : undefined,
+    [allReady, modulesItems, orderedModuleLessons, orderedLessonItems],
   );
 
   return {
