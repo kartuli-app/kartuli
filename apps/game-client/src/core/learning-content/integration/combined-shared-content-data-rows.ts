@@ -1,11 +1,54 @@
 import { defaultSharedContentDataRepository } from '@game-client/core/learning-content/ingestion/default-data/default-shared-content-data-repository';
 import { extendedSharedContentDataRepository } from '@game-client/core/learning-content/ingestion/extended-data/extended-shared-content-data-repository';
 import type { SharedContentData } from '@game-client/core/learning-content/ingestion/shared-content-data/shared-content-data';
-import type {
-  CombinedSharedContentRows,
-  SharedAlphabetItemRow,
-  SharedVocabularyItemRow,
-} from './combined-shared-content-data-rows';
+
+export type SharedModuleRow = {
+  id: string;
+  source: string;
+};
+
+export type SharedLessonRow = {
+  id: string;
+  source: string;
+};
+
+export type SharedAlphabetItemRow = {
+  id: string;
+  type: 'letter';
+  targetScript: string;
+  soundCategory: string;
+  transliteration: string;
+  source: string;
+};
+
+export type SharedVocabularyItemRow = {
+  id: string;
+  type: 'word';
+  targetScript: string;
+  source: string;
+};
+
+export type SharedItemRow = SharedAlphabetItemRow | SharedVocabularyItemRow;
+
+export type ModuleToLessonEdgeRow = {
+  moduleId: string;
+  lessonId: string;
+  order: number;
+};
+
+export type LessonToItemEdgeRow = {
+  lessonId: string;
+  itemId: string;
+  order: number;
+};
+
+export type CombinedSharedContentRows = {
+  modulesRows: SharedModuleRow[];
+  lessonsRows: SharedLessonRow[];
+  itemsRows: SharedItemRow[];
+  moduleToLessonEdgesRows: ModuleToLessonEdgeRow[];
+  lessonToItemEdgesRows: LessonToItemEdgeRow[];
+};
 
 // gets shared content data from different sources
 // merges the data and returns a single CombinedSharedContentRows

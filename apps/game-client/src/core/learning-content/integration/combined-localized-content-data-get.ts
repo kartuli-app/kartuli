@@ -1,42 +1,11 @@
 import { defaultLocalizedContentDataRepository } from '@game-client/core/learning-content/ingestion/default-data/default-localized-content-data-repository';
 import { extendedLocalizedContentDataRepository } from '@game-client/core/learning-content/ingestion/extended-data/extended-localized-content-data-repository';
 import type { LocalizedContentData } from '@game-client/core/learning-content/ingestion/localized-content-data/localized-content-data';
-
-export type LocalizedModuleRow = {
-  id: string; // same as moduleId
-  title: string;
-  source: string;
-};
-
-export type LocalizedLessonRow = {
-  id: string; // same as lessonId
-  title: string;
-  description?: string;
-  source: string;
-};
-
-type LocalizedAlphabetItemRow = {
-  id: string; // same as itemId
-  type: 'letter';
-  pronunciationHint: string;
-  source: string;
-};
-
-type LocalizedVocabularyItemRow = {
-  id: string; // same as itemId
-  type: 'word';
-  translation: string;
-  source: string;
-};
-
-export type LocalizedItemRow = LocalizedAlphabetItemRow | LocalizedVocabularyItemRow;
-
-export type CombinedLocalizedContentRows = {
-  locale: string;
-  localizedModulesRows: LocalizedModuleRow[];
-  localizedLessonsRows: LocalizedLessonRow[];
-  localizedItemsRows: LocalizedItemRow[];
-};
+import type {
+  CombinedLocalizedContentRows,
+  LocalizedAlphabetItemRow,
+  LocalizedVocabularyItemRow,
+} from './combined-localized-content-data-rows';
 
 function mergeLocalizedContentData(
   defaultData: LocalizedContentData,

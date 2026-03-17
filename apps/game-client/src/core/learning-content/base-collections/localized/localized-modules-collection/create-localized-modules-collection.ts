@@ -1,10 +1,8 @@
+import { getCombinedLocalizedContentData } from '@game-client/core/learning-content/integration/combined-localized-content-data-get';
+import type { LocalizedModuleRow } from '@game-client/core/learning-content/integration/combined-localized-content-data-rows';
 import { createCollection } from '@tanstack/db';
 import { queryCollectionOptions } from '@tanstack/query-db-collection';
 import type { QueryClient } from '@tanstack/react-query';
-import {
-  getCombinedLocalizedContentData,
-  type LocalizedModuleRow,
-} from '../../../integration/combined-localized-content-data-get';
 
 export function createLocalizedModulesCollection({
   queryClient,

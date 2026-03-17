@@ -1,10 +1,8 @@
+import { getCombinedSharedContentData } from '@game-client/core/learning-content/integration/combined-shared-content-data-get';
+import type { ModuleToLessonEdgeRow } from '@game-client/core/learning-content/integration/combined-shared-content-data-rows';
 import { createCollection } from '@tanstack/db';
 import { queryCollectionOptions } from '@tanstack/query-db-collection';
 import type { QueryClient } from '@tanstack/react-query';
-import {
-  getCombinedSharedContentData,
-  type ModuleToLessonEdgeRow,
-} from '../../../integration/combined-shared-content-data-get';
 
 export function createModuleToLessonEdgesCollection({
   queryClient,
