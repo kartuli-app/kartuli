@@ -2,10 +2,10 @@ import { createItemsCollection } from '@game-client/core/learning-content/base-c
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-export function useItemsCollection() {
+export function useItemsCollection({ contentRevision }: { contentRevision: string }) {
   const queryClient = useQueryClient();
 
   return useMemo(() => {
-    return createItemsCollection(queryClient);
-  }, [queryClient]);
+    return createItemsCollection({ queryClient, contentRevision });
+  }, [queryClient, contentRevision]);
 }
