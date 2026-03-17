@@ -8,6 +8,7 @@ import { useLessonToItemEdgesCollection } from '@game-client/core/learning-conte
 import { useLessonsCollection } from '@game-client/core/learning-content/base-collections/shared/lessons-collection/use-lessons-collection';
 import { useModuleToLessonEdgesCollection } from '@game-client/core/learning-content/base-collections/shared/module-to-lesson-edges-collection/use-module-to-lesson-edges-collection';
 import { useModulesCollection } from '@game-client/core/learning-content/base-collections/shared/modules-collection/use-modules-collection';
+import { useLocalizedAvailableItemsCollection } from '@game-client/core/learning-content/derived-collections/localized-available-items-collection/use-localized-available-items-collection';
 import { useCombinedLocalizedContentDataGetQuery } from '@game-client/core/learning-content/integration/combined-localized-content-data-get-query';
 import { useCombinedSharedContentDataGetQuery } from '@game-client/core/learning-content/integration/combined-shared-content-data-get-query';
 import { useLang } from '@game-client/i18n/use-lang';
@@ -79,6 +80,17 @@ export function NewModulesList() {
     (q) => q.from({ lessons: localizedLessonsCollection }).orderBy(({ lessons }) => lessons.id),
   );
 
+  const localizedAvailableItemsCollection = useLocalizedAvailableItemsCollection({
+    contentRevision,
+    locale: lang,
+  });
+  const { data: localizedAvailableItemsRows, isLoading: isLocalizedAvailableItemsRowsLoading } =
+    useLiveQuery((q) =>
+      q
+        .from({ localizedAvailableItems: localizedAvailableItemsCollection })
+        .orderBy(({ localizedAvailableItems }) => localizedAvailableItems.item.id),
+    );
+
   if (
     !isCombinedSharedContentRowsLoading &&
     !isCombinedLocalizedContentRowsLoading &&
@@ -90,7 +102,8 @@ export function NewModulesList() {
     !isModulesRowsLoading &&
     !isLocalizedItemsRowsLoading &&
     !isLocalizedModulesRowsLoading &&
-    !isLocalizedLessonsRowsLoading
+    !isLocalizedLessonsRowsLoading &&
+    !isLocalizedAvailableItemsRowsLoading
   ) {
     console.info(
       '🚀🚀🚀🚀🚀 ~ NewModulesList ~ combinedSharedContentRows:',
@@ -109,6 +122,7 @@ export function NewModulesList() {
     console.info('🚀 ~ NewModulesList ~ localizedItemsRows:', localizedItemsRows);
     console.info('🚀 ~ NewModulesList ~ localizedModulesRows:', localizedModulesRows);
     console.info('🚀 ~ NewModulesList ~ localizedLessonsRows:', localizedLessonsRows);
+    console.info('🚀 ~ NewModulesList ~ localizedAvailableItemsRows:', localizedAvailableItemsRows);
   }
 
   return null;

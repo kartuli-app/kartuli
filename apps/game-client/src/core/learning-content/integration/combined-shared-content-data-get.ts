@@ -63,7 +63,7 @@ function mergeSharedContentData(
 }
 
 export async function getCombinedSharedContentData(): Promise<CombinedSharedContentRows> {
-  console.info('🚀 ~ getCombinedSharedContentData');
+  console.info('�️🛠️🛠️🛠️🛠️ ~ getCombinedSharedContentData');
   const defaultDataRepository = defaultSharedContentDataRepository();
   const extendedDataRepository = extendedSharedContentDataRepository();
   const [defaultData, extendedData] = await Promise.all([

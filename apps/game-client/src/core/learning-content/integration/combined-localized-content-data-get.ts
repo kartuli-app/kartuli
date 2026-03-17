@@ -60,7 +60,7 @@ function mergeLocalizedContentData(
 export async function getCombinedLocalizedContentData(
   locale: string,
 ): Promise<CombinedLocalizedContentRows> {
-  console.info('🚀 ~ getCombinedLocalizedContentData ~ locale:', locale);
+  console.info('🛠️🛠️🛠️🛠️🛠️ ~ getCombinedLocalizedContentData ~ locale:', locale);
   const defaultDataRepository = defaultLocalizedContentDataRepository();
   const extendedDataRepository = extendedLocalizedContentDataRepository();
   const [defaultData, extendedData] = await Promise.all([
