@@ -3,10 +3,10 @@ import { queryCollectionOptions } from '@tanstack/query-db-collection';
 import type { QueryClient } from '@tanstack/react-query';
 import {
   getCombinedLocalizedContentData,
-  type LocalizedItemRow,
-} from '../../integration/combined-localized-content-data-get';
+  type LocalizedModuleRow,
+} from '../../../integration/combined-localized-content-data-get';
 
-export function createLocalizedItemsCollection({
+export function createLocalizedModulesCollection({
   queryClient,
   contentRevision,
   locale,
@@ -16,15 +16,15 @@ export function createLocalizedItemsCollection({
   locale: string;
 }) {
   return createCollection(
-    queryCollectionOptions<LocalizedItemRow>({
-      queryKey: ['tanstack-db', 'localized-items-collection', contentRevision, locale],
+    queryCollectionOptions<LocalizedModuleRow>({
+      queryKey: ['tanstack-db', 'localized-modules-collection', contentRevision, locale],
       queryFn: async () => {
         const combined = await queryClient.fetchQuery({
           queryKey: ['combined-localized-content-data', contentRevision, locale],
           queryFn: () => getCombinedLocalizedContentData(locale),
         });
 
-        return combined.localizedItemsRows;
+        return combined.localizedModulesRows;
       },
       queryClient,
       getKey: (row) => row.id,

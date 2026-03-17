@@ -4,7 +4,7 @@ import type { QueryClient } from '@tanstack/react-query';
 import {
   getCombinedLocalizedContentData,
   type LocalizedLessonRow,
-} from '../../integration/combined-localized-content-data-get';
+} from '../../../integration/combined-localized-content-data-get';
 
 export function createLocalizedLessonsCollection({
   queryClient,

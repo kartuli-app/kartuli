@@ -1,13 +1,13 @@
 'use client';
 
-import { useItemsCollection } from '@game-client/core/learning-content/base-collections/items-collection/use-items-collection';
-import { useLessonToItemEdgesCollection } from '@game-client/core/learning-content/base-collections/lesson-to-item-edges-collection/use-lesson-to-item-edges-collection';
-import { useLessonsCollection } from '@game-client/core/learning-content/base-collections/lessons-collection/use-lessons-collection';
-import { useLocalizedItemsCollection } from '@game-client/core/learning-content/base-collections/localized-items-collection/use-localized-items-collection';
-import { useLocalizedLessonsCollection } from '@game-client/core/learning-content/base-collections/localized-lessons-collection/use-localized-lessons-collection';
-import { useLocalizedModulesCollection } from '@game-client/core/learning-content/base-collections/localized-modules-collection/use-localized-modules-collection';
-import { useModuleToLessonEdgesCollection } from '@game-client/core/learning-content/base-collections/module-to-lesson-edges-collection/use-module-to-lesson-edges-collection';
-import { useModulesCollection } from '@game-client/core/learning-content/base-collections/modules-collection/use-modules-collection';
+import { useLocalizedItemsCollection } from '@game-client/core/learning-content/base-collections/localized/localized-items-collection/use-localized-items-collection';
+import { useLocalizedLessonsCollection } from '@game-client/core/learning-content/base-collections/localized/localized-lessons-collection/use-localized-lessons-collection';
+import { useLocalizedModulesCollection } from '@game-client/core/learning-content/base-collections/localized/localized-modules-collection/use-localized-modules-collection';
+import { useItemsCollection } from '@game-client/core/learning-content/base-collections/shared/items-collection/use-items-collection';
+import { useLessonToItemEdgesCollection } from '@game-client/core/learning-content/base-collections/shared/lesson-to-item-edges-collection/use-lesson-to-item-edges-collection';
+import { useLessonsCollection } from '@game-client/core/learning-content/base-collections/shared/lessons-collection/use-lessons-collection';
+import { useModuleToLessonEdgesCollection } from '@game-client/core/learning-content/base-collections/shared/module-to-lesson-edges-collection/use-module-to-lesson-edges-collection';
+import { useModulesCollection } from '@game-client/core/learning-content/base-collections/shared/modules-collection/use-modules-collection';
 import { useCombinedLocalizedContentDataGetQuery } from '@game-client/core/learning-content/integration/combined-localized-content-data-get-query';
 import { useCombinedSharedContentDataGetQuery } from '@game-client/core/learning-content/integration/combined-shared-content-data-get-query';
 import { useLang } from '@game-client/i18n/use-lang';

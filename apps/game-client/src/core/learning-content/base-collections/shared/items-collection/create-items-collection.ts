@@ -3,10 +3,10 @@ import { queryCollectionOptions } from '@tanstack/query-db-collection';
 import type { QueryClient } from '@tanstack/react-query';
 import {
   getCombinedSharedContentData,
-  type LessonToItemEdgeRow,
-} from '../../integration/combined-shared-content-data-get';
+  type SharedItemRow,
+} from '../../../integration/combined-shared-content-data-get';
 
-export function createLessonToItemEdgesCollection({
+export function createItemsCollection({
   queryClient,
   contentRevision,
 }: {
@@ -14,18 +14,18 @@ export function createLessonToItemEdgesCollection({
   contentRevision: string;
 }) {
   return createCollection(
-    queryCollectionOptions<LessonToItemEdgeRow>({
-      queryKey: ['tanstack-db', 'lesson-to-item-edges-collection', contentRevision],
+    queryCollectionOptions<SharedItemRow>({
+      queryKey: ['tanstack-db', 'items-collection', contentRevision],
       queryFn: async () => {
         const combined = await queryClient.fetchQuery({
           queryKey: ['combined-shared-content-data', contentRevision],
           queryFn: () => getCombinedSharedContentData(),
         });
 
-        return combined.lessonToItemEdgesRows;
+        return combined.itemsRows;
       },
       queryClient,
-      getKey: (row) => `${row.lessonId}-${row.itemId}`,
+      getKey: (row) => row.id,
     }),
   );
 }

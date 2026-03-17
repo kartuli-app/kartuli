@@ -4,7 +4,7 @@ import type { QueryClient } from '@tanstack/react-query';
 import {
   getCombinedSharedContentData,
   type SharedLessonRow,
-} from '../../integration/combined-shared-content-data-get';
+} from '../../../integration/combined-shared-content-data-get';
 
 export function createLessonsCollection({
   queryClient,
