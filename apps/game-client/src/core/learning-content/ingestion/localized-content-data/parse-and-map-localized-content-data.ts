@@ -1,4 +1,8 @@
-import type { LocalizedContentData } from './localized-content-data';
+import type {
+  LocalizedContentData,
+  LocalizedLetterItem,
+  LocalizedWordItem,
+} from './localized-content-data';
 import {
   type LocalizedContentDataJson,
   localizedContentDataJsonSchema,
@@ -11,14 +15,18 @@ function mapLocalizedContentDataJsonToLocalizedContentData(
   return {
     localizedModules: json.localizedModules.map((m) => ({ ...m, source })),
     localizedLessons: json.localizedLessons.map((l) => ({ ...l, source })),
-    localizedAlphabetItems: json.localizedAlphabetItems.map((item) => ({
-      ...item,
-      source,
-    })),
-    localizedVocabularyItems: json.localizedVocabularyItems.map((item) => ({
-      ...item,
-      source,
-    })),
+    localizedItems: [
+      ...(json.localizedLetterItems.map((item) => ({
+        ...item,
+        source,
+        type: 'letter',
+      })) as LocalizedLetterItem[]),
+      ...(json.localizedWordItems.map((item) => ({
+        ...item,
+        source,
+        type: 'word',
+      })) as LocalizedWordItem[]),
+    ],
   };
 }
 

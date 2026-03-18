@@ -10,23 +10,26 @@ export interface SharedLesson {
   source: string;
 }
 
-export interface SharedAlphabetItem {
+export interface SharedLetterItem {
   id: string;
   targetScript: string;
   transliteration: string;
   soundCategory: string;
   source: string;
+  type: 'letter';
 }
 
-export interface SharedVocabularyItem {
+export interface SharedWordItem {
   id: string;
   targetScript: string;
   source: string;
+  type: 'word';
 }
 
+export type SharedItem = SharedLetterItem | SharedWordItem;
+
 export interface SharedContentData {
-  modules: SharedModule[];
-  lessons: SharedLesson[];
-  alphabetItems: SharedAlphabetItem[];
-  vocabularyItems: SharedVocabularyItem[];
+  sharedModules: SharedModule[];
+  sharedLessons: SharedLesson[];
+  sharedItems: SharedItem[];
 }

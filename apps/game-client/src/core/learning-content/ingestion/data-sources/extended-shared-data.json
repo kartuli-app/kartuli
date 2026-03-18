@@ -1,18 +1,18 @@
 {
-  "modules": [
+  "sharedModules": [
     {
       "id": "module-basic-vocabulary",
       "lessonIds": ["lesson-georgian-101"]
     }
   ],
-  "lessons": [
+  "sharedLessons": [
     {
       "id": "lesson-georgian-101",
       "itemIds": ["word-gamarjoba", "word-madloba"]
     }
   ],
-  "alphabetItems": [],
-  "vocabularyItems": [
+  "sharedLetterItems": [],
+  "sharedWordItems": [
     {
       "id": "word-gamarjoba",
       "targetScript": "გამარჯობა"

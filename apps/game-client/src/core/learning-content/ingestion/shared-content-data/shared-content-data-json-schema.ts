@@ -10,23 +10,23 @@ const lessonJsonSchema = z.object({
   itemIds: z.array(z.string()),
 });
 
-const alphabetItemJsonSchema = z.object({
+const letterItemJsonSchema = z.object({
   id: z.string(),
   targetScript: z.string(),
   transliteration: z.string(),
   soundCategory: z.string(),
 });
 
-const vocabularyItemJsonSchema = z.object({
+const wordItemJsonSchema = z.object({
   id: z.string(),
   targetScript: z.string(),
 });
 
 export const sharedContentDataJsonSchema = z.object({
-  modules: z.array(moduleJsonSchema),
-  lessons: z.array(lessonJsonSchema),
-  alphabetItems: z.array(alphabetItemJsonSchema),
-  vocabularyItems: z.array(vocabularyItemJsonSchema),
+  sharedModules: z.array(moduleJsonSchema),
+  sharedLessons: z.array(lessonJsonSchema),
+  sharedLetterItems: z.array(letterItemJsonSchema),
+  sharedWordItems: z.array(wordItemJsonSchema),
 });
 
 export type SharedContentDataJson = z.infer<typeof sharedContentDataJsonSchema>;

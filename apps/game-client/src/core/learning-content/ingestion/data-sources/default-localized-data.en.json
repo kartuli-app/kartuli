@@ -35,7 +35,7 @@
       "title": "Buzzing Sounds"
     }
   ],
-  "localizedAlphabetItems": [
+  "localizedLetterItems": [
     {
       "id": "letter-ani",
       "pronunciationHint": "like 'a' in 'father'"
@@ -169,5 +169,5 @@
       "pronunciationHint": "like 'h' in 'hello'"
     }
   ],
-  "localizedVocabularyItems": []
+  "localizedWordItems": []
 }

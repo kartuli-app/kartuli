@@ -1,4 +1,4 @@
-import type { SharedContentData } from './shared-content-data';
+import type { SharedContentData, SharedLetterItem, SharedWordItem } from './shared-content-data';
 import {
   type SharedContentDataJson,
   sharedContentDataJsonSchema,
@@ -9,10 +9,20 @@ function mapSharedContentDataJsonToSharedContentData(
   source: string,
 ): SharedContentData {
   return {
-    modules: json.modules.map((m) => ({ ...m, source })),
-    lessons: json.lessons.map((l) => ({ ...l, source })),
-    alphabetItems: json.alphabetItems.map((item) => ({ ...item, source })),
-    vocabularyItems: json.vocabularyItems.map((item) => ({ ...item, source })),
+    sharedModules: json.sharedModules.map((m) => ({ ...m, source })),
+    sharedLessons: json.sharedLessons.map((l) => ({ ...l, source })),
+    sharedItems: [
+      ...(json.sharedLetterItems.map((item) => ({
+        ...item,
+        source,
+        type: 'letter',
+      })) as SharedLetterItem[]),
+      ...(json.sharedWordItems.map((item) => ({
+        ...item,
+        source,
+        type: 'word',
+      })) as SharedWordItem[]),
+    ],
   };
 }
 

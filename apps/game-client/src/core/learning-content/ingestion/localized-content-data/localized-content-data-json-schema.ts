@@ -10,12 +10,12 @@ const localizedLessonJsonSchema = z.object({
   title: z.string(),
 });
 
-const localizedAlphabetItemJsonSchema = z.object({
+const localizedLetterItemJsonSchema = z.object({
   id: z.string(),
   pronunciationHint: z.string(),
 });
 
-const localizedVocabularyItemJsonSchema = z.object({
+const localizedWordItemJsonSchema = z.object({
   id: z.string(),
   translation: z.string(),
 });
@@ -23,8 +23,8 @@ const localizedVocabularyItemJsonSchema = z.object({
 export const localizedContentDataJsonSchema = z.object({
   localizedModules: z.array(localizedModuleJsonSchema),
   localizedLessons: z.array(localizedLessonJsonSchema),
-  localizedAlphabetItems: z.array(localizedAlphabetItemJsonSchema),
-  localizedVocabularyItems: z.array(localizedVocabularyItemJsonSchema),
+  localizedLetterItems: z.array(localizedLetterItemJsonSchema),
+  localizedWordItems: z.array(localizedWordItemJsonSchema),
 });
 
 export type LocalizedContentDataJson = z.infer<typeof localizedContentDataJsonSchema>;

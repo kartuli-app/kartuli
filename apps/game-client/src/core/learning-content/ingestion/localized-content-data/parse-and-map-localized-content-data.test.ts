@@ -4,8 +4,8 @@ import { parseAndMapLocalizedContentData } from './parse-and-map-localized-conte
 const validFakeLocalizedJson = {
   localizedModules: [{ id: 'm1', title: 'Module One' }],
   localizedLessons: [{ id: 'l1', title: 'Lesson One' }],
-  localizedAlphabetItems: [{ id: 'letter-a', pronunciationHint: 'like a in father' }],
-  localizedVocabularyItems: [{ id: 'word-x', translation: 'Georgian' }],
+  localizedLetterItems: [{ id: 'letter-a', pronunciationHint: 'like a in father' }],
+  localizedWordItems: [{ id: 'word-x', translation: 'Georgian' }],
 };
 
 describe('parseAndMapLocalizedContentData', () => {
@@ -25,19 +25,24 @@ describe('parseAndMapLocalizedContentData', () => {
       source: 'my-source',
     });
 
-    expect(result.localizedAlphabetItems[0]).toEqual({
+    expect(result.localizedItems[0]).toEqual({
       id: 'letter-a',
       pronunciationHint: 'like a in father',
       source: 'my-source',
+      type: 'letter',
     });
-    expect(result.localizedVocabularyItems[0].translation).toBe('Georgian');
-    expect(result.localizedVocabularyItems[0].source).toBe('my-source');
+    expect(result.localizedItems[1]).toEqual({
+      id: 'word-x',
+      translation: 'Georgian',
+      source: 'my-source',
+      type: 'word',
+    });
   });
 
   it('throws when JSON is invalid (missing required field)', () => {
     const invalid = {
       ...validFakeLocalizedJson,
-      localizedAlphabetItems: [{ id: 'x' }], // missing pronunciationHint
+      localizedLetterItems: [{ id: 'x' }], // missing pronunciationHint
     };
 
     expect(() => parseAndMapLocalizedContentData(invalid, 'src')).toThrow();

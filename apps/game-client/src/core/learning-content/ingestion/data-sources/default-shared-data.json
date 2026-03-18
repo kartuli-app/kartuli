@@ -1,5 +1,5 @@
 {
-  "modules": [
+  "sharedModules": [
     {
       "id": "module-alphabet",
       "lessonIds": [
@@ -13,7 +13,7 @@
       ]
     }
   ],
-  "lessons": [
+  "sharedLessons": [
     {
       "id": "lesson-alphabet-vowels",
       "itemIds": ["letter-ani", "letter-eni", "letter-ini", "letter-oni", "letter-uni"]
@@ -56,7 +56,7 @@
       "itemIds": ["letter-dzili", "letter-zhani", "letter-jani"]
     }
   ],
-  "alphabetItems": [
+  "sharedLetterItems": [
     {
       "id": "letter-ani",
       "targetScript": "ა",
@@ -256,5 +256,5 @@
       "soundCategory": "fricative"
     }
   ],
-  "vocabularyItems": []
+  "sharedWordItems": []
 }

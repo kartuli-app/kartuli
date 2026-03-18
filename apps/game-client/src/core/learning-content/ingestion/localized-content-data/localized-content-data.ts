@@ -10,21 +10,24 @@ export interface LocalizedLesson {
   source: string;
 }
 
-export interface LocalizedAlphabetItem {
+export interface LocalizedLetterItem {
   id: string;
   pronunciationHint: string;
   source: string;
+  type: 'letter';
 }
 
-export interface LocalizedVocabularyItem {
+export interface LocalizedWordItem {
   id: string;
   translation: string;
   source: string;
+  type: 'word';
 }
+
+export type LocalizedItem = LocalizedLetterItem | LocalizedWordItem;
 
 export interface LocalizedContentData {
   localizedModules: LocalizedModule[];
   localizedLessons: LocalizedLesson[];
-  localizedAlphabetItems: LocalizedAlphabetItem[];
-  localizedVocabularyItems: LocalizedVocabularyItem[];
+  localizedItems: LocalizedItem[];
 }

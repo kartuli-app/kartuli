@@ -35,7 +35,7 @@
       "title": "Жужжащие звуки"
     }
   ],
-  "localizedAlphabetItems": [
+  "localizedLetterItems": [
     {
       "id": "letter-ani",
       "pronunciationHint": "(ru) like 'a' in 'father'"
@@ -169,5 +169,5 @@
       "pronunciationHint": "(ru) like 'h' in 'hello'"
     }
   ],
-  "localizedVocabularyItems": []
+  "localizedWordItems": []
 }
