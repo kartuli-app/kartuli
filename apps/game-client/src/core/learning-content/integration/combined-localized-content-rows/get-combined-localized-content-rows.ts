@@ -35,7 +35,7 @@ function mergeLocalizedContentData(
 export async function getCombinedLocalizedContentRows(
   locale: string,
 ): Promise<CombinedLocalizedContentRows> {
-  console.info('🛠️🛠️🛠️🛠️🛠️ ~ getCombinedLocalizedContentRows ~ locale:', locale);
+  console.info('📖 [integration] 📖 getCombinedLocalizedContentRows locale:', locale);
   const defaultDataRepository = defaultLocalizedContentDataRepository();
   const extendedDataRepository = extendedLocalizedContentDataRepository();
   const [defaultData, extendedData] = await Promise.all([

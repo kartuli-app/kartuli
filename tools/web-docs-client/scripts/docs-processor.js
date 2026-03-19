@@ -175,7 +175,7 @@ function generateNavigation() {
         addMarkdownFileToSections(sections, dirPath, relativePath, file);
       }
     } catch (error) {
-      console.error(`❌ Error scanning directory ${dirPath}:`, error);
+      console.error(`💀 [docs-processor] 💀 Error scanning directory ${dirPath}:`, error);
     }
   }
 
@@ -185,7 +185,7 @@ function generateNavigation() {
     scanDirectory(docsPath);
     return sections;
   } catch (error) {
-    console.error('❌ Error scanning docs:', error);
+    console.error('💀 [docs-processor] 💀 Error scanning docs:', error);
     return {};
   }
 }

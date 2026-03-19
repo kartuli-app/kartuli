@@ -2,12 +2,12 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-console.log('📋 Copying LLM bundle to assets folder...');
+console.info('📋 [copy-llm-bundle] 📋 Copying LLM bundle to assets folder...');
 
 try {
   // Read the generated LLM bundle
-const configDir = fileURLToPath(new URL('.', import.meta.url));
-const sourcePath = join(configDir, '../../../docs/kartuli-llm.txt');
+  const configDir = fileURLToPath(new URL('.', import.meta.url));
+  const sourcePath = join(configDir, '../../../docs/kartuli-llm.txt');
   const bundleContent = readFileSync(sourcePath, 'utf-8');
 
   // Create assets directory in dist
@@ -18,8 +18,8 @@ const sourcePath = join(configDir, '../../../docs/kartuli-llm.txt');
   const destPath = join(assetsDir, 'kartuli-llm.txt');
   writeFileSync(destPath, bundleContent, 'utf-8');
 
-  console.log('✅ LLM bundle copied to assets:', destPath);
+  console.info('📋 [copy-llm-bundle] 📋 LLM bundle copied to assets:', destPath);
 } catch (error) {
-  console.error('❌ Error copying LLM bundle:', error);
+  console.error('💀 [copy-llm-bundle] 💀 Error copying LLM bundle:', error);
   process.exit(1);
 }

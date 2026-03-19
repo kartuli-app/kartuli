@@ -1,7 +1,7 @@
 'use client';
 
-import { StudentItemActivityEventsDebug } from '@game-client/core/learning-content/db/student/students-thing';
-import { useHomeModulesView } from '@game-client/core/learning-content/db/views/home-modules-view/use-home-modules-view';
+import { useHomeModulesView } from '@game-client/core/learning-content/collections/views/home-modules-view/use-home-modules-view';
+import { StudentItemActivityStateDebug } from '@game-client/core/student/item-activity-state/student-item-activity-state-debug';
 import { useLang } from '@game-client/i18n/use-lang';
 
 export function NewModulesList() {
@@ -14,5 +14,5 @@ export function NewModulesList() {
     return null;
   }
 
-  return <StudentItemActivityEventsDebug />;
+  return <StudentItemActivityStateDebug />;
 }

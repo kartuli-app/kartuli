@@ -66,8 +66,8 @@ export async function expectNoCriticalErrors(
   const criticalErrors = consoleErrors.filter((error) => !ignorePatterns.some((fn) => fn(error)));
 
   if (criticalErrors.length > 0) {
-    console.error('[expectNoCriticalErrors] All captured errors:', consoleErrors);
-    console.error('[expectNoCriticalErrors] Critical (non-ignored):', criticalErrors);
+    console.error('💀 [expectNoCriticalErrors] 💀 All captured errors:', consoleErrors);
+    console.error('💀 [expectNoCriticalErrors] 💀 Critical (non-ignored):', criticalErrors);
   }
 
   expect(criticalErrors).toHaveLength(0);

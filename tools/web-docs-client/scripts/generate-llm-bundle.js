@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { processDocs } from './docs-processor.js';
 
-console.log('🤖 Generating LLM documentation bundle...');
+console.info('🤖 [generate-llm-bundle] 🤖 Generating LLM documentation bundle...');
 
 // Process all documentation using shared utility
 const { orderedDocuments } = processDocs();
@@ -90,6 +90,6 @@ const configDir = fileURLToPath(new URL('.', import.meta.url));
 const outputPath = join(configDir, '../../../docs', 'kartuli-llm.txt');
 writeFileSync(outputPath, bundle, 'utf-8');
 
-console.log('✅ LLM bundle generated successfully:', outputPath);
-console.log(`📊 Total sections: ${orderedDocuments.length}`);
-console.log(`📄 Bundle size: ${(bundle.length / 1024).toFixed(2)} KB`);
+console.info('🤖 [generate-llm-bundle] 🤖 LLM bundle generated successfully:', outputPath);
+console.info(`🤖 [generate-llm-bundle] 🤖 Total sections: ${orderedDocuments.length}`);
+console.info(`🤖 [generate-llm-bundle] 🤖 Bundle size: ${(bundle.length / 1024).toFixed(2)} KB`);

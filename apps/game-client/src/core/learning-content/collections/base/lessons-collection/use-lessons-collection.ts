@@ -1,4 +1,4 @@
-import { createLessonsCollection } from '@game-client/core/learning-content/db/base/lessons-collection/create-lessons-collection';
+import { createLessonsCollection } from '@game-client/core/learning-content/collections/base/lessons-collection/create-lessons-collection';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 

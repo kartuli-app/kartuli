@@ -17,7 +17,7 @@ export function I18nProvider({ lang, children }: I18nProviderProps) {
 
     i18n.changeLanguage(lang).catch(() => {
       if (process.env.NODE_ENV !== 'production') {
-        console.warn('[i18n] Failed to change language');
+        console.warn('💀 [i18n-provider] 💀 Failed to change language lang:', lang);
       }
     });
   }, [lang]);
