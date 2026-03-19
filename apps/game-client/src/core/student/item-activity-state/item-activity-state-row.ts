@@ -1,29 +1,35 @@
 'use client';
+import { z } from 'zod';
 import { getOrCreateDeviceId } from '../identifiers/device-id';
 import { getOrCreateOwnerId } from '../identifiers/owner-id';
 
-export type ItemActivityStateRow = {
-  // primary key
-  id: string; // ownerId + deviceId + itemId
-  // for indexing / aggregation
-  ownerId: string; // getOrCreateOwnerId() (update when auth state changes)
-  deviceId: string; // getOrCreateDeviceId()
-  itemId: string;
-  // view state
-  viewCount: number;
-  firstViewAt: string;
-  lastViewAt: string;
-  // success state
-  successCount: number;
-  firstSuccessAt: string;
-  lastSuccessAt: string;
-  // fail state
-  failCount: number;
-  firstFailAt: string;
-  lastFailAt: string;
-  // last updated timestamp
-  udpatedAt: string;
-};
+export const itemActivityStateRowSchema = z
+  .object({
+    // primary key
+    id: z.string().max(200), // ownerId + deviceId + itemId
+    // for indexing / aggregation
+    ownerId: z.string(), // getOrCreateOwnerId() (update when auth state changes)
+    deviceId: z.string(), // getOrCreateDeviceId()
+    itemId: z.string(),
+    // view state
+    viewCount: z.number(),
+    firstViewAt: z.string().nullable(),
+    lastViewAt: z.string().nullable(),
+    // success state
+    successCount: z.number(),
+    firstSuccessAt: z.string().nullable(),
+    lastSuccessAt: z.string().nullable(),
+    // fail state
+    failCount: z.number(),
+    firstFailAt: z.string().nullable(),
+    lastFailAt: z.string().nullable(),
+    // last updated timestamp
+    udpatedAt: z.string(),
+  })
+  // Keep parity with the previous hardcoded RxDB JSON schema (which allowed extra properties).
+  .passthrough();
+
+export type ItemActivityStateRow = z.infer<typeof itemActivityStateRowSchema>;
 
 export function getDefaultItemActivityStateRow({
   itemId,
@@ -33,19 +39,19 @@ export function getDefaultItemActivityStateRow({
   const ownerId = getOrCreateOwnerId();
   const deviceId = getOrCreateDeviceId();
   return {
-    id: `${ownerId}-${deviceId}-${itemId}-${new Date().toISOString()}`,
+    id: `${ownerId}-${deviceId}-${itemId}`,
     ownerId,
     deviceId,
     itemId,
     viewCount: 0,
-    firstViewAt: new Date().toISOString(),
-    lastViewAt: new Date().toISOString(),
+    firstViewAt: null,
+    lastViewAt: null,
     successCount: 0,
-    firstSuccessAt: new Date().toISOString(),
-    lastSuccessAt: new Date().toISOString(),
+    firstSuccessAt: null,
+    lastSuccessAt: null,
     failCount: 0,
-    firstFailAt: new Date().toISOString(),
-    lastFailAt: new Date().toISOString(),
+    firstFailAt: null,
+    lastFailAt: null,
     udpatedAt: new Date().toISOString(),
   };
 }

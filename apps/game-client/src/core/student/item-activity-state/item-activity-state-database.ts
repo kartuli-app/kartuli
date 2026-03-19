@@ -5,11 +5,13 @@ import {
   createRxDatabase,
   type RxCollection,
   type RxDatabase,
+  type RxJsonSchema,
 } from 'rxdb/plugins/core';
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
 import { wrappedValidateAjvStorage } from 'rxdb/plugins/validate-ajv';
-import type { ItemActivityStateRow } from './item-activity-state-row';
+import { zodToJsonSchema } from 'zod-to-json-schema';
+import { type ItemActivityStateRow, itemActivityStateRowSchema } from './item-activity-state-row';
 
 type ItemActivityStateDatabaseState = {
   db: RxDatabase;
@@ -51,77 +53,23 @@ export async function getItemActivityStateDatabase(): Promise<ItemActivityStateD
     });
     console.info('💾 [item-activity-state-db] 💾 db created successfully');
 
-    const hardcodedSchema = {
-      title: 'item activity state schema',
-      version: 0,
-      primaryKey: 'id',
-      type: 'object',
-      properties: {
-        id: {
-          type: 'string',
-          maxLength: 200,
-        },
-        ownerId: {
-          type: 'string',
-        },
-        deviceId: {
-          type: 'string',
-        },
-        itemId: {
-          type: 'string',
-        },
-        viewCount: {
-          type: 'number',
-        },
-        firstViewAt: {
-          type: 'string',
-        },
-        lastViewAt: {
-          type: 'string',
-        },
-        successCount: {
-          type: 'number',
-        },
-        firstSuccessAt: {
-          type: 'string',
-        },
-        lastSuccessAt: {
-          type: 'string',
-        },
-        failCount: {
-          type: 'number',
-        },
-        firstFailAt: {
-          type: 'string',
-        },
-        lastFailAt: {
-          type: 'string',
-        },
-        udpatedAt: {
-          type: 'string',
-        },
-      },
-      required: [
-        'id',
-        'ownerId',
-        'deviceId',
-        'itemId',
-        'viewCount',
-        'firstViewAt',
-        'lastViewAt',
-        'successCount',
-        'firstSuccessAt',
-        'lastSuccessAt',
-        'failCount',
-        'firstFailAt',
-        'lastFailAt',
-        'udpatedAt',
-      ],
-    };
-
     const collections = await db.addCollections({
       itemActivityState: {
-        schema: hardcodedSchema,
+        schema: (() => {
+          const zodJsonSchema = zodToJsonSchema(itemActivityStateRowSchema) as unknown as {
+            properties: Record<string, unknown>;
+            required?: string[];
+          };
+
+          return {
+            title: 'item activity state schema',
+            version: 0,
+            primaryKey: 'id',
+            type: 'object',
+            properties: zodJsonSchema.properties,
+            required: zodJsonSchema.required ?? Object.keys(zodJsonSchema.properties),
+          } as RxJsonSchema<ItemActivityStateRow>;
+        })(),
       },
     });
 

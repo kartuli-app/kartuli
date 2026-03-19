@@ -25,10 +25,16 @@ function StudentItemActivityStateDebugInner({
     const newRow = getDefaultItemActivityStateRow({ itemId });
     if (eventType === 'view') {
       newRow.viewCount++;
+      newRow.firstViewAt = new Date().toISOString();
+      newRow.lastViewAt = new Date().toISOString();
     } else if (eventType === 'fail') {
       newRow.failCount++;
+      newRow.firstFailAt = new Date().toISOString();
+      newRow.lastFailAt = new Date().toISOString();
     } else if (eventType === 'success') {
       newRow.successCount++;
+      newRow.firstSuccessAt = new Date().toISOString();
+      newRow.lastSuccessAt = new Date().toISOString();
     }
     console.info('🚀 ~ insertEvent ~ newRow:', newRow);
     return collection.insert(newRow);
