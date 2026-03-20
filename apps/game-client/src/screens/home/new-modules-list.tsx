@@ -1,5 +1,6 @@
 'use client';
 
+import { useItemActivitySummaryCollection } from '@game-client/core/student/derived/item-activity-summary-collection/use-item-activity-summary-collection';
 import type { ItemActivityDeviceStatesCollection } from '@game-client/core/student/device/item-activity-device-states-collection/create-item-activity-device-states-collection';
 import {
   AddItemActivityDeviceEvent,
@@ -57,16 +58,24 @@ export function NewModulesList() {
 
   const {
     data: itemsDeviceActivityStates,
-    isLoading,
-    isError,
+    isLoading: isLoadingDeviceActivityStates,
+    isError: isErrorDeviceActivityStates,
   } = useLiveQuery(itemsDeviceActivityStatesCollection);
   console.info('🚀 ~ NewModulesList ~ itemsDeviceActivityStates:', itemsDeviceActivityStates);
 
-  if (isLoading) {
+  const itemsActivitySummaryCollection = useItemActivitySummaryCollection();
+  const {
+    data: itemsActivitySummary,
+    isLoading: isLoadingSummary,
+    isError: isErrorSummary,
+  } = useLiveQuery(itemsActivitySummaryCollection);
+  console.info('🚀 ~ NewModulesList ~ itemsActivitySummary:', itemsActivitySummary);
+
+  if (isLoadingDeviceActivityStates || isLoadingSummary) {
     return <div className={clsx('text-sm', 'text-brand-neutral-400')}>Loading item activity…</div>;
   }
 
-  if (isError) {
+  if (isErrorDeviceActivityStates || isErrorSummary) {
     return <div className={clsx('text-sm', 'text-red-900')}>Could not load item activity.</div>;
   }
 
@@ -79,7 +88,7 @@ export function NewModulesList() {
         'rounded border border-brand-neutral-200 p-brand-large text-sm',
       )}
     >
-      <h3 className={clsx('font-semibold', 'text-brand-neutral-800')}>Item activity (local)</h3>
+      <h3 className={clsx('font-semibold', 'text-brand-neutral-800')}>Item activity (device)</h3>
       {itemsDeviceActivityStates?.length === 0 ? (
         <div className={clsx('flex flex-col gap-2')}>
           <p className="text-brand-neutral-500">No activity rows yet. Add one:</p>
@@ -101,11 +110,34 @@ export function NewModulesList() {
           ))}
         </ul>
       )}
+      <h3 className={clsx('font-semibold', 'text-brand-neutral-800')}>Item activity (summary)</h3>
+      {itemsActivitySummary?.length === 0 ? (
+        <div className={clsx('flex flex-col gap-2')}>
+          <p className="text-brand-neutral-500">No activity rows yet. Add one:</p>
+        </div>
+      ) : (
+        <ul
+          className={clsx('flex flex-col gap-1', 'font-mono text-xs overflow-y-auto max-h-[300px]')}
+        >
+          {itemsActivitySummary?.map((row) => (
+            <li key={row.id} className={clsx('flex flex-col gap-1')}>
+              <div>
+                {row.itemId}
+                <span className="text-brand-neutral-500">
+                  {' '}
+                  · total views {row.totalViewCount} · total successes {row.totalSuccessCount} ·
+                  total fails {row.totalFailCount}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
       <div className={clsx('flex gap-2 flex-wrap')}>
         <button
           type="button"
           className={clsx('rounded border px-3 py-1', 'text-xs')}
-          disabled={isLoading || isError}
+          disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
           onClick={() =>
             void addViewsTo5kItems({ collection: itemsDeviceActivityStatesCollection })
           }
@@ -118,7 +150,7 @@ export function NewModulesList() {
           <button
             type="button"
             className={clsx('rounded border px-3 py-1', 'text-xs')}
-            disabled={isLoading || isError}
+            disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
             onClick={() =>
               void upsertItemActivityState2Event({
                 collection: itemsDeviceActivityStatesCollection,
@@ -132,7 +164,7 @@ export function NewModulesList() {
           <button
             type="button"
             className={clsx('rounded border px-3 py-1', 'text-xs')}
-            disabled={isLoading || isError}
+            disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
             onClick={() =>
               void upsertItemActivityState2Event({
                 collection: itemsDeviceActivityStatesCollection,
@@ -146,7 +178,7 @@ export function NewModulesList() {
           <button
             type="button"
             className={clsx('rounded border px-3 py-1', 'text-xs')}
-            disabled={isLoading || isError}
+            disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
             onClick={() =>
               void upsertItemActivityState2Event({
                 collection: itemsDeviceActivityStatesCollection,
