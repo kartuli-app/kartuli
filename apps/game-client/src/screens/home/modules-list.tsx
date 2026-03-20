@@ -196,7 +196,7 @@ const LetterItemCard = ({
       {item.type === 'letter' && (
         <div className="flex flex-col items-center justify-center gap-brand-small">
           <div className="text-4xl">{item.targetScript}</div>
-          <div className="text-2xl flex gap-brand-xsmall">
+          <div className="text-xl flex gap-brand-xsmall text-brand-neutral-700">
             <span className="text-orange-500">[</span>
             {item.transliteration}
             <span className="text-orange-500">]</span>
@@ -225,17 +225,15 @@ const WordItemCard = ({
         'flex',
         'items-center',
         'justify-center',
-        'col-span-3',
+        'col-span-6',
         className,
       )}
     >
       {item.type === 'word' && (
         <div className="flex flex-col items-center justify-center gap-brand-small">
-          <div className="text-2xl font-bold">{item.targetScript}</div>
-          <div className="text-xl flex gap-brand-xsmall">
-            {/* <span className="text-orange-500">[</span> */}
+          <div className="text-3xl font-bold">{item.targetScript}</div>
+          <div className="text-2xl flex gap-brand-xsmall text-brand-neutral-700">
             {item.translation}
-            {/* <span className="text-orange-500">]</span> */}
           </div>
         </div>
       )}
