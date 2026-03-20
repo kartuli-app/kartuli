@@ -1,5 +1,5 @@
 import type { CombinedSharedLessonItemEdgeRow } from '@game-client/core/learning-content/integration/combined-shared-content-rows/combined-shared-content-rows';
-import { getCombinedSharedContentRows } from '@game-client/core/learning-content/integration/combined-shared-content-rows/get-combined-shared-content-rows';
+import { fetchCombinedSharedContentRowsQuery } from '@game-client/core/learning-content/integration/fetch-combined-content-queries';
 import { createCollection } from '@tanstack/db';
 import { queryCollectionOptions } from '@tanstack/query-db-collection';
 import type { QueryClient } from '@tanstack/react-query';
@@ -15,10 +15,7 @@ export function createLessonItemEdgesCollection({
     queryCollectionOptions<CombinedSharedLessonItemEdgeRow>({
       queryKey: ['tanstack-db', 'lesson-item-edges-collection', contentRevision],
       queryFn: async () => {
-        const combined = await queryClient.fetchQuery({
-          queryKey: ['combined-shared-content-rows', contentRevision],
-          queryFn: () => getCombinedSharedContentRows(),
-        });
+        const combined = await fetchCombinedSharedContentRowsQuery(queryClient, contentRevision);
 
         return combined.combinedSharedLessonItemEdgesRows;
       },
