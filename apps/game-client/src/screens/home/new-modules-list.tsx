@@ -1,7 +1,5 @@
 'use client';
 
-import { useAvailableItemsWithActivityCollection } from '@game-client/core/student/available-items-with-activity-collection/use-available-items-with-activity-collection';
-import { useItemActivitySummaryCollection } from '@game-client/core/student/derived/item-activity-summary-collection/use-item-activity-summary-collection';
 import type { ItemActivityDeviceStatesCollection } from '@game-client/core/student/device/item-activity-device-states-collection/create-item-activity-device-states-collection';
 import {
   AddItemActivityDeviceEvent,
@@ -13,12 +11,16 @@ import {
   STORE_NAME,
 } from '@game-client/core/student/device/item-activity-device-states-collection/item-activity-device-state-database';
 import { useItemActivityDeviceStatesCollection } from '@game-client/core/student/device/item-activity-device-states-collection/use-item-activity-device-states-collection';
-import { getOrCreateDeviceId } from '@game-client/core/student/identifiers/device-id';
 import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
-import { useLiveQuery } from '@tanstack/react-db';
+import {
+  type HomeLessonItemView,
+  type HomeLessonView,
+  type HomeModuleView,
+  useHomeModulesView,
+} from '@game-client/core/views/home/use-home-modules-view';
 import clsx from 'clsx';
 
-async function upsertItemActivityState2Event({
+async function upsertItemActivityDeviceStateEvent({
   collection,
   itemId,
   eventType,
@@ -28,6 +30,12 @@ async function upsertItemActivityState2Event({
   eventType: 'view' | 'success' | 'fail';
 }) {
   const { id: rowId } = getDefaultItemActivityDeviceStateRow({ itemId });
+
+  // TanStack DB "manual sync" utilities require the collection to have
+  // completed its initial sync and been marked `ready`.
+  if (!collection.isReady()) {
+    await collection.preload();
+  }
 
   // 1) Upsert in IndexedDB.
   const db = await getItemActivityDeviceStateDatabase();
@@ -45,178 +53,108 @@ async function upsertItemActivityState2Event({
   collection.utils.writeUpsert(nextState as Partial<ItemActivityDeviceStateRow>);
 }
 
-async function addViewsTo5kItems({
+async function addViewEventToItem({
   collection,
+  itemId,
 }: {
   collection: ItemActivityDeviceStatesCollection;
+  itemId: string;
 }) {
-  const itemIds = Array.from({ length: 5000 }, (_, i) => `letter-debug-${i}`);
-  for (const itemId of itemIds) {
-    await upsertItemActivityState2Event({ collection, itemId, eventType: 'view' });
-  }
+  await upsertItemActivityDeviceStateEvent({ collection, itemId, eventType: 'view' });
 }
 
-export function NewModulesList() {
-  const locale = 'en';
-  const ownerId = getOrCreateOwnerId();
-  const deviceId = getOrCreateDeviceId();
-  const contentRevision = '2026-03-20';
-
-  // item activity device states collection
-  const itemsDeviceActivityStatesCollection = useItemActivityDeviceStatesCollection({ ownerId });
-  const {
-    data: itemsDeviceActivityStates,
-    isLoading: isLoadingDeviceActivityStates,
-    isError: isErrorDeviceActivityStates,
-  } = useLiveQuery(itemsDeviceActivityStatesCollection);
-  // console.info('🚀 ~ NewModulesList ~ itemsDeviceActivityStates:', itemsDeviceActivityStates);
-
-  // item activity summary collection
-  const itemsActivitySummaryCollection = useItemActivitySummaryCollection({ ownerId });
-  const {
-    data: itemsActivitySummary,
-    isLoading: isLoadingSummary,
-    isError: isErrorSummary,
-  } = useLiveQuery(itemsActivitySummaryCollection);
-  // console.info('🚀 ~ NewModulesList ~ itemsActivitySummary:', itemsActivitySummary);
-
-  // available items with activity collection
-  const availableItemsWithActivityCollection = useAvailableItemsWithActivityCollection({
-    locale,
-    ownerId,
-    contentRevision,
-  });
-  const {
-    data: availableItemsWithActivity,
-    isLoading: isLoadingAvailableItemsWithActivity,
-    isError: isErrorAvailableItemsWithActivity,
-  } = useLiveQuery(availableItemsWithActivityCollection);
-  // console.info('🚀 ~ NewModulesList ~ availableItemsWithActivity:', availableItemsWithActivity);
-
-  if (isLoadingDeviceActivityStates || isLoadingSummary || isLoadingAvailableItemsWithActivity) {
-    return <div className={clsx('text-sm', 'text-brand-neutral-400')}>Loading item activity…</div>;
-  }
-
-  if (isErrorDeviceActivityStates || isErrorSummary || isErrorAvailableItemsWithActivity) {
-    return <div className={clsx('text-sm', 'text-red-900')}>Could not load item activity.</div>;
-  }
-
-  const itemIds = ['letter-ani', 'letter-tom', 'letter-jerry', 'letter-spike', 'letter-tyke'];
+function ItemActivityButton({
+  item,
+  collection,
+}: Readonly<{
+  item: HomeLessonItemView;
+  collection: ItemActivityDeviceStatesCollection;
+}>) {
+  const totalViewCount = item.activitySummary?.totalViewCount ?? 0;
+  const totalSuccessCount = item.activitySummary?.totalSuccessCount ?? 0;
+  const totalFailCount = item.activitySummary?.totalFailCount ?? 0;
 
   return (
-    <section
-      className={clsx(
-        'flex flex-col gap-brand-regular',
-        'rounded border border-brand-neutral-200 p-brand-large text-sm',
-      )}
+    <button
+      type="button"
+      className="flex flex-col items-center gap-4 border p-4 rounded-lg bg-brand-neutral-100"
+      onClick={() =>
+        void addViewEventToItem({
+          collection,
+          itemId: item.id,
+        })
+      }
     >
-      {/* device activity */}
-      <h3 className={clsx('font-semibold', 'text-brand-neutral-800')}>
-        Item activity (device {deviceId})
-      </h3>
-      {itemsDeviceActivityStates?.length === 0 ? (
-        <div className={clsx('flex flex-col gap-2')}>
-          <p className="text-brand-neutral-500">No activity rows yet. Add one:</p>
-        </div>
-      ) : (
-        <ul
-          className={clsx('flex flex-col gap-1', 'font-mono text-xs overflow-y-auto max-h-[300px]')}
-        >
-          {itemsDeviceActivityStates?.map((row) => (
-            <li key={row.id} className={clsx('flex flex-col gap-1')}>
-              <div>
-                {row.itemId}
-                <span className="text-brand-neutral-500">
-                  {' '}
-                  owner {row.ownerId} · views {row.viewCount} · successes {row.successCount} · fails{' '}
-                  {row.failCount} · device {row.deviceId}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-      <h3 className={clsx('font-semibold', 'text-brand-neutral-800')}>Item activity (summary)</h3>
-      {itemsActivitySummary?.length === 0 ? (
-        <div className={clsx('flex flex-col gap-2')}>
-          <p className="text-brand-neutral-500">No activity rows yet. Add one:</p>
-        </div>
-      ) : (
-        <ul
-          className={clsx('flex flex-col gap-1', 'font-mono text-xs overflow-y-auto max-h-[300px]')}
-        >
-          {itemsActivitySummary?.map((row) => (
-            <li key={row.id} className={clsx('flex flex-col gap-1')}>
-              <div>
-                {row.itemId}
-                <span className="text-brand-neutral-500">
-                  {' '}
-                  owner {row.ownerId} · views {row.totalViewCount} · successes{' '}
-                  {row.totalSuccessCount} · fails {row.totalFailCount}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-      <div className={clsx('flex gap-2 flex-wrap')}>
-        <button
-          type="button"
-          className={clsx('rounded border px-3 py-1', 'text-xs')}
-          disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
-          onClick={() =>
-            void addViewsTo5kItems({ collection: itemsDeviceActivityStatesCollection })
-          }
-        >
-          Add 1 view to 5k items
-        </button>
+      <h5 className="text-brand-neutral-500 text-5xl font-bold">{item.targetScript}</h5>
+      <div className="flex flex-row items-center gap-4">
+        <span className="text-brand-neutral-500 text-sm">👍{totalSuccessCount}</span>
+        <span className="text-brand-neutral-500 text-sm">👀{totalViewCount}</span>
+        <span className="text-brand-neutral-500 text-sm">👎{totalFailCount}</span>
       </div>
-      {itemIds.map((itemId) => (
-        <div key={itemId} className={clsx('flex gap-2 flex-wrap')}>
-          <button
-            type="button"
-            className={clsx('rounded border px-3 py-1', 'text-xs')}
-            disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
-            onClick={() =>
-              void upsertItemActivityState2Event({
-                collection: itemsDeviceActivityStatesCollection,
-                itemId,
-                eventType: 'view',
-              })
-            }
-          >
-            {itemId} VIEW
-          </button>
-          <button
-            type="button"
-            className={clsx('rounded border px-3 py-1', 'text-xs')}
-            disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
-            onClick={() =>
-              void upsertItemActivityState2Event({
-                collection: itemsDeviceActivityStatesCollection,
-                itemId,
-                eventType: 'success',
-              })
-            }
-          >
-            {itemId} SUCCESS
-          </button>
-          <button
-            type="button"
-            className={clsx('rounded border px-3 py-1', 'text-xs')}
-            disabled={isLoadingDeviceActivityStates || isErrorDeviceActivityStates}
-            onClick={() =>
-              void upsertItemActivityState2Event({
-                collection: itemsDeviceActivityStatesCollection,
-                itemId,
-                eventType: 'fail',
-              })
-            }
-          >
-            {itemId} FAIL
-          </button>
-        </div>
+    </button>
+  );
+}
+
+function LessonCard({
+  lesson,
+  collection,
+}: Readonly<{ lesson: HomeLessonView; collection: ItemActivityDeviceStatesCollection }>) {
+  return (
+    <div className="flex flex-col gap-2 border p-4 rounded-lg bg-brand-neutral-50">
+      <h4 className="text-brand-neutral-500 text-xl font-bold">{lesson.title}</h4>
+      <div className="flex flex-row items-center gap-2">
+        {lesson.items.map((item) => (
+          <ItemActivityButton key={item.id} item={item} collection={collection} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ModuleCard({
+  module,
+  collection,
+}: Readonly<{ module: HomeModuleView; collection: ItemActivityDeviceStatesCollection }>) {
+  return (
+    <div className="flex flex-col gap-4 p-4 border border-brand-neutral-200 rounded-lg shadow-md bg-white">
+      <h3 className="text-brand-primary-500 text-2xl font-bold">{module.title}</h3>
+      {module.lessons.map((lesson) => (
+        <LessonCard key={lesson.id} lesson={lesson} collection={collection} />
       ))}
-    </section>
+    </div>
+  );
+}
+
+const useModulesList = () => {
+  const locale = 'en';
+  const ownerId = getOrCreateOwnerId();
+  const contentRevision = '2026-03-20';
+  const itemsDeviceActivityStatesCollection = useItemActivityDeviceStatesCollection({ ownerId });
+  const { data, isLoading, isError } = useHomeModulesView({ locale, contentRevision, ownerId });
+
+  return { data, isLoading, isError, itemsDeviceActivityStatesCollection };
+};
+
+export function NewModulesList() {
+  const { data, isLoading, isError, itemsDeviceActivityStatesCollection } = useModulesList();
+
+  if (isLoading) {
+    return <div className={clsx('text-sm', 'text-brand-neutral-400')}>Loading home rows…</div>;
+  }
+
+  if (isError) {
+    return <div className={clsx('text-sm', 'text-red-900')}>Could not load home rows.</div>;
+  }
+
+  return (
+    <div className={clsx('flex flex-col gap-4')}>
+      {data?.map((module) => (
+        <ModuleCard
+          key={module.id}
+          module={module}
+          collection={itemsDeviceActivityStatesCollection}
+        />
+      ))}
+    </div>
   );
 }

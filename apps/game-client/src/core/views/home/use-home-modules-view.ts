@@ -1,8 +1,8 @@
 'use client';
 
+import type { ItemActivitySummaryRow } from '@game-client/core/student/derived/item-activity-summary-collection/create-item-activity-summary-collection';
 import { useLiveQuery } from '@tanstack/react-db';
 import { useMemo } from 'react';
-
 import type { HomeRow } from './create-home-rows-collection';
 import { useHomeRowsCollection } from './use-home-rows-collection';
 
@@ -24,6 +24,9 @@ export type HomeLetterItemView = {
   transliteration: string;
   pronunciationHint: string | null;
   type: 'letter';
+  activitySummary: {
+    [K in keyof ItemActivitySummaryRow]: ItemActivitySummaryRow[K] | undefined;
+  };
 };
 
 export type HomeWordItemView = {
@@ -31,6 +34,9 @@ export type HomeWordItemView = {
   targetScript: string;
   translation: string;
   type: 'word';
+  activitySummary: {
+    [K in keyof ItemActivitySummaryRow]: ItemActivitySummaryRow[K] | undefined;
+  };
 };
 
 export type HomeLessonItemView = HomeLetterItemView | HomeWordItemView;
@@ -52,6 +58,7 @@ function buildHomeLessonItemView(row: HomeRow): HomeLessonItemView {
       targetScript: sharedItem.targetScript,
       transliteration: sharedItem.transliteration,
       pronunciationHint: itemText.pronunciationHint,
+      activitySummary: row.item.activitySummary,
     };
   }
 
@@ -61,6 +68,7 @@ function buildHomeLessonItemView(row: HomeRow): HomeLessonItemView {
       type: 'word',
       targetScript: sharedItem.targetScript,
       translation: itemText.translation,
+      activitySummary: row.item.activitySummary,
     };
   }
 
@@ -118,11 +126,13 @@ function groupHomeRows(rows: HomeRow[]): HomeModuleView[] {
 export function useHomeModulesView({
   locale,
   contentRevision,
+  ownerId,
 }: {
   locale: string;
   contentRevision: string;
+  ownerId: string;
 }): UseHomeModulesViewResult {
-  const homeRowsCollection = useHomeRowsCollection({ locale, contentRevision });
+  const homeRowsCollection = useHomeRowsCollection({ locale, contentRevision, ownerId });
 
   const { data: homeRows, isLoading, isError } = useLiveQuery(homeRowsCollection);
 

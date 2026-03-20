@@ -5,7 +5,11 @@ import { type Collection, createLiveQueryCollection, eq } from '@tanstack/db';
 export type AvailableItemWithActivityRow = {
   sharedItem: AvailableItemRow['sharedItem'];
   localizedItem: AvailableItemRow['localizedItem'];
-  activitySummary?: ItemActivitySummaryRow;
+  // TanStack DB `leftJoin` keeps the joined row object shape, but when the
+  // join doesn't match, each field becomes `undefined`.
+  activitySummary: {
+    [K in keyof ItemActivitySummaryRow]: ItemActivitySummaryRow[K] | undefined;
+  };
 };
 
 export function createAvailableItemsWithActivityCollection({
