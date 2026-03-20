@@ -15,16 +15,17 @@ import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-
 import { useHomeModulesView } from '@game-client/core/views/home/use-home-modules-view';
 import { useLang } from '@game-client/i18n/use-lang';
 
-async function upsertItemActivityDeviceStateEvent({
+async function batchUpsertItemActivityDeviceViewEvents({
   collection,
-  itemId,
-  eventType,
+  itemIds,
 }: {
   collection: ItemActivityDeviceStatesCollection;
-  itemId: string;
-  eventType: 'view' | 'success' | 'fail';
+  itemIds: readonly string[];
 }) {
-  const { id: rowId } = getDefaultItemActivityDeviceStateRow({ itemId });
+  const uniqueItemIds = [...new Set(itemIds)];
+  if (uniqueItemIds.length === 0) {
+    return;
+  }
 
   // TanStack DB "manual sync" utilities require the collection to have
   // completed its initial sync and been marked `ready`.
@@ -32,20 +33,26 @@ async function upsertItemActivityDeviceStateEvent({
     await collection.preload();
   }
 
-  // 1) Upsert in IndexedDB.
   const db = await getItemActivityDeviceStateDatabase();
-  const previousState = await db.get(STORE_NAME, rowId);
+  const tx = db.transaction(STORE_NAME, 'readwrite');
+  const nextStates: ItemActivityDeviceStateRow[] = [];
 
-  const nextState = AddItemActivityDeviceEvent({
-    previousState: previousState ?? undefined,
-    event: { itemId, eventType },
-  });
+  for (const itemId of uniqueItemIds) {
+    const { id: rowId } = getDefaultItemActivityDeviceStateRow({ itemId });
+    const previousState = await tx.store.get(rowId);
+    const nextState = AddItemActivityDeviceEvent({
+      previousState: previousState ?? undefined,
+      event: { itemId, eventType: 'view' },
+    });
+    nextStates.push(nextState);
+    await tx.store.put(nextState);
+  }
 
-  await db.put(STORE_NAME, nextState);
+  await tx.done;
 
-  // 2) Direct write into the TanStack DB collection to avoid refetch.
-  // This updates the synced store immediately, which makes `useLiveQuery` re-render.
-  collection.utils.writeUpsert(nextState as Partial<ItemActivityDeviceStateRow>);
+  for (const row of nextStates) {
+    collection.utils.writeUpsert(row as Partial<ItemActivityDeviceStateRow>);
+  }
 }
 
 export const useModulesList = () => {
@@ -55,13 +62,12 @@ export const useModulesList = () => {
   const itemsDeviceActivityStatesCollection = useItemActivityDeviceStatesCollection({ ownerId });
   const { data, isLoading, isError } = useHomeModulesView({ locale, contentRevision, ownerId });
 
-  const addViewEventToItem = async (itemId: string) => {
-    await upsertItemActivityDeviceStateEvent({
+  const addViewEventsForLessonItems = async (itemIds: readonly string[]) => {
+    await batchUpsertItemActivityDeviceViewEvents({
       collection: itemsDeviceActivityStatesCollection,
-      itemId,
-      eventType: 'view',
+      itemIds,
     });
   };
 
-  return { data, isLoading, isError, addViewEventToItem };
+  return { data, isLoading, isError, addViewEventsForLessonItems };
 };

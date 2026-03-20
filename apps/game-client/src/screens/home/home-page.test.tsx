@@ -31,7 +31,7 @@ describe('Game Client Home Page', () => {
       data: [...mockHomeModulesListData],
       isLoading: false,
       isError: false,
-      addViewEventToItem: vi.fn().mockResolvedValue(undefined),
+      addViewEventsForLessonItems: vi.fn().mockResolvedValue(undefined),
     });
   });
 

@@ -139,10 +139,10 @@ function ModuleCardError({
 
 function ModuleCardWithLessons({
   module,
-  addViewEventToItem,
+  addViewEventsForLessonItems,
 }: Readonly<{
   readonly module: HomeModuleView;
-  addViewEventToItem: (itemId: string) => Promise<void>;
+  addViewEventsForLessonItems: (itemIds: readonly string[]) => Promise<void>;
 }>) {
   return (
     <ModuleCard key={module.id}>
@@ -163,7 +163,7 @@ function ModuleCardWithLessons({
               key={lesson.id}
               lesson={lesson}
               className=""
-              addViewEventToItem={addViewEventToItem}
+              addViewEventsForLessonItems={addViewEventsForLessonItems}
             />
           ))}
         </div>
@@ -244,18 +244,16 @@ const WordItemCard = ({
 function LessonCardWithContent({
   lesson,
   className,
-  addViewEventToItem,
+  addViewEventsForLessonItems,
 }: Readonly<{
   lesson: HomeLessonView;
   className?: string;
-  addViewEventToItem: (itemId: string) => Promise<void>;
+  addViewEventsForLessonItems: (itemIds: readonly string[]) => Promise<void>;
 }>) {
   const lang = useLang();
   const { navigate } = useRouterContext();
   const onClick = () => {
-    lesson.items.forEach((item) => {
-      void addViewEventToItem(item.id);
-    });
+    void addViewEventsForLessonItems(lesson.items.map((item) => item.id));
     navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`);
   };
   const averageViewsCount =
@@ -313,7 +311,7 @@ function LessonCardWithContent({
 
 export function ModulesList() {
   const { t } = useTranslation('common');
-  const { data, isLoading, isError, addViewEventToItem } = useModulesList();
+  const { data, isLoading, isError, addViewEventsForLessonItems } = useModulesList();
 
   return (
     <div className={clsx('flex flex-col gap-brand-xlarge', 'mt-brand-xlarge')}>
@@ -329,7 +327,7 @@ export function ModulesList() {
             <ModuleCardWithLessons
               key={module.id}
               module={module}
-              addViewEventToItem={addViewEventToItem}
+              addViewEventsForLessonItems={addViewEventsForLessonItems}
             />
           ))
         : null}
