@@ -2,12 +2,15 @@
 
 import type {
   HomeLessonView,
+  HomeLetterItemView,
   HomeModuleView,
+  HomeWordItemView,
 } from '@game-client/core/views/home/use-home-modules-view';
 import { useLang } from '@game-client/i18n/use-lang';
 import errorIllustration from '@game-client/images/illustrations/error.svg';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
 import clsx from 'clsx';
+import { EyeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useModulesList } from './use-modules-list';
 
@@ -34,7 +37,8 @@ function ModuleCardContent({
 
 const lessonCardBaseClassnames = clsx(
   //
-  'h-40',
+  'min-h-40',
+  'p-2',
   'justify-center',
   //
   'px-brand-large',
@@ -168,6 +172,77 @@ function ModuleCardWithLessons({
   );
 }
 
+const LetterItemCard = ({
+  item,
+  className,
+}: Readonly<{ item: HomeLetterItemView; className?: string; key: string }>) => {
+  return (
+    <div
+      key={item.id}
+      className={clsx(
+        //
+        'text-brand-neutral-900',
+        'bg-brand-neutral-100',
+        'shadow-md',
+        'rounded-lg',
+        'min-h-22',
+        'flex',
+        'items-center',
+        'justify-center',
+        'col-span-1',
+        className,
+      )}
+    >
+      {item.type === 'letter' && (
+        <div className="flex flex-col items-center justify-center gap-brand-small">
+          <div className="text-4xl">{item.targetScript}</div>
+          <div className="text-2xl flex gap-brand-xsmall">
+            <span className="text-orange-500">[</span>
+            {item.transliteration}
+            <span className="text-orange-500">]</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const WordItemCard = ({
+  item,
+  className,
+}: Readonly<{ item: HomeWordItemView; className?: string; key: string }>) => {
+  return (
+    <div
+      key={item.id}
+      className={clsx(
+        //
+        'text-brand-neutral-900',
+        'bg-brand-neutral-100',
+        'shadow-md',
+        'rounded-lg',
+        'min-h-22',
+        'h-auto',
+        'flex',
+        'items-center',
+        'justify-center',
+        'col-span-3',
+        className,
+      )}
+    >
+      {item.type === 'word' && (
+        <div className="flex flex-col items-center justify-center gap-brand-small">
+          <div className="text-2xl font-bold">{item.targetScript}</div>
+          <div className="text-xl flex gap-brand-xsmall">
+            {/* <span className="text-orange-500">[</span> */}
+            {item.translation}
+            {/* <span className="text-orange-500">]</span> */}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 function LessonCardWithContent({
   lesson,
   className,
@@ -185,6 +260,9 @@ function LessonCardWithContent({
     });
     navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`);
   };
+  const averageViewsCount =
+    lesson.items.reduce((acc, item) => acc + (item.activitySummary?.totalViewCount ?? 0), 0) /
+    lesson.items.length;
   return (
     <button
       key={lesson.id}
@@ -195,7 +273,7 @@ function LessonCardWithContent({
       className={clsx(
         lessonCardBaseClassnames,
         lessonCardWithContentClassnames,
-        'group',
+        'relative',
         className,
       )}
     >
@@ -204,9 +282,14 @@ function LessonCardWithContent({
           //
           'text-2xl',
           'font-bold',
+          'flex justify-between',
         )}
       >
-        {lesson.title}
+        <span>{lesson.title}</span>
+        <span className="text-base text-brand-neutral-50 flex items-center gap-brand-small">
+          <EyeIcon className="w-5 h-5" />
+          {averageViewsCount}
+        </span>
       </div>
       <div
         className={clsx(
@@ -217,47 +300,13 @@ function LessonCardWithContent({
         )}
       >
         {lesson.items.map((item) => {
-          const viewsWcount = item.activitySummary?.totalViewCount ?? 0;
-          return (
-            <div
-              key={item.id}
-              className={clsx(
-                //
-                'text-brand-neutral-900',
-                'bg-brand-neutral-100',
-                'shadow-md',
-                'rounded-lg',
-                'h-22',
-                'flex',
-                'items-center',
-                'justify-center',
-                'relative',
-              )}
-            >
-              <div
-                className={clsx(
-                  //
-                  'absolute bottom-0 left-0 top-0 right-0',
-                  'rounded-lg',
-                  'text-sm text-center items-center justify-center bg-white flex flex-col',
-                  'group-hover:opacity-100 opacity-0 transition-opacity',
-                )}
-              >
-                <div className="text-2xl">👀</div>
-                <div className="text-xl">{viewsWcount}</div>
-              </div>
-              {item.type === 'letter' && (
-                <div className="flex flex-col items-center justify-center gap-brand-small">
-                  <div className="text-4xl">{item.targetScript}</div>
-                  <div className="text-xl flex gap-brand-xsmall">
-                    <span className="text-orange-500">[</span>
-                    {item.transliteration}
-                    <span className="text-orange-500">]</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
+          if (item.type === 'letter') {
+            return <LetterItemCard key={item.id} item={item} className="" />;
+          }
+          if (item.type === 'word') {
+            return <WordItemCard key={item.id} item={item} className="" />;
+          }
+          return null;
         })}
       </div>
     </button>
