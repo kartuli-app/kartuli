@@ -1,41 +1,29 @@
 'use client';
-import { z } from 'zod';
-import { getOrCreateDeviceId } from '../identifiers/device-id';
-import { getOrCreateOwnerId } from '../identifiers/owner-id';
+import { getOrCreateDeviceId } from '@game-client/core/student/identifiers/device-id';
+import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
 
-export const itemActivityStateRowSchema = z
-  .object({
-    // primary key
-    id: z.string().max(200), // ownerId + deviceId + itemId
-    // for indexing / aggregation
-    ownerId: z.string(), // getOrCreateOwnerId() (update when auth state changes)
-    deviceId: z.string(), // getOrCreateDeviceId()
-    itemId: z.string(),
-    // view state
-    viewCount: z.number(),
-    firstViewAt: z.string().nullable(),
-    lastViewAt: z.string().nullable(),
-    // success state
-    successCount: z.number(),
-    firstSuccessAt: z.string().nullable(),
-    lastSuccessAt: z.string().nullable(),
-    // fail state
-    failCount: z.number(),
-    firstFailAt: z.string().nullable(),
-    lastFailAt: z.string().nullable(),
-    // last updated timestamp
-    udpatedAt: z.string(),
-  })
-  // Keep parity with the previous hardcoded RxDB JSON schema (which allowed extra properties).
-  .passthrough();
+export type ItemActivityDeviceStateRow = {
+  id: string;
+  ownerId: string;
+  deviceId: string;
+  itemId: string;
+  viewCount: number;
+  firstViewAt: string | null;
+  lastViewAt: string | null;
+  successCount: number;
+  firstSuccessAt: string | null;
+  lastSuccessAt: string | null;
+  failCount: number;
+  firstFailAt: string | null;
+  lastFailAt: string | null;
+  udpatedAt: string;
+};
 
-export type ItemActivityStateRow = z.infer<typeof itemActivityStateRowSchema>;
-
-export function getDefaultItemActivityStateRow({
+export function getDefaultItemActivityDeviceStateRow({
   itemId,
 }: {
   itemId: string;
-}): ItemActivityStateRow {
+}): ItemActivityDeviceStateRow {
   const ownerId = getOrCreateOwnerId();
   const deviceId = getOrCreateDeviceId();
   return {
@@ -56,18 +44,21 @@ export function getDefaultItemActivityStateRow({
   };
 }
 
-export function AddItemEvent({
-  previousState,
-  itemId,
-  eventType,
-}: {
-  previousState?: ItemActivityStateRow;
+type ItemActivityDeviceEvent = {
   itemId: string;
   eventType: 'view' | 'fail' | 'success';
-}): ItemActivityStateRow {
-  const newState = previousState ?? getDefaultItemActivityStateRow({ itemId });
+};
 
-  switch (eventType) {
+export function AddItemActivityDeviceEvent({
+  previousState,
+  event,
+}: {
+  previousState?: ItemActivityDeviceStateRow;
+  event: ItemActivityDeviceEvent;
+}): ItemActivityDeviceStateRow {
+  const newState = previousState ?? getDefaultItemActivityDeviceStateRow({ itemId: event.itemId });
+
+  switch (event.eventType) {
     case 'view': {
       const newFirstViewAt = newState.firstViewAt ?? new Date().toISOString();
       const newLastViewAt = new Date().toISOString();
@@ -93,5 +84,7 @@ export function AddItemEvent({
       break;
     }
   }
+  // Update the last-write timestamp for every event.
+  newState.udpatedAt = new Date().toISOString();
   return newState;
 }

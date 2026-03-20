@@ -87,6 +87,9 @@ catalogs:
     i18next:
       specifier: ^25.0.0
       version: 25.8.14
+    idb:
+      specifier: ^8.0.3
+      version: 8.0.3
     lucide-react:
       specifier: ^0.577.0
       version: 0.577.0
@@ -268,6 +271,9 @@ importers:
       i18next:
         specifier: 'catalog:'
         version: 25.8.14(typescript@5.9.3)
+      idb:
+        specifier: 'catalog:'
+        version: 8.0.3
       lucide-react:
         specifier: 'catalog:'
         version: 0.577.0(react@19.2.4)
@@ -304,7 +310,7 @@ importers:
     devDependencies:
       '@serwist/turbopack':
         specifier: 'catalog:'
-        version: 9.5.6(esbuild@0.27.3)(next@16.1.6(@babel/core@7.29.0)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+        version: 9.5.6(esbuild@0.27.3)(next@16.1.6(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       '@testing-library/dom':
         specifier: 'catalog:'
         version: 10.4.1
@@ -6347,7 +6353,7 @@ snapshots:
     transitivePeerDependencies:
       - browserslist
 
-  '@serwist/turbopack@9.5.6(esbuild@0.27.3)(next@16.1.6(@babel/core@7.29.0)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)':
+  '@serwist/turbopack@9.5.6(esbuild@0.27.3)(next@16.1.6(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)':
     dependencies:
       '@serwist/build': 9.5.6(browserslist@4.28.1)(typescript@5.9.3)
       '@serwist/utils': 9.5.6(browserslist@4.28.1)
