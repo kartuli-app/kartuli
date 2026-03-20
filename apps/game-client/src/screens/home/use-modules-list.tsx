@@ -13,6 +13,7 @@ import {
 import { useItemActivityDeviceStatesCollection } from '@game-client/core/student/device/item-activity-device-states-collection/use-item-activity-device-states-collection';
 import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
 import { useHomeModulesView } from '@game-client/core/views/home/use-home-modules-view';
+import { useLang } from '@game-client/i18n/use-lang';
 
 async function upsertItemActivityDeviceStateEvent({
   collection,
@@ -48,7 +49,7 @@ async function upsertItemActivityDeviceStateEvent({
 }
 
 export const useModulesList = () => {
-  const locale = 'en';
+  const locale = useLang();
   const ownerId = getOrCreateOwnerId();
   const contentRevision = '1.0.0';
   const itemsDeviceActivityStatesCollection = useItemActivityDeviceStatesCollection({ ownerId });

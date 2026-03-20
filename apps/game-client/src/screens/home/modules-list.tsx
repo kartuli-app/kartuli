@@ -39,7 +39,7 @@ const lessonCardBaseClassnames = clsx(
   //
   'min-h-40',
   'p-2',
-  'justify-center',
+  'justify-start',
   //
   'px-brand-large',
   'gap-brand-regular',
