@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import { useItemActivityDeviceStatesCollection } from '../../device/item-activity-device-states-collection/use-item-activity-device-states-collection';
 import { createItemActivitySummaryCollection } from './create-item-activity-summary-collection';
 
-export function useItemActivitySummaryCollection() {
-  const itemActivityDeviceStatesCollection = useItemActivityDeviceStatesCollection();
+export function useItemActivitySummaryCollection({ ownerId }: { ownerId: string }) {
+  const itemActivityDeviceStatesCollection = useItemActivityDeviceStatesCollection({ ownerId });
 
   return useMemo(() => {
     return createItemActivitySummaryCollection({ itemActivityDeviceStatesCollection });

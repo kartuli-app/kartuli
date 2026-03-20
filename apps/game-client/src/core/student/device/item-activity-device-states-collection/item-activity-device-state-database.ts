@@ -10,6 +10,9 @@ interface ItemActivityDeviceStateDB extends DBSchema {
   [STORE_NAME]: {
     key: ItemActivityDeviceStateRow['id'];
     value: ItemActivityDeviceStateRow;
+    indexes: {
+      ownerId: string;
+    };
   };
 }
 
@@ -33,9 +36,10 @@ export async function getItemActivityDeviceStateDatabase(): Promise<
   dbPromise ??= (async () => {
     const db = await openDB<ItemActivityDeviceStateDB>(DATABASE_NAME, 1, {
       upgrade(db) {
-        db.createObjectStore(STORE_NAME, {
+        const store = db.createObjectStore(STORE_NAME, {
           keyPath: 'id',
         });
+        store.createIndex('ownerId', 'ownerId');
       },
     });
 
@@ -49,4 +53,9 @@ export async function getItemActivityDeviceStateDatabase(): Promise<
 export async function getAllItemActivityDeviceStates() {
   const db = await getItemActivityDeviceStateDatabase();
   return db.getAll(STORE_NAME);
+}
+
+export async function getAllItemActivityDeviceStatesByOwnerId(ownerId: string) {
+  const db = await getItemActivityDeviceStateDatabase();
+  return db.getAllFromIndex(STORE_NAME, 'ownerId', ownerId);
 }

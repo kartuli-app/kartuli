@@ -1,4 +1,12 @@
-import { type Collection, concat, createLiveQueryCollection, max, min, sum } from '@tanstack/db';
+import {
+  type Collection,
+  concat,
+  createLiveQueryCollection,
+  eq,
+  max,
+  min,
+  sum,
+} from '@tanstack/db';
 
 import type { ItemActivityDeviceStateRow } from '../../device/item-activity-device-states-collection/item-activity-device-state';
 

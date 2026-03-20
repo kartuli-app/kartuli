@@ -1,5 +1,6 @@
 'use client';
 
+import { useAvailableItemsWithActivityCollection } from '@game-client/core/student/available-items-with-activity-collection/use-available-items-with-activity-collection';
 import { useItemActivitySummaryCollection } from '@game-client/core/student/derived/item-activity-summary-collection/use-item-activity-summary-collection';
 import type { ItemActivityDeviceStatesCollection } from '@game-client/core/student/device/item-activity-device-states-collection/create-item-activity-device-states-collection';
 import {
@@ -12,6 +13,8 @@ import {
   STORE_NAME,
 } from '@game-client/core/student/device/item-activity-device-states-collection/item-activity-device-state-database';
 import { useItemActivityDeviceStatesCollection } from '@game-client/core/student/device/item-activity-device-states-collection/use-item-activity-device-states-collection';
+import { getOrCreateDeviceId } from '@game-client/core/student/identifiers/device-id';
+import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
 import { useLiveQuery } from '@tanstack/react-db';
 import clsx from 'clsx';
 
@@ -54,28 +57,47 @@ async function addViewsTo5kItems({
 }
 
 export function NewModulesList() {
-  const itemsDeviceActivityStatesCollection = useItemActivityDeviceStatesCollection();
+  const locale = 'en';
+  const ownerId = getOrCreateOwnerId();
+  const deviceId = getOrCreateDeviceId();
+  const contentRevision = '2026-03-20';
 
+  // item activity device states collection
+  const itemsDeviceActivityStatesCollection = useItemActivityDeviceStatesCollection({ ownerId });
   const {
     data: itemsDeviceActivityStates,
     isLoading: isLoadingDeviceActivityStates,
     isError: isErrorDeviceActivityStates,
   } = useLiveQuery(itemsDeviceActivityStatesCollection);
-  console.info('🚀 ~ NewModulesList ~ itemsDeviceActivityStates:', itemsDeviceActivityStates);
+  // console.info('🚀 ~ NewModulesList ~ itemsDeviceActivityStates:', itemsDeviceActivityStates);
 
-  const itemsActivitySummaryCollection = useItemActivitySummaryCollection();
+  // item activity summary collection
+  const itemsActivitySummaryCollection = useItemActivitySummaryCollection({ ownerId });
   const {
     data: itemsActivitySummary,
     isLoading: isLoadingSummary,
     isError: isErrorSummary,
   } = useLiveQuery(itemsActivitySummaryCollection);
-  console.info('🚀 ~ NewModulesList ~ itemsActivitySummary:', itemsActivitySummary);
+  // console.info('🚀 ~ NewModulesList ~ itemsActivitySummary:', itemsActivitySummary);
 
-  if (isLoadingDeviceActivityStates || isLoadingSummary) {
+  // available items with activity collection
+  const availableItemsWithActivityCollection = useAvailableItemsWithActivityCollection({
+    locale,
+    ownerId,
+    contentRevision,
+  });
+  const {
+    data: availableItemsWithActivity,
+    isLoading: isLoadingAvailableItemsWithActivity,
+    isError: isErrorAvailableItemsWithActivity,
+  } = useLiveQuery(availableItemsWithActivityCollection);
+  // console.info('🚀 ~ NewModulesList ~ availableItemsWithActivity:', availableItemsWithActivity);
+
+  if (isLoadingDeviceActivityStates || isLoadingSummary || isLoadingAvailableItemsWithActivity) {
     return <div className={clsx('text-sm', 'text-brand-neutral-400')}>Loading item activity…</div>;
   }
 
-  if (isErrorDeviceActivityStates || isErrorSummary) {
+  if (isErrorDeviceActivityStates || isErrorSummary || isErrorAvailableItemsWithActivity) {
     return <div className={clsx('text-sm', 'text-red-900')}>Could not load item activity.</div>;
   }
 
@@ -88,7 +110,10 @@ export function NewModulesList() {
         'rounded border border-brand-neutral-200 p-brand-large text-sm',
       )}
     >
-      <h3 className={clsx('font-semibold', 'text-brand-neutral-800')}>Item activity (device)</h3>
+      {/* device activity */}
+      <h3 className={clsx('font-semibold', 'text-brand-neutral-800')}>
+        Item activity (device {deviceId})
+      </h3>
       {itemsDeviceActivityStates?.length === 0 ? (
         <div className={clsx('flex flex-col gap-2')}>
           <p className="text-brand-neutral-500">No activity rows yet. Add one:</p>
@@ -103,7 +128,8 @@ export function NewModulesList() {
                 {row.itemId}
                 <span className="text-brand-neutral-500">
                   {' '}
-                  · views {row.viewCount} · successes {row.successCount} · fails {row.failCount}
+                  owner {row.ownerId} · views {row.viewCount} · successes {row.successCount} · fails{' '}
+                  {row.failCount} · device {row.deviceId}
                 </span>
               </div>
             </li>
@@ -125,8 +151,8 @@ export function NewModulesList() {
                 {row.itemId}
                 <span className="text-brand-neutral-500">
                   {' '}
-                  · total views {row.totalViewCount} · total successes {row.totalSuccessCount} ·
-                  total fails {row.totalFailCount}
+                  owner {row.ownerId} · views {row.totalViewCount} · successes{' '}
+                  {row.totalSuccessCount} · fails {row.totalFailCount}
                 </span>
               </div>
             </li>

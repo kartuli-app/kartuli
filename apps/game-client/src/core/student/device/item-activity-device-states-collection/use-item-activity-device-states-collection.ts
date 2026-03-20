@@ -5,8 +5,15 @@ import {
   type ItemActivityDeviceStatesCollection,
 } from './create-item-activity-device-states-collection';
 
-export function useItemActivityDeviceStatesCollection(): ItemActivityDeviceStatesCollection {
+export function useItemActivityDeviceStatesCollection({
+  ownerId,
+}: {
+  ownerId: string;
+}): ItemActivityDeviceStatesCollection {
   const queryClient = useQueryClient();
 
-  return useMemo(() => createItemActivityDeviceStatesCollection({ queryClient }), [queryClient]);
+  return useMemo(
+    () => createItemActivityDeviceStatesCollection({ queryClient, ownerId }),
+    [queryClient, ownerId],
+  );
 }

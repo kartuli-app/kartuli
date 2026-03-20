@@ -2,7 +2,7 @@ import type { ItemActivityDeviceStateRow } from '@game-client/core/student/devic
 import { createCollection } from '@tanstack/db';
 import { queryCollectionOptions } from '@tanstack/query-db-collection';
 import type { QueryClient } from '@tanstack/react-query';
-import { getAllItemActivityDeviceStates } from './item-activity-device-state-database';
+import { getAllItemActivityDeviceStatesByOwnerId } from './item-activity-device-state-database';
 
 /** TanStack Query key — invalidate after direct IndexedDB writes outside this collection. */
 export const itemActivityDeviceStatesCollectionQueryKey = [
@@ -16,13 +16,15 @@ export type ItemActivityDeviceStatesCollection = ReturnType<
 
 export function createItemActivityDeviceStatesCollection({
   queryClient,
+  ownerId,
 }: {
   queryClient: QueryClient;
+  ownerId: string;
 }) {
   return createCollection(
     queryCollectionOptions<ItemActivityDeviceStateRow>({
-      queryKey: [...itemActivityDeviceStatesCollectionQueryKey],
-      queryFn: async () => getAllItemActivityDeviceStates(),
+      queryKey: [...itemActivityDeviceStatesCollectionQueryKey, ownerId],
+      queryFn: async () => getAllItemActivityDeviceStatesByOwnerId(ownerId),
       queryClient,
       getKey: (row) => row.id,
     }),
