@@ -8,7 +8,10 @@ export function RootQueryClientProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => {
+    console.info('💾 [root-query-client-provider] 💾 creating query client');
+    return new QueryClient();
+  });
 
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

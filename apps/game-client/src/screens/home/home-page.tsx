@@ -6,6 +6,7 @@ import { HomeHeading } from './home-heading';
 import { ModulesList } from './modules-list';
 
 export function HomePage() {
+  console.info('🏠 [home-page] 🏠 rendering home page');
   return (
     <AppScreen testId="game-home">
       <AppBar isSticky>
