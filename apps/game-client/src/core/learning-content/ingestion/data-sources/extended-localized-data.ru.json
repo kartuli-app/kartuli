@@ -1,0 +1,25 @@
+{
+  "localizedModules": [
+    {
+      "id": "module-basic-vocabulary",
+      "title": "Основный словарь"
+    }
+  ],
+  "localizedLessons": [
+    {
+      "id": "lesson-georgian-101",
+      "title": "Грузинский 101"
+    }
+  ],
+  "localizedLetterItems": [],
+  "localizedWordItems": [
+    {
+      "id": "word-gamarjoba",
+      "translation": "Привет"
+    },
+    {
+      "id": "word-madloba",
+      "translation": "Спасибо"
+    }
+  ]
+}

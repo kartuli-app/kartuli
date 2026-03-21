@@ -2,6 +2,7 @@ import { ServiceWorkerProvider } from '@game-client/service-worker/service-worke
 import './globals.css';
 import clsx from 'clsx';
 import { Noto_Sans_Georgian } from 'next/font/google';
+import { RootDatabaseInitializer } from './root-database-initializer';
 import { RootQueryClientProvider } from './root-query-client-provider';
 
 const notoSansGeorgian = Noto_Sans_Georgian({
@@ -28,6 +29,7 @@ export function RootLayout({
     >
       <body className="h-dvh flex font-noto-sans-georgian ">
         <RootQueryClientProvider>
+          <RootDatabaseInitializer />
           <ServiceWorkerProvider>{children}</ServiceWorkerProvider>
         </RootQueryClientProvider>
       </body>

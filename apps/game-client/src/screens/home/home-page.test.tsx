@@ -1,10 +1,15 @@
-import { getDefaultRepository, getHomeModulesView } from '@game-client/core/library';
 import { RootQueryClientProvider } from '@game-client/root-layout/root-query-client-provider';
 import { RouterProvider } from '@game-client/router-outlet/router-context';
-import { render, screen, within } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { HomePage } from './home-page';
+import { mockHomeModulesListData } from './home-page-modules-mock';
+import { useModulesList } from './use-modules-list';
+
+vi.mock('./use-modules-list', () => ({
+  useModulesList: vi.fn(),
+}));
 
 function renderHomePage(initialPath = '/en') {
   return render(
@@ -17,16 +22,17 @@ function renderHomePage(initialPath = '/en') {
 }
 
 describe('Game Client Home Page', () => {
-  let firstLessonId: string;
-  let firstLessonTitleEn: string;
+  afterEach(() => {
+    cleanup();
+  });
 
-  beforeAll(async () => {
-    const repo = getDefaultRepository();
-    const view = await getHomeModulesView(repo, 'en');
-    const first = view[0]?.lessons[0];
-    if (!first) throw new Error('Library has no modules or lessons');
-    firstLessonId = first.id;
-    firstLessonTitleEn = first.title;
+  beforeEach(() => {
+    vi.mocked(useModulesList).mockReturnValue({
+      data: [...mockHomeModulesListData],
+      isLoading: false,
+      isError: false,
+      addViewEventsForLessonItems: vi.fn().mockResolvedValue(undefined),
+    });
   });
 
   it('renders Home heading and lesson list', async () => {
@@ -36,11 +42,11 @@ describe('Game Client Home Page', () => {
     );
     const firstLessonButton = await screen.findByRole(
       'button',
-      { name: firstLessonTitleEn },
+      { name: /the five vowels/i },
       { timeout: 3000 },
     );
     expect(document.contains(firstLessonButton)).toBe(true);
-    const secondLessonButton = screen.getByRole('button', { name: 'Sounds You Know' });
+    const secondLessonButton = screen.getByRole('button', { name: /sounds you know/i });
     expect(document.contains(secondLessonButton)).toBe(true);
   });
 
@@ -50,14 +56,14 @@ describe('Game Client Home Page', () => {
     renderHomePage();
     const firstLessonButton = await screen.findByRole(
       'button',
-      { name: firstLessonTitleEn },
+      { name: /the five vowels/i },
       { timeout: 3000 },
     );
     await user.click(firstLessonButton);
     expect(pushStateSpy).toHaveBeenCalledWith(
       null,
       '',
-      `/en/learn/${encodeURIComponent(firstLessonId)}`,
+      `/en/learn/${encodeURIComponent('lesson-alphabet-vowels')}`,
     );
     pushStateSpy.mockRestore();
   });

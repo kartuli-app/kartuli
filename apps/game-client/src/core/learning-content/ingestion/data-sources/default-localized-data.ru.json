@@ -1,0 +1,173 @@
+{
+  "localizedModules": [
+    {
+      "id": "module-alphabet",
+      "title": "Алфавит"
+    }
+  ],
+  "localizedLessons": [
+    {
+      "id": "lesson-alphabet-vowels",
+      "title": "Пять гласных"
+    },
+    {
+      "id": "lesson-alphabet-sounds-you-know",
+      "title": "Знакомые звуки"
+    },
+    {
+      "id": "lesson-alphabet-more-easy-sounds",
+      "title": "Ещё простые звуки"
+    },
+    {
+      "id": "lesson-alphabet-puff-and-pop",
+      "title": "Придыхание и взрыв"
+    },
+    {
+      "id": "lesson-alphabet-k-family",
+      "title": "Семейство К"
+    },
+    {
+      "id": "lesson-alphabet-hissing-sounds",
+      "title": "Шипящие звуки"
+    },
+    {
+      "id": "lesson-alphabet-buzzing-sounds",
+      "title": "Жужжащие звуки"
+    }
+  ],
+  "localizedLetterItems": [
+    {
+      "id": "letter-ani",
+      "pronunciationHint": "(ru) like 'a' in 'father'"
+    },
+    {
+      "id": "letter-bani",
+      "pronunciationHint": "(ru) like 'b' in 'bed'"
+    },
+    {
+      "id": "letter-gani",
+      "pronunciationHint": "(ru) like 'g' in 'go'"
+    },
+    {
+      "id": "letter-doni",
+      "pronunciationHint": "(ru) like 'd' in 'dog'"
+    },
+    {
+      "id": "letter-eni",
+      "pronunciationHint": "(ru) like 'e' in 'bed'"
+    },
+    {
+      "id": "letter-vini",
+      "pronunciationHint": "(ru) like 'v' in 'voice'"
+    },
+    {
+      "id": "letter-zeni",
+      "pronunciationHint": "(ru) like 'z' in 'zoo'"
+    },
+    {
+      "id": "letter-tani",
+      "pronunciationHint": "(ru) like 't' in 'top' (with a puff of air)"
+    },
+    {
+      "id": "letter-ini",
+      "pronunciationHint": "(ru) like 'ee' in 'see'"
+    },
+    {
+      "id": "letter-kani",
+      "pronunciationHint": "(ru) like 'k' but with a sharp pop (ejective)"
+    },
+    {
+      "id": "letter-lasi",
+      "pronunciationHint": "(ru) like 'l' in 'love'"
+    },
+    {
+      "id": "letter-mani",
+      "pronunciationHint": "(ru) like 'm' in 'mom'"
+    },
+    {
+      "id": "letter-nari",
+      "pronunciationHint": "(ru) like 'n' in 'no'"
+    },
+    {
+      "id": "letter-oni",
+      "pronunciationHint": "(ru) like 'o' in 'or'"
+    },
+    {
+      "id": "letter-pari",
+      "pronunciationHint": "(ru) like 'p' but with a sharp pop (ejective)"
+    },
+    {
+      "id": "letter-zhani",
+      "pronunciationHint": "(ru) like 's' in 'pleasure'"
+    },
+    {
+      "id": "letter-rae",
+      "pronunciationHint": "(ru) rolled 'r' (like in Spanish)"
+    },
+    {
+      "id": "letter-sani",
+      "pronunciationHint": "(ru) like 's' in 'sun'"
+    },
+    {
+      "id": "letter-tari",
+      "pronunciationHint": "(ru) like 't' but with a sharp pop (ejective)"
+    },
+    {
+      "id": "letter-uni",
+      "pronunciationHint": "(ru) like 'u' in 'put'"
+    },
+    {
+      "id": "letter-pari-aspirated",
+      "pronunciationHint": "(ru) like 'p' in 'pot' (with a puff of air)"
+    },
+    {
+      "id": "letter-kani-aspirated",
+      "pronunciationHint": "(ru) like 'k' in 'kit' (with a puff of air)"
+    },
+    {
+      "id": "letter-ghani",
+      "pronunciationHint": "(ru) gargly 'gh' sound (like French 'r')"
+    },
+    {
+      "id": "letter-qari",
+      "pronunciationHint": "(ru) deep 'k' sound with a sharp pop (ejective)"
+    },
+    {
+      "id": "letter-shini",
+      "pronunciationHint": "(ru) like 'sh' in 'ship'"
+    },
+    {
+      "id": "letter-chini",
+      "pronunciationHint": "(ru) like 'ch' in 'church' (with a puff of air)"
+    },
+    {
+      "id": "letter-tsani",
+      "pronunciationHint": "(ru) like 'ts' in 'cats' (with a puff of air)"
+    },
+    {
+      "id": "letter-dzili",
+      "pronunciationHint": "(ru) like 'ds' in 'beds'"
+    },
+    {
+      "id": "letter-tsili",
+      "pronunciationHint": "(ru) like 'ts' but with a sharp pop (ejective)"
+    },
+    {
+      "id": "letter-chari",
+      "pronunciationHint": "(ru) like 'ch' but with a sharp pop (ejective)"
+    },
+    {
+      "id": "letter-khani",
+      "pronunciationHint": "(ru) like 'ch' in Scottish 'loch'"
+    },
+    {
+      "id": "letter-jani",
+      "pronunciationHint": "(ru) like 'j' in 'jump' or 'dg' in 'hedge'"
+    },
+    {
+      "id": "letter-hae",
+      "pronunciationHint": "(ru) like 'h' in 'hello'"
+    }
+  ],
+  "localizedWordItems": []
+}

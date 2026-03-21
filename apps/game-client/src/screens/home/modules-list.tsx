@@ -1,18 +1,18 @@
 'use client';
 
-import {
-  getDefaultRepository,
-  getHomeModulesView,
-  type HomeLessonCardView,
-  type HomeModuleView,
-} from '@game-client/core/library';
+import type {
+  HomeLessonView,
+  HomeLetterItemView,
+  HomeModuleView,
+  HomeWordItemView,
+} from '@game-client/core/views/home/use-home-modules-view';
 import { useLang } from '@game-client/i18n/use-lang';
 import errorIllustration from '@game-client/images/illustrations/error.svg';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { EyeIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { NewModulesList } from './new-modules-list';
+import { useModulesList } from './use-modules-list';
 
 function ModuleCard({
   className,
@@ -37,8 +37,9 @@ function ModuleCardContent({
 
 const lessonCardBaseClassnames = clsx(
   //
-  'h-40',
-  'justify-center',
+  'min-h-40',
+  'p-2',
+  'justify-start',
   //
   'px-brand-large',
   'gap-brand-regular',
@@ -136,7 +137,13 @@ function ModuleCardError({
   );
 }
 
-function ModuleCardWithLessons({ module }: { readonly module: HomeModuleView }) {
+function ModuleCardWithLessons({
+  module,
+  addViewEventsForLessonItems,
+}: Readonly<{
+  readonly module: HomeModuleView;
+  addViewEventsForLessonItems: (itemIds: readonly string[]) => Promise<void>;
+}>) {
   return (
     <ModuleCard key={module.id}>
       <ModuleCardTitle className="text-brand-primary-500" title={module.title} />
@@ -152,7 +159,12 @@ function ModuleCardWithLessons({ module }: { readonly module: HomeModuleView }) 
           )}
         >
           {module.lessons.map((lesson) => (
-            <LessonCardWithContent key={lesson.id} lesson={lesson} className="" />
+            <LessonCardWithContent
+              key={lesson.id}
+              lesson={lesson}
+              className=""
+              addViewEventsForLessonItems={addViewEventsForLessonItems}
+            />
           ))}
         </div>
       </ModuleCardContent>
@@ -160,32 +172,122 @@ function ModuleCardWithLessons({ module }: { readonly module: HomeModuleView }) 
   );
 }
 
+const LetterItemCard = ({
+  item,
+  className,
+}: Readonly<{ item: HomeLetterItemView; className?: string; key: string }>) => {
+  return (
+    <div
+      key={item.id}
+      className={clsx(
+        //
+        'text-brand-neutral-900',
+        'bg-brand-neutral-100',
+        'shadow-md',
+        'rounded-lg',
+        'min-h-22',
+        'flex',
+        'items-center',
+        'justify-center',
+        'col-span-1',
+        className,
+      )}
+    >
+      {item.type === 'letter' && (
+        <div className="flex flex-col items-center justify-center gap-brand-small">
+          <div className="text-4xl">{item.targetScript}</div>
+          <div className="text-xl flex gap-brand-xsmall text-brand-neutral-700">
+            <span className="text-orange-500">[</span>
+            {item.transliteration}
+            <span className="text-orange-500">]</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const WordItemCard = ({
+  item,
+  className,
+}: Readonly<{ item: HomeWordItemView; className?: string; key: string }>) => {
+  return (
+    <div
+      key={item.id}
+      className={clsx(
+        //
+        'text-brand-neutral-900',
+        'bg-brand-neutral-100',
+        'shadow-md',
+        'rounded-lg',
+        'min-h-22',
+        'h-auto',
+        'flex',
+        'items-center',
+        'justify-center',
+        'col-span-6',
+        className,
+      )}
+    >
+      {item.type === 'word' && (
+        <div className="flex flex-col items-center justify-center gap-brand-small">
+          <div className="text-3xl font-bold">{item.targetScript}</div>
+          <div className="text-2xl flex gap-brand-xsmall text-brand-neutral-700">
+            {item.translation}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 function LessonCardWithContent({
   lesson,
   className,
+  addViewEventsForLessonItems,
 }: Readonly<{
-  lesson: HomeLessonCardView;
+  lesson: HomeLessonView;
   className?: string;
+  addViewEventsForLessonItems: (itemIds: readonly string[]) => Promise<void>;
 }>) {
   const lang = useLang();
   const { navigate } = useRouterContext();
+  const onClick = () => {
+    void addViewEventsForLessonItems(lesson.items.map((item) => item.id));
+    navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`);
+  };
+  const totalViewsCount = lesson.items.reduce(
+    (acc, item) => acc + (item.activitySummary?.totalViewCount ?? 0),
+    0,
+  );
+  const averageViewsCount = lesson.items.length > 0 ? totalViewsCount / lesson.items.length : 0;
   return (
     <button
       key={lesson.id}
       aria-label={lesson.title}
       type="button"
       tabIndex={0}
-      onClick={() => navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`)}
-      className={clsx(lessonCardBaseClassnames, lessonCardWithContentClassnames, className)}
+      onClick={onClick}
+      className={clsx(
+        lessonCardBaseClassnames,
+        lessonCardWithContentClassnames,
+        'relative',
+        className,
+      )}
     >
       <div
         className={clsx(
           //
           'text-2xl',
           'font-bold',
+          'flex justify-between',
         )}
       >
-        {lesson.title}
+        <span>{lesson.title}</span>
+        <span className="text-base text-brand-neutral-50 flex items-center gap-brand-small">
+          <EyeIcon className="w-5 h-5" />
+          {averageViewsCount}
+        </span>
       </div>
       <div
         className={clsx(
@@ -195,43 +297,15 @@ function LessonCardWithContent({
           'grid grid-cols-6',
         )}
       >
-        {lesson.previewItems.map((previewItem) => (
-          <div
-            key={previewItem.id}
-            className={clsx(
-              //
-              'text-brand-neutral-900',
-              'bg-brand-neutral-100',
-              'shadow-md',
-              'rounded-lg',
-              'h-22',
-              'flex',
-              'items-center',
-              'justify-center',
-            )}
-          >
-            {previewItem.type === 'letter' && (
-              <div className="flex flex-col items-center justify-center gap-brand-small">
-                <div className="text-4xl">{previewItem.text}</div>
-                <div className="text-xl flex gap-brand-xsmall">
-                  <span className="text-orange-500">[</span>
-                  {previewItem.transliteration}
-                  <span className="text-orange-500">]</span>
-                </div>
-              </div>
-            )}
-            {previewItem.type === 'word' && (
-              <img
-                src={previewItem.imageUrl}
-                alt={previewItem.alt}
-                className="size-10 object-contain"
-              />
-            )}
-            {previewItem.type === 'rule' && (
-              <div className="text-sm truncate px-1">{previewItem.label}</div>
-            )}
-          </div>
-        ))}
+        {lesson.items.map((item) => {
+          if (item.type === 'letter') {
+            return <LetterItemCard key={item.id} item={item} className="" />;
+          }
+          if (item.type === 'word') {
+            return <WordItemCard key={item.id} item={item} className="" />;
+          }
+          return null;
+        })}
       </div>
     </button>
   );
@@ -239,46 +313,25 @@ function LessonCardWithContent({
 
 export function ModulesList() {
   const { t } = useTranslation('common');
-  const lang = useLang();
-  const [modules, setModules] = useState<HomeModuleView[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    setError(null);
-    const repo = getDefaultRepository();
-    getHomeModulesView(repo, lang)
-      .then((view) => {
-        if (!cancelled) {
-          setModules(view);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setError(err instanceof Error ? err : new Error(String(err)));
-          setLoading(false);
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [lang]);
+  const { data, isLoading, isError, addViewEventsForLessonItems } = useModulesList();
 
   return (
     <div className={clsx('flex flex-col gap-brand-xlarge', 'mt-brand-xlarge')}>
-      <NewModulesList />
-      {loading ? <ModuleCardSkeleton /> : null}
-      {error ? (
+      {isLoading ? <ModuleCardSkeleton /> : null}
+      {isError ? (
         <ModuleCardError title={`მძღნერი = ${t('shit')}`} message={t('errorLoadingContent')} />
       ) : null}
-      {!loading && !error && modules.length === 0 ? (
+      {!isLoading && !isError && data?.length === 0 ? (
         <ModuleCardError title={`მძღნერი = ${t('shit')}`} message={t('noContentFound')} />
       ) : null}
-      {!loading && !error && modules.length > 0
-        ? modules.map((module) => <ModuleCardWithLessons key={module.id} module={module} />)
+      {!isLoading && !isError && data?.length && data.length > 0
+        ? data.map((module) => (
+            <ModuleCardWithLessons
+              key={module.id}
+              module={module}
+              addViewEventsForLessonItems={addViewEventsForLessonItems}
+            />
+          ))
         : null}
     </div>
   );

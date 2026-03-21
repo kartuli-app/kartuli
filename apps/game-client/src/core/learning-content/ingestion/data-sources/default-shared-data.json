@@ -1,0 +1,260 @@
+{
+  "sharedModules": [
+    {
+      "id": "module-alphabet",
+      "lessonIds": [
+        "lesson-alphabet-vowels",
+        "lesson-alphabet-sounds-you-know",
+        "lesson-alphabet-more-easy-sounds",
+        "lesson-alphabet-puff-and-pop",
+        "lesson-alphabet-k-family",
+        "lesson-alphabet-hissing-sounds",
+        "lesson-alphabet-buzzing-sounds"
+      ]
+    }
+  ],
+  "sharedLessons": [
+    {
+      "id": "lesson-alphabet-vowels",
+      "itemIds": ["letter-ani", "letter-eni", "letter-ini", "letter-oni", "letter-uni"]
+    },
+    {
+      "id": "lesson-alphabet-sounds-you-know",
+      "itemIds": ["letter-bani", "letter-gani", "letter-doni", "letter-vini", "letter-zeni"]
+    },
+    {
+      "id": "lesson-alphabet-more-easy-sounds",
+      "itemIds": [
+        "letter-lasi",
+        "letter-mani",
+        "letter-nari",
+        "letter-rae",
+        "letter-sani",
+        "letter-hae"
+      ]
+    },
+    {
+      "id": "lesson-alphabet-puff-and-pop",
+      "itemIds": ["letter-tani", "letter-tari", "letter-pari-aspirated", "letter-pari"]
+    },
+    {
+      "id": "lesson-alphabet-k-family",
+      "itemIds": [
+        "letter-kani-aspirated",
+        "letter-kani",
+        "letter-ghani",
+        "letter-khani",
+        "letter-qari"
+      ]
+    },
+    {
+      "id": "lesson-alphabet-hissing-sounds",
+      "itemIds": ["letter-shini", "letter-chini", "letter-tsani", "letter-tsili", "letter-chari"]
+    },
+    {
+      "id": "lesson-alphabet-buzzing-sounds",
+      "itemIds": ["letter-dzili", "letter-zhani", "letter-jani"]
+    }
+  ],
+  "sharedLetterItems": [
+    {
+      "id": "letter-ani",
+      "targetScript": "ა",
+      "transliteration": "a",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-bani",
+      "targetScript": "ბ",
+      "transliteration": "b",
+      "soundCategory": "stop"
+    },
+    {
+      "id": "letter-gani",
+      "targetScript": "გ",
+      "transliteration": "g",
+      "soundCategory": "stop"
+    },
+    {
+      "id": "letter-doni",
+      "targetScript": "დ",
+      "transliteration": "d",
+      "soundCategory": "stop"
+    },
+    {
+      "id": "letter-eni",
+      "targetScript": "ე",
+      "transliteration": "e",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-vini",
+      "targetScript": "ვ",
+      "transliteration": "v",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-zeni",
+      "targetScript": "ზ",
+      "transliteration": "z",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-tani",
+      "targetScript": "თ",
+      "transliteration": "t",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-ini",
+      "targetScript": "ი",
+      "transliteration": "i",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-kani",
+      "targetScript": "კ",
+      "transliteration": "k'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-lasi",
+      "targetScript": "ლ",
+      "transliteration": "l",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-mani",
+      "targetScript": "მ",
+      "transliteration": "m",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-nari",
+      "targetScript": "ნ",
+      "transliteration": "n",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-oni",
+      "targetScript": "ო",
+      "transliteration": "o",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-pari",
+      "targetScript": "პ",
+      "transliteration": "p'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-zhani",
+      "targetScript": "ჟ",
+      "transliteration": "zh",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-rae",
+      "targetScript": "რ",
+      "transliteration": "r",
+      "soundCategory": "sonorant"
+    },
+    {
+      "id": "letter-sani",
+      "targetScript": "ს",
+      "transliteration": "s",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-tari",
+      "targetScript": "ტ",
+      "transliteration": "t'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-uni",
+      "targetScript": "უ",
+      "transliteration": "u",
+      "soundCategory": "vowel"
+    },
+    {
+      "id": "letter-pari-aspirated",
+      "targetScript": "ფ",
+      "transliteration": "p",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-kani-aspirated",
+      "targetScript": "ქ",
+      "transliteration": "k",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-ghani",
+      "targetScript": "ღ",
+      "transliteration": "gh",
+      "soundCategory": "throat"
+    },
+    {
+      "id": "letter-qari",
+      "targetScript": "ყ",
+      "transliteration": "q'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-shini",
+      "targetScript": "შ",
+      "transliteration": "sh",
+      "soundCategory": "fricative"
+    },
+    {
+      "id": "letter-chini",
+      "targetScript": "ჩ",
+      "transliteration": "ch",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-tsani",
+      "targetScript": "ც",
+      "transliteration": "ts",
+      "soundCategory": "aspirated"
+    },
+    {
+      "id": "letter-dzili",
+      "targetScript": "ძ",
+      "transliteration": "dz",
+      "soundCategory": "affricate"
+    },
+    {
+      "id": "letter-tsili",
+      "targetScript": "წ",
+      "transliteration": "ts'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-chari",
+      "targetScript": "ჭ",
+      "transliteration": "ch'",
+      "soundCategory": "ejective"
+    },
+    {
+      "id": "letter-khani",
+      "targetScript": "ხ",
+      "transliteration": "kh",
+      "soundCategory": "throat"
+    },
+    {
+      "id": "letter-jani",
+      "targetScript": "ჯ",
+      "transliteration": "j",
+      "soundCategory": "affricate"
+    },
+    {
+      "id": "letter-hae",
+      "targetScript": "ჰ",
+      "transliteration": "h",
+      "soundCategory": "fricative"
+    }
+  ],
+  "sharedWordItems": []
+}

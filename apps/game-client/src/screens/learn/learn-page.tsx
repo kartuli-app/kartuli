@@ -13,6 +13,7 @@ export function LearnPage({ lessonId }: LearnPageProps) {
   const { t } = useTranslation('learn');
   const lang = useLang();
   const { navigate } = useRouterContext();
+  console.info('🏠 [learn-page] 🏠 rendering learn page');
 
   return (
     <div data-testid="game-learn" className="flex grow flex-col items-center justify-center gap-4">
