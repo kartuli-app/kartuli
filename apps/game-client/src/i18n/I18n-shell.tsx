@@ -2,7 +2,6 @@
 
 import { I18nProvider } from '@game-client/i18n/i18n-provider';
 import { pathToLang } from '@game-client/i18n/path-to-lang';
-import { getPreferredLocaleFromStorage } from '@game-client/local-storage/get-preferred-locale-from-storage';
 import { PREFERRED_LOCALE_KEY } from '@game-client/local-storage/preferred-locale-key';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
 import { getExplicitLocaleFromPath } from '@game-client/routing/path-normalization';
@@ -15,7 +14,7 @@ interface I18nShellProps {
 }
 
 export function I18nShell({ children }: I18nShellProps) {
-  const { path, replaceNavigate, isRouterReady } = useRouterContext();
+  const { path, isRouterReady } = useRouterContext();
   const lang = pathToLang(path);
 
   useEffect(() => {
@@ -34,12 +33,6 @@ export function I18nShell({ children }: I18nShellProps) {
       // ignore
     }
   }, [isRouterReady, path]);
-
-  useEffect(() => {
-    if (!isRouterReady || path !== '/') return;
-    const locale = getPreferredLocaleFromStorage();
-    replaceNavigate(`/${locale}`);
-  }, [isRouterReady, path, replaceNavigate]);
 
   return <I18nProvider lang={lang}>{children}</I18nProvider>;
 }

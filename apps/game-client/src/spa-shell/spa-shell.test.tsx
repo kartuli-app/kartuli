@@ -43,6 +43,21 @@ async function expectShellRendersPage(path: string, testId: string) {
 }
 
 describe('SpaShell', () => {
+  it('resolves / to /en before outlet and shows HomePage (no router 404 flash)', async () => {
+    replaceStateMock.mockClear();
+    vi.mocked(browser.getLocationPathname).mockReturnValue('/');
+    const { container } = render(
+      <RootQueryClientProvider>
+        <SpaShell initialPath="/" />
+      </RootQueryClientProvider>,
+    );
+    await waitFor(() => {
+      expect(document.contains(within(container).getByTestId('game-home'))).toBe(true);
+    });
+    expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/en');
+    expect(document.contains(within(container).queryByTestId('page-not-found'))).toBe(false);
+  });
+
   it('renders HomePage for /en', async () => {
     await expectShellRendersPage('/en', 'game-home');
   });

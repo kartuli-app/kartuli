@@ -20,16 +20,24 @@ interface RouterProviderProps {
   readonly children: ReactNode;
 }
 
-function applyNormalizedPath(
+/**
+ * Unlocalized → `/${preferred}/…`; root `/` → `/${preferred}` so `isRouterReady` never leaves a transient `/` that would render router 404.
+ */
+function resolveSyncedPathname(
   win: NonNullable<ReturnType<typeof getBrowserGlobal>>,
   pathname: string,
   preferred: ReturnType<typeof getPreferredLocaleFromStorage>,
 ): string {
-  const normalized = normalizeUnlocalizedPath(pathname, preferred);
-  if (normalized !== pathname) {
-    win.history.replaceState(null, '', normalized);
+  let next = normalizeUnlocalizedPath(pathname, preferred);
+  if (next === '/') {
+    next = `/${preferred}`;
+    win.history.replaceState(null, '', next);
+    return next;
   }
-  return normalized;
+  if (next !== pathname) {
+    win.history.replaceState(null, '', next);
+  }
+  return next;
 }
 
 export function RouterProvider({ initialPath, children }: RouterProviderProps) {
@@ -43,7 +51,7 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
     const handlePopState = () => {
       const pathname = win.location.pathname;
       const preferred = getPreferredLocaleFromStorage();
-      const next = applyNormalizedPath(win, pathname, preferred);
+      const next = resolveSyncedPathname(win, pathname, preferred);
       setPath(next);
     };
     win.addEventListener('popstate', handlePopState);
@@ -57,7 +65,7 @@ export function RouterProvider({ initialPath, children }: RouterProviderProps) {
     }
     const fromUrl = getLocationPathname() ?? initialPath;
     const preferred = getPreferredLocaleFromStorage();
-    const next = applyNormalizedPath(win, fromUrl, preferred);
+    const next = resolveSyncedPathname(win, fromUrl, preferred);
     setPath(next);
     setIsRouterReady(true);
   }, [win, initialPath]);
