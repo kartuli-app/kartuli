@@ -1,3 +1,5 @@
+import { defaultLng } from '@game-client/i18n/default-locale';
+import { PREFERRED_LOCALE_KEY } from '@game-client/local-storage/preferred-locale-key';
 import { RootQueryClientProvider } from '@game-client/root-layout/root-query-client-provider';
 import * as browser from '@game-client/utils/browser';
 import { render, waitFor, within } from '@testing-library/react';
@@ -71,6 +73,11 @@ async function expectShellRendersPage(path: string, testId: string) {
 
 describe('SpaShell', () => {
   beforeEach(() => {
+    try {
+      globalThis.localStorage?.removeItem(PREFERRED_LOCALE_KEY);
+    } catch {
+      // ignore (e.g. disabled storage)
+    }
     pageNotFoundHarness.spy.mockClear();
     replaceStateMock.mockClear();
     pushStateMock.mockClear();
@@ -86,7 +93,7 @@ describe('SpaShell', () => {
     });
   });
 
-  it('resolves / to /en before outlet; PageNotFound is never mounted', async () => {
+  it('resolves / to default locale before outlet; PageNotFound is never mounted', async () => {
     vi.mocked(browser.getLocationPathname).mockReturnValue('/');
     setMockLocation({ pathname: '/' });
     const { container } = render(
@@ -97,7 +104,7 @@ describe('SpaShell', () => {
     await waitFor(() => {
       expect(document.contains(within(container).getByTestId('game-home'))).toBe(true);
     });
-    expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/en');
+    expect(replaceStateMock).toHaveBeenCalledWith(null, '', `/${defaultLng}`);
     expect(pageNotFoundHarness.spy).not.toHaveBeenCalled();
     expect(document.contains(within(container).queryByTestId('page-not-found'))).toBe(false);
   });
@@ -113,7 +120,7 @@ describe('SpaShell', () => {
     await waitFor(() => {
       expect(document.contains(within(container).getByTestId('game-debug'))).toBe(true);
     });
-    expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/en/debug?from=pwa#cta');
+    expect(replaceStateMock).toHaveBeenCalledWith(null, '', `/${defaultLng}/debug?from=pwa#cta`);
   });
 
   it('renders HomePage for /en', async () => {
@@ -173,6 +180,6 @@ describe('SpaShell', () => {
     await waitFor(() => {
       expect(document.contains(within(container).getByTestId('page-not-found'))).toBe(true);
     });
-    expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/en/banana-e2e-random');
+    expect(replaceStateMock).toHaveBeenCalledWith(null, '', `/${defaultLng}/banana-e2e-random`);
   });
 });

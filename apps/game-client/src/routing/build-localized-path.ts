@@ -12,8 +12,7 @@ function isLocaleSegment(seg: string): seg is SupportedLng {
 export function buildLocalizedPath(pathname: string, nextLang: SupportedLng): string {
   const pathOnly = pathname.split(/[?#]/)[0] ?? '';
   const segments = pathOnly.split('/').filter(Boolean);
-  const firstRaw = segments[0];
-  const first = firstRaw?.split(/[?#]/, 1)[0];
+  const first = segments[0];
   if (first && isLocaleSegment(first)) {
     const rest = segments.slice(1);
     return rest.length > 0 ? `/${nextLang}/${rest.join('/')}` : `/${nextLang}`;

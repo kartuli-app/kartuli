@@ -47,6 +47,9 @@ describe('normalizeUnlocalizedPath', () => {
     { path: '/banana', preferred: 'en', expected: '/en/banana' },
     { path: '/foo/bar', preferred: 'ru', expected: '/ru/foo/bar' },
     { path: '/debug', preferred: 'en', expected: '/en/debug' },
+    { path: '', preferred: 'en', expected: '/' },
+    { path: '/debug?foo=bar', preferred: 'en', expected: '/en/debug?foo=bar' },
+    { path: '/foo/bar#section', preferred: 'ru', expected: '/ru/foo/bar#section' },
   ])('normalizeUnlocalizedPath($path, $preferred)', ({ path, preferred, expected }) => {
     expect(normalizeUnlocalizedPath(path, preferred)).toBe(expected);
   });
