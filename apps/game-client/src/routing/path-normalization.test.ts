@@ -3,56 +3,51 @@ import {
   getExplicitLocaleFromPath,
   getPathLocaleKind,
   normalizeUnlocalizedPath,
+  type PathLocaleKind,
 } from './path-normalization';
 
 describe('getPathLocaleKind', () => {
-  it('classifies root', () => {
-    expect(getPathLocaleKind('/')).toBe('root');
-    expect(getPathLocaleKind('')).toBe('root');
-  });
-
-  it('classifies localized paths', () => {
-    expect(getPathLocaleKind('/en')).toBe('localized');
-    expect(getPathLocaleKind('/en/foo')).toBe('localized');
-    expect(getPathLocaleKind('/en/')).toBe('localized');
-    expect(getPathLocaleKind('/ru/learn/x')).toBe('localized');
-  });
-
-  it('classifies paths with query-like segments in the string (first segment still locale)', () => {
-    expect(getPathLocaleKind('/en?foo=bar')).toBe('localized');
-    expect(getPathLocaleKind('/ru/learn/x#hash')).toBe('localized');
-  });
-
-  it('classifies unlocalized paths', () => {
-    expect(getPathLocaleKind('/banana')).toBe('unlocalized');
-    expect(getPathLocaleKind('/debug')).toBe('unlocalized');
-    expect(getPathLocaleKind('/foo/bar')).toBe('unlocalized');
+  it.each<{ path: string; kind: PathLocaleKind }>([
+    { path: '/', kind: 'root' },
+    { path: '', kind: 'root' },
+    { path: '/en', kind: 'localized' },
+    { path: '/en/foo', kind: 'localized' },
+    { path: '/en/', kind: 'localized' },
+    { path: '/ru/learn/x', kind: 'localized' },
+    { path: '/en?foo=bar', kind: 'localized' },
+    { path: '/ru/learn/x#hash', kind: 'localized' },
+    { path: '/banana', kind: 'unlocalized' },
+    { path: '/debug', kind: 'unlocalized' },
+    { path: '/foo/bar', kind: 'unlocalized' },
+  ])('getPathLocaleKind($path) → $kind', ({ path, kind }) => {
+    expect(getPathLocaleKind(path)).toBe(kind);
   });
 });
 
 describe('getExplicitLocaleFromPath', () => {
-  it('returns locale only when first segment is supported', () => {
-    expect(getExplicitLocaleFromPath('/en')).toBe('en');
-    expect(getExplicitLocaleFromPath('/ru/learn/a')).toBe('ru');
-    expect(getExplicitLocaleFromPath('/')).toBeNull();
-    expect(getExplicitLocaleFromPath('/banana')).toBeNull();
-    expect(getExplicitLocaleFromPath('/fr/hello')).toBeNull();
-    expect(getExplicitLocaleFromPath('/en?x=1')).toBe('en');
-    expect(getExplicitLocaleFromPath('/banana?q=1')).toBeNull();
+  it.each<{ path: string; locale: 'en' | 'ru' | null }>([
+    { path: '/en', locale: 'en' },
+    { path: '/ru/learn/a', locale: 'ru' },
+    { path: '/', locale: null },
+    { path: '/banana', locale: null },
+    { path: '/fr/hello', locale: null },
+    { path: '/en?x=1', locale: 'en' },
+    { path: '/banana?q=1', locale: null },
+  ])('getExplicitLocaleFromPath($path)', ({ path, locale }) => {
+    expect(getExplicitLocaleFromPath(path)).toBe(locale);
   });
 });
 
 describe('normalizeUnlocalizedPath', () => {
-  it('leaves root and localized paths unchanged', () => {
-    expect(normalizeUnlocalizedPath('/', 'en')).toBe('/');
-    expect(normalizeUnlocalizedPath('/en', 'ru')).toBe('/en');
-    expect(normalizeUnlocalizedPath('/en/foo', 'ru')).toBe('/en/foo');
-    expect(normalizeUnlocalizedPath('/en/', 'ru')).toBe('/en/');
-  });
-
-  it('prefixes preferred locale for unlocalized paths', () => {
-    expect(normalizeUnlocalizedPath('/banana', 'en')).toBe('/en/banana');
-    expect(normalizeUnlocalizedPath('/foo/bar', 'ru')).toBe('/ru/foo/bar');
-    expect(normalizeUnlocalizedPath('/debug', 'en')).toBe('/en/debug');
+  it.each<{ path: string; preferred: 'en' | 'ru'; expected: string }>([
+    { path: '/', preferred: 'en', expected: '/' },
+    { path: '/en', preferred: 'ru', expected: '/en' },
+    { path: '/en/foo', preferred: 'ru', expected: '/en/foo' },
+    { path: '/en/', preferred: 'ru', expected: '/en/' },
+    { path: '/banana', preferred: 'en', expected: '/en/banana' },
+    { path: '/foo/bar', preferred: 'ru', expected: '/ru/foo/bar' },
+    { path: '/debug', preferred: 'en', expected: '/en/debug' },
+  ])('normalizeUnlocalizedPath($path, $preferred)', ({ path, preferred, expected }) => {
+    expect(normalizeUnlocalizedPath(path, preferred)).toBe(expected);
   });
 });
