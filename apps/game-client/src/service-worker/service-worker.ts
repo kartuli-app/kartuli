@@ -13,7 +13,6 @@
 /// <reference lib="webworker" />
 
 import { supportedLngs } from '@game-client/i18n/supported-locales';
-import { logger } from '@game-client/logging/dev-logger';
 import { defaultCache } from '@serwist/turbopack/worker';
 import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist';
 import { Serwist } from 'serwist';
@@ -119,7 +118,7 @@ self.addEventListener('message', (event) => {
 // --- Lifecycle: notify the page (SW → client) ---
 // Install: if we are the new waiting worker (there is already an active worker), tell all clients so they can show "update available".
 self.addEventListener('install', (event) => {
-  logger.log('sw', 'install event');
+  console.warn('[sw] install event');
   event.waitUntil(
     self.clients.matchAll().then((clients) => {
       if (self.registration.active != null && clients.length > 0) {
@@ -133,7 +132,7 @@ self.addEventListener('install', (event) => {
 
 // Activate: once we have claimed clients, tell them we are ready so they can show "ready for offline".
 self.addEventListener('activate', (event) => {
-  logger.log('sw', 'activate event');
+  console.warn('[sw] activate event');
   event.waitUntil(
     self.clients
       .claim()

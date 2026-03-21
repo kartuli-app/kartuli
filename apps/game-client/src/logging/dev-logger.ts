@@ -1,4 +1,4 @@
-const LAYERS = ['database', 'identifiers', 'integration', 'page', 'i18n', 'sw', 'query'] as const;
+const LAYERS = ['database', 'identifiers', 'integration', 'page', 'i18n', 'query'] as const;
 
 export type LogLayer = (typeof LAYERS)[number];
 
@@ -9,7 +9,6 @@ export const layerEnabled: Record<LogLayer, boolean> = {
   integration: true,
   page: true,
   i18n: true,
-  sw: true,
   query: true,
 };
 
