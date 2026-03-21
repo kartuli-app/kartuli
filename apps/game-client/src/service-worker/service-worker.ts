@@ -118,7 +118,7 @@ self.addEventListener('message', (event) => {
 // --- Lifecycle: notify the page (SW → client) ---
 // Install: if we are the new waiting worker (there is already an active worker), tell all clients so they can show "update available".
 self.addEventListener('install', (event) => {
-  console.warn('✈️ [service-worker] ✈️ install event');
+  console.warn('[sw] install event');
   event.waitUntil(
     self.clients.matchAll().then((clients) => {
       if (self.registration.active != null && clients.length > 0) {
@@ -132,7 +132,7 @@ self.addEventListener('install', (event) => {
 
 // Activate: once we have claimed clients, tell them we are ready so they can show "ready for offline".
 self.addEventListener('activate', (event) => {
-  console.warn('✈️ [service-worker] ✈️ activate event');
+  console.warn('[sw] activate event');
   event.waitUntil(
     self.clients
       .claim()

@@ -1,3 +1,4 @@
+import { logger } from '@game-client/logging/dev-logger';
 import { AppBar } from '@kartuli/ui/components/layout/app-bar';
 import { AppContent } from '@kartuli/ui/components/layout/app-content';
 import { AppScreen } from '@kartuli/ui/components/layout/app-screen';
@@ -6,7 +7,7 @@ import { HomeHeading } from './home-heading';
 import { ModulesList } from './modules-list';
 
 export function HomePage() {
-  console.info('🏠 [home-page] 🏠 rendering home page');
+  logger.log('page', 'rendering home page');
   return (
     <AppScreen testId="game-home">
       <AppBar isSticky>

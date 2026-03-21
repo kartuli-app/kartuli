@@ -1,6 +1,7 @@
 import { defaultLocalizedContentDataRepository } from '@game-client/core/learning-content/ingestion/default-data/default-localized-content-data-repository';
 import { extendedLocalizedContentDataRepository } from '@game-client/core/learning-content/ingestion/extended-data/extended-localized-content-data-repository';
 import type { LocalizedContentData } from '@game-client/core/learning-content/ingestion/localized-content-data/localized-content-data';
+import { logger } from '@game-client/logging/dev-logger';
 import type { CombinedLocalizedContentRows } from './combined-localized-content-rows';
 
 function mergeLocalizedContentData(
@@ -35,7 +36,7 @@ function mergeLocalizedContentData(
 export async function getCombinedLocalizedContentRows(
   locale: string,
 ): Promise<CombinedLocalizedContentRows> {
-  console.info('📖 [integration] 📖 getCombinedLocalizedContentRows locale:', locale);
+  logger.log('integration', 'getCombinedLocalizedContentRows locale:', locale);
   const defaultDataRepository = defaultLocalizedContentDataRepository();
   const extendedDataRepository = extendedLocalizedContentDataRepository();
   const [defaultData, extendedData] = await Promise.all([

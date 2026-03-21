@@ -15,6 +15,7 @@ import { useItemActivityDeviceStatesCollection } from '@game-client/core/student
 import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
 import { useHomeModulesView } from '@game-client/core/views/home/use-home-modules-view';
 import { useLang } from '@game-client/i18n/use-lang';
+import { logger } from '@game-client/logging/dev-logger';
 
 async function batchUpsertItemActivityDeviceViewEvents({
   collection,
@@ -62,8 +63,9 @@ async function batchUpsertItemActivityDeviceViewEvents({
       }
       await tx.done;
     } catch (error) {
-      console.error(
-        `💀 [${DATABASE_NAME}] 💀 Failed to persist item activity device state to IndexedDB:`,
+      logger.error(
+        'database',
+        `${DATABASE_NAME}: Failed to persist item activity device state to IndexedDB:`,
         error,
       );
     }
