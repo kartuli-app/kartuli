@@ -12,6 +12,7 @@ vi.mock('./use-modules-list', () => ({
 }));
 
 function renderHomePage(initialPath = '/en') {
+  window.history.replaceState(null, '', initialPath);
   return render(
     <RootQueryClientProvider>
       <RouterProvider initialPath={initialPath}>

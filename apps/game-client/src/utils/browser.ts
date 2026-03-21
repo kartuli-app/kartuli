@@ -5,7 +5,11 @@
 
 export interface BrowserGlobal {
   location: { pathname: string };
-  history: { pushState: (data: null, unused: string, url: string) => void; back(): void };
+  history: {
+    pushState: (data: null, unused: string, url: string) => void;
+    replaceState: (data: null, unused: string, url: string) => void;
+    back(): void;
+  };
   addEventListener: (type: string, listener: () => void) => void;
   removeEventListener: (type: string, listener: () => void) => void;
 }
@@ -16,7 +20,11 @@ const globalCast = globalThis as unknown as {
     location: { pathname: string; reload(): void };
     navigator?: { serviceWorker?: ServiceWorkerContainer };
   };
-  history?: { back(): void; pushState: (data: null, unused: string, url: string) => void };
+  history?: {
+    back(): void;
+    pushState: (data: null, unused: string, url: string) => void;
+    replaceState: (data: null, unused: string, url: string) => void;
+  };
   location?: { pathname: string; reload(): void };
   navigator?: { serviceWorker?: ServiceWorkerContainer };
   addEventListener?: (type: string, listener: () => void) => void;
