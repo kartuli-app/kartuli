@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { LearnPage } from './learn-page';
 
 function renderLearnPage(lessonId: string, initialPath = '/en/learn/lesson-1') {
-  window.history.replaceState(null, '', initialPath);
+  globalThis.history.replaceState(null, '', initialPath);
   return render(
     <RouterProvider initialPath={initialPath}>
       <LearnPage lessonId={lessonId} />
