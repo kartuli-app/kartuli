@@ -26,7 +26,21 @@ interface ItemActivityDeviceStateDB extends DBSchema {
   };
 }
 
-let dbPromise: Promise<IDBPDatabase<ItemActivityDeviceStateDB>> | undefined;
+let dbPromise: Promise<IDBPDatabase<ItemActivityDeviceStateDB> | null> | undefined;
+
+let hasLoggedIndexedDbUnavailable = false;
+
+function logIndexedDbUnavailable(reason: string, error?: unknown): void {
+  if (hasLoggedIndexedDbUnavailable) {
+    return;
+  }
+  hasLoggedIndexedDbUnavailable = true;
+  if (error !== undefined) {
+    console.error(`💀 [${DATABASE_NAME}] 💀 ${reason}`, error);
+  } else {
+    console.error(`💀 [${DATABASE_NAME}] 💀 ${reason}`);
+  }
+}
 
 /**
  * v1 rows used misspelled `udpatedAt`; rename to `updatedAt` in place.
@@ -57,38 +71,43 @@ function migrateUdpatedAtToUpdatedAt(
   };
 }
 
-function assertIndexedDbAvailable({ databaseName }: { databaseName: string }) {
+/**
+ * Opens the activity-state database once per page session, or returns `null` if
+ * IndexedDB is missing or `openDB` fails. The cached promise never rejects.
+ */
+export async function getItemActivityDeviceStateDatabase(): Promise<IDBPDatabase<ItemActivityDeviceStateDB> | null> {
   if (globalThis.window === undefined) {
-    throw new TypeError(`💀 [${databaseName}] 💀 IndexedDB can only run in the browser.`);
+    return null;
   }
 
   if (typeof indexedDB === 'undefined') {
-    throw new TypeError(`💀 [${databaseName}] 💀 IndexedDB is not available in this environment.`);
+    logIndexedDbUnavailable('IndexedDB is not available in this environment.');
+    dbPromise ??= Promise.resolve(null);
+    return dbPromise;
   }
-}
 
-export async function getItemActivityDeviceStateDatabase(): Promise<
-  IDBPDatabase<ItemActivityDeviceStateDB>
-> {
-  assertIndexedDbAvailable({ databaseName: DATABASE_NAME });
+  dbPromise ??= (async (): Promise<IDBPDatabase<ItemActivityDeviceStateDB> | null> => {
+    try {
+      const db = await openDB<ItemActivityDeviceStateDB>(DATABASE_NAME, DATABASE_VERSION, {
+        upgrade(db, oldVersion, _newVersion, transaction) {
+          if (oldVersion < 1) {
+            const store = db.createObjectStore(STORE_NAME, {
+              keyPath: 'id',
+            });
+            store.createIndex('ownerId', 'ownerId');
+          }
+          if (oldVersion < 2) {
+            migrateUdpatedAtToUpdatedAt(transaction);
+          }
+        },
+      });
 
-  dbPromise ??= (async () => {
-    const db = await openDB<ItemActivityDeviceStateDB>(DATABASE_NAME, DATABASE_VERSION, {
-      upgrade(db, oldVersion, _newVersion, transaction) {
-        if (oldVersion < 1) {
-          const store = db.createObjectStore(STORE_NAME, {
-            keyPath: 'id',
-          });
-          store.createIndex('ownerId', 'ownerId');
-        }
-        if (oldVersion < 2) {
-          migrateUdpatedAtToUpdatedAt(transaction);
-        }
-      },
-    });
-
-    console.info(`💾 [${DATABASE_NAME}] 💾 database created successfully`);
-    return db;
+      console.info(`💾 [${DATABASE_NAME}] 💾 database created successfully`);
+      return db;
+    } catch (error) {
+      logIndexedDbUnavailable('Failed to open IndexedDB; activity state will not persist.', error);
+      return null;
+    }
   })();
 
   return dbPromise;
@@ -96,10 +115,16 @@ export async function getItemActivityDeviceStateDatabase(): Promise<
 
 export async function getAllItemActivityDeviceStates() {
   const db = await getItemActivityDeviceStateDatabase();
+  if (!db) {
+    return [];
+  }
   return db.getAll(STORE_NAME);
 }
 
 export async function getAllItemActivityDeviceStatesByOwnerId(ownerId: string) {
   const db = await getItemActivityDeviceStateDatabase();
+  if (!db) {
+    return [];
+  }
   return db.getAllFromIndex(STORE_NAME, 'ownerId', ownerId);
 }

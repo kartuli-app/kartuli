@@ -7,6 +7,7 @@ import {
   type ItemActivityDeviceStateRow,
 } from '@game-client/core/student/device/item-activity-device-states-collection/item-activity-device-state';
 import {
+  DATABASE_NAME,
   getItemActivityDeviceStateDatabase,
   STORE_NAME,
 } from '@game-client/core/student/device/item-activity-device-states-collection/item-activity-device-state-database';
@@ -34,24 +35,38 @@ async function batchUpsertItemActivityDeviceViewEvents({
   }
 
   const db = await getItemActivityDeviceStateDatabase();
-  const tx = db.transaction(STORE_NAME, 'readwrite');
   const nextStates: ItemActivityDeviceStateRow[] = [];
 
   for (const itemId of uniqueItemIds) {
     const { id: rowId } = getDefaultItemActivityDeviceStateRow({ itemId });
-    const previousState = await tx.store.get(rowId);
+    const fromCollection = collection.get(rowId);
+    const fromIndexedDb =
+      fromCollection === undefined && db !== null ? await db.get(STORE_NAME, rowId) : undefined;
+    const previousState = fromCollection ?? fromIndexedDb ?? undefined;
     const nextState = AddItemActivityDeviceEvent({
-      previousState: previousState ?? undefined,
+      previousState,
       event: { itemId, eventType: 'view' },
     });
     nextStates.push(nextState);
-    await tx.store.put(nextState);
   }
-
-  await tx.done;
 
   for (const row of nextStates) {
     collection.utils.writeUpsert(row as Partial<ItemActivityDeviceStateRow>);
+  }
+
+  if (db !== null) {
+    try {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      for (const row of nextStates) {
+        await tx.store.put(row);
+      }
+      await tx.done;
+    } catch (error) {
+      console.error(
+        `💀 [${DATABASE_NAME}] 💀 Failed to persist item activity device state to IndexedDB:`,
+        error,
+      );
+    }
   }
 }
 

@@ -32,9 +32,11 @@ export function RootDatabaseInitializer() {
   useEffect(() => {
     getOrCreateDeviceId();
     getOrCreateOwnerId();
-    getItemActivityDeviceStateDatabase();
+    void (async () => {
+      await getItemActivityDeviceStateDatabase();
+    })();
     if (process.env.NODE_ENV === 'development') {
-      estimateStorageQuota();
+      void estimateStorageQuota();
     }
   }, []);
 
