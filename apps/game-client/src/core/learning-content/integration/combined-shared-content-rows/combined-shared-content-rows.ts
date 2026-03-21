@@ -11,7 +11,9 @@ export type CombinedSharedLessonRow = SharedLesson;
 
 export type CombinedSharedLetterItemRow = SharedLetterItem;
 
-export type CombinedSharedWordItemRow = SharedWordItem;
+export type CombinedSharedWordItemRow = SharedWordItem & {
+  transliteration: string;
+};
 
 export type CombinedSharedItemRow = CombinedSharedLetterItemRow | CombinedSharedWordItemRow;
 
