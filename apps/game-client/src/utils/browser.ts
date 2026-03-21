@@ -4,7 +4,7 @@
  */
 
 export interface BrowserGlobal {
-  location: { pathname: string };
+  location: { pathname: string; search?: string; hash?: string };
   history: {
     pushState: (data: null, unused: string, url: string) => void;
     replaceState: (data: null, unused: string, url: string) => void;
@@ -17,7 +17,7 @@ export interface BrowserGlobal {
 const globalCast = globalThis as unknown as {
   document?: { documentElement: { lang: string } };
   window?: {
-    location: { pathname: string; reload(): void };
+    location: { pathname: string; search?: string; hash?: string; reload(): void };
     navigator?: { serviceWorker?: ServiceWorkerContainer };
   };
   history?: {
@@ -25,7 +25,7 @@ const globalCast = globalThis as unknown as {
     pushState: (data: null, unused: string, url: string) => void;
     replaceState: (data: null, unused: string, url: string) => void;
   };
-  location?: { pathname: string; reload(): void };
+  location?: { pathname: string; search?: string; hash?: string; reload(): void };
   navigator?: { serviceWorker?: ServiceWorkerContainer };
   addEventListener?: (type: string, listener: () => void) => void;
   removeEventListener?: (type: string, listener: () => void) => void;
@@ -43,9 +43,13 @@ export function setDocumentLang(lang: string): void {
 export function getBrowserGlobal(): BrowserGlobal | null {
   if (typeof globalThis === 'undefined') return null;
   const g = globalCast;
+  const h = g.history;
   if (
     g.location &&
-    g.history &&
+    h &&
+    typeof h.pushState === 'function' &&
+    typeof h.replaceState === 'function' &&
+    typeof h.back === 'function' &&
     typeof g.addEventListener === 'function' &&
     typeof g.removeEventListener === 'function'
   ) {

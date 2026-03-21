@@ -28,6 +28,7 @@ export function I18nShell({ children }: I18nShellProps) {
     if (explicit === null) return;
     if (typeof localStorage === 'undefined') return;
     try {
+      if (localStorage.getItem(PREFERRED_LOCALE_KEY) === explicit) return;
       localStorage.setItem(PREFERRED_LOCALE_KEY, explicit);
     } catch {
       // ignore

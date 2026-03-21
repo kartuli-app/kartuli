@@ -29,7 +29,7 @@ The game client uses a **service worker** (Serwist) to support offline use after
 | `/` | Next shell; client redirects to preferred `/{locale}` | Precached `/`; same client redirect |
 | `/{locale}` (supported) valid route | Renders view | Default-locale precached HTML; client uses real URL → correct view |
 | `/{locale}` invalid tail (router 404) | SPA `PageNotFound` (UI only; HTTP 200 from catch-all) | Same shell; client shows `PageNotFound` |
-| Unlocalized path (e.g. `/foo`) | Client `replaceState` → `/{preferredLocale}/foo`, then route or 404 | SW serves default-locale shell; client normalizes then routes |
+| Unlocalized path (e.g. `/foo`) | Client `replaceState` → `/{preferredLocale}/foo`, keeping `location.search` and `location.hash`; then route or 404 | SW serves default-locale shell; client normalizes then routes |
 | `/~offline` | Next minimal offline route | Precached `/~offline` (emergency; not translated SPA) |
 | Shell / network hard failure | n/a | Serwist document fallback to `/~offline` or 503 |
 

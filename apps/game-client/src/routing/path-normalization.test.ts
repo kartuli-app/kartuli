@@ -14,7 +14,13 @@ describe('getPathLocaleKind', () => {
   it('classifies localized paths', () => {
     expect(getPathLocaleKind('/en')).toBe('localized');
     expect(getPathLocaleKind('/en/foo')).toBe('localized');
+    expect(getPathLocaleKind('/en/')).toBe('localized');
     expect(getPathLocaleKind('/ru/learn/x')).toBe('localized');
+  });
+
+  it('classifies paths with query-like segments in the string (first segment still locale)', () => {
+    expect(getPathLocaleKind('/en?foo=bar')).toBe('localized');
+    expect(getPathLocaleKind('/ru/learn/x#hash')).toBe('localized');
   });
 
   it('classifies unlocalized paths', () => {
@@ -31,6 +37,8 @@ describe('getExplicitLocaleFromPath', () => {
     expect(getExplicitLocaleFromPath('/')).toBeNull();
     expect(getExplicitLocaleFromPath('/banana')).toBeNull();
     expect(getExplicitLocaleFromPath('/fr/hello')).toBeNull();
+    expect(getExplicitLocaleFromPath('/en?x=1')).toBe('en');
+    expect(getExplicitLocaleFromPath('/banana?q=1')).toBeNull();
   });
 });
 
@@ -39,6 +47,7 @@ describe('normalizeUnlocalizedPath', () => {
     expect(normalizeUnlocalizedPath('/', 'en')).toBe('/');
     expect(normalizeUnlocalizedPath('/en', 'ru')).toBe('/en');
     expect(normalizeUnlocalizedPath('/en/foo', 'ru')).toBe('/en/foo');
+    expect(normalizeUnlocalizedPath('/en/', 'ru')).toBe('/en/');
   });
 
   it('prefixes preferred locale for unlocalized paths', () => {

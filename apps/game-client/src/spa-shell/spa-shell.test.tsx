@@ -1,16 +1,29 @@
 import { RootQueryClientProvider } from '@game-client/root-layout/root-query-client-provider';
 import * as browser from '@game-client/utils/browser';
 import { render, waitFor, within } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SpaShell } from './spa-shell';
+
+const pageNotFoundHarness = vi.hoisted(() => ({
+  spy: vi.fn(),
+}));
+
+vi.mock('@game-client/screens/page-not-found/page-not-found', () => ({
+  PageNotFound: (props: { readonly attemptedPath: string }) => {
+    pageNotFoundHarness.spy(props);
+    return <div data-testid="page-not-found" />;
+  },
+}));
 
 const replaceStateMock = vi.fn();
 const pushStateMock = vi.fn();
 
+const defaultMockLocation = { pathname: '', search: '', hash: '' };
+
 vi.mock('@game-client/utils/browser', () => ({
   getLocationPathname: vi.fn(),
   getBrowserGlobal: vi.fn(() => ({
-    location: { pathname: '' },
+    location: { ...defaultMockLocation },
     history: {
       pushState: pushStateMock,
       replaceState: replaceStateMock,
@@ -25,7 +38,21 @@ vi.mock('@game-client/utils/browser', () => ({
   setDocumentLang: vi.fn(),
 }));
 
+function setMockLocation(partial: Partial<typeof defaultMockLocation>) {
+  vi.mocked(browser.getBrowserGlobal).mockReturnValue({
+    location: { ...defaultMockLocation, ...partial },
+    history: {
+      pushState: pushStateMock,
+      replaceState: replaceStateMock,
+      back: vi.fn(),
+    },
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  });
+}
+
 function renderShell(initialPath: string) {
+  setMockLocation({ pathname: initialPath });
   vi.mocked(browser.getLocationPathname).mockReturnValue(initialPath);
   return render(
     <RootQueryClientProvider>
@@ -43,9 +70,25 @@ async function expectShellRendersPage(path: string, testId: string) {
 }
 
 describe('SpaShell', () => {
-  it('resolves / to /en before outlet and shows HomePage (no router 404 flash)', async () => {
+  beforeEach(() => {
+    pageNotFoundHarness.spy.mockClear();
     replaceStateMock.mockClear();
+    pushStateMock.mockClear();
+    vi.mocked(browser.getBrowserGlobal).mockReturnValue({
+      location: { ...defaultMockLocation },
+      history: {
+        pushState: pushStateMock,
+        replaceState: replaceStateMock,
+        back: vi.fn(),
+      },
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    });
+  });
+
+  it('resolves / to /en before outlet; PageNotFound is never mounted', async () => {
     vi.mocked(browser.getLocationPathname).mockReturnValue('/');
+    setMockLocation({ pathname: '/' });
     const { container } = render(
       <RootQueryClientProvider>
         <SpaShell initialPath="/" />
@@ -55,7 +98,22 @@ describe('SpaShell', () => {
       expect(document.contains(within(container).getByTestId('game-home'))).toBe(true);
     });
     expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/en');
+    expect(pageNotFoundHarness.spy).not.toHaveBeenCalled();
     expect(document.contains(within(container).queryByTestId('page-not-found'))).toBe(false);
+  });
+
+  it('preserves search and hash when normalizing pathname', async () => {
+    vi.mocked(browser.getLocationPathname).mockReturnValue('/debug');
+    setMockLocation({ pathname: '/debug', search: '?from=pwa', hash: '#cta' });
+    const { container } = render(
+      <RootQueryClientProvider>
+        <SpaShell initialPath="/debug" />
+      </RootQueryClientProvider>,
+    );
+    await waitFor(() => {
+      expect(document.contains(within(container).getByTestId('game-debug'))).toBe(true);
+    });
+    expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/en/debug?from=pwa#cta');
   });
 
   it('renders HomePage for /en', async () => {
@@ -101,11 +159,12 @@ describe('SpaShell', () => {
 
   it('renders PageNotFound for unknown localized path', async () => {
     await expectShellRendersPage('/en/unknown/segment', 'page-not-found');
+    expect(pageNotFoundHarness.spy).toHaveBeenCalled();
   });
 
   it('normalizes unlocalized path with replaceState and shows PageNotFound', async () => {
-    replaceStateMock.mockClear();
     vi.mocked(browser.getLocationPathname).mockReturnValue('/banana-e2e-random');
+    setMockLocation({ pathname: '/banana-e2e-random' });
     const { container } = render(
       <RootQueryClientProvider>
         <SpaShell initialPath="/banana-e2e-random" />

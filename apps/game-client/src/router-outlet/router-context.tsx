@@ -20,8 +20,17 @@ interface RouterProviderProps {
   readonly children: ReactNode;
 }
 
+function toHistoryUrl(
+  pathname: string,
+  win: NonNullable<ReturnType<typeof getBrowserGlobal>>,
+): string {
+  const { search = '', hash = '' } = win.location;
+  return `${pathname}${search}${hash}`;
+}
+
 /**
  * Unlocalized → `/${preferred}/…`; root `/` → `/${preferred}` so `isRouterReady` never leaves a transient `/` that would render router 404.
+ * Preserves `location.search` and `location.hash` when calling `replaceState`.
  */
 function resolveSyncedPathname(
   win: NonNullable<ReturnType<typeof getBrowserGlobal>>,
@@ -31,11 +40,11 @@ function resolveSyncedPathname(
   let next = normalizeUnlocalizedPath(pathname, preferred);
   if (next === '/') {
     next = `/${preferred}`;
-    win.history.replaceState(null, '', next);
+    win.history.replaceState(null, '', toHistoryUrl(next, win));
     return next;
   }
   if (next !== pathname) {
-    win.history.replaceState(null, '', next);
+    win.history.replaceState(null, '', toHistoryUrl(next, win));
   }
   return next;
 }
