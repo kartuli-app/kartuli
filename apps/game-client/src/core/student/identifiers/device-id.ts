@@ -1,3 +1,5 @@
+import { logger } from '@game-client/logging/dev-logger';
+
 const DEVICE_ID_STORAGE_KEY = 'kartuli.deviceId';
 
 let cachedDeviceId: string | null = null;
@@ -19,7 +21,7 @@ export function getOrCreateDeviceId(): string {
 
   const newDeviceId = crypto.randomUUID();
   globalThis.window.localStorage.setItem(DEVICE_ID_STORAGE_KEY, newDeviceId);
-  console.info('💾 [device-id] 💾 device id created:', newDeviceId);
+  logger.log('identifiers', 'device id created:', newDeviceId);
   cachedDeviceId = newDeviceId;
   return newDeviceId;
 }

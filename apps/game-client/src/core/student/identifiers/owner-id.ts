@@ -1,3 +1,5 @@
+import { logger } from '@game-client/logging/dev-logger';
+
 const OWNER_ID_STORAGE_KEY = 'kartuli.ownerId';
 
 let cachedOwnerId: string | null = null;
@@ -19,7 +21,7 @@ export function getOrCreateOwnerId(): string {
 
   const newOwnerId = crypto.randomUUID();
   globalThis.window.localStorage.setItem(OWNER_ID_STORAGE_KEY, newOwnerId);
-  console.info('💾 [owner-id] 💾 owner id created:', newOwnerId);
+  logger.log('identifiers', 'owner id created:', newOwnerId);
   cachedOwnerId = newOwnerId;
   return newOwnerId;
 }

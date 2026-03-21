@@ -5,6 +5,7 @@ import type {
   SharedLetterItem,
   SharedWordItem,
 } from '@game-client/core/learning-content/ingestion/shared-content-data/shared-content-data';
+import { logger } from '@game-client/logging/dev-logger';
 import type { CombinedSharedContentRows } from './combined-shared-content-rows';
 
 function getWordTransliterationUsingLettersByTargetScript(
@@ -19,8 +20,10 @@ function getWordTransliterationUsingLettersByTargetScript(
       transliteration += letter.transliteration;
     } else {
       transliteration += character;
-      console.error(
-        `💀 [integration] 💀 error trainsliterating character "${character}" for word with id "${word.id}" (${word.targetScript})`,
+      logger.error(
+        'integration',
+        'error transliterating character for word',
+        `character "${character}" for word with id "${word.id}" (${word.targetScript})`,
       );
     }
   }
@@ -89,7 +92,7 @@ function mergeSharedContentData(
 }
 
 export async function getCombinedSharedContentRows(): Promise<CombinedSharedContentRows> {
-  console.info('📖 [integration] 📖 getCombinedSharedContentRows');
+  logger.log('integration', 'getCombinedSharedContentRows');
   const defaultDataRepository = defaultSharedContentDataRepository();
   const extendedDataRepository = extendedSharedContentDataRepository();
   const [defaultData, extendedData] = await Promise.all([
