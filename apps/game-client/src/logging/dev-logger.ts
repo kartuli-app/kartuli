@@ -14,7 +14,14 @@ export const layerEnabled: Record<LogLayer, boolean> = {
 };
 
 function isDev(): boolean {
-  return process.env.NODE_ENV === 'development';
+  // `process` may be absent in some runtimes (e.g. service workers) if the bundler
+  // does not polyfill it; avoid throwing when reading NODE_ENV.
+  const globalProcess = (
+    globalThis as typeof globalThis & {
+      process?: { env?: Record<string, string | undefined> };
+    }
+  ).process;
+  return globalProcess?.env?.NODE_ENV === 'development';
 }
 
 function log(layer: LogLayer, text: string, ...args: unknown[]): void {
