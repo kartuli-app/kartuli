@@ -1,3 +1,4 @@
+import type { SupportedLng } from '@game-client/i18n/supported-locales';
 import { describe, expect, it } from 'vitest';
 import {
   getExplicitLocaleFromPath,
@@ -25,7 +26,7 @@ describe('getPathLocaleKind', () => {
 });
 
 describe('getExplicitLocaleFromPath', () => {
-  it.each<{ path: string; locale: 'en' | 'ru' | null }>([
+  it.each<{ path: string; locale: ReturnType<typeof getExplicitLocaleFromPath> }>([
     { path: '/en', locale: 'en' },
     { path: '/ru/learn/a', locale: 'ru' },
     { path: '/', locale: null },
@@ -39,7 +40,7 @@ describe('getExplicitLocaleFromPath', () => {
 });
 
 describe('normalizeUnlocalizedPath', () => {
-  it.each<{ path: string; preferred: 'en' | 'ru'; expected: string }>([
+  it.each<{ path: string; preferred: SupportedLng; expected: string }>([
     { path: '/', preferred: 'en', expected: '/' },
     { path: '/en', preferred: 'ru', expected: '/en' },
     { path: '/en/foo', preferred: 'ru', expected: '/en/foo' },

@@ -166,7 +166,9 @@ describe('SpaShell', () => {
 
   it('renders PageNotFound for unknown localized path', async () => {
     await expectShellRendersPage('/en/unknown/segment', 'page-not-found');
-    expect(pageNotFoundHarness.spy).toHaveBeenCalled();
+    expect(pageNotFoundHarness.spy).toHaveBeenCalledWith(
+      expect.objectContaining({ attemptedPath: '/en/unknown/segment' }),
+    );
   });
 
   it('normalizes unlocalized path with replaceState and shows PageNotFound', async () => {
@@ -181,5 +183,8 @@ describe('SpaShell', () => {
       expect(document.contains(within(container).getByTestId('page-not-found'))).toBe(true);
     });
     expect(replaceStateMock).toHaveBeenCalledWith(null, '', `/${defaultLng}/banana-e2e-random`);
+    expect(pageNotFoundHarness.spy).toHaveBeenCalledWith(
+      expect.objectContaining({ attemptedPath: `/${defaultLng}/banana-e2e-random` }),
+    );
   });
 });
