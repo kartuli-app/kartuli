@@ -33,6 +33,7 @@ export type HomeWordItemView = {
   id: string;
   targetScript: string;
   translation: string;
+  transliteration: string;
   type: 'word';
   activitySummary: {
     [K in keyof ItemActivitySummaryRow]: ItemActivitySummaryRow[K] | undefined;
@@ -68,6 +69,7 @@ function buildHomeLessonItemView(row: HomeRow): HomeLessonItemView {
       type: 'word',
       targetScript: sharedItem.targetScript,
       translation: itemText.translation,
+      transliteration: sharedItem.transliteration,
       activitySummary: row.item.activitySummary,
     };
   }
