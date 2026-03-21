@@ -256,9 +256,11 @@ function LessonCardWithContent({
     void addViewEventsForLessonItems(lesson.items.map((item) => item.id));
     navigate(`/${lang}/learn/${encodeURIComponent(lesson.id)}`);
   };
-  const averageViewsCount =
-    lesson.items.reduce((acc, item) => acc + (item.activitySummary?.totalViewCount ?? 0), 0) /
-    lesson.items.length;
+  const totalViewsCount = lesson.items.reduce(
+    (acc, item) => acc + (item.activitySummary?.totalViewCount ?? 0),
+    0,
+  );
+  const averageViewsCount = lesson.items.length > 0 ? totalViewsCount / lesson.items.length : 0;
   return (
     <button
       key={lesson.id}

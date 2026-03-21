@@ -50,7 +50,7 @@ export function createItemActivitySummaryCollection({
           lastSuccessAt: max(activity.lastSuccessAt),
           lastFailAt: max(activity.lastFailAt),
 
-          updatedAt: max(activity.udpatedAt),
+          updatedAt: max(activity.updatedAt),
         };
       }),
   );

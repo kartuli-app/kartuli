@@ -16,7 +16,7 @@ export type ItemActivityDeviceStateRow = {
   failCount: number;
   firstFailAt: string | null;
   lastFailAt: string | null;
-  udpatedAt: string;
+  updatedAt: string;
 };
 
 export function getDefaultItemActivityDeviceStateRow({
@@ -40,7 +40,7 @@ export function getDefaultItemActivityDeviceStateRow({
     failCount: 0,
     firstFailAt: null,
     lastFailAt: null,
-    udpatedAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 }
 
@@ -85,6 +85,6 @@ export function AddItemActivityDeviceEvent({
     }
   }
   // Update the last-write timestamp for every event.
-  newState.udpatedAt = new Date().toISOString();
+  newState.updatedAt = new Date().toISOString();
   return newState;
 }

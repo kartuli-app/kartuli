@@ -1,10 +1,20 @@
 'use client';
 
-import { type DBSchema, type IDBPDatabase, openDB } from 'idb';
+import {
+  type DBSchema,
+  type IDBPDatabase,
+  type IDBPTransaction,
+  openDB,
+  type StoreNames,
+  unwrap,
+} from 'idb';
 import type { ItemActivityDeviceStateRow } from './item-activity-device-state';
 
 export const DATABASE_NAME = 'item-activity-device-state-db';
 export const STORE_NAME = 'item-activity-device-state';
+
+/** Bump when schema or stored row shape changes (see `upgrade`). */
+const DATABASE_VERSION = 2;
 
 interface ItemActivityDeviceStateDB extends DBSchema {
   [STORE_NAME]: {
@@ -18,9 +28,38 @@ interface ItemActivityDeviceStateDB extends DBSchema {
 
 let dbPromise: Promise<IDBPDatabase<ItemActivityDeviceStateDB>> | undefined;
 
+/**
+ * v1 rows used misspelled `udpatedAt`; rename to `updatedAt` in place.
+ * Must stay synchronous (cursor `onsuccess` chain): idb does not await async
+ * `upgrade` work, and the version-change transaction must not close early.
+ */
+function migrateUdpatedAtToUpdatedAt(
+  wrappedTransaction: IDBPTransaction<
+    ItemActivityDeviceStateDB,
+    StoreNames<ItemActivityDeviceStateDB>[],
+    'versionchange'
+  >,
+): void {
+  const transaction = unwrap(wrappedTransaction);
+  const store = transaction.objectStore(STORE_NAME);
+  const request = store.openCursor();
+  request.onsuccess = () => {
+    const cursor = request.result;
+    if (!cursor) {
+      return;
+    }
+    const row = cursor.value as Record<string, unknown>;
+    if (typeof row.udpatedAt === 'string') {
+      const { udpatedAt, ...rest } = row;
+      cursor.update({ ...rest, updatedAt: udpatedAt } as ItemActivityDeviceStateRow);
+    }
+    cursor.continue();
+  };
+}
+
 function assertIndexedDbAvailable({ databaseName }: { databaseName: string }) {
   if (globalThis.window === undefined) {
-    throw new TypeError(`💀 [${databaseName}] 💀 RxDB can only run in the browser.`);
+    throw new TypeError(`💀 [${databaseName}] 💀 IndexedDB can only run in the browser.`);
   }
 
   if (typeof indexedDB === 'undefined') {
@@ -34,12 +73,17 @@ export async function getItemActivityDeviceStateDatabase(): Promise<
   assertIndexedDbAvailable({ databaseName: DATABASE_NAME });
 
   dbPromise ??= (async () => {
-    const db = await openDB<ItemActivityDeviceStateDB>(DATABASE_NAME, 1, {
-      upgrade(db) {
-        const store = db.createObjectStore(STORE_NAME, {
-          keyPath: 'id',
-        });
-        store.createIndex('ownerId', 'ownerId');
+    const db = await openDB<ItemActivityDeviceStateDB>(DATABASE_NAME, DATABASE_VERSION, {
+      upgrade(db, oldVersion, _newVersion, transaction) {
+        if (oldVersion < 1) {
+          const store = db.createObjectStore(STORE_NAME, {
+            keyPath: 'id',
+          });
+          store.createIndex('ownerId', 'ownerId');
+        }
+        if (oldVersion < 2) {
+          migrateUdpatedAtToUpdatedAt(transaction);
+        }
       },
     });
 
