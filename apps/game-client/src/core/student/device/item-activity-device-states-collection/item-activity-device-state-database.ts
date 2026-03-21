@@ -35,10 +35,10 @@ function logIndexedDbUnavailable(reason: string, error?: unknown): void {
     return;
   }
   hasLoggedIndexedDbUnavailable = true;
-  if (error !== undefined) {
-    console.error(`💀 [${DATABASE_NAME}] 💀 ${reason}`, error);
-  } else {
+  if (error === undefined) {
     console.error(`💀 [${DATABASE_NAME}] 💀 ${reason}`);
+  } else {
+    console.error(`💀 [${DATABASE_NAME}] 💀 ${reason}`, error);
   }
 }
 
