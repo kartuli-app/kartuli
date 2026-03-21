@@ -1,11 +1,19 @@
 {
   "localizedModules": [
     {
+      "id": "module-alphabet-by-sounds",
+      "title": "Алфавит по звукам"
+    },
+    {
       "id": "module-alphabet",
-      "title": "Алфавит"
+      "title": "Полный алфавит"
     }
   ],
   "localizedLessons": [
+    {
+      "id": "lesson-full-alphabet",
+      "title": "Полный алфавит"
+    },
     {
       "id": "lesson-alphabet-vowels",
       "title": "Пять гласных"

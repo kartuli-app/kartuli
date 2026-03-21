@@ -13,8 +13,12 @@ export const layerEnabled: Record<LogLayer, boolean> = {
 };
 
 function isDev(): boolean {
-  // `process` may be absent in some runtimes (e.g. service workers) if the bundler
-  // does not polyfill it; avoid throwing when reading NODE_ENV.
+  // Spell `process.env.NODE_ENV` literally so Next/webpack can inline it in client
+  // bundles. Indirect reads (e.g. `globalThis.process?.env`) are often left as
+  // runtime lookups where `NODE_ENV` is missing, so dev logs never appear locally.
+  if (typeof process !== 'undefined') {
+    return process.env.NODE_ENV === 'development';
+  }
   const globalProcess = (
     globalThis as typeof globalThis & {
       process?: { env?: Record<string, string | undefined> };

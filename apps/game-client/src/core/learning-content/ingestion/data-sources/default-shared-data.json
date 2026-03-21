@@ -1,7 +1,7 @@
 {
   "sharedModules": [
     {
-      "id": "module-alphabet",
+      "id": "module-alphabet-by-sounds",
       "lessonIds": [
         "lesson-alphabet-vowels",
         "lesson-alphabet-sounds-you-know",
@@ -11,9 +11,51 @@
         "lesson-alphabet-hissing-sounds",
         "lesson-alphabet-buzzing-sounds"
       ]
+    },
+    {
+      "id": "module-alphabet",
+      "lessonIds": ["lesson-full-alphabet"]
     }
   ],
   "sharedLessons": [
+    {
+      "id": "lesson-full-alphabet",
+      "itemIds": [
+        "letter-ani",
+        "letter-bani",
+        "letter-gani",
+        "letter-doni",
+        "letter-eni",
+        "letter-vini",
+        "letter-zeni",
+        "letter-tani",
+        "letter-ini",
+        "letter-kani",
+        "letter-lasi",
+        "letter-mani",
+        "letter-nari",
+        "letter-oni",
+        "letter-pari",
+        "letter-zhani",
+        "letter-rae",
+        "letter-sani",
+        "letter-tari",
+        "letter-uni",
+        "letter-pari-aspirated",
+        "letter-kani-aspirated",
+        "letter-ghani",
+        "letter-qari",
+        "letter-shini",
+        "letter-chini",
+        "letter-tsani",
+        "letter-dzili",
+        "letter-tsili",
+        "letter-chari",
+        "letter-khani",
+        "letter-jani",
+        "letter-hae"
+      ]
+    },
     {
       "id": "lesson-alphabet-vowels",
       "itemIds": ["letter-ani", "letter-eni", "letter-ini", "letter-oni", "letter-uni"]

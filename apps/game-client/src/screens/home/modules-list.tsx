@@ -265,7 +265,10 @@ function LessonCardWithContent({
     (acc, item) => acc + (item.activitySummary?.totalViewCount ?? 0),
     0,
   );
-  const averageViewsCount = lesson.items.length > 0 ? totalViewsCount / lesson.items.length : 0;
+  // round to only 1 decimal place
+  const averageViewsCount =
+    Math.round((lesson.items.length > 0 ? totalViewsCount / lesson.items.length : 0) * 10) / 10;
+  const isFullAlphabet = lesson.id === 'lesson-full-alphabet';
   return (
     <button
       key={lesson.id}
@@ -277,6 +280,7 @@ function LessonCardWithContent({
         lessonCardBaseClassnames,
         lessonCardWithContentClassnames,
         'relative',
+        isFullAlphabet && 'col-span-3',
         className,
       )}
     >
