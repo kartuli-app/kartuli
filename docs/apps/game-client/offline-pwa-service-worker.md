@@ -19,8 +19,21 @@ The game client uses a **service worker** (Serwist) to support offline use after
 | SW URL | `/serwist/sw.js` (Next.js route) |
 | Route handler | `apps/game-client/src/app/serwist/[path]/route.ts` — builds SW with injected precache manifest, serves script in production only |
 | Registration | `ServiceWorkerProvider` (wraps `SerwistProvider`) in `src/service-worker/service-worker-provider.tsx`; registers `swUrl="/serwist/sw.js"`, disabled in development |
-| Precached by default | `/en`, `/~offline`, `/icon.svg`, `/favicon.ico` plus build-discovered fonts in `.next/static/media`; stable URLs use a revision (package version + short git SHA), fonts use `revision: null` (hashed URLs) |
-| Custom fetch | Capture-phase listener in SW: `/` → redirect to `/en`; same-origin GETs to `/en` and `/en/*` → serve precached `/en` shell (or `/~offline` on failure) |
+| Precached by default | `/`, each `/{locale}` from `supportedLngs`, `/~offline`, `/icon.svg`, `/favicon.ico` plus build-discovered fonts in `.next/static/media`; stable URLs use a revision (package version + short git SHA), fonts use `revision: null` (hashed URLs) |
+| Custom fetch | Capture-phase listener for **same-origin document navigations**: `/` → precached `/`; `/~offline` → precached emergency page; **all other paths** → precached **default locale** shell (`/{defaultLng}`). The browser URL is unchanged; the SPA normalizes locale and routes client-side. On failure → `/~offline` (or 503). |
+
+## Online / offline behavior matrix (shell contract)
+
+| Case | Online | Offline + controlling SW |
+|------|--------|---------------------------|
+| `/` | Next shell; client redirects to preferred `/{locale}` | Precached `/`; same client redirect |
+| `/{locale}` (supported) valid route | Renders view | Default-locale precached HTML; client uses real URL → correct view |
+| `/{locale}` invalid tail (router 404) | SPA `PageNotFound` (UI only; HTTP 200 from catch-all) | Same shell; client shows `PageNotFound` |
+| Unlocalized path (e.g. `/foo`) | Client `replaceState` → `/{preferredLocale}/foo`, keeping `location.search` and `location.hash`; then route or 404 | SW serves default-locale shell; client normalizes then routes |
+| `/~offline` | Next minimal offline route | Precached `/~offline` (emergency; not translated SPA) |
+| Shell / network hard failure | n/a | Serwist document fallback to `/~offline` or 503 |
+
+**Notes:** SPA “not found” is not an HTTP 404 today (catch-all still returns 200). Translated offline messaging belongs in the **shell** (i18n), not the `/~offline` document. `/~offline` is for emergencies when the shell cannot be served.
 
 ## Dev vs production
 

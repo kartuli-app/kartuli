@@ -1,12 +1,12 @@
+import { defaultLng } from '@game-client/i18n/default-locale';
 import { getLocaleMetadata } from '@game-client/i18n/get-locale-metadata';
 import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
 import type { Metadata } from 'next';
 
 /** Minimal static paths for SSG: root and locale roots only. Other routes work client-side. */
 const STATIC_PATHS: { spaRoute: string[] }[] = [
-  { spaRoute: [] }, // /
-  { spaRoute: ['en'] },
-  { spaRoute: ['ru'] },
+  { spaRoute: [] },
+  ...supportedLngs.map((lang) => ({ spaRoute: [lang] })),
 ];
 
 function getLangFromSegments(segments: string[] | undefined): SupportedLng {
@@ -14,7 +14,7 @@ function getLangFromSegments(segments: string[] | undefined): SupportedLng {
   if (first && supportedLngs.includes(first as SupportedLng)) {
     return first as SupportedLng;
   }
-  return 'en';
+  return defaultLng;
 }
 
 export function generateStaticParams() {

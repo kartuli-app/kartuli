@@ -5,6 +5,7 @@ import type { SupportedLng } from '@game-client/i18n/supported-locales';
 import { useLang } from '@game-client/i18n/use-lang';
 import { PREFERRED_LOCALE_KEY } from '@game-client/local-storage/preferred-locale-key';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
+import { buildLocalizedPath } from '@game-client/routing/build-localized-path';
 import clsx from 'clsx';
 import { ChevronsUpDownIcon, EarthIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -18,10 +19,7 @@ export function LanguageSelect({ className }: Readonly<{ className?: string }>) 
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(PREFERRED_LOCALE_KEY, nextLang);
     }
-    const segments = path.split('/').filter(Boolean);
-    const rest = segments.slice(1);
-    const newPath = rest.length > 0 ? `/${nextLang}/${rest.join('/')}` : `/${nextLang}`;
-    navigate(newPath);
+    navigate(buildLocalizedPath(path, nextLang));
   };
 
   const items: ReadonlyArray<{ value: SupportedLng; label: string }> = [

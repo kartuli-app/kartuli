@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { OfflinePage } from './offline-page';
 
 function renderOfflinePage(initialPath = '/en') {
+  globalThis.history.replaceState(null, '', initialPath);
   return render(
     <RouterProvider initialPath={initialPath}>
       <OfflinePage />

@@ -1,11 +1,12 @@
 'use client';
 
-import { parseRoute } from '@game-client/router-outlet/route-utils';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
+import { parseAppRoute } from '@game-client/routing/parse-app-route';
 import { DebugPage } from '@game-client/screens/debug/debug-page';
 import { GamePage } from '@game-client/screens/game/game-page';
 import { HomePage } from '@game-client/screens/home/home-page';
 import { LearnPage } from '@game-client/screens/learn/learn-page';
+import { PageNotFound } from '@game-client/screens/page-not-found/page-not-found';
 import { UserPage } from '@game-client/screens/user/user-page';
 
 function RouteLoading() {
@@ -13,11 +14,11 @@ function RouteLoading() {
 }
 
 export function RouterOutlet() {
-  const { path, hasSyncedFromUrl } = useRouterContext();
-  if (!hasSyncedFromUrl) return <RouteLoading />;
+  const { path, isRouterReady } = useRouterContext();
+  if (!isRouterReady) return <RouteLoading />;
 
-  const route = parseRoute(path);
-  if (!route) return <HomePage />;
+  const route = parseAppRoute(path);
+  if (!route) return <PageNotFound attemptedPath={path} />;
 
   switch (route.view) {
     case 'home':
@@ -30,7 +31,5 @@ export function RouterOutlet() {
       return <UserPage />;
     case 'debug':
       return <DebugPage />;
-    default:
-      return <HomePage />;
   }
 }
