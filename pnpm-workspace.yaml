@@ -17,11 +17,11 @@ catalog:
   '@testing-library/dom': ^10.4.0
   '@testing-library/user-event': ^14.5.2
   happy-dom: ^20.7.0
-  '@vitejs/plugin-react': ^5.0.0
+  '@vitejs/plugin-react': ^6.0.0
   '@playwright/test': ^1.58.2
 
   # Validation
-  zod: ^3.25.0
+  zod: ^4.0.0
 
   # TypeScript
   typescript: ^5.7.2
@@ -67,7 +67,7 @@ catalog:
   '@tanstack/rxdb-db-collection': ^0.1.65
 
   # Build Tools
-  vite: ^7.3.1
+  vite: ^8.0.0
   esbuild: ^0.27.0
 
   # Service worker (Serwist)
