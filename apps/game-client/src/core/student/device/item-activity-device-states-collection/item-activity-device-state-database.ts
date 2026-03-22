@@ -1,5 +1,6 @@
 'use client';
 
+import { logger } from '@game-client/logging/dev-logger';
 import {
   type DBSchema,
   type IDBPDatabase,
@@ -36,9 +37,9 @@ function logIndexedDbUnavailable(reason: string, error?: unknown): void {
   }
   hasLoggedIndexedDbUnavailable = true;
   if (error === undefined) {
-    console.error(`💀 [${DATABASE_NAME}] 💀 ${reason}`);
+    logger.error('database', `${DATABASE_NAME}: ${reason}`);
   } else {
-    console.error(`💀 [${DATABASE_NAME}] 💀 ${reason}`, error);
+    logger.error('database', `${DATABASE_NAME}: ${reason}`, error);
   }
 }
 
@@ -102,7 +103,7 @@ export async function getItemActivityDeviceStateDatabase(): Promise<IDBPDatabase
         },
       });
 
-      console.info(`💾 [${DATABASE_NAME}] 💾 database created successfully`);
+      logger.log('database', `${DATABASE_NAME}: database created successfully`);
       return db;
     } catch (error) {
       logIndexedDbUnavailable('Failed to open IndexedDB; activity state will not persist.', error);

@@ -1,5 +1,6 @@
 'use client';
 
+import { logger } from '@game-client/logging/dev-logger';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -9,7 +10,7 @@ export function RootQueryClientProvider({
   children: React.ReactNode;
 }>) {
   const [queryClient] = useState(() => {
-    console.info('💾 [root-query-client-provider] 💾 creating query client');
+    logger.log('query', 'creating query client');
     return new QueryClient();
   });
 

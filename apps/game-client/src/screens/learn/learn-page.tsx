@@ -1,6 +1,7 @@
 'use client';
 
 import { useLang } from '@game-client/i18n/use-lang';
+import { logger } from '@game-client/logging/dev-logger';
 import { useRouterContext } from '@game-client/router-outlet/use-router-context';
 import { navigateBack } from '@game-client/utils/browser';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,7 @@ export function LearnPage({ lessonId }: LearnPageProps) {
   const { t } = useTranslation('learn');
   const lang = useLang();
   const { navigate } = useRouterContext();
-  console.info('🏠 [learn-page] 🏠 rendering learn page');
+  logger.log('page', 'rendering learn page');
 
   return (
     <div data-testid="game-learn" className="flex grow flex-col items-center justify-center gap-4">

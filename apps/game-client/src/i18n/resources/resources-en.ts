@@ -3,6 +3,7 @@ import enDebug from '@game-client/i18n/resources/messages/en/debug';
 import enGame from '@game-client/i18n/resources/messages/en/game';
 import enLearn from '@game-client/i18n/resources/messages/en/learn';
 import enMetadata from '@game-client/i18n/resources/messages/en/metadata';
+import enNotFound from '@game-client/i18n/resources/messages/en/not-found';
 
 export const enResources = {
   common: enCommon,
@@ -10,4 +11,5 @@ export const enResources = {
   learn: enLearn,
   debug: enDebug,
   metadata: enMetadata,
+  notFound: enNotFound,
 } as const;

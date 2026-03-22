@@ -231,8 +231,13 @@ const WordItemCard = ({
     >
       {item.type === 'word' && (
         <div className="flex flex-col items-center justify-center gap-brand-small">
-          <div className="text-3xl font-bold">{item.targetScript}</div>
+          <div className="text-3xl">{item.targetScript}</div>
           <div className="text-2xl flex gap-brand-xsmall text-brand-neutral-700">
+            <span className="text-orange-500">[</span>
+            {item.transliteration}
+            <span className="text-orange-500">]</span>
+          </div>
+          <div className="text-xl flex gap-brand-xsmall text-brand-neutral-700">
             {item.translation}
           </div>
         </div>
