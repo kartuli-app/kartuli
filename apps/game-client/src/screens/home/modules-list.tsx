@@ -144,6 +144,7 @@ function ModuleCardWithLessons({
   readonly module: HomeModuleView;
   addViewEventsForLessonItems: (itemIds: readonly string[]) => Promise<void>;
 }>) {
+  const isSingleLessonModule = module.lessons.length === 1;
   return (
     <ModuleCard key={module.id}>
       <ModuleCardTitle className="text-brand-primary-500" title={module.title} />
@@ -164,6 +165,7 @@ function ModuleCardWithLessons({
               lesson={lesson}
               className=""
               addViewEventsForLessonItems={addViewEventsForLessonItems}
+              isSingleLessonModule={isSingleLessonModule}
             />
           ))}
         </div>
@@ -250,10 +252,12 @@ function LessonCardWithContent({
   lesson,
   className,
   addViewEventsForLessonItems,
+  isSingleLessonModule,
 }: Readonly<{
   lesson: HomeLessonView;
   className?: string;
   addViewEventsForLessonItems: (itemIds: readonly string[]) => Promise<void>;
+  isSingleLessonModule: boolean;
 }>) {
   const lang = useLang();
   const { navigate } = useRouterContext();
@@ -265,7 +269,11 @@ function LessonCardWithContent({
     (acc, item) => acc + (item.activitySummary?.totalViewCount ?? 0),
     0,
   );
-  const averageViewsCount = lesson.items.length > 0 ? totalViewsCount / lesson.items.length : 0;
+  // round to only 1 decimal place
+  const averageViewsCount =
+    Math.round((lesson.items.length > 0 ? totalViewsCount / lesson.items.length : 0) * 10) / 10;
+  const areAllItemsLetters = lesson.items.every((item) => item.type === 'letter');
+
   return (
     <button
       key={lesson.id}
@@ -277,6 +285,7 @@ function LessonCardWithContent({
         lessonCardBaseClassnames,
         lessonCardWithContentClassnames,
         'relative',
+        isSingleLessonModule && areAllItemsLetters && 'sm:col-span-2 lg:col-span-3',
         className,
       )}
     >

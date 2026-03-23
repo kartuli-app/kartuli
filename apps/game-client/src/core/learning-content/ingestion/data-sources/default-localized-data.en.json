@@ -1,11 +1,19 @@
 {
   "localizedModules": [
     {
+      "id": "module-alphabet-by-sounds",
+      "title": "Alphabet by sounds"
+    },
+    {
       "id": "module-alphabet",
-      "title": "Alphabet"
+      "title": "Full Alphabet"
     }
   ],
   "localizedLessons": [
+    {
+      "id": "lesson-full-alphabet",
+      "title": "Full Alphabet"
+    },
     {
       "id": "lesson-alphabet-vowels",
       "title": "The Five Vowels"
