@@ -3,6 +3,7 @@ import ruDebug from '@game-client/i18n/resources/messages/ru/debug';
 import ruGame from '@game-client/i18n/resources/messages/ru/game';
 import ruLearn from '@game-client/i18n/resources/messages/ru/learn';
 import ruMetadata from '@game-client/i18n/resources/messages/ru/metadata';
+import ruNotFound from '@game-client/i18n/resources/messages/ru/not-found';
 import type { SameKeysAsReferenceResources } from '@game-client/i18n/resources/same-keys-as-reference-resources';
 
 export const ruResources: SameKeysAsReferenceResources = {
@@ -11,4 +12,5 @@ export const ruResources: SameKeysAsReferenceResources = {
   learn: ruLearn,
   debug: ruDebug,
   metadata: ruMetadata,
+  notFound: ruNotFound,
 };
