@@ -6,7 +6,15 @@ export function defaultSharedContentDataRepository(): SharedContentDataRepositor
   const source = 'default';
   return {
     async get() {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const globalProcess = (
+        globalThis as typeof globalThis & {
+          process?: { env?: Record<string, string | undefined> };
+        }
+      ).process;
+      // slow down the loading time in development to make it easier to see the loading state
+      if (globalProcess?.env?.NODE_ENV === 'development') {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
       return parseAndMapSharedContentData(DefaultSharedContentDataJson, source);
     },
   };
