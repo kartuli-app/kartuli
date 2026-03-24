@@ -7,7 +7,7 @@ export function defaultLocalizedContentDataRepository(): LocalizedContentDataRep
   const source = 'default';
 
   return {
-    async get(locale: string) {
+    get(locale: string) {
       if (locale === 'en') {
         return parseAndMapLocalizedContentData(DefaultDataLocalizedEnJson, source);
       }

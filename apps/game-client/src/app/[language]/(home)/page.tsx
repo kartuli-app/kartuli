@@ -17,8 +17,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ language: SupportedLng }>;
 }): Promise<Metadata> {
-  const resolved = await params;
-  const language = resolved.language;
+  const { language } = await params;
   return getLocaleMetadata(language);
 }
 

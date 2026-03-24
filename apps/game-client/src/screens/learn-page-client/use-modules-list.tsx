@@ -5,6 +5,7 @@ import { useItemActivityDeviceStatesCollection } from '@game-client/core/student
 import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
 import { useHomeModulesView } from '@game-client/core/views/home/use-home-modules-view';
 import { useLang } from '@game-client/i18n/use-lang';
+import { useCallback } from 'react';
 
 export const useModulesList = () => {
   const locale = useLang();
@@ -13,12 +14,15 @@ export const useModulesList = () => {
   const itemsDeviceActivityStatesCollection = useItemActivityDeviceStatesCollection({ ownerId });
   const { data, isLoading, isError } = useHomeModulesView({ locale, contentRevision, ownerId });
 
-  const addViewEventsForLessonItems = async (itemIds: readonly string[]) => {
-    await batchUpsertItemActivityDeviceViewEvents({
-      collection: itemsDeviceActivityStatesCollection,
-      itemIds,
-    });
-  };
+  const addViewEventsForLessonItems = useCallback(
+    async (itemIds: readonly string[]) => {
+      await batchUpsertItemActivityDeviceViewEvents({
+        collection: itemsDeviceActivityStatesCollection,
+        itemIds,
+      });
+    },
+    [itemsDeviceActivityStatesCollection],
+  );
 
   return { data, isLoading, isError, addViewEventsForLessonItems };
 };

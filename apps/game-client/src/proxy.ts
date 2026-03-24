@@ -16,7 +16,6 @@ function getPreferredLocaleFromAcceptLanguageHeader(request: NextRequest) {
 
 function getPreferredLocaleFromCookie(request: NextRequest) {
   const cookie = request.cookies.get('preferred-locale');
-  console.log('🚀 ~ getPreferredLocaleFromCookie ~ cookie:', cookie);
   if (cookie && supportedLngs.includes(cookie.value as SupportedLng)) {
     return cookie.value as SupportedLng;
   }
@@ -24,13 +23,14 @@ function getPreferredLocaleFromCookie(request: NextRequest) {
 }
 
 export function proxy(request: NextRequest) {
-  const locale =
+  const supportedLocale =
     getPreferredLocaleFromAcceptLanguageHeader(request) ?? getPreferredLocaleFromCookie(request);
-  if (locale) {
+  // if supported locale, continue
+  if (supportedLocale) {
     return NextResponse.next();
   }
+  // redirect to default locale
   const urlToRedirectTo = new URL(`/${defaultLng}`, request.url);
-  console.log('🚀 ~ proxy ~ urlToRedirectTo:', urlToRedirectTo);
   return NextResponse.redirect(urlToRedirectTo);
 }
 

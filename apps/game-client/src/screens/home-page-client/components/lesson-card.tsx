@@ -163,6 +163,9 @@ export function LessonCardWithContent({
   };
   const areAllItemsLetters = homePageLesson.items.every((item) => item.type === 'letter');
   const averageViewsCount = useMemo(() => {
+    if (homePageLesson.items.length === 0) {
+      return 0;
+    }
     const totalViewsCount = homePageLesson.items.reduce((acc, item) => {
       return acc + (summariesByItemId[item.id]?.totalViewCount ?? 0);
     }, 0);

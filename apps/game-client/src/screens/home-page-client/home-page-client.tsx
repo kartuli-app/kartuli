@@ -1,7 +1,6 @@
 'use client';
 import type { HomePageView } from '@game-client/app/[language]/(home)/get-home-page-view-server';
 import type { SupportedLng } from '@game-client/i18n/supported-locales';
-import { logger } from '@game-client/logging/dev-logger';
 import { AppBar } from '@kartuli/ui/components/layout/app-bar';
 import { AppContent } from '@kartuli/ui/components/layout/app-content';
 import { AppScreen } from '@kartuli/ui/components/layout/app-screen';
@@ -16,7 +15,6 @@ export function HomePageClient({
   readonly language: SupportedLng;
   readonly homePageView: HomePageView;
 }>) {
-  logger.log('page', 'rendering home page client');
   return (
     <AppScreen testId="game-home">
       <AppBar isSticky>

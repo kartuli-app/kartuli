@@ -3,20 +3,28 @@
 import { Select } from '@base-ui/react/select';
 import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
 import clsx from 'clsx';
+import Cookies from 'js-cookie';
 import { ChevronsUpDownIcon, EarthIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { PREFERRED_LOCALE_KEY } from './preferred-locale-key';
 
 const getNewPathForNewLanguage = (path: string, newLanguage: SupportedLng) => {
-  const pathOnly = path.split(/[?#]/)[0] ?? '';
+  const queryStart = path.indexOf('?');
+  const hashStart = path.indexOf('#');
+  const suffixStart = queryStart >= 0 ? queryStart : hashStart >= 0 ? hashStart : path.length;
+  const pathOnly = path.slice(0, suffixStart);
+  const suffix = path.slice(suffixStart);
   const segments = pathOnly.split('/').filter(Boolean);
   const first = segments[0];
   if (first && supportedLngs.includes(first as SupportedLng)) {
     const rest = segments.slice(1);
-    return rest.length > 0 ? `/${newLanguage}/${rest.join('/')}` : `/${newLanguage}`;
+    const basePath = rest.length > 0 ? `/${newLanguage}/${rest.join('/')}` : `/${newLanguage}`;
+    return basePath + suffix;
   }
   const trimmed = pathOnly.startsWith('/') ? pathOnly.slice(1) : pathOnly;
-  return trimmed ? `/${newLanguage}/${trimmed}` : `/${newLanguage}`;
+  const basePath = trimmed ? `/${newLanguage}/${trimmed}` : `/${newLanguage}`;
+  return basePath + suffix;
 };
 
 export function LanguageSelectHybrid({
@@ -33,8 +41,7 @@ export function LanguageSelectHybrid({
 
   const handleValueChange = async (value: SupportedLng | null) => {
     if (!value || value === language) return;
-    // biome-ignore lint/suspicious/noDocumentCookie: just testing
-    document.cookie = `preferred-locale=${value}; path=/`;
+    Cookies.set(PREFERRED_LOCALE_KEY, value);
     const newPath = getNewPathForNewLanguage(path, value);
     router.push(newPath);
   };

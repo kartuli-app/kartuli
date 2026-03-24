@@ -40,7 +40,7 @@ export type HomePageView = {
   modules: HomePageModuleView[];
 };
 
-export async function getHomePageView(fullLibrary: FullLibrary): Promise<HomePageView> {
+export function getHomePageView(fullLibrary: FullLibrary): HomePageView {
   const availableItems = fullLibrary.availableLibrary.availableItems;
   const availableLessons = fullLibrary.availableLibrary.availableLessons;
   const availableModules = fullLibrary.availableLibrary.availableModules;

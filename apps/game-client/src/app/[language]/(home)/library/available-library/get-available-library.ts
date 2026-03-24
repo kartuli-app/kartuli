@@ -67,13 +67,10 @@ const getAvailableItems = (
   return availableItems;
 };
 
-export const getAvailableLibrary: (
+export const getAvailableLibrary = (
   sharedData: CombinedSharedContentRows,
   localizedData: CombinedLocalizedContentRows,
-) => AvailableLibrary = (
-  sharedData: CombinedSharedContentRows,
-  localizedData: CombinedLocalizedContentRows,
-) => {
+): AvailableLibrary => {
   return {
     availableModules: getAvailableModules(sharedData, localizedData),
     availableLessons: getAvailableLessons(sharedData, localizedData),

@@ -5,7 +5,7 @@ import type { ItemActivitySummaryRow } from '@game-client/core/student/derived/i
 import { useItemActivitySummaryAndViewEvents } from '@game-client/core/student/derived/item-activity-summary-collection/use-item-activity-summary-and-view-events';
 import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
 import { useLiveQuery } from '@tanstack/react-db';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { HomePageModulesListServer } from './home-page-modules-list-server';
 
 /** Runs only after mount so `useLiveQuery` (useSyncExternalStore) never runs during SSR. */
@@ -19,9 +19,12 @@ export function HomePageModulesListClient({
     });
   const { data } = useLiveQuery(itemActivitySummaryCollection);
 
-  const addViewEventsForLessonItems = async (itemIds: readonly string[]) => {
-    await addViewEventsForItems(itemIds);
-  };
+  const addViewEventsForLessonItems = useCallback(
+    async (itemIds: readonly string[]) => {
+      await addViewEventsForItems(itemIds);
+    },
+    [addViewEventsForItems],
+  );
 
   const summariesByItemId = useMemo(() => {
     if (!data) return {};

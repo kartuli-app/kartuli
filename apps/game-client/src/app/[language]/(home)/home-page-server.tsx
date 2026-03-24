@@ -1,4 +1,3 @@
-import { defaultLng } from '@game-client/i18n/default-locale';
 import { getLocaleMetadata } from '@game-client/i18n/get-locale-metadata';
 import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
 import { HomePageClient } from '@game-client/screens/home-page-client/home-page-client';
@@ -8,7 +7,6 @@ import { getFullLibrary } from './library/full-library/get-available-library';
 
 /** Minimal static paths for SSG: root and locale roots only. Other routes work client-side. */
 const STATIC_PATHS: { language: SupportedLng }[] = [
-  { language: defaultLng },
   ...supportedLngs.map((lang) => ({ language: lang })),
 ];
 

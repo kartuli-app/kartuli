@@ -9,10 +9,10 @@ export default async function RegularRouteLayout({
   children: React.ReactNode;
 }>) {
   const resolved = await params;
-  const language = resolved.language as SupportedLng;
+  const language = resolved.language;
   // if language is not supported, show 404 page
-  if (!supportedLngs.includes(language)) {
+  if (!supportedLngs.includes(language as SupportedLng)) {
     return notFound();
   }
-  return <I18nProvider lang={language}>{children}</I18nProvider>;
+  return <I18nProvider lang={language as SupportedLng}>{children}</I18nProvider>;
 }

@@ -5,7 +5,7 @@ import type { SharedContentDataRepository } from '../shared-content-data/shared-
 export function extendedSharedContentDataRepository(): SharedContentDataRepository {
   const source = 'extended';
   return {
-    async get() {
+    get() {
       return parseAndMapSharedContentData(ExtendedSharedContentDataJson, source);
     },
   };

@@ -3,9 +3,7 @@ import { getCombinedSharedContentRows } from '@game-client/core/learning-content
 import { getAvailableLibrary } from '../available-library/get-available-library';
 import type { FullLibrary } from './full-library';
 
-export const getFullLibrary: (locale: string) => Promise<FullLibrary> = async (
-  locale: string,
-): Promise<FullLibrary> => {
+export const getFullLibrary = async (locale: string): Promise<FullLibrary> => {
   const [sharedData, localizedData] = await Promise.all([
     getCombinedSharedContentRows(),
     getCombinedLocalizedContentRows(locale),

@@ -17,17 +17,16 @@ export function HomePageModulesListServer({
     <div className={clsx('flex flex-col gap-brand-xlarge', 'mt-brand-xlarge')}>
       {homePageModules.length === 0 ? (
         <ModuleCardError title="No content found" message="No content found" />
-      ) : null}
-      {homePageModules.length > 0
-        ? homePageModules.map((module) => (
-            <ModuleCardWithLessons
-              key={module.id}
-              homePageModule={module}
-              summariesByItemId={summariesByItemId}
-              addViewEventsForLessonItems={addViewEventsForLessonItems}
-            />
-          ))
-        : null}
+      ) : (
+        homePageModules.map((module) => (
+          <ModuleCardWithLessons
+            key={module.id}
+            homePageModule={module}
+            summariesByItemId={summariesByItemId}
+            addViewEventsForLessonItems={addViewEventsForLessonItems}
+          />
+        ))
+      )}
     </div>
   );
 }

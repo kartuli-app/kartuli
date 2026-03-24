@@ -19,7 +19,7 @@ export function ModuleCardWithLessons({
 }>) {
   const isSingleLessonModule = homePageModule.lessons.length === 1;
   return (
-    <ModuleCard key={homePageModule.id}>
+    <ModuleCard>
       <ModuleCardTitle className="text-brand-primary-500" title={homePageModule.title} />
       <ModuleCardContent>
         <div

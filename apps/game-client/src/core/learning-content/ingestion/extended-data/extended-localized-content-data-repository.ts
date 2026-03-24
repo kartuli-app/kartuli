@@ -7,7 +7,7 @@ export function extendedLocalizedContentDataRepository(): LocalizedContentDataRe
   const source = 'extended';
 
   return {
-    async get(locale: string) {
+    get(locale: string) {
       if (locale === 'en') {
         return parseAndMapLocalizedContentData(ExtendedLocalizedDataEnJson, source);
       }

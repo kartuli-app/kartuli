@@ -16,7 +16,7 @@ export function LearnBarContentHybrid({ language }: Readonly<{ readonly language
   return (
     <>
       <div className="flex items-center gap-4">
-        <button type="button" onClick={handleBack}>
+        <button type="button" onClick={handleBack} aria-label="Back to home page">
           <ArrowLeftIcon className="size-4" />
         </button>
         <div className={clsx('text-3xl', 'font-bold')}>kartuli.app / {t('title')}</div>

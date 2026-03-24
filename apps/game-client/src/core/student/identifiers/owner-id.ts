@@ -10,8 +10,7 @@ export function getOrCreateOwnerId(): string {
   }
 
   if (globalThis.window === undefined) {
-    // throw new Error('💀 [owner-id] 💀 ownerId can only be used in the browser');
-    return '';
+    throw new Error('💀 [owner-id] 💀 ownerId can only be used in the browser');
   }
 
   const existing = globalThis.window.localStorage.getItem(OWNER_ID_STORAGE_KEY);

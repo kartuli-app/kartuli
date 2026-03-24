@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
-export function HomeHeading({ language }: Readonly<{ readonly language: SupportedLng }>) {
+export function HomeHeading({ language }: Readonly<{ language: SupportedLng }>) {
   const { t } = useTranslation('common');
   const router = useRouter();
   const handleLearnClick = () => {
