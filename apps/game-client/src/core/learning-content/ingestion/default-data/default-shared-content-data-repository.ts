@@ -13,7 +13,7 @@ export function defaultSharedContentDataRepository(): SharedContentDataRepositor
       ).process;
       // slow down the loading time in development to make it easier to see the loading state
       if (globalProcess?.env?.NODE_ENV === 'development') {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       }
       return parseAndMapSharedContentData(DefaultSharedContentDataJson, source);
     },
