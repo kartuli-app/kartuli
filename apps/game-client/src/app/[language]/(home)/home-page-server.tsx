@@ -36,5 +36,5 @@ export async function HomePageServer({
   const fullLibrary = await getFullLibrary(language);
   const homePageView = await getHomePageView(fullLibrary);
 
-  return <HomePageClient library={fullLibrary} language={language} homePageView={homePageView} />;
+  return <HomePageClient language={language} homePageView={homePageView} />;
 }

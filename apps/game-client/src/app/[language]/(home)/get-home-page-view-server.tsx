@@ -5,7 +5,6 @@ import type {
   CombinedSharedLessonItemEdgeRow,
   CombinedSharedModuleLessonEdgeRow,
 } from '@game-client/core/learning-content/integration/combined-shared-content-rows/combined-shared-content-rows';
-import type { SupportedLng } from '@game-client/i18n/supported-locales';
 import type { FullLibrary } from './library/full-library/full-library';
 
 export type HomePageModuleView = {
@@ -43,13 +42,10 @@ export type HomePageView = {
 
 export async function getHomePageView(fullLibrary: FullLibrary): Promise<HomePageView> {
   const availableItems = fullLibrary.availableLibrary.availableItems;
-  console.log('🚀 ~ getHomePageView ~ availableItems:', availableItems);
   const availableLessons = fullLibrary.availableLibrary.availableLessons;
   const availableModules = fullLibrary.availableLibrary.availableModules;
   const moduleLessonEdges = fullLibrary.sharedData.combinedSharedModuleLessonEdgesRows;
   const lessonItemEdges = fullLibrary.sharedData.combinedSharedLessonItemEdgesRows;
-  console.log('🚀 ~ getHomePageView ~ moduleLessonEdges:', moduleLessonEdges);
-  console.log('🚀 ~ getHomePageView ~ lessonItemEdges:', lessonItemEdges);
   // group lesson item edges by lesson id and sort by order
   const sortedLessonItemEdges = lessonItemEdges.sort((a, b) => a.order - b.order);
   const lessonItemEdgesGroupedByLessonId = sortedLessonItemEdges.reduce(
@@ -96,15 +92,6 @@ export async function getHomePageView(fullLibrary: FullLibrary): Promise<HomePag
       return acc;
     },
     {} as Record<string, AvailableModuleRow>,
-  );
-
-  console.log(
-    '🚀 ~ getHomePageView ~ lessonItemEdgesGroupedByLessonId:',
-    lessonItemEdgesGroupedByLessonId,
-  );
-  console.log(
-    '🚀 ~ getHomePageView ~ lessonItemEdgesGroupedByLessonId:',
-    lessonItemEdgesGroupedByLessonId,
   );
 
   const modules: HomePageModuleView[] = [];

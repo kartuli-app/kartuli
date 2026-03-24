@@ -2,8 +2,8 @@
 
 import type { HomePageModuleView } from '@game-client/app/[language]/(home)/get-home-page-view-server';
 import { useEffect, useState } from 'react';
-import { HomePageModulesListServer } from './home-page-modules-list-server';
 import { HomePageModulesListClient } from './home-page-modules-list-client';
+import { HomePageModulesListServer } from './home-page-modules-list-server';
 
 /**
  * SSR / first paint: view counts are 0 (no IndexedDB on server). After mount, client loads activity

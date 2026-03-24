@@ -56,7 +56,9 @@ export function AddItemActivityDeviceEvent({
   previousState?: ItemActivityDeviceStateRow;
   event: ItemActivityDeviceEvent;
 }): ItemActivityDeviceStateRow {
-  const newState = previousState ?? getDefaultItemActivityDeviceStateRow({ itemId: event.itemId });
+  const newState = previousState
+    ? { ...previousState }
+    : getDefaultItemActivityDeviceStateRow({ itemId: event.itemId });
 
   switch (event.eventType) {
     case 'view': {

@@ -2,7 +2,6 @@
 
 import { Select } from '@base-ui/react/select';
 import { type SupportedLng, supportedLngs } from '@game-client/i18n/supported-locales';
-import { PREFERRED_LOCALE_KEY } from '@game-client/local-storage/preferred-locale-key';
 import clsx from 'clsx';
 import { ChevronsUpDownIcon, EarthIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -34,6 +33,7 @@ export function LanguageSelectHybrid({
 
   const handleValueChange = async (value: SupportedLng | null) => {
     if (!value || value === language) return;
+    // biome-ignore lint/suspicious/noDocumentCookie: just testing
     document.cookie = `preferred-locale=${value}; path=/`;
     const newPath = getNewPathForNewLanguage(path, value);
     router.push(newPath);

@@ -163,10 +163,14 @@ export function LessonCardWithContent({
   };
   const areAllItemsLetters = homePageLesson.items.every((item) => item.type === 'letter');
   const averageViewsCount = useMemo(() => {
-    return homePageLesson.items.reduce((acc, item) => {
+    const totalViewsCount = homePageLesson.items.reduce((acc, item) => {
       return acc + (summariesByItemId[item.id]?.totalViewCount ?? 0);
     }, 0);
+    return Math.round((totalViewsCount / homePageLesson.items.length) * 10) / 10;
   }, [homePageLesson.items, summariesByItemId]);
+  const showAverageViewsCount = useMemo(() => {
+    return Object.keys(summariesByItemId).length > 0;
+  }, [summariesByItemId]);
   return (
     <button
       key={homePageLesson.id}
@@ -192,10 +196,12 @@ export function LessonCardWithContent({
       >
         <span>{homePageLesson.title}</span>
         <span className="text-base text-brand-neutral-50 flex items-center gap-brand-small">
-          <EyeIcon className="w-5 h-5" />
-          <span className="w-10 h-8 border flex items-center justify-start">
-            {averageViewsCount ? averageViewsCount.toFixed(1) : 0}
-          </span>
+          {showAverageViewsCount ? (
+            <>
+              <EyeIcon className="w-4 h-4" />
+              <span className=" text-sm flex items-center justify-start">{averageViewsCount}</span>
+            </>
+          ) : null}
         </span>
       </div>
       <div
