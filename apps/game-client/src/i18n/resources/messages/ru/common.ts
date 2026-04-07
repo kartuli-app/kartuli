@@ -1,28 +1,38 @@
 export default {
-  save: 'Сохранить',
-  cancel: 'Отмена',
-  back: 'Назад',
-  user: 'Пользователь',
-  anonymousUser: 'анонимный пользователь',
-  langEn: 'English',
-  langRu: 'Русский',
-  // home
-  homeHeading: 'Давайте выучим грузинский язык!',
-  anon: 'анон',
-  // states
-  loading: 'Загрузка',
-  noContentFound: 'Ничего не найдено',
-  errorLoadingContent: 'Ошибка загрузки контента',
-  shit: 'говно',
-  error: 'Ошибка',
   //
-  sw: {
-    devMessage:
-      'Режим разработки: установлен сервис-воркер, он может скрывать локальные изменения.',
-    readyOffline: 'Игру можно играть офлайн.',
-    newVersion: 'Доступна новая версия.',
-    unregister: 'Удалить',
-    goToNextVersion: 'Перейти к новой версии',
-    dismiss: 'Закрыть',
+
+  //
+  app_bar: {
+    back: 'Назад',
+    sound_enabled: 'Звук включен',
+    sound_disabled: 'Звук выключен',
+    enable_sound: 'Включить звук',
+    disable_sound: 'Выключить звук',
+    mascot: 'Мышка',
+    offline_indicator: 'Нет интернета',
+    //
+    page_titles_by_pathname: {
+      '/saved': 'Сохранено',
+      '/profile': 'Профиль',
+      '/learn': 'Учить',
+      '/search': 'Поиск',
+      '/debug': 'Отладка',
+      '/not-found': 'Не найдено',
+    },
   },
+  dock: {
+    buttons: {
+      profile: 'Профиль',
+      saved: 'Сохранено',
+      learn: 'Учить',
+      search: 'Поиск',
+      more: 'Ещё',
+    },
+  },
+  //
+  language_selector: {
+    lang_en: 'English',
+    lang_ru: 'Русский',
+  },
+  //
 } as const;

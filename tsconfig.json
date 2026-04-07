@@ -1,11 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@game-client/*": ["apps/game-client/src/*"],
-      "@backoffice-client/*": ["apps/backoffice-client/src/*"],
-      "@kartuli/ui/*": ["packages/ui/src/*"]
+      "@game-client/*": ["./apps/game-client/src/*"],
+      "@backoffice-client/*": ["./apps/backoffice-client/src/*"],
+      "@kartuli/ui/*": ["./packages/ui/src/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,

@@ -1,84 +1,53 @@
 packages:
-  - 'apps/*'
-  - 'docs'
-  - 'packages/*'
-  - 'tools/*'
+  - apps/*
+  - docs
+  - packages/*
+  - tools/*
 
 catalog:
-  # Framework & Runtime
-  next: ^16.1.6
-  react: ^19.2.4
-  react-dom: ^19.2.4
-
-  # Testing
-  vitest: ^4.0.0
-  '@vitest/coverage-v8': ^4.0.0
-  '@testing-library/react': ^16.3.2
-  '@testing-library/dom': ^10.4.0
-  '@testing-library/user-event': ^14.5.2
-  happy-dom: ^20.7.0
-  '@vitejs/plugin-react': ^6.0.0
-  '@playwright/test': ^1.58.2
-
-  # Validation
-  zod: ^4.0.0
-
-  # TypeScript
-  typescript: ^5.7.2
-  '@types/node': ^24
-  '@types/react': ^19.2.14
-  '@types/react-dom': ^19.2.3
-  
-  # Storybook
-  storybook: ^10.2.11
-  '@storybook/react': ^10.2.11
-  '@storybook/react-vite': ^10.2.11
-  '@storybook/addon-a11y': ^10.2.11
-  '@storybook/addon-docs': ^10.2.11
-  
-  # Styling
-  tailwindcss: ^4.2.1
+  '@base-ui/react': ^1.3.0
+  '@playwright/test': ^1.59.1
+  '@serwist/turbopack': ^9.5.6
+  '@storybook/addon-a11y': ^10.3.4
+  '@storybook/addon-docs': ^10.3.4
+  '@storybook/react': ^10.3.4
+  '@storybook/react-vite': ^10.3.4
+  '@tailwindcss/cli': ^4.2.1
   '@tailwindcss/postcss': ^4.2.1
   '@tailwindcss/vite': ^4.2.1
-  '@tailwindcss/cli': ^4.2.1
-  postcss: ^8.5.6
+  '@tanstack/db': ^0.6.2
+  '@tanstack/query-db-collection': ^1.0.33
+  '@tanstack/react-db': ^0.1.80
+  '@tanstack/react-query': ^5.96.2
+  '@testing-library/dom': ^10.4.0
+  '@testing-library/react': ^16.3.2
+  '@testing-library/user-event': ^14.5.2
+  '@types/js-cookie': ^3.0.6
+  '@types/node': ^24.12.2
+  '@types/react': ^19.2.14
+  '@types/react-dom': ^19.2.3
+  '@vitejs/plugin-react': ^6.0.0
+  '@vitest/coverage-v8': ^4.1.3
+  '@vue/server-renderer': ^3.5.32
   clsx: ^2.1.1
-
-  # Icons
-  lucide-react: ^0.577.0
-
-  # UI
-  '@base-ui/react': ^1.3.0
-
-  # Data / Server state
-  '@tanstack/react-query': ^5.62.0
-  '@tanstack/db': ^0.5.0
-  '@tanstack/react-db': ^0.1.77
-  '@tanstack/query-db-collection': ^1.0.0
-
-  # Local-first DB
+  esbuild: ^0.28.0
+  happy-dom: ^20.8.9
+  i18next: ^26.0.0
   idb: ^8.0.3
-  rxdb: ^16.19.1
-
-  # Reactive
-  rxjs: ^7.8.2
-
-  # RxDB integration
-  '@tanstack/rxdb-db-collection': ^0.1.65
-
-  # Build Tools
-  vite: ^8.0.0
-  esbuild: ^0.27.0
-
-  # Service worker (Serwist)
+  js-cookie: ^3.0.5
+  motion: ^12.23.24
+  next: ^16.2.2
+  postcss: ^8.5.6
+  react: ^19.2.4
+  react-dom: ^19.2.4
+  react-i18next: ^17.0.0
+  react-icons: ^5.5.0
   serwist: ^9.5.6
-  '@serwist/turbopack': ^9.5.6
-
-  # i18n
-  i18next: ^25.0.0
-  'react-i18next': ^16.0.0
-
-  # Documentation
+  storybook: ^10.3.4
+  tailwindcss: ^4.2.1
+  typescript: ^6.0.2
+  vite: ^8.0.6
   vitepress: 1.6.4
-  vue: ^3.5.29
-  '@vue/server-renderer': ^3.5.29
+  vitest: ^4.1.3
+  vue: ^3.5.32
+  zod: ^4.0.0

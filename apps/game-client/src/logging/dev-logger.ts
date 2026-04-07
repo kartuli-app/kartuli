@@ -1,12 +1,23 @@
-const LAYERS = ['database', 'identifiers', 'integration', 'page', 'i18n', 'query'] as const;
+const LAYERS = [
+  'proxy',
+  'database',
+  'identifiers',
+  'integration',
+  'library',
+  'page',
+  'i18n',
+  'query',
+] as const;
 
 export type LogLayer = (typeof LAYERS)[number];
 
 /** Toggle layers here during development; only affects `logger.log`. */
 export const layerEnabled: Record<LogLayer, boolean> = {
+  proxy: true,
   database: true,
   identifiers: true,
   integration: true,
+  library: true,
   page: true,
   i18n: true,
   query: true,
@@ -31,11 +42,11 @@ function log(layer: LogLayer, text: string, ...args: unknown[]): void {
   if (!isDev() || !layerEnabled[layer]) {
     return;
   }
-  console.warn(`[${layer}]`, text, ...args);
+  console.info(`[${layer}]`, text, ...args);
 }
 
 function error(layer: LogLayer, text: string, cause?: unknown): void {
-  console.warn(`[${layer}]`, text);
+  console.info(`[${layer}]`, text);
   if (cause !== undefined) {
     console.error(cause);
   }

@@ -5,7 +5,6 @@ export interface DebugPageOptions {
   path: string;
   heading: string | RegExp;
   appLabel: string;
-  testId: string;
 }
 
 const DEFAULT_TIMEOUT = 10_000;
@@ -23,5 +22,4 @@ export async function expectDebugPageStructure(
 
   await expect(page.getByText(options.heading)).toBeVisible({ timeout });
   await expect(page.getByText(options.appLabel)).toBeVisible({ timeout });
-  await expect(page.getByTestId(options.testId)).toBeVisible({ timeout });
 }

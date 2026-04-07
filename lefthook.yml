@@ -61,15 +61,16 @@ commit-msg:
 pre-push:
   parallel: false
   commands:
-    # Typecheck affected packages (fallback to full run when HEAD^ is unavailable, e.g. first commit or shallow clone)
+    # Typecheck affected packages + always include @kartuli/e2e
+    # (CI validate-all always checks e2e, so keep local pre-push aligned)
     typecheck:
       run: |
         echo "🔍 Running typecheck on affected packages..."
-        CI=true TURBO_CI=1 pnpm turbo run typecheck --filter='[HEAD^]' --concurrency=1 --no-daemon || \
+        CI=true TURBO_CI=1 pnpm turbo run typecheck --filter='[HEAD^]' --filter=@kartuli/e2e --concurrency=1 --no-daemon || \
         CI=true TURBO_CI=1 pnpm turbo run typecheck --concurrency=1 --no-daemon
       fail_text: |
         ❌ Typecheck failed.
-        Run 'pnpm typecheck' locally to see the full errors.
+        Run 'pnpm typecheck:all' locally to see the full errors.
 
     # Run unit tests on affected packages (E2E has no test script so is skipped); fallback to full run when HEAD^ is unavailable
     test:

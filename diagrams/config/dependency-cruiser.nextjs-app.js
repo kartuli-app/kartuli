@@ -15,6 +15,9 @@ module.exports = {
         ...(base.options.exclude?.path ?? []),
         '[.](?:spec|test)[.](?:ts|tsx)$',
         'vitest-setup.d.ts',
+        'dev-logger.ts',
+        // Omit @kartuli/ui (../../packages/ui/... from apps/*-client) from diagrams — still a real dep in code.
+        String.raw`(?:^|[/\\])packages[/\\]ui(?:[/\\]|$)`,
       ],
     },
   },

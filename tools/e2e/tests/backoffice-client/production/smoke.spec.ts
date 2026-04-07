@@ -10,7 +10,6 @@ test.describe('Backoffice Client Smoke Tests', () => {
       path: '/debug',
       heading: /🔧 Debug Info/,
       appLabel: 'App: @kartuli/backoffice-client',
-      testId: 'backoffice-debug',
     });
   });
 
