@@ -68,9 +68,9 @@ subgraph 4D["search"]
 end
 end
 4I["layout.tsx"]
-55["not-found.tsx"]
+5D["not-found.tsx"]
 end
-59["robots.ts"]
+5H["robots.ts"]
 end
 subgraph W["i18n"]
 X["index.ts"]
@@ -107,7 +107,7 @@ end
 1K["resources-ru.ts"]
 1T["same-keys-as-reference-resources.ts"]
 1U["deep-same-keys.ts"]
-5A["i18next.d.ts"]
+5I["i18next.d.ts"]
 end
 17["generate-static-params-for-supported-locales.ts"]
 18["i18n-provider.tsx"]
@@ -152,18 +152,29 @@ subgraph 4F["search"]
 4G["search-page-server.tsx"]
 4H["search-client.tsx"]
 end
-subgraph 56["not-found"]
-57["not-found-page-server.tsx"]
-58["not-found-client.tsx"]
+subgraph 5E["not-found"]
+5F["not-found-page-server.tsx"]
+5G["not-found-client.tsx"]
 end
 end
 subgraph 4O["shared"]
 subgraph 4P["components"]
 4Q["game-shell.tsx"]
-4R["game-app-dock.tsx"]
-4S["game-app-dock-items.tsx"]
-4T["game-app-bar.tsx"]
-4U["language-selector.tsx"]
+subgraph 4R["game-app-dock"]
+4S["game-app-dock.tsx"]
+4T["game-app-dock-items.tsx"]
+end
+subgraph 4U["game-app-bar"]
+4V["game-app-bar.tsx"]
+4W["animated-back-button.tsx"]
+4X["game-app-bar-elements.tsx"]
+4Y["language-selector.tsx"]
+4Z["title.tsx"]
+50["mascot.tsx"]
+51["offline-indicator.tsx"]
+52["sound-toggle.tsx"]
+end
+5K["language-selector-old.tsx"]
 end
 end
 end
@@ -229,15 +240,15 @@ subgraph 4J["navigation"]
 4L["navigation-context.tsx"]
 4M["next-navigation-root-layout.tsx"]
 4N["split-localized-pathname.ts"]
-4Z["spa-navigation-root-layout.tsx"]
+57["spa-navigation-root-layout.tsx"]
 end
-subgraph 50["root-layout"]
-51["root-layout.tsx"]
-52["globals.css"]
-53["root-database-initializer.tsx"]
-54["root-query-client-provider.tsx"]
+subgraph 58["root-layout"]
+59["root-layout.tsx"]
+5A["globals.css"]
+5B["root-database-initializer.tsx"]
+5C["root-query-client-provider.tsx"]
 end
-5B["proxy.ts"]
+5J["proxy.ts"]
 end
 end
 end
@@ -249,47 +260,47 @@ E["DeploymentDebugPanel.tsx"]
 subgraph 22["containers"]
 23["responsive-container.tsx"]
 end
-subgraph 4V["layout"]
-4W["app-bar.tsx"]
-4X["app-content.tsx"]
-4Y["app-screen.tsx"]
+subgraph 53["layout"]
+54["app-bar.tsx"]
+55["app-content.tsx"]
+56["app-screen.tsx"]
 end
-5C["DeploymentDebugPanel.stories.tsx"]
-subgraph 5D["banner"]
-5E["banner.stories.tsx"]
-5F["banner.tsx"]
-end
-end
+5L["DeploymentDebugPanel.stories.tsx"]
+subgraph 5M["banner"]
+5N["banner.stories.tsx"]
+5O["banner.tsx"]
 end
 end
 end
-subgraph 5G["tools"]
-subgraph 5H["e2e"]
-subgraph 5I["tests"]
-subgraph 5J["helpers"]
-5K["apply-vercel-protection-bypass.ts"]
-5L["expect-debug-page.ts"]
-5M["expect-no-critical-errors.ts"]
-5N["first-lesson-fixture.ts"]
+end
+end
+subgraph 5P["tools"]
+subgraph 5Q["e2e"]
+subgraph 5R["tests"]
+subgraph 5S["helpers"]
+5T["apply-vercel-protection-bypass.ts"]
+5U["expect-debug-page.ts"]
+5V["expect-no-critical-errors.ts"]
+5W["first-lesson-fixture.ts"]
 end
 end
 end
-subgraph 5O["storybook"]
-subgraph 5P[".storybook"]
-5Q["main.ts"]
-5R["preview.tsx"]
-5S["storybook.css"]
-5T["theme-wrappers.tsx"]
+subgraph 5X["storybook"]
+subgraph 5Y[".storybook"]
+5Z["main.ts"]
+60["preview.tsx"]
+61["storybook.css"]
+62["theme-wrappers.tsx"]
 end
 end
-subgraph 5U["web-docs-client"]
-subgraph 5V[".vitepress"]
-5W["config.mts"]
+subgraph 63["web-docs-client"]
+subgraph 64[".vitepress"]
+65["config.mts"]
 end
-subgraph 5X["scripts"]
-5Y["docs-processor.js"]
-5Z["copy-llm-bundle.js"]
-60["generate-llm-bundle.js"]
+subgraph 66["scripts"]
+67["docs-processor.js"]
+68["copy-llm-bundle.js"]
+69["generate-llm-bundle.js"]
 end
 end
 end
@@ -439,53 +450,66 @@ Y-->11
 4H-->23
 4I-->X
 4I-->4K
-4I-->51
+4I-->59
 4K-->4L
 4K-->4M
-4K-->4Z
+4K-->57
 4K-->4N
 4M-->4N
 4M-->4L
 4M-->4Q
 4N-->Z
-4Q-->4R
-4Q-->4T
-4Q-->4X
-4Q-->4Y
-4R-->4S
-4S-->4L
+4Q-->4S
+4Q-->4V
+4Q-->55
+4Q-->56
+4S-->4T
 4T-->4L
-4T-->4U
-4T-->4W
-4U-->X
-4U-->4L
-4W-->23
-4Z-->4N
+4V-->4W
+4V-->4Y
+4V-->4Z
+4V-->50
+4V-->51
+4V-->52
+4V-->54
+4W-->4L
+4W-->4X
+4Y-->X
+4Y-->4L
+4Y-->4X
 4Z-->4L
-4Z-->4Q
-51-->52
-51-->53
-51-->54
-51-->X
-53-->1W
-53-->3Q
-53-->3I
-53-->3M
-54-->1W
-55-->X
-55-->57
-57-->58
-58-->4L
-58-->23
+50-->4X
+51-->4L
+52-->4X
+54-->23
+57-->4N
+57-->4L
+57-->4Q
+59-->5A
+59-->5B
+59-->5C
 59-->X
-5A-->1B
 5B-->1W
-5B-->X
-5C-->E
-5E-->5F
-5F-->23
-5M-->5K
-5R-->5S
-5R-->5T
-5W-->5Y
-60-->5Y
+5B-->3Q
+5B-->3I
+5B-->3M
+5C-->1W
+5D-->X
+5D-->5F
+5F-->5G
+5G-->4L
+5G-->23
+5H-->X
+5I-->1B
+5J-->1W
+5J-->X
+5K-->X
+5K-->4L
+5L-->E
+5N-->5O
+5O-->23
+5V-->5T
+60-->61
+60-->62
+65-->67
+69-->67

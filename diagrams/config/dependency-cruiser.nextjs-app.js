@@ -6,7 +6,8 @@ module.exports = {
   ...base,
   options: {
     ...base.options,
-    tsConfig: { fileName: 'tsconfig.json' },
+    tsConfig: { fileName: '../../tsconfig.json' },
+    webpackConfig: { fileName: '../../diagrams/config/dependency-cruiser.webpack-resolve.cjs' },
     doNotFollow: {
       path: ['node_modules', '^.*/packages/'],
     },
