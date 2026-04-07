@@ -28,10 +28,6 @@
 
 /* Apply theme font to body last so it wins over Tailwind base. Variable name must match root-layout (e.g. --font-noto-georgian). */
 @layer utilities {
-  .font-noto-sans-georgian {
-    font-family: var(--font-noto-sans-georgian, system-ui);
-  }
-
   .root {
     isolation: isolate;
   }
@@ -44,5 +40,5 @@
   background: var(--color-brand-primary-900);
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-brand-primary-200);
+  background-color: var(--color-brand-primary-400);
 }

@@ -1,12 +1,23 @@
-const LAYERS = ['database', 'identifiers', 'integration', 'page', 'i18n', 'query'] as const;
+const LAYERS = [
+  'proxy',
+  'database',
+  'identifiers',
+  'integration',
+  'library',
+  'page',
+  'i18n',
+  'query',
+] as const;
 
 export type LogLayer = (typeof LAYERS)[number];
 
 /** Toggle layers here during development; only affects `logger.log`. */
 export const layerEnabled: Record<LogLayer, boolean> = {
+  proxy: true,
   database: true,
   identifiers: true,
   integration: true,
+  library: true,
   page: true,
   i18n: true,
   query: true,

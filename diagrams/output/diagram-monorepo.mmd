@@ -33,263 +33,211 @@ end
 subgraph P["game-client"]
 subgraph Q["src"]
 subgraph R["app"]
-subgraph S["[[...spaRoute]]"]
-T["page.tsx"]
-end
-5M["layout.tsx"]
-subgraph 5V["serwist"]
-subgraph 5W["[path]"]
-5X["route.ts"]
-end
-end
-subgraph 60["~offline"]
-61["offline-page.tsx"]
-62["page.tsx"]
-end
-end
-subgraph U["i18n"]
-V["get-locale-metadata.ts"]
-subgraph W["resources"]
-X["metadata-by-locale.ts"]
-subgraph Y["messages"]
-subgraph Z["en"]
-10["metadata.ts"]
-1E["common.ts"]
-1F["debug.ts"]
-1G["game.ts"]
-1H["learn.ts"]
-end
-subgraph 11["ru"]
-12["metadata.ts"]
-1J["common.ts"]
-1K["debug.ts"]
-1L["game.ts"]
-1M["learn.ts"]
+subgraph S["[locale]"]
+subgraph T["(debug)"]
+subgraph U["debug"]
+V["page.tsx"]
+end
+end
+subgraph 24["(home)"]
+25["page.tsx"]
+end
+subgraph 3R["(learn)"]
+subgraph 3S["learn"]
+3T["page.tsx"]
+end
+end
+subgraph 3X["(page-not-found)"]
+subgraph 3Y["[...catchAll]"]
+3Z["page.tsx"]
+end
+end
+subgraph 40["(profile)"]
+subgraph 41["profile"]
+42["page.tsx"]
+end
+end
+subgraph 46["(saved)"]
+subgraph 47["saved"]
+48["page.tsx"]
+end
+end
+subgraph 4C["(search)"]
+subgraph 4D["search"]
+4E["page.tsx"]
+end
+end
+4I["layout.tsx"]
+55["not-found.tsx"]
 end
-end
-1C["resources.ts"]
-1D["resources-en.ts"]
-1I["resources-ru.ts"]
-1N["same-keys-as-reference-resources.ts"]
-end
-13["supported-locales.ts"]
-18["I18n-shell.tsx"]
-19["default-locale.ts"]
-1A["i18n-provider.tsx"]
-1B["i18n-config.ts"]
-1Q["path-to-lang.ts"]
-27["language-select.tsx"]
-28["use-lang.ts"]
-67["i18next.d.ts"]
-end
-subgraph 14["spa-route"]
-15["spa-route-page.tsx"]
-end
-subgraph 16["spa-shell"]
-17["spa-shell.tsx"]
-end
-subgraph 1O["utils"]
-1P["deep-same-keys.ts"]
-1W["browser.ts"]
-end
-subgraph 1R["local-storage"]
-1S["preferred-locale-key.ts"]
-5H["is-service-worker-ready-informed-key.ts"]
-end
-subgraph 1T["router-outlet"]
-1U["use-router-context.ts"]
-1V["router-context.tsx"]
-1X["router-outlet.tsx"]
-1Y["route-utils.ts"]
-end
-subgraph 1Z["screens"]
-subgraph 20["debug"]
-21["debug-page.tsx"]
-end
-subgraph 22["game"]
-23["game-page.tsx"]
-end
-subgraph 24["home"]
-25["home-page.tsx"]
-26["home-bar-content.tsx"]
-29["home-heading.tsx"]
-2A["modules-list.tsx"]
-2E["use-modules-list.tsx"]
-68["home-page-modules-mock.ts"]
-end
-subgraph 56["learn"]
-57["learn-page.tsx"]
-end
-subgraph 58["user"]
-59["user-page.tsx"]
-end
-end
-subgraph 2B["images"]
-subgraph 2C["illustrations"]
-2D["error.svg"]
-end
-end
-subgraph 2F["core"]
-subgraph 2G["student"]
-subgraph 2H["device"]
-subgraph 2I["item-activity-device-states-collection"]
-2J["create-item-activity-device-states-collection.ts"]
-2K["item-activity-device-state-database.ts"]
-2L["item-activity-device-state.ts"]
-2P["use-item-activity-device-states-collection.ts"]
-end
-end
-subgraph 2M["identifiers"]
-2N["device-id.ts"]
-2O["owner-id.ts"]
-end
-subgraph 3C["derived"]
-subgraph 3D["item-activity-summary-collection"]
-3E["create-item-activity-summary-collection.ts"]
-4Z["use-item-activity-summary-collection.ts"]
-end
-end
-end
-subgraph 2Q["views"]
-subgraph 2R["home"]
-2S["use-home-modules-view.ts"]
-2T["create-home-rows-collection.ts"]
-3J["use-home-rows-collection.ts"]
-end
-subgraph 2U["shared"]
-subgraph 2V["available-items-with-activity-collection"]
-2W["create-available-items-with-activity-collection.ts"]
-4R["use-available-items-with-activity-collection.ts"]
-end
-end
-end
-subgraph 2X["learning-content"]
-subgraph 2Y["collections"]
-subgraph 2Z["derived"]
-subgraph 30["available-items-collection"]
-31["create-available-items-collection.ts"]
-4S["use-available-items-collection.ts"]
-end
-subgraph 3F["available-lessons-collection"]
-3G["create-available-lessons-collection.ts"]
-4D["use-available-lessons-collection.ts"]
-end
-subgraph 3H["available-modules-collection"]
-3I["create-available-modules-collection.ts"]
-4K["use-available-modules-collection.ts"]
-end
-end
-subgraph 3K["base"]
-subgraph 3L["lesson-item-edges-collection"]
-3M["use-lesson-item-edges-collection.ts"]
-3N["create-lesson-item-edges-collection.ts"]
-end
-subgraph 4A["module-lesson-edges-collection"]
-4B["use-module-lesson-edges-collection.ts"]
-4C["create-module-lesson-edges-collection.ts"]
-end
-subgraph 4E["lesson-texts-collection"]
-4F["use-lesson-texts-collection.ts"]
-4G["create-lesson-texts-collection.ts"]
-end
-subgraph 4H["lessons-collection"]
-4I["use-lessons-collection.ts"]
-4J["create-lessons-collection.ts"]
-end
-subgraph 4L["module-texts-collection"]
-4M["use-module-texts-collection.ts"]
-4N["create-module-texts-collection.ts"]
-end
-subgraph 4O["modules-collection"]
-4P["use-modules-collection.ts"]
-4Q["create-modules-collection.ts"]
-end
-subgraph 4T["item-texts-collection"]
-4U["use-item-texts-collection.ts"]
-4V["create-item-texts-collection.ts"]
-end
-subgraph 4W["items-collection"]
-4X["use-items-collection.ts"]
-4Y["create-items-collection.ts"]
-end
-end
-end
-subgraph 32["integration"]
-subgraph 33["combined-localized-content-rows"]
-34["combined-localized-content-rows.ts"]
-3P["get-combined-localized-content-rows.ts"]
-65["use-combined-localized-content-rows-query.ts"]
-end
-subgraph 38["combined-shared-content-rows"]
-39["combined-shared-content-rows.ts"]
-42["get-combined-shared-content-rows.ts"]
-66["use-combined-shared-content-rows-query.ts"]
-end
-3O["fetch-combined-content-queries.ts"]
-end
-subgraph 35["ingestion"]
-subgraph 36["localized-content-data"]
-37["localized-content-data.ts"]
-3V["localized-content-data-repository.ts"]
-3W["parse-and-map-localized-content-data.ts"]
-3X["localized-content-data-json-schema.ts"]
-63["get-localized-content-data.ts"]
-end
-subgraph 3A["shared-content-data"]
-3B["shared-content-data.ts"]
-45["parse-and-map-shared-content-data.ts"]
-46["shared-content-data-json-schema.ts"]
-47["shared-content-data-repository.ts"]
-64["get-shared-content-data.ts"]
-end
-subgraph 3Q["default-data"]
-3R["default-localized-content-data-repository.ts"]
-43["default-shared-content-data-repository.ts"]
-end
-subgraph 3S["data-sources"]
-3T["default-localized-data.en.json"]
-3U["default-localized-data.ru.json"]
-40["extended-localized-data.en.json"]
-41["extended-localized-data.ru.json"]
-44["default-shared-data.json"]
-49["extended-shared-data.json"]
-end
-subgraph 3Y["extended-data"]
-3Z["extended-localized-content-data-repository.ts"]
-48["extended-shared-content-data-repository.ts"]
-end
-end
-end
-end
-subgraph 5A["service-worker"]
-subgraph 5B["pwa-notifications"]
-5C["pwa-notifications.tsx"]
-subgraph 5D["banners"]
-5E["game-ready-for-offline-banner.tsx"]
-5K["new-game-version-installed-banner.tsx"]
-5L["service-worker-installed-in-development-mode-banner.tsx"]
-end
-69["test-helpers.ts"]
-end
-5F["service-worker-messages.ts"]
-5G["service-worker-script-url.ts"]
-5U["service-worker-provider.tsx"]
-5Y["get-aditional-precache-entries.ts"]
-5Z["service-worker-source-url.ts"]
-6A["service-worker.ts"]
-end
-subgraph 5N["config"]
-5O["viewport-config.tsx"]
-end
-subgraph 5P["root-layout"]
-5Q["root-layout.tsx"]
-5R["globals.css"]
-5S["root-database-initializer.tsx"]
-5T["root-query-client-provider.tsx"]
-end
-subgraph 6B["types"]
-6C["assets.d.ts"]
-end
+59["robots.ts"]
+end
+subgraph W["i18n"]
+X["index.ts"]
+Y["generate-metadata-for-supported-locale.ts"]
+Z["i18n-constants.ts"]
+subgraph 10["resources"]
+11["metadata-by-locale.ts"]
+subgraph 12["messages"]
+subgraph 13["en"]
+14["metadata.ts"]
+1C["common.ts"]
+1D["debug.ts"]
+1E["home.ts"]
+1F["learn.ts"]
+1G["not-found.ts"]
+1H["profile.ts"]
+1I["saved.ts"]
+1J["search.ts"]
+end
+subgraph 15["ru"]
+16["metadata.ts"]
+1L["common.ts"]
+1M["debug.ts"]
+1N["home.ts"]
+1O["learn.ts"]
+1P["not-found.ts"]
+1Q["profile.ts"]
+1R["saved.ts"]
+1S["search.ts"]
+end
+end
+1A["resources.ts"]
+1B["resources-en.ts"]
+1K["resources-ru.ts"]
+1T["same-keys-as-reference-resources.ts"]
+1U["deep-same-keys.ts"]
+5A["i18next.d.ts"]
+end
+17["generate-static-params-for-supported-locales.ts"]
+18["i18n-provider.tsx"]
+19["i18n-config.ts"]
+end
+subgraph 1V["logging"]
+1W["dev-logger.ts"]
+end
+subgraph 1X["ui"]
+subgraph 1Y["screens"]
+subgraph 1Z["debug"]
+20["debug-page-server.tsx"]
+21["debug-client.tsx"]
+end
+subgraph 26["home"]
+27["home-page-server.tsx"]
+subgraph 28["view"]
+29["build-home-view.tsx"]
+2A["home-view.ts"]
+end
+36["home-client.tsx"]
+subgraph 37["components"]
+38["heading.tsx"]
+39["modules-list.tsx"]
+3A["module-card.tsx"]
+3B["lesson-card.tsx"]
+end
+end
+subgraph 3U["learn"]
+3V["learn-page-server.tsx"]
+3W["learn-page-client.tsx"]
+end
+subgraph 43["profile"]
+44["profile-page-server.tsx"]
+45["profile-client.tsx"]
+end
+subgraph 49["saved"]
+4A["saved-page-server.tsx"]
+4B["saved-client.tsx"]
+end
+subgraph 4F["search"]
+4G["search-page-server.tsx"]
+4H["search-client.tsx"]
+end
+subgraph 56["not-found"]
+57["not-found-page-server.tsx"]
+58["not-found-client.tsx"]
+end
+end
+subgraph 4O["shared"]
+subgraph 4P["components"]
+4Q["game-shell.tsx"]
+4R["game-app-dock.tsx"]
+4S["game-app-dock-items.tsx"]
+4T["game-app-bar.tsx"]
+4U["language-selector.tsx"]
+end
+end
+end
+subgraph 2B["learning-content"]
+2C["index.ts"]
+subgraph 2D["library"]
+2E["get-library-server.tsx"]
+2F["build-library.tsx"]
+2G["library.tsx"]
+end
+subgraph 2H["ingestion"]
+subgraph 2I["common-data"]
+2J["common-data.ts"]
+2O["default-common-data-repository.ts"]
+2R["common-data-repository.ts"]
+2S["parse-and-map-common-data.ts"]
+2T["common-data-json-schema.ts"]
+2U["extended-common-data-repository.ts"]
+end
+subgraph 2K["localized-data"]
+2L["localized-data.ts"]
+2X["default-localized-data-repository.ts"]
+30["localized-data-repository.ts"]
+31["parse-and-map-localized-data.ts"]
+32["localized-data-json-schema.ts"]
+33["extended-localized-data-repository.ts"]
+end
+subgraph 2P["data-sources"]
+2Q["default-common-data.json"]
+2V["extended-common-data.json"]
+2Y["default-localized-data.en.json"]
+2Z["default-localized-data.ru.json"]
+34["extended-localized-data.en.json"]
+35["extended-localized-data.ru.json"]
+end
+end
+subgraph 2M["integration"]
+2N["get-common-data.ts"]
+2W["get-localized-data.ts"]
+end
+end
+subgraph 3C["student"]
+subgraph 3D["item-activity-summary"]
+3E["item-activity-summaries-by-id.tsx"]
+3F["item-activity-summary.ts"]
+3G["item-acitivty-summaries-live-query.tsx"]
+end
+subgraph 3H["identifiers"]
+3I["owner-id.ts"]
+3Q["device-id.ts"]
+end
+subgraph 3J["item-activity-device-states-collection"]
+3K["use-item-activity-states-collection.ts"]
+3L["create-item-activity-states-collection.ts"]
+3M["item-activity-state-database.ts"]
+3N["item-activity-state.ts"]
+3O["use-item-activity-view-events.ts"]
+3P["batch-upsert-item-activity-view-events.ts"]
+end
+end
+subgraph 4J["navigation"]
+4K["index.ts"]
+4L["navigation-context.tsx"]
+4M["next-navigation-root-layout.tsx"]
+4N["split-localized-pathname.ts"]
+4Z["spa-navigation-root-layout.tsx"]
+end
+subgraph 50["root-layout"]
+51["root-layout.tsx"]
+52["globals.css"]
+53["root-database-initializer.tsx"]
+54["root-query-client-provider.tsx"]
+end
+5B["proxy.ts"]
 end
 end
 end
@@ -298,50 +246,50 @@ subgraph B["ui"]
 subgraph C["src"]
 subgraph D["components"]
 E["DeploymentDebugPanel.tsx"]
-subgraph 50["layout"]
-51["app-bar.tsx"]
-54["app-content.tsx"]
-55["app-screen.tsx"]
+subgraph 22["containers"]
+23["responsive-container.tsx"]
 end
-subgraph 52["containers"]
-53["responsive-container.tsx"]
+subgraph 4V["layout"]
+4W["app-bar.tsx"]
+4X["app-content.tsx"]
+4Y["app-screen.tsx"]
 end
-subgraph 5I["banner"]
-5J["banner.tsx"]
-6E["banner.stories.tsx"]
-end
-6D["DeploymentDebugPanel.stories.tsx"]
-end
+5C["DeploymentDebugPanel.stories.tsx"]
+subgraph 5D["banner"]
+5E["banner.stories.tsx"]
+5F["banner.tsx"]
 end
 end
 end
-subgraph 6F["tools"]
-subgraph 6G["e2e"]
-subgraph 6H["tests"]
-subgraph 6I["helpers"]
-6J["apply-vercel-protection-bypass.ts"]
-6K["expect-debug-page.ts"]
-6L["expect-no-critical-errors.ts"]
-6M["first-lesson-fixture.ts"]
+end
+end
+subgraph 5G["tools"]
+subgraph 5H["e2e"]
+subgraph 5I["tests"]
+subgraph 5J["helpers"]
+5K["apply-vercel-protection-bypass.ts"]
+5L["expect-debug-page.ts"]
+5M["expect-no-critical-errors.ts"]
+5N["first-lesson-fixture.ts"]
 end
 end
 end
-subgraph 6N["storybook"]
-subgraph 6O[".storybook"]
-6P["main.ts"]
-6Q["preview.tsx"]
-6R["storybook.css"]
-6S["theme-wrappers.tsx"]
+subgraph 5O["storybook"]
+subgraph 5P[".storybook"]
+5Q["main.ts"]
+5R["preview.tsx"]
+5S["storybook.css"]
+5T["theme-wrappers.tsx"]
 end
 end
-subgraph 6T["web-docs-client"]
-subgraph 6U[".vitepress"]
-6V["config.mts"]
+subgraph 5U["web-docs-client"]
+subgraph 5V[".vitepress"]
+5W["config.mts"]
 end
-subgraph 6W["scripts"]
-6X["docs-processor.js"]
-6Y["copy-llm-bundle.js"]
-6Z["generate-llm-bundle.js"]
+subgraph 5X["scripts"]
+5Y["docs-processor.js"]
+5Z["copy-llm-bundle.js"]
+60["generate-llm-bundle.js"]
 end
 end
 end
@@ -352,240 +300,192 @@ I-->K
 I-->L
 I-->N
 N-->O
-T-->V
-T-->13
-T-->15
 V-->X
-V-->13
-X-->10
-X-->12
-X-->13
-15-->17
-17-->18
-17-->1V
-17-->1X
-17-->5C
+V-->20
+X-->Y
+X-->17
+X-->Z
+X-->18
+Y-->Z
+Y-->11
+11-->Z
+11-->14
+11-->16
+17-->Z
 18-->19
-18-->1A
-18-->1Q
-18-->13
-18-->1S
-18-->1U
 18-->1W
-19-->13
+19-->Z
+19-->1A
 1A-->1B
-1A-->13
-1B-->19
+1A-->1K
 1B-->1C
-1C-->1D
-1C-->1I
-1D-->1E
-1D-->1F
-1D-->1G
-1D-->1H
-1D-->10
-1I-->1J
-1I-->1K
-1I-->1L
-1I-->1M
-1I-->12
-1I-->1N
-1N-->1D
-1N-->1P
-1Q-->19
-1Q-->13
-1U-->1V
-1V-->1W
-1X-->1Y
-1X-->1U
-1X-->21
-1X-->23
-1X-->25
-1X-->57
-1X-->59
+1B-->1D
+1B-->1E
+1B-->1F
+1B-->14
+1B-->1G
+1B-->1H
+1B-->1I
+1B-->1J
+1K-->1L
+1K-->1M
+1K-->1N
+1K-->1O
+1K-->16
+1K-->1P
+1K-->1Q
+1K-->1R
+1K-->1S
+1K-->1T
+1T-->1B
+1T-->1U
+20-->21
+21-->23
 21-->E
 21-->E
-23-->1W
-25-->26
-25-->29
-25-->2A
-25-->51
-25-->54
-25-->55
-26-->27
-27-->13
-27-->28
-27-->1S
-27-->1U
-28-->1Q
-28-->13
-28-->1U
-2A-->2E
-2A-->2S
-2A-->28
-2A-->2D
-2A-->1U
-2E-->2J
-2E-->2L
-2E-->2K
-2E-->2P
-2E-->2O
-2E-->2S
-2E-->28
-2J-->2K
-2J-->2L
-2K-->2L
-2L-->2N
-2L-->2O
-2P-->2J
+25-->X
+25-->27
+27-->29
+27-->2C
+27-->36
+29-->2A
+29-->2C
+29-->1W
+2C-->2E
+2C-->2G
+2E-->2F
+2E-->2G
+2E-->2N
+2E-->2W
+2F-->2G
+2F-->2J
+2F-->2L
+2F-->1W
+2N-->2J
+2N-->2O
+2N-->2U
+2O-->2Q
+2O-->2R
+2O-->2S
+2R-->2J
+2S-->2J
 2S-->2T
-2S-->3J
-2S-->3E
-2T-->2W
-2T-->3G
-2T-->3I
-2T-->39
-2W-->31
-2W-->3E
-31-->34
-31-->39
-34-->37
-39-->3B
-3E-->2L
-3G-->34
-3G-->39
-3I-->34
-3I-->39
-3J-->2T
-3J-->3M
-3J-->4B
-3J-->4D
-3J-->4K
-3J-->4R
+2U-->2V
+2U-->2R
+2U-->2S
+2W-->2X
+2W-->33
+2W-->2L
+2X-->2Y
+2X-->2Z
+2X-->30
+2X-->31
+30-->2L
+31-->2L
+31-->32
+33-->34
+33-->35
+33-->30
+33-->31
+36-->38
+36-->39
+36-->2A
+36-->23
+39-->3A
+39-->3G
+39-->3E
+39-->2A
+3A-->3B
+3A-->3E
+3A-->2A
+3B-->3E
+3B-->2A
+3E-->3F
+3G-->3E
+3G-->3I
+3G-->3K
+3G-->3O
+3I-->1W
+3K-->3L
+3L-->3M
+3L-->3N
 3M-->3N
-3N-->39
-3N-->3O
-3O-->34
+3M-->1W
 3O-->3P
-3O-->39
-3O-->42
-3P-->34
-3P-->3R
-3P-->3Z
-3P-->37
-3R-->3T
-3R-->3U
-3R-->3V
-3R-->3W
-3V-->37
-3W-->37
-3W-->3X
-3Z-->40
-3Z-->41
-3Z-->3V
-3Z-->3W
-42-->39
-42-->43
-42-->48
-42-->3B
-43-->44
-43-->45
-43-->47
-45-->3B
-45-->46
-47-->3B
-48-->49
-48-->45
-48-->47
-4B-->4C
-4C-->39
-4C-->3O
-4D-->4F
-4D-->4I
-4D-->3G
-4F-->4G
-4G-->34
-4G-->3O
-4I-->4J
-4J-->39
-4J-->3O
+3O-->3L
+3P-->3Q
+3P-->3I
+3P-->3L
+3P-->3N
+3P-->3M
+3P-->1W
+3Q-->1W
+3T-->X
+3T-->3V
+3V-->3W
+3W-->23
+3Z-->X
+42-->X
+42-->44
+44-->45
+45-->23
+48-->X
+48-->4A
+4A-->4B
+4B-->23
+4E-->X
+4E-->4G
+4G-->4H
+4H-->23
+4I-->X
+4I-->4K
+4I-->51
+4K-->4L
 4K-->4M
-4K-->4P
-4K-->3I
+4K-->4Z
+4K-->4N
 4M-->4N
-4N-->34
-4N-->3O
-4P-->4Q
-4Q-->39
-4Q-->3O
-4R-->2W
+4M-->4L
+4M-->4Q
+4N-->Z
+4Q-->4R
+4Q-->4T
+4Q-->4X
+4Q-->4Y
 4R-->4S
-4R-->4Z
-4S-->4U
-4S-->4X
-4S-->31
-4U-->4V
-4V-->34
-4V-->3O
-4X-->4Y
-4Y-->39
-4Y-->3O
-4Z-->2P
-4Z-->3E
+4S-->4L
+4T-->4K
+4T-->4U
+4T-->4W
+4U-->X
+4U-->4K
+4W-->23
+4Z-->4N
+4Z-->4L
+4Z-->4Q
+51-->52
 51-->53
-54-->53
-57-->28
-57-->1U
-57-->1W
-59-->1W
-5C-->5E
-5C-->5K
-5C-->5L
+51-->54
+51-->X
+53-->1W
+53-->3Q
+53-->3I
+53-->3M
+54-->1W
+55-->X
+55-->57
+57-->58
+58-->4K
+58-->23
+59-->X
+5A-->1B
+5B-->1W
+5B-->X
+5C-->E
 5E-->5F
-5E-->5G
-5E-->5H
-5E-->1W
-5E-->5J
-5J-->53
-5K-->5F
-5K-->5G
-5K-->1W
-5K-->5J
-5L-->1W
-5L-->5J
-5M-->5O
-5M-->19
-5M-->V
-5M-->5Q
-5Q-->5R
-5Q-->5S
-5Q-->5T
-5Q-->5U
-5S-->2K
-5S-->2N
-5S-->2O
-5U-->5G
-5X-->5Y
-5X-->5Z
-5Y-->13
-62-->61
-63-->37
-63-->3V
-64-->3B
-64-->47
-65-->3P
-65-->3O
-66-->3O
-66-->42
-67-->1D
-68-->2S
-69-->5G
-6A-->5F
-6A-->13
-6D-->E
-6E-->5J
-6L-->6J
-6Q-->6R
-6Q-->6S
-6V-->6X
-6Z-->6X
+5F-->23
+5M-->5K
+5R-->5S
+5R-->5T
+5W-->5Y
+60-->5Y

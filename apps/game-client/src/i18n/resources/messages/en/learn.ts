@@ -1,6 +1,5 @@
 export default {
-  title: 'Learn',
-  lesson: 'Lesson',
-  play: 'Play',
-  back: 'Back',
+  //
+  heading: 'Learn or review, play when you are ready',
+  //
 } as const;

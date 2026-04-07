@@ -1,8 +1,8 @@
 'use client';
-import { getItemActivityDeviceStateDatabase } from '@game-client/core/student/device/item-activity-device-states-collection/item-activity-device-state-database';
-import { getOrCreateDeviceId } from '@game-client/core/student/identifiers/device-id';
-import { getOrCreateOwnerId } from '@game-client/core/student/identifiers/owner-id';
 import { logger } from '@game-client/logging/dev-logger';
+import { getOrCreateDeviceId } from '@game-client/student/identifiers/device-id';
+import { getOrCreateOwnerId } from '@game-client/student/identifiers/owner-id';
+import { getItemActivityStateDatabase } from '@game-client/student/item-activity-device-states-collection/item-activity-state-database';
 import { useEffect } from 'react';
 
 async function estimateStorageQuota(): Promise<{ usage: number; quota: number } | string> {
@@ -32,7 +32,7 @@ export function RootDatabaseInitializer() {
     getOrCreateDeviceId();
     getOrCreateOwnerId();
     void (async () => {
-      await getItemActivityDeviceStateDatabase();
+      await getItemActivityStateDatabase();
     })();
     if (process.env.NODE_ENV === 'development') {
       void estimateStorageQuota();

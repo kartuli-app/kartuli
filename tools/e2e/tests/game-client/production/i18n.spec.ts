@@ -6,8 +6,8 @@ import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protecti
 const en_description = enResources.metadata.description;
 const en_title = enResources.metadata.title;
 const en_home_heading = enResources.common.homeHeading;
-const en_lang_label = enResources.common.langEn;
-const ru_lang_label = enResources.common.langRu;
+const en_lang_label = enResources.common.lang_en;
+const ru_lang_label = enResources.common.lang_ru;
 const ru_description = ruResources.metadata.description;
 const ru_title = ruResources.metadata.title;
 const ru_home_heading = ruResources.common.homeHeading;

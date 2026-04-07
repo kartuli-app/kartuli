@@ -16,10 +16,8 @@ export function AppBar({ className, children, isSticky = false }: Readonly<AppBa
         //
         'w-full',
         //
-        'bg-brand-primary-500',
-        'text-brand-neutral-50',
-        'border-b-2',
-        'border-brand-primary-600',
+        'bg-brand-app-bg',
+        'md:ml-10',
       )}
     >
       <ResponsiveContainer

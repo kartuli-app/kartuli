@@ -20,12 +20,14 @@ export function ResponsiveContainer({ children, className }: Readonly<Responsive
         'w-full',
         //
         'mx-auto',
-        'max-w-sm',
-        'sm:max-w-3xl',
-        'lg:max-w-5xl',
+        'max-w-lg',
+        'sm:max-w-2xl',
+        'lg:max-w-3xl',
+        'xl:max-w-4xl',
         //
         'p-brand-large',
         'gap-brand-large',
+        //
         //
         className,
       )}

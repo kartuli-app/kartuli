@@ -1,0 +1,25 @@
+{
+  "commonModules": [
+    {
+      "id": "module-basic-vocabulary",
+      "lessonIds": ["lesson-georgian-101"]
+    }
+  ],
+  "commonLessons": [
+    {
+      "id": "lesson-georgian-101",
+      "itemIds": ["word-gamarjoba", "word-madloba"]
+    }
+  ],
+  "commonLetterItems": [],
+  "commonWordItems": [
+    {
+      "id": "word-gamarjoba",
+      "targetScript": "გამარჯობა"
+    },
+    {
+      "id": "word-madloba",
+      "targetScript": "მადლობა"
+    }
+  ]
+}
