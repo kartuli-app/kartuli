@@ -55,7 +55,7 @@ export function LanguageSelector() {
 
   const handleValueChange = (value: string | null) => {
     if (!value || value === currentLocale) return;
-    Cookies.set(PREFERRED_LOCALE_KEY, value);
+    Cookies.set(PREFERRED_LOCALE_KEY, value, { path: '/' });
     const newPath = getNewPathForNewLocale(localizedPathname, value);
     i18n.changeLanguage(value).then(() => {
       navigate(newPath);
