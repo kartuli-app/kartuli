@@ -9,7 +9,7 @@ export function AppContent({
     <div
       className={clsx(
         //
-        'w-full grow flex flex-col mr-1 ml-1 md:ml-10',
+        'w-full grow flex flex-col',
         'overflow-y-auto',
         'overflow-x-hidden',
         'scrollbar-gutter-stable',

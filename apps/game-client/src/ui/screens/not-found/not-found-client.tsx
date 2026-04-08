@@ -18,7 +18,7 @@ export function NotFoundClient() {
         </h2>
         <picture>
           <source srcSet="/images/not-found.svg" type="image/svg+xml" />
-          <img src="/images/not-found.svg" alt={t('heading')} className="max-h-[50vh] mx-auto" />
+          <img src="/images/not-found.svg" alt={t('heading')} className="max-h-[40vh] mx-auto" />
         </picture>
       </div>
     </ResponsiveContainer>

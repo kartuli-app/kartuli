@@ -12,19 +12,17 @@ export function AppBar({ className, children, isSticky = false }: Readonly<AppBa
     <div
       className={clsx(
         //
-        isSticky ? 'sticky top-0 z-10' : '',
-        //
-        'w-full',
-        //
+        isSticky && 'sticky top-0 z-30',
+        'w-full flex flex-col',
         'bg-brand-app-bg',
-        'md:ml-10',
+        'overflow-hidden shrink-0',
+        'scrollbar-gutter-stable',
       )}
     >
       <ResponsiveContainer
         className={clsx(
           //
-          'justify-between',
-          'items-center',
+          'justify-between items-center',
           className,
         )}
       >

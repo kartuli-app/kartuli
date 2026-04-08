@@ -13,10 +13,11 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 3,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#000000' },
-  ],
+  themeColor: 'red',
+  // themeColor: [
+  //   { media: '(prefers-color-scheme: light)', color: 'red' },
+  //   { media: '(prefers-color-scheme: dark)', color: 'blue' },
+  // ],
 };
 
 export default async function LocaleLayout({

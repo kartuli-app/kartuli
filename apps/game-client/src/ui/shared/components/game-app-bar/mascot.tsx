@@ -8,14 +8,7 @@ export function Mascot() {
     <div className={clsx(iconClassNames)}>
       <picture>
         <source srcSet="/images/mascot-64.webp" type="image/webp" />
-        <img
-          className={clsx(
-            //
-            'scale-120',
-          )}
-          src="/images/mascot-64.png"
-          alt={t('app_bar.mascot')}
-        />
+        <img className={clsx('scale-120')} src="/images/mascot-64.png" alt={t('app_bar.mascot')} />
       </picture>
     </div>
   );

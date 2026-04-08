@@ -73,7 +73,7 @@ export function LanguageSelector() {
         className={clsx(
           iconClassNames,
           buttonIconClassNames,
-          'relative z-20 flex flex-col items-center justify-center',
+          'relative z-30 flex flex-col items-center justify-center',
         )}
       >
         <IoLanguage className="size-5 text-brand-text-500" />
@@ -84,7 +84,7 @@ export function LanguageSelector() {
           side="bottom"
           alignItemWithTrigger={false}
           sideOffset={8}
-          className="z-20"
+          className="z-30"
         >
           <Select.Popup
             className={clsx(
@@ -110,7 +110,7 @@ export function LanguageSelector() {
                     'select-none',
                     'items-center',
                     'px-3',
-                    'py-2',
+                    'py-3',
                     'text-sm',
                     'data-highlighted:bg-brand-text-600',
                     'data-highlighted:text-brand-text-50',

@@ -10,9 +10,11 @@ import { Title } from './title';
 export function GameAppBar() {
   return (
     <AppBar isSticky>
-      <div className={clsx('flex items-center gap-brand-small')}>
-        <AnimatedBackButton />
-        <Mascot />
+      <div className={clsx('flex items-center gap-brand-regular grow')}>
+        <div className="flex gap-0">
+          <AnimatedBackButton />
+          <Mascot />
+        </div>
         <OfflineIndicator />
         <Title />
       </div>

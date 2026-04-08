@@ -24,7 +24,8 @@
     "clsx": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "tailwind-merge": "catalog:"
   },
   "devDependencies": {
     "@storybook/react": "catalog:",

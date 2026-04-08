@@ -35,7 +35,12 @@ const LetterItemCard = ({
     >
       {item.type === 'letter' && (
         <div className="flex flex-col items-center justify-center gap-brand-small">
-          <div className="text-4xl">{item.targetScript}</div>
+          <div className="text-4xl font-georgian relative w-full flex items-center justify-center px-3">
+            {/* we add 2 horizontal lines at 33% and 66% of the height with 1px height and 100% width */}
+            <div className="absolute top-0 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
+            <div className="absolute top-2/3 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
+            <div className="z-20 font-medium">{item.targetScript}</div>
+          </div>
           <div className="text-xl flex gap-0 text-slate-600">
             <span className="text-orange-500">[</span>
             {item.transliteration}
@@ -71,7 +76,12 @@ const WordItemCard = ({
     >
       {item.type === 'word' && (
         <div className="flex flex-col items-center justify-center gap-brand-small">
-          <div className="text-3xl">{item.targetScript}</div>
+          <div className="text-3xl font-georgian relative w-full flex items-center justify-center px-3">
+            {/* here we add 2 horizontal lines at 33% and 66% of the height with 1px height and 100% width */}
+            <div className="absolute top-0 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
+            <div className="absolute top-2/3 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
+            <div className="z-30 font-medium">{item.targetScript}</div>
+          </div>
           <div className="text-2xl flex gap-brand-xsmall text-brand-neutral-700">
             <span className="text-orange-500">[</span>
             {item.transliteration}

@@ -13,7 +13,7 @@ export function SavedClient() {
         <h1 className={clsx('text-3xl pb-brand-2xlarge', 'text-center')}>{t('heading')}</h1>
         <picture>
           <source srcSet="/images/saved.svg" type="image/svg+xml" />
-          <img src="/images/saved.svg" alt={t('heading')} className="max-h-[50vh] mx-auto" />
+          <img src="/images/saved.svg" alt={t('heading')} className="max-h-[40vh] mx-auto" />
         </picture>
       </div>
     </ResponsiveContainer>

@@ -23,7 +23,13 @@
 @layer utilities {
   .scrollbar-gutter-stable {
     scrollbar-gutter: stable;
+    padding-left: 0.25rem;
   }
+}
+
+@theme {
+  --font-georgian: var(--font-georgian);
+  --font-default: var(--font-default);
 }
 
 /* Apply theme font to body last so it wins over Tailwind base. Variable name must match root-layout (e.g. --font-noto-georgian). */
@@ -37,8 +43,8 @@
   width: 0.25rem;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-brand-primary-900);
+  background: var(--color-brand-app-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-brand-primary-400);
+  background-color: var(--color-brand-primary-900);
 }

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 export const iconClassNames = clsx(
-  'size-12',
+  'size-11',
   'shrink-0',
   'rounded-full',
   'flex',
@@ -16,7 +16,7 @@ export const buttonIconClassNames = clsx(
   'disabled:cursor-not-allowed',
   'bg-brand-text-200',
   'hover:bg-brand-text-300',
-  'active:scale-105',
+  'active:scale-110',
   'border',
   'border-brand-text-300',
 );

@@ -7,9 +7,7 @@ export function AppScreen({ children }: { readonly children: ReactNode }) {
       className={clsx(
         //
         'flex grow flex-col',
-        // 'overflow-y-auto',
-        'overflow-x-hidden',
-        // 'scrollbar-gutter-stable',
+        'overflow-hidden',
         'bg-brand-app-bg',
       )}
     >

@@ -32,9 +32,9 @@ export function AnimatedBackButton() {
   const shouldShowBackButton = !isRootPath;
   return (
     <motion.div
-      className="overflow-hidden"
+      className={clsx('overflow-hidden')}
       animate={{
-        width: shouldShowBackButton ? '3.25rem' : '0rem',
+        width: shouldShowBackButton ? '52px' : '0rem',
       }}
       transition={{
         type: 'spring',

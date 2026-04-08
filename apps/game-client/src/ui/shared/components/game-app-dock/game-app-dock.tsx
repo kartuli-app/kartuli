@@ -11,7 +11,7 @@ export function GameAppDock() {
         'items-center',
         'md:items-start',
         //
-        'sticky bottom-0 z-10',
+        'sticky bottom-0 z-50',
         'md:top-0 md:absolute',
         //
         'w-full',
