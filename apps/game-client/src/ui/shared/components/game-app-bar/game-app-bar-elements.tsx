@@ -16,7 +16,8 @@ export const buttonIconClassNames = clsx(
   'disabled:cursor-not-allowed',
   'bg-brand-text-200',
   'hover:bg-brand-text-300',
-  'active:scale-110',
+  'active:scale-90',
+  'transition-transform duration-300',
   'border',
   'border-brand-text-300',
 );

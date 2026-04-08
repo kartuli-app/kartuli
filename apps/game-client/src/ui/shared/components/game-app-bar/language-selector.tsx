@@ -73,6 +73,7 @@ export function LanguageSelector() {
         className={clsx(
           iconClassNames,
           buttonIconClassNames,
+          // 'active:scale-none',
           'relative z-30 flex flex-col items-center justify-center',
         )}
       >
