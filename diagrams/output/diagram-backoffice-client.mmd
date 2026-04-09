@@ -6,44 +6,30 @@ subgraph 2["en"]
 subgraph 3["debug"]
 4["page.tsx"]
 end
-F["page.tsx"]
+8["page.tsx"]
 end
-I["layout.tsx"]
+B["layout.tsx"]
 end
 subgraph 5["domains"]
 subgraph 6["debug"]
 7["debug-page.tsx"]
 end
-subgraph G["home"]
-H["home-page.tsx"]
+subgraph 9["home"]
+A["home-page.tsx"]
 end
-subgraph M["app-shell"]
-N["root-layout.tsx"]
-O["globals.css"]
-end
-end
-subgraph J["config"]
-K["metadata-config.tsx"]
-L["viewport-config.tsx"]
+subgraph F["app-shell"]
+G["root-layout.tsx"]
+H["globals.css"]
 end
 end
-subgraph 8[".."]
-subgraph 9[".."]
-subgraph A["packages"]
-subgraph B["ui"]
-subgraph C["src"]
-subgraph D["components"]
-E["DeploymentDebugPanel.tsx"]
-end
-end
-end
-end
+subgraph C["config"]
+D["metadata-config.tsx"]
+E["viewport-config.tsx"]
 end
 end
 4-->7
-7-->E
-F-->H
-I-->K
-I-->L
-I-->N
-N-->O
+8-->A
+B-->D
+B-->E
+B-->G
+G-->H

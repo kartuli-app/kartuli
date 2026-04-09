@@ -5,17 +5,12 @@ import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protecti
 
 const en_description = enResources.metadata.description;
 const en_title = enResources.metadata.title;
-const en_home_heading = enResources.common.homeHeading;
-const en_lang_label = enResources.common.langEn;
-const ru_lang_label = enResources.common.langRu;
+const en_home_heading = enResources.home.heading;
+const en_lang_label = enResources.common.language_selector.lang_en;
+const ru_lang_label = enResources.common.language_selector.lang_ru;
 const ru_description = ruResources.metadata.description;
 const ru_title = ruResources.metadata.title;
-const ru_home_heading = ruResources.common.homeHeading;
-
-// Layout applies title template "%s | Kartuli", so document title is title + " | Kartuli"
-const TITLE_SUFFIX = ' | Kartuli';
-const en_full_title = en_title + TITLE_SUFFIX;
-const ru_full_title = ru_title + TITLE_SUFFIX;
+const ru_home_heading = ruResources.home.heading;
 
 test.describe('Game Client i18n', () => {
   test('/en has html lang="en", English content, and locale-specific metadata', async ({
@@ -25,12 +20,11 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page).toHaveTitle(en_full_title);
+    await expect(page).toHaveTitle(en_title);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       'content',
       en_description,
     );
-    await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 10000 });
     await expect(page.getByRole('heading', { name: en_home_heading })).toBeVisible();
   });
 
@@ -41,12 +35,11 @@ test.describe('Game Client i18n', () => {
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page).toHaveTitle(ru_full_title);
+    await expect(page).toHaveTitle(ru_title);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       'content',
       ru_description,
     );
-    await expect(page.getByTestId('game-home')).toBeVisible({ timeout: 10000 });
     await expect(page.getByRole('heading', { name: ru_home_heading })).toBeVisible();
   });
 

@@ -1,4 +1,5 @@
 export default {
-  title: 'Page not found',
-  description: 'We could not find a page for this address: {{path}}',
+  //
+  heading: 'We could not find a page for this address',
+  //
 } as const;

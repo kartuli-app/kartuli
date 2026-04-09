@@ -17,23 +17,23 @@ export interface DeploymentDebugPanelLabels {
   app?: string;
   version?: string;
   environment?: string;
-  vercelEnv?: string;
+  vercel_env?: string;
   branch?: string;
   commit?: string;
   url?: string;
   region?: string;
-  userAgent?: string;
+  user_agent?: string;
   platform?: string;
   language?: string;
-  buildTime?: string;
+  build_time?: string;
   deploymentType?: string;
   production?: string;
   preview?: string;
   development?: string;
   unknown?: string;
   local?: string;
-  unavailableOnClient?: string;
-  serverSide?: string;
+  unavailable_on_client?: string;
+  server_side?: string;
   server?: string;
 }
 
@@ -76,22 +76,22 @@ const DEFAULT_LABELS = {
   app: 'App',
   version: 'Version',
   environment: 'Environment',
-  vercelEnv: 'Vercel Env',
+  vercel_env: 'Vercel Env',
   branch: 'Branch',
   commit: 'Commit',
   url: 'URL',
   region: 'Region',
-  userAgent: 'User Agent',
+  user_agent: 'User Agent',
   platform: 'Platform',
   language: 'Language',
-  buildTime: 'Build',
+  build_time: 'Build',
   production: 'Production',
   preview: 'Preview',
   development: 'Development',
   unknown: 'Unknown',
   local: 'local',
-  unavailableOnClient: 'unavailable on client',
-  serverSide: 'Server-side',
+  unavailable_on_client: 'unavailable on client',
+  server_side: 'Server-side',
   server: 'Server',
 } as const;
 
@@ -193,19 +193,19 @@ export function DeploymentDebugPanel({
         </div>
 
         <div>
-          <span className="opacity-70">{labels.vercelEnv}:</span>{' '}
+          <span className="opacity-70">{labels.vercel_env}:</span>{' '}
           <span className="font-bold">{vercelEnv || labels.local}</span>
         </div>
 
         {/* Git Information */}
         <div>
           <span className="opacity-70">{labels.branch}:</span>{' '}
-          <span>{branchName ?? labels.unavailableOnClient}</span>
+          <span>{branchName ?? labels.unavailable_on_client}</span>
         </div>
 
         <div>
           <span className="opacity-70">{labels.commit}:</span>{' '}
-          <span>{shortCommitSha ?? labels.unavailableOnClient}</span>
+          <span>{shortCommitSha ?? labels.unavailable_on_client}</span>
         </div>
 
         {/* Deployment Information */}
@@ -228,11 +228,11 @@ export function DeploymentDebugPanel({
             {/* Runtime Information */}
             <div className="pt-2 border-t">
               <div>
-                <span className="opacity-70">{labels.userAgent}:</span>{' '}
+                <span className="opacity-70">{labels.user_agent}:</span>{' '}
                 <span className="text-xs break-all">
                   {(globalThis as unknown as { window?: { navigator: Navigator } }).window ===
                   undefined
-                    ? labels.serverSide
+                    ? labels.server_side
                     : `${(globalThis as unknown as { window: { navigator: Navigator } }).window.navigator.userAgent.substring(0, 50)}...`}
                 </span>
               </div>
@@ -267,7 +267,7 @@ export function DeploymentDebugPanel({
         {/* Build Information */}
         <div className="pt-2 border-t">
           <div>
-            <span className="opacity-70">{labels.buildTime}:</span>{' '}
+            <span className="opacity-70">{labels.build_time}:</span>{' '}
             <span className="text-xs">{buildTimeFormatted}</span>
           </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
+import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
 
 type ResponsiveContainerProps = {
@@ -14,18 +14,21 @@ type ResponsiveContainerProps = {
 export function ResponsiveContainer({ children, className }: Readonly<ResponsiveContainerProps>) {
   return (
     <div
-      className={clsx(
+      className={cn(
         //
         'flex',
         'w-full',
         //
         'mx-auto',
-        'max-w-sm',
-        'sm:max-w-3xl',
-        'lg:max-w-5xl',
+        'max-w-lg',
+        'sm:max-w-2xl',
+        'lg:max-w-3xl',
+        'xl:max-w-4xl',
         //
-        'p-brand-large',
-        'gap-brand-large',
+        'px-brand-regular',
+        'py-brand-large',
+        'gap-brand-regular',
+        //
         //
         className,
       )}

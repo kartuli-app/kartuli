@@ -6,7 +6,8 @@ module.exports = {
   ...base,
   options: {
     ...base.options,
-    tsConfig: { fileName: 'tsconfig.json' },
+    tsConfig: { fileName: '../../tsconfig.json' },
+    webpackConfig: { fileName: '../../diagrams/config/dependency-cruiser.webpack-resolve.cjs' },
     doNotFollow: {
       path: ['node_modules', '^.*/packages/'],
     },
@@ -15,6 +16,9 @@ module.exports = {
         ...(base.options.exclude?.path ?? []),
         '[.](?:spec|test)[.](?:ts|tsx)$',
         'vitest-setup.d.ts',
+        'dev-logger.ts',
+        // Omit @kartuli/ui (../../packages/ui/... from apps/*-client) from diagrams — still a real dep in code.
+        String.raw`(?:^|[/\\])packages[/\\]ui(?:[/\\]|$)`,
       ],
     },
   },

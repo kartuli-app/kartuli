@@ -1,4 +1,4 @@
-import type { DeepSameKeys } from '@game-client/utils/deep-same-keys';
+import type { DeepSameKeys } from '@game-client/i18n/resources/deep-same-keys';
 import { enResources } from './resources-en';
 
 const referenceResources = enResources;

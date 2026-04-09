@@ -1,27 +1,37 @@
 export default {
-  save: 'Save',
-  cancel: 'Cancel',
-  back: 'Back',
-  user: 'User',
-  anonymousUser: 'anonymous user',
-  langEn: 'English',
-  langRu: 'Русский',
-  // home
-  homeHeading: 'Lets learn Georgian!',
-  anon: 'anon',
-  // states
-  loading: 'Loading',
-  noContentFound: 'No content found',
-  errorLoadingContent: 'Error loading content',
-  shit: 'shit',
-  error: 'Error',
   //
-  sw: {
-    devMessage: 'Development mode: a service worker is installed and may hide your local changes.',
-    readyOffline: 'The game is ready to be played offline.',
-    newVersion: 'A new version is available.',
-    unregister: 'Unregister',
-    goToNextVersion: 'Go to next version',
-    dismiss: 'Dismiss',
+  app_bar: {
+    back: 'Back',
+    sound_enabled: 'Sound enabled',
+    sound_disabled: 'Sound disabled',
+    enable_sound: 'Enable sound',
+    disable_sound: 'Disable sound',
+    mascot: 'Mascot',
+    offline_indicator: 'Offline indicator',
+    //
+    page_titles_by_pathname: {
+      '/saved': 'Saved',
+      '/profile': 'Profile',
+      '/learn': 'Learn',
+      '/search': 'Search',
+      '/debug': 'Debug',
+      '/not-found': 'Not Found',
+    },
   },
+  //
+  dock: {
+    buttons: {
+      profile: 'Profile',
+      saved: 'Saved',
+      learn: 'Learn',
+      search: 'Search',
+      more: 'More',
+    },
+  },
+  //
+  language_selector: {
+    lang_en: 'English',
+    lang_ru: 'Русский',
+  },
+  //
 } as const;

@@ -18,13 +18,14 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "clsx": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "tailwind-merge": "catalog:"
   },
   "devDependencies": {
     "@storybook/react": "catalog:",
