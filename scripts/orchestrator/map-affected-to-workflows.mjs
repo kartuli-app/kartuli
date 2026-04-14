@@ -28,6 +28,21 @@ function parseArgs(argv) {
   return { configPath };
 }
 
+function requireWorkflowTargetsBucket(config, configPath, key) {
+  if (!Object.hasOwn(config, key)) {
+    throw new Error(
+      `map-affected-to-workflows: ${configPath}: missing required key "${key}" (must be an array of package names)`,
+    );
+  }
+  const value = config[key];
+  if (!Array.isArray(value)) {
+    throw new TypeError(
+      `map-affected-to-workflows: ${configPath}: "${key}" must be an array, got ${typeof value}`,
+    );
+  }
+  return value;
+}
+
 function targetsForBucket(affectedSet, packageNames) {
   const shortNames = packageNames
     .filter((name) => affectedSet.has(name))
@@ -101,9 +116,14 @@ try {
   }
 
   const config = JSON.parse(readFileSync(configPath, "utf8"));
-  const nextjsPkgs = Array.isArray(config.nextjs) ? config.nextjs : [];
-  const webDocsPkgs = Array.isArray(config.webDocs) ? config.webDocs : [];
-  const storybookPkgs = Array.isArray(config.storybook) ? config.storybook : [];
+  if (config === null || typeof config !== "object" || Array.isArray(config)) {
+    throw new Error(
+      `map-affected-to-workflows: ${configPath}: root value must be a JSON object with nextjs, webDocs, and storybook arrays`,
+    );
+  }
+  const nextjsPkgs = requireWorkflowTargetsBucket(config, configPath, "nextjs");
+  const webDocsPkgs = requireWorkflowTargetsBucket(config, configPath, "webDocs");
+  const storybookPkgs = requireWorkflowTargetsBucket(config, configPath, "storybook");
 
   const configured = new Set([...nextjsPkgs, ...webDocsPkgs, ...storybookPkgs]);
   const affectedSet = new Set(affected);
