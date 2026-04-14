@@ -23,7 +23,7 @@
     "dev:all": "turbo run dev",
     "build:all": "turbo run build",
     "build:all:no-cache": "turbo run build --force",
-    "lint:root": "pnpm exec biome check .",
+    "lint:root": "pnpm exec biome check --config-path biome.root.json .",
     "lint:all": "turbo run lint",
     "lint:all:fix": "turbo run lint -- --write",
     "lint:all:no-cache": "turbo run lint --force",

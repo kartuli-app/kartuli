@@ -1,0 +1,26 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.11/schema.json",
+  "extends": ["./biome.json"],
+  "files": {
+    "includes": [
+      "**",
+      "!apps/**",
+      "!packages/**",
+      "!tools/**",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/build",
+      "!**/.next",
+      "!**/lib",
+      "!**/coverage",
+      "!**/storybook-static",
+      "!**/.vitepress/cache",
+      "!**/.vitepress/dist",
+      "!**/pnpm-lock.yaml",
+      "!**/*.md",
+      "!**/next-env.d.ts",
+      "!generate-docs-for-llm.ts",
+      "!**/diagrams/output"
+    ]
+  }
+}

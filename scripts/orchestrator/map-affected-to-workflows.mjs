@@ -54,7 +54,7 @@ function bulletList(items) {
   if (items.length === 0) {
     return '_None_\n';
   }
-  const lines = items.map((p) => '- `' + p + '`');
+  const lines = items.map((p) => `- \`${p}\``);
   return `${lines.join('\n')}\n`;
 }
 
