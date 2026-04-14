@@ -43,17 +43,22 @@ Produce a **PR title** (text, conventional commit format) and **PR description**
 
 ## Output format
 
-Return exactly two things, clearly labeled:
+Use this output contract exactly.
 
-1. **Title** (single line, conventional commit).
-2. **Description** (full markdown body matching the PR template structure, ready to paste into the PR description field).
+- **MUST** return exactly two fenced code blocks, both using language tag `markdown`.
+- **MUST** use the first block for title only and the second block for description only.
+- **MUST NOT** add any text before, between, or after the two code blocks.
+- **MUST** keep `Title:` to one line in conventional commit format.
+- **MUST** make `Description:` the full PR body matching `.github/pull_request_template.md`, ready to paste.
 
-Example:
+Required shape:
 
-```
+```markdown
 Title:
 feat(ui): add responsive layout for settings panel
+```
 
+```markdown
 Description:
 [full markdown following .github/pull_request_template.md]
 ```
