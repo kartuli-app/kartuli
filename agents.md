@@ -20,6 +20,7 @@ This project is a Georgian language learning platform.
 ### Commit Convention
 
 Always use conventional commit format for all commits:
+
 - Format: `<type>[optional scope]: <description>`
 - Types: feat, fix, docs, style, refactor, perf, test, chore
 - Examples: `docs: add project overview`, `feat(auth): add social login`
