@@ -1,11 +1,19 @@
 # Repository Guidelines
 
-This project is a georgian language learning platform
+This project is a Georgian language learning platform.
+
+## Agent Fast Path
+1. Read this file first, then check `tools/web-docs-client/.vitepress/dist/assets/kartuli-llm.txt` for documentation entry points.
+2. Use `pnpm` only (never `npm`).
+3. Respect pinned Node from `.nvmrc` (`24.13.1`).
+4. Before considering work complete, always run:
+   - `pnpm run validate:all`
+   - `pnpm run diagrams:all`
+5. Never commit unless explicitly requested by the user.
 
 ## Git Workflow
-- Never create commits unless explicitly requested by the user
-- Always ask for permission before committing changes
-- Use conventional commit format when commits are requested
+- Do not create commits unless the user explicitly asks.
+- When asked to commit, use conventional commit format.
 
 ### Commit Convention
 Always use conventional commit format for all commits:
@@ -18,7 +26,7 @@ Always use conventional commit format for all commits:
 - Package manager: pnpm 10
 - Build system: Turborepo
 - Language: TypeScript 6
-- Framework: Nextjs 16 + React 19
+- Framework: Next.js 16 + React 19
 - Testing: Vitest 4 + Playwright
 - Dependencies are declared in the `/pnpm-workspace.yaml` catalog
 
@@ -30,10 +38,10 @@ Always use conventional commit format for all commits:
 - Tools: `/tools`
 
 ### Apps
-- Game client (Next.js app where students learn georgian): `/apps/game-client`
+- Game client (Next.js app where students learn Georgian): `/apps/game-client`
 - Backoffice client (Next.js app where collaborators manage learning content): `/apps/backoffice-client`
 
-### Packages:
+### Packages
 - Tailwind config (css variables and Tailwind CSS utility classes): `/packages/tailwind-config`
 - UI (shared ui components and utilities): `/packages/ui`
 
@@ -41,8 +49,6 @@ Always use conventional commit format for all commits:
 - Web docs client (Vitepress live documentation site): `/tools/web-docs-client`
 - Storybook (ui components playground): `/tools/storybook`
 - e2e test runner (Playwright): `/tools/e2e/`
-
-### Packages
 
 ## Commands
 
@@ -82,9 +88,11 @@ Replace `pnpm -v` with the real command (e.g. `pnpm run validate:all`). If `NVM_
 - Preview (build + start): `pnpm run c:preview:package-name`
 - Run e2e (preview / start dev server first): `pnpm run c:e2e:package-name`
 
-### Sanity checks to run before considering work finished:
-- Validate all packages (lint, format, typecheck, test): `pnpm run validate:all`
-- Generate diagrams (monorepo, game-client, backoffice-client): `pnpm run diagrams:all`
+## Validation Matrix
+- Default for all changes (docs, code, config): run `pnpm run validate:all` and `pnpm run diagrams:all`.
+- No package-scoped fallback is required in normal workflow.
+- If a command cannot run due to environment constraints, report the blocker and stop.
+- We intentionally prefer full-repo checks because they are fast in this monorepo and reduce the chance of missing cross-package regressions.
 
 ## Code conventions
 
@@ -98,15 +106,15 @@ Replace `pnpm -v` with the real command (e.g. `pnpm run validate:all`). If `NVM_
 - Variables and functions: `camelCase`
 - Constants: `SCREAMING_SNAKE_CASE` 
 
-### Typescript
+### TypeScript
 - No `any` (use `unknown`)
 - Prefer `interface` over `type` for object shapes
 - No non-null assertions without comment
-- @/ path aliases
+- Use `@/` path aliases
 
 ### UI and styles
 - Use Tailwind CSS utility classes
-- for conditional classnames use `cn` from `/packages/ui/src/utils/cn.tsx`
+- For conditional class names, use `cn` from `/packages/ui/src/utils/cn.tsx`
  
 ### Next.js conventions
 - ALWAYS read docs before coding
