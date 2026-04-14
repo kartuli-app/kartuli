@@ -31,27 +31,5 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
-  },
-
-  // Keep the v24.x.y path segment in sync with `.nvmrc`. Prepends nvm so integrated terminals resolve `node`/`pnpm` consistently.
-  "terminal.integrated.env.linux": {
-    "PATH": "${env:HOME}/.nvm/versions/node/v24.13.1/bin:${env:PATH}"
-  },
-  "terminal.integrated.env.osx": {
-    "PATH": "${env:HOME}/.nvm/versions/node/v24.13.1/bin:${env:PATH}"
-  },
-  "terminal.integrated.profiles.linux": {
-    "zsh": {
-      "path": "zsh",
-      "args": ["-il"]
-    }
-  },
-  "terminal.integrated.profiles.osx": {
-    "zsh": {
-      "path": "zsh",
-      "args": ["-il"]
-    }
-  },
-  "terminal.integrated.defaultProfile.linux": "zsh",
-  "terminal.integrated.defaultProfile.osx": "zsh"
+  }
 }

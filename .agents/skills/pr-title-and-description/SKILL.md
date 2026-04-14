@@ -48,7 +48,7 @@ Use this output contract exactly.
 - **MUST** return exactly two fenced code blocks, both using language tag `markdown`.
 - **MUST** use the first block for title only and the second block for description only.
 - **MUST NOT** add any text before, between, or after the two code blocks.
-- **MUST** keep `Title:` to one line in conventional commit format.
+- **MUST** keep the conventional-commit title (the line immediately under `Title:`) to one line.
 - **MUST** make `Description:` the full PR body matching `.github/pull_request_template.md`, ready to paste.
 
 Required shape:
