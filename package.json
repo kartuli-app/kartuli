@@ -18,8 +18,8 @@
   "scripts": {
     "prepare": "git rev-parse --git-dir > /dev/null 2>&1 && lefthook install || echo 'Skipping lefthook install (not in git repo)'",
     "turbo:cache:wipe": "node -e \"require('fs').rmSync('.turbo', { recursive: true, force: true })\"",
-    "turbo:detect-affected:pr": "git fetch origin main 2>/dev/null; TURBO_SCM_BASE=origin/main pnpm exec turbo run build --dry=json --affected 2>/dev/null | jq -r '.tasks[]? | .package' | sort -u",
-    "turbo:detect-affected:prod": "TURBO_SCM_BASE=$(git rev-parse HEAD^) pnpm exec turbo run build --dry=json --affected 2>/dev/null | jq -r '.tasks[]? | .package' | sort -u",
+    "turbo:detect-affected:pr": "node ./scripts/turbo/detect-affected-pr.mjs",
+    "turbo:detect-affected:prod": "node ./scripts/turbo/detect-affected-prod.mjs",
     "dev:all": "turbo run dev",
     "build:all": "turbo run build",
     "build:all:no-cache": "turbo run build --force",
