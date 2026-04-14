@@ -32,7 +32,19 @@ function parseMode() {
 
 function resolveTurboScmBase(mode) {
   if (mode === "pr") {
-    run("git", ["fetch", "origin", "main"], { stdio: "ignore" });
+    const fetchResult = run("git", ["fetch", "origin", "main"], {
+      stdio: ["ignore", "ignore", "pipe"],
+    });
+    if (fetchResult.status !== 0) {
+      if (fetchResult.stderr) {
+        process.stderr.write(fetchResult.stderr);
+      } else {
+        process.stderr.write(
+          "git fetch origin main failed; cannot refresh origin/main for affected detection.\n",
+        );
+      }
+      process.exit(fetchResult.status ?? 1);
+    }
     return "origin/main";
   }
 
