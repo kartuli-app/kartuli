@@ -48,7 +48,19 @@ Always use conventional commit format for all commits:
 
 Run from the repo root unless specified.
 
-- Runtime baseline: Node **24.13.1** (run `nvm use` or similar to ensure you are using the right runtime)
+### Node.js (nvm + Cursor)
+
+- **Pinned version:** **24.13.1** (see `.nvmrc` at the repo root). When you bump `.nvmrc`, update the matching path in `.vscode/settings.json` (`…/node/v24.13.1/bin`) so IDE terminals stay aligned.
+- **nvm layout:** `NVM_DIR` is usually `$HOME/.nvm`. The loader is `$NVM_DIR/nvm.sh` (after sourcing it, `nvm` is a shell function — not always present in minimal/non-interactive shells).
+- **Cursor / VS Code:** `.vscode/settings.json` prepends `$HOME/.nvm/versions/node/v24.13.1/bin` to `PATH` for integrated terminals on Linux and macOS, and uses a login + interactive `zsh` profile so your usual rc files still run.
+- **When `nvm` is missing or `node` is still wrong** (some automation shells, CI, or agent runs that do not load your rc files), run a **single** shell line from the repo root so `.nvmrc` is picked up:
+
+```bash
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use && pnpm -v
+```
+
+Replace `pnpm -v` with the real command (e.g. `pnpm run validate:all`). If `NVM_DIR` is non-standard on the machine, set it before sourcing.
+
 - Do not run `npm` commands — this repo uses pnpm workspaces.
 - Install deps: `pnpm install`
 - Wipe turbo cache: `pnpm run turbo:cache:wipe`
