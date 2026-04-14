@@ -25,6 +25,16 @@ try {
     process.exit(0);
   }
 
+  const shell = process.env.SHELL ?? "";
+  const isPosixLikeShell =
+    process.platform !== "win32" &&
+    ((/(ba|z|da|k)?sh$/).test(shell) || shell.includes("/sh"));
+
+  if (!isPosixLikeShell) {
+    process.stdout.write('{"permission":"allow"}\n');
+    process.exit(0);
+  }
+
   const prefix =
     'export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"; ' +
     'if [ -s "$NVM_DIR/nvm.sh" ]; then ' +
