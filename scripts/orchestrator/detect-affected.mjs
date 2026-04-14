@@ -13,17 +13,29 @@ function run(command, args, options = {}) {
   return result;
 }
 
-function printAffectedPackages(turboJson) {
+function packagesFromTurboJson(turboJson) {
   const tasks = Array.isArray(turboJson?.tasks) ? turboJson.tasks : [];
-  const packages = [...new Set(tasks.map((task) => task?.package).filter(Boolean))].sort((a, b) =>
+  return [...new Set(tasks.map((task) => task?.package).filter(Boolean))].sort((a, b) =>
     a.localeCompare(b),
   );
-  if (packages.length > 0) {
-    process.stdout.write(`${packages.join("\n")}\n`);
-  }
 }
 
-try {
+function parseMode() {
+  const pr = process.argv.includes("--pr");
+  const prod = process.argv.includes("--prod");
+  if (pr === prod) {
+    process.stderr.write("Usage: node detect-affected.mjs (--pr | --prod)\n");
+    process.exit(1);
+  }
+  return pr ? "pr" : "prod";
+}
+
+function resolveTurboScmBase(mode) {
+  if (mode === "pr") {
+    run("git", ["fetch", "origin", "main"], { stdio: "ignore" });
+    return "origin/main";
+  }
+
   const baseRevisionResult = run("git", ["rev-parse", "HEAD^"]);
   if (baseRevisionResult.status !== 0) {
     if (baseRevisionResult.stderr) {
@@ -38,11 +50,18 @@ try {
     process.exit(1);
   }
 
+  return baseRevision;
+}
+
+try {
+  const mode = parseMode();
+  const turboScmBase = resolveTurboScmBase(mode);
+
   const turbo = run(
     "pnpm",
     ["exec", "turbo", "run", "build", "--dry=json", "--affected"],
     {
-      env: { ...process.env, TURBO_SCM_BASE: baseRevision },
+      env: { ...process.env, TURBO_SCM_BASE: turboScmBase },
     },
   );
 
@@ -54,7 +73,8 @@ try {
   }
 
   const turboJson = JSON.parse(turbo.stdout || "{}");
-  printAffectedPackages(turboJson);
+  const packages = packagesFromTurboJson(turboJson);
+  process.stdout.write(`${JSON.stringify(packages)}\n`);
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   process.stderr.write(`${message}\n`);

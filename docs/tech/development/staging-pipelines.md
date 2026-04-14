@@ -12,7 +12,7 @@ Staging runs on **pull requests** targeting `main` (and optionally via `workflow
 
 ## Orchestrator flow
 
-1. **detect-affected** — Checkout, install deps, `git fetch origin main`, run `pnpm exec turbo run build --dry=json --affected` (base: `origin/main`). Map package names to workflow target arrays: **nextjs_targets** (game-client, backoffice-client), **web_docs_targets** (web-docs-client), **storybook_targets** (storybook).
+1. **detect-affected** — Checkout, install deps, then one step: `detect-affected.mjs --pr` (fetches `origin/main`, Turbo `build --dry=json --affected`) piped to `map-affected-to-workflows.mjs` (reads [`scripts/orchestrator/workflow-targets.json`](https://github.com/kartuli-app/kartuli/blob/main/scripts/orchestrator/workflow-targets.json), writes `GITHUB_OUTPUT` and the Actions job summary when those env vars are set). Target arrays: **nextjs_targets**, **web_docs_targets**, **storybook_targets**.
 2. **call-nextjs-staging-workflow** — If any Next.js app is affected, call [staging-w-app-nextjs.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/staging-w-app-nextjs.yml) once per target (matrix: game-client, backoffice-client) with `deploy_target: local`.
 3. **call-web-docs-staging-workflow** — If web-docs-client is affected, call [staging-w-tool-web-docs-client.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/staging-w-tool-web-docs-client.yml).
 4. **call-storybook-staging-workflow** — If storybook is affected, call [staging-w-tool-storybook.yml](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/staging-w-tool-storybook.yml).

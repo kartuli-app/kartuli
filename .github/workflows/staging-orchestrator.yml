@@ -29,49 +29,13 @@ jobs:
       - name: CI setup node
         uses: ./.github/actions/ci-setup-node
 
-      - name: Fetch origin/main
-        run: git fetch origin main
-
-      # Same logic as pnpm run turbo:detect-affected:pr (single source of truth).
-      - name: Detect affected packages (build)
-        id: affected
-        run: |
-          # Only treat lines matching @kartuli/<pkg> as packages (ignore pnpm banners/warnings).
-          AFFECTED_BUILD=$(pnpm run turbo:detect-affected:pr 2>/dev/null | jq -R -s -c 'split("\n") | map(select(length > 0 and startswith("@kartuli/")))')
-          echo "packages=${AFFECTED_BUILD}" >> "$GITHUB_OUTPUT"
-
-      # Split affected package list into per-workflow target arrays (e.g. ["game-client"] for Next.js).
-      - name: Map affected packages to workflow targets
+      # detect-affected.mjs (--pr) fetches origin/main; map reads workflow-targets.json, writes GITHUB_OUTPUT + summary when set.
+      - name: Detect, map, and write GitHub outputs
         id: map
-        env:
-          PACKAGES_JSON: ${{ steps.affected.outputs.packages }}
         run: |
-          PACKAGES="${PACKAGES_JSON:-[]}"
-          [ -z "$PACKAGES" ] && PACKAGES='[]'
-          # Filter to workspace names per app type (split("/")[1] turns @kartuli/game-client → game-client).
-          NEXTJS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/game-client" or . == "@kartuli/backoffice-client") | split("/")[1]] | unique')
-          WEB_DOCS=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/web-docs-client") | split("/")[1]] | unique')
-          STORYBOOK=$(echo "$PACKAGES" | jq -c '[.[] | select(. == "@kartuli/storybook") | split("/")[1]] | unique')
-          echo "nextjs_targets=$NEXTJS" >> "$GITHUB_OUTPUT"
-          echo "web_docs_targets=$WEB_DOCS" >> "$GITHUB_OUTPUT"
-          echo "storybook_targets=$STORYBOOK" >> "$GITHUB_OUTPUT"
-
-      # Expose affected package list in the Actions job summary (visible in the PR).
-      - name: Write job summary
-        env:
-          BUILD_PKGS_JSON: ${{ steps.affected.outputs.packages }}
-        run: |
-          echo "## Orchestrator (staging) – affected packages (build)" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          BUILD_PKGS="${BUILD_PKGS_JSON:-[]}"
-          if [ -z "$BUILD_PKGS" ] || [ "$BUILD_PKGS" = "[]" ]; then
-            echo "No packages would run \`build\` for this change." >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "Packages that would run \`build\`:" >> "$GITHUB_STEP_SUMMARY"
-            echo "$BUILD_PKGS" | jq -r '.[]' 2>/dev/null | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
-          fi
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "*Uses \`pnpm run turbo:detect-affected:pr\` (base: origin/main)*" >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+          node ./scripts/orchestrator/detect-affected.mjs --pr | \
+            node ./scripts/orchestrator/map-affected-to-workflows.mjs
 
   # One reusable workflow run per target (e.g. game-client, backoffice-client); only if that list is non-empty.
   # Use fromJson()[0] != null so whitespace/formatting in the output doesn't break the condition.

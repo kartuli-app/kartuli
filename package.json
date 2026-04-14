@@ -18,8 +18,8 @@
   "scripts": {
     "prepare": "git rev-parse --git-dir > /dev/null 2>&1 && lefthook install || echo 'Skipping lefthook install (not in git repo)'",
     "turbo:cache:wipe": "node -e \"require('fs').rmSync('.turbo', { recursive: true, force: true })\"",
-    "turbo:detect-affected:pr": "node ./scripts/turbo/detect-affected-pr.mjs",
-    "turbo:detect-affected:prod": "node ./scripts/turbo/detect-affected-prod.mjs",
+    "orchestrator:detect-affected:pr": "node ./scripts/orchestrator/detect-affected.mjs --pr",
+    "orchestrator:detect-affected:prod": "node ./scripts/orchestrator/detect-affected.mjs --prod",
     "dev:all": "turbo run dev",
     "build:all": "turbo run build",
     "build:all:no-cache": "turbo run build --force",
