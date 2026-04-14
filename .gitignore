@@ -69,7 +69,6 @@ lerna-debug.log*
 .env*.local
 
 # IDEs
-.vscode/
 .idea/
 *.swp
 *.swo

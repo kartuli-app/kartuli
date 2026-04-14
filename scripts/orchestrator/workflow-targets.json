@@ -1,0 +1,5 @@
+{
+  "nextjs": ["@kartuli/game-client", "@kartuli/backoffice-client"],
+  "webDocs": ["@kartuli/web-docs-client"],
+  "storybook": ["@kartuli/storybook"]
+}

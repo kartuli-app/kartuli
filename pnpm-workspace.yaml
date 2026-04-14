@@ -1,3 +1,5 @@
+autoInstallPeers: true
+
 packages:
   - apps/*
   - docs

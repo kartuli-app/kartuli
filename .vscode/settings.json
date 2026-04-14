@@ -1,0 +1,35 @@
+{
+  // Tailwind v4 / CSS: teach the built-in CSS language service about @theme, @source, @tailwind (see `.vscode/css-custom-data.json`).
+  "css.customData": [".vscode/css-custom-data.json"],
+
+  // Biome: requires the "Biome" extension (biomejs.biome). Matches https://biomejs.dev/reference/vscode/
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "biome.configurationPath": "biome.json",
+  "biome.requireConfiguration": true,
+  "biome.enabled": true,
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
+}

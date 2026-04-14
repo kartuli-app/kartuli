@@ -72,6 +72,7 @@ export function BannerCloseButton({
   return (
     <button
       type="button"
+      data-testid="banner-close-button"
       onClick={onDismiss}
       className={clsx(
         //

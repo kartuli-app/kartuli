@@ -64,12 +64,14 @@ All commands below are run from the **repository root** with `pnpm`. See per-app
 | `pnpm typecheck:all` | Run typecheck in all workspaces (Turbo) |
 | `pnpm typecheck:all:no-cache` | Same as `typecheck:all` but skip Turbo cache (`--force`) |
 
-## Affected (CI / local)
+## Orchestrator (CI / local)
 
 | Script | Description |
 |--------|-------------|
-| `pnpm turbo:detect-affected:pr` | List packages affected vs `origin/main` (Turbo build affected; used by staging orchestrator; needs git fetch) |
-| `pnpm turbo:detect-affected:prod` | List packages affected vs previous commit (Turbo build affected) |
+| `pnpm orchestrator:detect-affected:pr` | Print JSON array of packages affected vs `origin/main` (Turbo `build` dry affected); script runs `git fetch origin main` |
+| `pnpm orchestrator:detect-affected:prod` | Same, base revision `HEAD^` (no main fetch) |
+
+Mapping to workflow targets is done by `node ./scripts/orchestrator/map-affected-to-workflows.mjs` (stdin: JSON array from detect; reads [`workflow-targets.json`](../../../scripts/orchestrator/workflow-targets.json); stdout: map JSON; with `GITHUB_OUTPUT` / `GITHUB_STEP_SUMMARY` set, also writes Actions outputs and job summary). The staging orchestrator pipes detect into this script; there is no separate `pnpm` script for it.
 
 ## Other
 

@@ -19,17 +19,13 @@ GitHub Actions runs our CI/CD workflows. This doc covers capability, usage, limi
 
 ## Current usage
 
-- **Staging:** [Staging Orchestrator](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/staging-orchestrator.yml) runs on every PR to `main`. It detects affected packages via `turbo run build --dry=json --affected` (base: `origin/main`), then calls the appropriate reusable workflows: Next.js apps (staging-w-app-nextjs), Web Docs Client (staging-w-tool-web-docs-client), Storybook (staging-w-tool-storybook). A validate-e2e job runs lint and typecheck for the E2E package.
+- **Staging:** [Staging Orchestrator](https://github.com/kartuli-app/kartuli/blob/main/.github/workflows/staging-orchestrator.yml) runs on every PR to `main`. It runs `scripts/orchestrator/detect-affected.mjs --pr` (Turbo `build --dry=json --affected`, base `origin/main`), maps results with `workflow-targets.json`, then calls the appropriate reusable workflows: Next.js apps (staging-w-app-nextjs), Web Docs Client (staging-w-tool-web-docs-client), Storybook (staging-w-tool-storybook). A validate-e2e job runs lint and typecheck for the E2E package.
 - **Production:** Per-app/tool workflows run on push to `main` when path filters match: game client and backoffice client deploy to Vercel then run E2E and Lighthouse; web-docs-client deploys to GitHub Pages.
 - Uses Turbo (remote cache), Vercel action (Next.js deploy), and Vercel protection bypass for E2E against preview URLs.
 
 ### Testing the staging orchestrator
 
-**Locally (same as CI):** From your branch, run `git fetch origin main` then:
-
-`pnpm exec turbo run build --dry=json --affected | jq -r '.tasks[]? | .package' | sort -u`
-
-(Make sure `origin/main` is fetched first.) That lists packages that would run `build`; the workflow uses the same `--affected` flag.
+**Locally (same as CI):** `pnpm run orchestrator:detect-affected:pr` prints a JSON array of affected package names (the script fetches `origin/main`). Pipe through the mapper: `pnpm run orchestrator:detect-affected:pr | node ./scripts/orchestrator/map-affected-to-workflows.mjs` for workflow target lists.
 
 **In CI:** Open a PR that touches at least one app, package, or tool (e.g. change a file under `apps/game-client/`, `packages/ui/`, or `docs/`).
 In the PR go to **Checks** → **Orchestrator (Staging)** → **detect-affected** job; the summary shows the same list (or “No packages” if the change doesn’t affect any build).
