@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.11/schema.json",
   "css": {
     "parser": {
       "tailwindDirectives": true
@@ -27,7 +27,8 @@
       "!**/pnpm-lock.yaml",
       "!**/*.md",
       "!**/next-env.d.ts",
-      "!generate-docs-for-llm.ts"
+      "!generate-docs-for-llm.ts",
+      "!**/diagrams/output"
     ]
   },
   "formatter": {
