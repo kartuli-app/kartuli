@@ -13,18 +13,17 @@ import type {
   LocalizedWordItem,
 } from '@game-client/learning-content/ingestion/localized-data/localized-data';
 import { logger } from '@game-client/logging/dev-logger';
+import { getStringTransliterationFromTargetScript } from '../utils/transliteration';
 import type { Lesson, LetterItem, Library, Module, WordItem } from './library';
 
 const getWordTransliterationFromCommonLettersByTargetScript = (
   commonLetterItemsByTargetScript: Map<string, CommonLetterItem>,
   word: CommonWordItem,
 ): string => {
-  const characters = word.targetScript.split('');
-  let transliteration = '';
-  for (const character of characters) {
-    const letter = commonLetterItemsByTargetScript.get(character);
-    transliteration = `${transliteration}${letter?.transliteration || character}`;
-  }
+  const transliteration = getStringTransliterationFromTargetScript(
+    commonLetterItemsByTargetScript,
+    word.targetScript,
+  );
   return transliteration;
 };
 
@@ -38,13 +37,16 @@ const buildLetterItems = (
   letterItems: LetterItem[];
   letterItemsById: Map<string, LetterItem>;
   commonLetterItemsByTargetScript: Map<string, CommonLetterItem>;
+  commonLetterItemsByTransliteration: Map<string, CommonLetterItem>;
 } => {
   const commonLetterItemsByTargetScript = new Map<string, CommonLetterItem>();
+  const commonLetterItemsByTransliteration = new Map<string, CommonLetterItem>();
   const letterItemsById = new Map<string, LetterItem>();
   const letterItems: LetterItem[] = [];
 
   for (const commonLetterItem of commonLetterItems) {
     commonLetterItemsByTargetScript.set(commonLetterItem.targetScript, commonLetterItem);
+    commonLetterItemsByTransliteration.set(commonLetterItem.transliteration, commonLetterItem);
 
     const localizedLetterItem = localizedLetterItemsById.get(commonLetterItem.id);
     if (!localizedLetterItem) {
@@ -70,6 +72,7 @@ const buildLetterItems = (
     letterItems,
     letterItemsById,
     commonLetterItemsByTargetScript,
+    commonLetterItemsByTransliteration,
   };
 };
 
@@ -205,10 +208,13 @@ export const buildLibrary = (commonData: CommonData, localizedData: LocalizedDat
   const localizedLessonsById = indexById(localizedData.localizedLessons);
   const localizedModulesById = indexById(localizedData.localizedModules);
 
-  const { letterItems, letterItemsById, commonLetterItemsByTargetScript } = buildLetterItems(
-    commonData.commonLetterItems,
-    localizedLetterItemsById,
-  );
+  const {
+    letterItems,
+    letterItemsById,
+    commonLetterItemsByTargetScript,
+    commonLetterItemsByTransliteration,
+  } = buildLetterItems(commonData.commonLetterItems, localizedLetterItemsById);
+
   const { wordItems, wordItemsById } = buildWordItems(
     commonData.commonWordItems,
     localizedWordItemsById,
@@ -231,6 +237,8 @@ export const buildLibrary = (commonData: CommonData, localizedData: LocalizedDat
     totalWordsCount,
     letterItems,
     letterItemsById,
+    commonLetterItemsByTargetScript,
+    commonLetterItemsByTransliteration,
     wordItems,
     wordItemsById,
     lessons,

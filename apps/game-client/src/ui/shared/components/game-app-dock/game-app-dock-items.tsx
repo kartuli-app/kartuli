@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BiSearchAlt, BiSearchAlt2, BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
 import {
+  PiArrowsClockwiseBold,
+  PiArrowsClockwiseLight,
   PiBookOpenTextFill,
   PiBookOpenTextLight,
   PiDotsThreeOutline,
@@ -32,6 +34,12 @@ const links = [
     labelKey: 'learn',
     iconActive: PiBookOpenTextFill,
     iconInactive: PiBookOpenTextLight,
+  },
+  {
+    href: '/translit',
+    labelKey: 'translit',
+    iconActive: PiArrowsClockwiseBold,
+    iconInactive: PiArrowsClockwiseLight,
   },
   {
     href: '/search',

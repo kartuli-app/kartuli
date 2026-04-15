@@ -16,6 +16,7 @@ export default {
       '/search': 'Search',
       '/debug': 'Debug',
       '/not-found': 'Not Found',
+      '/translit': 'Translit',
     },
   },
   //
@@ -26,6 +27,7 @@ export default {
       learn: 'Learn',
       search: 'Search',
       more: 'More',
+      translit: 'Translit',
     },
   },
   //
