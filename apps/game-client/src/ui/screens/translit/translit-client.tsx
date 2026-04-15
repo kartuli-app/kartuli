@@ -10,7 +10,7 @@ import {
 } from '@game-client/ui/shared/components/game-app-bar/game-app-bar-elements';
 import { ResponsiveContainer } from '@kartuli/ui/components/containers/responsive-container';
 import { cn } from '@kartuli/ui/utils/cn';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FaRegCopy } from 'react-icons/fa6';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { MdOutlineDelete } from 'react-icons/md';
@@ -24,6 +24,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     'georgian-to-latin',
   );
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const outputRef = useRef<HTMLTextAreaElement>(null);
+  const isSyncingScrollRef = useRef(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -66,6 +68,42 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     setInput(e.target.value);
     setOutput(getOutput(direction, e.target.value));
   };
+
+  const syncScroll = (from: HTMLTextAreaElement, to: HTMLTextAreaElement) => {
+    const fromMaxScrollTop = Math.max(1, from.scrollHeight - from.clientHeight);
+    const toMaxScrollTop = Math.max(0, to.scrollHeight - to.clientHeight);
+    const scrollProgress = from.scrollTop / fromMaxScrollTop;
+    to.scrollTop = scrollProgress * toMaxScrollTop;
+  };
+
+  const handleInputScroll = () => {
+    if (isSyncingScrollRef.current || !inputRef.current || !outputRef.current) {
+      return;
+    }
+    isSyncingScrollRef.current = true;
+    syncScroll(inputRef.current, outputRef.current);
+    requestAnimationFrame(() => {
+      isSyncingScrollRef.current = false;
+    });
+  };
+
+  const handleOutputScroll = () => {
+    if (isSyncingScrollRef.current || !inputRef.current || !outputRef.current) {
+      return;
+    }
+    isSyncingScrollRef.current = true;
+    syncScroll(outputRef.current, inputRef.current);
+    requestAnimationFrame(() => {
+      isSyncingScrollRef.current = false;
+    });
+  };
+
+  useLayoutEffect(() => {
+    if (!inputRef.current || !outputRef.current) {
+      return;
+    }
+    syncScroll(inputRef.current, outputRef.current);
+  }, [output]);
 
   const inputLabel = direction === 'georgian-to-latin' ? t('georgian') : t('latin');
   const outputLabel = direction === 'georgian-to-latin' ? t('latin') : t('georgian');
@@ -158,6 +196,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             id="translit-input"
             value={input}
             onChange={handleInputChange}
+            onScroll={handleInputScroll}
             ref={inputRef}
           />
         </div>
@@ -226,7 +265,9 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             )}
             id="translit-output"
             value={output}
-            disabled={true}
+            readOnly
+            onScroll={handleOutputScroll}
+            ref={outputRef}
           />
         </div>
       </div>
