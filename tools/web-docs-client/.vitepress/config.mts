@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress';
-import { processDocs } from '../scripts/docs-processor.js';
 import { configureDiagramsPlugin } from 'vitepress-plugin-diagrams';
+import { processDocs } from '../scripts/docs-processor.js';
 
 const title = 'Kartuli Docs';
 const description = 'Kartuli Web Docs Client';
@@ -206,7 +206,7 @@ export default defineConfig({
     config: (md) => {
       configureDiagramsPlugin(md, {
         diagramsDir: 'public/diagrams',
-        publicPath: "/kartuli/diagrams", 
+        publicPath: '/kartuli/diagrams',
       });
     },
   },
