@@ -153,6 +153,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               'caret-black',
               'focus:outline-none',
               'focus:bg-brand-text-100',
+              direction === 'georgian-to-latin' && 'font-georgian',
             )}
             id="translit-input"
             value={input}
@@ -215,7 +216,14 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
         {/* text area */}
         <div className={cn('p-brand-regular', 'grow')}>
           <textarea
-            className={cn('w-full', 'h-full', 'resize-none', 'text-2xl', 'p-brand-regular')}
+            className={cn(
+              'w-full',
+              'h-full',
+              'resize-none',
+              'text-2xl',
+              'p-brand-regular',
+              direction === 'latin-to-georgian' && 'font-georgian',
+            )}
             id="translit-output"
             value={output}
             disabled={true}
