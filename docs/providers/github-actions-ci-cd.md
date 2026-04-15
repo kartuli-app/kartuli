@@ -95,7 +95,7 @@ The following secrets are used for [Telegram team notifications](./telegram-team
 | **KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID** | staging-w-app-nextjs (Deployments – Preview topic). |
 | **KARTULIAPP_TEAM_TOPIC_PRODUCTION_DEPLOYMENTS_ID** | production-w-app-game-client, production-w-app-backoffice-client, production-w-tool-web-docs-client. |
 | **KARTULIAPP_TEAM_TOPIC_PRS_ID** | notification-pr. |
-| **KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PREVIEW_ID** | notification-ci-failure (when branch is not main). |
+| **KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID** | notification-ci-failure (when branch is not main). |
 | **KARTULIAPP_TEAM_TOPIC_CI_FAILURES_PRODUCTION_ID** | notification-ci-failure (when branch is main). |
 
 **Rotation:** Update the secret in Settings when a credential rotates; re-run the workflow or push to trigger runs that use it.

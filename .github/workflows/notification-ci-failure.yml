@@ -21,10 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    # Include GitHub Actions check suites so staging workflow failures notify too.
+    # If we observe duplicate production alerts (check_suite + workflow_run), refine filters later.
     if: >
       github.event_name == 'check_suite' &&
-      github.event.check_suite.conclusion == 'failure' &&
-      github.event.check_suite.app.slug != 'github-actions'
+      github.event.check_suite.conclusion == 'failure'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,8 +37,8 @@ jobs:
           HEAD_SHA: ${{ github.event.check_suite.head_sha }}
           REPO: ${{ github.repository }}
           SERVER_URL: ${{ github.server_url }}
-          PR_LINK: ${{ github.event.check_suite.pull_requests[0].html_url || '' }}
         run: |
+          PR_LINK="$(jq -r '.check_suite.pull_requests[0].html_url // ""' "$GITHUB_EVENT_PATH")"
           RUN_URL="${SERVER_URL}/${REPO}/commit/${HEAD_SHA}"
           MSG="CI failed"
           MSG="$MSG"$'\n'"Repo: $REPO"
