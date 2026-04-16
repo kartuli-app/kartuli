@@ -17,7 +17,7 @@ export const buttonIconClassNames = clsx(
   'bg-brand-text-200',
   'hover:bg-brand-text-300',
   'data-[pressed]:bg-brand-text-300',
-  'active:scale-90',
+  'active:scale-95',
   'transition-transform duration-300',
   'border',
   'border-brand-text-300',

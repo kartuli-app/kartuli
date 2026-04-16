@@ -6,17 +6,14 @@ import {
   getStringTransliterationFromLatin,
   getStringTransliterationFromTargetScript,
 } from '@game-client/learning-content/utils/transliteration';
-import {
-  buttonIconClassNames,
-  iconClassNames,
-} from '@game-client/ui/shared/components/game-app-bar/game-app-bar-elements';
+import { TranslitActionTooltip } from '@game-client/ui/screens/translit/translit-action-tooltip';
 import { ResponsiveContainer } from '@kartuli/ui/components/containers/responsive-container';
 import { cn } from '@kartuli/ui/utils/cn';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaCheck, FaRegCopy } from 'react-icons/fa6';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
-import { MdOutlineDelete } from 'react-icons/md';
+import { RiDeleteBin6Fill, RiDeleteBin6Line } from 'react-icons/ri';
 
 const toastManager = Toast.createToastManager();
 
@@ -26,19 +23,22 @@ function AnchoredToasts() {
     <Toast.Portal>
       <Toast.Viewport className={cn('fixed', 'inset-0', 'z-50', 'pointer-events-none')}>
         {toasts.map((toast) => (
-          <Toast.Positioner key={toast.id} toast={toast} className={cn('pointer-events-none')}>
+          <Toast.Positioner
+            sideOffset={12}
+            key={toast.id}
+            toast={toast}
+            className={cn('pointer-events-none')}
+          >
             <Toast.Root toast={toast}>
               <Toast.Content
                 className={cn(
-                  'rounded-md',
-                  'border',
-                  'border-brand-text-300',
-                  'bg-white',
-                  'text-black',
+                  'bg-brand-text-600',
+                  'text-brand-text-100',
+                  'p-brand-regular',
+                  'text-lg',
                   'shadow-lg',
-                  'px-brand-regular',
-                  'py-brand-xsmall',
-                  'text-sm',
+                  'rounded-md',
+                  'max-w-72',
                   'pointer-events-auto',
                 )}
               >
@@ -57,6 +57,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [isCopySuccess, setIsCopySuccess] = useState(false);
+  /** Hides copy tooltip as soon as the button is pressed (before async clipboard), so toast is not doubled with an open hover tooltip */
+  const [suppressCopyTooltip, setSuppressCopyTooltip] = useState(false);
   const [direction, setDirection] = useState<'georgian-to-latin' | 'latin-to-georgian'>(
     'georgian-to-latin',
   );
@@ -99,13 +101,20 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
 
   const copyOutput = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const anchorElement = event.currentTarget;
-    await navigator.clipboard.writeText(output);
+    setSuppressCopyTooltip(true);
+    try {
+      await navigator.clipboard.writeText(output);
+    } catch {
+      setSuppressCopyTooltip(false);
+      return;
+    }
     if (copyFeedbackTimeoutRef.current) {
       globalThis.clearTimeout(copyFeedbackTimeoutRef.current);
     }
     setIsCopySuccess(true);
     copyFeedbackTimeoutRef.current = globalThis.setTimeout(() => {
       setIsCopySuccess(false);
+      setSuppressCopyTooltip(false);
       copyFeedbackTimeoutRef.current = null;
     }, 1200);
     toastManager.add({
@@ -170,16 +179,19 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     syncScroll(inputRef.current, outputRef.current);
   }, [output]);
 
-  const sourceLabel =
-    direction === 'georgian-to-latin' ? t('source_text_georgian') : t('source_text_latin');
-  const transliterationLabel =
-    direction === 'georgian-to-latin' ? t('transliteration_latin') : t('transliteration_georgian');
+  const sourceFromLabel = direction === 'georgian-to-latin' ? t('georgian') : t('latin');
+  const transliterationToLabel = direction === 'georgian-to-latin' ? t('latin') : t('georgian');
+
   const switchDirectionLabel =
     direction === 'georgian-to-latin'
       ? t('switch_direction_to_latin_to_georgian')
       : t('switch_direction_to_georgian_to_latin');
   const clearTextLabel = t('clear_text');
   const copyTransliterationLabel = t('copy_transliteration');
+
+  const showEmptyClearIcon = input.trim().length === 0;
+
+  const placeholder = t('placeholder') + transliterationToLabel;
 
   return (
     <Toast.Provider toastManager={toastManager}>
@@ -229,106 +241,35 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               )}
             >
               {/* label */}
-              <label htmlFor="translit-input" className={cn('text-2xl')}>
-                {sourceLabel}
+              <label htmlFor="translit-input" className={cn('flex flex-col')}>
+                <div className={cn('text-sm uppercase text-brand-primary-900')}>{t('source')}</div>
+                <div className={cn('text-2xl uppercase text-brand-text-600')}>
+                  {sourceFromLabel}
+                </div>
               </label>
               {/* buttons */}
               <div className={cn('flex', 'gap-brand-regular')}>
-                <Tooltip.Root>
-                  <Tooltip.Trigger
-                    className={cn(iconClassNames, buttonIconClassNames)}
-                    type="button"
-                    onClick={clearInput}
-                    aria-label={clearTextLabel}
-                  >
-                    <MdOutlineDelete className="size-5" />
-                  </Tooltip.Trigger>
-                  <Tooltip.Portal>
-                    <Tooltip.Positioner side="bottom" sideOffset={8}>
-                      <Tooltip.Popup
-                        className={cn(
-                          'z-50',
-                          'rounded-md',
-                          'border',
-                          'border-brand-text-300',
-                          'bg-white',
-                          'px-brand-regular',
-                          'py-brand-xsmall',
-                          'text-sm',
-                          'shadow-lg',
-                        )}
-                      >
-                        <Tooltip.Arrow
-                          className={cn(
-                            'data-[side=top]:bottom-[-7px]',
-                            'data-[side=bottom]:top-[-7px]',
-                            'data-[side=bottom]:rotate-180',
-                          )}
-                        >
-                          <div
-                            className={cn(
-                              'size-3',
-                              'rotate-45',
-                              'bg-white',
-                              'border-r',
-                              'border-b',
-                              'border-brand-text-300',
-                            )}
-                          />
-                        </Tooltip.Arrow>
-                        {clearTextLabel}
-                      </Tooltip.Popup>
-                    </Tooltip.Positioner>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-                <Tooltip.Root>
-                  <Tooltip.Trigger
-                    className={cn(iconClassNames, buttonIconClassNames)}
-                    type="button"
-                    onClick={toggleDirection}
-                    aria-label={switchDirectionLabel}
-                    aria-controls="translit-input translit-output"
-                  >
-                    <HiOutlineSwitchHorizontal className="size-5" />
-                  </Tooltip.Trigger>
-                  <Tooltip.Portal>
-                    <Tooltip.Positioner side="bottom" sideOffset={8}>
-                      <Tooltip.Popup
-                        className={cn(
-                          'z-50',
-                          'rounded-md',
-                          'border',
-                          'border-brand-text-300',
-                          'bg-white',
-                          'px-brand-regular',
-                          'py-brand-xsmall',
-                          'text-sm',
-                          'shadow-lg',
-                        )}
-                      >
-                        <Tooltip.Arrow
-                          className={cn(
-                            'data-[side=top]:bottom-[-7px]',
-                            'data-[side=bottom]:top-[-7px]',
-                            'data-[side=bottom]:rotate-180',
-                          )}
-                        >
-                          <div
-                            className={cn(
-                              'size-3',
-                              'rotate-45',
-                              'bg-white',
-                              'border-r',
-                              'border-b',
-                              'border-brand-text-300',
-                            )}
-                          />
-                        </Tooltip.Arrow>
-                        {switchDirectionLabel}
-                      </Tooltip.Popup>
-                    </Tooltip.Positioner>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
+                <TranslitActionTooltip
+                  tooltipLabel={clearTextLabel}
+                  side="bottom"
+                  onClick={clearInput}
+                  aria-label={clearTextLabel}
+                >
+                  {showEmptyClearIcon ? (
+                    <RiDeleteBin6Line className="size-5" />
+                  ) : (
+                    <RiDeleteBin6Fill className="size-5" />
+                  )}
+                </TranslitActionTooltip>
+                <TranslitActionTooltip
+                  tooltipLabel={switchDirectionLabel}
+                  side="bottom"
+                  onClick={toggleDirection}
+                  aria-label={switchDirectionLabel}
+                  aria-controls="translit-input translit-output"
+                >
+                  <HiOutlineSwitchHorizontal className="size-5" />
+                </TranslitActionTooltip>
               </div>
             </div>
             {/* text area */}
@@ -348,14 +289,16 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   //
                   'focus:outline-none',
                   'focus:ring-1 focus:ring-brand-primary-500',
-                  'focus:bg-brand-text-100',
-                  direction === 'georgian-to-latin' && 'font-georgian',
+                  'placeholder:text-brand-text-400',
+                  'focus:placeholder:text-brand-text-300',
+                  'font-georgian',
                 )}
                 id="translit-input"
                 value={input}
                 onChange={handleInputChange}
                 onScroll={handleInputScroll}
                 ref={inputRef}
+                placeholder={placeholder}
               />
             </div>
           </div>
@@ -393,56 +336,29 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               )}
             >
               {/* label */}
-              <label htmlFor="translit-output" className={cn('text-2xl')}>
-                {transliterationLabel}
+              <label htmlFor="translit-output" className={cn('flex flex-col')}>
+                <div className={cn('text-sm uppercase text-brand-primary-900')}>
+                  {t('transliteration')}
+                </div>
+                <div className={cn('text-2xl uppercase text-brand-text-600')}>
+                  {transliterationToLabel}
+                </div>
               </label>
               {/* buttons */}
               <div className={cn('flex', 'gap-brand-regular')}>
-                <Tooltip.Root>
-                  <Tooltip.Trigger
-                    className={cn(iconClassNames, buttonIconClassNames)}
-                    type="button"
-                    onClick={copyOutput}
-                    aria-label={copyTransliterationLabel}
-                  >
-                    {isCopySuccess ? (
-                      <FaCheck className="size-5" />
-                    ) : (
-                      <FaRegCopy className="size-5" />
-                    )}
-                  </Tooltip.Trigger>
-                  <Tooltip.Portal>
-                    <Tooltip.Positioner sideOffset={8}>
-                      <Tooltip.Popup
-                        className={cn(
-                          'z-50',
-                          'rounded-md',
-                          'border',
-                          'border-brand-text-300',
-                          'bg-white',
-                          'px-brand-regular',
-                          'py-brand-xsmall',
-                          'text-sm',
-                          'shadow-lg',
-                        )}
-                      >
-                        <Tooltip.Arrow className={cn('data-[side=top]:bottom-[-7px]')}>
-                          <div
-                            className={cn(
-                              'size-3',
-                              'rotate-45',
-                              'bg-white',
-                              'border-r',
-                              'border-b',
-                              'border-brand-text-300',
-                            )}
-                          />
-                        </Tooltip.Arrow>
-                        {copyTransliterationLabel}
-                      </Tooltip.Popup>
-                    </Tooltip.Positioner>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
+                <TranslitActionTooltip
+                  tooltipLabel={copyTransliterationLabel}
+                  side="top"
+                  tooltipDisabled={suppressCopyTooltip}
+                  onClick={copyOutput}
+                  aria-label={copyTransliterationLabel}
+                >
+                  {isCopySuccess ? (
+                    <FaCheck className="size-5" />
+                  ) : (
+                    <FaRegCopy className="size-5" />
+                  )}
+                </TranslitActionTooltip>
               </div>
             </div>
             {/* text area */}
@@ -454,13 +370,14 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'resize-none',
                   'text-2xl',
                   'p-brand-regular',
-                  direction === 'latin-to-georgian' && 'font-georgian',
+                  'font-georgian',
                 )}
                 id="translit-output"
                 value={output}
                 readOnly
                 onScroll={handleOutputScroll}
                 ref={outputRef}
+                disabled={true}
               />
             </div>
           </div>
