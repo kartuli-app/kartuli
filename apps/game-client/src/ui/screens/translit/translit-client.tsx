@@ -209,12 +209,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
           <div
             className={cn(
               //
-              'bg-orange-200',
               'flex flex-col',
               'grow',
-              //
-              'caret-black',
-              'focus:outline-none',
               //
               'bg-white',
               'w-full',
@@ -224,7 +220,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               'border-brand-text-300',
               //
               'shadow-sm',
-              'overflow-hidden',
             )}
           >
             {/* bar */}
@@ -306,11 +301,9 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
           <div
             className={cn(
               //
-              'bg-orange-200',
               'flex flex-col',
               'grow',
               //
-              'caret-black',
               //
               'bg-white',
               'w-full',
@@ -365,11 +358,21 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             <div className={cn('p-brand-regular', 'grow')}>
               <textarea
                 className={cn(
+                  //
                   'w-full',
                   'h-full',
                   'resize-none',
                   'text-2xl',
                   'p-brand-regular',
+                  //
+                  'caret-black',
+                  //
+                  'rounded-lg',
+                  //
+                  'focus:outline-none',
+                  'focus:ring-1 focus:ring-brand-primary-500',
+                  'placeholder:text-brand-text-400',
+                  'focus:placeholder:text-brand-text-300',
                   'font-georgian',
                 )}
                 id="translit-output"
@@ -377,7 +380,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 readOnly
                 onScroll={handleOutputScroll}
                 ref={outputRef}
-                disabled={true}
               />
             </div>
           </div>
