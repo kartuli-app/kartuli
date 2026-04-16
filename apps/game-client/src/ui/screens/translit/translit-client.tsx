@@ -202,7 +202,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             'grow',
             'flex-col',
             'gap-brand-large',
-            'pt-0',
+            'pt-brand-large',
           )}
         >
           {/* input area */}
@@ -230,7 +230,9 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'items-center',
                 'justify-between',
                 //
-                'p-brand-regular',
+                'px-brand-large',
+                'py-brand-regular',
+                //
                 'border-b-2',
                 'border-brand-primary-500',
               )}
@@ -268,7 +270,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               </div>
             </div>
             {/* text area */}
-            <div className={cn('p-brand-regular', 'grow')}>
+            <div className={cn('p-brand-large', 'grow')}>
               <textarea
                 className={cn(
                   //
@@ -276,16 +278,15 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'h-full',
                   'resize-none',
                   'text-2xl',
-                  'p-brand-regular',
+                  'p-brand-large',
                   //
                   'caret-black',
                   //
                   'rounded-lg',
                   //
-                  'focus:outline-none',
-                  'focus:ring-1 focus:ring-brand-primary-500',
+                  'border-2 border-brand-text-200',
+                  'focus:border-brand-text-400 focus:outline-none',
                   'placeholder:text-brand-text-400',
-                  'focus:placeholder:text-transparent',
                   'font-georgian',
                 )}
                 id="translit-input"
@@ -323,7 +324,9 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'items-center',
                 'justify-between',
                 //
-                'p-brand-regular',
+                'px-brand-large',
+                'py-brand-regular',
+                //
                 'border-b-2',
                 'border-brand-primary-500',
               )}
@@ -355,7 +358,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               </div>
             </div>
             {/* text area */}
-            <div className={cn('p-brand-regular', 'grow')}>
+            <div className={cn('p-brand-large', 'grow')}>
               <textarea
                 className={cn(
                   //
@@ -363,16 +366,15 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'h-full',
                   'resize-none',
                   'text-2xl',
-                  'p-brand-regular',
+                  'p-brand-large',
                   //
                   'caret-black',
                   //
                   'rounded-lg',
                   //
-                  'focus:outline-none',
-                  'focus:ring-1 focus:ring-brand-primary-500',
+                  'border-2 border-brand-text-200',
+                  'focus:border-brand-text-400 focus:outline-none',
                   'placeholder:text-brand-text-400',
-                  'focus:placeholder:text-transparent',
                   'font-georgian',
                 )}
                 id="translit-output"

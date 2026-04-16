@@ -62,7 +62,12 @@ export function TranslitActionTooltip({
     <Tooltip.Root disabled={tooltipDisabled}>
       <Tooltip.Trigger
         type="button"
-        className={cn(iconClassNames, buttonIconClassNames, className)}
+        className={cn(
+          iconClassNames,
+          buttonIconClassNames,
+          'bg-transparent hover:bg-brand-text-100',
+          className,
+        )}
         {...triggerProps}
       >
         {children}

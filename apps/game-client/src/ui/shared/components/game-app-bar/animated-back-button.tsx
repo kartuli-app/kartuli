@@ -31,30 +31,20 @@ export function AnimatedBackButton() {
   const isRootPath = pathname === '/';
   const shouldShowBackButton = !isRootPath;
   return (
-    <motion.div
-      className={clsx('overflow-hidden')}
-      animate={{
-        width: shouldShowBackButton ? '52px' : '0rem',
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 400,
-        damping: 40,
-      }}
-    >
+    <div className={clsx('overflow-hidden')}>
       <AnimatePresence initial={false}>
         {shouldShowBackButton ? (
           <motion.div
             key="back-button"
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
+            initial={{ opacity: 0, x: -8, width: '0rem' }}
+            animate={{ opacity: 1, x: 0, width: '52px' }}
+            exit={{ opacity: 0, x: -8, width: '0rem' }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
           >
             <BackButton href={`/${currentLocale}`} />
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
