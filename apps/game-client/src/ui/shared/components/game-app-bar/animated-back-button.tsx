@@ -19,7 +19,7 @@ function BackButton({ href, className }: Readonly<{ href: string; className?: st
       href={href}
       aria-label={t('app_bar.back')}
     >
-      <LuArrowLeft className="size-8" />
+      <LuArrowLeft className="size-5" />
     </NavigationLink>
   );
 }
