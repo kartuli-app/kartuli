@@ -285,7 +285,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'focus:outline-none',
                   'focus:ring-1 focus:ring-brand-primary-500',
                   'placeholder:text-brand-text-400',
-                  'focus:placeholder:text-brand-text-300',
+                  'focus:placeholder:text-transparent',
                   'font-georgian',
                 )}
                 id="translit-input"
@@ -372,7 +372,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'focus:outline-none',
                   'focus:ring-1 focus:ring-brand-primary-500',
                   'placeholder:text-brand-text-400',
-                  'focus:placeholder:text-brand-text-300',
+                  'focus:placeholder:text-transparent',
                   'font-georgian',
                 )}
                 id="translit-output"
