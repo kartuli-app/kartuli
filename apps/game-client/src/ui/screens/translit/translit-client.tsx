@@ -134,7 +134,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
           'border',
           //
           'border-brand-text-300',
-          'hover:bg-brand-text-50',
           //
           'shadow-sm',
           'overflow-hidden',
@@ -189,7 +188,11 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               'p-brand-regular',
               //
               'caret-black',
+              //
+              'rounded-lg',
+              //
               'focus:outline-none',
+              'focus:ring-1 focus:ring-brand-primary-500',
               'focus:bg-brand-text-100',
               direction === 'georgian-to-latin' && 'font-georgian',
             )}
@@ -210,7 +213,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
           'grow',
           //
           'caret-black',
-          'focus:outline-none',
           //
           'bg-white',
           'w-full',
@@ -218,7 +220,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
           'border',
           //
           'border-brand-text-300',
-          'hover:bg-brand-text-50',
           //
           'shadow-sm',
         )}
@@ -268,6 +269,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             readOnly
             onScroll={handleOutputScroll}
             ref={outputRef}
+            disabled
           />
         </div>
       </div>
