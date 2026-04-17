@@ -91,10 +91,17 @@ export function GameAppDockItems() {
     }, 300);
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <>
+      {/* links to other pages */}
       {links.map((link) => {
-        const isActive = pathname === link.href;
+        const isActive = !isMenuOpen && pathname === link.href;
         const Icon = isActive ? link.iconActive : link.iconInactive;
         return (
           <NavigationLink
@@ -150,6 +157,56 @@ export function GameAppDockItems() {
           </NavigationLink>
         );
       })}
+      {/* menu */}
+      <button
+        type="button"
+        onClick={() => handleMenuClick()}
+        className={clsx(
+          'flex flex-col',
+          'justify-center items-center',
+          'cursor-pointer',
+          'h-17 w-17',
+          'relative',
+          'focus-ring',
+          'uppercase',
+          'transition-colors duration-300 hover:transition-none',
+          {
+            'text-brand-text-400 hover:text-brand-text-200': !isMenuOpen,
+          },
+        )}
+      >
+        <div className="relative z-20 flex flex-col items-center justify-center">
+          {isMenuOpen ? (
+            <PiDotsThreeOutlineFill className="size-6" />
+          ) : (
+            <PiDotsThreeOutline className="size-6" />
+          )}
+          <span className="font-bold pt-1 text-[0.6rem]">Menu</span>
+        </div>
+        <AnimatePresence initial={false}>
+          {isMenuOpen && (
+            <motion.div
+              layoutId="dock-item-active-indicator"
+              className={clsx(
+                //
+                'absolute',
+                'top-0',
+                'left-0',
+                'right-0',
+                'bottom-0',
+                'rounded-lg',
+                'bg-brand-primary-900',
+                'z-0',
+              )}
+              transition={{
+                type: 'spring',
+                stiffness: 400,
+                damping: 40,
+              }}
+            />
+          )}
+        </AnimatePresence>
+      </button>
     </>
   );
 }
