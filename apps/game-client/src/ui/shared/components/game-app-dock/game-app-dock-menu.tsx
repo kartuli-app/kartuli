@@ -42,9 +42,11 @@ const dockMenuLinkRowClassName = cn(
 function DockMenuContent({
   locale,
   menuType,
+  onClick,
 }: Readonly<{
   locale: string | undefined;
   menuType: 'nav-menu' | 'drawer';
+  onClick?: () => void;
 }>) {
   const { NavigationLink } = useNavigation();
   const { t } = useTranslation('common');
@@ -73,6 +75,7 @@ function DockMenuContent({
             href={href}
             prefetch
             className={dockMenuLinkRowClassName}
+            onClick={onClick}
           >
             {label}
           </NavigationLink>
@@ -159,11 +162,11 @@ function DockMenuMobile() {
         />
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className="fixed inset-0 z-80 bg-black/40" />
-        <Drawer.Viewport className="fixed inset-x-0 bottom-24 z-80 flex max-h-[min(70vh,100dvh)] justify-center p-0">
+        <Drawer.Backdrop className="fixed inset-0 z-80 bg-black/60" />
+        <Drawer.Viewport className="fixed inset-x-0 bottom-36 z-80 flex max-h-[min(70vh,100dvh)] justify-center p-0">
           <Drawer.Popup
             className={cn(
-              'w-full max-w-lg rounded-xl border border-brand-text-300 bg-brand-text-50 text-brand-text-800 shadow-lg',
+              'w-full max-w-sm rounded-xl border border-brand-text-300 bg-brand-text-50 text-brand-text-800 shadow-lg',
             )}
           >
             <Drawer.Content
@@ -192,7 +195,7 @@ function DockMenuMobile() {
                 </Drawer.Close>
               </div>
               <div className="px-2 py-2">
-                <DockMenuContent locale={locale} menuType="drawer" />
+                <DockMenuContent locale={locale} menuType="drawer" onClick={() => setOpen(false)} />
               </div>
             </Drawer.Content>
           </Drawer.Popup>
