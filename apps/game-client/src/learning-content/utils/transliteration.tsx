@@ -8,7 +8,7 @@ export const getStringTransliterationFromTargetScript = (
   let transliteration = '';
   for (const character of characters) {
     const letter = commonLetterItemsByTargetScript.get(character);
-    transliteration = `${transliteration}${letter?.transliteration || character}`;
+    transliteration = `${transliteration}${letter?.transliteration ?? character}`;
   }
   return transliteration;
 };
@@ -17,7 +17,8 @@ export const getStringTransliterationFromLatin = (
   commonLetterItemsByTransliteration: Map<string, CommonLetterItem>,
   string: string,
 ): string => {
-  const normalizedString = string.replaceAll('’', "'").replaceAll('`', "'").toLowerCase();
+  const apostropheLike = /[\u2018\u2019\u02BC\u2032\u00B4`]/g;
+  const normalizedString = string.replaceAll(apostropheLike, "'").toLowerCase();
 
   let transliteration = '';
   let cursor = 0;

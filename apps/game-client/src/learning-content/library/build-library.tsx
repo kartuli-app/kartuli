@@ -45,7 +45,24 @@ const buildLetterItems = (
   const letterItems: LetterItem[] = [];
 
   for (const commonLetterItem of commonLetterItems) {
+    const existingByScript = commonLetterItemsByTargetScript.get(commonLetterItem.targetScript);
+    if (existingByScript && existingByScript.id !== commonLetterItem.id) {
+      logger.error(
+        'library',
+        `Duplicate targetScript key "${commonLetterItem.targetScript}" for letter ids ${existingByScript.id} and ${commonLetterItem.id}; last write wins.`,
+      );
+    }
     commonLetterItemsByTargetScript.set(commonLetterItem.targetScript, commonLetterItem);
+
+    const existingByTranslit = commonLetterItemsByTransliteration.get(
+      commonLetterItem.transliteration,
+    );
+    if (existingByTranslit && existingByTranslit.id !== commonLetterItem.id) {
+      logger.error(
+        'library',
+        `Duplicate transliteration key "${commonLetterItem.transliteration}" for letter ids ${existingByTranslit.id} and ${commonLetterItem.id}; last write wins.`,
+      );
+    }
     commonLetterItemsByTransliteration.set(commonLetterItem.transliteration, commonLetterItem);
 
     const localizedLetterItem = localizedLetterItemsById.get(commonLetterItem.id);

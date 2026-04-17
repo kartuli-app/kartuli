@@ -26,9 +26,9 @@ export default {
       profile: 'Профиль',
       saved: 'Сохранено',
       learn: 'Учить',
-      translit: 'Транслит',
       search: 'Поиск',
       more: 'Ещё',
+      translit: 'Транслит',
     },
   },
   //

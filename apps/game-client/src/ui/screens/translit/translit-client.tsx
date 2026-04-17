@@ -102,10 +102,37 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const copyOutput = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const anchorElement = event.currentTarget;
     setSuppressCopyTooltip(true);
+    const clipboard = globalThis.navigator?.clipboard;
+    if (!clipboard) {
+      setSuppressCopyTooltip(false);
+      toastManager.add({
+        description: t('toast_copy_failed'),
+        timeout: 3200,
+        positionerProps: {
+          anchor: anchorElement,
+          side: 'top',
+          align: 'center',
+          sideOffset: 8,
+          positionMethod: 'fixed',
+        },
+      });
+      return;
+    }
     try {
-      await navigator.clipboard.writeText(output);
+      await clipboard.writeText(output);
     } catch {
       setSuppressCopyTooltip(false);
+      toastManager.add({
+        description: t('toast_copy_failed'),
+        timeout: 3200,
+        positionerProps: {
+          anchor: anchorElement,
+          side: 'top',
+          align: 'center',
+          sideOffset: 8,
+          positionMethod: 'fixed',
+        },
+      });
       return;
     }
     if (copyFeedbackTimeoutRef.current) {
@@ -191,7 +218,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
 
   const showEmptyClearIcon = input.trim().length === 0;
 
-  const placeholder = t('placeholder') + transliterationToLabel;
+  const placeholder =
+    direction === 'georgian-to-latin' ? t('placeholder_to_latin') : t('placeholder_to_georgian');
 
   return (
     <Toast.Provider toastManager={toastManager}>

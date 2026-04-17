@@ -9,7 +9,7 @@ export function Mascot() {
       <picture>
         <source srcSet="/images/mascot-64.webp" type="image/webp" />
         <img
-          className={clsx('scale-110 sm:scale-140 size-11')}
+          className="scale-110 sm:scale-140 size-11"
           src="/images/mascot-64.png"
           alt={t('app_bar.mascot')}
         />
