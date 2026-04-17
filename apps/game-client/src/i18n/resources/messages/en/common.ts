@@ -2,6 +2,7 @@ export default {
   //
   app_bar: {
     back: 'Back',
+    search: 'Search',
     sound_enabled: 'Sound enabled',
     sound_disabled: 'Sound disabled',
     enable_sound: 'Enable sound',
@@ -17,17 +18,26 @@ export default {
       '/debug': 'Debug',
       '/not-found': 'Not Found',
       '/translit': 'Translit',
+      '/privacy': 'Privacy',
+      '/terms-and-conditions': 'Term',
     },
   },
   //
   dock: {
-    buttons: {
+    main_links: {
       profile: 'Profile',
       saved: 'Saved',
       learn: 'Learn',
-      search: 'Search',
-      more: 'More',
       translit: 'Translit',
+    },
+    menu: {
+      label: 'More',
+      close: 'Close',
+      links: {
+        debug: 'Debug',
+        terms_and_conditions: 'Terms and Conditions',
+        privacy: 'Privacy',
+      },
     },
   },
   //

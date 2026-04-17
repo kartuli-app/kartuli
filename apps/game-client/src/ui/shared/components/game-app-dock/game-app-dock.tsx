@@ -1,10 +1,11 @@
-import clsx from 'clsx';
-import { GameAppDockItems } from './game-app-dock-items';
+import { cn } from '@kartuli/ui/utils/cn';
+import { GameAppDockMainLinks } from './game-app-dock-main-links';
+import { GameAppDockMenu } from './game-app-dock-menu';
 
 export function GameAppDock() {
   return (
     <div
-      className={clsx(
+      className={cn(
         //
         'flex',
         'justify-center',
@@ -26,7 +27,7 @@ export function GameAppDock() {
       )}
     >
       <div
-        className={clsx(
+        className={cn(
           //
 
           'flex',
@@ -45,7 +46,8 @@ export function GameAppDock() {
           'md:items-center',
         )}
       >
-        <GameAppDockItems />
+        <GameAppDockMainLinks />
+        <GameAppDockMenu />
       </div>
     </div>
   );

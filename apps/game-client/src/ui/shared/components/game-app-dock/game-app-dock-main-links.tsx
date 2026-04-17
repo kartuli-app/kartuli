@@ -1,0 +1,134 @@
+'use client';
+import { useNavigation } from '@game-client/navigation/navigation-context';
+import { cn } from '@kartuli/ui/utils/cn';
+import type { TFunction } from 'i18next';
+import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
+import {
+  PiArrowsClockwiseBold,
+  PiArrowsClockwiseLight,
+  PiBookOpenTextFill,
+  PiBookOpenTextLight,
+} from 'react-icons/pi';
+import { DockButtonContent, getDockButtonClassName } from './game-app-dock-button';
+
+const mainLinks = [
+  {
+    href: '/profile',
+    labelKey: 'profile',
+    iconActive: BiSolidUserCircle,
+    iconInactive: BiUserCircle,
+  },
+  {
+    href: '/saved',
+    labelKey: 'saved',
+    iconActive: AiFillHeart,
+    iconInactive: AiOutlineHeart,
+  },
+  {
+    href: '/',
+    labelKey: 'learn',
+    iconActive: PiBookOpenTextFill,
+    iconInactive: PiBookOpenTextLight,
+  },
+  {
+    href: '/translit',
+    labelKey: 'translit',
+    iconActive: PiArrowsClockwiseBold,
+    iconInactive: PiArrowsClockwiseLight,
+  },
+];
+
+function getDockMainLinkLabel(labelKey: string, t: TFunction<'common', undefined>): string {
+  const map = t('dock.main_links', { returnObjects: true });
+  if (!map || typeof map !== 'object' || Array.isArray(map)) {
+    return labelKey;
+  }
+  const translatedLabel = (map as Record<string, unknown>)[labelKey];
+  return typeof translatedLabel === 'string' ? translatedLabel : labelKey;
+}
+
+export function DockMainLinkActiveIndicator({ isActive }: Readonly<{ isActive: boolean }>) {
+  return (
+    <AnimatePresence initial={false}>
+      {isActive && (
+        <motion.div
+          layoutId="dock-item-active-indicator"
+          className={cn(
+            'absolute',
+            'top-0',
+            'left-0',
+            'right-0',
+            'bottom-0',
+            'rounded-lg',
+            'bg-brand-primary-900',
+            'z-0',
+          )}
+          transition={{
+            type: 'spring',
+            stiffness: 400,
+            damping: 40,
+          }}
+        />
+      )}
+    </AnimatePresence>
+  );
+}
+
+export function GameAppDockMainLinks() {
+  const { pathname, NavigationLink } = useNavigation();
+  const { i18n, t } = useTranslation('common');
+  const locale = i18n.resolvedLanguage;
+  const [touchedLink, setTouchedLink] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleLinkClick = (href: string) => {
+    setTouchedLink(href);
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      setTouchedLink(null);
+    }, 300);
+  };
+
+  return (
+    <>
+      {mainLinks.map((link) => {
+        const isActive = pathname === link.href;
+        const isTouched = touchedLink === link.href;
+        const label = getDockMainLinkLabel(link.labelKey, t);
+        return (
+          <NavigationLink
+            key={link.href}
+            onClick={() => handleLinkClick(link.href)}
+            href={`/${locale}${link.href}`}
+            prefetch={true}
+            className={getDockButtonClassName({ isActive, isTouched })}
+          >
+            <DockButtonContent
+              label={label}
+              isActive={isActive}
+              IconActive={link.iconActive}
+              IconInactive={link.iconInactive}
+            />
+            <DockMainLinkActiveIndicator isActive={isActive} />
+          </NavigationLink>
+        );
+      })}
+    </>
+  );
+}
