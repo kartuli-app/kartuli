@@ -13,6 +13,7 @@
     "@kartuli/docs": "workspace:*",
     "vitepress": "catalog:",
     "vue": "catalog:",
-    "@vue/server-renderer": "catalog:"
+    "@vue/server-renderer": "catalog:",
+    "vitepress-plugin-diagrams": "catalog:"
   }
 }

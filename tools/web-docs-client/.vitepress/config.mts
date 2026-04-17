@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress';
+import { configureDiagramsPlugin } from 'vitepress-plugin-diagrams';
 import { processDocs } from '../scripts/docs-processor.js';
 
 const title = 'Kartuli Docs';
@@ -74,7 +75,7 @@ function addNestedGroup(rootItems: SidebarItem[], path: string, subItems: DocIte
       node = { text: segment, collapsed: true, items: [] };
       currentLevel.push(node);
     }
-    currentLevel = node.items as SidebarItem[];
+    currentLevel = node.items ?? [];
   }
 
   const mappedItems: SidebarItem[] = [...subItems].sort(compareDocItems).map((item) => ({
@@ -151,7 +152,7 @@ Object.entries(mergedSectionsTyped)
     Object.entries(nested)
       .sort(([a], [b]) => a.localeCompare(b)) // Sort subsections alphabetically
       .forEach(([subSectionName, subItems]) => {
-        addNestedGroup(allItems, subSectionName, subItems as DocItem[]);
+        addNestedGroup(allItems, subSectionName, subItems);
       });
 
     sidebar.push({
@@ -197,5 +198,16 @@ export default defineConfig({
   srcDir,
   base: '/kartuli/',
   ignoreDeadLinks: ignoreDeadLinksList,
+  vite: {
+    publicDir: '../tools/web-docs-client/public',
+  },
   themeConfig,
+  markdown: {
+    config: (md) => {
+      configureDiagramsPlugin(md, {
+        diagramsDir: 'public/diagrams',
+        publicPath: '/kartuli/diagrams',
+      });
+    },
+  },
 });

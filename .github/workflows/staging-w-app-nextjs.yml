@@ -129,6 +129,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ inputs.target == 'game-client' && secrets.VERCEL_PROJECT_ID_GAME_CLIENT || secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
+          vercel-version: latest
           scope: ${{ secrets.VERCEL_ORG_ID }}
           github-comment: ${{ github.event_name == 'pull_request' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
