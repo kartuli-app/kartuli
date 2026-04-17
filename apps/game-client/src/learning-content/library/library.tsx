@@ -1,8 +1,12 @@
+import type { CommonLetterItem } from '../ingestion/common-data/common-data';
+
 export interface Library {
   totalLettersCount: number;
   totalWordsCount: number;
   letterItems: LetterItem[];
   letterItemsById: Map<string, LetterItem>;
+  commonLetterItemsByTargetScript: Map<string, CommonLetterItem>;
+  commonLetterItemsByTransliteration: Map<string, CommonLetterItem>;
   wordItems: WordItem[];
   wordItemsById: Map<string, WordItem>;
   lessons: Lesson[];

@@ -7,6 +7,7 @@ import enNotFound from '@game-client/i18n/resources/messages/en/not-found';
 import enProfile from '@game-client/i18n/resources/messages/en/profile';
 import enSaved from '@game-client/i18n/resources/messages/en/saved';
 import enSearch from '@game-client/i18n/resources/messages/en/search';
+import enTranslit from '@game-client/i18n/resources/messages/en/translit';
 
 export const enResources = {
   common: enCommon,
@@ -18,4 +19,5 @@ export const enResources = {
   search: enSearch,
   saved: enSaved,
   profile: enProfile,
+  translit: enTranslit,
 } as const;

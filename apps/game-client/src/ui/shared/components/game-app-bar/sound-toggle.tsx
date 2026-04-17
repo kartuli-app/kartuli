@@ -22,7 +22,7 @@ export function SoundToggle() {
       aria-label={actionLabel}
       title={actionLabel}
     >
-      {isVolumeMuted ? <FaVolumeXmark className="size-8" /> : <FaVolumeHigh className="size-8" />}
+      {isVolumeMuted ? <FaVolumeXmark className="size-5" /> : <FaVolumeHigh className="size-5" />}
     </button>
   );
 }

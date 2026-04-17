@@ -18,6 +18,7 @@ export default {
       '/search': 'Поиск',
       '/debug': 'Отладка',
       '/not-found': 'Не найдено',
+      '/translit': 'Транслит',
     },
   },
   dock: {
@@ -27,6 +28,7 @@ export default {
       learn: 'Учить',
       search: 'Поиск',
       more: 'Ещё',
+      translit: 'Транслит',
     },
   },
   //
