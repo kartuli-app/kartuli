@@ -19,7 +19,7 @@ export default {
       '/not-found': 'Not Found',
       '/translit': 'Translit',
       '/privacy': 'Privacy',
-      '/terms-and-conditions': 'T & C',
+      '/terms-and-conditions': 'Term',
     },
   },
   //
@@ -38,13 +38,6 @@ export default {
         terms_and_conditions: 'Terms and Conditions',
         privacy: 'Privacy',
       },
-    },
-    buttons: {
-      profile: 'Profile',
-      saved: 'Saved',
-      learn: 'Learn',
-      more: 'More',
-      translit: 'Translit',
     },
   },
   //

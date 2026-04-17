@@ -18,8 +18,8 @@ export default {
       '/debug': 'Отладка',
       '/not-found': 'Не найдено',
       '/translit': 'Транслит',
-      '/privacy': 'Конфиденциальность',
-      '/terms-and-conditions': 'Т & У',
+      '/privacy': 'приватность',
+      '/terms-and-conditions': 'Условия',
     },
   },
   //
@@ -38,13 +38,6 @@ export default {
         terms_and_conditions: 'Условия использования',
         privacy: 'Конфиденциальность',
       },
-    },
-    buttons: {
-      profile: 'Профиль',
-      saved: 'Сохранено',
-      learn: 'Учить',
-      more: 'Ещё',
-      translit: 'Транслит',
     },
   },
   //

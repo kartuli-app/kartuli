@@ -103,7 +103,7 @@ function DockMenuDesktop() {
         <NavigationMenu.Item value="dock-menu">
           <NavigationMenu.Trigger className={getDockButtonClassName({ isActive: isMenuOpen })}>
             <DockButtonContent
-              label={t('dock.buttons.more')}
+              label={t('dock.menu.label')}
               isActive={isMenuOpen}
               IconActive={PiDotsThreeOutlineFill}
               IconInactive={PiDotsThreeOutline}
@@ -155,7 +155,7 @@ function DockMenuMobile() {
     <Drawer.Root open={open} onOpenChange={setOpen} modal swipeDirection="down">
       <Drawer.Trigger type="button" className={getDockButtonClassName({ isActive: open })}>
         <DockButtonContent
-          label={t('dock.buttons.more')}
+          label={t('dock.menu.label')}
           isActive={open}
           IconActive={PiDotsThreeOutlineFill}
           IconInactive={PiDotsThreeOutline}
@@ -174,7 +174,7 @@ function DockMenuMobile() {
               className="flex max-h-[min(70vh,100dvh)] flex-col overflow-y-auto p-0 outline-none"
             >
               <Drawer.Title id={titleId} className="sr-only">
-                {t('dock.buttons.more')}
+                {t('dock.menu.label')}
               </Drawer.Title>
               <div className="border-b border-brand-text-200">
                 <Drawer.Close
@@ -211,12 +211,12 @@ function DockMenuPlaceholder() {
     <button
       type="button"
       disabled
-      aria-busy
-      aria-label={t('dock.buttons.more')}
+      aria-busy={true}
+      aria-label={t('dock.menu.label')}
       className={cn(getDockButtonClassName({ isActive: false }), 'cursor-wait')}
     >
       <DockButtonContent
-        label={t('dock.buttons.more')}
+        label={t('dock.menu.label')}
         isActive={false}
         IconActive={PiDotsThreeOutlineFill}
         IconInactive={PiDotsThreeOutline}
