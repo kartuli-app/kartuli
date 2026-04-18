@@ -73,7 +73,10 @@ export interface ExpectA11yOptions {
 
 /**
  * Run axe-core against the current DOM and fail the test if any violations are found.
- * Produces a readable diff with rule id, impact, and the first failing node per violation.
+ * For each violation we log its rule id, impact, help text, help URL, and the first
+ * failing node (target selector + html). Additional failing nodes for the same rule
+ * are summarised as a count so the console output stays readable when axe finds many
+ * duplicates; developers can follow the help URL or re-run locally to inspect them.
  */
 export async function expectA11y(page: Page, options: ExpectA11yOptions = {}): Promise<void> {
   const { includeTags = [], disableRules = [], exclude = [], label } = options;
@@ -95,10 +98,13 @@ export async function expectA11y(page: Page, options: ExpectA11yOptions = {}): P
   if (violations.length > 0) {
     const summary = violations
       .map((v) => {
-        const nodeSummary = v.nodes
-          .map((n) => `    - ${n.target.join(' ')}\n      ${n.html}`)
-          .join('\n');
-        return `  • [${v.impact ?? 'n/a'}] ${v.id}: ${v.help}\n${nodeSummary}\n    ${v.helpUrl}`;
+        const [firstNode] = v.nodes;
+        const nodeSummary = firstNode
+          ? `    - ${firstNode.target.join(' ')}\n      ${firstNode.html}`
+          : '    (no node reported)';
+        const extraNodes =
+          v.nodes.length > 1 ? `\n    …and ${v.nodes.length - 1} more node(s)` : '';
+        return `  • [${v.impact ?? 'n/a'}] ${v.id}: ${v.help}\n${nodeSummary}${extraNodes}\n    ${v.helpUrl}`;
       })
       .join('\n');
     console.error(`\n${header} (${violations.length}):\n${summary}\n`);

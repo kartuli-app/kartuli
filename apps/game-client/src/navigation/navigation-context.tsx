@@ -1,13 +1,19 @@
 'use client';
 
-import { type ComponentType, createContext, type ReactNode, useContext } from 'react';
+import {
+  type AriaAttributes,
+  type ComponentType,
+  createContext,
+  type ReactNode,
+  useContext,
+} from 'react';
 
 export type NavigationLinkProps = Readonly<{
   href: string;
   className?: string;
   children: ReactNode;
   'aria-label'?: string;
-  'aria-current'?: 'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false';
+  'aria-current'?: AriaAttributes['aria-current'];
   prefetch?: boolean;
   onClick?: () => void;
 }>;

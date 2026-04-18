@@ -1,5 +1,5 @@
-name: CI validate all monorepo
-description: Run typecheck, lint, and test for all packages in the monorepo (run ci-setup-node first).
+name: CI validate all monorepo (lint root, typecheck, lint, test with coverage, test storybook)
+description: Run lint root, typecheck, lint, test with coverage, and test storybook for all packages in the monorepo (run ci-setup-node first).
 
 runs:
   using: composite

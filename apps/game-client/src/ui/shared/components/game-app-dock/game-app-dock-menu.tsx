@@ -72,6 +72,10 @@ function DockMenuContent({
         }
         return (
           <li key={menuLink.href} className="contents">
+            {/* Drawer branch: `onClick` is the drawer-close callback wired from
+                `DockMenuMobile`. The desktop branch relies on Base UI's
+                `NavigationMenu.Link` `closeOnClick` to dismiss the menu, so
+                `onClick` is intentionally only forwarded here. */}
             <NavigationLink
               href={href}
               prefetch
@@ -102,13 +106,7 @@ function DockMenuDesktop() {
       value={activeMenuValue}
       onValueChange={(value) => setActiveMenuValue(value)}
     >
-      <NavigationMenu.List
-        // aria-orientation is not a valid ARIA attribute on <ul role="list">.
-        // Base UI's CompositeRoot adds it unconditionally, so strip it here.
-        // Keyboard navigation is driven by the `orientation` prop on Root,
-        // not by this DOM attribute.
-        render={({ 'aria-orientation': _a11yAriaOrientation, ...props }) => <ul {...props} />}
-      >
+      <NavigationMenu.List>
         <NavigationMenu.Item value="dock-menu">
           <NavigationMenu.Trigger className={getDockButtonClassName({ isActive: isMenuOpen })}>
             <DockButtonContent
