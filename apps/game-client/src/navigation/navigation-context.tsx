@@ -7,6 +7,7 @@ export type NavigationLinkProps = Readonly<{
   className?: string;
   children: ReactNode;
   'aria-label'?: string;
+  'aria-current'?: 'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false';
   prefetch?: boolean;
   onClick?: () => void;
 }>;
