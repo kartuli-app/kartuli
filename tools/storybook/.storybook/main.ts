@@ -1,4 +1,4 @@
-import { dirname } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { StorybookConfig } from '@storybook/react-vite';
 
@@ -6,9 +6,18 @@ function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
 }
 
+const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
+
 const config: StorybookConfig = {
-  stories: ['../../../packages/ui/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: [getAbsolutePath('@storybook/addon-a11y'), getAbsolutePath('@storybook/addon-docs')],
+  stories: [
+    '../../../packages/ui/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../../../apps/game-client/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+  ],
+  addons: [
+    getAbsolutePath('@storybook/addon-a11y'),
+    getAbsolutePath('@storybook/addon-docs'),
+    getAbsolutePath('@storybook/addon-vitest'),
+  ],
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
@@ -21,6 +30,16 @@ const config: StorybookConfig = {
     const { default: tailwindcss } = await import('@tailwindcss/vite');
     return {
       ...config,
+      resolve: {
+        ...config.resolve,
+        // Mirror the path aliases defined in the root tsconfig.json so stories
+        // imported from apps/game-client can resolve their own @game-client/*
+        // and @kartuli/ui/* imports at runtime.
+        alias: {
+          '@game-client': resolve(repoRoot, 'apps/game-client/src'),
+          '@kartuli/ui': resolve(repoRoot, 'packages/ui/src'),
+        },
+      },
       define: {
         ...config.define,
         // Polyfill process.env for components that read it (e.g. DeploymentDebugPanel in Storybook)

@@ -37,6 +37,8 @@
   },
   "devDependencies": {
     "@serwist/turbopack": "catalog:",
+    "@storybook/react": "catalog:",
+    "@storybook/react-vite": "catalog:",
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@testing-library/user-event": "catalog:",
@@ -45,9 +47,11 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "@vitest/browser": "catalog:",
     "esbuild": "catalog:",
     "happy-dom": "catalog:",
     "serwist": "catalog:",
+    "storybook": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }

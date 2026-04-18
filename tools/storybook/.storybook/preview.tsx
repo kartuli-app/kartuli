@@ -11,15 +11,25 @@ const preview: Preview = {
       },
     },
     a11y: {
-      // Accessibility addon config
-      config: {
-        rules: [
-          {
-            id: 'color-contrast',
-            enabled: true,
-          },
+      // Matches the tag set used in our Playwright + axe-core setup
+      // (tools/e2e/tests/helpers/expect-a11y.ts) so component-level and
+      // page-level scans enforce the same rules.
+      options: {
+        runOnly: [
+          'wcag2a',
+          'wcag2aa',
+          'wcag21a',
+          'wcag21aa',
+          'wcag22a',
+          'wcag22aa',
+          'best-practice',
         ],
       },
+      // Violations fail the Vitest-addon component tests (CLI/CI). Opt a
+      // specific story out by setting `parameters.a11y.test` to the warning
+      // mode (does not fail the run) or `'off'` (skips entirely). See
+      // https://storybook.js.org/docs/writing-tests/accessibility-testing#test-behavior
+      test: 'error',
     },
   },
   globalTypes: {
