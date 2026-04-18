@@ -40,6 +40,21 @@ const config: StorybookConfig = {
           '@kartuli/ui': resolve(repoRoot, 'packages/ui/src'),
         },
       },
+      // Force the automatic JSX runtime for every file `storybook build`
+      // hands to esbuild. Without this, esbuild reads the tsconfig nearest
+      // each source file: packages/ui and tools/storybook both set
+      // `jsx: "react-jsx"`, but apps/game-client/tsconfig.json inherits
+      // `jsx: "preserve"` from the root tsconfig (required by Next.js).
+      // That leaves JSX + TS generics intact in stories under
+      // apps/game-client/src, and the downstream
+      // `storybook:external-globals-plugin` then fails with a parse error
+      // on the first `<` (e.g. `Meta<typeof ...>`). The Vitest / addon-vitest
+      // pipeline uses oxc instead (whose default runtime is already
+      // 'automatic'), so only esbuild needs pinning here.
+      esbuild: {
+        ...config.esbuild,
+        jsx: 'automatic',
+      },
       define: {
         ...config.define,
         // Polyfill process.env for components that read it (e.g. DeploymentDebugPanel in Storybook)

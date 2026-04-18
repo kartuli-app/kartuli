@@ -19,16 +19,21 @@ runs:
     - name: Setup Playwright
       uses: ./.github/actions/ci-setup-playwright
 
-    # Run all three in parallel: & backgrounds the process; wait collects exit codes; fail step if any failed.
+    # Run all four in parallel: & backgrounds the process; wait collects exit codes; fail step if any failed.
+    # `test:storybook` is deliberately a separate command rather than being folded into `test:all:coverage`,
+    # because the Storybook suite runs in a real Chromium via Playwright (addon-vitest + browser-playwright)
+    # and is excluded from the root vitest.config.mts `projects` glob — see that file for the rationale.
     - name: Run typecheck, lint, and test (parallel)
       run: |
         pnpm run typecheck:all & PID1=$!
         pnpm run lint:all & PID2=$!
         pnpm run test:all:coverage & PID3=$!
+        pnpm --filter @kartuli/storybook test & PID4=$!
         wait $PID1; E1=$?
         wait $PID2; E2=$?
         wait $PID3; E3=$?
-        if [ "$E1" -ne 0 ] || [ "$E2" -ne 0 ] || [ "$E3" -ne 0 ]; then
+        wait $PID4; E4=$?
+        if [ "$E1" -ne 0 ] || [ "$E2" -ne 0 ] || [ "$E3" -ne 0 ] || [ "$E4" -ne 0 ]; then
           exit 1
         fi
         exit 0
