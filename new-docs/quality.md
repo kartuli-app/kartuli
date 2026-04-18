@@ -57,7 +57,7 @@ Commands:
 ### 4. Unit / integration — Vitest (happy-dom)
 
 - Each runnable package (`apps/*`, `packages/*`, most of `tools/*`) has its own `vitest.config.ts` using `happy-dom`.
-- Root [`vitest.config.mts`](../vitest.config.mts) composes them via `projects: ['apps/*', 'packages/*', 'tools/*', '!tools/e2e']`, which is what `pnpm test:all:coverage` runs.
+- Root [`vitest.config.mts`](../vitest.config.mts) composes them via `projects: ['apps/*', 'packages/*', 'tools/*', '!tools/e2e', '!tools/storybook']`, which is what `pnpm test:all:coverage` runs (`tools/storybook` stays opt-in; see section 5).
 - Fast, headless, no browser. Good for:
   - Pure functions, reducers, i18n helpers.
   - React components that don't need real layout (rendering, event handlers, accessibility names via Testing Library).

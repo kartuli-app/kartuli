@@ -9,7 +9,8 @@ const heading = enResources.notFound.heading;
 test.describe('Page not found', () => {
   test.beforeEach(async ({ page }) => {
     await applyVercelProtectionBypass(page);
-    await page.goto(`${defaultLocaleBase}/non-existent-page`);
+    const response = await page.goto(`${defaultLocaleBase}/non-existent-page`);
+    expect(response?.status(), 'not-found route should return HTTP 404').toBe(404);
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   });
 

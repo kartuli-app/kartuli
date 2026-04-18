@@ -13,6 +13,7 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@kartuli/game-client": "workspace:*",
     "@kartuli/tailwind-config": "workspace:*",
     "@kartuli/ui": "workspace:*",
     "@storybook/addon-a11y": "catalog:",

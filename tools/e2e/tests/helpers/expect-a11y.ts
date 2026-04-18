@@ -4,9 +4,12 @@ import { expect, type Page } from '@playwright/test';
 /**
  * The axe tag set we enforce on every scan.
  *
- * Target: WCAG 2.2 Level AA — current industry standard, required by the EU
- * Accessibility Act (June 2025), US ADA, and Section 508. AAA is NOT a
- * recommended blanket target (even W3C advises against it, since some AAA
+ * Engineering target: WCAG 2.0–2.2 AA-style rules via axe’s `wcag2*`,
+ * `wcag21*`, and `wcag22*` tags (plus `best-practice`). Legal conformance
+ * depends on jurisdiction and the applicable standard (for example ADA Title II,
+ * Section 508, and the European Accessibility Act each reference specific WCAG
+ * versions/levels — they are not identical to “axe’s wcag22 tags”).
+ * AAA is NOT a recommended blanket target (even W3C advises against it, since some AAA
  * criteria can't be met on all content) but individual AAA rules can be
  * opted into per-scan via `includeTags`.
  *
@@ -55,7 +58,7 @@ const DEFAULT_EXCLUDE = ['[data-base-ui-focus-guard]'];
 
 export interface ExpectA11yOptions {
   /**
-   * Extra axe tags to include beyond the WCAG 2.2 AA + best-practice defaults.
+   * Extra axe tags to include beyond the default WCAG-style + best-practice tag set.
    * Use this to opt into AAA rules for specific scans, e.g.
    *   `includeTags: ['wcag22aaa']` for enhanced contrast on marketing content.
    */
@@ -74,12 +77,15 @@ export interface ExpectA11yOptions {
 /**
  * Run axe-core against the current DOM and fail the test if any violations are found.
  * For each violation we log its rule id, impact, help text, help URL, and the first
- * failing node (target selector + html). Additional failing nodes for the same rule
- * are summarised as a count so the console output stays readable when axe finds many
- * duplicates; developers can follow the help URL or re-run locally to inspect them.
+ * failing node’s target selector. Raw node HTML is omitted in CI by default (logs are
+ * retained broadly; HTML can contain user or account data). Set `DEBUG_AXE_HTML=1`
+ * to include HTML locally or in CI when debugging. Additional failing nodes for the
+ * same rule are summarised as a count when axe finds many duplicates.
  */
 export async function expectA11y(page: Page, options: ExpectA11yOptions = {}): Promise<void> {
   const { includeTags = [], disableRules = [], exclude = [], label } = options;
+  const isCi = process.env.CI === 'true' || process.env.CI === '1';
+  const includeNodeHtml = process.env.DEBUG_AXE_HTML === '1' || !isCi;
 
   let builder = new AxeBuilder({ page }).withTags([...DEFAULT_TAGS, ...includeTags]);
 
@@ -99,9 +105,15 @@ export async function expectA11y(page: Page, options: ExpectA11yOptions = {}): P
     const summary = violations
       .map((v) => {
         const [firstNode] = v.nodes;
-        const nodeSummary = firstNode
-          ? `    - ${firstNode.target.join(' ')}\n      ${firstNode.html}`
-          : '    (no node reported)';
+        let nodeSummary: string;
+        if (firstNode) {
+          const htmlLine = includeNodeHtml
+            ? `      ${firstNode.html}`
+            : '      (html omitted in CI; set DEBUG_AXE_HTML=1 to log node HTML)';
+          nodeSummary = `    - ${firstNode.target.join(' ')}\n${htmlLine}`;
+        } else {
+          nodeSummary = '    (no node reported)';
+        }
         const extraNodes =
           v.nodes.length > 1 ? `\n    …and ${v.nodes.length - 1} more node(s)` : '';
         return `  • [${v.impact ?? 'n/a'}] ${v.id}: ${v.help}\n${nodeSummary}${extraNodes}\n    ${v.helpUrl}`;

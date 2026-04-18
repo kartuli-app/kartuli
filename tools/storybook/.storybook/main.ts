@@ -1,6 +1,28 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { StorybookConfig } from '@storybook/react-vite';
+import type { Alias, AliasOptions } from 'vite';
+
+function mergeViteAlias(
+  existing: AliasOptions | undefined,
+  additions: Record<string, string>,
+): Alias[] {
+  const extra: Alias[] = Object.entries(additions).map(([find, replacement]) => ({
+    find,
+    replacement,
+  }));
+  if (!existing) {
+    return extra;
+  }
+  if (Array.isArray(existing)) {
+    return [...existing, ...extra];
+  }
+  const fromObject: Alias[] = Object.entries(existing).map(([find, replacement]) => ({
+    find,
+    replacement: replacement as string,
+  }));
+  return [...fromObject, ...extra];
+}
 
 function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
@@ -32,13 +54,12 @@ const config: StorybookConfig = {
       ...config,
       resolve: {
         ...config.resolve,
-        // Mirror the path aliases defined in the root tsconfig.json so stories
-        // imported from apps/game-client can resolve their own @game-client/*
-        // and @kartuli/ui/* imports at runtime.
-        alias: {
+        // Mirror the root tsconfig path aliases; merge so array-form aliases from
+        // presets or plugins are preserved.
+        alias: mergeViteAlias(config.resolve?.alias, {
           '@game-client': resolve(repoRoot, 'apps/game-client/src'),
           '@kartuli/ui': resolve(repoRoot, 'packages/ui/src'),
-        },
+        }),
       },
       // Force the automatic JSX runtime for every file `storybook build`
       // hands to esbuild. Without this, esbuild reads the tsconfig nearest

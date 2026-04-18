@@ -435,6 +435,9 @@ importers:
 
   tools/storybook:
     devDependencies:
+      '@kartuli/game-client':
+        specifier: workspace:*
+        version: link:../../apps/game-client
       '@kartuli/tailwind-config':
         specifier: workspace:*
         version: link:../../packages/tailwind-config
