@@ -51,37 +51,43 @@ function DockMenuContent({
   const { NavigationLink } = useNavigation();
   const { t } = useTranslation('common');
   return (
-    <div className={cn(menuType === 'nav-menu' ? 'min-w-60' : 'min-w-0', 'flex flex-col')}>
+    <ul className={cn(menuType === 'nav-menu' ? 'min-w-60' : 'min-w-0', 'flex flex-col')}>
       {menuLinks.map((menuLink) => {
         const href = `/${locale}${menuLink.href}`;
         const label = getDockMenuLinkLabel(menuLink.labelKey, t);
         if (menuType === 'nav-menu') {
           return (
-            <NavigationMenu.Link
-              key={menuLink.href}
-              closeOnClick
-              href={href}
-              render={
-                <NavigationLink href={href} prefetch className={dockMenuLinkRowClassName}>
-                  {label}
-                </NavigationLink>
-              }
-            />
+            <li key={menuLink.href} className="contents">
+              <NavigationMenu.Link
+                closeOnClick
+                href={href}
+                render={
+                  <NavigationLink href={href} prefetch className={dockMenuLinkRowClassName}>
+                    {label}
+                  </NavigationLink>
+                }
+              />
+            </li>
           );
         }
         return (
-          <NavigationLink
-            key={menuLink.href}
-            href={href}
-            prefetch
-            className={dockMenuLinkRowClassName}
-            onClick={onClick}
-          >
-            {label}
-          </NavigationLink>
+          <li key={menuLink.href} className="contents">
+            {/* Drawer branch: `onClick` is the drawer-close callback wired from
+                `DockMenuMobile`. The desktop branch relies on Base UI's
+                `NavigationMenu.Link` `closeOnClick` to dismiss the menu, so
+                `onClick` is intentionally only forwarded here. */}
+            <NavigationLink
+              href={href}
+              prefetch
+              className={dockMenuLinkRowClassName}
+              onClick={onClick}
+            >
+              {label}
+            </NavigationLink>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }
 
@@ -93,6 +99,7 @@ function DockMenuDesktop() {
 
   return (
     <NavigationMenu.Root
+      aria-label={t('accessibility.landmarks.more')}
       delay={0}
       closeDelay={0}
       orientation="vertical"
@@ -194,9 +201,9 @@ function DockMenuMobile() {
                   {t('dock.menu.close')}
                 </Drawer.Close>
               </div>
-              <div className="px-2 py-2">
+              <nav aria-label={t('accessibility.landmarks.more')} className="px-2 py-2">
                 <DockMenuContent locale={locale} menuType="drawer" onClick={() => setOpen(false)} />
-              </div>
+              </nav>
             </Drawer.Content>
           </Drawer.Popup>
         </Drawer.Viewport>

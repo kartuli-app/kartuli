@@ -16,6 +16,7 @@ function NextNavigationLink({
   className,
   children,
   'aria-label': ariaLabel,
+  'aria-current': ariaCurrent,
   prefetch = false,
   onClick,
 }: NavigationLinkProps) {
@@ -24,6 +25,7 @@ function NextNavigationLink({
       href={href}
       className={className}
       aria-label={ariaLabel}
+      aria-current={ariaCurrent}
       prefetch={prefetch}
       onClick={onClick}
     >

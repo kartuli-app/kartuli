@@ -221,6 +221,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const placeholder =
     direction === 'georgian-to-latin' ? t('placeholder_to_latin') : t('placeholder_to_georgian');
 
+  const textareaLang = direction === 'georgian-to-latin' ? 'ka-GE' : 'en';
+
   return (
     <Toast.Provider toastManager={toastManager}>
       <Tooltip.Provider delay={300}>
@@ -300,6 +302,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             {/* text area */}
             <div className={cn('p-brand-large', 'grow')}>
               <textarea
+                lang={textareaLang}
                 className={cn(
                   //
                   'w-full',

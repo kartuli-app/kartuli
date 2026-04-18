@@ -1,8 +1,12 @@
+'use client';
+
 import { cn } from '@kartuli/ui/utils/cn';
+import { useTranslation } from 'react-i18next';
 import { GameAppDockMainLinks } from './game-app-dock-main-links';
 import { GameAppDockMenu } from './game-app-dock-menu';
 
 export function GameAppDock() {
+  const { t } = useTranslation('common');
   return (
     <div
       className={cn(
@@ -46,7 +50,16 @@ export function GameAppDock() {
           'md:items-center',
         )}
       >
-        <GameAppDockMainLinks />
+        <nav
+          aria-label={t('accessibility.landmarks.sections')}
+          className={cn(
+            'flex md:flex-col',
+            'gap-brand-regular md:gap-brand-regular',
+            'md:items-center',
+          )}
+        >
+          <GameAppDockMainLinks />
+        </nav>
         <GameAppDockMenu />
       </div>
     </div>
