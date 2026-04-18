@@ -102,7 +102,13 @@ function DockMenuDesktop() {
       value={activeMenuValue}
       onValueChange={(value) => setActiveMenuValue(value)}
     >
-      <NavigationMenu.List>
+      <NavigationMenu.List
+        // aria-orientation is not a valid ARIA attribute on <ul role="list">.
+        // Base UI's CompositeRoot adds it unconditionally, so strip it here.
+        // Keyboard navigation is driven by the `orientation` prop on Root,
+        // not by this DOM attribute.
+        render={({ 'aria-orientation': _a11yAriaOrientation, ...props }) => <ul {...props} />}
+      >
         <NavigationMenu.Item value="dock-menu">
           <NavigationMenu.Trigger className={getDockButtonClassName({ isActive: isMenuOpen })}>
             <DockButtonContent
