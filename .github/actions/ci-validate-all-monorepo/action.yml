@@ -14,6 +14,11 @@ runs:
         exit 0
       shell: bash
 
+    # Required by @kartuli/storybook's vitest browser-mode suite (addon-vitest + @vitest/browser-playwright).
+    # Shares the ~/.cache/ms-playwright binaries with the E2E workflow since both resolve to the same playwright version.
+    - name: Setup Playwright
+      uses: ./.github/actions/ci-setup-playwright
+
     # Run all three in parallel: & backgrounds the process; wait collects exit codes; fail step if any failed.
     - name: Run typecheck, lint, and test (parallel)
       run: |
