@@ -7,6 +7,8 @@ import { defaultLocaleBase } from '../../helpers/locale-url';
 // The translit page has no page-level heading — it's a two-pane transliteration
 // tool. We land on the "source" label (associated with the input textarea).
 const sourceLabel = enResources.translit.source;
+const switchToLatinGeorgian = enResources.translit.switch_direction_to_latin_to_georgian;
+const switchToGeorgianLatin = enResources.translit.switch_direction_to_georgian_to_latin;
 
 test.describe('Translit page', () => {
   test.beforeEach(async ({ page }) => {
@@ -21,5 +23,21 @@ test.describe('Translit page', () => {
 
   test('has no a11y violations on initial load', async ({ page }) => {
     await expectA11y(page, { label: 'translit: initial load' });
+  });
+
+  test('sets textarea lang from direction and updates after toggling', async ({ page }) => {
+    const input = page.locator('#translit-input');
+    const output = page.locator('#translit-output');
+
+    await expect(input).toHaveAttribute('lang', 'ka-GE');
+    await expect(output).toHaveAttribute('lang', 'ka-Latn');
+
+    await page.getByRole('button', { name: switchToLatinGeorgian }).click();
+    await expect(input).toHaveAttribute('lang', 'ka-Latn');
+    await expect(output).toHaveAttribute('lang', 'ka-GE');
+
+    await page.getByRole('button', { name: switchToGeorgianLatin }).click();
+    await expect(input).toHaveAttribute('lang', 'ka-GE');
+    await expect(output).toHaveAttribute('lang', 'ka-Latn');
   });
 });

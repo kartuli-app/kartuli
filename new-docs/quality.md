@@ -145,8 +145,8 @@ Entry point: [`staging-orchestrator.yml`](../.github/workflows/staging-orchestra
 1. **`detect-affected`** — runs [`scripts/orchestrator/detect-affected.mjs`](../scripts/orchestrator/detect-affected.mjs) against `origin/main`, then maps the affected paths to workflow targets via `map-affected-to-workflows.mjs`.
 2. **`validate-all-monorepo`** — always runs. Uses [`ci-validate-all-monorepo`](../.github/actions/ci-validate-all-monorepo/action.yml) which:
    - Runs `pnpm lint:root` first (serial).
-   - Sets up Playwright browsers via [`ci-setup-playwright`](../.github/actions/ci-setup-playwright/action.yml) (needed so the Storybook Vitest browser-mode project can launch Chromium during `test:all:coverage`).
-   - Then runs `lint:all`, `typecheck:all`, and `test:all:coverage` **in parallel**.
+   - Sets up Playwright browsers via [`ci-setup-playwright`](../.github/actions/ci-setup-playwright/action.yml) so Chromium is available for **`pnpm --filter @kartuli/storybook test`** (Vitest browser mode + `@vitest/browser-playwright`). The same cache under `~/.cache/ms-playwright` is shared with E2E jobs that use the same Playwright version.
+   - Then runs **`lint:all`**, **`typecheck:all`**, **`test:all:coverage`**, and **`pnpm --filter @kartuli/storybook test`** **in parallel** (Storybook stays a separate command — it is **not** part of the root `vitest.config.mts` `projects` glob; see section 4 and that config’s comment).
    - Uploads a Vitest coverage report as a PR comment.
 3. **Per-target reusable workflows** (only called if that target is affected):
    - Next.js apps → [`staging-w-app-nextjs.yml`](../.github/workflows/staging-w-app-nextjs.yml): per-package validate (typecheck + lint + test), build, start server (or deploy to Vercel Preview), Lighthouse, Playwright E2E against the preview URL. Runs twice: `deploy_target=local` and `deploy_target=vercel` (matrix).
@@ -190,7 +190,7 @@ When you add a new check, pick the cheapest layer that can meaningfully run it:
 
    If the two consumers ever drift to different `playwright` versions, `playwright install chromium` would need to run for each (or we'd need to align versions via the catalog). Check the lockfile if you upgrade either dep.
 
-   For local runs, `pnpm --filter @kartuli/storybook test` works without a manual `playwright install` because the `playwright` library auto-downloads the matching browser on first launch (`pnpm.onlyBuiltDependencies` bypasses the postinstall script, not this runtime path).
+   For local runs, install Chromium once before Storybook browser tests (same as E2E), e.g. `pnpm exec playwright install chromium` from the repo root, or use whatever install step your machine already uses for `tools/e2e`. Playwright does **not** reliably fetch missing browser binaries implicitly at test launch; without a prior install or cache hit, Vitest browser mode will fail when launching Chromium.
 
 2. **AAA rules are not enforced**
 

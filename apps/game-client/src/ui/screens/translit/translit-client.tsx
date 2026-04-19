@@ -221,7 +221,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const placeholder =
     direction === 'georgian-to-latin' ? t('placeholder_to_latin') : t('placeholder_to_georgian');
 
-  const inputLang = direction === 'georgian-to-latin' ? 'ka-GE' : 'und-Latn';
+  const inputLang = direction === 'georgian-to-latin' ? 'ka-GE' : 'ka-Latn';
   const outputLang = direction === 'georgian-to-latin' ? 'ka-Latn' : 'ka-GE';
 
   return (
