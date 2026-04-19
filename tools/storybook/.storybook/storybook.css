@@ -13,3 +13,4 @@
 /* `@source` is for Tailwind class discovery and expects filesystem paths. */
 @source "../";
 @source "../../../packages/ui/src";
+@source "../../../apps/game-client/src";

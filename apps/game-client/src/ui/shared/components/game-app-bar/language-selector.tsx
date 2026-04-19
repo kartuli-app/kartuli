@@ -69,7 +69,7 @@ export function LanguageSelector() {
       onValueChange={(value: string | null) => handleValueChange(value)}
     >
       <Select.Trigger
-        aria-label="Language"
+        aria-label={t('accessibility.language')}
         className={clsx(
           iconClassNames,
           buttonIconClassNames,

@@ -28,6 +28,11 @@
       "outputs": [".vitepress/dist/**"]
     },
     "test": { "cache": true },
+    "@kartuli/storybook#test": {
+      "dependsOn": ["@kartuli/ui#build"],
+      "cache": true,
+      "inputs": ["$TURBO_DEFAULT$", "../../packages/ui/src/**", "../../apps/game-client/src/**"]
+    },
     "lint": {
       "cache": true,
       "inputs": [

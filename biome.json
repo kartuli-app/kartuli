@@ -41,6 +41,7 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": "error",
       "suspicious": {
         "noUnknownAtRules": "off"
       }

@@ -11,8 +11,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export const viewport: Viewport = {
   width: 'device-width',
-  initialScale: 1,
-  maximumScale: 3,
+  // Do not set `maximumScale` / `userScalable: false` — these block low-vision
+  // users who need to zoom above the default cap. Axe flags a cap below 500%
+  // (rule: meta-viewport-large), and WCAG 1.4.4 / 1.4.10 require unrestricted
+  // resize. Modern iOS Safari respects unrestricted zoom without layout jumps.
   themeColor: 'red',
   // themeColor: [
   //   { media: '(prefers-color-scheme: light)', color: 'red' },

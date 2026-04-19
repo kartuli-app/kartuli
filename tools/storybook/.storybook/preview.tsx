@@ -11,15 +11,25 @@ const preview: Preview = {
       },
     },
     a11y: {
-      // Accessibility addon config
-      config: {
-        rules: [
-          {
-            id: 'color-contrast',
-            enabled: true,
-          },
+      // Matches the tag set used in our Playwright + axe-core setup
+      // (tools/e2e/tests/helpers/expect-a11y.ts) so component-level and
+      // page-level scans enforce the same rules.
+      options: {
+        runOnly: [
+          'wcag2a',
+          'wcag2aa',
+          'wcag21a',
+          'wcag21aa',
+          'wcag22a',
+          'wcag22aa',
+          'best-practice',
         ],
       },
+      // Violations fail the Vitest-addon component tests (CLI/CI). Opt a
+      // specific story out by setting `parameters.a11y.test` to the warning
+      // mode (does not fail the run) or `'off'` (skips entirely). See
+      // https://storybook.js.org/docs/writing-tests/accessibility-testing#test-behavior
+      test: 'error',
     },
   },
   globalTypes: {
@@ -39,25 +49,31 @@ const preview: Preview = {
     },
   },
   decorators: [
+    // Wrap every story canvas in a `<main>` landmark. Components are rendered
+    // in isolation in Storybook with no surrounding page, which makes axe's
+    // `region` rule (best-practice, "all page content must sit inside a
+    // landmark") fire against any atomic component that doesn't provide its
+    // own landmark. Supplying the landmark here mirrors what the hosting page
+    // gives it in the real app, so the rule passes legitimately instead of
+    // being silenced per-story.
+    //
+    // If a future story renders its own `<main>` internally, opt it out of
+    // `landmark-no-duplicate-main` via `parameters.a11y.config.rules`.
     (Story, context) => {
       const theme = context.globals.theme || 'default';
+      const content = (
+        <main>
+          <Story />
+        </main>
+      );
 
-      // Apply theme wrapper based on selected theme
       switch (theme) {
         case 'game':
-          return (
-            <GameThemeWrapper>
-              <Story />
-            </GameThemeWrapper>
-          );
+          return <GameThemeWrapper>{content}</GameThemeWrapper>;
         case 'backoffice':
-          return (
-            <BackofficeThemeWrapper>
-              <Story />
-            </BackofficeThemeWrapper>
-          );
+          return <BackofficeThemeWrapper>{content}</BackofficeThemeWrapper>;
         default:
-          return <Story />;
+          return content;
       }
     },
   ],

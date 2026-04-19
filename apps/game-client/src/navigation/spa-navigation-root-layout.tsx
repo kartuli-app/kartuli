@@ -25,10 +25,17 @@ function SpaNavigationLink({
   className,
   children,
   'aria-label': ariaLabel,
+  'aria-current': ariaCurrent,
   onClick,
 }: NavigationLinkProps) {
   return (
-    <a href={href} className={className} aria-label={ariaLabel} onClick={onClick}>
+    <a
+      href={href}
+      className={className}
+      aria-label={ariaLabel}
+      aria-current={ariaCurrent}
+      onClick={onClick}
+    >
       {children}
     </a>
   );

@@ -9,7 +9,7 @@ interface AppBarProps {
 }
 export function AppBar({ className, children, isSticky = false }: Readonly<AppBarProps>) {
   return (
-    <div
+    <header
       className={clsx(
         //
         isSticky && 'sticky top-0 z-30',
@@ -28,6 +28,6 @@ export function AppBar({ className, children, isSticky = false }: Readonly<AppBa
       >
         {children}
       </ResponsiveContainer>
-    </div>
+    </header>
   );
 }

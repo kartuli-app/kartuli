@@ -46,4 +46,13 @@ export default {
     lang_ru: 'Русский',
   },
   //
+  accessibility: {
+    skip_to_main: 'Перейти к основному содержимому',
+    language: 'Язык',
+    landmarks: {
+      sections: 'Разделы',
+      more: 'Ещё',
+    },
+  },
+  //
 } as const;

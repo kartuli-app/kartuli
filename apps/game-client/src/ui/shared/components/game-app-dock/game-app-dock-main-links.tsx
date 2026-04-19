@@ -106,29 +106,31 @@ export function GameAppDockMainLinks() {
   };
 
   return (
-    <>
+    <ul className="contents">
       {mainLinks.map((link) => {
         const isActive = pathname === link.href;
         const isTouched = touchedLink === link.href;
         const label = getDockMainLinkLabel(link.labelKey, t);
         return (
-          <NavigationLink
-            key={link.href}
-            onClick={() => handleLinkClick(link.href)}
-            href={`/${locale}${link.href}`}
-            prefetch={true}
-            className={getDockButtonClassName({ isActive, isTouched })}
-          >
-            <DockButtonContent
-              label={label}
-              isActive={isActive}
-              IconActive={link.iconActive}
-              IconInactive={link.iconInactive}
-            />
-            <DockMainLinkActiveIndicator isActive={isActive} />
-          </NavigationLink>
+          <li key={link.href} className="contents">
+            <NavigationLink
+              onClick={() => handleLinkClick(link.href)}
+              href={`/${locale}${link.href}`}
+              prefetch={true}
+              aria-current={isActive ? 'page' : undefined}
+              className={getDockButtonClassName({ isActive, isTouched })}
+            >
+              <DockButtonContent
+                label={label}
+                isActive={isActive}
+                IconActive={link.iconActive}
+                IconInactive={link.iconInactive}
+              />
+              <DockMainLinkActiveIndicator isActive={isActive} />
+            </NavigationLink>
+          </li>
         );
       })}
-    </>
+    </ul>
   );
 }

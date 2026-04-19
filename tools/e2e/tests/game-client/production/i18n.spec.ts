@@ -7,10 +7,12 @@ const en_description = enResources.metadata.description;
 const en_title = enResources.metadata.title;
 const en_home_heading = enResources.home.heading;
 const en_lang_label = enResources.common.language_selector.lang_en;
+const en_language_combobox_label = enResources.common.accessibility.language;
 const ru_lang_label = enResources.common.language_selector.lang_ru;
 const ru_description = ruResources.metadata.description;
 const ru_title = ruResources.metadata.title;
 const ru_home_heading = ruResources.home.heading;
+const ru_language_combobox_label = ruResources.common.accessibility.language;
 
 test.describe('Game Client i18n', () => {
   test('/en has html lang="en", English content, and locale-specific metadata', async ({
@@ -50,9 +52,9 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByRole('combobox', { name: 'Language' })).toBeVisible();
+    await expect(page.getByRole('combobox', { name: en_language_combobox_label })).toBeVisible();
 
-    await page.getByRole('combobox', { name: 'Language' }).click();
+    await page.getByRole('combobox', { name: en_language_combobox_label }).click();
     await page.getByRole('option', { name: ru_lang_label }).click();
 
     await expect(page).toHaveURL(/\/ru(\/|$)/);
@@ -69,9 +71,9 @@ test.describe('Game Client i18n', () => {
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('combobox', { name: 'Language' })).toBeVisible();
+    await expect(page.getByRole('combobox', { name: ru_language_combobox_label })).toBeVisible();
 
-    await page.getByRole('combobox', { name: 'Language' }).click();
+    await page.getByRole('combobox', { name: ru_language_combobox_label }).click();
     await page.getByRole('option', { name: en_lang_label }).click();
 
     await expect(page).toHaveURL(/\/en(\/|$)/);
@@ -88,7 +90,7 @@ test.describe('Game Client i18n', () => {
     await page.goto('/en');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
-    await page.getByRole('combobox', { name: 'Language' }).click();
+    await page.getByRole('combobox', { name: en_language_combobox_label }).click();
     await page.getByRole('option', { name: ru_lang_label }).click();
     await expect(page).toHaveURL(/\/ru(\/|$)/);
     await expect(page.getByRole('heading', { name: ru_home_heading })).toBeVisible({
