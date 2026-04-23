@@ -47,12 +47,13 @@ orderedDocuments.forEach(({ section, items }) => {
 
   items.forEach((item) => {
     if (item.items) {
+      const visible = item.items.filter((subItem) => !shouldSkipDoc(subItem));
+      if (visible.length === 0) return;
       bundle += `- **${item.text}**\n`;
-      item.items.forEach((subItem) => {
-        if (shouldSkipDoc(subItem)) return;
+      for (const subItem of visible) {
         const desc = subItem.description ? ` - ${subItem.description}` : '';
         bundle += `  - [${subItem.text}](${toSiteUrl(subItem.link)})${desc}\n`;
-      });
+      }
       return;
     }
 
