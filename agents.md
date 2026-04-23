@@ -9,7 +9,7 @@ This project is a Georgian language learning platform.
 3. Respect pinned Node from `.nvmrc` (`24.13.1`).
 4. Before considering work complete, always run:
    - `pnpm run validate:all`
-   - `pnpm run diagrams:all`
+   - `pnpm run diagrams:all` (runs [`@kartuli/diagram-generator`](tools/diagram-generator/package.json); configs in [`tools/diagram-generator/config/`](tools/diagram-generator/config/))
 5. Never commit unless explicitly requested by the user.
 
 ## Git Workflow
@@ -65,7 +65,7 @@ Run from the repo root unless specified.
 - Do not run `npm` commands — this repo uses pnpm workspaces.
 - Install deps: `pnpm install`
 - Wipe turbo cache: `pnpm run turbo:cache:wipe`
-- Generate diagrams (monorepo, game-client, backoffice-client): `pnpm run diagrams:all`
+- Generate diagrams (monorepo, game-client, backoffice-client): `pnpm run diagrams:all` via `@kartuli/diagram-generator`
 
 ### All packages scripts
 
