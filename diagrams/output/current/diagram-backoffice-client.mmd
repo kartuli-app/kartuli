@@ -1,0 +1,35 @@
+flowchart LR
+
+subgraph 0["src"]
+subgraph 1["app"]
+subgraph 2["en"]
+subgraph 3["debug"]
+4["page.tsx"]
+end
+8["page.tsx"]
+end
+B["layout.tsx"]
+end
+subgraph 5["domains"]
+subgraph 6["debug"]
+7["debug-page.tsx"]
+end
+subgraph 9["home"]
+A["home-page.tsx"]
+end
+subgraph F["app-shell"]
+G["root-layout.tsx"]
+H["globals.css"]
+end
+end
+subgraph C["config"]
+D["metadata-config.tsx"]
+E["viewport-config.tsx"]
+end
+end
+4-->7
+8-->A
+B-->D
+B-->E
+B-->G
+G-->H
