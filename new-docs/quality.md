@@ -152,9 +152,9 @@ Entry point: [`staging-orchestrator.yml`](../.github/workflows/staging-orchestra
    - Next.js apps → [`staging-w-app-nextjs.yml`](../.github/workflows/staging-w-app-nextjs.yml): per-package validate (typecheck + lint + test), build, start server (or deploy to Vercel Preview), Lighthouse, Playwright E2E against the preview URL. Runs twice: `deploy_target=local` and `deploy_target=vercel` (matrix).
    - Storybook → [`staging-w-tool-storybook.yml`](../.github/workflows/staging-w-tool-storybook.yml): build, start preview server on `:6006`, Playwright E2E against it.
    - Web docs → [`staging-w-tool-web-docs-client.yml`](../.github/workflows/staging-w-tool-web-docs-client.yml).
-   - Next.js dependency diagrams → [`staging-w-app-nextjs-diagram.yml`](../.github/workflows/staging-w-app-nextjs-diagram.yml).
+4. **`commit-diagrams`** (after `validate-all-monorepo` succeeds, same-repo PRs and `workflow_dispatch` only): installs Graphviz, runs `pnpm run diagrams:all`, then commits `diagrams/output/current/` via [git-auto-commit-action](https://github.com/stefanzweifel/git-auto-commit-action) with `[skip ci]` in the message so the bot push does not re-trigger this workflow. Fork PRs skip this job (no `contents: write` to the contributor branch).
 
-All reusable workflows upload their artefacts (`e2e-artifacts-*`, `lighthouse-artifacts-*`) on failure so debugging doesn't require reproducing locally.
+Reusable workflows upload their artefacts (`e2e-artifacts-*`, `lighthouse-artifacts-*`) on failure so debugging doesn't require reproducing locally.
 
 ### CI — push to `main` (Production)
 
