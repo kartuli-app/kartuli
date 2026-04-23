@@ -237,6 +237,21 @@ function getDisplayNameFromFile(file) {
 
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---/;
 
+const DESCRIPTION_LINE_PREFIX = 'description:';
+
+/**
+ * First `description:` line at column 0 (YAML-style), value after optional spaces; O(n) in frontmatter size.
+ * @param {string} frontmatter
+ * @returns {string}
+ */
+function extractDescriptionFromFrontmatter(frontmatter) {
+  for (const line of frontmatter.split(/\r?\n/)) {
+    if (!line.startsWith(DESCRIPTION_LINE_PREFIX)) continue;
+    return line.slice(DESCRIPTION_LINE_PREFIX.length).trimStart().trim();
+  }
+  return '';
+}
+
 /**
  * @param {string} content - Full file content
  * @param {string} relPathForWarn - Relative path for warnings
@@ -250,8 +265,7 @@ function parseFrontmatter(content, relPathForWarn) {
   }
 
   const frontmatter = frontmatterMatch[1];
-  const descriptionMatch = /^description:\s*(.+)$/m.exec(frontmatter);
-  const description = descriptionMatch ? descriptionMatch[1].trim() : '';
+  const description = extractDescriptionFromFrontmatter(frontmatter);
   if (!description) {
     console.warn(`[docs-processor] Missing or empty description: ${relPathForWarn}`);
   }
