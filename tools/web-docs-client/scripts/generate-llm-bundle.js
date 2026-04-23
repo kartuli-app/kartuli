@@ -10,19 +10,6 @@ const { orderedDocuments } = processDocs();
 
 const docsBaseUrl = 'https://kartuli-app.github.io';
 const docsBasePath = '/kartuli';
-const sectionOrder = {
-  Gamarjoba: 0,
-  Home: 0,
-  'Start Here': 1,
-  'Start here': 1,
-  Backlog: 2,
-  Product: 3,
-  Tech: 4,
-  Providers: 5,
-  Apps: 6,
-  Tools: 7,
-  Packages: 8,
-};
 
 function shouldSkipDoc(doc) {
   if (!doc?.link) return true;
@@ -41,13 +28,6 @@ function toSiteUrl(link) {
   return `${docsBaseUrl}${docsBasePath}${route}`;
 }
 
-function sortSections(a, b) {
-  const aRank = sectionOrder[a.section] ?? 50;
-  const bRank = sectionOrder[b.section] ?? 50;
-  if (aRank !== bRank) return aRank - bRank;
-  return a.section.localeCompare(b.section);
-}
-
 // Generate the bundle (index-links mode)
 let bundle = `# kartuli-llm.txt
 
@@ -62,8 +42,7 @@ let bundle = `# kartuli-llm.txt
 
 `;
 
-const sortedDocuments = [...orderedDocuments].sort(sortSections);
-sortedDocuments.forEach(({ section, items }) => {
+orderedDocuments.forEach(({ section, items }) => {
   bundle += `### ${section}\n\n`;
 
   items.forEach((item) => {
@@ -71,14 +50,14 @@ sortedDocuments.forEach(({ section, items }) => {
       bundle += `- **${item.text}**\n`;
       item.items.forEach((subItem) => {
         if (shouldSkipDoc(subItem)) return;
-        const desc = subItem.description ? ` — ${subItem.description}` : '';
+        const desc = subItem.description ? ` - ${subItem.description}` : '';
         bundle += `  - [${subItem.text}](${toSiteUrl(subItem.link)})${desc}\n`;
       });
       return;
     }
 
     if (shouldSkipDoc(item)) return;
-    const desc = item.description ? ` — ${item.description}` : '';
+    const desc = item.description ? ` - ${item.description}` : '';
     bundle += `- [${item.text}](${toSiteUrl(item.link)})${desc}\n`;
   });
 
