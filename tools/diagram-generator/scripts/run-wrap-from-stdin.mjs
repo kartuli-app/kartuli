@@ -23,5 +23,4 @@ const childResult = new Promise((resolve, reject) => {
   });
 });
 
-await pipeline(process.stdin, child.stdin);
-await childResult;
+await Promise.all([pipeline(process.stdin, child.stdin), childResult]);
