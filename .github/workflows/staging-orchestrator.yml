@@ -69,22 +69,6 @@ jobs:
       KARTULIAPP_TEAM_GROUP_CHAT_ID: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
       KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID }}
 
-  call-nextjs-diagram-workflow:
-    name: Staging CI Next.js diagram
-    needs: detect-affected
-    if: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets)[0] != null }}
-    permissions:
-      contents: read
-      pull-requests: write
-    strategy:
-      fail-fast: false
-      matrix:
-        target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
-    uses: ./.github/workflows/staging-w-app-nextjs-diagram.yml
-    with:
-      target: ${{ matrix.target }}
-      pull_request_number: ${{ github.event.pull_request.number || '' }}
-
   call-web-docs-staging-workflow:
     name: Staging CI Online documentation
     needs: detect-affected
@@ -124,3 +108,37 @@ jobs:
       - name: Validate all monorepo
         uses: ./.github/actions/ci-validate-all-monorepo
 
+  commit-diagrams:
+    name: Commit dependency diagrams
+    needs: validate-all-monorepo
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      # Avoid lefthook pre-commit/pre-push during bot commit+push (slow, wrong context, can confuse git).
+      LEFTHOOK: "0"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # PR default checkout is the merge ref (detached HEAD); commit+push must target the real branch tip.
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+
+      - name: CI setup node
+        uses: ./.github/actions/ci-setup-node
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Generate all dependency diagrams
+        run: pnpm run diagrams:all
+
+      - name: Commit diagram outputs
+        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0
+        with:
+          file_pattern: diagrams/output/current/*
+          commit_message: "chore(diagrams): refresh dependency outputs [skip ci]"
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com

@@ -18,6 +18,7 @@ module.exports = {
         'storybook-static',
         String.raw`/\.vitepress/cache/`,
         'diagrams/',
+        'tools/diagram-generator/node_modules',
         'vitest.config.mts',
         'next-env.d.ts',
         'postcss.config.mjs',

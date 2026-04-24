@@ -1,0 +1,23 @@
+{
+  "name": "@kartuli/diagram-generator",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "all": "pnpm run game-client && pnpm run backoffice-client && pnpm run monorepo",
+    "game-client:dot": "mkdir -p ../../diagrams/output/current && (cd ../../apps/game-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type dot) | dot -T svg > ../../diagrams/output/current/diagram-game-client.svg",
+    "game-client:mermaid": "mkdir -p ../../diagrams/output/current && cd ../../apps/game-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type mermaid -f ../../diagrams/output/current/diagram-game-client.mmd",
+    "game-client:web": "mkdir -p ../../diagrams/output/current && (cd ../../apps/game-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type dot) | dot -T svg | node ./scripts/run-wrap-from-stdin.mjs > ../../diagrams/output/current/diagram-game-client.html",
+    "game-client": "pnpm run game-client:dot && pnpm run game-client:mermaid && pnpm run game-client:web",
+    "backoffice-client:dot": "mkdir -p ../../diagrams/output/current && (cd ../../apps/backoffice-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type dot) | dot -T svg > ../../diagrams/output/current/diagram-backoffice-client.svg",
+    "backoffice-client:mermaid": "mkdir -p ../../diagrams/output/current && cd ../../apps/backoffice-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type mermaid -f ../../diagrams/output/current/diagram-backoffice-client.mmd",
+    "backoffice-client:web": "mkdir -p ../../diagrams/output/current && (cd ../../apps/backoffice-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type dot) | dot -T svg | node ./scripts/run-wrap-from-stdin.mjs > ../../diagrams/output/current/diagram-backoffice-client.html",
+    "backoffice-client": "pnpm run backoffice-client:dot && pnpm run backoffice-client:mermaid && pnpm run backoffice-client:web",
+    "monorepo:dot": "mkdir -p ../../diagrams/output/current && (cd ../.. && tools/diagram-generator/node_modules/.bin/dependency-cruise --config tools/diagram-generator/config/dependency-cruiser.monorepo.js . --output-type dot | dot -T svg > diagrams/output/current/diagram-monorepo.svg)",
+    "monorepo:mermaid": "mkdir -p ../../diagrams/output/current && cd ../.. && tools/diagram-generator/node_modules/.bin/dependency-cruise --config tools/diagram-generator/config/dependency-cruiser.monorepo.js . --output-type mermaid -f diagrams/output/current/diagram-monorepo.mmd",
+    "monorepo:web": "mkdir -p ../../diagrams/output/current && (cd ../.. && tools/diagram-generator/node_modules/.bin/dependency-cruise --config tools/diagram-generator/config/dependency-cruiser.monorepo.js . --output-type dot | dot -T svg | node tools/diagram-generator/scripts/run-wrap-from-stdin.mjs > diagrams/output/current/diagram-monorepo.html)",
+    "monorepo": "pnpm run monorepo:dot && pnpm run monorepo:mermaid && pnpm run monorepo:web"
+  },
+  "devDependencies": {
+    "dependency-cruiser": "catalog:"
+  }
+}

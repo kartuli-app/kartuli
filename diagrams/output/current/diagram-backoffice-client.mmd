@@ -1,0 +1,43 @@
+flowchart LR
+
+subgraph 0["src"]
+subgraph 1["app"]
+subgraph 2["en"]
+subgraph 3["debug"]
+4["page.tsx"]
+end
+C["page.tsx"]
+end
+F["layout.tsx"]
+end
+subgraph 5["domains"]
+subgraph 6["debug"]
+7["debug-page.tsx"]
+end
+subgraph D["home"]
+E["home-page.tsx"]
+end
+subgraph J["app-shell"]
+K["root-layout.tsx"]
+L["globals.css"]
+end
+end
+subgraph G["config"]
+H["metadata-config.tsx"]
+I["viewport-config.tsx"]
+end
+end
+subgraph 8["@kartuli"]
+subgraph 9["ui"]
+subgraph A["components"]
+B["DeploymentDebugPanel"]
+end
+end
+end
+4-->7
+7-->B
+C-->E
+F-->H
+F-->I
+F-->K
+K-->L
