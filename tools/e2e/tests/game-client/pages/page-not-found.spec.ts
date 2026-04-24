@@ -1,6 +1,5 @@
 import { enResources } from '@game-client/i18n/resources/resources-en';
 import { expect, test } from '@playwright/test';
-import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 import { expectA11y } from '../../helpers/expect-a11y';
 import { defaultLocaleBase } from '../../helpers/locale-url';
 
@@ -8,7 +7,6 @@ const heading = enResources.notFound.heading;
 
 test.describe('Page not found', () => {
   test.beforeEach(async ({ page }) => {
-    await applyVercelProtectionBypass(page);
     const response = await page.goto(`${defaultLocaleBase}/non-existent-page`);
     expect(response?.status(), 'not-found route should return HTTP 404').toBe(404);
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();

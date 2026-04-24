@@ -11,6 +11,8 @@ on:
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'turbo.json'
+      - 'lighthouse-config-strict.json'
+      - '.github/actions/ci-quality-lighthouse/**'
       - '.github/workflows/production-w-app-game-client.yml'
   workflow_dispatch:
 
@@ -76,20 +78,13 @@ jobs:
 
       - name: Run Lighthouse CI
         id: lighthouse
+        uses: ./.github/actions/ci-quality-lighthouse
         env:
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "error"
-          STEP_APP_URL: ${{ env.PRODUCTION_URL }}
-        run: |
-          URL="$STEP_APP_URL"
-          if [ -z "$URL" ]; then
-            echo "ERROR: APP URL is empty."
-            exit 1
-          fi
-          pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
-          REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
-          echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
-          echo "Lighthouse report URL: ${REPORT_URL}"
+        with:
+          config_name: lighthouse-config-strict
+          url: ${{ env.PRODUCTION_URL }}
 
       - name: Write Lighthouse report to job summary
         run: |

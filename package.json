@@ -35,7 +35,6 @@
     "diagrams:all": "pnpm --filter @kartuli/diagram-generator run all",
     "e2e": "pnpm --filter @kartuli/e2e e2e",
     "e2e:ui": "pnpm --filter @kartuli/e2e e2e:ui",
-    "lighthouse": "lhci autorun",
     "c:e2e:game-client": "BASE_URL=http://localhost:3000 pnpm --filter @kartuli/e2e exec playwright test tests/game-client",
     "c:e2e:backoffice-client": "BASE_URL=http://localhost:3001 pnpm --filter @kartuli/e2e exec playwright test tests/backoffice-client",
     "c:e2e:storybook": "BASE_URL=http://localhost:6006 pnpm --filter @kartuli/e2e exec playwright test tests/storybook",

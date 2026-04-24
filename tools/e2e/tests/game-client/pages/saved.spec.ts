@@ -1,6 +1,5 @@
 import { enResources } from '@game-client/i18n/resources/resources-en';
 import { expect, test } from '@playwright/test';
-import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 import { expectA11y } from '../../helpers/expect-a11y';
 import { defaultLocaleBase } from '../../helpers/locale-url';
 
@@ -8,7 +7,6 @@ const heading = enResources.saved.heading;
 
 test.describe('Saved page', () => {
   test.beforeEach(async ({ page }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto(`${defaultLocaleBase}/saved`);
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   });

@@ -1,7 +1,6 @@
 import { enResources } from '@game-client/i18n/resources/resources-en';
 import { ruResources } from '@game-client/i18n/resources/resources-ru';
 import { expect, test } from '@playwright/test';
-import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 
 const en_description = enResources.metadata.description;
 const en_title = enResources.metadata.title;
@@ -18,7 +17,6 @@ test.describe('Game Client i18n', () => {
   test('/en has html lang="en", English content, and locale-specific metadata', async ({
     page,
   }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
@@ -33,7 +31,6 @@ test.describe('Game Client i18n', () => {
   test('/ru has html lang="ru", Russian content, and locale-specific metadata', async ({
     page,
   }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
@@ -48,7 +45,6 @@ test.describe('Game Client i18n', () => {
   test('language switcher: from /en switch to Russian updates URL, html lang and content', async ({
     page,
   }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto('/en');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
@@ -67,7 +63,6 @@ test.describe('Game Client i18n', () => {
   test('language switcher: from /ru switch to English updates URL, html lang and content', async ({
     page,
   }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto('/ru');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
@@ -86,7 +81,6 @@ test.describe('Game Client i18n', () => {
   test('root / redirects to preferred locale: after switching to Russian, visiting / shows Russian', async ({
     page,
   }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto('/en');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 

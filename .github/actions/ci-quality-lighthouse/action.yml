@@ -1,0 +1,42 @@
+name: CI quality Lighthouse
+description: >
+  Run Lighthouse CI (lhci autorun) against a URL using a repo-root config file (basename without .json).
+  Requires checkout and ci-setup-node first so @lhci/cli is installed.
+
+inputs:
+  config_name:
+    description: Basename of the JSON config at repo root (e.g. lighthouse-config-strict → lighthouse-config-strict.json).
+    required: true
+  url:
+    description: URL passed to lhci --collect.url.
+    required: true
+
+outputs:
+  report_url:
+    description: Temporary public storage report URL parsed from lhci output, if present.
+    value: ${{ steps.run.outputs.report_url }}
+
+runs:
+  using: composite
+  steps:
+    - id: run
+      name: Run Lighthouse CI
+      env:
+        CONFIG_PATH: ${{ github.workspace }}/${{ inputs.config_name }}.json
+        COLLECT_URL: ${{ inputs.url }}
+      run: |
+        set -euo pipefail
+        set -o pipefail
+        if [ ! -f "$CONFIG_PATH" ]; then
+          echo "ERROR: Missing Lighthouse config: $CONFIG_PATH"
+          exit 1
+        fi
+        if [ -z "$COLLECT_URL" ]; then
+          echo "ERROR: collect url is empty."
+          exit 1
+        fi
+        pnpm exec lhci autorun --config="$CONFIG_PATH" --collect.url="$COLLECT_URL" 2>&1 | tee lighthouse_output.txt
+        REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+        echo "report_url=${REPORT_URL}" >> "$GITHUB_OUTPUT"
+        echo "Lighthouse report URL: ${REPORT_URL}"
+      shell: bash
