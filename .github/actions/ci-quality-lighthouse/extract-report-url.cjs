@@ -9,7 +9,6 @@ if (!fs.existsSync(path)) {
 
 const map = JSON.parse(fs.readFileSync(path, 'utf8'));
 const values = Object.values(map).filter(Boolean);
-const url =
-  values.find((v) => String(v).includes('storage.googleapis.com')) || values[0];
+const url = values.find((v) => String(v).includes('storage.googleapis.com')) || values[0];
 
 process.stdout.write(url ? String(url) : '');
