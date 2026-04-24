@@ -14,9 +14,7 @@ const child = spawn(process.execPath, [wrapPath], {
   stdio: ['pipe', 'inherit', 'inherit'],
 });
 
-await pipeline(process.stdin, child.stdin);
-
-await new Promise((resolve, reject) => {
+const childResult = new Promise((resolve, reject) => {
   child.on('error', reject);
   child.on('exit', (code, signal) => {
     if (signal) reject(new Error(String(signal)));
@@ -24,3 +22,6 @@ await new Promise((resolve, reject) => {
     else resolve();
   });
 });
+
+await pipeline(process.stdin, child.stdin);
+await childResult;
