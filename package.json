@@ -54,7 +54,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.10",
-    "@lhci/cli": "^0.15.0",
     "@vitest/coverage-v8": "catalog:",
     "lefthook": "^2.1.5",
     "turbo": "^2.9.4",

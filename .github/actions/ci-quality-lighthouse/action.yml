@@ -1,101 +1,51 @@
 name: CI quality Lighthouse
 description: >
-  Run Lighthouse CI (lhci autorun) against a URL using a repo-root config file (basename without .json),
-  then append a short Lighthouse section to the job summary. Requires checkout and ci-setup-node first
-  so @lhci/cli is installed. Report links are read from .lighthouseci/links.json when present. GitHub may
-  redact substrings in logs/summary that match repository secrets; this action also uploads
-  lighthouse-report-url.txt as an artifact so you can copy the real URL without log masking.
+  Run Lighthouse CI via treosh/lighthouse-ci-action with a repo-root LHCI JSON config (same shape as
+  lighthouse-ci collect/assert/upload). Results appear as GitHub check annotations; artifacts and
+  temporary public storage uploads are enabled. Requires checkout so configPath exists; callers
+  typically run ci-setup-node for other jobs in the same workflow.
 
 inputs:
   config_name:
-    description: Basename of the JSON config at repo root (e.g. lighthouse-config-production → lighthouse-config-production.json).
+    description: Basename without .json under repo root (e.g. lighthouse-config-production).
     required: true
   url:
-    description: URL passed to lhci --collect.url.
-    required: true
-  summary_heading:
-    description: Text for the job summary H2 (without leading ##); e.g. "Lighthouse report (local)" or "Lighthouse report (production)".
-    required: true
-  artifact_name_suffix:
-    description: Suffix for the lighthouse-report-url-* artifact (e.g. game-client-vercel). Must be unique per parallel job in the same workflow run.
+    description: Single URL to audit.
     required: true
 
 outputs:
   report_url:
-    description: Temporary public storage report URL from .lighthouseci/links.json or lhci log, if present.
-    value: ${{ steps.run.outputs.report_url }}
+    description: First uploaded report URL from the action links JSON output, when present (for Telegram, etc.).
+    value: ${{ steps.extract_report.outputs.report_url }}
 
 runs:
   using: composite
   steps:
-    - id: run
-      name: Run Lighthouse CI
+    - id: lhci
+      name: Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v12
       env:
-        CONFIG_PATH: ${{ github.workspace }}/${{ inputs.config_name }}.json
-        COLLECT_URL: ${{ inputs.url }}
-      run: |
-        set -euo pipefail
-        set -o pipefail
-        if [ ! -f "$CONFIG_PATH" ]; then
-          echo "ERROR: Missing Lighthouse config: $CONFIG_PATH"
-          exit 1
-        fi
-        if [ -z "$COLLECT_URL" ]; then
-          echo "ERROR: collect url is empty."
-          exit 1
-        fi
-
-        set +e
-        pnpm exec lhci autorun --config="$CONFIG_PATH" --collect.url="$COLLECT_URL" 2>&1 | tee lighthouse_output.txt
-        LHCI_EXIT=${PIPESTATUS[0]}
-        set -e
-
-        REPORT_URL=""
-        if [ -f .lighthouseci/links.json ]; then
-          REPORT_URL=$(node "$GITHUB_ACTION_PATH/extract-report-url.cjs")
-        fi
-        if [ -z "$REPORT_URL" ]; then
-          RAW_URL=$(grep -oE 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]+' lighthouse_output.txt | tail -1)
-          REPORT_URL=$(printf '%s' "$RAW_URL" | tr -d '\r\n' | sed 's/[[:space:]]*$//')
-        fi
-
-        {
-          echo "report_url<<LHCI_REPORT_URL_EOF"
-          printf '%s\n' "$REPORT_URL"
-          echo "LHCI_REPORT_URL_EOF"
-        } >> "$GITHUB_OUTPUT"
-
-        printf '%s' "$REPORT_URL" > "${GITHUB_WORKSPACE}/lighthouse-report-url.txt"
-
-        echo "Lighthouse report URL captured (length ${#REPORT_URL})."
-        exit "$LHCI_EXIT"
-      shell: bash
-
-    - name: Write Lighthouse report to job summary
-      if: always()
-      env:
-        SUMMARY_HEADING: ${{ inputs.summary_heading }}
-        REPORT_URL: ${{ steps.run.outputs.report_url }}
-      run: |
-        set -euo pipefail
-        {
-          echo "## ${SUMMARY_HEADING}"
-          echo ""
-          echo "GitHub may redact parts of URLs in the web UI if they match a repository secret. If the link below is broken, download the **lighthouse-report-url-${{ inputs.artifact_name_suffix }}** artifact (single line) for the exact URL."
-          echo ""
-          if [ -n "$REPORT_URL" ]; then
-            node "$GITHUB_ACTION_PATH/format-summary-link.cjs"
-          else
-            echo "Report URL not captured; see **lighthouse-report-url-${{ inputs.artifact_name_suffix }}** artifact or \`.lighthouseci/\` upload if enabled."
-          fi
-        } >> "$GITHUB_STEP_SUMMARY"
-      shell: bash
-
-    - name: Upload Lighthouse report URL (raw file)
-      if: always()
-      uses: actions/upload-artifact@v4
+        CI_AUDIT: ${{ env.CI_AUDIT }}
       with:
-        name: lighthouse-report-url-${{ inputs.artifact_name_suffix }}
-        path: lighthouse-report-url.txt
-        if-no-files-found: ignore
-        retention-days: 7
+        urls: ${{ inputs.url }}
+        configPath: ${{ github.workspace }}/${{ inputs.config_name }}.json
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+
+    - id: extract_report
+      name: Extract report URL from LHCI links output
+      if: always()
+      env:
+        LINKS: ${{ steps.lhci.outputs.links }}
+      run: |
+        set -euo pipefail
+        REPORT_URL=""
+        if [ -n "${LINKS:-}" ] && [ "$LINKS" != "null" ]; then
+          REPORT_URL=$(printf '%s' "$LINKS" | jq -r '[.[] | select(type == "string" and (contains("storage.googleapis.com")))] | first // empty')
+        fi
+        {
+          echo "report_url<<REPORT_URL_EOF"
+          printf '%s\n' "$REPORT_URL"
+          echo "REPORT_URL_EOF"
+        } >> "$GITHUB_OUTPUT"
+      shell: bash
