@@ -86,14 +86,6 @@ jobs:
           config_name: lighthouse-config-production
           url: ${{ env.PRODUCTION_URL }}
 
-      - name: Upload Lighthouse CI artifacts on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-artifacts-backoffice-client-prod-${{ github.run_number }}
-          path: .lighthouseci/
-          retention-days: 7
-
       - name: Build Telegram production deploy message
         if: success()
         id: notify_prod

@@ -34,6 +34,7 @@ jobs:
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       TARGET: game-client
       PRODUCTION_URL: https://www.kartuli.app
+      PRODUCTION_LIGHTHOUSE_URL: https://www.kartuli.app/en
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -84,15 +85,7 @@ jobs:
           CI_AUDIT: "true"
         with:
           config_name: lighthouse-config-production
-          url: ${{ env.PRODUCTION_URL }}
-
-      - name: Upload Lighthouse CI artifacts on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-artifacts-game-client-prod-${{ github.run_number }}
-          path: .lighthouseci/
-          retention-days: 7
+          url: ${{ env.PRODUCTION_LIGHTHOUSE_URL }}
 
       - name: Build Telegram production deploy message
         if: success()
