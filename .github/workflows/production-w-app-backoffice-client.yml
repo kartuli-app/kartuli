@@ -18,6 +18,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 concurrency:
   group: production-w-app-backoffice-client-${{ github.workflow }}-${{ github.ref }}
@@ -85,6 +86,7 @@ jobs:
           config_name: lighthouse-config-production
           url: ${{ env.PRODUCTION_URL }}
           summary_heading: Lighthouse report (production)
+          artifact_name_suffix: backoffice-client-production
 
       - name: Upload Lighthouse CI artifacts on failure
         if: failure()
