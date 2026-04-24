@@ -38,6 +38,8 @@ on:
         required: false
       KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID:
         required: false
+      KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID:
+        required: false
   workflow_dispatch:
     inputs:
       target:
@@ -240,3 +242,16 @@ jobs:
           name: e2e-artifacts-${{ inputs.target }}-${{ inputs.deploy_target }}-${{ github.run_number }}
           path: tools/e2e/test-results/
           retention-days: 3
+
+      # DEBUG ONLY (remove before merge): in-workflow failure ping; does not depend on check_suite.
+      - name: DEBUG Notify Telegram – job failure (in-workflow)
+        if: failure()
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_CI_FAILURES_STAGING_ID }}
+          message: |
+            [DEBUG active notify] staging-w-app-nextjs failed (remove this step before merge).
+            Target: ${{ inputs.target }} | Deploy: ${{ inputs.deploy_target }}
+            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
