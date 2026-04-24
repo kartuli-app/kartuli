@@ -1,7 +1,8 @@
 name: CI quality Lighthouse
 description: >
-  Run Lighthouse CI (lhci autorun) against a URL using a repo-root config file (basename without .json).
-  Requires checkout and ci-setup-node first so @lhci/cli is installed.
+  Run Lighthouse CI (lhci autorun) against a URL using a repo-root config file (basename without .json),
+  then append a short Lighthouse section to the job summary. Requires checkout and ci-setup-node first
+  so @lhci/cli is installed.
 
 inputs:
   config_name:
@@ -9,6 +10,9 @@ inputs:
     required: true
   url:
     description: URL passed to lhci --collect.url.
+    required: true
+  summary_heading:
+    description: Text for the job summary H2 (without leading ##); e.g. "Lighthouse report (local)" or "Lighthouse report (production)".
     required: true
 
 outputs:
@@ -36,7 +40,25 @@ runs:
           exit 1
         fi
         pnpm exec lhci autorun --config="$CONFIG_PATH" --collect.url="$COLLECT_URL" 2>&1 | tee lighthouse_output.txt
-        REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+        RAW_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
+        REPORT_URL=$(printf '%s' "$RAW_URL" | tr -d '\r\n' | sed 's/[[:space:]]*$//')
         echo "report_url=${REPORT_URL}" >> "$GITHUB_OUTPUT"
         echo "Lighthouse report URL: ${REPORT_URL}"
+      shell: bash
+
+    - name: Write Lighthouse report to job summary
+      env:
+        SUMMARY_HEADING: ${{ inputs.summary_heading }}
+        REPORT_URL: ${{ steps.run.outputs.report_url }}
+      run: |
+        set -euo pipefail
+        {
+          echo "## ${SUMMARY_HEADING}"
+          echo ""
+          if [ -n "$REPORT_URL" ]; then
+            printf '%s\n' "[View Lighthouse report](${REPORT_URL})"
+          else
+            echo "Report URL not captured; check artifacts."
+          fi
+        } >> "$GITHUB_STEP_SUMMARY"
       shell: bash

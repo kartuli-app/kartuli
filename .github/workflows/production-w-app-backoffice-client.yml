@@ -85,18 +85,7 @@ jobs:
         with:
           config_name: lighthouse-config-strict
           url: ${{ env.PRODUCTION_URL }}
-
-      - name: Write Lighthouse report to job summary
-        run: |
-          echo "## Lighthouse report (production)" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          REPORT_URL="${{ steps.lighthouse.outputs.report_url }}"
-          if [ -n "$REPORT_URL" ]; then
-            echo "[View Lighthouse report]($REPORT_URL)" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "Report URL not captured; check artifacts." >> "$GITHUB_STEP_SUMMARY"
-          fi
-        shell: bash
+          summary_heading: Lighthouse report (production)
 
       - name: Upload Lighthouse CI artifacts on failure
         if: failure()

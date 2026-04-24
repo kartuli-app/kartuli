@@ -30,3 +30,5 @@ Lighthouse CI runs in GitHub Actions for **game-client** and **backoffice-client
 - **`lighthouse-config-preview.json`** – same as strict except **`categories:seo` is off**, so Vercel preview `noindex` does not fail CI. Used for **staging with `deploy_target: vercel`**.
 
 Workflows pass `LIGHTHOUSE_ASSERT_LEVEL` (`warn` on staging, `error` on production) on the Lighthouse step; configs substitute it for performance, accessibility, and best-practices.
+
+The composite appends a **job summary** block (heading + report link); it does not post PR comments for Lighthouse.
