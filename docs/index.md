@@ -1,8 +1,5 @@
 ---
-section: Gamarjoba
-title: Welcome to the kartuli.app documentation
 description: Root landing page for Kartuli documentation with navigation guidance for humans and AI agents.
-type: root
 ---
 
 <p align="center">
@@ -37,7 +34,3 @@ Documentation is grouped by section:
 ### For AIs
 
 Use the [llms.txt index](https://kartuli-app.github.io/kartuli/assets/kartuli-llm.txt) to discover docs: it lists every page with a short description and URL so you can fetch only what you need. You can also browse the site like any other visitor.
-
-## Quick links
-
-- [Product overview](product/product-overview)
