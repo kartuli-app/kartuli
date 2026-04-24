@@ -1,5 +1,9 @@
 {
   "nextjs": ["@kartuli/game-client", "@kartuli/backoffice-client"],
+  "nextjsPaths": {
+    "game-client": "/en",
+    "backoffice-client": "/"
+  },
   "webDocs": ["@kartuli/web-docs-client"],
   "storybook": ["@kartuli/storybook"]
 }

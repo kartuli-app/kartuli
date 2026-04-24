@@ -17,6 +17,10 @@ on:
         description: PR number (for commenting when called from orchestrator).
         required: false
         type: string
+      lighthouse_path:
+        description: Path appended to origin for Lighthouse and E2E (e.g. /en, /).
+        required: true
+        type: string
     secrets:
       TURBO_TOKEN:
         required: true
@@ -52,6 +56,11 @@ on:
         options:
           - local
           - vercel
+      lighthouse_path:
+        description: URL path for Lighthouse and E2E (e.g. /en). Leave empty for defaults (game-client /en, backoffice /).
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -132,6 +141,40 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-deployment: false
 
+      - name: Compute app URL for Lighthouse and E2E
+        id: app_url
+        env:
+          DEPLOY_TARGET: ${{ inputs.deploy_target }}
+          LH_PATH_INPUT: ${{ inputs.lighthouse_path }}
+          TARGET: ${{ inputs.target }}
+        run: |
+          set -euo pipefail
+          if [ "$DEPLOY_TARGET" = "local" ]; then
+            ORIGIN="http://localhost:3000"
+          else
+            ORIGIN="${{ steps.deploy.outputs.preview-url }}"
+          fi
+          if [ -z "$ORIGIN" ]; then
+            echo "ERROR: empty origin for DEPLOY_TARGET=$DEPLOY_TARGET"
+            exit 1
+          fi
+          SUFFIX="$LH_PATH_INPUT"
+          if [ -z "$SUFFIX" ]; then
+            if [ "$TARGET" = "game-client" ]; then
+              SUFFIX="/en"
+            else
+              SUFFIX="/"
+            fi
+          fi
+          ORIGIN="${ORIGIN%/}"
+          if [ "$SUFFIX" = "/" ]; then
+            FULL="${ORIGIN}/"
+          else
+            FULL="${ORIGIN}${SUFFIX}"
+          fi
+          echo "e2e_and_lh_url=${FULL}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
       - name: Run Lighthouse CI
         id: lighthouse
         uses: ./.github/actions/ci-quality-lighthouse
@@ -139,7 +182,7 @@ jobs:
           CI_AUDIT: "true"
         with:
           config_name: ${{ inputs.deploy_target == 'local' && 'lighthouse-config-staging-local' || 'lighthouse-config-staging-vercel' }}
-          url: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          url: ${{ steps.app_url.outputs.e2e_and_lh_url }}
 
       - name: Build Telegram preview deploy message
         if: inputs.deploy_target == 'vercel'
@@ -180,7 +223,7 @@ jobs:
 
       - name: Run E2E
         env:
-          BASE_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          BASE_URL: ${{ steps.app_url.outputs.e2e_and_lh_url }}
         run: |
           if [ -z "$BASE_URL" ]; then
             echo "ERROR: BASE_URL is empty (deploy_target=$DEPLOY_TARGET)."

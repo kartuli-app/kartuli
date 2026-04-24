@@ -18,6 +18,7 @@ jobs:
       contents: read
     outputs:
       nextjs_targets: ${{ steps.map.outputs.nextjs_targets }}
+      nextjs_matrix: ${{ steps.map.outputs.nextjs_matrix }}
       web_docs_targets: ${{ steps.map.outputs.web_docs_targets }}
       storybook_targets: ${{ steps.map.outputs.storybook_targets }}
     steps:
@@ -43,7 +44,7 @@ jobs:
   call-nextjs-staging-workflow:
     name: Staging CI Next.js APP
     needs: detect-affected
-    if: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets)[0] != null }}
+    if: ${{ fromJson(needs.detect-affected.outputs.nextjs_matrix)[0] != null }}
     permissions:
       contents: read
       pull-requests: write
@@ -51,12 +52,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ${{ fromJson(needs.detect-affected.outputs.nextjs_targets) }}
-        deploy_target: [local, vercel]
+        include: ${{ fromJson(needs.detect-affected.outputs.nextjs_matrix) }}
     uses: ./.github/workflows/staging-w-app-nextjs.yml
     with:
       target: ${{ matrix.target }}
       deploy_target: ${{ matrix.deploy_target }}
+      lighthouse_path: ${{ matrix.lighthouse_path }}
       pull_request_number: ${{ github.event.pull_request.number || '' }}
     secrets:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}

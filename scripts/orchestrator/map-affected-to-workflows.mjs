@@ -64,6 +64,7 @@ function writeGithubArtifacts(out) {
     const lines = [
       `packages=${JSON.stringify(out.affected)}`,
       `nextjs_targets=${JSON.stringify(out.nextjs_targets)}`,
+      `nextjs_matrix=${JSON.stringify(out.nextjs_matrix)}`,
       `web_docs_targets=${JSON.stringify(out.web_docs_targets)}`,
       `storybook_targets=${JSON.stringify(out.storybook_targets)}`,
     ];
@@ -125,13 +126,50 @@ try {
   const webDocsPkgs = requireWorkflowTargetsBucket(config, configPath, 'webDocs');
   const storybookPkgs = requireWorkflowTargetsBucket(config, configPath, 'storybook');
 
+  const nextjsShortNamesAll = uniqueSorted(nextjsPkgs.map((name) => shortWorkspaceName(name)));
+  if (!Object.hasOwn(config, 'nextjsPaths')) {
+    throw new Error(
+      `map-affected-to-workflows: ${configPath}: missing required key "nextjsPaths" (object: short name -> path like /en or /)`,
+    );
+  }
+  const nextjsPaths = config.nextjsPaths;
+  if (nextjsPaths === null || typeof nextjsPaths !== 'object' || Array.isArray(nextjsPaths)) {
+    throw new TypeError(
+      `map-affected-to-workflows: ${configPath}: "nextjsPaths" must be a plain object`,
+    );
+  }
+  for (const name of nextjsShortNamesAll) {
+    if (!Object.hasOwn(nextjsPaths, name)) {
+      throw new Error(
+        `map-affected-to-workflows: ${configPath}: nextjsPaths missing key "${name}"`,
+      );
+    }
+    const p = nextjsPaths[name];
+    if (typeof p !== 'string' || !p.startsWith('/')) {
+      throw new Error(
+        `map-affected-to-workflows: ${configPath}: nextjsPaths["${name}"] must be a string starting with /`,
+      );
+    }
+  }
+
   const configured = new Set([...nextjsPkgs, ...webDocsPkgs, ...storybookPkgs]);
   const affectedSet = new Set(affected);
   const unmapped = uniqueSorted([...affectedSet].filter((p) => !configured.has(p)));
 
+  const nextjs_targets = targetsForBucket(affectedSet, nextjsPkgs);
+  /** @type {{ target: string; deploy_target: string; lighthouse_path: string }[]} */
+  const nextjs_matrix = [];
+  for (const target of nextjs_targets) {
+    const lighthouse_path = nextjsPaths[target];
+    for (const deploy_target of ['local', 'vercel']) {
+      nextjs_matrix.push({ target, deploy_target, lighthouse_path });
+    }
+  }
+
   const out = {
     affected: uniqueSorted([...affected]),
-    nextjs_targets: targetsForBucket(affectedSet, nextjsPkgs),
+    nextjs_targets,
+    nextjs_matrix,
     web_docs_targets: targetsForBucket(affectedSet, webDocsPkgs),
     storybook_targets: targetsForBucket(affectedSet, storybookPkgs),
     unmapped,
