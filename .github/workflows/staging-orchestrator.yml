@@ -109,9 +109,6 @@ jobs:
       - name: Validate all monorepo
         uses: ./.github/actions/ci-validate-all-monorepo
 
-      # DEBUG ONLY (remove before merge): force failure to test CI failure Telegram notifications.
-      - name: DEBUG force validate-all failure
-        run: exit 1
 
   commit-diagrams:
     name: Commit dependency diagrams
