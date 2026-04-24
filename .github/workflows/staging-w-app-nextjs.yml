@@ -183,6 +183,7 @@ jobs:
         with:
           config_name: ${{ inputs.deploy_target == 'local' && 'lighthouse-config-staging-local' || 'lighthouse-config-staging-vercel' }}
           url: ${{ steps.app_url.outputs.e2e_and_lh_url }}
+          artifact_name: lighthouse-${{ inputs.target }}-${{ inputs.deploy_target }}
 
       - name: Build Telegram preview deploy message
         if: inputs.deploy_target == 'vercel'

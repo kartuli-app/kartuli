@@ -12,6 +12,12 @@ inputs:
   url:
     description: Single URL to audit.
     required: true
+  artifact_name:
+    description: >
+      GitHub Actions artifact name for treosh uploadArtifacts (default treosh name is
+      lighthouse-results). Use a unique value per matrix job, e.g. lighthouse-game-client-local.
+    required: false
+    default: lighthouse-results
 
 outputs:
   report_url:
@@ -30,6 +36,7 @@ runs:
         urls: ${{ inputs.url }}
         configPath: ${{ github.workspace }}/${{ inputs.config_name }}.json
         uploadArtifacts: true
+        artifactName: ${{ inputs.artifact_name }}
         temporaryPublicStorage: true
 
     - id: extract_report
@@ -41,7 +48,12 @@ runs:
         set -euo pipefail
         REPORT_URL=""
         if [ -n "${LINKS:-}" ] && [ "$LINKS" != "null" ]; then
-          REPORT_URL=$(printf '%s' "$LINKS" | jq -r '[.[] | select(type == "string" and (contains("storage.googleapis.com")))] | first // empty')
+          REPORT_URL=$(printf '%s' "$LINKS" | jq -r '
+            [.. | strings?
+              | select(startswith("https://")
+                and (contains("storage.googleapis.com") or contains("lhci-viewer")))
+            ] | first // empty
+          ')
         fi
         {
           echo "report_url<<REPORT_URL_EOF"
@@ -49,3 +61,25 @@ runs:
           echo "REPORT_URL_EOF"
         } >> "$GITHUB_OUTPUT"
       shell: bash
+
+    - name: Lighthouse job summary
+      if: always()
+      shell: bash
+      env:
+        AUDIT_URL: ${{ inputs.url }}
+        REPORT_URL: ${{ steps.extract_report.outputs.report_url }}
+        ARTIFACT_NAME: ${{ inputs.artifact_name }}
+      run: |
+        {
+          echo "## Lighthouse CI"
+          echo ""
+          echo "- **Audited URL:** \`${AUDIT_URL}\`"
+          echo "- **GitHub artifact name:** \`${ARTIFACT_NAME}\`"
+          if [ -n "${REPORT_URL:-}" ]; then
+            echo "- **LHCI public report:** ${REPORT_URL}"
+          else
+            echo "- **LHCI public report:** not found in \`links\` output (often empty when the run fails before upload); use the artifact ZIP and open HTML under \`.lighthouseci/\`."
+          fi
+          echo ""
+          echo "On the workflow run page, each matrix job lists its own artifacts; pick **${ARTIFACT_NAME}** for this job."
+        } >> "$GITHUB_STEP_SUMMARY"

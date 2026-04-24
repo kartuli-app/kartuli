@@ -85,6 +85,7 @@ jobs:
         with:
           config_name: lighthouse-config-production
           url: ${{ env.PRODUCTION_URL }}
+          artifact_name: lighthouse-backoffice-client-production
 
       - name: Build Telegram production deploy message
         if: success()
