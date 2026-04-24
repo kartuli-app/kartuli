@@ -136,9 +136,8 @@ jobs:
         uses: ./.github/actions/ci-quality-lighthouse
         env:
           CI_AUDIT: "true"
-          LIGHTHOUSE_ASSERT_LEVEL: "warn"
         with:
-          config_name: ${{ inputs.deploy_target == 'local' && 'lighthouse-config-strict' || 'lighthouse-config-preview' }}
+          config_name: ${{ inputs.deploy_target == 'local' && 'lighthouse-config-staging-local' || 'lighthouse-config-staging-vercel' }}
           url: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
           summary_heading: Lighthouse report (${{ inputs.deploy_target }})
 

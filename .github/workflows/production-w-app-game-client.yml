@@ -11,7 +11,7 @@ on:
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'turbo.json'
-      - 'lighthouse-config-strict.json'
+      - 'lighthouse-config-production.json'
       - '.github/actions/ci-quality-lighthouse/**'
       - '.github/workflows/production-w-app-game-client.yml'
   workflow_dispatch:
@@ -81,9 +81,8 @@ jobs:
         uses: ./.github/actions/ci-quality-lighthouse
         env:
           CI_AUDIT: "true"
-          LIGHTHOUSE_ASSERT_LEVEL: "error"
         with:
-          config_name: lighthouse-config-strict
+          config_name: lighthouse-config-production
           url: ${{ env.PRODUCTION_URL }}
           summary_heading: Lighthouse report (production)
 

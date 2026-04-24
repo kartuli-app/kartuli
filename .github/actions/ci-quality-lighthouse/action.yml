@@ -2,11 +2,12 @@ name: CI quality Lighthouse
 description: >
   Run Lighthouse CI (lhci autorun) against a URL using a repo-root config file (basename without .json),
   then append a short Lighthouse section to the job summary. Requires checkout and ci-setup-node first
-  so @lhci/cli is installed.
+  so @lhci/cli is installed. Report links are read from .lighthouseci/links.json when present so GitHub
+  log secret masking does not corrupt storage.googleapis.com URLs captured from stdout.
 
 inputs:
   config_name:
-    description: Basename of the JSON config at repo root (e.g. lighthouse-config-strict → lighthouse-config-strict.json).
+    description: Basename of the JSON config at repo root (e.g. lighthouse-config-production → lighthouse-config-production.json).
     required: true
   url:
     description: URL passed to lhci --collect.url.
@@ -17,7 +18,7 @@ inputs:
 
 outputs:
   report_url:
-    description: Temporary public storage report URL parsed from lhci output, if present.
+    description: Temporary public storage report URL from .lighthouseci/links.json or lhci log, if present.
     value: ${{ steps.run.outputs.report_url }}
 
 runs:
@@ -40,10 +41,21 @@ runs:
           exit 1
         fi
         pnpm exec lhci autorun --config="$CONFIG_PATH" --collect.url="$COLLECT_URL" 2>&1 | tee lighthouse_output.txt
-        RAW_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
-        REPORT_URL=$(printf '%s' "$RAW_URL" | tr -d '\r\n' | sed 's/[[:space:]]*$//')
-        echo "report_url=${REPORT_URL}" >> "$GITHUB_OUTPUT"
-        echo "Lighthouse report URL: ${REPORT_URL}"
+
+        REPORT_URL=""
+        if [ -f .lighthouseci/links.json ]; then
+          REPORT_URL=$(node "$GITHUB_ACTION_PATH/extract-report-url.cjs")
+        fi
+        if [ -z "$REPORT_URL" ]; then
+          RAW_URL=$(grep -oE 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]+' lighthouse_output.txt | tail -1)
+          REPORT_URL=$(printf '%s' "$RAW_URL" | tr -d '\r\n' | sed 's/[[:space:]]*$//')
+        fi
+        {
+          echo "report_url<<LHCI_REPORT_URL_EOF"
+          printf '%s\n' "$REPORT_URL"
+          echo "LHCI_REPORT_URL_EOF"
+        } >> "$GITHUB_OUTPUT"
+        echo "Lighthouse report URL captured (length ${#REPORT_URL})."
       shell: bash
 
     - name: Write Lighthouse report to job summary
@@ -56,7 +68,7 @@ runs:
           echo "## ${SUMMARY_HEADING}"
           echo ""
           if [ -n "$REPORT_URL" ]; then
-            printf '%s\n' "[View Lighthouse report](${REPORT_URL})"
+            node "$GITHUB_ACTION_PATH/format-summary-link.cjs"
           else
             echo "Report URL not captured; check artifacts."
           fi
