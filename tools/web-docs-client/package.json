@@ -4,10 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "lint": "biome check .",
     "dev": "vitepress dev",
-    "build": "cd ../.. && pnpm exec vitepress build tools/web-docs-client",
-    "preview": "vitepress preview",
-    "postbuild": "node scripts/copy-llm-bundle.js"
+    "build": "pnpm generate-llm-bundle && cd ../.. && pnpm exec vitepress build tools/web-docs-client && cd tools/web-docs-client && pnpm copy-llm-bundle",
+    "preview": "pnpm build && vitepress preview",
+    "generate-llm-bundle": "node scripts/generate-llm-bundle.js",
+    "copy-llm-bundle": "node scripts/copy-llm-bundle.js"
   },
   "dependencies": {
     "@kartuli/docs": "workspace:*",

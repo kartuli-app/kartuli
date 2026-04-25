@@ -1,37 +1,9 @@
 # Contributing to Kartuli
 
-Welcome! Please read our documentation:
+We are focused on launching the MVP.
 
-## Core Guidelines
-- [Code Conventions](./docs/tech/development/code-conventions.md) - Commit format, code style, architecture, testing
-- [GitHub Workflow](./docs/tech/development/github-workflow.md) - Issues, PRs, labels, templates, automation
-- [AI-Assisted Workflow](./docs/tech/development/ai-assisted-workflow.md) - Complete workflow using AI assistance
+We are always looking for help. Right now, this is what would help us most:
+- Graphic designers: We need help with the app mascot assets, a Georgian stray dog with a chip on his ear, in different poses.
+- Learning content reviewers who speak Georgian and Russian: We need help reviewing the learning content to make sure it is accurate and up to date.
 
-## Documentation System
-- [Documentation Management](./docs/tech/decisions/documentation-management.md) - How our docs system works
-- [Web Docs Client README](./tools/web-docs-client/README.md) - Technical details of the documentation site
-
-## Quick Start
-1. **Create Issue**: Use our issue template with proper labels
-2. **Create Branch**: GitHub can auto-create from issue
-3. **Implement**: Follow code conventions and test your changes
-4. **Create PR**: Link to issue using `Closes #123`
-5. **Review & Merge**: Labels auto-propagate, workflows handle deployment
-
-## Documentation Changes
-- All documentation changes trigger automated workflows
-- LLM bundle is generated automatically on deployment
-- Use proper frontmatter format for navigation integration
-- Follow ADR template for decision documents
-
-## Collaboration and security
-
-- [GitHub Repo Management](docs/providers/github-repo-management.md) — How we handle contributors (fork vs direct collaborator), workflow and secrets security, and protecting the `.github/` folder. Includes [adding a direct collaborator (PR-only)](docs/providers/github-repo-management.md#adding-a-direct-collaborator-pr-only) so they work in-repo but only via PRs you approve.
-
-## GitHub Actions
-Our workflows handle:
-- **Label Management**: Auto-apply, propagate, and sync labels
-- **Documentation**: Generate LLM bundle, test, and deploy to GitHub Pages
-- **Quality**: Automated linting and testing
-
-See [GitHub Workflow](./docs/tech/development/github-workflow.md) for detailed information. For pipeline structure (staging orchestrator, production workflows per app/tool), see [Staging pipelines](./docs/tech/development/staging-pipelines.md), [Production pipelines](./docs/tech/development/production-pipelines.md), and [Pipeline overview](./docs/tech/architecture/pipeline-overview.md). Full list of repository secrets: [GitHub Actions CI/CD — Secrets](./docs/providers/github-actions-ci-cd.md#secrets).
+We need help in all areas. If you are interested in contributing, send an email to [collaborators@kartuli.app](mailto:collaborators@kartuli.app) and we will get back to you as soon as possible.
