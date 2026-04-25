@@ -111,7 +111,7 @@ jobs:
           ready=0
           for i in $(seq 1 60); do
             if curl -fsS "${BASE_URL}" >/dev/null 2>&1 && \
-               curl -fsS "${BASE_URL}assets/kartuli-llm.txt" | rg -qi "kartuli"; then
+               curl -fsS "${BASE_URL}assets/kartuli-llm.txt" | grep -qi "kartuli"; then
               ready=1
               break
             fi
