@@ -23,7 +23,7 @@ export function ModuleCard({
       className={clsx(
         //
         'flex flex-col',
-        'gap-brand-regular',
+        'gap-ds1-spacing-regular',
       )}
     >
       {/* title */}
@@ -39,7 +39,7 @@ export function ModuleCard({
       {/* content */}
       <div
         className={clsx(
-          'flex flex-col gap-brand-large',
+          'flex flex-col gap-ds1-spacing-large',
           //
           'grid',
           'grid-cols-1',

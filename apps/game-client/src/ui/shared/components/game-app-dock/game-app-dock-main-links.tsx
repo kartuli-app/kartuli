@@ -50,7 +50,7 @@ export function DockMainLinkActiveIndicator({ isActive }: Readonly<{ isActive: b
             'right-0',
             'bottom-0',
             'rounded-lg',
-            'bg-brand-primary-900',
+            'bg-ds1-color-primary-900',
             'z-0',
           )}
           transition={{

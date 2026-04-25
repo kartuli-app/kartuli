@@ -17,9 +17,9 @@ export function getDockButtonClassName({
     'focus-ring',
     'uppercase',
     'transition-colors duration-300 hover:transition-none',
-    'text-brand-text-400',
-    'hover:text-brand-text-200',
-    isActive && 'text-brand-text-200',
+    'text-ds1-color-text-400',
+    'hover:text-ds1-color-text-200',
+    isActive && 'text-ds1-color-text-200',
     isTouched && 'blur-xs',
   );
 }

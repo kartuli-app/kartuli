@@ -20,11 +20,11 @@ const LetterItemCard = ({
       key={item.id}
       className={clsx(
         //
-        'text-brand-neutral-900',
-        'bg-brand-neutral-100',
+        'text-ds1-color-text-900',
+        'bg-ds1-color-text-100',
         'rounded-md',
-        'px-brand-large',
-        'py-brand-small',
+        'px-ds1-spacing-large',
+        'py-ds1-spacing-small',
         'flex',
         'items-center',
         'justify-center',
@@ -34,7 +34,7 @@ const LetterItemCard = ({
       )}
     >
       {item.type === 'letter' && (
-        <div className="flex flex-col items-center justify-center gap-brand-small">
+        <div className="flex flex-col items-center justify-center gap-ds1-spacing-small">
           <div className="text-4xl font-georgian relative w-full flex items-center justify-center px-3">
             {/* we add 2 horizontal lines at 33% and 66% of the height with 1px height and 100% width */}
             <div className="absolute top-0 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
@@ -61,11 +61,11 @@ const WordItemCard = ({
       key={item.id}
       className={clsx(
         //
-        'text-brand-neutral-900',
-        'bg-brand-neutral-100',
+        'text-ds1-color-text-900',
+        'bg-ds1-color-text-100',
         'rounded-md',
-        'px-brand-large',
-        'py-brand-small',
+        'px-ds1-spacing-large',
+        'py-ds1-spacing-small',
         'flex',
         'items-center',
         'justify-center',
@@ -75,19 +75,19 @@ const WordItemCard = ({
       )}
     >
       {item.type === 'word' && (
-        <div className="flex flex-col items-center justify-center gap-brand-small">
+        <div className="flex flex-col items-center justify-center gap-ds1-spacing-small">
           <div className="text-3xl font-georgian relative w-full flex items-center justify-center px-3">
             {/* here we add 2 horizontal lines at 33% and 66% of the height with 1px height and 100% width */}
             <div className="absolute top-0 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
             <div className="absolute top-2/3 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
             <div className="z-30 font-medium">{item.targetScript}</div>
           </div>
-          <div className="text-2xl flex gap-brand-xsmall text-brand-neutral-700">
+          <div className="text-2xl flex gap-ds1-spacing-xsmall text-ds1-color-text-700">
             <span className="text-orange-500">[</span>
             {item.transliteration}
             <span className="text-orange-500">]</span>
           </div>
-          <div className="text-xl flex gap-brand-xsmall text-brand-neutral-700">
+          <div className="text-xl flex gap-ds1-spacing-xsmall text-ds1-color-text-700">
             {item.translation}
           </div>
         </div>
@@ -163,16 +163,16 @@ export function LessonCard({
         'flex flex-col',
         'justify-start',
         //
-        'p-brand-large',
-        'gap-brand-large',
+        'p-ds1-spacing-large',
+        'gap-ds1-spacing-large',
         //
         'bg-white',
         'w-full',
         'rounded-lg',
         'border',
         //
-        'border-brand-text-300',
-        'hover:border-brand-text-500',
+        'border-ds1-color-text-300',
+        'hover:border-ds1-color-text-500',
         //
         'shadow-sm',
         'hover:shadow-md',
@@ -191,7 +191,7 @@ export function LessonCard({
         )}
       >
         <div className="text-xl font-bold group-hover:underline">{homeLesson.title}</div>
-        <div className="text-base text-brand-neutral-50 flex items-center gap-brand-small">
+        <div className="text-base text-ds1-color-text-50 flex items-center gap-ds1-spacing-small">
           {showAverageViewsCount ? (
             <>
               <LuEye className="w-4 h-4" />
@@ -204,7 +204,7 @@ export function LessonCard({
       <div
         className={clsx(
           //
-          areAllItemsLetters ? 'gap-brand-regular' : 'gap-brand-large',
+          areAllItemsLetters ? 'gap-ds1-spacing-regular' : 'gap-ds1-spacing-large',
           'w-full',
           'grid grid-cols-3',
           isSingleLessonModule && areAllItemsLetters && 'grid-cols-6',

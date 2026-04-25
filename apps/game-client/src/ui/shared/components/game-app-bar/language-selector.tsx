@@ -77,8 +77,8 @@ export function LanguageSelector() {
           'relative z-30 flex flex-col items-center justify-center',
         )}
       >
-        <IoLanguage className="size-5 text-brand-text-500" />
-        <span className="font-bold text-xs text-brand-text-900">{activeShortLabel}</span>
+        <IoLanguage className="size-5 text-ds1-color-text-500" />
+        <span className="font-bold text-xs text-ds1-color-text-900">{activeShortLabel}</span>
       </Select.Trigger>
       <Select.Portal>
         <Select.Positioner
@@ -93,14 +93,14 @@ export function LanguageSelector() {
               'min-w-32',
               'rounded-lg',
               'border',
-              'border-brand-text-300',
-              'bg-brand-text-50',
-              'text-brand-text-800',
+              'border-ds1-color-text-300',
+              'bg-ds1-color-text-50',
+              'text-ds1-color-text-800',
               'shadow-lg',
               'overflow-hidden',
             )}
           >
-            <Select.List className="bg-brand-text-50">
+            <Select.List className="bg-ds1-color-text-50">
               {languageOptions.map(({ value, label }) => (
                 <Select.Item
                   key={value}
@@ -113,8 +113,8 @@ export function LanguageSelector() {
                     'px-3',
                     'py-3',
                     'text-sm',
-                    'data-highlighted:bg-brand-text-600',
-                    'data-highlighted:text-brand-text-50',
+                    'data-highlighted:bg-ds1-color-text-600',
+                    'data-highlighted:text-ds1-color-text-50',
                     'data-selected:font-semibold',
                   )}
                 >

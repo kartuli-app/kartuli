@@ -14,7 +14,7 @@ export function AppBar({ className, children, isSticky = false }: Readonly<AppBa
         //
         isSticky && 'sticky top-0 z-30',
         'w-full flex flex-col',
-        'bg-brand-app-bg',
+        'bg-ds1-color-app-bg',
         'overflow-hidden shrink-0',
         'scrollbar-gutter-stable',
       )}

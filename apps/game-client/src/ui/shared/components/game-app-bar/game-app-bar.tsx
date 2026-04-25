@@ -9,7 +9,7 @@ import { Title } from './title';
 export function GameAppBar() {
   return (
     <AppBar isSticky>
-      <div className="flex items-center gap-brand-regular grow">
+      <div className="flex items-center gap-ds1-spacing-regular grow">
         <div className="flex gap-0">
           <AnimatedBackButton />
           <Mascot />
@@ -18,7 +18,7 @@ export function GameAppBar() {
         <Title />
       </div>
       {/* right area */}
-      <div className="flex gap-brand-regular shrink-0">
+      <div className="flex gap-ds1-spacing-regular shrink-0">
         <SoundToggle />
         <LanguageSelector />
       </div>
