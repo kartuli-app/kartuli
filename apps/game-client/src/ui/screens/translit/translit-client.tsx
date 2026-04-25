@@ -7,6 +7,8 @@ import {
   getStringTransliterationFromTargetScript,
 } from '@game-client/learning-content/utils/transliteration';
 import { TranslitActionTooltip } from '@game-client/ui/screens/translit/translit-action-tooltip';
+import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output';
+import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
 import { ResponsiveContainer } from '@kartuli/ui/components/containers/responsive-container';
 import { cn } from '@kartuli/ui/utils/cn';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -16,6 +18,17 @@ import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Fill, RiDeleteBin6Line } from 'react-icons/ri';
 
 const toastManager = Toast.createToastManager();
+const compactTextLineThreshold = 7;
+
+function getRenderedLineCount(element: HTMLElement): number {
+  const computedStyle = globalThis.getComputedStyle(element);
+  const fontSize = Number.parseFloat(computedStyle.fontSize) || 16;
+  const lineHeight = Number.parseFloat(computedStyle.lineHeight) || fontSize * 1.5;
+  const paddingTop = Number.parseFloat(computedStyle.paddingTop) || 0;
+  const paddingBottom = Number.parseFloat(computedStyle.paddingBottom) || 0;
+  const contentHeight = Math.max(0, element.scrollHeight - paddingTop - paddingBottom);
+  return Math.max(1, Math.ceil(contentHeight / lineHeight));
+}
 
 function AnchoredToasts() {
   const { toasts } = Toast.useToastManager();
@@ -57,13 +70,16 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [isCopySuccess, setIsCopySuccess] = useState(false);
+  const [isCompactText, setIsCompactText] = useState(false);
   /** Hides copy tooltip as soon as the button is pressed (before async clipboard), so toast is not doubled with an open hover tooltip */
   const [suppressCopyTooltip, setSuppressCopyTooltip] = useState(false);
   const [direction, setDirection] = useState<'georgian-to-latin' | 'latin-to-georgian'>(
     'georgian-to-latin',
   );
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const outputRef = useRef<HTMLTextAreaElement>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
+  const inputMeasureRef = useRef<HTMLDivElement>(null);
+  const outputMeasureRef = useRef<HTMLDivElement>(null);
   const copyFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isSyncingScrollRef = useRef(false);
 
@@ -170,7 +186,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     setOutput(getOutput(direction, e.target.value));
   };
 
-  const syncScroll = (from: HTMLTextAreaElement, to: HTMLTextAreaElement) => {
+  const syncScroll = (from: HTMLElement, to: HTMLElement) => {
     const fromMaxScrollTop = Math.max(1, from.scrollHeight - from.clientHeight);
     const toMaxScrollTop = Math.max(0, to.scrollHeight - to.clientHeight);
     const scrollProgress = from.scrollTop / fromMaxScrollTop;
@@ -203,8 +219,54 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     if (!inputRef.current || !outputRef.current) {
       return;
     }
+    // Keep proportional sync as long as textarea/div wrapping stays acceptably close.
+    // If manual testing shows drift, prefer source-driven sync over forcing symmetry.
     syncScroll(inputRef.current, outputRef.current);
   }, [output]);
+
+  useLayoutEffect(() => {
+    if (
+      !inputRef.current ||
+      !outputRef.current ||
+      !inputMeasureRef.current ||
+      !outputMeasureRef.current
+    ) {
+      return;
+    }
+
+    const updateTextSize = () => {
+      if (
+        !inputRef.current ||
+        !outputRef.current ||
+        !inputMeasureRef.current ||
+        !outputMeasureRef.current
+      ) {
+        return;
+      }
+
+      inputMeasureRef.current.style.width = `${inputRef.current.clientWidth}px`;
+      outputMeasureRef.current.style.width = `${outputRef.current.clientWidth}px`;
+
+      const renderedLineCount = Math.max(
+        getRenderedLineCount(inputMeasureRef.current),
+        getRenderedLineCount(outputMeasureRef.current),
+      );
+      setIsCompactText(renderedLineCount >= compactTextLineThreshold);
+    };
+
+    updateTextSize();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateTextSize();
+    });
+
+    resizeObserver.observe(inputRef.current);
+    resizeObserver.observe(outputRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [input, output, direction]);
 
   const sourceFromLabel = direction === 'georgian-to-latin' ? t('georgian') : t('latin');
   const transliterationToLabel = direction === 'georgian-to-latin' ? t('latin') : t('georgian');
@@ -223,6 +285,15 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
 
   const inputLang = direction === 'georgian-to-latin' ? 'ka-GE' : 'ka-Latn';
   const outputLang = direction === 'georgian-to-latin' ? 'ka-Latn' : 'ka-GE';
+  const outputSegments = getTranslitOutputSegments(input, output);
+  const outputLabelId = 'translit-output-label';
+  const inputScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
+  const outputScriptClassName = direction === 'georgian-to-latin' ? undefined : 'font-georgian';
+  const tooltipScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
+  const surfaceTextSizeClassName = isCompactText ? 'text-xl' : 'text-2xl';
+  const surfaceDebugColorClassName = isCompactText
+    ? 'text-ds1-color-accent'
+    : 'text-ds1-color-text-800';
 
   return (
     <Toast.Provider toastManager={toastManager}>
@@ -231,7 +302,9 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
           className={cn(
             //
             'grow',
+            'min-h-0',
             'flex-col',
+            'overflow-hidden',
             'gap-ds1-spacing-large',
             'pt-ds1-spacing-large',
           )}
@@ -242,6 +315,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               //
               'flex flex-col',
               'grow',
+              'basis-0',
+              'min-h-0',
               //
               'bg-white',
               'w-full',
@@ -303,15 +378,17 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               </div>
             </div>
             {/* text area */}
-            <div className={cn('p-ds1-spacing-large', 'grow')}>
+            <div className={cn('p-ds1-spacing-large', 'grow', 'min-h-0')}>
               <textarea
                 lang={inputLang}
                 className={cn(
                   //
                   'w-full',
                   'h-full',
+                  'min-h-0',
                   'resize-none',
-                  'text-2xl',
+                  surfaceTextSizeClassName,
+                  surfaceDebugColorClassName,
                   'p-ds1-spacing-large',
                   //
                   'caret-black',
@@ -321,7 +398,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'border-2 border-ds1-color-text-200',
                   'focus:border-ds1-color-text-400 focus:outline-none',
                   'placeholder:text-ds1-color-text-400',
-                  'font-georgian',
+                  inputScriptClassName,
                 )}
                 id="translit-input"
                 value={input}
@@ -338,6 +415,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               //
               'flex flex-col',
               'grow',
+              'basis-0',
+              'min-h-0',
               //
               //
               'bg-white',
@@ -366,14 +445,14 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               )}
             >
               {/* label */}
-              <label htmlFor="translit-output" className={cn('flex flex-col')}>
+              <div id={outputLabelId} className={cn('flex flex-col')}>
                 <div className={cn('text-sm uppercase text-ds1-color-primary-900')}>
                   {t('transliteration')}
                 </div>
                 <div className={cn('text-2xl uppercase text-ds1-color-text-600')}>
                   {transliterationToLabel}
                 </div>
-              </label>
+              </div>
               {/* buttons */}
               <div className={cn('flex', 'gap-ds1-spacing-regular')}>
                 <TranslitActionTooltip
@@ -392,35 +471,61 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               </div>
             </div>
             {/* text area */}
-            <div className={cn('p-ds1-spacing-large', 'grow')}>
-              <textarea
-                lang={outputLang}
+            <div className={cn('p-ds1-spacing-large', 'grow', 'min-h-0')}>
+              <TranslitOutput
+                ariaLabelledBy={outputLabelId}
                 className={cn(
-                  //
-                  'w-full',
-                  'h-full',
-                  'resize-none',
-                  'text-2xl',
-                  'p-ds1-spacing-large',
-                  //
-                  'caret-black',
-                  //
-                  'rounded-lg',
-                  //
-                  'border-2 border-ds1-color-text-200',
-                  'focus:border-ds1-color-text-400 focus:outline-none',
-                  'placeholder:text-ds1-color-text-400',
-                  'font-georgian',
+                  surfaceTextSizeClassName,
+                  surfaceDebugColorClassName,
+                  outputScriptClassName,
                 )}
-                id="translit-output"
-                value={output}
-                readOnly
+                containerRef={outputRef}
+                lang={outputLang}
                 onScroll={handleOutputScroll}
-                ref={outputRef}
+                segments={outputSegments}
+                tooltipClassName={tooltipScriptClassName}
               />
             </div>
           </div>
         </ResponsiveContainer>
+        <div
+          aria-hidden
+          className={cn(
+            'fixed',
+            'left-0',
+            'top-0',
+            'size-0',
+            'overflow-hidden',
+            'pointer-events-none',
+            'invisible',
+            '-z-10',
+          )}
+        >
+          <div
+            ref={inputMeasureRef}
+            className={cn(
+              'whitespace-pre-wrap',
+              'wrap-break-word',
+              'text-2xl',
+              'p-ds1-spacing-large',
+              inputScriptClassName,
+            )}
+          >
+            {input || ' '}
+          </div>
+          <div
+            ref={outputMeasureRef}
+            className={cn(
+              'whitespace-pre-wrap',
+              'wrap-break-word',
+              'text-2xl',
+              'p-ds1-spacing-large',
+              outputScriptClassName,
+            )}
+          >
+            {output || ' '}
+          </div>
+        </div>
       </Tooltip.Provider>
       <AnchoredToasts />
     </Toast.Provider>
