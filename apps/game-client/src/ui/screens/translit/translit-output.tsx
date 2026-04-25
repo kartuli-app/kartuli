@@ -18,6 +18,7 @@ type TranslitOutputProps = {
   onScroll?: UIEventHandler<HTMLDivElement>;
   segments: TranslitOutputSegment[];
   tooltipClassName?: string;
+  tooltipPortalContainer?: RefObject<HTMLElement | null>;
 };
 
 const tokenTriggerClassName = cn(
@@ -48,6 +49,7 @@ export function TranslitOutput({
   onScroll,
   segments,
   tooltipClassName,
+  tooltipPortalContainer,
 }: Readonly<TranslitOutputProps>) {
   return (
     <section
@@ -88,7 +90,7 @@ export function TranslitOutput({
             >
               {segment.outputText}
             </Tooltip.Trigger>
-            <Tooltip.Portal>
+            <Tooltip.Portal container={tooltipPortalContainer}>
               <Tooltip.Positioner side="top" sideOffset={12}>
                 <Tooltip.Popup className={cn(translitTooltipPopupClassName, tooltipClassName)}>
                   <Tooltip.Arrow className={translitTooltipArrowClassName}>

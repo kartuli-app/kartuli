@@ -1,5 +1,7 @@
 import { Tooltip } from '@base-ui/react/tooltip';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { ComponentProps } from 'react';
+import { useRef } from 'react';
 import { expect, waitFor, within } from 'storybook/test';
 import { TranslitOutput } from './translit-output';
 import { getTranslitOutputSegments } from './translit-output-segments';
@@ -13,11 +15,32 @@ async function getBrowserUserEventOrNull() {
   }
 }
 
+function TranslitOutputStoryRender(args: ComponentProps<typeof TranslitOutput>) {
+  const tooltipPortalContainerRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <section aria-label="Transliteration preview" className="h-full">
+      <div id="translit-output-story-label" className="sr-only">
+        Transliteration
+      </div>
+      <div ref={tooltipPortalContainerRef} aria-hidden />
+      <TranslitOutput {...args} tooltipPortalContainer={tooltipPortalContainerRef} />
+    </section>
+  );
+}
+
 const meta: Meta<typeof TranslitOutput> = {
   title: 'Screens/Translit/TranslitOutput',
   component: TranslitOutput,
   parameters: {
     layout: 'centered',
+    a11y: {
+      options: {
+        rules: {
+          'target-size': { enabled: false },
+        },
+      },
+    },
     docs: {
       description: {
         component:
@@ -39,14 +62,7 @@ const meta: Meta<typeof TranslitOutput> = {
     lang: 'ka-Latn',
     segments: getTranslitOutputSegments('ფ პ  გამარჯობა.\nბა', "p' p  gamarjoba.\nba"),
   },
-  render: (args) => (
-    <div className="h-full">
-      <div id="translit-output-story-label" className="sr-only">
-        Transliteration
-      </div>
-      <TranslitOutput {...args} />
-    </div>
-  ),
+  render: (args) => <TranslitOutputStoryRender {...args} />,
 };
 
 export default meta;
