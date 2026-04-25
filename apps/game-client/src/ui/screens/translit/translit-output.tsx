@@ -13,7 +13,7 @@ import type { RefObject, UIEventHandler } from 'react';
 type TranslitOutputProps = {
   ariaLabelledBy: string;
   className?: string;
-  containerRef?: RefObject<HTMLDivElement | null>;
+  containerRef?: RefObject<HTMLElement | null>;
   lang: string;
   onScroll?: UIEventHandler<HTMLDivElement>;
   segments: TranslitOutputSegment[];

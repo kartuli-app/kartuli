@@ -5,8 +5,8 @@ export type TranslitOutputSegment = {
   isWhitespace: boolean;
 };
 
-const segmentPattern = /[ \n]+|[^ \n]+/g;
-const whitespaceRunPattern = /^[ \n]+$/;
+const segmentPattern = /\s+|\S+/g;
+const whitespaceRunPattern = /^\s+$/;
 
 function getSegments(text: string): string[] {
   return text.match(segmentPattern) ?? [];

@@ -77,11 +77,12 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     'georgian-to-latin',
   );
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const outputRef = useRef<HTMLDivElement>(null);
+  const outputRef = useRef<HTMLElement>(null);
   const inputMeasureRef = useRef<HTMLDivElement>(null);
   const outputMeasureRef = useRef<HTMLDivElement>(null);
   const copyFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isSyncingScrollRef = useRef(false);
+  const updateTextSizeRef = useRef<() => void>(() => {});
 
   useEffect(() => {
     if (inputRef.current) {
@@ -224,7 +225,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     syncScroll(inputRef.current, outputRef.current);
   }, [output]);
 
-  useLayoutEffect(() => {
+  updateTextSizeRef.current = () => {
     if (
       !inputRef.current ||
       !outputRef.current ||
@@ -234,30 +235,27 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
       return;
     }
 
-    const updateTextSize = () => {
-      if (
-        !inputRef.current ||
-        !outputRef.current ||
-        !inputMeasureRef.current ||
-        !outputMeasureRef.current
-      ) {
-        return;
-      }
+    inputMeasureRef.current.style.width = `${inputRef.current.clientWidth}px`;
+    outputMeasureRef.current.style.width = `${outputRef.current.clientWidth}px`;
 
-      inputMeasureRef.current.style.width = `${inputRef.current.clientWidth}px`;
-      outputMeasureRef.current.style.width = `${outputRef.current.clientWidth}px`;
+    const renderedLineCount = Math.max(
+      getRenderedLineCount(inputMeasureRef.current),
+      getRenderedLineCount(outputMeasureRef.current),
+    );
+    setIsCompactText(renderedLineCount >= compactTextLineThreshold);
+  };
 
-      const renderedLineCount = Math.max(
-        getRenderedLineCount(inputMeasureRef.current),
-        getRenderedLineCount(outputMeasureRef.current),
-      );
-      setIsCompactText(renderedLineCount >= compactTextLineThreshold);
-    };
+  useLayoutEffect(() => {
+    updateTextSizeRef.current();
+  }, [input, output, direction]);
 
-    updateTextSize();
+  useEffect(() => {
+    if (!inputRef.current || !outputRef.current) {
+      return;
+    }
 
     const resizeObserver = new ResizeObserver(() => {
-      updateTextSize();
+      updateTextSizeRef.current();
     });
 
     resizeObserver.observe(inputRef.current);
@@ -266,7 +264,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [input, output, direction]);
+  }, []);
 
   const sourceFromLabel = direction === 'georgian-to-latin' ? t('georgian') : t('latin');
   const transliterationToLabel = direction === 'georgian-to-latin' ? t('latin') : t('georgian');

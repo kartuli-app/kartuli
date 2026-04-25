@@ -29,7 +29,7 @@ describe('getTranslitOutputSegments', () => {
     ]);
   });
 
-  it('preserves line breaks inside text runs when splitting only on spaces', () => {
+  it('treats line breaks as their own whitespace segments alongside spaces', () => {
     expect(getTranslitOutputSegments('აბ\nგდ ე', 'ab\ngd e')).toEqual([
       { id: '0:აბ:ab', sourceText: 'აბ', outputText: 'ab', isWhitespace: false },
       { id: '1:\n:\n', sourceText: '\n', outputText: '\n', isWhitespace: true },
