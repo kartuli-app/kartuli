@@ -24,7 +24,13 @@
       "inputs": ["$TURBO_DEFAULT$"]
     },
     "@kartuli/web-docs-client#build": {
-      "inputs": ["$TURBO_DEFAULT$", "pnpm-lock.yaml", "../../docs/**", "scripts/**"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "../../pnpm-lock.yaml",
+        "../../docs/**",
+        "scripts/**",
+        "!../../docs/kartuli-llm.txt"
+      ],
       "outputs": [".vitepress/dist/**"]
     },
     "test": { "cache": true },
