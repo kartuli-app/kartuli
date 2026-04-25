@@ -20,7 +20,7 @@
   --color-canvas: grey; /* default background color */
   --color-ds1-color-accent: oklch(63.7% 0.237 25.331); /* default brand accent */
   --color-ds1-color-accent-muted: oklch(92.5% 0.05 250); /* default softer brand accent */
-  /* brand primary */
+  /* ds1 primary */
   --color-ds1-color-dock-bg: var(--color-slate-800);
   --color-ds1-color-app-bg: var(--color-violet-50);
   --color-ds1-color-primary-50: var(--color-violet-50);
