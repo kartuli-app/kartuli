@@ -73,23 +73,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Setup Playwright
-        uses: ./.github/actions/ci-setup-playwright
-
-      - name: Run E2E
-        env:
-          BASE_URL: "https://kartuli-app.github.io/kartuli/"
-        run: pnpm --filter @kartuli/e2e exec playwright test tests/web-docs-client
-        shell: bash
-
-      - name: Upload E2E artifacts on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: e2e-artifacts-web-docs-client-${{ github.run_number }}
-          path: tools/e2e/test-results/
-          retention-days: 3
-
       - name: Build Telegram production deploy message
         if: success()
         id: notify_prod
@@ -113,3 +96,68 @@ jobs:
           chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
           message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PRODUCTION_DEPLOYMENTS_ID }}
           message: ${{ steps.notify_prod.outputs.message }}
+
+      - name: CI setup node
+        uses: ./.github/actions/ci-setup-node
+
+      - name: Setup Playwright
+        uses: ./.github/actions/ci-setup-playwright
+
+      - name: Wait for GitHub Pages propagation
+        env:
+          BASE_URL: "https://kartuli-app.github.io/kartuli/"
+        run: |
+          set -euo pipefail
+          ready=0
+          for i in $(seq 1 60); do
+            if curl -fsS "${BASE_URL}" >/dev/null 2>&1 && \
+               curl -fsS "${BASE_URL}assets/kartuli-llm.txt" | rg -qi "kartuli"; then
+              ready=1
+              break
+            fi
+            sleep 5
+          done
+
+          if [ "$ready" -ne 1 ]; then
+            echo "ERROR: GitHub Pages content did not propagate before timeout."
+            exit 1
+          fi
+        shell: bash
+
+      - name: Run E2E
+        env:
+          BASE_URL: "https://kartuli-app.github.io/kartuli/"
+        run: pnpm --filter @kartuli/e2e exec playwright test tests/web-docs-client
+        shell: bash
+
+      - name: Upload E2E artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-web-docs-client-${{ github.run_number }}
+          path: tools/e2e/test-results/
+          retention-days: 3
+
+      - name: Build Telegram post-deploy E2E failure message
+        if: failure()
+        id: notify_prod_e2e_failed
+        env:
+          WHO: ${{ github.actor }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          echo "message<<NOTIFY_EOF" >> "$GITHUB_OUTPUT"
+          echo "[Production] web-docs-client deployed, but post-deploy E2E failed ($WHO)" >> "$GITHUB_OUTPUT"
+          echo "URL: $PAGE_URL" >> "$GITHUB_OUTPUT"
+          echo "Run: $RUN_URL" >> "$GITHUB_OUTPUT"
+          echo "NOTIFY_EOF" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Notify Telegram – Post-deploy E2E failure
+        if: failure()
+        uses: ./.github/actions/telegram-send-message
+        with:
+          telegram_bot_token: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
+          message_thread_id: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PRODUCTION_DEPLOYMENTS_ID }}
+          message: ${{ steps.notify_prod_e2e_failed.outputs.message }}

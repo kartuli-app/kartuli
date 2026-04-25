@@ -10,8 +10,8 @@ pnpm dev # Start VitePress dev server (port 5173)
 pnpm build # generate the LLM bundle, build the docs site, and copy the LLM bundle into assets
 pnpm preview # build the docs site and preview it locally (port 4173)
 pnpm lint # lint the code
-node scripts/generate-llm-bundle.js # Generate the LLM bundle
-node scripts/copy-llm-bundle.js # Copy the LLM bundle into assets
+pnpm generate-llm-bundle # Generate the LLM bundle
+pnpm copy-llm-bundle # Copy the LLM bundle into assets
 ```
 
 ## Local development

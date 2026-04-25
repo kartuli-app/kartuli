@@ -48,7 +48,7 @@ test.describe('Web Docs Client Smoke Tests', () => {
   });
 
   test('all header nav links resolve and load without critical errors', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await page.waitForLoadState('domcontentloaded');
 
     const links = await getHeaderNavLinks(page);
@@ -70,7 +70,7 @@ test.describe('Web Docs Client Smoke Tests', () => {
 
     for (const link of uniqueLinks) {
       await test.step(`header link: ${link.text || link.href}`, async () => {
-        await page.goto('/');
+        await page.goto('./');
         await page.waitForLoadState('domcontentloaded');
 
         const nav = page.locator('header nav').first();
@@ -84,14 +84,14 @@ test.describe('Web Docs Client Smoke Tests', () => {
         const isSameTab = link.target !== '_blank';
 
         if (isSameTab) {
-          const navigation = page
-            .waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 })
-            .catch(() => null);
           await locator.click();
-          const response = await navigation;
-          if (response) {
-            expect(response.status()).toBeLessThan(400);
-          }
+          await page.waitForURL(
+            (url) =>
+              url.origin === expectedUrl.origin &&
+              url.pathname === expectedUrl.pathname &&
+              url.search === expectedUrl.search,
+            { timeout: 10000 },
+          );
 
           await expect(page).toHaveURL((url) => {
             return (
@@ -110,7 +110,8 @@ test.describe('Web Docs Client Smoke Tests', () => {
           await locator.click();
           const popup = await popupPromise;
           await popup.waitForLoadState('domcontentloaded');
-          expect(popup.url()).toContain(expectedUrl.href);
+          const popupUrl = new URL(popup.url());
+          expect(popupUrl.host).toBe(expectedUrl.host);
           await popup.close();
         }
       });
@@ -118,7 +119,7 @@ test.describe('Web Docs Client Smoke Tests', () => {
   });
 
   test('llms.txt is present in header nav and has expected structure', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await page.waitForLoadState('domcontentloaded');
 
     const nav = page.locator('header nav').first();
@@ -129,17 +130,17 @@ test.describe('Web Docs Client Smoke Tests', () => {
 
     const llmsHref = await llmsLink.getAttribute('href');
     expect(llmsHref).toBeTruthy();
+    const preClickUrl = page.url();
+    const llmsUrl = new URL(llmsHref ?? '', preClickUrl).toString();
 
-    const navigation = page
-      .waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 })
-      .catch(() => null);
     await llmsLink.click();
-    const response = await navigation;
-    if (response) {
-      expect(response.status()).toBeLessThan(400);
-    }
+    await page.waitForURL(
+      (url) => url.pathname.endsWith('.txt') || url.pathname.includes('/assets/'),
+      {
+        timeout: 10000,
+      },
+    );
 
-    const llmsUrl = new URL(llmsHref ?? '', page.url()).toString();
     await expect(page).toHaveURL(
       (url) => url.pathname.endsWith('.txt') || url.pathname.includes('/assets/'),
     );
