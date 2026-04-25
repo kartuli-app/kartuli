@@ -9,11 +9,11 @@ export function NotFoundClient() {
   const { t } = useTranslation('notFound');
   return (
     <ResponsiveContainer
-      className={clsx('justify-center', 'py-brand-xlarge', 'sm:py-brand-2xlarge')}
+      className={clsx('justify-center', 'py-ds1-spacing-xlarge', 'sm:py-ds1-spacing-2xlarge')}
     >
-      <div className={clsx('flex flex-col', 'gap-brand-large')}>
+      <div className={clsx('flex flex-col', 'gap-ds1-spacing-large')}>
         <h2 className={clsx('text-3xl', 'text-center')}>{t('heading')}</h2>
-        <h3 className={clsx('text-xl font-bold pb-brand-2xlarge', 'text-center')}>
+        <h3 className={clsx('text-xl font-bold pb-ds1-spacing-2xlarge', 'text-center')}>
           {localizedPathname}
         </h3>
         <picture>

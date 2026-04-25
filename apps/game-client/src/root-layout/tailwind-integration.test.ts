@@ -22,7 +22,7 @@ describe('tailwind integration (game-client)', () => {
 
   it('keeps shared token defaults and applies app override for only one token', async () => {
     const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('--color-brand: oklch(72.114% 0.179 155.2);');
-    expect(css).toContain('--color-brand-muted: oklch(92.5% 0.05 250);');
+    expect(css).toContain('--color-ds1-color-accent: oklch(72.114% 0.179 155.2);');
+    expect(css).toContain('--color-ds1-color-accent-muted: oklch(92.5% 0.05 250);');
   });
 });

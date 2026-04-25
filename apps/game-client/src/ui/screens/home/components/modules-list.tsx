@@ -43,7 +43,7 @@ export function ModulesList({ homeModules }: Readonly<{ homeModules: HomeModule[
         className={clsx(
           //
           'flex flex-col',
-          'gap-brand-xlarge',
+          'gap-ds1-spacing-xlarge',
           'w-full',
         )}
       >

@@ -4,7 +4,13 @@ import { extendTailwindMerge } from 'tailwind-merge';
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
-      spacing: ['brand-regular', 'brand-large', 'brand-xlarge', 'brand-2xlarge', 'brand-3xlarge'],
+      spacing: [
+        'ds1-spacing-regular',
+        'ds1-spacing-large',
+        'ds1-spacing-xlarge',
+        'ds1-spacing-2xlarge',
+        'ds1-spacing-3xlarge',
+      ],
     },
   },
 });

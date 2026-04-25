@@ -9,9 +9,9 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 const tooltipPopupClassName = cn(
   'z-50',
-  'bg-brand-text-600',
-  'text-brand-text-100',
-  'p-brand-regular',
+  'bg-ds1-color-text-600',
+  'text-ds1-color-text-100',
+  'p-ds1-spacing-regular',
   'text-lg',
   'shadow-lg',
   'rounded-md',
@@ -24,7 +24,7 @@ const tooltipArrowClassName = cn(
   'data-[side=bottom]:rotate-180',
 );
 
-const tooltipArrowInnerClassName = cn('size-5', 'rotate-45', 'bg-brand-text-600');
+const tooltipArrowInnerClassName = cn('size-5', 'rotate-45', 'bg-ds1-color-text-600');
 
 type TranslitActionTooltipProps = Omit<
   ComponentPropsWithoutRef<typeof Tooltip.Trigger>,
@@ -65,7 +65,7 @@ export function TranslitActionTooltip({
         className={cn(
           iconClassNames,
           buttonIconClassNames,
-          'bg-transparent hover:bg-brand-text-100',
+          'bg-transparent hover:bg-ds1-color-text-100',
           className,
         )}
         {...triggerProps}

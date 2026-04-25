@@ -165,7 +165,7 @@ export function DeploymentDebugPanel({
 
   const debugPanelClassName = clsx(
     'p-4 rounded-lg shadow text-xs font-mono max-w-sm',
-    'text-brand-text-100 bg-brand-text-900',
+    'text-ds1-color-text-100 bg-ds1-color-text-900',
     className,
   );
 

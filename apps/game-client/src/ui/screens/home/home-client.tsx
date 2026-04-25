@@ -12,11 +12,11 @@ export function HomeClient({
   return (
     <>
       <ResponsiveContainer
-        className={cn('justify-center', 'py-brand-xlarge', 'sm:py-brand-3xlarge')}
+        className={cn('justify-center', 'py-ds1-spacing-xlarge', 'sm:py-ds1-spacing-3xlarge')}
       >
         <Heading />
       </ResponsiveContainer>
-      <ResponsiveContainer className={cn('pb-brand-xlarge')}>
+      <ResponsiveContainer className={cn('pb-ds1-spacing-xlarge')}>
         <ModulesList homeModules={homeView.modules} />
       </ResponsiveContainer>
     </>

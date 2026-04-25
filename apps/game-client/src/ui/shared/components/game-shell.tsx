@@ -20,8 +20,8 @@ function SkipToMainContentLink() {
         'focus:fixed focus:top-2 focus:left-2 focus:z-100',
         'focus:px-4 focus:py-2',
         'focus:rounded-md',
-        'focus:bg-brand-text-900 focus:text-brand-text-50',
-        'focus:outline-2 focus:outline-offset-2 focus:outline-brand-primary-500',
+        'focus:bg-ds1-color-text-900 focus:text-ds1-color-text-50',
+        'focus:outline-2 focus:outline-offset-2 focus:outline-ds1-color-primary-500',
         'focus:font-semibold',
       )}
     >

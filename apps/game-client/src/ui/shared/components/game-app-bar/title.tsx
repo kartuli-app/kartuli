@@ -33,7 +33,7 @@ export function Title() {
   const { t } = useTranslation('common');
   const pageTitle = getPageTitleByPathname(pathname, t);
   return (
-    <h1 className="flex flex-col flex-wrap text-2xl sm:text-3xl uppercase font-extrabold text-brand-primary-900">
+    <h1 className="flex flex-col flex-wrap text-2xl sm:text-3xl uppercase font-extrabold text-ds1-color-primary-900">
       {pageTitle ? (
         <div className="flex">
           <div className="">{pageTitle}</div>
@@ -41,7 +41,7 @@ export function Title() {
       ) : (
         <div className="flex">
           <div className="">kartuli</div>
-          <div className="text-brand-text-600">.app</div>
+          <div className="text-ds1-color-text-600">.app</div>
         </div>
       )}
     </h1>

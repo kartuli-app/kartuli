@@ -32,9 +32,9 @@ function AnchoredToasts() {
             <Toast.Root toast={toast}>
               <Toast.Content
                 className={cn(
-                  'bg-brand-text-600',
-                  'text-brand-text-100',
-                  'p-brand-regular',
+                  'bg-ds1-color-text-600',
+                  'text-ds1-color-text-100',
+                  'p-ds1-spacing-regular',
                   'text-lg',
                   'shadow-lg',
                   'rounded-md',
@@ -232,8 +232,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             //
             'grow',
             'flex-col',
-            'gap-brand-large',
-            'pt-brand-large',
+            'gap-ds1-spacing-large',
+            'pt-ds1-spacing-large',
           )}
         >
           {/* input area */}
@@ -248,7 +248,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               'rounded-lg',
               'border',
               //
-              'border-brand-text-300',
+              'border-ds1-color-text-300',
               //
               'shadow-sm',
             )}
@@ -261,22 +261,24 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'items-center',
                 'justify-between',
                 //
-                'px-brand-large',
-                'py-brand-regular',
+                'px-ds1-spacing-large',
+                'py-ds1-spacing-regular',
                 //
                 'border-b-2',
-                'border-brand-primary-500',
+                'border-ds1-color-primary-500',
               )}
             >
               {/* label */}
               <label htmlFor="translit-input" className={cn('flex flex-col')}>
-                <div className={cn('text-sm uppercase text-brand-primary-900')}>{t('source')}</div>
-                <div className={cn('text-2xl uppercase text-brand-text-600')}>
+                <div className={cn('text-sm uppercase text-ds1-color-primary-900')}>
+                  {t('source')}
+                </div>
+                <div className={cn('text-2xl uppercase text-ds1-color-text-600')}>
                   {sourceFromLabel}
                 </div>
               </label>
               {/* buttons */}
-              <div className={cn('flex', 'gap-brand-regular')}>
+              <div className={cn('flex', 'gap-ds1-spacing-regular')}>
                 <TranslitActionTooltip
                   tooltipLabel={clearTextLabel}
                   side="bottom"
@@ -301,7 +303,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               </div>
             </div>
             {/* text area */}
-            <div className={cn('p-brand-large', 'grow')}>
+            <div className={cn('p-ds1-spacing-large', 'grow')}>
               <textarea
                 lang={inputLang}
                 className={cn(
@@ -310,15 +312,15 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'h-full',
                   'resize-none',
                   'text-2xl',
-                  'p-brand-large',
+                  'p-ds1-spacing-large',
                   //
                   'caret-black',
                   //
                   'rounded-lg',
                   //
-                  'border-2 border-brand-text-200',
-                  'focus:border-brand-text-400 focus:outline-none',
-                  'placeholder:text-brand-text-400',
+                  'border-2 border-ds1-color-text-200',
+                  'focus:border-ds1-color-text-400 focus:outline-none',
+                  'placeholder:text-ds1-color-text-400',
                   'font-georgian',
                 )}
                 id="translit-input"
@@ -343,7 +345,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               'rounded-lg',
               'border',
               //
-              'border-brand-text-300',
+              'border-ds1-color-text-300',
               //
               'shadow-sm',
             )}
@@ -356,24 +358,24 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'items-center',
                 'justify-between',
                 //
-                'px-brand-large',
-                'py-brand-regular',
+                'px-ds1-spacing-large',
+                'py-ds1-spacing-regular',
                 //
                 'border-b-2',
-                'border-brand-primary-500',
+                'border-ds1-color-primary-500',
               )}
             >
               {/* label */}
               <label htmlFor="translit-output" className={cn('flex flex-col')}>
-                <div className={cn('text-sm uppercase text-brand-primary-900')}>
+                <div className={cn('text-sm uppercase text-ds1-color-primary-900')}>
                   {t('transliteration')}
                 </div>
-                <div className={cn('text-2xl uppercase text-brand-text-600')}>
+                <div className={cn('text-2xl uppercase text-ds1-color-text-600')}>
                   {transliterationToLabel}
                 </div>
               </label>
               {/* buttons */}
-              <div className={cn('flex', 'gap-brand-regular')}>
+              <div className={cn('flex', 'gap-ds1-spacing-regular')}>
                 <TranslitActionTooltip
                   tooltipLabel={copyTransliterationLabel}
                   side="top"
@@ -390,7 +392,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               </div>
             </div>
             {/* text area */}
-            <div className={cn('p-brand-large', 'grow')}>
+            <div className={cn('p-ds1-spacing-large', 'grow')}>
               <textarea
                 lang={outputLang}
                 className={cn(
@@ -399,15 +401,15 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'h-full',
                   'resize-none',
                   'text-2xl',
-                  'p-brand-large',
+                  'p-ds1-spacing-large',
                   //
                   'caret-black',
                   //
                   'rounded-lg',
                   //
-                  'border-2 border-brand-text-200',
-                  'focus:border-brand-text-400 focus:outline-none',
-                  'placeholder:text-brand-text-400',
+                  'border-2 border-ds1-color-text-200',
+                  'focus:border-ds1-color-text-400 focus:outline-none',
+                  'placeholder:text-ds1-color-text-400',
                   'font-georgian',
                 )}
                 id="translit-output"

@@ -49,8 +49,8 @@ export async function RootLayout({
         georgianFont.variable,
         defaultFont.variable,
         defaultFont.className,
-        'bg-brand-dock-bg md:bg-brand-app-bg',
-        'text-brand-text-800',
+        'bg-ds1-color-dock-bg md:bg-ds1-color-app-bg',
+        'text-ds1-color-text-800',
       )}
     >
       <body className="h-dvh flex">
