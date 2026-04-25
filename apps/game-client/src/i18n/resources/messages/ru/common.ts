@@ -2,7 +2,6 @@ export default {
   //
   app_bar: {
     back: 'Назад',
-    search: 'Поиск',
     sound_enabled: 'Звук включен',
     sound_disabled: 'Звук выключен',
     enable_sound: 'Включить звук',
@@ -11,33 +10,16 @@ export default {
     offline_indicator: 'Нет интернета',
     //
     page_titles_by_pathname: {
-      '/saved': 'Сохранено',
-      '/profile': 'Профиль',
       '/learn': 'Учить',
-      '/search': 'Поиск',
-      '/debug': 'Отладка',
       '/not-found': 'Не найдено',
       '/translit': 'Транслит',
-      '/privacy': 'приватность',
-      '/terms-and-conditions': 'Условия',
     },
   },
   //
   dock: {
     main_links: {
-      profile: 'Профиль',
-      saved: 'Сохранено',
       learn: 'Учить',
       translit: 'Транслит',
-    },
-    menu: {
-      label: 'Ещё',
-      close: 'Закрыть',
-      links: {
-        debug: 'Отладка',
-        terms_and_conditions: 'Условия использования',
-        privacy: 'Конфиденциальность',
-      },
     },
   },
   //
@@ -51,7 +33,6 @@ export default {
     language: 'Язык',
     landmarks: {
       sections: 'Разделы',
-      more: 'Ещё',
     },
   },
   //

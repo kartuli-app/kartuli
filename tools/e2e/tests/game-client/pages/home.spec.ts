@@ -1,15 +1,13 @@
 import { enResources } from '@game-client/i18n/resources/resources-en';
 import { expect, test } from '@playwright/test';
-import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 import { expectA11y } from '../../helpers/expect-a11y';
 import { defaultLocaleBase } from '../../helpers/locale-url';
 
 const a11y = enResources.common.accessibility;
-const dock = enResources.common.dock;
+const dock = enResources.common.dock.main_links;
 
 test.describe('Home page', () => {
   test.beforeEach(async ({ page }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto(defaultLocaleBase);
     await expect(page.getByRole('heading', { name: /გამარჯობა/ })).toBeVisible();
   });
@@ -44,15 +42,11 @@ test.describe('Home page', () => {
     });
   });
 
-  test('has no a11y violations with dock More menu open', async ({ page }) => {
-    const moreTrigger = page.getByRole('button', { name: a11y.landmarks.more });
-    await expect(moreTrigger).toBeEnabled();
-    await moreTrigger.click();
-    // Base UI's `NavigationMenu.Root` renders as `<nav aria-label="More">`, so
-    // the `navigation` landmark is present in the closed state too on desktop.
-    // Wait for a link that only exists inside the portaled popup so the axe
-    // scan actually runs against the open menu.
-    await expect(page.getByRole('link', { name: dock.menu.links.privacy })).toBeVisible();
-    await expectA11y(page, { label: 'home: more menu open' });
+  test('renders only Learn and Translit dock links', async ({ page }) => {
+    const nav = page.getByRole('navigation', { name: a11y.landmarks.sections });
+    await expect(nav.getByRole('link', { name: dock.learn })).toBeVisible();
+    await expect(nav.getByRole('link', { name: dock.translit })).toBeVisible();
+    await expect(nav.getByRole('link', { name: /profile|saved/i })).toHaveCount(0);
+    await expect(nav.getByRole('button', { name: /more/i })).toHaveCount(0);
   });
 });

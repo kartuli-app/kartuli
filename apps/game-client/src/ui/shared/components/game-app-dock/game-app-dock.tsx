@@ -3,7 +3,6 @@
 import { cn } from '@kartuli/ui/utils/cn';
 import { useTranslation } from 'react-i18next';
 import { GameAppDockMainLinks } from './game-app-dock-main-links';
-import { GameAppDockMenu } from './game-app-dock-menu';
 
 export function GameAppDock() {
   const { t } = useTranslation('common');
@@ -60,7 +59,6 @@ export function GameAppDock() {
         >
           <GameAppDockMainLinks />
         </nav>
-        <GameAppDockMenu />
       </div>
     </div>
   );
