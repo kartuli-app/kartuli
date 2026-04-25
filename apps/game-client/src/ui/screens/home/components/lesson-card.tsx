@@ -20,8 +20,8 @@ const LetterItemCard = ({
       key={item.id}
       className={clsx(
         //
-        'text-brand-neutral-900',
-        'bg-brand-neutral-100',
+        'text-brand-text-900',
+        'bg-brand-text-100',
         'rounded-md',
         'px-brand-large',
         'py-brand-small',
@@ -61,8 +61,8 @@ const WordItemCard = ({
       key={item.id}
       className={clsx(
         //
-        'text-brand-neutral-900',
-        'bg-brand-neutral-100',
+        'text-brand-text-900',
+        'bg-brand-text-100',
         'rounded-md',
         'px-brand-large',
         'py-brand-small',
@@ -82,12 +82,12 @@ const WordItemCard = ({
             <div className="absolute top-2/3 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
             <div className="z-30 font-medium">{item.targetScript}</div>
           </div>
-          <div className="text-2xl flex gap-brand-xsmall text-brand-neutral-700">
+          <div className="text-2xl flex gap-brand-xsmall text-brand-text-700">
             <span className="text-orange-500">[</span>
             {item.transliteration}
             <span className="text-orange-500">]</span>
           </div>
-          <div className="text-xl flex gap-brand-xsmall text-brand-neutral-700">
+          <div className="text-xl flex gap-brand-xsmall text-brand-text-700">
             {item.translation}
           </div>
         </div>
@@ -191,7 +191,7 @@ export function LessonCard({
         )}
       >
         <div className="text-xl font-bold group-hover:underline">{homeLesson.title}</div>
-        <div className="text-base text-brand-neutral-50 flex items-center gap-brand-small">
+        <div className="text-base text-brand-text-50 flex items-center gap-brand-small">
           {showAverageViewsCount ? (
             <>
               <LuEye className="w-4 h-4" />
