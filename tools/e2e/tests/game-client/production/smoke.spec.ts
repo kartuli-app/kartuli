@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 import { expectNoCriticalErrors } from '../../helpers/expect-no-critical-errors';
 import { getFirstLessonFixtureEn } from '../../helpers/first-lesson-fixture';
 
@@ -11,7 +10,6 @@ test.describe('Game Client Smoke Tests', () => {
   });
 
   test('navigate home → learn → back returns to home', async ({ page }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto('/en');
 
     await expect(page.getByRole('heading', { name: /გამარჯობა /i })).toBeVisible();

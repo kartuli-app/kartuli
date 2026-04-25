@@ -1,6 +1,5 @@
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
-import { applyVercelProtectionBypass } from './apply-vercel-protection-bypass';
 
 const DEFAULT_IGNORE_PATTERNS = [
   (error: string) => error.includes('401') || error.includes('403'),
@@ -16,7 +15,6 @@ export interface ExpectNoCriticalErrorsOptions {
 /**
  * Navigate to the given path, collect console errors and uncaught page errors,
  * filter known acceptable ones, and assert no critical errors.
- * Applies Vercel bypass header when env is present.
  */
 export async function expectNoCriticalErrors(
   page: Page,
@@ -53,7 +51,6 @@ export async function expectNoCriticalErrors(
   page.on('pageerror', onPageError);
 
   try {
-    await applyVercelProtectionBypass(page);
     await page.goto(path, { waitUntil: 'domcontentloaded' });
     // Capture late console errors from hydration/chunk loading.
     await page.waitForLoadState('networkidle');
