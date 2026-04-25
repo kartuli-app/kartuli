@@ -291,9 +291,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const outputScriptClassName = direction === 'georgian-to-latin' ? undefined : 'font-georgian';
   const tooltipScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
   const surfaceTextSizeClassName = isCompactText ? 'text-xl' : 'text-2xl';
-  const surfaceDebugColorClassName = isCompactText
-    ? 'text-ds1-color-accent'
-    : 'text-ds1-color-text-800';
 
   return (
     <Toast.Provider toastManager={toastManager}>
@@ -388,7 +385,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'min-h-0',
                   'resize-none',
                   surfaceTextSizeClassName,
-                  surfaceDebugColorClassName,
                   'p-ds1-spacing-large',
                   //
                   'caret-black',
@@ -474,11 +470,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
             <div className={cn('p-ds1-spacing-large', 'grow', 'min-h-0')}>
               <TranslitOutput
                 ariaLabelledBy={outputLabelId}
-                className={cn(
-                  surfaceTextSizeClassName,
-                  surfaceDebugColorClassName,
-                  outputScriptClassName,
-                )}
+                className={cn(surfaceTextSizeClassName, outputScriptClassName)}
                 containerRef={outputRef}
                 lang={outputLang}
                 onScroll={handleOutputScroll}
