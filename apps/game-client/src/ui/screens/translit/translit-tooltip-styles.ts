@@ -13,6 +13,7 @@ export const translitTooltipPopupClassName = cn(
   'shadow-lg',
   'rounded-md',
   'max-w-74',
+  'pointer-events-none',
 );
 
 export const translitTooltipArrowClassName = cn(
