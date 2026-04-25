@@ -21,4 +21,23 @@ test.describe('Page not found', () => {
   test('has no a11y violations on initial load', async ({ page }) => {
     await expectA11y(page, { label: 'page-not-found: initial load' });
   });
+
+  test('removed routes return HTTP 404 and render the localized not-found page', async ({
+    page,
+  }) => {
+    await applyVercelProtectionBypass(page);
+
+    for (const removedPath of [
+      'debug',
+      'privacy',
+      'profile',
+      'saved',
+      'search',
+      'terms-and-conditions',
+    ]) {
+      const response = await page.goto(`${defaultLocaleBase}/${removedPath}`);
+      expect(response?.status(), `${removedPath} should return HTTP 404`).toBe(404);
+      await expect(page.getByRole('heading', { name: heading })).toBeVisible();
+    }
+  });
 });

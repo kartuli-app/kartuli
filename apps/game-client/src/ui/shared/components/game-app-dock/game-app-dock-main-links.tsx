@@ -5,8 +5,6 @@ import type { TFunction } from 'i18next';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { BiSolidUserCircle, BiUserCircle } from 'react-icons/bi';
 import {
   PiArrowsClockwiseBold,
   PiArrowsClockwiseLight,
@@ -16,18 +14,6 @@ import {
 import { DockButtonContent, getDockButtonClassName } from './game-app-dock-button';
 
 const mainLinks = [
-  {
-    href: '/profile',
-    labelKey: 'profile',
-    iconActive: BiSolidUserCircle,
-    iconInactive: BiUserCircle,
-  },
-  {
-    href: '/saved',
-    labelKey: 'saved',
-    iconActive: AiFillHeart,
-    iconInactive: AiOutlineHeart,
-  },
   {
     href: '/',
     labelKey: 'learn',
