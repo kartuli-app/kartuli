@@ -15,9 +15,15 @@ function run(command, args, options = {}) {
 
 function packagesFromTurboJson(turboJson) {
   const tasks = Array.isArray(turboJson?.tasks) ? turboJson.tasks : [];
-  return [...new Set(tasks.map((task) => task?.package).filter(Boolean))].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  return [
+    ...new Set(
+      tasks
+        // Turbo includes graph-only nodes for missing scripts; they should not
+        // be reported as affected packages.
+        .filter((task) => task?.package && task?.command !== '<NONEXISTENT>')
+        .map((task) => task.package),
+    ),
+  ].sort((a, b) => a.localeCompare(b));
 }
 
 function parseMode() {
