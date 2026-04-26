@@ -1,30 +1,16 @@
 'use client';
 import { Tooltip } from '@base-ui/react/tooltip';
 import {
+  translitTooltipArrowClassName,
+  translitTooltipArrowInnerClassName,
+  translitTooltipPopupClassName,
+} from '@game-client/ui/screens/translit/translit-tooltip-styles';
+import {
   buttonIconClassNames,
   iconClassNames,
 } from '@game-client/ui/shared/components/game-app-bar/game-app-bar-elements';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-
-const tooltipPopupClassName = cn(
-  'z-50',
-  'bg-ds1-color-text-600',
-  'text-ds1-color-text-100',
-  'p-ds1-spacing-regular',
-  'text-lg',
-  'shadow-lg',
-  'rounded-md',
-  'max-w-74',
-);
-
-const tooltipArrowClassName = cn(
-  'data-[side=top]:bottom-[-7px]',
-  'data-[side=bottom]:top-[-7px]',
-  'data-[side=bottom]:rotate-180',
-);
-
-const tooltipArrowInnerClassName = cn('size-5', 'rotate-45', 'bg-ds1-color-text-600');
 
 type TranslitActionTooltipProps = Omit<
   ComponentPropsWithoutRef<typeof Tooltip.Trigger>,
@@ -74,9 +60,9 @@ export function TranslitActionTooltip({
       </Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Positioner side={side} sideOffset={sideOffset}>
-          <Tooltip.Popup className={tooltipPopupClassName}>
-            <Tooltip.Arrow className={tooltipArrowClassName}>
-              <div className={tooltipArrowInnerClassName} />
+          <Tooltip.Popup className={translitTooltipPopupClassName}>
+            <Tooltip.Arrow className={translitTooltipArrowClassName}>
+              <div className={translitTooltipArrowInnerClassName} />
             </Tooltip.Arrow>
             {tooltipLabel}
           </Tooltip.Popup>
