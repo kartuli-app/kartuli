@@ -11,13 +11,16 @@ import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output
 import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
 import { ResponsiveContainer } from '@kartuli/ui/components/containers/responsive-container';
 import { cn } from '@kartuli/ui/utils/cn';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaCheck, FaRegCopy } from 'react-icons/fa6';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Fill, RiDeleteBin6Line } from 'react-icons/ri';
 
 const toastManager = Toast.createToastManager();
+// Compact mode is decided from fixed text-2xl/leading-8 measurement-space with whitespace-pre-wrap.
+// Because the real surfaces can switch text size and textarea wrapping differs slightly from div
+// wrapping, the threshold can differ by about one rendered line after toggling compact mode.
 const compactTextLineThreshold = 7;
 
 function getRenderedLineCount(element: HTMLElement): number {
@@ -82,7 +85,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const outputMeasureRef = useRef<HTMLDivElement>(null);
   const copyFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isSyncingScrollRef = useRef(false);
-  const updateTextSizeRef = useRef<() => void>(() => {});
 
   useEffect(() => {
     if (inputRef.current) {
@@ -225,7 +227,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     syncScroll(inputRef.current, outputRef.current);
   }, [output]);
 
-  updateTextSizeRef.current = () => {
+  const updateTextSize = useEffectEvent(() => {
     if (
       !inputRef.current ||
       !outputRef.current ||
@@ -243,10 +245,10 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
       getRenderedLineCount(outputMeasureRef.current),
     );
     setIsCompactText(renderedLineCount >= compactTextLineThreshold);
-  };
+  });
 
   useLayoutEffect(() => {
-    updateTextSizeRef.current();
+    updateTextSize();
   }, [input, output, direction]);
 
   useEffect(() => {
@@ -255,7 +257,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     }
 
     const resizeObserver = new ResizeObserver(() => {
-      updateTextSizeRef.current();
+      updateTextSize();
     });
 
     resizeObserver.observe(inputRef.current);
@@ -497,6 +499,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               'whitespace-pre-wrap',
               'wrap-break-word',
               'text-2xl',
+              'leading-8',
               'p-ds1-spacing-large',
               inputScriptClassName,
             )}
@@ -509,6 +512,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               'whitespace-pre-wrap',
               'wrap-break-word',
               'text-2xl',
+              'leading-8',
               'p-ds1-spacing-large',
               outputScriptClassName,
             )}

@@ -15,7 +15,7 @@ type TranslitOutputProps = {
   className?: string;
   containerRef?: RefObject<HTMLElement | null>;
   lang: string;
-  onScroll?: UIEventHandler<HTMLDivElement>;
+  onScroll?: UIEventHandler<HTMLElement>;
   segments: TranslitOutputSegment[];
   tooltipClassName?: string;
   tooltipPortalContainer?: RefObject<HTMLElement | null>;
@@ -92,7 +92,7 @@ export function TranslitOutput({
     };
   }, [usesTapInteraction]);
 
-  const handleScroll: UIEventHandler<HTMLDivElement> = (event) => {
+  const handleScroll: UIEventHandler<HTMLElement> = (event) => {
     if (usesTapInteraction) {
       setActiveSegmentId(null);
     }
@@ -107,7 +107,7 @@ export function TranslitOutput({
         sectionRef.current = node;
 
         if (containerRef) {
-          (containerRef as { current: HTMLElement | null }).current = node;
+          containerRef.current = node;
         }
       }}
       lang={lang}

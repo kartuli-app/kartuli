@@ -38,4 +38,18 @@ describe('getTranslitOutputSegments', () => {
       { id: '4:ე:e', sourceText: 'ე', outputText: 'e', isWhitespace: false },
     ]);
   });
+
+  it('pads the shorter side with empty strings when segment counts differ', () => {
+    expect(getTranslitOutputSegments('ფ', '')).toEqual([
+      { id: '0:ფ:', sourceText: 'ფ', outputText: '', isWhitespace: false },
+    ]);
+  });
+
+  it('treats tabs and non-breaking spaces as whitespace segments', () => {
+    expect(getTranslitOutputSegments('a\tb', 'a\u00A0b')).toEqual([
+      { id: '0:a:a', sourceText: 'a', outputText: 'a', isWhitespace: false },
+      { id: '1:\t: ', sourceText: '\t', outputText: '\u00A0', isWhitespace: true },
+      { id: '2:b:b', sourceText: 'b', outputText: 'b', isWhitespace: false },
+    ]);
+  });
 });
