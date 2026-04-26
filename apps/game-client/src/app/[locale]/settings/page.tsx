@@ -1,4 +1,4 @@
-import { generateStaticParamsForSupportedLocales } from '@game-client/i18n/';
+import { generateStaticParamsForSupportedLocales } from '@game-client/i18n';
 
 export function generateStaticParams() {
   return generateStaticParamsForSupportedLocales();

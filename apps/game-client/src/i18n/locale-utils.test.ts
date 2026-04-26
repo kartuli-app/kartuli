@@ -15,6 +15,11 @@ describe('getCurrentSupportedLocale', () => {
   it('falls back to the provided locale when resolved language is unsupported', () => {
     expect(getCurrentSupportedLocale('ka', 'ru')).toBe('ru');
   });
+
+  it('falls back to the default supported locale when no fallback is provided', () => {
+    expect(getCurrentSupportedLocale('ka')).toBe('en');
+    expect(getCurrentSupportedLocale(undefined)).toBe('en');
+  });
 });
 
 describe('getLocalizedPathnameForLocale', () => {
