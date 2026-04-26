@@ -1,6 +1,5 @@
 import { Mascot } from '@game-client/ui/shared/components/game-app-bar/mascot';
 import { OfflineIndicator } from '@game-client/ui/shared/components/game-app-bar/offline-indicator';
-import { SoundToggle } from '@game-client/ui/shared/components/game-app-bar/sound-toggle';
 import { AppBar } from '@kartuli/ui/components/layout/app-bar';
 import { AnimatedBackButton } from './animated-back-button';
 import { LanguageSelector } from './language-selector';
@@ -19,7 +18,6 @@ export function GameAppBar() {
       </div>
       {/* right area */}
       <div className="flex gap-ds1-spacing-regular shrink-0">
-        <SoundToggle />
         <LanguageSelector />
       </div>
     </AppBar>
