@@ -2,10 +2,6 @@ export default {
   //
   app_bar: {
     back: 'Назад',
-    sound_enabled: 'Звук включен',
-    sound_disabled: 'Звук выключен',
-    enable_sound: 'Включить звук',
-    disable_sound: 'Выключить звук',
     mascot: 'Мышка',
     offline_indicator: 'Нет интернета',
     //

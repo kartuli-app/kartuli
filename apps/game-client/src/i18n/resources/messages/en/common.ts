@@ -2,10 +2,6 @@ export default {
   //
   app_bar: {
     back: 'Back',
-    sound_enabled: 'Sound enabled',
-    sound_disabled: 'Sound disabled',
-    enable_sound: 'Enable sound',
-    disable_sound: 'Disable sound',
     mascot: 'Mascot',
     offline_indicator: 'Offline indicator',
     //
