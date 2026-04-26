@@ -1,10 +1,12 @@
 'use client';
+import { getCurrentSupportedLocale } from '@game-client/i18n';
 import { useNavigation } from '@game-client/navigation/navigation-context';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { TFunction } from 'i18next';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
 import {
   PiArrowsClockwiseBold,
   PiArrowsClockwiseLight,
@@ -25,6 +27,12 @@ const mainLinks = [
     labelKey: 'translit',
     iconActive: PiArrowsClockwiseBold,
     iconInactive: PiArrowsClockwiseLight,
+  },
+  {
+    href: '/settings',
+    labelKey: 'settings',
+    iconActive: IoSettingsSharp,
+    iconInactive: IoSettingsOutline,
   },
 ];
 
@@ -67,7 +75,7 @@ export function DockMainLinkActiveIndicator({ isActive }: Readonly<{ isActive: b
 export function GameAppDockMainLinks() {
   const { pathname, NavigationLink } = useNavigation();
   const { i18n, t } = useTranslation('common');
-  const locale = i18n.resolvedLanguage;
+  const locale = getCurrentSupportedLocale(i18n.resolvedLanguage);
   const [touchedLink, setTouchedLink] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
