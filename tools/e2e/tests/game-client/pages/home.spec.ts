@@ -19,27 +19,10 @@ test.describe('Home page', () => {
     await expect(h1s).toHaveCount(1);
 
     await expect(page.getByRole('navigation', { name: a11y.landmarks.sections })).toBeVisible();
-    await expect(page.getByRole('combobox', { name: a11y.language })).toBeVisible();
   });
 
   test('has no a11y violations on initial load', async ({ page }) => {
     await expectA11y(page, { label: 'home: initial load' });
-  });
-
-  test('has no a11y violations with language combobox open', async ({ page }) => {
-    await page.getByRole('combobox', { name: a11y.language }).click();
-    await expect(page.getByRole('option').first()).toBeVisible();
-    await expectA11y(page, {
-      label: 'home: language combobox open',
-      // Base UI's Select portals its popup to document.body (outside any
-      // landmark), which axe's best-practice `region` rule flags. We disable
-      // only that rule for this scan instead of `exclude`ing the popup subtree
-      // — otherwise every rule inside the popup (contrast, ARIA, labels, …)
-      // would be skipped too. The rest of the page already passes `region`,
-      // so disabling it for this test is safe; the initial-load test still
-      // enforces it.
-      disableRules: ['region'],
-    });
   });
 
   test('renders only Learn and Translit dock links', async ({ page }) => {
