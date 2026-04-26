@@ -56,7 +56,7 @@ export function TranslitOutput({
   const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+    const mediaQuery = globalThis.matchMedia('(hover: none), (pointer: coarse)');
 
     const updateInteractionMode = () => {
       setUsesTapInteraction(mediaQuery.matches);
@@ -65,18 +65,10 @@ export function TranslitOutput({
 
     updateInteractionMode();
 
-    if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', updateInteractionMode);
-
-      return () => {
-        mediaQuery.removeEventListener('change', updateInteractionMode);
-      };
-    }
-
-    mediaQuery.addListener(updateInteractionMode);
+    mediaQuery.addEventListener('change', updateInteractionMode);
 
     return () => {
-      mediaQuery.removeListener(updateInteractionMode);
+      mediaQuery.removeEventListener('change', updateInteractionMode);
     };
   }, []);
 
@@ -153,13 +145,15 @@ export function TranslitOutput({
               usesTapInteraction
                 ? undefined
                 : (open: boolean) => {
-                    setActiveSegmentId((currentActiveSegmentId) =>
-                      open
-                        ? segment.id
-                        : currentActiveSegmentId === segment.id
-                          ? null
-                          : currentActiveSegmentId,
-                    );
+                    setActiveSegmentId((currentActiveSegmentId) => {
+                      if (open) {
+                        return segment.id;
+                      }
+                      if (currentActiveSegmentId === segment.id) {
+                        return null;
+                      }
+                      return currentActiveSegmentId;
+                    });
                   }
             }
           >
