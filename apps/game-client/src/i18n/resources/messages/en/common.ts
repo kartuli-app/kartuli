@@ -12,6 +12,7 @@ export default {
     page_titles_by_pathname: {
       '/learn': 'Learn',
       '/not-found': 'Not Found',
+      '/settings': 'Settings',
       '/translit': 'Translit',
     },
   },
@@ -19,6 +20,7 @@ export default {
   dock: {
     main_links: {
       learn: 'Learn',
+      settings: 'Settings',
       translit: 'Translit',
     },
   },

@@ -12,6 +12,7 @@ export default {
     page_titles_by_pathname: {
       '/learn': 'Учить',
       '/not-found': 'Не найдено',
+      '/settings': 'Настройки',
       '/translit': 'Транслит',
     },
   },
@@ -19,6 +20,7 @@ export default {
   dock: {
     main_links: {
       learn: 'Учить',
+      settings: 'Настройки',
       translit: 'Транслит',
     },
   },
