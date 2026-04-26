@@ -3,7 +3,6 @@ export default {
   app_bar: {
     back: 'Back',
     mascot: 'Mascot',
-    offline_indicator: 'Offline indicator',
     //
     page_titles_by_pathname: {
       '/learn': 'Learn',
@@ -21,14 +20,8 @@ export default {
     },
   },
   //
-  language_selector: {
-    lang_en: 'English',
-    lang_ru: 'Русский',
-  },
-  //
   accessibility: {
     skip_to_main: 'Skip to main content',
-    language: 'Language',
     landmarks: {
       sections: 'Sections',
     },

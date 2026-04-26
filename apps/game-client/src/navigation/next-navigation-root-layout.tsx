@@ -54,7 +54,6 @@ export function NextNavigationRootLayout({ children }: Readonly<{ children: Reac
       NavigationLink: NextNavigationLink,
       pathname,
       localizedPathname,
-      navigationMode: 'next',
     }),
     [router, pathname, localizedPathname],
   );

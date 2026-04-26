@@ -26,7 +26,6 @@ export type NavigationContextValue = Readonly<{
   pathname: string;
   /** Full pathname including locale when present (matches Next `usePathname()` for this app). */
   localizedPathname: string;
-  navigationMode: 'spa' | 'next';
 }>;
 
 const NavigationContext = createContext<NavigationContextValue | null>(null);

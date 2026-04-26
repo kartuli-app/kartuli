@@ -3,7 +3,6 @@ export default {
   app_bar: {
     back: 'Назад',
     mascot: 'Мышка',
-    offline_indicator: 'Нет интернета',
     //
     page_titles_by_pathname: {
       '/learn': 'Учить',
@@ -21,14 +20,8 @@ export default {
     },
   },
   //
-  language_selector: {
-    lang_en: 'English',
-    lang_ru: 'Русский',
-  },
-  //
   accessibility: {
     skip_to_main: 'Перейти к основному содержимому',
-    language: 'Язык',
     landmarks: {
       sections: 'Разделы',
     },
