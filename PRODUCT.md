@@ -30,11 +30,11 @@ When a student has a few free minutes, the app should help them feel:
 **"I practiced some Georgian."**
 
 ## Product principles:
+- clear structure
 - short, usable practice sessions
 - simple lesson-based learning flow
 - students choose what to practice via two ways: explore (manual) or recommended (based on activity)
 - product decisions come before visual styling
-- clear structure
 - focused on mobile users, desktop is supported but not the main focus
 
 # Core
@@ -46,23 +46,23 @@ When a student has a few free minutes, the app should help them feel:
 The information-facing section of the site/app, distinct from learning-side pages.
 
 Examples of public pages:
-- `/[locale]/landing`
-- `/[locale]/terms`
-- `/[locale]/privacy`
+- `/{locale}/landing`
+- `/{locale}/terms`
+- `/{locale}/privacy`
 
 ### App section
 
 The learning-side section of the site/app, distinct from public pages.
 
 Examples of app pages:
-- `/[locale]/app/learn/recommended`
-- `/[locale]/app/learn/explore`
-- `/[locale]/app/learn/explore/alphabet`
-- `/[locale]/app/learn/explore/vocabulary`
-- `/[locale]/app/learn/study/[lessonId]`
-- `/[locale]/app/learn/play/[lessonId]`
-- `/[locale]/app/translit`
-- `/[locale]/app/settings`
+- `/{locale}/app/learn/recommended`
+- `/{locale}/app/learn/explore`
+- `/{locale}/app/learn/explore/alphabet`
+- `/{locale}/app/learn/explore/vocabulary`
+- `/{locale}/app/learn/study/{lessonId}`
+- `/{locale}/app/learn/play/{lessonId}`
+- `/{locale}/app/translit`
+- `/{locale}/app/settings`
 
 ### Learn
 
@@ -173,20 +173,76 @@ Examples:
 
 There is activity tracking at item level.
 
-Current tracked concept:
+Tracked concept:
 - item view count
 
-This is intentionally low-level and supports richer derived behavior.
+This is intentionally low-level and supports richer derived behavior later.
+
+## Privacy, storage, and analytics
+
+### Core distinction
+
+The product should distinguish between:
+- essential client-side storage needed for app behavior
+- local learning-state storage needed for app functionality
+- optional analytics
+
+These are related, but they are not the same thing.
+
+### Essential client-side storage
+
+The app always uses a small amount of client-side storage for core app behavior.
+
+Direction:
+- preferred UI language is stored client-side
+- privacy consent choice is stored client-side
+
+This storage is considered essential for the app experience and is not controlled by the analytics consent choice.
+
+### Local learning-state storage
+
+The app stores learning-related state locally on the device.
+
+Direction:
+- item activity state is stored locally
+- anonymous local identifiers may be stored to keep local state coherent
+
+This is app functionality storage, not optional analytics.
+
+### Privacy consent
+
+Privacy consent is a global client-side preference with 3 states:
+- `unknown`
+- `granted`
+- `rejected`
+
+Direction:
+- default state for a first-time user is `unknown`
+- the consent state is persisted client-side
+- consent can be updated later from Settings
+- `unknown` is a pre-decision state, not a long-term user preference to intentionally keep
+
+### Analytics behavior
+
+Analytics are optional.
+
+Direction:
+- when consent is `unknown`, analytics are disabled
+- when consent is `granted`, analytics may be sent
+- when consent is `rejected`, analytics are disabled
+- there is no cookieless analytics fallback
+
+Changing the consent choice affects subsequent analytics behavior only.
 
 ## Mastery tracking
 
 This section is still early.
 
-Current direction:
+Direction:
 - raw activity facts are stored at low level
 - richer interpretation can be derived later
 
-Possible future learning-state concepts:
+Candidate learning-state concepts:
 - viewed
 - practiced
 - needs review
@@ -201,7 +257,7 @@ Possible future learning-state concepts:
 
 The app section is the section of the site/app that is related to learning and practice.
 
-#### Current app sections
+#### App sections
 
 - Learn
   - Explore
@@ -210,7 +266,7 @@ The app section is the section of the site/app that is related to learning and p
 - Translit
 - Settings
 
-#### Future app sections
+#### Additional section candidates
 
 - Learn
   - Recommended
@@ -218,7 +274,7 @@ The app section is the section of the site/app that is related to learning and p
 - Search (may belong to Explore)
 - Progress
 - Auth / Profile
-- Offline (current state, installation)
+- Offline status / installation
 - Onboarding
 - Not found
 
@@ -226,23 +282,37 @@ The app section is the section of the site/app that is related to learning and p
 
 The public section is the section of the site/app that is not related to learning.
 
-This section is planned, but no public pages are implemented in the MVP.
+This section is planned.
 
-#### Current public sections
+#### Public sections
 
-Not defined yet.
+- Privacy
 
-#### Possible future public sections
+#### Additional public page candidates
 
 - Landing page
 - Terms
-- Privacy
 
 ## Routing model
 
-Current direction:
+Direction:
 - public pages live under `/{locale}/...`
 - app pages live under `/{locale}/app/...`
+
+### Route notation
+
+Use route patterns in this document, not framework file-path syntax.
+
+Notation rules:
+- use `/{locale}/...` for localized route patterns
+- use `{paramName}` for dynamic segments such as `{lessonId}`
+- use actual URLs only as concrete examples when helpful
+
+Examples:
+- route pattern: `/{locale}/privacy`
+- actual URL: `/en/privacy`
+- route pattern: `/{locale}/app/learn/study/{lessonId}`
+- actual URL: `/en/app/learn/study/alphabet-intro`
 
 Examples of public pages:
 - `/{locale}/landing`
@@ -253,8 +323,8 @@ Examples of app pages:
 - `/{locale}/app/learn/explore`
 - `/{locale}/app/learn/explore/alphabet`
 - `/{locale}/app/learn/explore/vocabulary`
-- `/{locale}/app/learn/study/[lessonId]`
-- `/{locale}/app/learn/play/[lessonId]`
+- `/{locale}/app/learn/study/{lessonId}`
+- `/{locale}/app/learn/play/{lessonId}`
 - `/{locale}/app/translit`
 - `/{locale}/app/settings`
 
@@ -265,10 +335,10 @@ Examples of app pages:
 A URL-addressable destination.
 
 Examples:
-- `/[locale]/app/learn/explore`
-- `/[locale]/app/learn/explore/alphabet`
-- `/[locale]/app/learn/study/[lessonId]`
-- `/[locale]/app/learn/play/[lessonId]`
+- `/{locale}/app/learn/explore`
+- `/{locale}/app/learn/explore/alphabet`
+- `/{locale}/app/learn/study/{lessonId}`
+- `/{locale}/app/learn/play/{lessonId}`
 
 ### Page
 
@@ -339,8 +409,6 @@ Internal / deeper routes (dock hidden):
 
 # Flows
 
-
-
 ## Learning flows
 
 The main learning flow is:
@@ -365,7 +433,28 @@ The Game contains Game Lobby, Game Round, Game Round Feedback, and Game Results.
 
 ### Change language flow
 
-Not defined yet.
+Direction:
+- the user opens Settings
+- the user sees the current UI language and the available alternative language options
+- selecting a language updates the stored language preference immediately
+- the app switches the UI language immediately
+- the app navigates to the equivalent localized route
+- the updated language preference is used on later visits
+- there is no separate confirmation step
+
+### Privacy consent flow
+
+Direction:
+- on app init, the app checks the stored privacy consent choice
+- if no consent choice exists, the state is treated as `unknown`
+- if the state is `unknown`, the app shows a non-dismissible privacy banner
+- the banner remains visible until the user explicitly chooses `Accept` or `Reject`
+- if the user chooses `Accept`, the consent state becomes `granted`
+- if the user chooses `Reject`, the consent state becomes `rejected`
+- if the stored state is `granted`, optional analytics may start immediately on app init
+- if the stored state is `rejected`, optional analytics remain disabled on app init
+- the privacy page must be reachable from the banner
+- the consent choice can also be reviewed and changed later in Settings
 
 ### Translit flow
 
@@ -424,7 +513,7 @@ Each screen should define:
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
 - What this screen should not try to do: To be defined.
-- Content: MVP assumption: this screen lists alphabet lessons, not individual letters.
+- Content: Assumption: this screen lists alphabet lessons, not individual letters.
 - UI direction: To be defined.
 - Open questions: To be defined.
 
@@ -441,7 +530,7 @@ Each screen should define:
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
 - What this screen should not try to do: To be defined.
-- Content: MVP assumption: this screen lists vocabulary modules first, then lessons inside each module.
+- Content: Assumption: this screen lists vocabulary modules first, then lessons inside each module.
 - UI direction: To be defined.
 - Open questions: To be defined.
 
@@ -579,7 +668,7 @@ Each screen should define:
 - Role: Provide global app utilities and metadata in a simple, low-frequency control surface.
 - Entry point: Top-level route `/{locale}/app/settings`, reachable from the app dock as a primary destination.
 - Main user question: "How do I adjust app-wide preferences and view app information quickly?"
-- Primary decision: Update a global preference now (primarily UI language, plus privacy consent state).
+- Primary decision: Update a global preference now (primarily UI language and optional analytics consent).
 - Layout regions:
   - Top bar: required, with screen title: "Settings" and back button.
   - Main area: required, 1-column layout with 3 vertically stacked sections:
@@ -592,10 +681,11 @@ Each screen should define:
   - No custom flow navigation; this is not part of Learn flow progression.
 - Action placement:
   - Inline actions inside each section.
-  - No sticky CTA region for MVP.
+  - No sticky CTA region.
 - Primary actions:
   - Change UI language (instant apply).
-  - Toggle privacy consent enabled/disabled.
+  - Accept optional analytics.
+  - Reject optional analytics.
 - Secondary actions:
   - Open Privacy page link from the Privacy section.
   - Open GitHub link from the About section.
@@ -603,31 +693,40 @@ Each screen should define:
   - Settings is for global app preferences, not lesson activity.
   - Changes are straightforward and immediate where applicable.
   - App/version information is transparent and easy to find.
+  - Essential app storage and optional analytics are different concepts.
 - What this screen should not try to do:
   - It should not host learning flow actions (Explore/Study/Play decisions).
   - It should not become a catch-all for unrelated feature entry points.
-  - It should not require complex multi-step interaction in MVP.
+  - It should not require complex multi-step interaction.
 - Content:
   - Language section:
     - UI language selector.
     - Scope: affects UI language only.
     - Apply model: instant apply on selection.
   - Privacy section:
-    - Consent toggle (enabled/disabled).
+    - Essential storage status row.
+    - Essential storage is always on and is not user-editable.
+    - Analytics consent status row.
+    - Analytics consent status is one of:
+      - not chosen yet
+      - accepted
+      - rejected
+    - `unknown` is only the pre-decision state; Settings does not offer a reset-to-unknown control.
+    - Actions depend on analytics consent status:
+      - if not chosen yet: show `Accept` and `Reject`
+      - if accepted: show `Reject`
+      - if rejected: show `Accept`
     - Link to Privacy page.
   - About section:
-    - Application version (hardcoded in MVP).
-    - Content version (hardcoded in MVP).
+    - Application version (hardcoded for now).
+    - Content version (hardcoded for now).
     - Link to project GitHub.
 - UI direction:
   - Keep a conservative, practical utility-screen presentation.
   - Same behavior and same layout across devices.
   - Single-column structure with clear section boundaries and concise copy.
 - Open questions:
-  - What exact behavior changes when privacy consent is disabled?
-  - What is the default privacy consent state for first-time users?
-  - Should privacy consent toggle apply instantly or require confirmation?
-  - What is the canonical Privacy page route to use from this screen?
+  - What exact microcopy should explain essential storage vs optional analytics?
   - What exact GitHub URL should be used?
   - What format should app/content hardcoded version strings follow?
 
@@ -641,7 +740,7 @@ Screen UI should be described using separate concepts for layout regions, naviga
 
 Layout regions describe the stable structural frame of a screen.
 
-Current direction:
+Direction:
 - Top bar: optional
 - Main area: required
 
@@ -653,10 +752,10 @@ Navigation chrome describes UI elements that help the user move around the app o
 
 This is one navigation concept that may appear in different forms depending on device and layout.
 
-Current direction:
+Direction:
 - mobile may use a bottom dock or tab bar
 - desktop may use a sidebar
-- Learn, Translit, and Settings are the current top-level destinations
+- Learn, Translit, and Settings are the top-level destinations
 
 ### Back button
 
@@ -670,7 +769,7 @@ The top bar is optional and may contain navigation and contextual actions.
 
 The contents depend on the screen.
 
-Current direction:
+Direction:
 - app logo or back button
 - screen title
 - contextual actions
@@ -686,19 +785,63 @@ Action placement describes where interactive actions live within a screen.
 
 ### Inline actions
 
-Current direction:
+Direction:
 - actions may live inside the main area
 - some screens may not have a separate action region
 
 ### Sticky CTA
 
-Current direction:
+Direction:
 - a primary CTA may be sticky when a screen benefits from persistent progression actions
 
 ### Game controls
 
-Current direction:
+Direction:
 - game answer controls may live in a dedicated game control area outside normal inline content
+
+## Global UI surfaces
+
+### Privacy consent banner
+
+- Role: Collect the initial optional analytics decision without turning it into a disruptive full-screen interruption.
+- Entry point: Appears automatically on app init when privacy consent state is `unknown`.
+- Main user question: "Do I want to allow optional analytics for this app?"
+- Primary decision: Accept or reject optional analytics.
+- Layout regions:
+  - The active page remains visible in the background.
+  - A persistent banner region is required.
+- Navigation chrome:
+  - Existing route/app navigation remains visible.
+  - The banner does not replace the active route.
+- Action placement:
+  - Two explicit actions inside the banner: `Accept` and `Reject`.
+  - Link to Privacy page inside the banner.
+- Primary actions:
+  - Accept optional analytics.
+  - Reject optional analytics.
+- Secondary actions:
+  - Open Privacy page.
+- What this surface should communicate:
+  - Optional analytics are off until a choice is made.
+  - Some essential client-side storage is always used for app behavior.
+  - The user must make a choice for the banner to disappear.
+- What this surface should not try to do:
+  - It should not block basic reading/navigation with a heavy modal treatment.
+  - It should not hide `Reject` behind a secondary screen or vague text link.
+  - It should not bundle unrelated settings into the first-choice banner.
+- Content:
+  - Short explanation of essential storage.
+  - Short explanation of optional analytics.
+  - `Accept` action.
+  - `Reject` action.
+  - Link to Privacy page.
+- UI direction:
+  - Non-intrusive visual treatment.
+  - Persistent until choice is made.
+  - Clear, explicit actions with concise copy.
+- Open questions:
+  - What exact banner copy should be used per locale?
+  - Where exactly should the banner sit on mobile and desktop layouts?
 
 ## Design system
 
@@ -714,8 +857,9 @@ Not defined yet.
 
 ### Included
 
-- Learn / Explore entry (choice between Alphabet and Vocabulary)
-- Explore pages for alphabet and vocabulary lessons
+- Learn / Explore entry page (choice between Alphabet and Vocabulary)
+- Explore Alphabet page for alphabet lessons
+- Explore Vocabulary page for vocabulary lessons
 - Study page for lesson preview
 - Play page hosting the lesson game:
   - Game Lobby screen
@@ -724,13 +868,14 @@ Not defined yet.
   - Game Round Feedback screen
   - Game Results screen
 - Translit utility page
-- Settings page for language switching
+- Settings utilitypage for language, privacy, and about
+- Privacy notice page
+- Optional analytics with explicit privacy consent
 
 ## Next releases
 
 ### Future work (prioritized)
 - offline mode
-- examples based on user activity
 - mastery tracking
 - recommendation mode based on user activity
 - profile (anonymous)
@@ -756,12 +901,18 @@ Not defined yet.
 
 # Decisions log
 
-- Recommendation mode is postponed until after MVP
-- Grammar is postponed until after MVP
-- Item-level activity tracking exists and is sufficient as a low-level base for future derived behavior
-- Learn opens directly into Explore for the MVP
+- Recommendation mode is postponed to a later release
+- Grammar is postponed to a later release
+- Item-level activity tracking exists and is sufficient as a low-level base for richer derived behavior later
+- Learn opens directly into Explore
 - Explore entry is a two-choice gateway: Alphabet or Vocabulary
 - The dock is visible on top-level destination screens and hidden on internal learning flow screens
+- Privacy consent has 3 states: `unknown`, `granted`, `rejected`
+- `unknown` disables analytics and shows a non-dismissible privacy banner until the user chooses
+- `granted` enables optional analytics
+- `rejected` disables optional analytics
+- There is no cookieless analytics fallback
+- Essential client-side storage remains on even when optional analytics are rejected
 
 # Next steps
 
