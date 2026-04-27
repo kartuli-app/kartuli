@@ -396,8 +396,8 @@ Examples:
 - actual URL: `/`
 - route pattern: `/{locale}/privacy`
 - actual URL: `/en/privacy`
-- route pattern: `/{locale}/app/learn/study/{lessonId}`
-- actual URL: `/en/app/learn/study/alphabet-intro`
+- route pattern: `/{locale}/app/learn/lessons/{lessonId}`
+- actual URL: `/en/app/learn/lessons/alphabet-intro`
 
 Examples of defined root routes:
 - `/`
@@ -410,8 +410,8 @@ Examples of app routes:
 - `/{locale}/app/learn/explore`
 - `/{locale}/app/learn/explore/alphabet`
 - `/{locale}/app/learn/explore/vocabulary`
-- `/{locale}/app/learn/study/{lessonId}`
-- `/{locale}/app/learn/play/{lessonId}`
+- `/{locale}/app/learn/lessons/{lessonId}`
+- `/{locale}/app/learn/lessons/{lessonId}/play`
 - `/{locale}/app/translit`
 - `/{locale}/app/settings`
 
@@ -484,7 +484,7 @@ Examples of app routes:
 - Metadata: page-specific metadata
 - Binding: Vocabulary catalog screen
 
-#### `/{locale}/app/learn/study/{lessonId}`
+#### `/{locale}/app/learn/lessons/{lessonId}`
 
 - Kind: page route
 - Purpose: preview one lesson before play
@@ -493,7 +493,7 @@ Examples of app routes:
 - Canonical/share role: canonical shareable lesson route
 - Binding: Study screen
 
-#### `/{locale}/app/learn/play/{lessonId}`
+#### `/{locale}/app/learn/lessons/{lessonId}/play`
 
 - Kind: page route
 - Purpose: host the lesson game
@@ -555,8 +555,8 @@ Top-level routes with dock visible:
 Internal / deeper routes with dock hidden:
 - `/{locale}/app/learn/explore/alphabet`
 - `/{locale}/app/learn/explore/vocabulary`
-- `/{locale}/app/learn/study/{lessonId}`
-- `/{locale}/app/learn/play/{lessonId}`
+- `/{locale}/app/learn/lessons/{lessonId}`
+- `/{locale}/app/learn/lessons/{lessonId}/play`
 
 ### Back button behavior
 
@@ -1195,7 +1195,7 @@ Not defined yet.
 - Optional analytics with explicit privacy consent
 - Non-dismissible privacy consent banner when consent is `unknown`
 - Localized metadata fallback per locale
-- Page-specific metadata for Privacy, Translit, Explore, and lesson Study routes
+- Page-specific metadata for Privacy, Translit, Explore, and canonical lesson routes
 - `noindex` for Settings and Play routes
 
 ## Next releases
@@ -1237,5 +1237,5 @@ This section can hold future ideas that are not yet committed.
 - Essential client-side storage remains on even when optional analytics are rejected
 - Locale-level metadata is the fallback metadata layer
 - Routes with distinct search/share value should use page-specific metadata
-- Study lesson routes are the canonical shareable lesson routes
+- Lesson routes are the canonical shareable lesson routes
 - Settings and Play routes are not primary search targets and should use `noindex`
