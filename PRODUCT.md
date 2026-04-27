@@ -107,6 +107,13 @@ The utility page for transliterating text between Georgian and Latin scripts in 
 
 The utility page for settings.
 
+## Localization
+
+- Supported locales: English (`en`) and Russian (`ru`)
+- Default locale: English (`en`)
+- Localized public and app routes use the `/{locale}/...` pattern
+- The root route `/` is a locale-resolution redirect route
+
 ## Product modeling concepts
 
 ### Route
@@ -333,6 +340,7 @@ The public section is the section of the site/app that is not related to learnin
 ## Routing model
 
 Direction:
+- the root route `/` is non-localized
 - public routes live under `/{locale}/...`
 - app routes live under `/{locale}/app/...`
 
@@ -341,15 +349,21 @@ Direction:
 Use route patterns in this document, not framework file-path syntax.
 
 Notation rules:
+- use `/` for the non-localized root route
 - use `/{locale}/...` for localized route patterns
 - use `{paramName}` for dynamic segments such as `{lessonId}`
 - use actual URLs only as concrete examples when helpful
 
 Examples:
+- route pattern: `/`
+- actual URL: `/`
 - route pattern: `/{locale}/privacy`
 - actual URL: `/en/privacy`
 - route pattern: `/{locale}/app/learn/study/{lessonId}`
 - actual URL: `/en/app/learn/study/alphabet-intro`
+
+Examples of defined root routes:
+- `/`
 
 Examples of defined public routes:
 - `/{locale}/privacy`
@@ -365,6 +379,21 @@ Examples of app routes:
 - `/{locale}/app/settings`
 
 ## Routes catalog
+
+### Root routes
+
+#### `/`
+
+- Kind: redirect route
+- Purpose: resolve the best localized entry URL for the current visitor
+- Resolution order:
+  - preferred locale cookie
+  - browser `Accept-Language` header
+  - default locale `en`
+- Defined behavior:
+  - `/` -> `/en` when no supported cookie or supported browser language is found
+  - `/` -> `/{locale}` when a supported locale is resolved
+- Binding: none
 
 ### Public routes
 
@@ -453,6 +482,8 @@ These route patterns are referenced in the broader product direction but are not
 
 ### Redirect routes
 
+- `/` is a locale-resolution redirect route.
+- It resolves to `/{locale}` using locale detection.
 - `/{locale}/app/learn` is a redirect route.
 - It exists as the stable top-level entry route for Learn.
 - It resolves to `/{locale}/app/learn/explore`.
