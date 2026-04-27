@@ -60,7 +60,6 @@ export function SpaNavigationRootLayout({ children }: Readonly<{ children: React
       NavigationLink: SpaNavigationLink,
       pathname,
       localizedPathname,
-      navigationMode: 'spa',
     }),
     [pathname, localizedPathname],
   );

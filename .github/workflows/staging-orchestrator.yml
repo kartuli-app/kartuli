@@ -63,8 +63,6 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID_GAME_CLIENT: ${{ secrets.VERCEL_PROJECT_ID_GAME_CLIENT }}
       VERCEL_PROJECT_ID_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROJECT_ID_BACKOFFICE_CLIENT }}
-      VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_GAME_CLIENT }}
-      VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT: ${{ secrets.VERCEL_PROTECTION_BYPASS_SECRET_BACKOFFICE_CLIENT }}
       KARTULIAPP_TEAM_BOT_TOKEN: ${{ secrets.KARTULIAPP_TEAM_BOT_TOKEN }}
       KARTULIAPP_TEAM_GROUP_CHAT_ID: ${{ secrets.KARTULIAPP_TEAM_GROUP_CHAT_ID }}
       KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID: ${{ secrets.KARTULIAPP_TEAM_TOPIC_PREVIEW_DEPLOYMENTS_ID }}
@@ -108,37 +106,38 @@ jobs:
       - name: Validate all monorepo
         uses: ./.github/actions/ci-validate-all-monorepo
 
-  commit-diagrams:
-    name: Commit dependency diagrams
-    needs: validate-all-monorepo
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    env:
-      # Avoid lefthook pre-commit/pre-push during bot commit+push (slow, wrong context, can confuse git).
-      LEFTHOOK: "0"
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          # PR default checkout is the merge ref (detached HEAD); commit+push must target the real branch tip.
-          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+  # disabled to avoid noise, will move to an on demand separate workflow
+  # commit-diagrams:
+  #   name: Commit dependency diagrams
+  #   needs: validate-all-monorepo
+  #   if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #   env:
+  #     # Avoid lefthook pre-commit/pre-push during bot commit+push (slow, wrong context, can confuse git).
+  #     LEFTHOOK: "0"
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #         # PR default checkout is the merge ref (detached HEAD); commit+push must target the real branch tip.
+  #         ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
-      - name: CI setup node
-        uses: ./.github/actions/ci-setup-node
+  #     - name: CI setup node
+  #       uses: ./.github/actions/ci-setup-node
 
-      - name: Install Graphviz
-        run: sudo apt-get update && sudo apt-get install -y graphviz
+  #     - name: Install Graphviz
+  #       run: sudo apt-get update && sudo apt-get install -y graphviz
 
-      - name: Generate all dependency diagrams
-        run: pnpm run diagrams:all
+  #     - name: Generate all dependency diagrams
+  #       run: pnpm run diagrams:all
 
-      - name: Commit diagram outputs
-        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0
-        with:
-          file_pattern: diagrams/output/current/*
-          commit_message: "chore(diagrams): refresh dependency outputs [skip ci]"
-          commit_user_name: github-actions[bot]
-          commit_user_email: github-actions[bot]@users.noreply.github.com
+  #     - name: Commit diagram outputs
+  #       uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0
+  #       with:
+  #         file_pattern: diagrams/output/current/*
+  #         commit_message: "chore(diagrams): refresh dependency outputs [skip ci]"
+  #         commit_user_name: github-actions[bot]
+  #         commit_user_email: github-actions[bot]@users.noreply.github.com

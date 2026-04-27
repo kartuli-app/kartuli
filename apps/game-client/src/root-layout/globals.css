@@ -43,8 +43,8 @@
   width: 0.25rem;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-brand-app-bg);
+  background: var(--color-ds1-color-app-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-brand-primary-900);
+  background-color: var(--color-ds1-color-primary-900);
 }

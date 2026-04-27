@@ -68,9 +68,7 @@ function processMarkdownContent(content) {
  * @returns {string} - Title-style label
  */
 function humanizeSlug(slug) {
-  return slug
-    .replaceAll('-', ' ')
-    .replaceAll(/\b\w/g, (c) => c.toUpperCase());
+  return slug.replaceAll('-', ' ').replaceAll(/\b\w/g, (c) => c.toUpperCase());
 }
 
 /**

@@ -22,8 +22,8 @@ describe('tailwind integration (backoffice-client)', () => {
 
   it('falls back to shared brand token defaults when app does not override them', async () => {
     const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('--color-brand: oklch(63.7% 0.237 25.331);');
-    expect(css).toContain('--color-brand-muted: oklch(92.5% 0.05 250);');
-    expect(css).not.toContain('--color-brand: oklch(72.114% 0.179 155.2);');
+    expect(css).toContain('--color-ds1-color-accent: oklch(63.7% 0.237 25.331);');
+    expect(css).toContain('--color-ds1-color-accent-muted: oklch(92.5% 0.05 250);');
+    expect(css).not.toContain('--color-ds1-color-accent: oklch(72.114% 0.179 155.2);');
   });
 });

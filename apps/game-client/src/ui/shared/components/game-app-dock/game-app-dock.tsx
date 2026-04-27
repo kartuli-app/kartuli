@@ -3,7 +3,6 @@
 import { cn } from '@kartuli/ui/utils/cn';
 import { useTranslation } from 'react-i18next';
 import { GameAppDockMainLinks } from './game-app-dock-main-links';
-import { GameAppDockMenu } from './game-app-dock-menu';
 
 export function GameAppDock() {
   const { t } = useTranslation('common');
@@ -27,7 +26,7 @@ export function GameAppDock() {
         'md:h-full',
         //
         'text-white',
-        'bg-brand-dock-bg',
+        'bg-ds1-color-dock-bg',
       )}
     >
       <div
@@ -39,11 +38,11 @@ export function GameAppDock() {
           //
           // 'border border-white',
           //
-          'py-brand-regular',
-          'md:px-brand-regular md:py-brand-regular',
+          'py-ds1-spacing-regular',
+          'md:px-ds1-spacing-regular md:py-ds1-spacing-regular',
           //
-          'gap-brand-regular',
-          'md:gap-brand-regular',
+          'gap-ds1-spacing-regular',
+          'md:gap-ds1-spacing-regular',
           //
           'justify-center',
           'md:justify-start',
@@ -54,13 +53,12 @@ export function GameAppDock() {
           aria-label={t('accessibility.landmarks.sections')}
           className={cn(
             'flex md:flex-col',
-            'gap-brand-regular md:gap-brand-regular',
+            'gap-ds1-spacing-regular md:gap-ds1-spacing-regular',
             'md:items-center',
           )}
         >
           <GameAppDockMainLinks />
         </nav>
-        <GameAppDockMenu />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "lint": "biome check .",
     "all": "pnpm run game-client && pnpm run backoffice-client && pnpm run monorepo",
     "game-client:dot": "mkdir -p ../../diagrams/output/current && (cd ../../apps/game-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type dot) | dot -T svg > ../../diagrams/output/current/diagram-game-client.svg",
     "game-client:mermaid": "mkdir -p ../../diagrams/output/current && cd ../../apps/game-client && ../../tools/diagram-generator/node_modules/.bin/dependency-cruise --config ../../tools/diagram-generator/config/dependency-cruiser.nextjs-app.js ./src/ --output-type mermaid -f ../../diagrams/output/current/diagram-game-client.mmd",

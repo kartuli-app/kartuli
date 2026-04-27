@@ -8,7 +8,7 @@ export function AppScreen({ children }: { readonly children: ReactNode }) {
         //
         'flex grow flex-col',
         'overflow-hidden',
-        'bg-brand-app-bg',
+        'bg-ds1-color-app-bg',
       )}
     >
       {children}

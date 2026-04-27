@@ -4,4 +4,4 @@ export function generateStaticParams() {
   return generateStaticParamsForSupportedLocales();
 }
 
-export { SearchPageServer as default } from '@game-client/ui/screens/search/search-page-server';
+export { SettingsPageServer as default } from '@game-client/ui/screens/settings/settings-page-server';

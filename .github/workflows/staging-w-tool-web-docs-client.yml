@@ -30,14 +30,6 @@ jobs:
         with:
           target: web-docs-client
 
-      - name: Generate LLM bundle
-        run: node tools/web-docs-client/scripts/generate-llm-bundle.js
-        shell: bash
-
-      - name: Build
-        run: pnpm turbo run build --filter=@kartuli/web-docs-client
-        shell: bash
-
       - name: Start preview server (background)
         run: |
           pnpm turbo run preview --filter=@kartuli/web-docs-client &

@@ -4,11 +4,14 @@
  */
 import { spawn } from 'node:child_process';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { pipeline } from 'node:stream/promises';
+import { fileURLToPath } from 'node:url';
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-const wrapPath = path.join(scriptDir, '../node_modules/dependency-cruiser/bin/wrap-stream-in-html.mjs');
+const wrapPath = path.join(
+  scriptDir,
+  '../node_modules/dependency-cruiser/bin/wrap-stream-in-html.mjs',
+);
 
 const child = spawn(process.execPath, [wrapPath], {
   stdio: ['pipe', 'inherit', 'inherit'],

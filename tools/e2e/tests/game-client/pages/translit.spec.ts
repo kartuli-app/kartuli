@@ -1,6 +1,5 @@
 import { enResources } from '@game-client/i18n/resources/resources-en';
 import { expect, test } from '@playwright/test';
-import { applyVercelProtectionBypass } from '../../helpers/apply-vercel-protection-bypass';
 import { expectA11y } from '../../helpers/expect-a11y';
 import { defaultLocaleBase } from '../../helpers/locale-url';
 
@@ -12,7 +11,6 @@ const switchToGeorgianLatin = enResources.translit.switch_direction_to_georgian_
 
 test.describe('Translit page', () => {
   test.beforeEach(async ({ page }) => {
-    await applyVercelProtectionBypass(page);
     await page.goto(`${defaultLocaleBase}/translit`);
     await expect(page.getByText(sourceLabel)).toBeVisible();
   });

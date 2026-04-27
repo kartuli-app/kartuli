@@ -6,7 +6,7 @@ export function Heading() {
   const { t } = useTranslation('home');
 
   return (
-    <div className={clsx('flex flex-col', 'gap-brand-large')}>
+    <div className={clsx('flex flex-col', 'gap-ds1-spacing-large')}>
       <h2 className={clsx('text-5xl', 'text-center')}>
         👋 <span className="font-georgian">გამარჯობა</span> {t('anon')}
       </h2>

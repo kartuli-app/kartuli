@@ -25,9 +25,9 @@ export function ResponsiveContainer({ children, className }: Readonly<Responsive
         'lg:max-w-3xl',
         'xl:max-w-4xl',
         //
-        'px-brand-regular',
-        'py-brand-large',
-        'gap-brand-regular',
+        'px-ds1-spacing-regular',
+        'py-ds1-spacing-large',
+        'gap-ds1-spacing-regular',
         //
         //
         className,

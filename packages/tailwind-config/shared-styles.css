@@ -18,40 +18,40 @@
   /* App-level minimal semantic tokens */
   --color-ink: lime; /* default text color */
   --color-canvas: grey; /* default background color */
-  --color-brand: oklch(63.7% 0.237 25.331); /* default brand accent */
-  --color-brand-muted: oklch(92.5% 0.05 250); /* default softer brand accent */
-  /* brand primary */
-  --color-brand-dock-bg: var(--color-slate-800);
-  --color-brand-app-bg: var(--color-violet-50);
-  --color-brand-primary-50: var(--color-violet-50);
-  --color-brand-primary-100: var(--color-violet-100);
-  --color-brand-primary-200: var(--color-violet-200);
-  --color-brand-primary-300: var(--color-violet-300);
-  --color-brand-primary-400: var(--color-violet-400);
-  --color-brand-primary-500: var(--color-violet-500);
-  --color-brand-primary-600: var(--color-violet-600);
-  --color-brand-primary-700: var(--color-violet-700);
-  --color-brand-primary-800: var(--color-violet-800);
-  --color-brand-primary-900: var(--color-violet-900);
-  --color-brand-text-50: var(--color-slate-50);
-  --color-brand-text-100: var(--color-slate-100);
-  --color-brand-text-200: var(--color-slate-200);
-  --color-brand-text-300: var(--color-slate-300);
-  --color-brand-text-400: var(--color-slate-400);
-  --color-brand-text-500: var(--color-slate-500);
-  --color-brand-text-600: var(--color-slate-600);
-  --color-brand-text-700: var(--color-slate-700);
-  --color-brand-text-800: var(--color-slate-800);
-  --color-brand-text-900: var(--color-slate-900);
+  --color-ds1-color-accent: oklch(63.7% 0.237 25.331); /* default brand accent */
+  --color-ds1-color-accent-muted: oklch(92.5% 0.05 250); /* default softer brand accent */
+  /* ds1 primary */
+  --color-ds1-color-dock-bg: var(--color-slate-800);
+  --color-ds1-color-app-bg: var(--color-violet-50);
+  --color-ds1-color-primary-50: var(--color-violet-50);
+  --color-ds1-color-primary-100: var(--color-violet-100);
+  --color-ds1-color-primary-200: var(--color-violet-200);
+  --color-ds1-color-primary-300: var(--color-violet-300);
+  --color-ds1-color-primary-400: var(--color-violet-400);
+  --color-ds1-color-primary-500: var(--color-violet-500);
+  --color-ds1-color-primary-600: var(--color-violet-600);
+  --color-ds1-color-primary-700: var(--color-violet-700);
+  --color-ds1-color-primary-800: var(--color-violet-800);
+  --color-ds1-color-primary-900: var(--color-violet-900);
+  --color-ds1-color-text-50: var(--color-slate-50);
+  --color-ds1-color-text-100: var(--color-slate-100);
+  --color-ds1-color-text-200: var(--color-slate-200);
+  --color-ds1-color-text-300: var(--color-slate-300);
+  --color-ds1-color-text-400: var(--color-slate-400);
+  --color-ds1-color-text-500: var(--color-slate-500);
+  --color-ds1-color-text-600: var(--color-slate-600);
+  --color-ds1-color-text-700: var(--color-slate-700);
+  --color-ds1-color-text-800: var(--color-slate-800);
+  --color-ds1-color-text-900: var(--color-slate-900);
 
   /* ============================================
      SPACING
      ============================================ */
-  --spacing-brand-xsmall: calc(var(--spacing) * 0.5);
-  --spacing-brand-small: calc(var(--spacing) * 1);
-  --spacing-brand-regular: calc(var(--spacing) * 2);
-  --spacing-brand-large: calc(var(--spacing) * 4);
-  --spacing-brand-xlarge: calc(var(--spacing) * 8);
-  --spacing-brand-2xlarge: calc(var(--spacing) * 16);
-  --spacing-brand-3xlarge: calc(var(--spacing) * 24);
+  --spacing-ds1-spacing-xsmall: calc(var(--spacing) * 0.5);
+  --spacing-ds1-spacing-small: calc(var(--spacing) * 1);
+  --spacing-ds1-spacing-regular: calc(var(--spacing) * 2);
+  --spacing-ds1-spacing-large: calc(var(--spacing) * 4);
+  --spacing-ds1-spacing-xlarge: calc(var(--spacing) * 8);
+  --spacing-ds1-spacing-2xlarge: calc(var(--spacing) * 16);
+  --spacing-ds1-spacing-3xlarge: calc(var(--spacing) * 24);
 }
