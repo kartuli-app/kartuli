@@ -114,6 +114,32 @@ The utility page for settings.
 - Localized public and app routes use the `/{locale}/...` pattern
 - The root route `/` is a locale-resolution redirect route
 
+## Metadata, discovery, and sharing
+
+### Metadata model
+
+- Metadata is localized for every supported locale.
+- Locale-level metadata exists as the fallback metadata layer.
+- Page-specific metadata is used for routes with distinct search intent, sharing value, or route-specific meaning.
+
+### Canonical and alternate URLs
+
+- Indexable localized routes should expose page-aware canonical URLs.
+- Indexable localized routes should expose language alternates for supported locales.
+- Redirect routes should not be treated as canonical destinations.
+
+### Indexability rule
+
+- Routes with distinct user-facing value may be indexed.
+- Utility-only or transient routes should not be primary index targets.
+
+### Metadata scope by route type
+
+- Public page routes use page-specific metadata.
+- App routes with clear standalone value use page-specific metadata.
+- App utility routes that are not useful as search destinations may use `noindex`.
+- Locale-level metadata remains the fallback when a route-specific layer does not exist yet.
+
 ## Product modeling concepts
 
 ### Route
@@ -386,6 +412,7 @@ Examples of app routes:
 
 - Kind: redirect route
 - Purpose: resolve the best localized entry URL for the current visitor
+- Metadata: not a canonical destination
 - Resolution order:
   - preferred locale cookie
   - browser `Accept-Language` header
@@ -402,6 +429,7 @@ Examples of app routes:
 - Kind: page route
 - Purpose: show the privacy notice
 - Section: Public
+- Metadata: page-specific metadata
 - Linked from: Settings, privacy consent banner
 
 ### App routes
@@ -411,6 +439,7 @@ Examples of app routes:
 - Kind: redirect route
 - Purpose: stable top-level entry route for Learn
 - Section: Learn
+- Metadata: not a canonical destination
 - Defined behavior: redirects to `/{locale}/app/learn/explore`
 - Open question: the selection logic between Explore and Recommended is not defined yet
 - Binding: none
@@ -420,6 +449,7 @@ Examples of app routes:
 - Kind: page route
 - Purpose: enter manual lesson selection
 - Section: Learn / Explore
+- Metadata: page-specific metadata
 - Binding: Explore entry screen
 
 #### `/{locale}/app/learn/explore/alphabet`
@@ -427,6 +457,7 @@ Examples of app routes:
 - Kind: page route
 - Purpose: browse alphabet lessons
 - Section: Learn / Explore
+- Metadata: page-specific metadata
 - Binding: Alphabet catalog screen
 
 #### `/{locale}/app/learn/explore/vocabulary`
@@ -434,6 +465,7 @@ Examples of app routes:
 - Kind: page route
 - Purpose: browse vocabulary modules and lessons
 - Section: Learn / Explore
+- Metadata: page-specific metadata
 - Binding: Vocabulary catalog screen
 
 #### `/{locale}/app/learn/study/{lessonId}`
@@ -441,6 +473,8 @@ Examples of app routes:
 - Kind: page route
 - Purpose: preview one lesson before play
 - Section: Learn / Study
+- Metadata: lesson-specific metadata
+- Canonical/share role: canonical shareable lesson route
 - Binding: Study screen
 
 #### `/{locale}/app/learn/play/{lessonId}`
@@ -448,6 +482,8 @@ Examples of app routes:
 - Kind: page route
 - Purpose: host the lesson game
 - Section: Learn / Play
+- Metadata: `noindex`
+- Canonical/share role: not a primary search/share destination
 - Binding: Play screen
 
 #### `/{locale}/app/translit`
@@ -455,6 +491,7 @@ Examples of app routes:
 - Kind: page route
 - Purpose: access the bidirectional translit utility
 - Section: Translit
+- Metadata: page-specific metadata
 - Binding: Translit screen
 
 #### `/{locale}/app/settings`
@@ -462,6 +499,8 @@ Examples of app routes:
 - Kind: page route
 - Purpose: access global app preferences and app metadata
 - Section: Settings
+- Metadata: `noindex`
+- Canonical/share role: utility route, not a primary search destination
 - Binding: Settings screen
 
 ### Additional route candidates
@@ -1024,6 +1063,8 @@ Not defined yet.
 
 ### Included
 
+- Root route `/` resolving to `/en` or `/ru` via locale detection
+- Localized routing with English (`en`) as default and Russian (`ru`) as supported locale
 - Learn entry route redirecting to Explore
 - Explore entry page (choice between Alphabet and Vocabulary)
 - Explore Alphabet page for alphabet lessons
@@ -1039,6 +1080,10 @@ Not defined yet.
 - Settings utility page for language, privacy, and about
 - Privacy notice page
 - Optional analytics with explicit privacy consent
+- Non-dismissible privacy consent banner when consent is `unknown`
+- Localized metadata fallback per locale
+- Page-specific metadata for Privacy, Translit, Explore, and lesson Study routes
+- `noindex` for Settings and Play routes
 
 ## Next releases
 
@@ -1077,3 +1122,7 @@ This section can hold future ideas that are not yet committed.
 - `rejected` disables optional analytics
 - There is no cookieless analytics fallback
 - Essential client-side storage remains on even when optional analytics are rejected
+- Locale-level metadata is the fallback metadata layer
+- Routes with distinct search/share value should use page-specific metadata
+- Study lesson routes are the canonical shareable lesson routes
+- Settings and Play routes are not primary search targets and should use `noindex`
