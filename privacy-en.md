@@ -10,7 +10,7 @@ This notice describes the intended privacy behavior for the app.
 
 kartuli.app uses a small amount of essential client-side storage so the app can work as intended.
 
-This may include:
+This includes:
 - your selected UI language
 - your privacy choice
 - local learning progress, such as item activity or view counts
@@ -29,7 +29,7 @@ The app uses 3 privacy states:
 
 Analytics behavior:
 - if your choice is `Not chosen yet`, analytics stay off
-- if your choice is `Accepted`, analytics may be sent
+- if your choice is `Accepted`, analytics are enabled
 - if your choice is `Rejected`, analytics stay off
 
 kartuli.app does not use a cookieless analytics fallback.
@@ -50,7 +50,7 @@ The banner is not dismissible. It stays visible until you make a choice.
 You can review and change your privacy choice later in Settings.
 
 Changing your choice affects future analytics behavior:
-- if you accept, optional analytics may start from that point forward
+- if you accept, optional analytics are enabled from that point forward
 - if you reject, optional analytics should stop for future events
 
 ## No account

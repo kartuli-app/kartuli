@@ -37,7 +37,7 @@ When a student has a few free minutes, the app should help them feel:
 - product decisions come before visual styling
 - focused on mobile users, desktop is supported but not the main focus
 
-# Core
+# Concepts
 
 ## Terminology / glossary
 
@@ -46,8 +46,6 @@ When a student has a few free minutes, the app should help them feel:
 The information-facing section of the site/app, distinct from learning-side pages.
 
 Examples of public pages:
-- `/{locale}/landing`
-- `/{locale}/terms`
 - `/{locale}/privacy`
 
 ### App section
@@ -55,12 +53,7 @@ Examples of public pages:
 The learning-side section of the site/app, distinct from public pages.
 
 Examples of app pages:
-- `/{locale}/app/learn/recommended`
 - `/{locale}/app/learn/explore`
-- `/{locale}/app/learn/explore/alphabet`
-- `/{locale}/app/learn/explore/vocabulary`
-- `/{locale}/app/learn/study/{lessonId}`
-- `/{locale}/app/learn/play/{lessonId}`
 - `/{locale}/app/translit`
 - `/{locale}/app/settings`
 
@@ -68,7 +61,7 @@ Examples of app pages:
 
 The user-facing main learning area.
 
-Contains the two entry routes (Explore and Recommended) and the Study and Play stages.
+It includes the Learn entry route and the deeper learning routes and stages inside the learning experience.
 
 ### Explore
 
@@ -76,7 +69,7 @@ The manual lesson selection mode inside Learn.
 
 ### Recommended
 
-The guided lesson selection mode inside Learn.
+The guided lesson selection mode candidate inside Learn.
 
 ### Study
 
@@ -92,39 +85,84 @@ Play hosts a Game.
 
 The playable interaction structure inside the Play stage.
 
-A Game is composed of:
+A Game begins at the Game Lobby, then runs through one or more round cycles, and ends at Game Results.
+
+Game structure:
 - Game Lobby
 - Game Round
 - Game Round Feedback
 - Game Results
 
+Round loop:
+- Game Round -> Game Round Feedback
+- repeat until the game is complete
+- then continue to Game Results
+
 ### Translit
 
-The utility page for translit.
+The utility page for transliterating text between Georgian and Latin scripts.
 
 ### Settings
 
 The utility page for settings.
 
+## Product modeling concepts
+
 ### Route
 
-A URL-addressable destination.
+A URL-addressable destination in the product model.
+
+A route may resolve to:
+- a rendered page
+- a redirect
+- a not-found state
+
+Examples:
+- `/{locale}/privacy`
+- `/{locale}/app/learn`
+- `/{locale}/app/settings`
 
 ### Page
 
-The implementation bound to a route.
+The implementation bound to a route when that route renders UI.
+
+A route may exist without a user-facing page when it is redirect-only.
 
 ### Screen
 
-A user-facing interface state.
+A user-facing interface state presented by a page.
+
+A screen may be:
+- the main screen of a page
+- a flow screen inside a page flow
 
 ### Flow screen
 
 A screen inside a route/page flow that is not directly landable by URL.
 
+Example: game flow screens inside Play:
+- Game Lobby screen
+- Game Round screen
+- Game Round Feedback screen
+- Game Results screen
+
 ### UI state
 
 A smaller transient state inside a screen.
+
+Examples:
+- answer selected
+- answer correct
+- answer incorrect
+- loading next round
+- paused
+- error
+
+### Modeling rule
+
+Use this hierarchy:
+
+`Route -> Page -> Screen / Flow Step -> UI State`
 
 ## Learning content
 
@@ -182,7 +220,7 @@ This is intentionally low-level and supports richer derived behavior later.
 
 ### Core distinction
 
-The product should distinguish between:
+The product distinguishes between:
 - essential client-side storage needed for app behavior
 - local learning-state storage needed for app functionality
 - optional analytics
@@ -205,7 +243,7 @@ The app stores learning-related state locally on the device.
 
 Direction:
 - item activity state is stored locally
-- anonymous local identifiers may be stored to keep local state coherent
+- anonymous local identifiers are stored to keep local state coherent
 
 This is app functionality storage, not optional analytics.
 
@@ -228,7 +266,7 @@ Analytics are optional.
 
 Direction:
 - when consent is `unknown`, analytics are disabled
-- when consent is `granted`, analytics may be sent
+- when consent is `granted`, analytics are enabled
 - when consent is `rejected`, analytics are disabled
 - there is no cookieless analytics fallback
 
@@ -282,8 +320,6 @@ The app section is the section of the site/app that is related to learning and p
 
 The public section is the section of the site/app that is not related to learning.
 
-This section is planned.
-
 #### Public sections
 
 - Privacy
@@ -296,8 +332,8 @@ This section is planned.
 ## Routing model
 
 Direction:
-- public pages live under `/{locale}/...`
-- app pages live under `/{locale}/app/...`
+- public routes live under `/{locale}/...`
+- app routes live under `/{locale}/app/...`
 
 ### Route notation
 
@@ -314,12 +350,11 @@ Examples:
 - route pattern: `/{locale}/app/learn/study/{lessonId}`
 - actual URL: `/en/app/learn/study/alphabet-intro`
 
-Examples of public pages:
-- `/{locale}/landing`
-- `/{locale}/terms`
+Examples of defined public routes:
 - `/{locale}/privacy`
 
-Examples of app pages:
+Examples of app routes:
+- `/{locale}/app/learn`
 - `/{locale}/app/learn/explore`
 - `/{locale}/app/learn/explore/alphabet`
 - `/{locale}/app/learn/explore/vocabulary`
@@ -328,83 +363,122 @@ Examples of app pages:
 - `/{locale}/app/translit`
 - `/{locale}/app/settings`
 
-## Route / page / screen / flow-step model
+## Routes catalog
 
-### Route
+### Public routes
 
-A URL-addressable destination.
+#### `/{locale}/privacy`
 
-Examples:
-- `/{locale}/app/learn/explore`
-- `/{locale}/app/learn/explore/alphabet`
-- `/{locale}/app/learn/study/{lessonId}`
-- `/{locale}/app/learn/play/{lessonId}`
+- Kind: page route
+- Purpose: show the privacy notice
+- Section: Public
+- Linked from: Settings, privacy consent banner
 
-### Page
+### App routes
 
-The implementation bound to a route.
+#### `/{locale}/app/learn`
 
-### Screen
+- Kind: redirect route
+- Purpose: stable top-level entry route for Learn
+- Section: Learn
+- Defined behavior: redirects to `/{locale}/app/learn/explore`
+- Open question: the selection logic between Explore and Recommended is not defined yet
+- Binding: none
 
-A user-facing interface state.
+#### `/{locale}/app/learn/explore`
 
-A screen may be:
-- a route screen
-- a flow screen inside a route page
+- Kind: page route
+- Purpose: enter manual lesson selection
+- Section: Learn / Explore
+- Binding: Explore entry screen
 
-### Flow screen
+#### `/{locale}/app/learn/explore/alphabet`
 
-A screen that appears inside a route-based experience and is not directly landable by URL.
+- Kind: page route
+- Purpose: browse alphabet lessons
+- Section: Learn / Explore
+- Binding: Alphabet catalog screen
 
-Example: game flow screens inside Play:
-- Game Lobby screen
-- Game Round screen
-- Game Round Feedback screen
-- Game Results screen
+#### `/{locale}/app/learn/explore/vocabulary`
 
-### UI state
+- Kind: page route
+- Purpose: browse vocabulary modules and lessons
+- Section: Learn / Explore
+- Binding: Vocabulary catalog screen
 
-A smaller transient state inside a screen.
+#### `/{locale}/app/learn/study/{lessonId}`
 
-Examples:
-- answer selected
-- answer correct
-- answer incorrect
-- loading next round
-- paused
-- error
+- Kind: page route
+- Purpose: preview one lesson before play
+- Section: Learn / Study
+- Binding: Study screen
 
-### Modeling rule
+#### `/{locale}/app/learn/play/{lessonId}`
 
-Use this hierarchy:
+- Kind: page route
+- Purpose: host the lesson game
+- Section: Learn / Play
+- Binding: Play screen
 
-`Route -> Page -> Screen / Flow Step -> UI State`
+#### `/{locale}/app/translit`
 
-## Route-level navigation rules
+- Kind: page route
+- Purpose: access the translit utility
+- Section: Translit
+- Binding: Translit screen
 
-### Dock visibility rule
+#### `/{locale}/app/settings`
 
-The dock is visible on top-level routes
+- Kind: page route
+- Purpose: access global app preferences and app metadata
+- Section: Settings
+- Binding: Settings screen
 
-The dock is hidden on internal / deeper routes.
+### Additional route candidates
 
-Top-level routes (dock visible):
-- Learn (Explore and Recommended), 1 single dock button for both
+These route patterns are referenced in the broader product direction but are not fully defined in the routes catalog yet.
+
+- `/{locale}/landing`
+- `/{locale}/terms`
+- `/{locale}/app/learn/recommended`
+
+## Navigation model
+
+### Top-level destinations
+
+- Learn
 - Translit
 - Settings
 
-Internal / deeper routes (dock hidden):
-- Explore alphabet
-- Explore vocabulary
-- Study
-- Play
+### Redirect routes
 
-### Back button rule
+- `/{locale}/app/learn` is a redirect route.
+- It exists as the stable top-level entry route for Learn.
+- It resolves to `/{locale}/app/learn/explore`.
+
+### Dock membership and visibility
+
+The dock is visible on top-level destinations.
+
+Top-level routes with dock visible:
+- Learn entry behavior through `/{locale}/app/learn` resolving to `/{locale}/app/learn/explore`
+- `/{locale}/app/translit`
+- `/{locale}/app/settings`
+
+Internal / deeper routes with dock hidden:
+- `/{locale}/app/learn/explore/alphabet`
+- `/{locale}/app/learn/explore/vocabulary`
+- `/{locale}/app/learn/study/{lessonId}`
+- `/{locale}/app/learn/play/{lessonId}`
+
+### Back button behavior
 
 - Routes show a back button by default.
-- Learn entry routes (Explore and Recommended) do not show a back button.
+- Learn entry behavior does not show a back button.
 - Deeper learning routes such as Study show a back button.
-- Back button targets are route-specific. Example: Explore alphabet targets Explore.
+- Back button targets are route-specific.
+- Example: `/{locale}/app/learn/explore/alphabet` targets `/{locale}/app/learn/explore`.
+- Example: `/{locale}/app/settings` targets `/{locale}/app/learn`.
 - Play uses custom back/exit behavior when needed instead of a normal back pattern.
 
 # Flows
@@ -451,7 +525,7 @@ Direction:
 - the banner remains visible until the user explicitly chooses `Accept` or `Reject`
 - if the user chooses `Accept`, the consent state becomes `granted`
 - if the user chooses `Reject`, the consent state becomes `rejected`
-- if the stored state is `granted`, optional analytics may start immediately on app init
+- if the stored state is `granted`, optional analytics start immediately on app init
 - if the stored state is `rejected`, optional analytics remain disabled on app init
 - the privacy page must be reachable from the banner
 - the consent choice can also be reviewed and changed later in Settings
@@ -755,11 +829,11 @@ This is one navigation concept that may appear in different forms depending on d
 Direction:
 - mobile may use a bottom dock or tab bar
 - desktop may use a sidebar
-- Learn, Translit, and Settings are the top-level destinations
+- dock membership is defined in the Navigation model
 
 ### Back button
 
-Back button behavior is defined in the route-level navigation rules.
+Back button behavior is defined in the Navigation model.
 
 ### Top bar
 
@@ -857,7 +931,8 @@ Not defined yet.
 
 ### Included
 
-- Learn / Explore entry page (choice between Alphabet and Vocabulary)
+- Learn entry route redirecting to Explore
+- Explore entry page (choice between Alphabet and Vocabulary)
 - Explore Alphabet page for alphabet lessons
 - Explore Vocabulary page for vocabulary lessons
 - Study page for lesson preview
@@ -868,7 +943,7 @@ Not defined yet.
   - Game Round Feedback screen
   - Game Results screen
 - Translit utility page
-- Settings utilitypage for language, privacy, and about
+- Settings utility page for language, privacy, and about
 - Privacy notice page
 - Optional analytics with explicit privacy consent
 
@@ -895,16 +970,12 @@ Not defined yet.
 
 This section can hold future ideas that are not yet committed.
 
-# Open questions
-
-Not defined yet.
-
 # Decisions log
 
 - Recommendation mode is postponed to a later release
 - Grammar is postponed to a later release
 - Item-level activity tracking exists and is sufficient as a low-level base for richer derived behavior later
-- Learn opens directly into Explore
+- The Learn entry route resolves to Explore
 - Explore entry is a two-choice gateway: Alphabet or Vocabulary
 - The dock is visible on top-level destination screens and hidden on internal learning flow screens
 - Privacy consent has 3 states: `unknown`, `granted`, `rejected`
@@ -913,7 +984,3 @@ Not defined yet.
 - `rejected` disables optional analytics
 - There is no cookieless analytics fallback
 - Essential client-side storage remains on even when optional analytics are rejected
-
-# Next steps
-
-Not defined yet.
