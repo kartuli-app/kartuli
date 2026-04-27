@@ -114,6 +114,17 @@ The utility page for settings.
 - Localized public and app routes use the `/{locale}/...` pattern
 - The root route `/` is a locale-resolution redirect route
 
+## Brand, mascot, and tone
+
+- Brand name: `kartuli.app`
+- The primary brand character is a Georgian dog illustration used as the app mascot.
+- The mascot is the main recurring personality element across the app.
+- The mascot can appear in contextual variants such as teacher mode, glasses, happy success, or sad failure.
+- The voice is clear, warm, encouraging, and lightly playful.
+- Humor stays small, occasional, and charming. It does not become noisy, childish, or distracting.
+- Low-content screens use branding and the mascot to avoid feeling empty or generic.
+- MVP copy stays short and easy to scan. Personality comes mostly from the mascot, visual direction, and a small amount of microcopy.
+
 ## Metadata, discovery, and sharing
 
 ### Metadata model
@@ -435,6 +446,7 @@ Examples of app routes:
 - Linked from: Settings, privacy consent banner
 - Standalone entry: yes
 - In-app return target: `/{locale}/app/learn`
+- Binding: Privacy screen
 
 ### App routes
 
@@ -568,7 +580,12 @@ The main learning flow is:
 
 ### Explore flow
 
-Not defined yet.
+Direction:
+- the user lands on `/{locale}/app/learn/explore`
+- the screen presents the two current learning paths: Alphabet and Vocabulary
+- the user chooses one path
+- selecting Alphabet navigates to `/{locale}/app/learn/explore/alphabet`
+- selecting Vocabulary navigates to `/{locale}/app/learn/explore/vocabulary`
 
 ### Study flow
 
@@ -647,22 +664,104 @@ Each screen should define:
 
 ## Screens catalog:
 
+### Privacy screen
+
+- Role: Present the privacy notice as readable longform content and explain what storage and analytics behavior the app uses.
+- Entry point: Public route `/{locale}/privacy`, reachable from Settings, the privacy consent banner, and direct links.
+- Main user question: What does the app store, what does consent control, and where can I read the full privacy notice?
+- Primary decision: Read and understand the privacy notice.
+- Layout regions:
+  - Top bar: required, with back button and short route title.
+  - Main area: required, longform content container for the localized privacy document.
+- Navigation chrome:
+  - Back button target: `/{locale}/app/learn`.
+  - No dock.
+  - This route may be opened directly, but the app-owned back action still uses an in-product target.
+- Action placement:
+  - No primary CTA region.
+  - Navigation action lives in the top bar.
+- Primary actions:
+  - Read the privacy notice.
+- Secondary actions:
+  - Return to Learn through the top bar back action.
+- What this screen should communicate:
+  - The page is a public legal/information surface.
+  - Essential storage and optional analytics are distinct.
+  - Consent controls optional analytics only.
+- What this screen should not try to do:
+  - It should not become a settings editor.
+  - It should not replace the privacy consent banner.
+  - It should not mix legal content with extra promotional or learning content.
+- Content:
+  - Top bar title: `Privacy`
+  - Main content source:
+    - `privacy-en.md`
+    - `privacy-ru.md`
+  - Markdown content structure:
+    - document title / H1: `Privacy Notice`
+    - section headings with `h2` / `h3` as needed
+    - paragraphs, lists, and links rendered as readable longform content
+- UI direction:
+  - Use a simple, calm reading layout.
+  - Prioritize typography, spacing, and readable line length over decoration.
+  - The page can reuse app layout primitives, but it should read like a public legal page rather than a normal app utility surface.
+- Open questions:
+  - Whether the top bar should use only the mascot/logo or mascot/logo plus brand text.
+
 ### Explore entry screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Act as the top-level manual learning entry screen.
+- Entry point: `/{locale}/app/learn` resolving to `/{locale}/app/learn/explore`.
+- Main user question: What do I want to learn?
+- Primary decision: Choose between Alphabet and Vocabulary.
+- Layout regions:
+  - A branded header area.
+  - A learning choice area with large tappable cards.
+- Navigation chrome:
+  - No back button.
+  - Dock visible.
+  - The top bar/header includes branding instead of a back action.
+- Action placement:
+  - Each learning path is a full-card tap target.
+- Primary actions:
+  - Open Alphabet catalog.
+  - Open Vocabulary catalog.
+- Secondary actions:
+  - Use the dock to go to Translit.
+  - Use the dock to go to Settings.
+- What this screen should communicate:
+  - This is the app's main learning home in the MVP flow.
+  - The student is choosing a learning path, not starting a lesson yet.
+  - The app has a friendly branded personality.
+- What this screen should not try to do:
+  - It does not explain the whole product in detail.
+  - It does not mix manual Explore with future Recommended logic.
+  - It does not overload the screen with dense copy or secondary actions.
+- Content:
+  - Header:
+    - mascot/logo
+    - brand line: `kartuli.app`
+    - title: `Explore`
+    - support line: `Choose what you want to learn.`
+  - Alphabet card:
+    - visual: alphabet-focused visual, preferably using Georgian letters and/or the mascot
+    - heading: `Alphabet`
+    - copy: `Learn Georgian letters step by step.`
+  - Vocabulary card:
+    - visual: vocabulary-focused visual, preferably using everyday objects, categories, and/or the mascot
+    - heading: `Vocabulary`
+    - copy: `Learn useful words and phrases by topic.`
+- UI direction:
+  - The layout is mobile-first.
+  - The MVP target is to fit common mobile heights without scroll.
+  - Desktop keeps the same composition and scales it up with more space and larger type.
+  - Both cards use the same structure and height.
+  - The shell remains compatible with a future Explore / Recommended switch.
+  - The learning choice area remains compatible with a future third card such as Grammar.
+- Open questions:
+  - Exact mascot/logo treatment in the header.
+  - Whether the mascot appears only in the header or also inside the cards.
+  - Future interaction model for Explore / Recommended at the Learn entry level.
 
 ### Alphabet catalog screen
 
@@ -985,6 +1084,14 @@ Direction:
 - app logo or back button
 - screen title
 - contextual actions
+
+### Page heading semantics
+
+- Every route-rendered page exposes one primary page heading.
+- The primary heading supports document structure and accessibility. It is not only an SEO concern.
+- A top bar title may also serve as the primary heading when the screen does not need a separate content heading.
+- Longform content screens such as Privacy keep the primary `h1` inside the content area. Their top bar title remains navigation chrome.
+- Screens without a top bar still need a clear primary page heading in the main content area.
 
 #### Game top bar
 
