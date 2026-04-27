@@ -310,7 +310,7 @@ Use this hierarchy:
 
 `Route -> Page -> Screen / Flow Step -> UI State`
 
-## Navigation rules
+## Route-level navigation rules
 
 ### Dock visibility rule
 
@@ -381,7 +381,9 @@ Each screen should define:
 - Entry point
 - Main user question
 - Primary decision
-- Shell / Navigation
+- Layout regions
+- Navigation chrome
+- Action placement
 - Primary actions
 - Secondary actions
 - What this screen should communicate
@@ -398,7 +400,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -413,7 +417,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -428,7 +434,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -443,7 +451,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: Am I ready to play this lesson?
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -456,17 +466,27 @@ Each screen should define:
 
 - Scope: Route-level container for the lesson game.
 - Role: Host the full game flow for one lesson.
+- Main user question: To be defined.
+- Primary decision: To be defined.
 - Contains flow screens:
   - Game Lobby
   - Game Round
   - Game Round Feedback
   - Game Results
 - Entry point: Student arrives from Study for a specific lesson.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
 - Exit points:
   - back to Study
   - replay game
   - go to another lesson / learn area
-- Shell / Navigation: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
 - Open questions: To be defined.
 
 #### Game Lobby flow screen
@@ -475,7 +495,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -490,7 +512,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -505,7 +529,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -520,7 +546,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -535,7 +563,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -550,7 +580,9 @@ Each screen should define:
 - Entry point: To be defined.
 - Main user question: To be defined.
 - Primary decision: To be defined.
-- Shell / Navigation: To be defined.
+- Layout regions: To be defined.
+- Navigation chrome: To be defined.
+- Action placement: To be defined.
 - Primary actions: To be defined.
 - Secondary actions: To be defined.
 - What this screen should communicate: To be defined.
@@ -561,24 +593,44 @@ Each screen should define:
 
 # UI
 
-## Screen surfaces
+## Screen anatomy
 
-Every screen is composed of 3 surfaces:
-1. Top bar
-2. Main
-3. Controls
+Screen UI should be described using separate concepts for layout regions, navigation chrome, and action placement.
 
-### Top bar area
+### Layout regions
 
-There are different types of top bar areas, depending on the page / screen:
-- standard top bar
-- game top bar
+Layout regions describe the stable structural frame of a screen.
+
+Current direction:
+- Top bar: optional
+- Main area: required
+
+## Navigation chrome
+
+Navigation chrome describes UI elements that help the user move around the app or route structure.
+
+### Dock / tab bar / sidebar
+
+This is one navigation concept that may appear in different forms depending on device and layout.
+
+Current direction:
+- mobile may use a bottom dock or tab bar
+- desktop may use a sidebar
+- Learn, Translit, and Settings are the current top-level destinations
+
+### Back button
+
+Back button behavior is defined in the route-level navigation rules.
+
+### Top bar
+
+The top bar is optional and may contain navigation and contextual actions.
 
 #### Standard top bar
 
 The contents depend on the screen.
 
-Layout:
+Current direction:
 - app logo or back button
 - screen title
 - contextual actions
@@ -588,12 +640,25 @@ Layout:
 Contents:
 - To be defined
 
-### Bottom area
+## Action placement
 
-There are different types of control areas:
-- dock (buttons for top-level navigation)
-- CTA area (buttons for screen-specific actions like "play" or "continue")
-- game controls area (answer buttons for game rounds)
+Action placement describes where interactive actions live within a screen.
+
+### Inline actions
+
+Current direction:
+- actions may live inside the main area
+- some screens may not have a separate action region
+
+### Sticky CTA
+
+Current direction:
+- a primary CTA may be sticky when a screen benefits from persistent progression actions
+
+### Game controls
+
+Current direction:
+- game answer controls may live in a dedicated game control area outside normal inline content
 
 ## Design system
 
