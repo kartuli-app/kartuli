@@ -41,18 +41,18 @@ When a student has a few free minutes, the app should help them feel:
 
 ## Terminology / glossary
 
-### Information
+### Public section
 
-The information-facing area of the site/app, distinct from learning-side pages.
+The information-facing section of the site/app, distinct from learning-side pages.
 
-Examples of information pages:
+Examples of public pages:
 - `/[locale]/landing`
 - `/[locale]/terms`
 - `/[locale]/privacy`
 
-### App
+### App section
 
-The learning-side area of the site/app, distinct from information pages.
+The learning-side section of the site/app, distinct from public pages.
 
 Examples of app pages:
 - `/[locale]/app/learn/recommended`
@@ -68,23 +68,35 @@ Examples of app pages:
 
 The user-facing main learning area.
 
-Contains the two chose modes (Explore and Recommended) and the Study and Play flows.
+Contains the two entry routes (Explore and Recommended) and the Study and Play stages.
 
 ### Explore
 
-The manual choose mode inside Learn.
+The manual lesson selection mode inside Learn.
 
 ### Recommended
 
-The guided choose mode inside Learn.
+The guided lesson selection mode inside Learn.
 
 ### Study
 
-The lesson preview/review stage before play.
+The lesson preview/review stage before Play.
 
 ### Play
 
-The active lesson game stage.
+The active lesson game stage / route-level stage.
+
+Play hosts a Game.
+
+### Game
+
+The playable interaction structure inside the Play stage.
+
+A Game is composed of:
+- Game Lobby
+- Game Round
+- Game Round Feedback
+- Game Results
 
 ### Translit
 
@@ -136,7 +148,7 @@ They support:
 
 ### Grammar (rule items)
 
-Rules are a second-class learning content type. They need words to be usefull.
+Rules are a second-class learning content type. They need words to be useful.
 
 Rule items modeling is not decided yet because they would require extending the vocabulary module. 
 
@@ -183,13 +195,13 @@ Possible future learning-state concepts:
 
 # Information architecture
 
-## Areas
+## Sections
 
-### App area
+### App section
 
-The app area is the area of the site/app that is related to learning and practice.
+The app section is the section of the site/app that is related to learning and practice.
 
-#### Current app areas
+#### Current app sections
 
 - Learn
   - Explore
@@ -198,7 +210,7 @@ The app area is the area of the site/app that is related to learning and practic
 - Translit
 - Settings
 
-#### Future app areas
+#### Future app sections
 
 - Learn
   - Recommended
@@ -208,22 +220,19 @@ The app area is the area of the site/app that is related to learning and practic
 - Auth / Profile
 - Offline (current state, installation)
 - Onboarding
-- Landing page
-- Terms
-- Privacy
 - Not found
 
-### Information area
+### Public section
 
-The information area is the area of the site/app that is not related to learning.
+The public section is the section of the site/app that is not related to learning.
 
-This area does not exist yet.
+This section is planned, but no public pages are implemented in the MVP.
 
-#### Current information areas
+#### Current public sections
 
 Not defined yet.
 
-#### Possible future information areas
+#### Possible future public sections
 
 - Landing page
 - Terms
@@ -232,10 +241,10 @@ Not defined yet.
 ## Routing model
 
 Current direction:
-- information pages live under `/{locale}/...`
+- public pages live under `/{locale}/...`
 - app pages live under `/{locale}/app/...`
 
-Examples of information pages:
+Examples of public pages:
 - `/{locale}/landing`
 - `/{locale}/terms`
 - `/{locale}/privacy`
@@ -280,7 +289,7 @@ A screen that appears inside a route-based experience and is not directly landab
 Example: game flow screens inside Play:
 - Game Lobby screen
 - Game Round screen
-- Game Round feedback screen
+- Game Round Feedback screen
 - Game Results screen
 
 ### UI state
@@ -310,7 +319,7 @@ The dock is visible on top-level routes
 The dock is hidden on internal / deeper routes.
 
 Top-level routes (dock visible):
-- Learn (Explore and Recommended)
+- Learn (Explore and Recommended), 1 single dock button for both
 - Translit
 - Settings
 
@@ -322,11 +331,11 @@ Internal / deeper routes (dock hidden):
 
 ### Back button rule
 
-- All routes show a back button by default
-- Learn entry points (Study and Recommended) routes do not show a back button
-- The back button targets specific routes per route. Example: Play route back button targets Study route. Explore alphabet route back button targets Explore route.
-- flow screens show a back button
-- immersive screens use a custom exit/pause behavior instead of a normal back pattern
+- Routes show a back button by default.
+- Learn entry routes (Explore and Recommended) do not show a back button.
+- Deeper learning routes such as Study show a back button.
+- Back button targets are route-specific. Example: Explore alphabet targets Explore.
+- Play uses custom back/exit behavior when needed instead of a normal back pattern.
 
 # Flows
 
@@ -336,7 +345,7 @@ Internal / deeper routes (dock hidden):
 
 The main learning flow is:
 
-`Explore -> Study -> Play -> Repeat`
+`Explore or Recommended -> Study -> Play -> Repeat`
 
 ### Explore flow
 
@@ -344,11 +353,13 @@ Not defined yet.
 
 ### Study flow
 
-Not defined yet.
+Study leads to Play.
 
 ### Play flow
 
-Not defined yet
+Play hosts a Game.
+
+The Game contains Game Lobby, Game Round, Game Round Feedback, and Game Results.
 
 ## Utility flows
 
@@ -383,353 +394,170 @@ Each screen should define:
 
 ### Explore entry screen
 
-#### Role
-
-To be defined.
-
-#### Entry point
-
-To be defined.
-
-#### Main user question
-
-To be defined.
-
-#### Primary decision
-
-To be defined.
-
-#### Shell / Navigation
-
-To be defined.
-
-#### Primary actions
-
-To be defined.
-
-#### Secondary actions
-
-To be defined.
-
-#### What this screen should communicate
-
-To be defined.
-
-#### What this screen should not try to do
-
-To be defined.
-
-#### Content
-
-To be defined.
-
-#### UI direction
-
-To be defined.
-
-#### Open questions
-
-To be defined.
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
 ### Alphabet catalog screen
 
-#### Role
-
-To be defined.
-
-#### Entry point
-
-To be defined.
-
-#### Main user question
-
-To be defined.
-
-#### Primary decision
-
-To be defined.
-
-#### Shell / Navigation
-
-To be defined.
-
-#### Primary actions
-
-To be defined.
-
-#### Secondary actions
-
-To be defined.
-
-#### What this screen should communicate
-
-To be defined.
-
-#### What this screen should not try to do
-
-To be defined.
-
-#### Content
-
-To be defined.
-
-#### UI direction
-
-To be defined.
-
-#### Open questions
-
-To be defined.
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: MVP assumption: this screen lists alphabet lessons, not individual letters.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
 ### Vocabulary catalog screen
 
-#### Role
-
-To be defined.
-
-#### Entry point
-
-To be defined.
-
-#### Main user question
-
-To be defined.
-
-#### Primary decision
-
-To be defined.
-
-#### Shell / Navigation
-
-To be defined.
-
-#### Primary actions
-
-To be defined.
-
-#### Secondary actions
-
-To be defined.
-
-#### What this screen should communicate
-
-To be defined.
-
-#### What this screen should not try to do
-
-To be defined.
-
-#### Content
-
-To be defined.
-
-#### UI direction
-
-To be defined.
-
-#### Open questions
-
-To be defined.
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: MVP assumption: this screen lists vocabulary modules first, then lessons inside each module.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
 ### Study screen
 
-#### Role
-
-To be defined.
-
-#### Entry point
-
-To be defined.
-
-#### Main user question
-
-To be defined.
-
-#### Primary decision
-
-To be defined.
-
-#### Shell / Navigation
-
-To be defined.
-
-#### Primary actions
-
-To be defined.
-
-#### Secondary actions
-
-To be defined.
-
-#### What this screen should communicate
-
-To be defined.
-
-#### What this screen should not try to do
-
-To be defined.
-
-#### Content
-
-To be defined.
-
-#### UI direction
-
-To be defined.
-
-#### Open questions
-
-To be defined.
+- Role: Preview all items in a lesson before playing.
+- Entry point: To be defined.
+- Main user question: Am I ready to play this lesson?
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
 ### Play screen
 
-#### Role
+- Scope: Route-level container for the lesson game.
+- Role: Host the full game flow for one lesson.
+- Contains flow screens:
+  - Game Lobby
+  - Game Round
+  - Game Round Feedback
+  - Game Results
+- Entry point: Student arrives from Study for a specific lesson.
+- Exit points:
+  - back to Study
+  - replay game
+  - go to another lesson / learn area
+- Shell / Navigation: To be defined.
+- Open questions: To be defined.
 
-To be defined.
+#### Game Lobby flow screen
 
-#### Entry point
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
-To be defined.
+#### Game Round flow screen
 
-#### Main user question
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
-To be defined.
+#### Game Round Feedback flow screen
 
-#### Primary decision
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
-To be defined.
+#### Game Results flow screen
 
-#### Shell / Navigation
-
-To be defined.
-
-#### Primary actions
-
-To be defined.
-
-#### Secondary actions
-
-To be defined.
-
-#### What this screen should communicate
-
-To be defined.
-
-#### What this screen should not try to do
-
-To be defined.
-
-#### Content
-
-To be defined.
-
-#### UI direction
-
-To be defined.
-
-#### Open questions
-
-To be defined.
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
 ### Translit screen
 
-#### Role
-
-To be defined.
-
-#### Entry point
-
-To be defined.
-
-#### Main user question
-
-To be defined.
-
-#### Primary decision
-
-To be defined.
-
-#### Shell / Navigation
-
-To be defined.
-
-#### Primary actions
-
-To be defined.
-
-#### Secondary actions
-
-To be defined.
-
-#### What this screen should communicate
-
-To be defined.
-
-#### What this screen should not try to do
-
-To be defined.
-
-#### Content
-
-To be defined.
-
-#### UI direction
-
-To be defined.
-
-#### Open questions
-
-To be defined.
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
 ### Settings screen
 
-#### Role
-
-To be defined.
-
-#### Entry point
-
-To be defined.
-
-#### Main user question
-
-To be defined.
-
-#### Primary decision
-
-To be defined.
-
-#### Shell / Navigation
-
-To be defined.
-
-#### Primary actions
-
-To be defined.
-
-#### Secondary actions
-
-To be defined.
-
-#### What this screen should communicate
-
-To be defined.
-
-#### What this screen should not try to do
-
-To be defined.
-
-#### Content
-
-To be defined.
-
-#### UI direction
-
-To be defined.
-
-#### Open questions
-
-To be defined.
+- Role: To be defined.
+- Entry point: To be defined.
+- Main user question: To be defined.
+- Primary decision: To be defined.
+- Shell / Navigation: To be defined.
+- Primary actions: To be defined.
+- Secondary actions: To be defined.
+- What this screen should communicate: To be defined.
+- What this screen should not try to do: To be defined.
+- Content: To be defined.
+- UI direction: To be defined.
+- Open questions: To be defined.
 
 # UI
 
@@ -784,12 +612,12 @@ Not defined yet.
 - Learn / Explore entry (choice between Alphabet and Vocabulary)
 - Explore pages for alphabet and vocabulary lessons
 - Study page for lesson preview
-- Play page for lesson game: 
-  - Game lobby screem
-  - Game round screen
+- Play page hosting the lesson game:
+  - Game Lobby screen
+  - Game Round screen
     - 1 minigame type: question with 4 answer options
-  - Game round feedback screen
-  - Game results screen
+  - Game Round Feedback screen
+  - Game Results screen
 - Translit utility page
 - Settings page for language switching
 
@@ -811,7 +639,7 @@ Not defined yet.
 - landing page
 - root route logic for new vs returning users
 - auth with activity sync
-- broader public information pages
+- broader public pages
 
 ## Ideas / backlog
 
