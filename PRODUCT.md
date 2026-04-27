@@ -418,8 +418,10 @@ Examples of app routes:
   - browser `Accept-Language` header
   - default locale `en`
 - Defined behavior:
-  - `/` -> `/en` when no supported cookie or supported browser language is found
-  - `/` -> `/{locale}` when a supported locale is resolved
+  - `/` -> `/en/app/learn` when no supported cookie or supported browser language is found
+  - `/` -> `/{locale}/app/learn` when a supported locale is resolved
+- Future direction:
+  - the root route may later choose between a landing route and `/{locale}/app/learn` based on visitor state
 - Binding: none
 
 ### Public routes
@@ -431,6 +433,8 @@ Examples of app routes:
 - Section: Public
 - Metadata: page-specific metadata
 - Linked from: Settings, privacy consent banner
+- Standalone entry: yes
+- In-app return target: `/{locale}/app/learn`
 
 ### App routes
 
@@ -522,7 +526,7 @@ These route patterns are referenced in the broader product direction but are not
 ### Redirect routes
 
 - `/` is a locale-resolution redirect route.
-- It resolves to `/{locale}` using locale detection.
+- It resolves to `/{locale}/app/learn` using locale detection.
 - `/{locale}/app/learn` is a redirect route.
 - It exists as the stable top-level entry route for Learn.
 - It resolves to `/{locale}/app/learn/explore`.
@@ -548,8 +552,10 @@ Internal / deeper routes with dock hidden:
 - Learn entry behavior does not show a back button.
 - Deeper learning routes such as Study show a back button.
 - Back button targets are route-specific.
+- App-owned back actions use explicit in-product route targets, not raw browser-history navigation.
 - Example: `/{locale}/app/learn/explore/alphabet` targets `/{locale}/app/learn/explore`.
 - Example: `/{locale}/app/settings` targets `/{locale}/app/learn`.
+- Example: `/{locale}/privacy` targets `/{locale}/app/learn` when rendered with an in-app top bar.
 - Play uses custom back/exit behavior when needed instead of a normal back pattern.
 
 # Flows
@@ -1063,7 +1069,7 @@ Not defined yet.
 
 ### Included
 
-- Root route `/` resolving to `/en` or `/ru` via locale detection
+- Root route `/` resolving to `/{locale}/app/learn` via locale detection
 - Localized routing with English (`en`) as default and Russian (`ru`) as supported locale
 - Learn entry route redirecting to Explore
 - Explore entry page (choice between Alphabet and Vocabulary)
