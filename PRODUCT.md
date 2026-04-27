@@ -576,20 +576,60 @@ Each screen should define:
 
 ### Settings screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Provide global app utilities and metadata in a simple, low-frequency control surface.
+- Entry point: Top-level route `/{locale}/app/settings`, reachable from the app dock as a primary destination.
+- Main user question: "How do I adjust app-wide preferences and view app information quickly?"
+- Primary decision: Update a global preference now (primarily UI language, plus privacy consent state).
+- Layout regions:
+  - Top bar: required, with screen title: "Settings" and back button.
+  - Main area: required, 1-column layout with 3 vertically stacked sections:
+    - Language
+    - Privacy
+    - About
+- Navigation chrome:
+  - Dock/tab/primary app navigation is visible (top-level destination behavior).
+  - Back button target: `/{locale}/app/learn`.
+  - No custom flow navigation; this is not part of Learn flow progression.
+- Action placement:
+  - Inline actions inside each section.
+  - No sticky CTA region for MVP.
+- Primary actions:
+  - Change UI language (instant apply).
+  - Toggle privacy consent enabled/disabled.
+- Secondary actions:
+  - Open Privacy page link from the Privacy section.
+  - Open GitHub link from the About section.
+- What this screen should communicate:
+  - Settings is for global app preferences, not lesson activity.
+  - Changes are straightforward and immediate where applicable.
+  - App/version information is transparent and easy to find.
+- What this screen should not try to do:
+  - It should not host learning flow actions (Explore/Study/Play decisions).
+  - It should not become a catch-all for unrelated feature entry points.
+  - It should not require complex multi-step interaction in MVP.
+- Content:
+  - Language section:
+    - UI language selector.
+    - Scope: affects UI language only.
+    - Apply model: instant apply on selection.
+  - Privacy section:
+    - Consent toggle (enabled/disabled).
+    - Link to Privacy page.
+  - About section:
+    - Application version (hardcoded in MVP).
+    - Content version (hardcoded in MVP).
+    - Link to project GitHub.
+- UI direction:
+  - Keep a conservative, practical utility-screen presentation.
+  - Same behavior and same layout across devices.
+  - Single-column structure with clear section boundaries and concise copy.
+- Open questions:
+  - What exact behavior changes when privacy consent is disabled?
+  - What is the default privacy consent state for first-time users?
+  - Should privacy consent toggle apply instantly or require confirmation?
+  - What is the canonical Privacy page route to use from this screen?
+  - What exact GitHub URL should be used?
+  - What format should app/content hardcoded version strings follow?
 
 # UI
 
