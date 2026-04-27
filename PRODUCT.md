@@ -53,6 +53,7 @@ Examples of public pages:
 The learning-side section of the site/app, distinct from public pages.
 
 Examples of app pages:
+- `/{locale}/app/learn`
 - `/{locale}/app/learn/explore`
 - `/{locale}/app/translit`
 - `/{locale}/app/settings`
@@ -100,7 +101,7 @@ Round loop:
 
 ### Translit
 
-The utility page for transliterating text between Georgian and Latin scripts.
+The utility page for transliterating text between Georgian and Latin scripts in both directions.
 
 ### Settings
 
@@ -423,7 +424,7 @@ Examples of app routes:
 #### `/{locale}/app/translit`
 
 - Kind: page route
-- Purpose: access the translit utility
+- Purpose: access the bidirectional translit utility
 - Section: Translit
 - Binding: Translit screen
 
@@ -501,7 +502,7 @@ Study leads to Play.
 
 Play hosts a Game.
 
-The Game contains Game Lobby, Game Round, Game Round Feedback, and Game Results.
+The Game begins at Game Lobby, then runs through one or more `Game Round -> Game Round Feedback` cycles, and ends at Game Results.
 
 ## Utility flows
 
@@ -532,7 +533,20 @@ Direction:
 
 ### Translit flow
 
-Not defined yet.
+Direction:
+- the user opens `/{locale}/app/translit`
+- the user enters or pastes text into the source area
+- the page transliterates the source text on every input change
+- the transliteration mapping uses the letter-item library
+- the user can clear the source text at any time
+- the user can switch direction between Georgian -> Latin and Latin -> Georgian
+- when direction is switched, the current output becomes the new input
+- the output area remains read-only
+- the user can copy the output to the clipboard
+- the output is segmented by token and whitespace runs
+- hovering, focusing, or tapping an output token reveals the matching source token
+- token inspection is useful because transliteration is not character-count preserving
+- the top bar back action returns to `/{locale}/app/learn`
 
 # Screens
 
@@ -722,20 +736,68 @@ Each screen should define:
 
 ### Translit screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Transliterate text between Georgian and Latin scripts and help students inspect token-level mapping between source and output.
+- Entry point: Top-level route `/{locale}/app/translit`, reachable from the app dock as a primary destination.
+- Main user question: "How do I transliterate this text and inspect how the tokens map between scripts?"
+- Primary decision: Enter source text, inspect the output, and optionally reverse direction or copy the result.
+- Layout regions:
+  - Top bar: required, with screen title: "Translit" and back button.
+  - Main area: required, 2 vertically stacked panels:
+    - Source panel
+    - Transliteration panel
+- Navigation chrome:
+  - Dock/tab/primary app navigation is visible (top-level destination behavior).
+  - Back button target: `/{locale}/app/learn`.
+  - No custom flow navigation.
+- Action placement:
+  - Source panel actions live inline in the source panel header.
+  - Output actions live inline in the output panel header.
+  - Token inspection is embedded directly in the output surface.
+- Primary actions:
+  - Type or paste source text.
+  - Switch transliteration direction.
+  - Copy the output.
+  - Inspect token mapping in the output.
+- Secondary actions:
+  - Clear the source text.
+- What this screen should communicate:
+  - Transliteration happens immediately as the source text changes.
+  - The same utility supports both Georgian -> Latin and Latin -> Georgian.
+  - Output tokens can be inspected against their source tokens.
+  - Transliteration is token-aligned, not character-count aligned.
+- What this screen should not try to do:
+  - It should not become a full translation screen.
+  - It should not become part of lesson progression.
+  - It should not imply that character positions always match between source and output.
+- Content:
+  - Source panel:
+    - Source label.
+    - Active source script label: Georgian or Latin.
+    - Text input area.
+    - Placeholder copy based on current direction.
+    - Clear action.
+    - Switch-direction action.
+  - Transliteration panel:
+    - Transliteration label.
+    - Active output script label: Latin or Georgian.
+    - Read-only transliteration output.
+    - Copy action.
+  - Token inspection behavior:
+    - Output is split into tokens and whitespace runs.
+    - Whitespace remains preserved.
+    - Punctuation stays attached to the surrounding token.
+    - Hovering, focusing, or tapping an output token reveals the matching source token.
+    - Example: source `გამარჯობა` -> output `gamarjoba`, and the output token tooltip reveals `გამარჯობა`.
+    - Example: source `თ ტ` becomes output `t' t`, so token inspection is more useful than character-count comparison.
+- UI direction:
+  - Keep a practical utility-screen treatment.
+  - Prioritize fast editing, clear panel separation, and readable large text.
+  - Keep the same product behavior across devices.
+  - Support hover/focus behavior on pointer devices and tap behavior on coarse-pointer devices.
+- Open questions:
+  - Should token tooltips later include translation for recognized vocabulary tokens?
+  - Should translit direction persist between visits?
+  - Should the screen later support loading example text from learning content?
 
 ### Settings screen
 
