@@ -141,14 +141,16 @@ The utility page for settings.
 
 ### Indexability rule
 
+- Indexability is defined per route in the routes catalog.
 - Routes with distinct user-facing value may be indexed.
-- Utility-only or transient routes should not be primary index targets.
+- Redirect routes use `noindex`.
+- Utility-only or transient routes may use `noindex`.
 
 ### Metadata scope by route type
 
 - Public page routes use page-specific metadata.
 - App routes with clear standalone value use page-specific metadata.
-- App utility routes that are not useful as search destinations may use `noindex`.
+- Route-specific `noindex` decisions are documented in the routes catalog.
 - Locale-level metadata remains the fallback when a route-specific layer does not exist yet.
 
 ## Product modeling concepts
@@ -423,7 +425,8 @@ Examples of app routes:
 
 - Kind: redirect route
 - Purpose: resolve the best localized entry URL for the current visitor
-- Metadata: not a canonical destination
+- Metadata: `noindex`
+- Canonical/share role: not a canonical destination
 - Resolution order:
   - preferred locale cookie
   - browser `Accept-Language` header
@@ -455,7 +458,8 @@ Examples of app routes:
 - Kind: redirect route
 - Purpose: stable top-level entry route for Learn
 - Section: Learn
-- Metadata: not a canonical destination
+- Metadata: `noindex`
+- Canonical/share role: not a canonical destination
 - Defined behavior: redirects to `/{locale}/app/learn/explore`
 - Open question: the selection logic between Explore and Recommended is not defined yet
 - Binding: none
@@ -1196,7 +1200,11 @@ Not defined yet.
 - Non-dismissible privacy consent banner when consent is `unknown`
 - Localized metadata fallback per locale
 - Page-specific metadata for Privacy, Translit, Explore, and canonical lesson routes
-- `noindex` for Settings and Play routes
+- `noindex` routes:
+  - `/`
+  - `/{locale}/app/learn`
+  - `/{locale}/app/learn/lessons/{lessonId}/play`
+  - `/{locale}/app/settings`
 
 ## Next releases
 
@@ -1238,4 +1246,5 @@ This section can hold future ideas that are not yet committed.
 - Locale-level metadata is the fallback metadata layer
 - Routes with distinct search/share value should use page-specific metadata
 - Lesson routes are the canonical shareable lesson routes
-- Settings and Play routes are not primary search targets and should use `noindex`
+- Route indexability is defined per route in the routes catalog
+- Redirect routes, Settings, and Play routes use `noindex`
