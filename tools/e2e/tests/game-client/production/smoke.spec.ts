@@ -9,13 +9,20 @@ test.describe('Game Client Smoke Tests', () => {
     await expectNoCriticalErrors(page);
   });
 
-  test('navigate home → learn → back returns to home', async ({ page }) => {
+  test('clicking a home letter item keeps user on home', async ({ page }) => {
     await page.goto('/en');
 
     await expect(page.getByRole('heading', { name: /გამარჯობა /i })).toBeVisible();
 
-    await page.getByRole('link', { name: firstLessonTitleEn }).click();
+    const firstLessonCard = page.locator('div').filter({
+      has: page.getByText(firstLessonTitleEn, { exact: true }),
+    });
+    const letterItemButton = firstLessonCard.getByRole('button').first();
 
-    await page.getByRole('link', { name: /Back/i }).first().click();
+    await expect(letterItemButton).toBeVisible();
+    await letterItemButton.click();
+
+    await expect(page).toHaveURL(/\/en\/?$/);
+    await expect(page.getByRole('link', { name: /Back/i })).toHaveCount(0);
   });
 });
