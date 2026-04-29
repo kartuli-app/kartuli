@@ -1,41 +1,50 @@
-import type { ItemActivitySummariesById } from '@game-client/student/item-activity-summary/item-activity-summaries-by-id';
-import type {
-  HomeLesson,
-  HomeLetterItem,
-  HomeWordItem,
-} from '@game-client/ui/screens/home/view/home-view';
+'use client';
+import type { HomeLesson, HomeLetterItem } from '@game-client/ui/screens/home/view/home-view';
 
 import clsx from 'clsx';
-import Link from 'next/link';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { LuEye } from 'react-icons/lu';
+
+// the audio files are stored in public/audios/
+// the file name is the target script with the extension .mp3
+// for example, the file name for the letter 'ა' is 'ა.mp3'
+const playLetterSoundByTargetScript = async (targetScript: string) => {
+  const audio = new Audio(`/audios/${targetScript}.mp3`);
+  audio.play();
+};
 
 const LetterItemCard = ({
   item,
   className,
 }: Readonly<{ item: HomeLetterItem; className?: string; key: string }>) => {
+  const onClick = () => {
+    void playLetterSoundByTargetScript(item.targetScript);
+  };
   return (
-    <div
+    <button
+      type="button"
+      onClick={onClick}
       key={item.id}
       className={clsx(
         //
         'text-ds1-color-text-900',
-        'bg-ds1-color-text-100',
+        'py-ds1-spacing-large',
         'rounded-md',
-        'px-ds1-spacing-large',
-        'py-ds1-spacing-small',
+        'w-full',
+        'mx-auto',
         'flex',
         'items-center',
         'justify-center',
         'col-span-1',
-        'rounded-md',
+        'rounded-lg',
+        'hover:bg-ds1-color-text-200',
+        'active:bg-ds1-color-text-200',
+        'cursor-pointer',
+        // 'border',
         className,
       )}
     >
       {item.type === 'letter' && (
-        <div className="flex flex-col items-center justify-center gap-ds1-spacing-small">
-          <div className="text-4xl font-georgian relative w-full flex items-center justify-center px-3">
+        <div className="flex flex-col items-center justify-center gap-ds1-spacing-small w-full">
+          <div className="text-4xl font-georgian relative w-full flex items-center justify-center max-w-12">
             {/* we add 2 horizontal lines at 33% and 66% of the height with 1px height and 100% width */}
             <div className="absolute top-0 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
             <div className="absolute top-2/3 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
@@ -48,137 +57,31 @@ const LetterItemCard = ({
           </div>
         </div>
       )}
-    </div>
+    </button>
   );
-};
-
-const WordItemCard = ({
-  item,
-  className,
-}: Readonly<{ item: HomeWordItem; className?: string; key: string }>) => {
-  return (
-    <div
-      key={item.id}
-      className={clsx(
-        //
-        'text-ds1-color-text-900',
-        'bg-ds1-color-text-100',
-        'rounded-md',
-        'px-ds1-spacing-large',
-        'py-ds1-spacing-small',
-        'flex',
-        'items-center',
-        'justify-center',
-        'col-span-6',
-        'rounded-md',
-        className,
-      )}
-    >
-      {item.type === 'word' && (
-        <div className="flex flex-col items-center justify-center gap-ds1-spacing-small">
-          <div className="text-3xl font-georgian relative w-full flex items-center justify-center px-3">
-            {/* here we add 2 horizontal lines at 33% and 66% of the height with 1px height and 100% width */}
-            <div className="absolute top-0 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
-            <div className="absolute top-2/3 left-0 w-full h-1/3 border-y-2 border-blue-200 z-10"></div>
-            <div className="z-30 font-medium">{item.targetScript}</div>
-          </div>
-          <div className="text-2xl flex gap-ds1-spacing-xsmall text-ds1-color-text-700">
-            <span className="text-orange-500">[</span>
-            {item.transliteration}
-            <span className="text-orange-500">]</span>
-          </div>
-          <div className="text-xl flex gap-ds1-spacing-xsmall text-ds1-color-text-700">
-            {item.translation}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const useAverageViewsCount = (
-  itemIds: readonly string[],
-  ItemActivitySummariesById: ItemActivitySummariesById,
-) => {
-  const averageViewsCount = useMemo(() => {
-    if (itemIds.length === 0) {
-      return 0;
-    }
-    const totalViewsCount = itemIds.reduce<number>((acc, itemId) => {
-      return acc + (ItemActivitySummariesById[itemId]?.totalViewCount ?? 0);
-    }, 0);
-    return Math.round((totalViewsCount / itemIds.length) * 10) / 10;
-  }, [itemIds, ItemActivitySummariesById]);
-  const showAverageViewsCount = useMemo(() => {
-    return Object.keys(ItemActivitySummariesById).length > 0;
-  }, [ItemActivitySummariesById]);
-  return { averageViewsCount, showAverageViewsCount };
-};
-
-const useLessonItems = (homeLesson: HomeLesson) => {
-  let itemIds: string[] = [];
-  let areAllItemsLetters: boolean = true;
-  if (homeLesson.items.length > 0) {
-    itemIds = homeLesson.items.map((item) => {
-      if (item.type !== 'letter') {
-        areAllItemsLetters = false;
-      }
-      return item.id;
-    });
-  }
-  return { itemIds, areAllItemsLetters };
 };
 
 export function LessonCard({
   homeLesson,
   className,
   isSingleLessonModule,
-  ItemActivitySummariesById,
-  addViewEventsForItemIds,
 }: Readonly<{
   homeLesson: HomeLesson;
   className?: string;
   isSingleLessonModule: boolean;
-  ItemActivitySummariesById: ItemActivitySummariesById;
-  addViewEventsForItemIds?: (itemIds: readonly string[]) => Promise<void>;
 }>) {
-  const { i18n } = useTranslation('common');
-  const currentLocale = i18n.resolvedLanguage;
-  const { itemIds, areAllItemsLetters } = useLessonItems(homeLesson);
-  const onClick = () => {
-    void addViewEventsForItemIds?.(itemIds);
-  };
-  const { averageViewsCount, showAverageViewsCount } = useAverageViewsCount(
-    itemIds,
-    ItemActivitySummariesById,
-  );
   return (
-    <Link
-      href={`/${currentLocale}/learn/`}
+    <div
       key={homeLesson.id}
-      aria-label={homeLesson.title}
-      onClick={onClick}
       className={clsx(
         //
         'flex flex-col',
         'justify-start',
         //
-        'p-ds1-spacing-large',
-        'gap-ds1-spacing-large',
+        'gap-0',
+        'p-ds1-spacing-small',
         //
-        'bg-white',
         'w-full',
-        'rounded-lg',
-        'border',
-        //
-        'border-ds1-color-text-300',
-        'hover:border-ds1-color-text-500',
-        //
-        'shadow-sm',
-        'hover:shadow-md',
-        //
-        'cursor-pointer',
-        'group',
         //
         className,
       )}
@@ -190,36 +93,33 @@ export function LessonCard({
           'flex justify-between',
         )}
       >
-        <div className="text-xl font-bold group-hover:underline">{homeLesson.title}</div>
-        <div className="text-base text-ds1-color-text-50 flex items-center gap-ds1-spacing-small">
-          {showAverageViewsCount ? (
-            <>
-              <LuEye className="w-4 h-4" />
-              <span className=" text-sm flex items-center justify-start">{averageViewsCount}</span>
-            </>
-          ) : null}
-        </div>
+        {isSingleLessonModule ? null : (
+          <div
+            className={clsx(
+              //
+              'text-xl w-full text-center',
+            )}
+          >
+            {homeLesson.title}
+          </div>
+        )}
       </div>
       {/* card body (items) */}
       <div
         className={clsx(
           //
-          areAllItemsLetters ? 'gap-ds1-spacing-regular' : 'gap-ds1-spacing-large',
+          // 'gap-y-ds1-spacing-large',
+          'gap-0',
           'w-full',
           'grid grid-cols-3',
-          isSingleLessonModule && areAllItemsLetters && 'grid-cols-6',
+          // 'border',
+          isSingleLessonModule && 'grid-cols-5 sm:grid-cols-7 lg:grid-cols-10',
         )}
       >
         {homeLesson.items.map((item) => {
-          if (item.type === 'letter') {
-            return <LetterItemCard key={item.id} item={item} className="" />;
-          }
-          if (item.type === 'word') {
-            return <WordItemCard key={item.id} item={item} className="" />;
-          }
-          return null;
+          return <LetterItemCard key={item.id} item={item as HomeLetterItem} className="" />;
         })}
       </div>
-    </Link>
+    </div>
   );
 }
