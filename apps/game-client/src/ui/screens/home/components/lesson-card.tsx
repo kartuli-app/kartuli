@@ -1,5 +1,5 @@
 'use client';
-import type { HomeLesson, HomeLetterItem } from '@game-client/ui/screens/home/view/home-view';
+import type { HomeLetterItem } from '@game-client/ui/screens/home/view/home-view';
 
 import clsx from 'clsx';
 
@@ -8,7 +8,11 @@ import clsx from 'clsx';
 // for example, the file name for the letter 'ა' is 'ა.mp3'
 const playLetterSoundByTargetScript = async (targetScript: string) => {
   const audio = new Audio(`/audios/${targetScript}.mp3`);
-  audio.play();
+  try {
+    await audio.play();
+  } catch {
+    // Playback may be blocked or the source may be missing; avoid unhandled rejections.
+  }
 };
 
 const LetterItemCard = ({
@@ -66,7 +70,11 @@ export function LessonCard({
   className,
   isSingleLessonModule,
 }: Readonly<{
-  homeLesson: HomeLesson;
+  homeLesson: {
+    id: string;
+    title: string;
+    items: HomeLetterItem[];
+  };
   className?: string;
   isSingleLessonModule: boolean;
 }>) {
@@ -117,7 +125,7 @@ export function LessonCard({
         )}
       >
         {homeLesson.items.map((item) => {
-          return <LetterItemCard key={item.id} item={item as HomeLetterItem} className="" />;
+          return <LetterItemCard key={item.id} item={item} className="" />;
         })}
       </div>
     </div>

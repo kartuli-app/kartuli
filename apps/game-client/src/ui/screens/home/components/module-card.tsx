@@ -1,6 +1,16 @@
-import type { HomeModule } from '@game-client/ui/screens/home/view/home-view';
+import type {
+  HomeLesson,
+  HomeLetterItem,
+  HomeModule,
+} from '@game-client/ui/screens/home/view/home-view';
 import clsx from 'clsx';
 import { LessonCard } from './lesson-card';
+
+type HomeLetterLesson = HomeLesson & { items: HomeLetterItem[] };
+
+const isHomeLetterLesson = (lesson: HomeLesson): lesson is HomeLetterLesson => {
+  return lesson.items.every((item) => item.type === 'letter');
+};
 
 export function ModuleCard({
   homeModule,
@@ -8,10 +18,8 @@ export function ModuleCard({
   readonly homeModule: HomeModule;
 }>) {
   const isSingleLessonModule = homeModule.lessons.length === 1;
-  const areAllItemsLetters = homeModule.lessons.every((lesson) =>
-    lesson.items.every((item) => item.type === 'letter'),
-  );
-  if (!areAllItemsLetters) {
+  const letterLessons = homeModule.lessons.filter(isHomeLetterLesson);
+  if (letterLessons.length !== homeModule.lessons.length) {
     return null;
   }
   return (
@@ -57,7 +65,7 @@ export function ModuleCard({
             'xl:grid-cols-3',
           )}
         >
-          {homeModule.lessons.map((lesson) => (
+          {letterLessons.map((lesson) => (
             <LessonCard
               key={lesson.id}
               homeLesson={lesson}
