@@ -769,20 +769,101 @@ Each screen should define:
 
 ### Alphabet catalog screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: Assumption: this screen lists alphabet lessons, not individual letters.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Let the student browse grouped alphabet content, preview letter audio, and select which alphabet content to study or play next.
+- Entry point: `/{locale}/app/learn/explore/alphabet`, reached from the Explore entry screen.
+- Main user question: Which alphabet set do I want to work with right now?
+- Primary decision: Select one alphabet lesson context, then continue to Study or Play.
+- Layout regions:
+  - Top bar: required, with back button, a 2-line title, and a sound toggle action.
+  - Main area: required, with 2 stacked sections:
+    - Lessons
+    - Full review
+  - Selected lesson surface: contextual and dismissible when a lesson is selected.
+- Navigation chrome:
+  - Back button target: `/{locale}/app/learn/explore`.
+  - Top bar title:
+    - line 1: `Explore`
+    - line 2: `Alphabet`
+  - Top bar contextual action:
+    - sound on/off toggle for alphabet audio preview
+- Action placement:
+  - Lesson selection starts from direct interaction inside lesson cards.
+  - The selected lesson surface contains the progression actions.
+- Primary actions:
+  - Select one alphabet lesson.
+  - Open the selected lesson in Study.
+  - Open the selected lesson in Play.
+- Secondary actions:
+  - Return to Explore through the top bar back action.
+  - Toggle alphabet audio preview on or off.
+- What this screen should communicate:
+  - Alphabet practice is available as small focused lessons.
+  - Full alphabet review is also available from the same screen.
+  - Card order implies progression from earlier to later lessons.
+  - Letter interaction can be used as a lightweight rosetta-stone reference behavior.
+  - The current selection controls which lesson Study and Play will open.
+- What this screen should not try to do:
+  - It should not become the dense reference/study surface for the full alphabet.
+  - It should not explain module structure in the UI.
+  - It should not turn the selected lesson surface into "Study inside the catalog."
+- Content:
+  - Section heading: `Lessons`
+  - Current lesson set:
+    - `The five vowels`
+    - `Sounds you know`
+    - `More easy sounds`
+    - `Puff and Pop`
+    - `The K family`
+    - `Hissing sounds`
+    - `Buzzing sounds`
+  - Chunk lesson card structure:
+    - title only
+    - compact 1-row preview grid showing all lesson items
+    - no subtitle
+    - no badge or progress state
+    - the whole card is selectable as one lesson context
+  - Preview grid item cell:
+    - fixed-width box
+    - Georgian letter in large type
+    - lined background behind the Georgian letter
+    - transliteration below in brackets, smaller and lighter
+    - Georgian letter and transliteration are vertically stacked
+    - tapping a letter item selects the containing lesson
+    - when sound is enabled, tapping a letter item also plays that letter's audio
+  - Lessons section ordering:
+    - sequential by position
+    - top to bottom, then left to right
+  - Section heading: `Full review`
+  - Full review card:
+    - title: `All the letters`
+    - uses the same item-cell language as lesson cards
+    - includes all alphabet letters
+    - uses as many rows as needed
+    - does not group the rows visually
+  - Selected lesson surface:
+    - close / dismiss action
+    - selected lesson title
+    - `Study` action
+    - `Play` action
+    - no overlay
+    - selecting another lesson updates this surface in place
+    - dismissing the surface clears the current lesson selection
+- UI direction:
+  - The layout is mobile-first.
+  - Mobile uses 1 lesson card per row.
+  - Tablet uses 2 lesson cards per row.
+  - Desktop uses 3 lesson cards per row.
+  - The full review card sits below the lesson grid.
+  - On wider layouts, the full review card spans the available width.
+  - Chunk lesson cards should align cleanly in the responsive grid.
+  - The full review card should be visually distinct from the chunk lesson cards while keeping the same internal alphabet-item language.
+  - The selected lesson surface is non-modal.
+  - The selected lesson surface can appear as a bottom drawer on smaller viewports and a side surface on larger viewports.
+  - The selected lesson surface must not block changing the current selection.
+- Open questions:
+  - Exact visual treatment that makes the full review card feel distinct without changing its internal grid model.
+  - What iconography and exact label treatment should the sound toggle use?
+  - Should the sound preference persist across visits, and if so where should it be stored?
 
 ### Vocabulary catalog screen
 
@@ -1185,6 +1266,7 @@ Not defined yet.
 - Learn entry route redirecting to Explore
 - Explore entry page (choice between Alphabet and Vocabulary)
 - Explore Alphabet page for alphabet lessons
+- Alphabet catalog supports per-letter audio preview with a sound toggle and selected-lesson Study / Play actions
 - Explore Vocabulary page for vocabulary lessons
 - Study page for lesson preview
 - Play page hosting the lesson game:
@@ -1216,7 +1298,6 @@ Not defined yet.
 
 ## Future work (not prioritized)
 - more minigames
-- sound
 - search
 - favorites
 - onboarding
@@ -1248,3 +1329,9 @@ This section can hold future ideas that are not yet committed.
 - Lesson routes are the canonical shareable lesson routes
 - Route indexability is defined per route in the routes catalog
 - Redirect routes, Settings, and Play routes use `noindex`
+- Alphabet lessons normally contain 3 to 6 items
+- Full alphabet review is the explicit exception to the normal alphabet lesson size
+- Alphabet catalog prioritizes small lessons first and full review second
+- Alphabet catalog supports direct per-letter audio preview
+- Letter interaction selects the containing lesson context, not the letter as a standalone destination
+- Alphabet catalog uses a dismissible non-modal selected-lesson surface with `Study` and `Play` actions
