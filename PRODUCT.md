@@ -107,6 +107,10 @@ The utility page for transliterating text between Georgian and Latin scripts in 
 
 The utility page for settings.
 
+### Not found
+
+The recovery-oriented screen family used when a route cannot be resolved or a valid route cannot load the resource it needs.
+
 ## Localization
 
 - Supported locales: English (`en`) and Russian (`ru`)
@@ -361,7 +365,6 @@ The app section is the section of the site/app that is related to learning and p
 - Auth / Profile
 - Offline status / installation
 - Onboarding
-- Not found
 
 ### Public section
 
@@ -382,6 +385,23 @@ Direction:
 - the root route `/` is non-localized
 - public routes live under `/{locale}/...`
 - app routes live under `/{locale}/app/...`
+
+### Locale canonicalization
+
+Direction:
+- unsupported locale values do not produce a dedicated locale-error screen
+- when the route intent is recognized and can be normalized, the app redirects to the equivalent route under a supported locale
+- when the route intent is not recognized, unsupported locale values fall through to global not-found handling
+
+### Not-found handling
+
+The product uses 2 not-found families:
+- global not-found for uncontrolled routes that do not match a controlled route pattern
+- route-owned resource unavailable handling for valid routes that cannot load their required resource
+
+Current route-owned unavailable cases:
+- Study lesson unavailable
+- Play lesson unavailable
 
 ### Route notation
 
@@ -495,6 +515,7 @@ Examples of app routes:
 - Section: Learn / Study
 - Metadata: lesson-specific metadata
 - Canonical/share role: canonical shareable lesson route
+- Unavailable handling: when the lesson cannot be found or loaded, this route shows the Study lesson unavailable screen
 - Binding: Study screen
 
 #### `/{locale}/app/learn/lessons/{lessonId}/play`
@@ -504,6 +525,7 @@ Examples of app routes:
 - Section: Learn / Play
 - Metadata: `noindex`
 - Canonical/share role: not a primary search/share destination
+- Unavailable handling: when the lesson cannot be found or loaded, this route shows the Play lesson unavailable screen
 - Binding: Play screen
 
 #### `/{locale}/app/translit`
@@ -530,6 +552,26 @@ These route patterns are referenced in the broader product direction but are not
 - `/{locale}/landing`
 - `/{locale}/terms`
 - `/{locale}/app/learn/recommended`
+
+### Routing states
+
+#### Global not-found state
+
+- Trigger: the requested URL does not match a controlled route pattern after locale handling
+- Metadata: `noindex`
+- Binding: Not found screen
+
+#### Study lesson unavailable state
+
+- Trigger: `/{locale}/app/learn/lessons/{lessonId}` matches a valid route pattern, but the lesson resource cannot be found or loaded
+- Metadata: `noindex`
+- Binding: Study lesson unavailable screen
+
+#### Play lesson unavailable state
+
+- Trigger: `/{locale}/app/learn/lessons/{lessonId}/play` matches a valid route pattern, but the lesson resource cannot be found or loaded
+- Metadata: `noindex`
+- Binding: Play lesson unavailable screen
 
 ## Navigation model
 
@@ -711,6 +753,111 @@ Each screen should define:
   - The page can reuse app layout primitives, but it should read like a public legal page rather than a normal app utility surface.
 - Open questions:
   - Whether the top bar should use only the mascot/logo or mascot/logo plus brand text.
+
+### Not found screen
+
+- Role: Help the user recover when they request a URL that does not map to a controlled route.
+- Entry point: Rendered by the routing layer when the requested URL does not match a controlled route pattern after locale handling.
+- Main user question: Where should I go now that this page does not exist?
+- Primary decision: Return to a safe known destination in the app.
+- Layout regions:
+  - Top bar: required, with back button and short route title.
+  - Main content area with message and recovery actions.
+- Navigation chrome:
+  - Back button target: `/{locale}/app/learn`.
+  - No dock.
+- Action placement:
+  - Recovery actions live in the main content area.
+- Primary actions:
+  - Go to Learn.
+- Secondary actions:
+  - None required for MVP.
+- What this screen should communicate:
+  - The requested page does not exist.
+  - The user can still continue using the app from a safe destination.
+- What this screen should not try to do:
+  - It should not expose technical routing details.
+  - It should not depend on browser-history behavior for recovery.
+  - It should not show the raw attempted URL in the MVP UI.
+- Content:
+  - Top bar title: `Page not found`
+  - Clear not-found title.
+  - Short explanation.
+  - Primary recovery action to Learn.
+- UI direction:
+  - Keep a calm branded recovery treatment.
+  - Prioritize clarity and recovery over clever copy.
+  - Avoid a dead-end error-page feeling.
+- Open questions:
+  - What final title/copy should be used per locale?
+
+### Study lesson unavailable screen
+
+- Role: Explain that the Study route is valid but the requested lesson could not be found or loaded, then help the user recover.
+- Entry point: `/{locale}/app/learn/lessons/{lessonId}` when the route matches but the lesson resource is unavailable.
+- Main user question: How do I continue if this lesson cannot be opened?
+- Primary decision: Return to Learn and choose another lesson.
+- Layout regions:
+  - Top bar: required, with back button and short route title.
+  - Main content area with the unavailable message and recovery action.
+- Navigation chrome:
+  - Back button target: `/{locale}/app/learn`.
+  - No dock.
+- Action placement:
+  - Recovery action lives in the main content area.
+- Primary actions:
+  - Go to Learn.
+- Secondary actions:
+  - Return to Learn through the top bar back action.
+- What this screen should communicate:
+  - The route format is valid, but this specific lesson could not be shown.
+  - The lesson may not exist or may not be available right now.
+- What this screen should not try to do:
+  - It should not present itself as a generic global 404.
+  - It should not expose raw resource IDs or technical failure details.
+- Content:
+  - Short unavailable title.
+  - Short explanation that the lesson could not be found or loaded.
+  - Primary recovery action to Learn.
+- UI direction:
+  - Reuse the normal app reading/action shell.
+  - Keep the state calm and recoverable rather than alarming.
+- Open questions:
+  - Should the copy explicitly say "could not be found" or use softer wording such as "is not available"?
+
+### Play lesson unavailable screen
+
+- Role: Explain that the Play route is valid but the requested lesson could not be found or loaded, then help the user recover.
+- Entry point: `/{locale}/app/learn/lessons/{lessonId}/play` when the route matches but the lesson resource is unavailable.
+- Main user question: How do I continue if this lesson cannot be played?
+- Primary decision: Return to Learn and choose another lesson.
+- Layout regions:
+  - Top bar: required, with back button and short route title.
+  - Main content area with the unavailable message and recovery action.
+- Navigation chrome:
+  - Back button target: `/{locale}/app/learn`.
+  - No dock.
+- Action placement:
+  - Recovery action lives in the main content area.
+- Primary actions:
+  - Go to Learn.
+- Secondary actions:
+  - Return to Learn through the top bar back action.
+- What this screen should communicate:
+  - The route format is valid, but this specific lesson cannot start in Play.
+  - The lesson may not exist or may not be available right now.
+- What this screen should not try to do:
+  - It should not present itself as a generic global 404.
+  - It should not expose raw resource IDs or technical failure details.
+- Content:
+  - Short unavailable title.
+  - Short explanation that the lesson could not be found or loaded for Play.
+  - Primary recovery action to Learn.
+- UI direction:
+  - Reuse the normal app reading/action shell.
+  - Keep the state calm and recoverable rather than alarming.
+- Open questions:
+  - Should the Play unavailable copy mention Study as an alternative route later, or keep the MVP recovery path focused only on Learn?
 
 ### Explore entry screen
 
@@ -1278,6 +1425,9 @@ Not defined yet.
 - Translit utility page
 - Settings utility page for language, privacy, and about
 - Privacy notice page
+- Global not-found recovery screen
+- Study lesson unavailable screen
+- Play lesson unavailable screen
 - Optional analytics with explicit privacy consent
 - Non-dismissible privacy consent banner when consent is `unknown`
 - Localized metadata fallback per locale
@@ -1335,3 +1485,6 @@ This section can hold future ideas that are not yet committed.
 - Alphabet catalog supports direct per-letter audio preview
 - Letter interaction selects the containing lesson context, not the letter as a standalone destination
 - Alphabet catalog uses a dismissible non-modal selected-lesson surface with `Study` and `Play` actions
+- The product uses one global not-found screen for uncontrolled routes
+- Valid Study and Play routes with missing lesson resources use route-owned unavailable screens instead of the global not-found screen
+- Unsupported locale values do not use a dedicated error screen and are canonicalized when possible
