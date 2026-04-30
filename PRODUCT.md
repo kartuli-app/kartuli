@@ -258,6 +258,12 @@ Examples:
 - Animals (lessons: pets, farm animals, wild animals...)
 - Countries (lessons: Related to Georgia, Europe, Asia...)
 
+### Module review set
+
+A module review set is a generated study/play resource built from all items in one module.
+
+It is not a fake authored lesson, but it is still a first-class study/play resource with its own routes.
+
 ## Student activity
 
 There is activity tracking at item level.
@@ -400,8 +406,8 @@ The product uses 2 not-found families:
 - route-owned resource unavailable handling for valid routes that cannot load their required resource
 
 Current route-owned unavailable cases:
-- Study lesson unavailable
-- Play lesson unavailable
+- Study resource unavailable
+- Play resource unavailable
 
 ### Route notation
 
@@ -420,6 +426,8 @@ Examples:
 - actual URL: `/en/privacy`
 - route pattern: `/{locale}/app/learn/lessons/{lessonId}`
 - actual URL: `/en/app/learn/lessons/alphabet-intro`
+- route pattern: `/{locale}/app/learn/modules/{moduleId}`
+- actual URL: `/en/app/learn/modules/alphabet`
 
 Examples of defined root routes:
 - `/`
@@ -434,6 +442,8 @@ Examples of app routes:
 - `/{locale}/app/learn/explore/vocabulary`
 - `/{locale}/app/learn/lessons/{lessonId}`
 - `/{locale}/app/learn/lessons/{lessonId}/play`
+- `/{locale}/app/learn/modules/{moduleId}`
+- `/{locale}/app/learn/modules/{moduleId}/play`
 - `/{locale}/app/translit`
 - `/{locale}/app/settings`
 
@@ -515,7 +525,7 @@ Examples of app routes:
 - Section: Learn / Study
 - Metadata: lesson-specific metadata
 - Canonical/share role: canonical shareable lesson route
-- Unavailable handling: when the lesson cannot be found or loaded, this route shows the Study lesson unavailable screen
+- Unavailable handling: when the lesson cannot be found or loaded, this route shows the Study resource unavailable screen
 - Binding: Study screen
 
 #### `/{locale}/app/learn/lessons/{lessonId}/play`
@@ -525,7 +535,27 @@ Examples of app routes:
 - Section: Learn / Play
 - Metadata: `noindex`
 - Canonical/share role: not a primary search/share destination
-- Unavailable handling: when the lesson cannot be found or loaded, this route shows the Play lesson unavailable screen
+- Unavailable handling: when the lesson cannot be found or loaded, this route shows the Play resource unavailable screen
+- Binding: Play screen
+
+#### `/{locale}/app/learn/modules/{moduleId}`
+
+- Kind: page route
+- Purpose: preview the generated review set for one module before play
+- Section: Learn / Study
+- Metadata: module-specific metadata
+- Canonical/share role: canonical shareable module review route
+- Unavailable handling: when the module review set cannot be found or loaded, this route shows the Study resource unavailable screen
+- Binding: Study screen
+
+#### `/{locale}/app/learn/modules/{moduleId}/play`
+
+- Kind: page route
+- Purpose: host the lesson game for one generated module review set
+- Section: Learn / Play
+- Metadata: `noindex`
+- Canonical/share role: not a primary search/share destination
+- Unavailable handling: when the module review set cannot be found or loaded, this route shows the Play resource unavailable screen
 - Binding: Play screen
 
 #### `/{locale}/app/translit`
@@ -561,17 +591,17 @@ These route patterns are referenced in the broader product direction but are not
 - Metadata: `noindex`
 - Binding: Not found screen
 
-#### Study lesson unavailable state
+#### Study resource unavailable state
 
-- Trigger: `/{locale}/app/learn/lessons/{lessonId}` matches a valid route pattern, but the lesson resource cannot be found or loaded
+- Trigger: `/{locale}/app/learn/lessons/{lessonId}` or `/{locale}/app/learn/modules/{moduleId}` matches a valid Study route pattern, but the required resource cannot be found or loaded
 - Metadata: `noindex`
-- Binding: Study lesson unavailable screen
+- Binding: Study resource unavailable screen
 
-#### Play lesson unavailable state
+#### Play resource unavailable state
 
-- Trigger: `/{locale}/app/learn/lessons/{lessonId}/play` matches a valid route pattern, but the lesson resource cannot be found or loaded
+- Trigger: `/{locale}/app/learn/lessons/{lessonId}/play` or `/{locale}/app/learn/modules/{moduleId}/play` matches a valid Play route pattern, but the required resource cannot be found or loaded
 - Metadata: `noindex`
-- Binding: Play lesson unavailable screen
+- Binding: Play resource unavailable screen
 
 ## Navigation model
 
@@ -603,6 +633,8 @@ Internal / deeper routes with dock hidden:
 - `/{locale}/app/learn/explore/vocabulary`
 - `/{locale}/app/learn/lessons/{lessonId}`
 - `/{locale}/app/learn/lessons/{lessonId}/play`
+- `/{locale}/app/learn/modules/{moduleId}`
+- `/{locale}/app/learn/modules/{moduleId}/play`
 
 ### Back button behavior
 
@@ -636,7 +668,7 @@ Direction:
 ### Study flow
 
 Direction:
-- the user opens `/{locale}/app/learn/lessons/{lessonId}` from a catalog/browser route or from a direct lesson URL
+- the user opens `/{locale}/app/learn/lessons/{lessonId}` or `/{locale}/app/learn/modules/{moduleId}` from a catalog/browser route or from a direct URL
 - Study opens on the lesson summary state by default
 - the user can start Play immediately from the summary state
 - the user can enter item detail by selecting one item from the lesson summary
@@ -800,11 +832,11 @@ Each screen should define:
 - Open questions:
   - What final title/copy should be used per locale?
 
-### Study lesson unavailable screen
+### Study resource unavailable screen
 
-- Role: Explain that the Study route is valid but the requested lesson could not be found or loaded, then help the user recover.
-- Entry point: `/{locale}/app/learn/lessons/{lessonId}` when the route matches but the lesson resource is unavailable.
-- Main user question: How do I continue if this lesson cannot be opened?
+- Role: Explain that the Study route is valid but the requested study resource could not be found or loaded, then help the user recover.
+- Entry point: `/{locale}/app/learn/lessons/{lessonId}` or `/{locale}/app/learn/modules/{moduleId}` when the route matches but the study resource is unavailable.
+- Main user question: How do I continue if this study resource cannot be opened?
 - Primary decision: Return to Learn and choose another lesson.
 - Layout regions:
   - Top bar: required, with back button and short route title.
@@ -819,14 +851,14 @@ Each screen should define:
 - Secondary actions:
   - Return to Learn through the top bar back action.
 - What this screen should communicate:
-  - The route format is valid, but this specific lesson could not be shown.
-  - The lesson may not exist or may not be available right now.
+  - The route format is valid, but this specific study resource could not be shown.
+  - The lesson or module review set may not exist or may not be available right now.
 - What this screen should not try to do:
   - It should not present itself as a generic global 404.
   - It should not expose raw resource IDs or technical failure details.
 - Content:
   - Short unavailable title.
-  - Short explanation that the lesson could not be found or loaded.
+  - Short explanation that the requested study resource could not be found or loaded.
   - Primary recovery action to Learn.
 - UI direction:
   - Reuse the normal app reading/action shell.
@@ -834,11 +866,11 @@ Each screen should define:
 - Open questions:
   - Should the copy explicitly say "could not be found" or use softer wording such as "is not available"?
 
-### Play lesson unavailable screen
+### Play resource unavailable screen
 
-- Role: Explain that the Play route is valid but the requested lesson could not be found or loaded, then help the user recover.
-- Entry point: `/{locale}/app/learn/lessons/{lessonId}/play` when the route matches but the lesson resource is unavailable.
-- Main user question: How do I continue if this lesson cannot be played?
+- Role: Explain that the Play route is valid but the requested study resource could not be found or loaded, then help the user recover.
+- Entry point: `/{locale}/app/learn/lessons/{lessonId}/play` or `/{locale}/app/learn/modules/{moduleId}/play` when the route matches but the study resource is unavailable.
+- Main user question: How do I continue if this study resource cannot be played?
 - Primary decision: Return to Learn and choose another lesson.
 - Layout regions:
   - Top bar: required, with back button and short route title.
@@ -853,14 +885,14 @@ Each screen should define:
 - Secondary actions:
   - Return to Learn through the top bar back action.
 - What this screen should communicate:
-  - The route format is valid, but this specific lesson cannot start in Play.
-  - The lesson may not exist or may not be available right now.
+  - The route format is valid, but this specific study resource cannot start in Play.
+  - The lesson or module review set may not exist or may not be available right now.
 - What this screen should not try to do:
   - It should not present itself as a generic global 404.
   - It should not expose raw resource IDs or technical failure details.
 - Content:
   - Short unavailable title.
-  - Short explanation that the lesson could not be found or loaded for Play.
+  - Short explanation that the requested study resource could not be found or loaded for Play.
   - Primary recovery action to Learn.
 - UI direction:
   - Reuse the normal app reading/action shell.
@@ -947,8 +979,8 @@ Each screen should define:
   - The selected lesson surface contains the progression actions.
 - Primary actions:
   - Select one alphabet lesson.
-  - Open the selected lesson in Study.
-  - Open the selected lesson in Play.
+  - Open the selected lesson or module review set in Study.
+  - Open the selected lesson or module review set in Play.
 - Secondary actions:
   - Return to Explore through the top bar back action.
   - Toggle alphabet audio preview on or off.
@@ -996,6 +1028,7 @@ Each screen should define:
     - includes all alphabet letters
     - uses as many rows as needed
     - does not group the rows visually
+    - targets the module review routes, not a fake authored lesson
   - Selected lesson surface:
     - close / dismiss action
     - selected lesson title
@@ -1040,9 +1073,11 @@ Each screen should define:
 
 ### Study screen
 
-- Scope: Route-level container for lesson study.
-- Role: Let the student preview a lesson, move between summary and item detail, and start Play whenever ready.
-- Entry point: `/{locale}/app/learn/lessons/{lessonId}`.
+- Scope: Route-level container for study resources.
+- Role: Let the student preview a study resource, move between summary and item detail, and start Play whenever ready.
+- Entry point:
+  - `/{locale}/app/learn/lessons/{lessonId}`
+  - `/{locale}/app/learn/modules/{moduleId}`
 - Main user question: Do I want to review this lesson summary, inspect one item in detail, or start playing now?
 - Primary decision: Stay in summary, inspect a specific item, or start Play.
 - Layout regions:
@@ -1073,7 +1108,7 @@ Each screen should define:
 - What this screen should communicate:
   - Study is a preview/review step before Play, but it is optional.
   - The student can stay as long as needed or jump to Play immediately.
-  - The lesson has both a summary view and focused item detail views.
+  - The study resource has both a summary view and focused item detail views.
   - The same overall Study structure can support different lesson types.
 - What this screen should not try to do:
   - It should not force Study before Play.
@@ -1124,8 +1159,8 @@ Each screen should define:
 
 ### Play screen
 
-- Scope: Route-level container for the lesson game.
-- Role: Host the full game flow for one lesson.
+- Scope: Route-level container for the game flow of one study resource.
+- Role: Host the full game flow for one lesson or one module review set.
 - Main user question: To be defined.
 - Primary decision: To be defined.
 - Contains flow screens:
@@ -1133,7 +1168,7 @@ Each screen should define:
   - Game Round
   - Game Round Feedback
   - Game Results
-- Entry point: Student arrives from Study or directly from a browser/catalog route for a specific lesson.
+- Entry point: Student arrives from Study or directly from a browser/catalog route for a specific lesson or module review set.
 - Layout regions: To be defined.
 - Navigation chrome: To be defined.
 - Action placement: To be defined.
@@ -1502,16 +1537,17 @@ Not defined yet.
 - Settings utility page for language, privacy, and about
 - Privacy notice page
 - Global not-found recovery screen
-- Study lesson unavailable screen
-- Play lesson unavailable screen
+- Study resource unavailable screen
+- Play resource unavailable screen
 - Optional analytics with explicit privacy consent
 - Non-dismissible privacy consent banner when consent is `unknown`
 - Localized metadata fallback per locale
-- Page-specific metadata for Privacy, Translit, Explore, and canonical lesson routes
+- Page-specific metadata for Privacy, Translit, Explore, and canonical lesson and module review routes
 - `noindex` routes:
   - `/`
   - `/{locale}/app/learn`
   - `/{locale}/app/learn/lessons/{lessonId}/play`
+  - `/{locale}/app/learn/modules/{moduleId}/play`
   - `/{locale}/app/settings`
 
 ## Next releases
@@ -1552,7 +1588,7 @@ This section can hold future ideas that are not yet committed.
 - Essential client-side storage remains on even when optional analytics are rejected
 - Locale-level metadata is the fallback metadata layer
 - Routes with distinct search/share value should use page-specific metadata
-- Lesson routes are the canonical shareable lesson routes
+- Lesson and module review routes are the canonical shareable study routes
 - Route indexability is defined per route in the routes catalog
 - Redirect routes, Settings, and Play routes use `noindex`
 - Alphabet lessons normally contain 3 to 6 items
@@ -1565,5 +1601,6 @@ This section can hold future ideas that are not yet committed.
 - Study opens on lesson summary by default
 - Study uses internal UI state for summary/detail position instead of encoding item position in the URL
 - The product uses one global not-found screen for uncontrolled routes
-- Valid Study and Play routes with missing lesson resources use route-owned unavailable screens instead of the global not-found screen
+- Module review sets are first-class study/play resources with dedicated routes
+- Valid Study and Play routes with missing lesson or module review resources use route-owned unavailable screens instead of the global not-found screen
 - Unsupported locale values do not use a dedicated error screen and are canonicalized when possible
