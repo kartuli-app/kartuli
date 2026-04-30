@@ -622,7 +622,7 @@ Internal / deeper routes with dock hidden:
 
 The main learning flow is:
 
-`Explore or Recommended -> Study -> Play -> Repeat`
+`Explore or Recommended -> optional Study -> Play -> Repeat`
 
 ### Explore flow
 
@@ -635,7 +635,16 @@ Direction:
 
 ### Study flow
 
-Study leads to Play.
+Direction:
+- the user opens `/{locale}/app/learn/lessons/{lessonId}` from a catalog/browser route or from a direct lesson URL
+- Study opens on the lesson summary state by default
+- the user can start Play immediately from the summary state
+- the user can enter item detail by selecting one item from the lesson summary
+- item detail shows one focused item at a time
+- previous from the first item returns to the lesson summary
+- next is disabled on the last item
+- the Play action remains available from both summary and item detail
+- current item position is internal Study UI state, not URL state
 
 ### Play flow
 
@@ -1031,20 +1040,87 @@ Each screen should define:
 
 ### Study screen
 
-- Role: Preview all items in a lesson before playing.
-- Entry point: To be defined.
-- Main user question: Am I ready to play this lesson?
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Scope: Route-level container for lesson study.
+- Role: Let the student preview a lesson, move between summary and item detail, and start Play whenever ready.
+- Entry point: `/{locale}/app/learn/lessons/{lessonId}`.
+- Main user question: Do I want to review this lesson summary, inspect one item in detail, or start playing now?
+- Primary decision: Stay in summary, inspect a specific item, or start Play.
+- Layout regions:
+  - Top bar: required, for global route controls and lesson context.
+  - Study navigation bar: required, for summary/detail navigation inside the lesson.
+  - Main area: required, showing either the lesson summary card or one focused item detail card.
+  - Sticky CTA area: required, with the Play action.
+- Navigation chrome:
+  - Back button target depends on lesson type and source catalog.
+  - For alphabet lessons, back returns to `/{locale}/app/learn/explore/alphabet`.
+  - The top bar keeps the lesson title/context visible.
+  - Sound toggle is available when the current lesson type supports audio preview.
+  - No dock.
+  - No selected-lesson drawer behavior exists inside Study.
+- Action placement:
+  - Global route actions live in the top bar.
+  - Summary/detail navigation lives in the study navigation bar.
+  - Item selection lives inside the lesson summary card.
+  - Play is available from a persistent CTA area.
+- Primary actions:
+  - Open Play immediately.
+  - Open one item detail from the lesson summary.
+  - Move to the previous or next study position.
+- Secondary actions:
+  - Return to the lesson summary.
+  - Return to the source catalog/browser route.
+  - Toggle sound on or off when the lesson type supports audio.
+- What this screen should communicate:
+  - Study is a preview/review step before Play, but it is optional.
+  - The student can stay as long as needed or jump to Play immediately.
+  - The lesson has both a summary view and focused item detail views.
+  - The same overall Study structure can support different lesson types.
+- What this screen should not try to do:
+  - It should not force Study before Play.
+  - It should not hide lesson context while the student is inside item detail.
+  - It should not replace item detail with a second drawer or nested overlay pattern.
+  - It should not turn item position into route/URL state for the MVP.
+- Content:
+  - Shared Study shell:
+    - summary state
+    - item detail state
+    - persistent Play action in both states
+  - Study navigation bar:
+    - summary/home action
+    - previous action
+    - current position label
+    - next action
+    - in summary state, the position label can show the lesson item count
+    - in item detail state, the position label shows the current item index such as `5 / 10`
+    - previous from the first item returns to summary
+    - next is disabled on the last item
+  - Summary state:
+    - lesson summary card variant for the current lesson type
+    - selecting an item preview opens that item in detail
+  - Item detail state:
+    - one focused item detail card variant for the current lesson type
+  - Alphabet lesson summary card:
+    - similar to the alphabet lesson summary shown in the deepest catalog level
+    - enough preview information to recognize the lesson as a set
+    - alphabet item previews can still play audio when relevant
+  - Letter detail card:
+    - Georgian letter
+    - transliteration
+    - audio playback
+    - pronunciation hint
+    - example words with the target letter highlighted
+    - optional example-word audio later
+- UI direction:
+  - The Study route uses one shared shell across lesson types.
+  - Lesson types can swap in different summary card variants and item detail card variants without changing the shell.
+  - Global route controls and study navigation controls should be visually distinct.
+  - The focused item detail view should be able to show all essential item information at once.
+  - Vertical scrolling inside summary or detail is acceptable when needed.
+  - A sticky Play CTA is important, especially on mobile.
+- Open questions:
+  - What exact study navigation control layout should be used across mobile and desktop?
+  - Should horizontal swipe between item details be included in the MVP, or added later if it complements the button navigation well?
+  - How much student-specific item status, if any, should appear inside item detail later?
 
 ### Play screen
 
@@ -1057,7 +1133,7 @@ Each screen should define:
   - Game Round
   - Game Round Feedback
   - Game Results
-- Entry point: Student arrives from Study for a specific lesson.
+- Entry point: Student arrives from Study or directly from a browser/catalog route for a specific lesson.
 - Layout regions: To be defined.
 - Navigation chrome: To be defined.
 - Action placement: To be defined.
@@ -1485,6 +1561,9 @@ This section can hold future ideas that are not yet committed.
 - Alphabet catalog supports direct per-letter audio preview
 - Letter interaction selects the containing lesson context, not the letter as a standalone destination
 - Alphabet catalog uses a dismissible non-modal selected-lesson surface with `Study` and `Play` actions
+- Study is optional and Play can be launched directly from a browser/catalog route
+- Study opens on lesson summary by default
+- Study uses internal UI state for summary/detail position instead of encoding item position in the URL
 - The product uses one global not-found screen for uncontrolled routes
 - Valid Study and Play routes with missing lesson resources use route-owned unavailable screens instead of the global not-found screen
 - Unsupported locale values do not use a dedicated error screen and are canonicalized when possible
