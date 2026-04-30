@@ -1010,21 +1010,21 @@ Each screen should define:
     - no subtitle
     - no badge or progress state
     - the whole card is selectable as one lesson context
-  - Preview grid item cell:
-    - fixed-width box
+  - Alphabet preview asset:
+    - fixed-width visual slot
     - Georgian letter in large type
     - lined background behind the Georgian letter
     - transliteration below in brackets, smaller and lighter
     - Georgian letter and transliteration are vertically stacked
-    - tapping a letter item selects the containing lesson
-    - when sound is enabled, tapping a letter item also plays that letter's audio
+    - tapping a letter preview asset selects the containing lesson
+    - when sound is enabled, tapping a letter preview asset also plays that letter's audio
   - Lessons section ordering:
     - sequential by position
     - top to bottom, then left to right
   - Section heading: `Full review`
   - Full review card:
     - title: `All the letters`
-    - uses the same item-cell language as lesson cards
+    - uses the same preview-grid language as lesson cards
     - includes all alphabet letters
     - uses as many rows as needed
     - does not group the rows visually
@@ -1135,9 +1135,9 @@ Each screen should define:
   - Item detail state:
     - one focused item detail card variant for the current lesson type
   - Alphabet lesson summary card:
-    - similar to the alphabet lesson summary shown in the deepest catalog level
+    - uses the same preview-grid language as the alphabet catalog
     - enough preview information to recognize the lesson as a set
-    - alphabet item previews can still play audio when relevant
+    - alphabet preview assets can still play audio when relevant
   - Letter detail card:
     - Georgian letter
     - transliteration
@@ -1461,6 +1461,55 @@ Direction:
 Direction:
 - game answer controls may live in a dedicated game control area outside normal inline content
 
+## Preview grid system
+
+### Shared preview grid
+
+The default preview language for lesson cards and module review cards is a fixed visual preview grid.
+
+Direction:
+- the preview grid is for fast recognition, not for showing the full lesson or module payload literally
+- preview grids use fixed-size visual slots
+- the summary card shell can stay shared while the visual assets inside the slots vary by item type
+- alphabet is the clearest case where the preview grid can show all lesson items
+- other lesson types may show only a representative subset of items in the preview grid
+- when a module/browser view shows multiple cards together, those cards should keep the same width and height
+- when a single review card is shown on its own, it may expand to as many rows as needed
+- if a lesson has more previewable items than the grid should show, the last slot may become an overflow slot such as `+N`
+- the exact maximum slot count is not locked yet and should be validated against real content while preserving equal card heights in multi-card module views
+
+### Visual preview asset types
+
+Direction:
+- each preview slot contains one visual preview asset
+- letter visual preview asset:
+  - Georgian script
+  - notepad-like lined background
+  - transliteration in brackets
+- word visual preview asset:
+  - image or other representational visual
+- rule visual preview asset:
+  - illustration, symbolic visual, or other designed rule marker
+- mixed lessons may combine different visual preview asset types inside the same preview grid
+- consistency should come from the shared slot frame and the per-type asset style, not from forcing all item types to look identical
+
+### Catalog preview versus Study summary
+
+Direction:
+- catalog preview cards optimize for recognition and quick selection
+- Study summary can reuse the same preview-grid language with more rows or more revealed items
+- alphabet catalog preview and alphabet Study summary can stay very close to each other
+- vocabulary and grammar Study summary may reveal more than the catalog preview while keeping the same shared preview-grid model
+
+### Temporary emoji strategy
+
+Direction:
+- emojis are acceptable as temporary visual preview assets for word-based and rule-based lesson previews
+- emojis should live inside the same controlled preview-slot frame as later curated assets
+- the preview-grid layout should not depend on emojis as the final visual system
+- later iterations can replace emojis with curated SVGs, illustrations, or images without redesigning the preview-grid structure
+- emoji rendering varies by platform, so emojis are acceptable as a temporary curation shortcut but not as the final branded visual language
+
 ## Global UI surfaces
 
 ### Privacy consent banner
@@ -1604,3 +1653,6 @@ This section can hold future ideas that are not yet committed.
 - Module review sets are first-class study/play resources with dedicated routes
 - Valid Study and Play routes with missing lesson or module review resources use route-owned unavailable screens instead of the global not-found screen
 - Unsupported locale values do not use a dedicated error screen and are canonicalized when possible
+- Lesson and module preview cards use a shared preview-grid system with type-specific visual assets
+- Multi-card module browser views prioritize equal card size; single review cards may expand to more rows
+- Temporary emoji-based visual assets are acceptable for word-based and rule-based lesson previews
