@@ -1656,20 +1656,68 @@ Each screen should define:
 
 #### Game Results flow screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Close the game session, show what the student missed, and direct them into the next useful action.
+- Entry point: Entered after the last round finishes and the session resolves into final results.
+- Main user question: How did I do, what should I review again, and what do I want to do next?
+- Primary decision: Replay, return to Study, or choose something else after reviewing the failed items.
+- Layout regions:
+  - Results header: required.
+  - Failed-items review area: required.
+  - Results action area: required.
+- Navigation chrome:
+  - No back arrow.
+  - The Results header uses a 2-line pattern:
+    - line 1: summary score such as `Game results: 9/10`
+    - line 2: lightweight tone such as `Very good`, `Not bad`, or `Keep trying`
+  - Mascot/image treatment may appear here to add personality.
+  - No dock.
+- Action placement:
+  - The failed-items review area lives in the body.
+  - The CTA actions live below the review area.
+- Primary actions:
+  - Play again.
+  - Back to Study.
+  - Choose something else.
+- Secondary actions:
+  - None required in the header for the MVP.
+- What this screen should communicate:
+  - The session is over.
+  - The most useful thing to review now is what the student missed.
+  - The student can immediately replay, study again, or move on.
+- What this screen should not try to do:
+  - It should not show the wrong answers again as learning content.
+  - It should not become a full separate Study route.
+  - It should not focus on variant or session-generation details after the game is already over.
+- Content:
+  - Results summary:
+    - right count versus total such as `9/10`
+    - lightweight tone/mood feedback
+  - Failed-items review:
+    - results reuse a limited Study-like body pattern
+    - only failed items are shown in the review area
+    - if the same item was failed multiple times in different round variants, it still appears only once here
+    - failed items are shown with the correct answer/detail only
+    - wrong answer options are not shown again in Results
+    - the review area may use:
+      - a failed-items summary view
+      - a focused failed-item detail view
+    - this can visually reuse the Study body pattern while keeping Results-specific header and CTA actions
+    - if no items were failed, a success card should occupy the same review space
+  - Failed-item detail:
+    - may reuse the same detail-card system as Study for the current item type
+    - should emphasize the correct form rather than the previous wrong choice
+  - Results actions:
+    - `Play again` returns to the Lobby first, not directly into a new session
+    - `Back to Study` returns to the current study resource
+    - `Choose something else` returns to Learn
+- UI direction:
+  - Results should feel reflective and useful, not just celebratory.
+  - The review area should feel closely related to Study, but not identical in framing.
+  - The failed-items review should help the student learn again immediately without overloading the screen.
+  - The CTA area should make the three next steps easy to compare.
+- Open questions:
+  - What exact visual tone/mood buckets should map to outcomes such as `Very good`, `Not bad`, or `Keep trying`?
+  - Should the failed-items review default to its summary view first, or open directly on the first failed-item detail?
 
 ### Translit screen
 
@@ -2118,6 +2166,10 @@ This section can hold future ideas that are not yet committed.
 - Correct feedback auto-advances after a short wait period, and the student may skip that wait period
 - Wrong feedback reveals the correct answer and does not auto-advance in the MVP
 - Desktop Play supports keyboard answer bindings for `1`, `2`, `3`, and `4`, with `Space` used to continue from feedback when allowed
+- Results focus on failed items and show only the correct answer/detail for them
+- Failed items are deduplicated in Results even if they were missed multiple times across the session
+- Results may reuse a limited Study-like body pattern for failed-item review while keeping Results-specific header and CTA actions
+- `Play again` returns to the Lobby first rather than starting a new session immediately
 - The product uses one global not-found screen for uncontrolled routes
 - Module review sets are first-class study/play resources with dedicated review routes
 - Valid Study and Play routes with missing lesson or module review resources use route-owned unavailable screens instead of the global not-found screen
