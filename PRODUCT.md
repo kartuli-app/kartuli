@@ -987,8 +987,6 @@ Each screen should define:
 - UI direction:
   - Reuse the normal app reading/action shell.
   - Keep the state calm and recoverable rather than alarming.
-- Open questions:
-  - None for the MVP Play-unavailable recovery path.
 
 ### Explore entry screen
 
@@ -1511,8 +1509,6 @@ Each screen should define:
   - Correct and wrong answer states should be visually distinct and readable at a glance.
   - The active round should never compete visually with unresolved feedback from a previous round.
   - Keyboard support should feel native on desktop without complicating touch-first interaction patterns.
-- Open questions:
-  - None for the MVP route-level Play contract.
 
 #### Game Lobby flow screen
 
@@ -1652,8 +1648,6 @@ Each screen should define:
   - The answer options should feel equal in importance and size.
   - The progress display should be visible without pulling focus away from the cue.
   - Keyboard support should be additive, not visually noisy.
-- Open questions:
-  - None for the MVP round contract.
 
 #### Game Round Feedback flow screen
 
@@ -1714,8 +1708,6 @@ Each screen should define:
   - Wrong feedback should stop long enough to teach, without turning into a separate heavy screen.
   - The answer-state colors and icons should be understandable even without text.
   - The feedback surface should leave room for later additions such as streaks or praise without forcing them into MVP.
-- Open questions:
-  - None for the MVP feedback contract.
 
 #### Game Results flow screen
 
@@ -1837,6 +1829,8 @@ Each screen should define:
     - Hovering, focusing, or tapping an output token reveals the matching source token.
     - Example: source `გამარჯობა` -> output `gamarjoba`, and the output token tooltip reveals `გამარჯობა`.
     - Example: source `თ ტ` becomes output `t' t`, so token inspection is more useful than character-count comparison.
+  - Direction persistence:
+    - translit direction is not persisted between visits in the MVP
 - UI direction:
   - Keep a practical utility-screen treatment.
   - Prioritize fast editing, clear panel separation, and readable large text.
@@ -1844,7 +1838,6 @@ Each screen should define:
   - Support hover/focus behavior on pointer devices and tap behavior on coarse-pointer devices.
 - Open questions:
   - Should token tooltips later include translation for recognized vocabulary tokens?
-  - Should translit direction persist between visits?
   - Should the screen later support loading example text from learning content?
 
 ### Settings screen
@@ -1975,8 +1968,18 @@ Direction:
 
 #### Game top bar
 
-Contents:
-- To be defined
+Contents vary by Play flow state:
+- Lobby:
+  - back arrow
+  - two-line Play title
+  - sound toggle
+- Round and Feedback:
+  - leave-game action
+  - hybrid progress indicator
+  - sound toggle
+- Results:
+  - results-specific two-line header
+  - no back arrow
 
 ## Action placement
 
@@ -2152,8 +2155,6 @@ Direction:
   - It uses a bottom-sheet treatment on smaller screens and a centered modal treatment on larger screens.
   - It should still feel lighter than a full route change.
   - The resume action should feel like the safe default.
-- Open questions:
-  - None for the MVP leave-confirmation surface.
 
 ## Design system
 
@@ -2162,6 +2163,53 @@ Not defined yet.
 ## Components catalog
 
 Not defined yet.
+
+## Remaining open questions
+
+These questions remain intentionally open after the MVP product pass. They are grouped by when they should be revisited next.
+
+### UI phase questions
+
+- Privacy screen:
+  - whether the top bar should use only the mascot/logo or mascot/logo plus brand text
+- Not found screen:
+  - final title/copy per locale
+- Study resource unavailable screen:
+  - whether the copy should say `could not be found` or use softer wording such as `is not available`
+- Explore entry screen:
+  - exact mascot/logo treatment in the header
+  - whether the mascot appears only in the header or also inside the cards
+- Module browser screen pattern:
+  - exact visual hierarchy between the module header and the section headings
+  - how different the generated module review card should feel from authored lesson cards
+- Alphabet catalog screen:
+  - exact visual treatment that makes the full review card feel distinct without changing its internal grid model
+  - sound-toggle iconography and label treatment
+- Game Lobby flow screen:
+  - exact visual format for the compact variant summary
+  - visual treatment for the `Back to Study` action
+- Game Results flow screen:
+  - exact visual tone/mood buckets such as `Very good`, `Not bad`, or `Keep trying`
+- Privacy consent banner:
+  - exact banner copy per locale
+  - final placement on mobile and desktop
+- Settings screen:
+  - exact microcopy that explains essential storage versus optional analytics
+
+### Future / post-MVP questions
+
+- Explore entry screen:
+  - future interaction model for Explore / Recommended at the Learn entry level
+- Vocabulary catalog screen:
+  - exact preview-slot count before overflow, once real content is authored
+- Study screen:
+  - how much student-specific item status, if any, should appear inside item detail later
+- Translit screen:
+  - whether token tooltips should later include translation for recognized vocabulary tokens
+  - whether the screen should later support loading example text from learning content
+- Settings screen:
+  - exact GitHub URL
+  - exact format for hardcoded app/content version strings
 
 # Releases
 
