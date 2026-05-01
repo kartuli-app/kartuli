@@ -306,8 +306,19 @@ States:
 Direction:
 - the default state for a first-time user is `enabled`
 - the sound preference is persisted client-side
+- the sound preference can be changed from any relevant sound-capable screen and from Settings
 - when sound is disabled, automatic and manual audio playback is suppressed across catalog preview audio, Study audio, and Play support audio
 - when sound is enabled, audio-capable screens may autoplay or expose replay controls according to their own screen rules
+
+### Muted interaction behavior
+
+Muted behavior depends on whether the audio affordance is lightweight preview behavior or an explicit audio control.
+
+Direction:
+- lightweight preview audio in the alphabet catalog fails silently when sound is disabled
+- explicit audio controls in Study and Play remain visible when sound is disabled
+- tapping an explicit audio control while sound is disabled shows lightweight feedback such as `Turn sound on to listen`
+- turning sound off while audio is currently playing stops that playback immediately
 
 ## Privacy, storage, and analytics
 
@@ -374,7 +385,8 @@ Direction:
 - global sound being disabled forces listening rounds off for newly prepared sessions
 - global sound being enabled allows listening rounds, but the student can still turn listening rounds off in the Play Lobby
 - the Play Lobby is the last place where listening-round inclusion can change in the MVP
-- once a Play session starts, session-affecting audio settings remain fixed until the student returns to the Lobby or ends the session
+- once a Play session starts, listening-round inclusion remains fixed until the student returns to the Lobby or ends the session
+- toggling global sound during an active Play session affects playback immediately, but it does not change the prepared round sequence
 
 ## Mastery tracking
 
@@ -1139,6 +1151,9 @@ Each screen should define:
   - It should not turn the selected lesson surface into "Study inside the catalog."
 - Content:
   - Section heading: `Lessons`
+  - Page-level audio helper:
+    - when sound is enabled: `Tap any letter to hear the Georgian pronunciation.`
+    - when sound is disabled: `Enable sound to hear the Georgian pronunciation.`
   - Current lesson set:
     - `The five vowels`
     - `Sounds you know`
@@ -1161,6 +1176,7 @@ Each screen should define:
     - Georgian letter and transliteration are vertically stacked
     - tapping a letter preview asset selects the containing lesson
     - when sound is enabled, tapping a letter preview asset also plays that letter's audio
+    - when sound is disabled, tapping a letter preview asset does not show a sound-warning toast
   - Lessons section ordering:
     - sequential by position
     - top to bottom, then left to right
@@ -1360,6 +1376,7 @@ Each screen should define:
     - Georgian letter
     - transliteration
     - audio playback
+    - when sound is disabled, the audio control remains visible and shows lightweight enable-sound feedback on tap
     - pronunciation hint
     - example words with the target letter highlighted
     - optional example-word audio later
@@ -1376,6 +1393,7 @@ Each screen should define:
     - translation
     - visual asset
     - audio playback when available for that specific item
+    - when sound is disabled, the audio control remains visible and shows lightweight enable-sound feedback on tap
     - example phrase in Georgian only, with the target word or phrase highlighted
     - note area when a note exists for that item
 - UI direction:
@@ -1447,8 +1465,10 @@ Each screen should define:
   - Sound behavior:
     - the Play header keeps one visible sound control/state across Lobby, Round, and Feedback
     - in the Lobby, that control updates the global sound preference immediately
-    - during active rounds and feedback, session-affecting audio settings do not change in the MVP
-    - active Play must not silently regenerate the prepared round sequence from an in-session sound change
+    - during active rounds and feedback, the global sound toggle remains a real toggle
+    - toggling global sound during active Play affects playback immediately
+    - toggling global sound during active Play does not silently regenerate the prepared round sequence
+    - listening-round inclusion remains fixed for the session even when global sound changes
   - Round contract:
     - one active round at a time
     - MVP format family: `single-choice`
@@ -1540,6 +1560,7 @@ Each screen should define:
     - defaults from the current global sound preference
     - if global sound is turned off in the Lobby, listening rounds switch off immediately and the prepared plan regenerates
     - if global sound is turned on in the Lobby, listening rounds may default back on and regenerate the prepared plan
+    - if listening rounds are off, turning sound on again does not force them back on; the student can still choose whether to include them before starting
   - Resource preview:
     - no additional item preview is required in the Lobby for the MVP
   - Header/title examples:
@@ -1602,7 +1623,10 @@ Each screen should define:
     - listening rounds autoplay once when the round appears
     - listening rounds expose a replay control
     - replay is allowed multiple times before answering
+    - if sound is disabled, listening-round autoplay is suppressed
+    - if sound is disabled, the replay control remains visible and tappable, and it shows lightweight enable-sound feedback instead of playing audio
     - if cue audio is playing and the student answers, the audio stops immediately
+    - if cue audio is playing and the student turns sound off, the audio stops immediately
   - Answer area:
     - always 4 equal answer options in the MVP
     - answer payloads may be Georgian text, transliteration, or English text depending on the variant
@@ -1824,11 +1848,12 @@ Each screen should define:
 - Role: Provide global app utilities and metadata in a simple, low-frequency control surface.
 - Entry point: Top-level route `/{locale}/app/settings`, reachable from the app dock as a primary destination.
 - Main user question: "How do I adjust app-wide preferences and view app information quickly?"
-- Primary decision: Update a global preference now (primarily UI language and optional analytics consent).
+- Primary decision: Update a global preference now (primarily UI language, sound, and optional analytics consent).
 - Layout regions:
   - Top bar: required, with screen title: "Settings" and back button.
-  - Main area: required, 1-column layout with 3 vertically stacked sections:
+  - Main area: required, 1-column layout with 4 vertically stacked sections:
     - Language
+    - Sound
     - Privacy
     - About
 - Navigation chrome:
@@ -1840,6 +1865,7 @@ Each screen should define:
   - No sticky CTA region.
 - Primary actions:
   - Change UI language (instant apply).
+  - Toggle global sound on or off.
   - Accept optional analytics.
   - Reject optional analytics.
 - Secondary actions:
@@ -1850,6 +1876,7 @@ Each screen should define:
   - Changes are straightforward and immediate where applicable.
   - App/version information is transparent and easy to find.
   - Essential app storage and optional analytics are different concepts.
+  - Global sound is shared across the relevant learning screens.
 - What this screen should not try to do:
   - It should not host learning flow actions (Explore/Study/Play decisions).
   - It should not become a catch-all for unrelated feature entry points.
@@ -1859,6 +1886,10 @@ Each screen should define:
     - UI language selector.
     - Scope: affects UI language only.
     - Apply model: instant apply on selection.
+  - Sound section:
+    - Global sound toggle.
+    - Scope: affects app-wide playback behavior across catalog preview audio, Study audio, and Play audio.
+    - Apply model: instant apply on toggle.
   - Privacy section:
     - Essential storage status row.
     - Essential storage is always on and is not user-editable.
@@ -2202,6 +2233,9 @@ This section can hold future ideas that are not yet committed.
 - There is no cookieless analytics fallback
 - Essential client-side storage remains on even when optional analytics are rejected
 - Global sound is an app-level client-side preference that is persisted locally
+- Global sound can be changed from Settings and from relevant sound-capable screens
+- Lightweight alphabet-catalog preview audio fails silently when sound is disabled
+- Explicit audio controls in Study and Play stay visible when sound is disabled and show lightweight enable-sound feedback on tap
 - Locale-level metadata is the fallback metadata layer
 - Routes with distinct search/share value should use page-specific metadata
 - Browse/discovery routes may encode learning area and grouping, but canonical Study and Play routes do not encode discovery path
@@ -2231,12 +2265,14 @@ This section can hold future ideas that are not yet committed.
 - Play sessions are generated from one study resource and prepared in the Lobby before the student starts
 - Every item in the study resource should appear at least once as a target in the session
 - Listening rounds are a Lobby-level session option that regenerates the prepared plan and is fixed once the session starts in the MVP
+- Toggling global sound during active Play affects playback immediately but does not change the prepared round sequence
 - The MVP game format family is single-choice with 4 answers and 1 correct answer
 - The MVP includes multiple single-choice variants across alphabet and vocabulary
 - The Lobby shows the exact round count, a compact explicit variant summary, and whether listening rounds are included
 - The Play header uses a two-line pattern: `Play` on the first line and the study resource title on the second line
 - Listening-rounds controls are hidden when the current study resource has no audio-capable items
-- Once a Play session starts, session-affecting audio settings no longer change until the student returns to the Lobby or ends the session
+- Once a Play session starts, listening-round inclusion no longer changes until the student returns to the Lobby or ends the session
+- Listening-round inclusion stays fixed for the current session even when the global sound toggle changes
 - Play answers submit immediately; there is no separate submit or continue step before feedback
 - Each round begins with a short input-guard window before answers become active
 - The MVP round progress indicator uses a hybrid bar-plus-number pattern
