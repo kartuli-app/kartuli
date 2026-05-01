@@ -983,11 +983,12 @@ Each screen should define:
   - Short unavailable title.
   - Short explanation that the requested study resource could not be found or loaded for Play.
   - Primary recovery action to Learn.
+  - The MVP recovery path stays focused on Learn and does not add a secondary Study alternative here.
 - UI direction:
   - Reuse the normal app reading/action shell.
   - Keep the state calm and recoverable rather than alarming.
 - Open questions:
-  - Should the Play unavailable copy mention Study as an alternative route later, or keep the MVP recovery path focused only on Learn?
+  - None for the MVP Play-unavailable recovery path.
 
 ### Explore entry screen
 
@@ -1256,6 +1257,7 @@ Each screen should define:
 - Content:
   - Current route behavior:
     - `/{locale}/app/learn/explore/vocabulary` currently acts as the module browser for the only authored vocabulary module
+    - the current authored vocabulary module title is `Everyday basics`
     - future multiple-module behavior can move the per-module browser to `/{locale}/app/learn/explore/vocabulary/modules/{moduleId}`
   - Section heading: `Lessons`
   - Vocabulary lesson card structure:
@@ -1295,8 +1297,6 @@ Each screen should define:
   - The generated full-review card sits below the lesson grid.
   - On wider layouts, the full-review card can span the available width.
 - Open questions:
-  - What should the first authored vocabulary module be called in the MVP?
-  - What should the generated full-review card be called in the MVP for vocabulary?
   - How many preview slots should a vocabulary card show before the overflow slot appears, once real content is authored?
 
 ### Study screen
@@ -2259,6 +2259,7 @@ This section can hold future ideas that are not yet committed.
 - Alphabet catalog uses a dismissible non-modal selected-lesson surface with `Study` and `Play` actions
 - Non-audio module browsers keep the same selection-and-drawer pattern without preview-audio behavior
 - Vocabulary lessons are words-only in the current MVP model
+- The first authored vocabulary module in the MVP is `Everyday basics`
 - Vocabulary preview assets use emoji-only slots in the MVP preview language
 - Vocabulary preview ordering follows first-authored item order, with overflow handled in the last slot when needed
 - Study is optional and Play can be launched directly from a browser/catalog route
