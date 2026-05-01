@@ -881,8 +881,6 @@ Each screen should define:
   - Use a simple, calm reading layout.
   - Prioritize typography, spacing, and readable line length over decoration.
   - The page can reuse app layout primitives, but it should read like a public legal page rather than a normal app utility surface.
-- Open questions:
-  - Whether the top bar should use only the mascot/logo or mascot/logo plus brand text.
 
 ### Not found screen
 
@@ -918,8 +916,6 @@ Each screen should define:
   - Keep a calm branded recovery treatment.
   - Prioritize clarity and recovery over clever copy.
   - Avoid a dead-end error-page feeling.
-- Open questions:
-  - What final title/copy should be used per locale?
 
 ### Study resource unavailable screen
 
@@ -952,8 +948,6 @@ Each screen should define:
 - UI direction:
   - Reuse the normal app reading/action shell.
   - Keep the state calm and recoverable rather than alarming.
-- Open questions:
-  - Should the copy explicitly say "could not be found" or use softer wording such as "is not available"?
 
 ### Play resource unavailable screen
 
@@ -1038,10 +1032,6 @@ Each screen should define:
   - Both cards use the same structure and height.
   - The shell remains compatible with a future Explore / Recommended switch.
   - The learning choice area remains compatible with a future third card such as Grammar.
-- Open questions:
-  - Exact mascot/logo treatment in the header.
-  - Whether the mascot appears only in the header or also inside the cards.
-  - Future interaction model for Explore / Recommended at the Learn entry level.
 
 ### Module browser screen pattern
 
@@ -1108,9 +1098,6 @@ Each screen should define:
   - The generated module review card may be visually distinct, but it still uses the same preview-grid language.
   - The selected study-resource surface is non-modal.
   - The selected study-resource surface can appear as a bottom drawer on smaller viewports and a side surface on larger viewports.
-- Open questions:
-  - What exact visual hierarchy should separate the module header from the section headings?
-  - How different should the generated module review card feel from authored lesson cards across non-alphabet lesson types?
 
 ### Alphabet catalog screen
 
@@ -1210,9 +1197,6 @@ Each screen should define:
   - The selected lesson surface is non-modal.
   - The selected lesson surface can appear as a bottom drawer on smaller viewports and a side surface on larger viewports.
   - The selected lesson surface must not block changing the current selection.
-- Open questions:
-  - Exact visual treatment that makes the full review card feel distinct without changing its internal grid model.
-  - What iconography and exact label treatment should the sound toggle use?
 
 ### Vocabulary catalog screen
 
@@ -1294,8 +1278,6 @@ Each screen should define:
   - Multi-card views preserve equal card height and width.
   - The generated full-review card sits below the lesson grid.
   - On wider layouts, the full-review card can span the available width.
-- Open questions:
-  - How many preview slots should a vocabulary card show before the overflow slot appears, once real content is authored?
 
 ### Study screen
 
@@ -1407,8 +1389,6 @@ Each screen should define:
   - Summary cards may be richer and more text-forward than catalog preview cards.
   - Vocabulary Study summary should preserve readability across devices even when items are multi-word phrases.
   - A sticky Play CTA is important, especially on mobile.
-- Open questions:
-  - How much student-specific item status, if any, should appear inside item detail later?
 
 ### Play screen
 
@@ -1573,9 +1553,6 @@ Each screen should define:
   - The variant summary should be compact enough to scan quickly.
   - The Start action should dominate visually.
   - Desktop keyboard guidance does not need to be shown yet in the Lobby.
-- Open questions:
-  - What exact visual format should the compact variant summary use in the MVP?
-  - Should the `Back to Study` action appear as a text button, secondary button, or quieter inline action?
 
 #### Game Round flow screen
 
@@ -1771,8 +1748,6 @@ Each screen should define:
   - The review area should feel closely related to Study, but not identical in framing.
   - The failed-items review should help the student learn again immediately without overloading the screen.
   - The CTA area should make the three next steps easy to compare.
-- Open questions:
-  - What exact visual tone/mood buckets should map to outcomes such as `Very good`, `Not bad`, or `Keep trying`?
 
 ### Translit screen
 
@@ -1836,9 +1811,6 @@ Each screen should define:
   - Prioritize fast editing, clear panel separation, and readable large text.
   - Keep the same product behavior across devices.
   - Support hover/focus behavior on pointer devices and tap behavior on coarse-pointer devices.
-- Open questions:
-  - Should token tooltips later include translation for recognized vocabulary tokens?
-  - Should the screen later support loading example text from learning content?
 
 ### Settings screen
 
@@ -1909,10 +1881,6 @@ Each screen should define:
   - Keep a conservative, practical utility-screen presentation.
   - Same behavior and same layout across devices.
   - Single-column structure with clear section boundaries and concise copy.
-- Open questions:
-  - What exact microcopy should explain essential storage vs optional analytics?
-  - What exact GitHub URL should be used?
-  - What format should app/content hardcoded version strings follow?
 
 # UI
 
@@ -2114,9 +2082,6 @@ Direction:
   - Non-intrusive visual treatment.
   - Persistent until choice is made.
   - Clear, explicit actions with concise copy.
-- Open questions:
-  - What exact banner copy should be used per locale?
-  - Where exactly should the banner sit on mobile and desktop layouts?
 
 ### Play leave confirmation surface
 
