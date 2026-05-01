@@ -262,7 +262,11 @@ Examples:
 
 A module review set is a generated study/play resource built from all items in one module.
 
-It is not a fake authored lesson, but it is still a first-class study/play resource with its own routes.
+Direction:
+- it is derived from one authored module
+- items are deduplicated by first occurrence
+- item order follows lesson order first, then item order inside each lesson
+- it is not a fake authored lesson, but it is still a first-class study/play resource with its own review routes
 
 ## Student activity
 
@@ -392,6 +396,13 @@ Direction:
 - public routes live under `/{locale}/...`
 - app routes live under `/{locale}/app/...`
 
+### Browse routes versus resource routes
+
+Direction:
+- browse/discovery routes may encode learning area and grouping
+- Study and Play routes encode the resource family and the explicit action
+- canonical Study and Play routes do not encode the discovery path that led to them
+
 ### Locale canonicalization
 
 Direction:
@@ -424,10 +435,10 @@ Examples:
 - actual URL: `/`
 - route pattern: `/{locale}/privacy`
 - actual URL: `/en/privacy`
-- route pattern: `/{locale}/app/learn/lessons/{lessonId}`
-- actual URL: `/en/app/learn/lessons/alphabet-intro`
-- route pattern: `/{locale}/app/learn/modules/{moduleId}`
-- actual URL: `/en/app/learn/modules/alphabet`
+- route pattern: `/{locale}/app/learn/lessons/{lessonId}/study`
+- actual URL: `/en/app/learn/lessons/alphabet-intro/study`
+- route pattern: `/{locale}/app/learn/modules/{moduleId}/review/study`
+- actual URL: `/en/app/learn/modules/alphabet/review/study`
 
 Examples of defined root routes:
 - `/`
@@ -440,10 +451,10 @@ Examples of app routes:
 - `/{locale}/app/learn/explore`
 - `/{locale}/app/learn/explore/alphabet`
 - `/{locale}/app/learn/explore/vocabulary`
-- `/{locale}/app/learn/lessons/{lessonId}`
+- `/{locale}/app/learn/lessons/{lessonId}/study`
 - `/{locale}/app/learn/lessons/{lessonId}/play`
-- `/{locale}/app/learn/modules/{moduleId}`
-- `/{locale}/app/learn/modules/{moduleId}/play`
+- `/{locale}/app/learn/modules/{moduleId}/review/study`
+- `/{locale}/app/learn/modules/{moduleId}/review/play`
 - `/{locale}/app/translit`
 - `/{locale}/app/settings`
 
@@ -518,13 +529,13 @@ Examples of app routes:
 - Metadata: page-specific metadata
 - Binding: Vocabulary catalog screen
 
-#### `/{locale}/app/learn/lessons/{lessonId}`
+#### `/{locale}/app/learn/lessons/{lessonId}/study`
 
 - Kind: page route
-- Purpose: preview one lesson before play
+- Purpose: preview one authored lesson before play
 - Section: Learn / Study
 - Metadata: lesson-specific metadata
-- Canonical/share role: canonical shareable lesson route
+- Canonical/share role: canonical shareable authored lesson Study route
 - Unavailable handling: when the lesson cannot be found or loaded, this route shows the Study resource unavailable screen
 - Binding: Study screen
 
@@ -538,17 +549,17 @@ Examples of app routes:
 - Unavailable handling: when the lesson cannot be found or loaded, this route shows the Play resource unavailable screen
 - Binding: Play screen
 
-#### `/{locale}/app/learn/modules/{moduleId}`
+#### `/{locale}/app/learn/modules/{moduleId}/review/study`
 
 - Kind: page route
 - Purpose: preview the generated review set for one module before play
 - Section: Learn / Study
 - Metadata: module-specific metadata
-- Canonical/share role: canonical shareable module review route
+- Canonical/share role: canonical shareable module review Study route
 - Unavailable handling: when the module review set cannot be found or loaded, this route shows the Study resource unavailable screen
 - Binding: Study screen
 
-#### `/{locale}/app/learn/modules/{moduleId}/play`
+#### `/{locale}/app/learn/modules/{moduleId}/review/play`
 
 - Kind: page route
 - Purpose: host the lesson game for one generated module review set
@@ -582,6 +593,11 @@ These route patterns are referenced in the broader product direction but are not
 - `/{locale}/landing`
 - `/{locale}/terms`
 - `/{locale}/app/learn/recommended`
+- `/{locale}/app/learn/explore/vocabulary/modules/{moduleId}`
+- `/{locale}/app/learn/explore/grammar`
+- `/{locale}/app/learn/explore/grammar/modules/{moduleId}`
+- `/{locale}/app/learn/sets/{setId}/study`
+- `/{locale}/app/learn/sets/{setId}/play`
 
 ### Routing states
 
@@ -593,13 +609,13 @@ These route patterns are referenced in the broader product direction but are not
 
 #### Study resource unavailable state
 
-- Trigger: `/{locale}/app/learn/lessons/{lessonId}` or `/{locale}/app/learn/modules/{moduleId}` matches a valid Study route pattern, but the required resource cannot be found or loaded
+- Trigger: `/{locale}/app/learn/lessons/{lessonId}/study` or `/{locale}/app/learn/modules/{moduleId}/review/study` matches a valid Study route pattern, but the required resource cannot be found or loaded
 - Metadata: `noindex`
 - Binding: Study resource unavailable screen
 
 #### Play resource unavailable state
 
-- Trigger: `/{locale}/app/learn/lessons/{lessonId}/play` or `/{locale}/app/learn/modules/{moduleId}/play` matches a valid Play route pattern, but the required resource cannot be found or loaded
+- Trigger: `/{locale}/app/learn/lessons/{lessonId}/play` or `/{locale}/app/learn/modules/{moduleId}/review/play` matches a valid Play route pattern, but the required resource cannot be found or loaded
 - Metadata: `noindex`
 - Binding: Play resource unavailable screen
 
@@ -631,10 +647,10 @@ Top-level routes with dock visible:
 Internal / deeper routes with dock hidden:
 - `/{locale}/app/learn/explore/alphabet`
 - `/{locale}/app/learn/explore/vocabulary`
-- `/{locale}/app/learn/lessons/{lessonId}`
+- `/{locale}/app/learn/lessons/{lessonId}/study`
 - `/{locale}/app/learn/lessons/{lessonId}/play`
-- `/{locale}/app/learn/modules/{moduleId}`
-- `/{locale}/app/learn/modules/{moduleId}/play`
+- `/{locale}/app/learn/modules/{moduleId}/review/study`
+- `/{locale}/app/learn/modules/{moduleId}/review/play`
 
 ### Back button behavior
 
@@ -668,7 +684,7 @@ Direction:
 ### Study flow
 
 Direction:
-- the user opens `/{locale}/app/learn/lessons/{lessonId}` or `/{locale}/app/learn/modules/{moduleId}` from a catalog/browser route or from a direct URL
+- the user opens `/{locale}/app/learn/lessons/{lessonId}/study` or `/{locale}/app/learn/modules/{moduleId}/review/study` from a catalog/browser route or from a direct URL
 - Study opens on the lesson summary state by default
 - the user can start Play immediately from the summary state
 - the user can enter item detail by selecting one item from the lesson summary
@@ -835,7 +851,7 @@ Each screen should define:
 ### Study resource unavailable screen
 
 - Role: Explain that the Study route is valid but the requested study resource could not be found or loaded, then help the user recover.
-- Entry point: `/{locale}/app/learn/lessons/{lessonId}` or `/{locale}/app/learn/modules/{moduleId}` when the route matches but the study resource is unavailable.
+- Entry point: `/{locale}/app/learn/lessons/{lessonId}/study` or `/{locale}/app/learn/modules/{moduleId}/review/study` when the route matches but the study resource is unavailable.
 - Main user question: How do I continue if this study resource cannot be opened?
 - Primary decision: Return to Learn and choose another lesson.
 - Layout regions:
@@ -869,7 +885,7 @@ Each screen should define:
 ### Play resource unavailable screen
 
 - Role: Explain that the Play route is valid but the requested study resource could not be found or loaded, then help the user recover.
-- Entry point: `/{locale}/app/learn/lessons/{lessonId}/play` or `/{locale}/app/learn/modules/{moduleId}/play` when the route matches but the study resource is unavailable.
+- Entry point: `/{locale}/app/learn/lessons/{lessonId}/play` or `/{locale}/app/learn/modules/{moduleId}/review/play` when the route matches but the study resource is unavailable.
 - Main user question: How do I continue if this study resource cannot be played?
 - Primary decision: Return to Learn and choose another lesson.
 - Layout regions:
@@ -1076,8 +1092,8 @@ Each screen should define:
 - Scope: Route-level container for study resources.
 - Role: Let the student preview a study resource, move between summary and item detail, and start Play whenever ready.
 - Entry point:
-  - `/{locale}/app/learn/lessons/{lessonId}`
-  - `/{locale}/app/learn/modules/{moduleId}`
+  - `/{locale}/app/learn/lessons/{lessonId}/study`
+  - `/{locale}/app/learn/modules/{moduleId}/review/study`
 - Main user question: Do I want to review this lesson summary, inspect one item in detail, or start playing now?
 - Primary decision: Stay in summary, inspect a specific item, or start Play.
 - Layout regions:
@@ -1168,7 +1184,10 @@ Each screen should define:
   - Game Round
   - Game Round Feedback
   - Game Results
-- Entry point: Student arrives from Study or directly from a browser/catalog route for a specific lesson or module review set.
+- Entry point:
+  - `/{locale}/app/learn/lessons/{lessonId}/play`
+  - `/{locale}/app/learn/modules/{moduleId}/review/play`
+  - Student arrives from Study or directly from a browser/catalog route for a specific lesson or module review set.
 - Layout regions: To be defined.
 - Navigation chrome: To be defined.
 - Action placement: To be defined.
@@ -1591,12 +1610,12 @@ Not defined yet.
 - Optional analytics with explicit privacy consent
 - Non-dismissible privacy consent banner when consent is `unknown`
 - Localized metadata fallback per locale
-- Page-specific metadata for Privacy, Translit, Explore, and canonical lesson and module review routes
+- Page-specific metadata for Privacy, Translit, Explore, and canonical lesson and module review Study routes
 - `noindex` routes:
   - `/`
   - `/{locale}/app/learn`
   - `/{locale}/app/learn/lessons/{lessonId}/play`
-  - `/{locale}/app/learn/modules/{moduleId}/play`
+  - `/{locale}/app/learn/modules/{moduleId}/review/play`
   - `/{locale}/app/settings`
 
 ## Next releases
@@ -1637,7 +1656,9 @@ This section can hold future ideas that are not yet committed.
 - Essential client-side storage remains on even when optional analytics are rejected
 - Locale-level metadata is the fallback metadata layer
 - Routes with distinct search/share value should use page-specific metadata
-- Lesson and module review routes are the canonical shareable study routes
+- Browse/discovery routes may encode learning area and grouping, but canonical Study and Play routes do not encode discovery path
+- Study and Play use explicit action segments in their routes
+- Lesson and module review Study routes are the canonical shareable study routes
 - Route indexability is defined per route in the routes catalog
 - Redirect routes, Settings, and Play routes use `noindex`
 - Alphabet lessons normally contain 3 to 6 items
@@ -1650,7 +1671,7 @@ This section can hold future ideas that are not yet committed.
 - Study opens on lesson summary by default
 - Study uses internal UI state for summary/detail position instead of encoding item position in the URL
 - The product uses one global not-found screen for uncontrolled routes
-- Module review sets are first-class study/play resources with dedicated routes
+- Module review sets are first-class study/play resources with dedicated review routes
 - Valid Study and Play routes with missing lesson or module review resources use route-owned unavailable screens instead of the global not-found screen
 - Unsupported locale values do not use a dedicated error screen and are canonicalized when possible
 - Lesson and module preview cards use a shared preview-grid system with type-specific visual assets
