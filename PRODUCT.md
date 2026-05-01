@@ -524,7 +524,7 @@ Examples of app routes:
 #### `/{locale}/app/learn/explore/vocabulary`
 
 - Kind: page route
-- Purpose: browse vocabulary modules and lessons
+- Purpose: browse vocabulary content; currently renders the only authored vocabulary module browser directly
 - Section: Learn / Explore
 - Metadata: page-specific metadata
 - Binding: Vocabulary catalog screen
@@ -971,6 +971,72 @@ Each screen should define:
   - Whether the mascot appears only in the header or also inside the cards.
   - Future interaction model for Explore / Recommended at the Learn entry level.
 
+### Module browser screen pattern
+
+- Scope: Shared screen pattern for browsing one authored module, selecting one study resource from it, and launching Study or Play.
+- Current variants:
+  - Alphabet catalog screen
+  - Vocabulary catalog screen
+- Future variants:
+  - Grammar catalog screen
+- Role: Let the student browse the lessons inside one module, browse the generated full-review resource for that module, and choose what to study or play next.
+- Entry point:
+  - when only one module exists for a learning track, the top-level track route may render this module browser directly
+  - when multiple modules exist later, the top-level track route may become a module list and module-specific routes may render this module browser
+- Main user question: Which lesson or module review set do I want to work with right now?
+- Primary decision: Select one authored lesson or one generated module review set, then continue to Study or Play.
+- Layout regions:
+  - Top bar: required.
+  - Module header: required, showing the current module title.
+  - Lessons section: required.
+  - Full review section: required, below authored lessons.
+  - Selected study-resource surface: required when a resource is selected.
+- Navigation chrome:
+  - Back button target depends on the parent browse route.
+  - No dock.
+  - Contextual top-bar actions depend on lesson type; non-audio module browsers do not add preview-audio controls.
+- Action placement:
+  - Direct interaction inside lesson cards or review cards selects one study resource.
+  - The selected study-resource surface contains the progression actions.
+- Primary actions:
+  - Select one lesson.
+  - Select the generated module review set.
+  - Open the selected study resource in Study.
+  - Open the selected study resource in Play.
+- Secondary actions:
+  - Return to the parent browse route.
+- What this screen should communicate:
+  - Modules group authored lessons.
+  - Every module also exposes a generated full-review study resource.
+  - Card order follows authored lesson order.
+  - The selected study-resource surface controls what Study and Play will open.
+- What this screen should not try to do:
+  - It should not explain module internals in technical terms.
+  - It should not turn the selected study-resource surface into an embedded Study experience.
+  - It should not require separate confirmation before changing selection.
+- Content:
+  - Module review behavior:
+    - the generated review resource is derived from the current module
+    - item order follows authored lesson order first, then item order inside each lesson
+    - duplicate items keep their first occurrence and are skipped on later repeats
+  - Selection behavior:
+    - tapping anywhere on a lesson card selects it
+    - tapping any preview asset inside the card also selects it
+    - in non-audio module browsers, preview interaction does not add extra behavior beyond selection
+  - Selected study-resource surface:
+    - no overlay
+    - dismissible
+    - selecting another resource updates it in place
+    - contains only the selected title plus `Study` and `Play`
+- UI direction:
+  - Multi-card module browser views keep equal card width and height.
+  - The generated module review card may be visually distinct, but it still uses the same preview-grid language.
+  - The selected study-resource surface is non-modal.
+  - The selected study-resource surface can appear as a bottom drawer on smaller viewports and a side surface on larger viewports.
+- Open questions:
+  - What exact visual hierarchy should separate the module header from the section headings?
+  - How different should the generated module review card feel from authored lesson cards across non-alphabet lesson types?
+
 ### Alphabet catalog screen
 
 - Role: Let the student browse grouped alphabet content, preview letter audio, and select which alphabet content to study or play next.
@@ -1072,20 +1138,86 @@ Each screen should define:
 
 ### Vocabulary catalog screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: Assumption: this screen lists vocabulary modules first, then lessons inside each module.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Let the student browse the lessons inside the current vocabulary module, preview the module through a visual grid, and select what to study or play next.
+- Entry point: `/{locale}/app/learn/explore/vocabulary`, which currently renders the only authored vocabulary module browser directly.
+- Main user question: Which vocabulary set do I want to work with right now?
+- Primary decision: Select one vocabulary lesson or the generated module review set, then continue to Study or Play.
+- Layout regions:
+  - Top bar: required, with back button and a 2-line title.
+  - Module header: required, showing the current vocabulary module title.
+  - Main area: required, with 2 stacked sections:
+    - Lessons
+    - Full review
+  - Selected study-resource surface: contextual and dismissible when a resource is selected.
+- Navigation chrome:
+  - Back button target: `/{locale}/app/learn/explore`.
+  - Top bar title:
+    - line 1: `Explore`
+    - line 2: `Vocabulary`
+  - No sound toggle.
+- Action placement:
+  - Lesson and review selection starts from direct interaction inside the cards.
+  - The selected study-resource surface contains the progression actions.
+- Primary actions:
+  - Select one vocabulary lesson.
+  - Select the generated module review set.
+  - Open the selected study resource in Study.
+  - Open the selected study resource in Play.
+- Secondary actions:
+  - Return to Explore through the top bar back action.
+- What this screen should communicate:
+  - Vocabulary practice is organized into lessons inside one module.
+  - A generated full-review resource exists for the whole module.
+  - Lesson order follows authored order.
+  - Visual preview assets help the student recognize the lesson quickly without reading dense text.
+- What this screen should not try to do:
+  - It should not become a dense text-heavy vocabulary table.
+  - It should not add preview-audio behavior that belongs to alphabet-specific browsing.
+  - It should not turn the selected study-resource surface into embedded Study.
+- Content:
+  - Current route behavior:
+    - `/{locale}/app/learn/explore/vocabulary` currently acts as the module browser for the only authored vocabulary module
+    - future multiple-module behavior can move the per-module browser to `/{locale}/app/learn/explore/vocabulary/modules/{moduleId}`
+  - Section heading: `Lessons`
+  - Vocabulary lesson card structure:
+    - title only
+    - compact preview grid
+    - no subtitle
+    - no badge or progress state
+    - the whole card is selectable as one lesson context
+  - Vocabulary preview asset:
+    - fixed-size visual slot
+    - emoji only for the MVP preview language
+    - no text inside the slot
+  - Vocabulary preview ordering:
+    - preview assets follow first-authored item order
+    - when the preview grid does not show every item, the last slot may become an overflow slot such as `+N`
+  - Section heading: `Full review`
+  - Full review card:
+    - uses the same preview-grid language as lesson cards
+    - represents the generated module review resource
+    - follows the generated module review ordering rules from the shared module browser pattern
+  - Selected study-resource surface:
+    - close / dismiss action
+    - selected title
+    - `Study` action
+    - `Play` action
+    - no overlay
+    - selecting another resource updates this surface in place
+    - dismissing the surface clears the current selection
+- UI direction:
+  - The screen uses the shared module browser pattern.
+  - The layout is mobile-first.
+  - Mobile uses 1 lesson card per row.
+  - Tablet uses 2 lesson cards per row.
+  - Desktop uses 3 lesson cards per row.
+  - Multi-card views preserve equal card height and width.
+  - The generated full-review card sits below the lesson grid.
+  - On wider layouts, the full-review card can span the available width.
+- Open questions:
+  - What should the first authored vocabulary module be called in the MVP?
+  - What should the generated full-review card be called in the MVP for vocabulary?
+  - How many preview slots should a vocabulary card show before the overflow slot appears, once real content is authored?
 
 ### Study screen
 
@@ -1594,6 +1726,7 @@ Not defined yet.
 - Explore Alphabet page for alphabet lessons
 - Alphabet catalog supports per-letter audio preview with a sound toggle and selected-lesson Study / Play actions
 - Explore Vocabulary page for vocabulary lessons
+- Vocabulary catalog uses the shared module-browser pattern with non-audio preview selection and Study / Play actions
 - Study page for lesson preview
 - Play page hosting the lesson game:
   - Game Lobby screen
@@ -1661,12 +1794,17 @@ This section can hold future ideas that are not yet committed.
 - Lesson and module review Study routes are the canonical shareable study routes
 - Route indexability is defined per route in the routes catalog
 - Redirect routes, Settings, and Play routes use `noindex`
+- Module browser screens use a shared pattern: module header, Lessons section, Full review section, and a dismissible selected study-resource surface
 - Alphabet lessons normally contain 3 to 6 items
 - Full alphabet review is the explicit exception to the normal alphabet lesson size
 - Alphabet catalog prioritizes small lessons first and full review second
 - Alphabet catalog supports direct per-letter audio preview
 - Letter interaction selects the containing lesson context, not the letter as a standalone destination
 - Alphabet catalog uses a dismissible non-modal selected-lesson surface with `Study` and `Play` actions
+- Non-audio module browsers keep the same selection-and-drawer pattern without preview-audio behavior
+- Vocabulary lessons are words-only in the current MVP model
+- Vocabulary preview assets use emoji-only slots in the MVP preview language
+- Vocabulary preview ordering follows first-authored item order, with overflow handled in the last slot when needed
 - Study is optional and Play can be launched directly from a browser/catalog route
 - Study opens on lesson summary by default
 - Study uses internal UI state for summary/detail position instead of encoding item position in the URL
