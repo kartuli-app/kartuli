@@ -86,6 +86,8 @@ Play hosts a Game.
 
 The playable interaction structure inside the Play stage.
 
+A Game is a session generated from one study resource.
+
 A Game begins at the Game Lobby, then runs through one or more round cycles, and ends at Game Results.
 
 Game structure:
@@ -98,6 +100,20 @@ Round loop:
 - Game Round -> Game Round Feedback
 - repeat until the game is complete
 - then continue to Game Results
+
+Direction:
+- a session has one active round at a time
+- a round is defined by its completion condition, not just by one tap
+- each round has:
+  - a format family
+  - a variant
+  - an instruction prompt
+  - a cue payload
+  - answer payloads
+  - a completion rule
+  - a feedback rule
+- the MVP format family is `single-choice`
+- the MVP round contract uses 4 answers with 1 correct answer
 
 ### Translit
 
@@ -698,7 +714,25 @@ Direction:
 
 Play hosts a Game.
 
-The Game begins at Game Lobby, then runs through one or more `Game Round -> Game Round Feedback` cycles, and ends at Game Results.
+Direction:
+- entering the Play route opens the Game Lobby for one study resource
+- the Lobby prepares a game plan from the current study resource before the student starts
+- the Lobby shows:
+  - exact round count
+  - variant summary
+  - whether listening rounds are included
+- the Lobby exposes an `Include listening rounds` toggle
+- the listening-rounds toggle defaults from the current global sound preference:
+  - when global sound is enabled, listening rounds are enabled by default
+  - when global sound is disabled, listening rounds are disabled by default
+- if global sound is disabled, listening rounds cannot be enabled until sound is enabled again
+- changing the listening-rounds setting in the Lobby regenerates the prepared game plan
+- once the student starts the session, the listening-rounds setting is fixed for that session in the MVP
+- the Game then runs through one or more `Game Round -> Game Round Feedback` cycles and ends at Game Results
+- every item in the current study resource should appear at least once as a target in the session
+- distractor answers come from the same study resource
+- when multiple round variants are available, the session may mix them
+- exact coverage weighting and sequencing policies can evolve later without changing the UI contract
 
 ## Utility flows
 
@@ -1331,8 +1365,8 @@ Each screen should define:
 
 - Scope: Route-level container for the game flow of one study resource.
 - Role: Host the full game flow for one lesson or one module review set.
-- Main user question: To be defined.
-- Primary decision: To be defined.
+- Main user question: Am I ready to start this session, how do I answer each round, and what do I want to do when the session ends?
+- Primary decision: Start the prepared session, answer the current round, and decide what to do after Results.
 - Contains flow screens:
   - Game Lobby
   - Game Round
@@ -1342,71 +1376,283 @@ Each screen should define:
   - `/{locale}/app/learn/lessons/{lessonId}/play`
   - `/{locale}/app/learn/modules/{moduleId}/review/play`
   - Student arrives from Study or directly from a browser/catalog route for a specific lesson or module review set.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
+- Layout regions:
+  - Header / top bar region.
+  - Main game region that swaps between Lobby, Round, Feedback, and Results.
+  - Optional persistent support areas such as answer-state feedback or keyboard hints when useful.
+- Navigation chrome:
+  - Lobby uses a back-style return path instead of an in-round leave-game action.
+  - Active rounds and feedback use a leave-game action rather than a normal back-arrow pattern.
+  - Results use exit and replay actions rather than a normal back-arrow pattern.
+- Action placement:
+  - Lobby actions live in the main game region.
+  - Round answer actions live in the answer-options region.
+  - Correct feedback auto-progresses after a wait period, with optional skip interaction.
+  - Wrong feedback requires explicit acknowledgment before continuing.
+  - Results actions live in the results action area.
+- Primary actions:
+  - Start the prepared session.
+  - Answer the active round.
+  - Replay the session after Results.
+- Secondary actions:
+  - Leave Play.
+  - Return to Study or Learn after the session.
 - Exit points:
   - back to Study
   - replay game
   - go to another lesson / learn area
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- What this screen should communicate:
+  - Play is the core interactive experience of the app.
+  - The session is generated from the chosen study resource before it starts.
+  - Only one round is active at a time.
+  - Answers resolve immediately and feedback is brief, clear, and fast.
+- What this screen should not try to do:
+  - It should not feel like a slow worksheet with manual submit/continue steps between every answer.
+  - It should not show multiple unresolved questions at once.
+  - It should not depend on unfinished long-term weighting policies to define the visible UI structure.
+- Content:
+  - Session generation:
+    - the Lobby prepares the game plan before the student starts
+    - the prepared plan includes exact round count, variant summary, and whether listening rounds are included
+    - the Lobby can regenerate the prepared plan when the listening-rounds option changes
+  - Round contract:
+    - one active round at a time
+    - MVP format family: `single-choice`
+    - MVP answer contract:
+      - 4 answers
+      - 1 correct answer
+      - immediate answer submission on selection
+    - MVP round states:
+      - neutral
+      - right
+      - wrong
+      - disabled
+  - MVP single-choice variants:
+    - Alphabet:
+      - Georgian letter -> transliteration answers
+      - transliteration -> Georgian letter answers
+      - audio -> Georgian letter answers
+    - Vocabulary:
+      - English text -> Georgian answers
+      - Georgian text -> English answers
+      - visual asset -> Georgian answers
+  - Feedback behavior:
+    - correct feedback uses a short wait period and then auto-advances
+    - the correct-feedback wait period can be skipped by the student
+    - wrong feedback reveals the correct answer and does not auto-advance in the MVP
+    - wrong feedback preserves the selected wrong answer state
+  - Keyboard support:
+    - desktop answer bindings use `1`, `2`, `3`, and `4`
+    - during feedback, `Space` can continue when continuing is allowed
+- UI direction:
+  - The Play route should prioritize speed, clarity, and focus over heavy explanation.
+  - Correct and wrong answer states should be visually distinct and readable at a glance.
+  - The active round should never compete visually with unresolved feedback from a previous round.
+  - Keyboard support should feel native on desktop without complicating touch-first interaction patterns.
+- Open questions:
+  - Should desktop also support a second answer-key mapping such as `A`, `S`, `D`, `F`, or keep `1` to `4` only in the MVP?
+  - How long should the correct-feedback wait period be in the MVP?
 
 #### Game Lobby flow screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Present the prepared game session clearly, let the student understand what kind of session will run, and start Play with minimal friction.
+- Entry point: Entered immediately after the Play route resolves one study resource and prepares its initial game plan.
+- Main user question: Am I ready to start this session, and do I want to adjust its listening-rounds setting first?
+- Primary decision: Start the prepared session.
+- Layout regions:
+  - Lobby header: required.
+  - Session summary area: required.
+  - Session options area: required.
+  - Primary action area: required.
+- Navigation chrome:
+  - A normal back arrow returns to the source Study route.
+  - The sound toggle remains visible.
+  - The header uses the Play two-line pattern:
+    - line 1: `Play`
+    - line 2: study resource title
+  - For authored lessons, the second line is the lesson name.
+  - For module review resources, the second line uses the pattern `{module name}: Full review`.
+  - No dock.
+- Action placement:
+  - Session summary and options live in the main content area.
+  - The primary `Start` action is visually dominant and may be sticky on mobile.
+  - A secondary `Back to Study` action lives near the primary action rather than in the header.
+- Primary actions:
+  - Start the prepared session.
+- Secondary actions:
+  - Back to Study.
+  - Return through the header back arrow.
+  - Toggle sound.
+  - Include or exclude listening rounds.
+- What this screen should communicate:
+  - The game session is already prepared from the current study resource.
+  - The student can understand the session before committing to Start.
+  - Listening rounds are an optional part of the session when audio-capable items exist.
+  - The Lobby is the last place where the session plan can change in the MVP.
+- What this screen should not try to do:
+  - It should not become another Study summary.
+  - It should not overload the student with detailed item previews.
+  - It should not hide the exact round count or make the session feel mysterious before starting.
+- Content:
+  - Session summary:
+    - exact round count
+    - explicit but compact variant summary
+    - separate indication of whether listening rounds are included
+  - Listening rounds option:
+    - shown only when the current study resource has audio-capable items
+    - defaults from the current global sound preference
+    - if global sound is turned off in the Lobby, listening rounds switch off immediately and the prepared plan regenerates
+    - if global sound is turned on in the Lobby, listening rounds may default back on and regenerate the prepared plan
+  - Resource preview:
+    - no additional item preview is required in the Lobby for the MVP
+  - Header/title examples:
+    - `Play` / `Pets`
+    - `Play` / `Alphabet: Full review`
+    - `Play` / `Animals: Full review`
+- UI direction:
+  - The Lobby should feel compact and utilitarian, but still like the start of the core game experience.
+  - The exact round count should be easy to notice.
+  - The variant summary should be compact enough to scan quickly.
+  - The Start action should dominate visually.
+  - Desktop keyboard guidance does not need to be shown yet in the Lobby.
+- Open questions:
+  - What exact visual format should the compact variant summary use in the MVP?
+  - Should the `Back to Study` action appear as a text button, secondary button, or quieter inline action?
 
 #### Game Round flow screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Present one active round, keep the player focused on one decision, and accept an immediate answer.
+- Entry point: Entered when the next prepared round becomes active after the Lobby or after the previous feedback state finishes.
+- Main user question: What is the correct answer for this cue?
+- Primary decision: Answer the current round now.
+- Layout regions:
+  - Round header: required.
+  - Cue area: required.
+  - Answer area: required.
+- Navigation chrome:
+  - Leave-game action is visible.
+  - Round progress is always visible and may use a progress bar rather than only numeric text.
+  - The sound toggle remains visible.
+  - The lesson/module title is hidden during active rounds to keep focus on the round itself.
+  - No dock.
+- Action placement:
+  - Cue-specific controls such as replay live inside the cue area.
+  - The instruction prompt sits in or just above the answer area.
+  - The 4 answer options live in the answer area.
+  - Desktop keyboard hints may appear on the answer options when keyboard bindings are active.
+- Primary actions:
+  - Answer with one of the 4 options.
+  - Replay the cue audio on listening rounds.
+- Secondary actions:
+  - Leave the session.
+  - Toggle sound.
+- What this screen should communicate:
+  - There is only one active round at a time.
+  - The round is fast and focused.
+  - Answering is immediate; there is no separate submit step.
+- What this screen should not try to do:
+  - It should not show multiple unresolved questions.
+  - It should not keep the lesson title or other non-essential context on screen during the round.
+  - It should not require a manual confirm/continue action before answer resolution.
+- Content:
+  - Shared round structure:
+    - one cue area
+    - one answer area
+    - one generic instruction prompt such as `Tap the right answer`
+  - Cue behavior:
+    - the cue area changes by round variant
+    - cue payloads may be text, visual asset, or audio
+    - listening rounds autoplay once when the round appears
+    - listening rounds expose a replay control
+    - replay is allowed multiple times before answering
+    - if cue audio is playing and the student answers, the audio stops immediately
+  - Answer area:
+    - always 4 equal answer options in the MVP
+    - answer payloads may be Georgian text, transliteration, or English text depending on the variant
+    - answer payloads are not images in the MVP
+  - Input guard:
+    - each new round begins with a short input-guard window before answers become active
+    - the purpose of the guard is to prevent accidental carry-over taps and double submission across transitions
+    - once the guard ends, answers become active immediately
+  - Input behavior:
+    - tapping or pressing a bound key answers immediately
+    - there is no separate selected/pre-submit state
+    - after an answer is submitted, all answer inputs lock immediately
+  - Keyboard support:
+    - desktop answer bindings use `1`, `2`, `3`, and `4`
+    - those bindings are shown only when active and useful
+- UI direction:
+  - The round should feel split into 2 clear areas: cue and answers.
+  - The answer options should feel equal in importance and size.
+  - The progress display should be visible without pulling focus away from the cue.
+  - Keyboard support should be additive, not visually noisy.
+- Open questions:
+  - What exact visual form should the progress indicator take in the MVP: mostly numeric, mostly bar-based, or a hybrid?
+  - How long should the round-entry input-guard window be in the MVP?
+  - Should the instruction prompt always remain literal text, or can it become a lighter visual treatment later?
 
 #### Game Round Feedback flow screen
 
-- Role: To be defined.
-- Entry point: To be defined.
-- Main user question: To be defined.
-- Primary decision: To be defined.
-- Layout regions: To be defined.
-- Navigation chrome: To be defined.
-- Action placement: To be defined.
-- Primary actions: To be defined.
-- Secondary actions: To be defined.
-- What this screen should communicate: To be defined.
-- What this screen should not try to do: To be defined.
-- Content: To be defined.
-- UI direction: To be defined.
-- Open questions: To be defined.
+- Role: Resolve the answered round, teach what happened, and then transition to the next round.
+- Entry point: Entered immediately after an answer resolves.
+- Main user question: Was I right, and if I was wrong, what was the correct answer?
+- Primary decision:
+  - on correct: continue immediately or let the short wait finish
+  - on wrong: acknowledge the correct answer and continue
+- Layout regions:
+  - The round header remains visible.
+  - The cue area remains visible.
+  - The answer area remains visible in feedback state.
+  - A lightweight feedback surface such as a toast, floating icon, or emoji may appear above the round content.
+- Navigation chrome:
+  - Leave-game action remains available.
+  - Round progress remains visible.
+  - The sound toggle remains visible.
+  - Answer hotkeys are no longer active during feedback.
+- Action placement:
+  - Correct feedback can be skipped by direct interaction with the feedback surface or safe round area, and by `Space` on desktop.
+  - Wrong feedback continues by acknowledging the correct answer area, and by `Space` on desktop.
+- Primary actions:
+  - Continue from feedback.
+- Secondary actions:
+  - Leave the session.
+  - Toggle sound.
+- What this screen should communicate:
+  - Correct answers should feel instant and encouraging.
+  - Wrong answers should clearly show what was correct before the game continues.
+  - Feedback is part of the learning loop, not just an interruption.
+- What this screen should not try to do:
+  - It should not show the next round at the same time as unresolved feedback.
+  - It should not rely on a big explicit `Skip` button for basic flow.
+  - It should not say only `wrong` without showing the correction.
+- Content:
+  - Feedback surface:
+    - lightweight toast-like or floating feedback is acceptable in the MVP
+    - the MVP can start with simple icon/emoji treatment and evolve later into richer streak/praise feedback
+  - Correct feedback:
+    - the chosen answer resolves into the right state
+    - a lightweight positive feedback cue appears
+    - a short wait period begins
+    - the game auto-advances when that wait ends
+    - the student may skip the remaining wait
+  - Wrong feedback:
+    - the chosen wrong answer stays visible in the wrong state
+    - the correct answer becomes visible in the right state
+    - the remaining non-correct answers become disabled
+    - the game does not auto-advance
+    - the student must acknowledge the correct answer to continue
+  - Keyboard support:
+    - during feedback, answer bindings `1`, `2`, `3`, and `4` are disabled
+    - `Space` continues from feedback when allowed
+- UI direction:
+  - Correct feedback should be fast and low-friction.
+  - Wrong feedback should stop long enough to teach, without turning into a separate heavy screen.
+  - The answer-state colors and icons should be understandable even without text.
+  - The feedback surface should leave room for later additions such as streaks or praise without forcing them into MVP.
+- Open questions:
+  - Should wrong feedback require tapping the correct answer itself, or can tapping anywhere safe continue in addition to `Space`?
+  - Should the positive feedback cue appear near the answer area, near the cue, or as a more global floating surface?
+  - What exact duration should the correct-feedback wait use in the MVP?
 
 #### Game Results flow screen
 
@@ -1777,7 +2023,8 @@ Not defined yet.
 - Play page hosting the lesson game:
   - Game Lobby screen
   - Game Round screen
-    - 1 minigame type: question with 4 answer options
+    - 1 format family: single-choice
+    - multiple single-choice variants across alphabet and vocabulary
   - Game Round Feedback screen
   - Game Results screen
 - Translit utility page
@@ -1858,6 +2105,19 @@ This section can hold future ideas that are not yet committed.
 - Study summary item interaction opens item detail and does not play audio directly
 - Vocabulary Study summary items contain a visual asset, Georgian block, and translation
 - Word detail cards support optional item-level audio, a Georgian-only example phrase, and an optional note area
+- Play sessions are generated from one study resource and prepared in the Lobby before the student starts
+- Every item in the study resource should appear at least once as a target in the session
+- Listening rounds are a Lobby-level session option that regenerates the prepared plan and is fixed once the session starts in the MVP
+- The MVP game format family is single-choice with 4 answers and 1 correct answer
+- The MVP includes multiple single-choice variants across alphabet and vocabulary
+- The Lobby shows the exact round count, a compact explicit variant summary, and whether listening rounds are included
+- The Play header uses a two-line pattern: `Play` on the first line and the study resource title on the second line
+- Listening-rounds controls are hidden when the current study resource has no audio-capable items
+- Play answers submit immediately; there is no separate submit or continue step before feedback
+- Each round begins with a short input-guard window before answers become active
+- Correct feedback auto-advances after a short wait period, and the student may skip that wait period
+- Wrong feedback reveals the correct answer and does not auto-advance in the MVP
+- Desktop Play supports keyboard answer bindings for `1`, `2`, `3`, and `4`, with `Space` used to continue from feedback when allowed
 - The product uses one global not-found screen for uncontrolled routes
 - Module review sets are first-class study/play resources with dedicated review routes
 - Valid Study and Play routes with missing lesson or module review resources use route-owned unavailable screens instead of the global not-found screen
