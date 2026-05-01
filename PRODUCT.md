@@ -685,11 +685,11 @@ Direction:
 
 Direction:
 - the user opens `/{locale}/app/learn/lessons/{lessonId}/study` or `/{locale}/app/learn/modules/{moduleId}/review/study` from a catalog/browser route or from a direct URL
-- Study opens on the lesson summary state by default
+- Study opens on the summary state by default
 - the user can start Play immediately from the summary state
-- the user can enter item detail by selecting one item from the lesson summary
+- the user can enter item detail by selecting one item from the summary
 - item detail shows one focused item at a time
-- previous from the first item returns to the lesson summary
+- previous from the first item returns to the summary
 - next is disabled on the last item
 - the Play action remains available from both summary and item detail
 - current item position is internal Study UI state, not URL state
@@ -1226,31 +1226,33 @@ Each screen should define:
 - Entry point:
   - `/{locale}/app/learn/lessons/{lessonId}/study`
   - `/{locale}/app/learn/modules/{moduleId}/review/study`
-- Main user question: Do I want to review this lesson summary, inspect one item in detail, or start playing now?
+- Main user question: Do I want to review this summary, inspect one item in detail, or start playing now?
 - Primary decision: Stay in summary, inspect a specific item, or start Play.
 - Layout regions:
   - Top bar: required, for global route controls and lesson context.
   - Study navigation bar: required, for summary/detail navigation inside the lesson.
-  - Main area: required, showing either the lesson summary card or one focused item detail card.
+  - Main area: required, showing either the summary card or one focused detail card.
   - Sticky CTA area: required, with the Play action.
 - Navigation chrome:
   - Back button target depends on lesson type and source catalog.
   - For alphabet lessons, back returns to `/{locale}/app/learn/explore/alphabet`.
+  - For vocabulary lessons, back returns to `/{locale}/app/learn/explore/vocabulary`.
   - The top bar keeps the lesson title/context visible.
-  - Sound toggle is available when the current lesson type supports audio preview.
+  - Sound toggle is available when the current lesson type may expose item audio in Study.
+  - If a specific item has no audio, its detail card simply omits the audio control.
   - No dock.
   - No selected-lesson drawer behavior exists inside Study.
 - Action placement:
   - Global route actions live in the top bar.
   - Summary/detail navigation lives in the study navigation bar.
-  - Item selection lives inside the lesson summary card.
+  - Item selection lives inside the summary card.
   - Play is available from a persistent CTA area.
 - Primary actions:
   - Open Play immediately.
-  - Open one item detail from the lesson summary.
+  - Open one item detail from the summary.
   - Move to the previous or next study position.
 - Secondary actions:
-  - Return to the lesson summary.
+  - Return to the summary.
   - Return to the source catalog/browser route.
   - Toggle sound on or off when the lesson type supports audio.
 - What this screen should communicate:
@@ -1273,19 +1275,22 @@ Each screen should define:
     - previous action
     - current position label
     - next action
-    - in summary state, the position label can show the lesson item count
+    - in summary state, the position label can show the study resource item count
     - in item detail state, the position label shows the current item index such as `5 / 10`
     - previous from the first item returns to summary
     - next is disabled on the last item
   - Summary state:
-    - lesson summary card variant for the current lesson type
-    - selecting an item preview opens that item in detail
+    - summary card variant for the current lesson type
+    - summary shows all items in the current study resource
+    - summary can scroll when needed
+    - selecting a summary item opens that item in detail
+    - summary item interaction does not play audio directly
   - Item detail state:
-    - one focused item detail card variant for the current lesson type
-  - Alphabet lesson summary card:
+    - one focused detail card variant for the current lesson type
+  - Alphabet summary card:
     - uses the same preview-grid language as the alphabet catalog
-    - enough preview information to recognize the lesson as a set
-    - alphabet preview assets can still play audio when relevant
+    - shows all items in the current study resource
+    - summary item interaction opens letter detail without playing audio
   - Letter detail card:
     - Georgian letter
     - transliteration
@@ -1293,12 +1298,29 @@ Each screen should define:
     - pronunciation hint
     - example words with the target letter highlighted
     - optional example-word audio later
+  - Vocabulary summary card:
+    - is a real Study summary, not just the catalog card repeated
+    - shows all items in the current study resource
+    - each summary item contains:
+      - visual asset
+      - Georgian block with the Georgian text first and transliteration below
+      - translation
+    - summary items may use a more table-like row structure on larger screens and a more stacked structure on smaller screens
+  - Word detail card:
+    - Georgian block with the Georgian text first and transliteration below
+    - translation
+    - visual asset
+    - audio playback when available for that specific item
+    - example phrase in Georgian only, with the target word or phrase highlighted
+    - note area when a note exists for that item
 - UI direction:
   - The Study route uses one shared shell across lesson types.
-  - Lesson types can swap in different summary card variants and item detail card variants without changing the shell.
+  - Lesson types can swap in different summary card variants and detail card variants without changing the shell.
   - Global route controls and study navigation controls should be visually distinct.
   - The focused item detail view should be able to show all essential item information at once.
   - Vertical scrolling inside summary or detail is acceptable when needed.
+  - Summary cards may be richer and more text-forward than catalog preview cards.
+  - Vocabulary Study summary should preserve readability across devices even when items are multi-word phrases.
   - A sticky Play CTA is important, especially on mobile.
 - Open questions:
   - What exact study navigation control layout should be used across mobile and desktop?
@@ -1614,6 +1636,28 @@ Direction:
 
 ## Preview grid system
 
+### Browse and Study terminology
+
+Direction:
+- lesson card:
+  - the card used in browse/catalog/module-browser screens
+- preview grid:
+  - the grid inside a lesson card
+- preview slot:
+  - one fixed position inside a preview grid
+- preview asset:
+  - the visual content inside one preview slot
+- summary card:
+  - the summary surface used inside Study for one lesson or module review resource
+- summary item:
+  - one item representation inside a summary card
+- detail card:
+  - one focused single-item surface inside Study item detail
+- these shared UI terms can then be specialized by item type:
+  - letter preview asset / word preview asset / rule preview asset
+  - letter summary item / word summary item / rule summary item
+  - letter detail card / word detail card / rule detail card
+
 ### Shared preview grid
 
 The default preview language for lesson cards and module review cards is a fixed visual preview grid.
@@ -1648,7 +1692,9 @@ Direction:
 
 Direction:
 - catalog preview cards optimize for recognition and quick selection
-- Study summary can reuse the same preview-grid language with more rows or more revealed items
+- Study summary reveals all items in the current study resource, even when scrolling is needed
+- Study summary does not use catalog-style overflow slots such as `+N`
+- Study summary can reuse the same preview-grid language while adding richer per-item information when the lesson type benefits from it
 - alphabet catalog preview and alphabet Study summary can stay very close to each other
 - vocabulary and grammar Study summary may reveal more than the catalog preview while keeping the same shared preview-grid model
 
@@ -1808,6 +1854,10 @@ This section can hold future ideas that are not yet committed.
 - Study is optional and Play can be launched directly from a browser/catalog route
 - Study opens on lesson summary by default
 - Study uses internal UI state for summary/detail position instead of encoding item position in the URL
+- Study summary shows all items in the current study resource; overflow slots belong only to catalog previews
+- Study summary item interaction opens item detail and does not play audio directly
+- Vocabulary Study summary items contain a visual asset, Georgian block, and translation
+- Word detail cards support optional item-level audio, a Georgian-only example phrase, and an optional note area
 - The product uses one global not-found screen for uncontrolled routes
 - Module review sets are first-class study/play resources with dedicated review routes
 - Valid Study and Play routes with missing lesson or module review resources use route-owned unavailable screens instead of the global not-found screen
