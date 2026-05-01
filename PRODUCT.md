@@ -293,6 +293,22 @@ Tracked concept:
 
 This is intentionally low-level and supports richer derived behavior later.
 
+## Sound
+
+### Global sound preference
+
+Sound is a global app-level client-side preference.
+
+States:
+- `enabled`
+- `disabled`
+
+Direction:
+- the default state for a first-time user is `enabled`
+- the sound preference is persisted client-side
+- when sound is disabled, automatic and manual audio playback is suppressed across catalog preview audio, Study audio, and Play support audio
+- when sound is enabled, audio-capable screens may autoplay or expose replay controls according to their own screen rules
+
 ## Privacy, storage, and analytics
 
 ### Core distinction
@@ -311,6 +327,7 @@ The app always uses a small amount of client-side storage for core app behavior.
 Direction:
 - preferred UI language is stored client-side
 - privacy consent choice is stored client-side
+- global sound preference is stored client-side
 
 This storage is considered essential for the app experience and is not controlled by the analytics consent choice.
 
@@ -348,6 +365,16 @@ Direction:
 - there is no cookieless analytics fallback
 
 Changing the consent choice affects subsequent analytics behavior only.
+
+### Listening rounds versus global sound
+
+Global sound and listening rounds are related, but they are not the same thing.
+
+Direction:
+- global sound being disabled forces listening rounds off for newly prepared sessions
+- global sound being enabled allows listening rounds, but the student can still turn listening rounds off in the Play Lobby
+- the Play Lobby is the last place where listening-round inclusion can change in the MVP
+- once a Play session starts, session-affecting audio settings remain fixed until the student returns to the Lobby or ends the session
 
 ## Mastery tracking
 
@@ -1089,7 +1116,7 @@ Each screen should define:
     - line 1: `Explore`
     - line 2: `Alphabet`
   - Top bar contextual action:
-    - sound on/off toggle for alphabet audio preview
+    - sound on/off toggle for the global sound preference as it affects alphabet audio preview
 - Action placement:
   - Lesson selection starts from direct interaction inside lesson cards.
   - The selected lesson surface contains the progression actions.
@@ -1168,7 +1195,6 @@ Each screen should define:
 - Open questions:
   - Exact visual treatment that makes the full review card feel distinct without changing its internal grid model.
   - What iconography and exact label treatment should the sound toggle use?
-  - Should the sound preference persist across visits, and if so where should it be stored?
 
 ### Vocabulary catalog screen
 
@@ -1309,6 +1335,10 @@ Each screen should define:
     - previous action
     - current position label
     - next action
+    - the shared control order stays stable across devices:
+      - summary/home and previous on the leading side
+      - current position label centered
+      - next on the trailing side
     - in summary state, the position label can show the study resource item count
     - in item detail state, the position label shows the current item index such as `5 / 10`
     - previous from the first item returns to summary
@@ -1321,6 +1351,7 @@ Each screen should define:
     - summary item interaction does not play audio directly
   - Item detail state:
     - one focused detail card variant for the current lesson type
+    - horizontal swipe between item details is not part of the MVP control model
   - Alphabet summary card:
     - uses the same preview-grid language as the alphabet catalog
     - shows all items in the current study resource
@@ -1357,8 +1388,6 @@ Each screen should define:
   - Vocabulary Study summary should preserve readability across devices even when items are multi-word phrases.
   - A sticky Play CTA is important, especially on mobile.
 - Open questions:
-  - What exact study navigation control layout should be used across mobile and desktop?
-  - Should horizontal swipe between item details be included in the MVP, or added later if it complements the button navigation well?
   - How much student-specific item status, if any, should appear inside item detail later?
 
 ### Play screen
@@ -1415,6 +1444,11 @@ Each screen should define:
     - the Lobby prepares the game plan before the student starts
     - the prepared plan includes exact round count, variant summary, and whether listening rounds are included
     - the Lobby can regenerate the prepared plan when the listening-rounds option changes
+  - Sound behavior:
+    - the Play header keeps one visible sound control/state across Lobby, Round, and Feedback
+    - in the Lobby, that control updates the global sound preference immediately
+    - during active rounds and feedback, session-affecting audio settings do not change in the MVP
+    - active Play must not silently regenerate the prepared round sequence from an in-session sound change
   - Round contract:
     - one active round at a time
     - MVP format family: `single-choice`
@@ -1441,6 +1475,10 @@ Each screen should define:
     - the correct-feedback wait period can be skipped by the student
     - wrong feedback reveals the correct answer and does not auto-advance in the MVP
     - wrong feedback preserves the selected wrong answer state
+    - wrong feedback continues only when the student explicitly acknowledges the correct answer
+  - Leave-game behavior:
+    - leaving from an active round or feedback state opens a leave-game confirmation surface because the current session progress would be discarded
+    - leaving from the Lobby or from Results does not use that confirmation surface
   - Keyboard support:
     - desktop answer bindings use `1`, `2`, `3`, and `4`
     - during feedback, `Space` can continue when continuing is allowed
@@ -1450,8 +1488,7 @@ Each screen should define:
   - The active round should never compete visually with unresolved feedback from a previous round.
   - Keyboard support should feel native on desktop without complicating touch-first interaction patterns.
 - Open questions:
-  - Should desktop also support a second answer-key mapping such as `A`, `S`, `D`, `F`, or keep `1` to `4` only in the MVP?
-  - How long should the correct-feedback wait period be in the MVP?
+  - None for the MVP route-level Play contract.
 
 #### Game Lobby flow screen
 
@@ -1531,8 +1568,8 @@ Each screen should define:
   - Answer area: required.
 - Navigation chrome:
   - Leave-game action is visible.
-  - Round progress is always visible and may use a progress bar rather than only numeric text.
-  - The sound toggle remains visible.
+  - Round progress is always visible as a hybrid indicator that combines a progress bar and numeric count.
+  - The current sound state/control remains visible.
   - The lesson/module title is hidden during active rounds to keep focus on the round itself.
   - No dock.
 - Action placement:
@@ -1545,7 +1582,6 @@ Each screen should define:
   - Replay the cue audio on listening rounds.
 - Secondary actions:
   - Leave the session.
-  - Toggle sound.
 - What this screen should communicate:
   - There is only one active round at a time.
   - The round is fast and focused.
@@ -1559,6 +1595,7 @@ Each screen should define:
     - one cue area
     - one answer area
     - one generic instruction prompt such as `Tap the right answer`
+    - the MVP prompt remains literal text rather than a lighter abstract treatment
   - Cue behavior:
     - the cue area changes by round variant
     - cue payloads may be text, visual asset, or audio
@@ -1573,6 +1610,7 @@ Each screen should define:
   - Input guard:
     - each new round begins with a short input-guard window before answers become active
     - the purpose of the guard is to prevent accidental carry-over taps and double submission across transitions
+    - the initial MVP target for this guard is about `200 ms`
     - once the guard ends, answers become active immediately
   - Input behavior:
     - tapping or pressing a bound key answers immediately
@@ -1587,9 +1625,7 @@ Each screen should define:
   - The progress display should be visible without pulling focus away from the cue.
   - Keyboard support should be additive, not visually noisy.
 - Open questions:
-  - What exact visual form should the progress indicator take in the MVP: mostly numeric, mostly bar-based, or a hybrid?
-  - How long should the round-entry input-guard window be in the MVP?
-  - Should the instruction prompt always remain literal text, or can it become a lighter visual treatment later?
+  - None for the MVP round contract.
 
 #### Game Round Feedback flow screen
 
@@ -1607,16 +1643,15 @@ Each screen should define:
 - Navigation chrome:
   - Leave-game action remains available.
   - Round progress remains visible.
-  - The sound toggle remains visible.
+  - The current sound state/control remains visible.
   - Answer hotkeys are no longer active during feedback.
 - Action placement:
   - Correct feedback can be skipped by direct interaction with the feedback surface or safe round area, and by `Space` on desktop.
-  - Wrong feedback continues by acknowledging the correct answer area, and by `Space` on desktop.
+  - Wrong feedback continues by acknowledging the correct answer area itself, and by `Space` on desktop.
 - Primary actions:
   - Continue from feedback.
 - Secondary actions:
   - Leave the session.
-  - Toggle sound.
 - What this screen should communicate:
   - Correct answers should feel instant and encouraging.
   - Wrong answers should clearly show what was correct before the game continues.
@@ -1629,10 +1664,12 @@ Each screen should define:
   - Feedback surface:
     - lightweight toast-like or floating feedback is acceptable in the MVP
     - the MVP can start with simple icon/emoji treatment and evolve later into richer streak/praise feedback
+    - the positive feedback cue should appear as a small global floating surface above the round content
   - Correct feedback:
     - the chosen answer resolves into the right state
     - a lightweight positive feedback cue appears
     - a short wait period begins
+    - the initial MVP target for that wait is about `500 ms`
     - the game auto-advances when that wait ends
     - the student may skip the remaining wait
   - Wrong feedback:
@@ -1650,9 +1687,7 @@ Each screen should define:
   - The answer-state colors and icons should be understandable even without text.
   - The feedback surface should leave room for later additions such as streaks or praise without forcing them into MVP.
 - Open questions:
-  - Should wrong feedback require tapping the correct answer itself, or can tapping anywhere safe continue in addition to `Space`?
-  - Should the positive feedback cue appear near the answer area, near the cue, or as a more global floating surface?
-  - What exact duration should the correct-feedback wait use in the MVP?
+  - None for the MVP feedback contract.
 
 #### Game Results flow screen
 
@@ -1701,6 +1736,7 @@ Each screen should define:
     - the review area may use:
       - a failed-items summary view
       - a focused failed-item detail view
+    - the failed-items review opens on its summary view first in the MVP
     - this can visually reuse the Study body pattern while keeping Results-specific header and CTA actions
     - if no items were failed, a success card should occupy the same review space
   - Failed-item detail:
@@ -1717,7 +1753,6 @@ Each screen should define:
   - The CTA area should make the three next steps easy to compare.
 - Open questions:
   - What exact visual tone/mood buckets should map to outcomes such as `Very good`, `Not bad`, or `Keep trying`?
-  - Should the failed-items review default to its summary view first, or open directly on the first failed-item detail?
 
 ### Translit screen
 
@@ -2045,6 +2080,44 @@ Direction:
   - What exact banner copy should be used per locale?
   - Where exactly should the banner sit on mobile and desktop layouts?
 
+### Play leave confirmation surface
+
+- Role: Prevent accidental loss of session progress when the student tries to leave an active game.
+- Entry point: Triggered from the leave-game action during an active Play round or feedback state.
+- Main user question: Do I want to keep playing, or leave and discard this current session?
+- Primary decision: Resume the active session or leave it.
+- Layout regions:
+  - The active Play screen remains visible in the background.
+  - A confirmation surface is required above it.
+- Navigation chrome:
+  - The active Play route remains in place behind the confirmation surface.
+  - This surface is not used from the Lobby or from Results.
+- Action placement:
+  - The confirmation message and both actions live inside the confirmation surface.
+- Primary actions:
+  - Resume game.
+  - Leave game.
+- Secondary actions:
+  - None required for the MVP.
+- What this surface should communicate:
+  - Leaving now will discard the current session progress.
+  - The student can safely continue without losing progress if the leave action was accidental.
+- What this surface should not try to do:
+  - It should not become a detailed results preview.
+  - It should not offer too many alternate destinations.
+  - It should not rely on browser-history behavior to decide where to go next.
+- Content:
+  - Short confirmation title.
+  - Short explanation that current session progress will be lost.
+  - `Resume game` action.
+  - `Leave game` action.
+- UI direction:
+  - Keep the surface small, decisive, and interruption-focused.
+  - It can use a modal or sheet treatment, but it should feel lighter than a full route change.
+  - The resume action should feel like the safe default.
+- Open questions:
+  - Should the leave confirmation use a centered modal on larger screens and a bottom sheet on smaller screens, or one consistent treatment everywhere?
+
 ## Design system
 
 Not defined yet.
@@ -2128,6 +2201,7 @@ This section can hold future ideas that are not yet committed.
 - `rejected` disables optional analytics
 - There is no cookieless analytics fallback
 - Essential client-side storage remains on even when optional analytics are rejected
+- Global sound is an app-level client-side preference that is persisted locally
 - Locale-level metadata is the fallback metadata layer
 - Routes with distinct search/share value should use page-specific metadata
 - Browse/discovery routes may encode learning area and grouping, but canonical Study and Play routes do not encode discovery path
@@ -2153,6 +2227,7 @@ This section can hold future ideas that are not yet committed.
 - Study summary item interaction opens item detail and does not play audio directly
 - Vocabulary Study summary items contain a visual asset, Georgian block, and translation
 - Word detail cards support optional item-level audio, a Georgian-only example phrase, and an optional note area
+- Study uses one stable navigation-bar pattern across devices, and horizontal swipe between item details is not part of the MVP
 - Play sessions are generated from one study resource and prepared in the Lobby before the student starts
 - Every item in the study resource should appear at least once as a target in the session
 - Listening rounds are a Lobby-level session option that regenerates the prepared plan and is fixed once the session starts in the MVP
@@ -2161,14 +2236,19 @@ This section can hold future ideas that are not yet committed.
 - The Lobby shows the exact round count, a compact explicit variant summary, and whether listening rounds are included
 - The Play header uses a two-line pattern: `Play` on the first line and the study resource title on the second line
 - Listening-rounds controls are hidden when the current study resource has no audio-capable items
+- Once a Play session starts, session-affecting audio settings no longer change until the student returns to the Lobby or ends the session
 - Play answers submit immediately; there is no separate submit or continue step before feedback
 - Each round begins with a short input-guard window before answers become active
+- The MVP round progress indicator uses a hybrid bar-plus-number pattern
 - Correct feedback auto-advances after a short wait period, and the student may skip that wait period
+- Wrong feedback continues only after explicitly acknowledging the correct answer
 - Wrong feedback reveals the correct answer and does not auto-advance in the MVP
 - Desktop Play supports keyboard answer bindings for `1`, `2`, `3`, and `4`, with `Space` used to continue from feedback when allowed
+- Leaving from an active round or feedback state opens a confirmation surface because session progress would otherwise be lost
 - Results focus on failed items and show only the correct answer/detail for them
 - Failed items are deduplicated in Results even if they were missed multiple times across the session
 - Results may reuse a limited Study-like body pattern for failed-item review while keeping Results-specific header and CTA actions
+- Results failed-item review opens on its summary view first in the MVP
 - `Play again` returns to the Lobby first rather than starting a new session immediately
 - The product uses one global not-found screen for uncontrolled routes
 - Module review sets are first-class study/play resources with dedicated review routes
