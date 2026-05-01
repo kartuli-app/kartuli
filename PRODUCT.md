@@ -1092,6 +1092,9 @@ Each screen should define:
     - the generated review resource is derived from the current module
     - item order follows authored lesson order first, then item order inside each lesson
     - duplicate items keep their first occurrence and are skipped on later repeats
+    - every module browser contains exactly one generated full-review card inside the `Full review` section
+    - that generated full-review card does not need its own visible card title in the catalog because the section label already names it
+    - when a route or screen needs the full resource title, the generated review lesson uses the pattern `{module name}: Full review`
   - Selection behavior:
     - tapping anywhere on a lesson card selects it
     - tapping any preview asset inside the card also selects it
@@ -1182,7 +1185,7 @@ Each screen should define:
     - top to bottom, then left to right
   - Section heading: `Full review`
   - Full review card:
-    - title: `All the letters`
+    - does not show its own visible card title in the catalog
     - uses the same preview-grid language as lesson cards
     - includes all alphabet letters
     - uses as many rows as needed
@@ -1270,6 +1273,7 @@ Each screen should define:
     - when the preview grid does not show every item, the last slot may become an overflow slot such as `+N`
   - Section heading: `Full review`
   - Full review card:
+    - does not show its own visible card title in the catalog
     - uses the same preview-grid language as lesson cards
     - represents the generated module review resource
     - follows the generated module review ordering rules from the shared module browser pattern
@@ -2142,12 +2146,14 @@ Direction:
   - Short explanation that current session progress will be lost.
   - `Resume game` action.
   - `Leave game` action.
+  - `Leave game` returns to the source Study route.
 - UI direction:
   - Keep the surface small, decisive, and interruption-focused.
-  - It can use a modal or sheet treatment, but it should feel lighter than a full route change.
+  - It uses a bottom-sheet treatment on smaller screens and a centered modal treatment on larger screens.
+  - It should still feel lighter than a full route change.
   - The resume action should feel like the safe default.
 - Open questions:
-  - Should the leave confirmation use a centered modal on larger screens and a bottom sheet on smaller screens, or one consistent treatment everywhere?
+  - None for the MVP leave-confirmation surface.
 
 ## Design system
 
@@ -2244,6 +2250,7 @@ This section can hold future ideas that are not yet committed.
 - Route indexability is defined per route in the routes catalog
 - Redirect routes, Settings, and Play routes use `noindex`
 - Module browser screens use a shared pattern: module header, Lessons section, Full review section, and a dismissible selected study-resource surface
+- Every authored module generates exactly one synthetic `Full review` lesson, and its catalog card is unlabeled because the section label already provides the visible title
 - Alphabet lessons normally contain 3 to 6 items
 - Full alphabet review is the explicit exception to the normal alphabet lesson size
 - Alphabet catalog prioritizes small lessons first and full review second
@@ -2281,6 +2288,7 @@ This section can hold future ideas that are not yet committed.
 - Wrong feedback reveals the correct answer and does not auto-advance in the MVP
 - Desktop Play supports keyboard answer bindings for `1`, `2`, `3`, and `4`, with `Space` used to continue from feedback when allowed
 - Leaving from an active round or feedback state opens a confirmation surface because session progress would otherwise be lost
+- Leave-game confirmation uses a bottom sheet on smaller screens, a centered modal on larger screens, and `Leave game` returns to the source Study route
 - Results focus on failed items and show only the correct answer/detail for them
 - Failed items are deduplicated in Results even if they were missed multiple times across the session
 - Results may reuse a limited Study-like body pattern for failed-item review while keeping Results-specific header and CTA actions
