@@ -1,0 +1,634 @@
+# Screens
+
+This document owns the screen contract, route-screen catalog, and Play flow-screen specifications.
+
+Reusable UI rules live in [ui-system.md](ui-system.md). Route-level navigation targets live in [routing-and-flows.md](routing-and-flows.md).
+
+## Screen contract template
+
+Each screen entry must define:
+
+- Status
+- Role
+- Entry point
+- Main user question
+- Primary decision
+- Layout regions
+- Navigation chrome
+- Action placement
+- Primary actions
+- Secondary actions
+- Content highlights
+- UI direction
+- Open questions
+
+## Screen catalog
+
+### Privacy screen
+
+- Status: `Current MVP`
+- Role: present the privacy notice as readable longform content and explain storage and analytics behavior
+- Entry point: `/{locale}/privacy`
+- Main user question: what does the app store, what does consent control, and where can I read the full privacy notice?
+- Primary decision: read and understand the privacy notice
+- Layout regions:
+  - top bar with route title and back action
+  - longform content area
+- Navigation chrome:
+  - no dock
+  - route-level back target lives in `routing-and-flows.md`
+- Action placement:
+  - no primary CTA region
+  - navigation lives in the top bar
+- Primary actions:
+  - read the privacy notice
+- Secondary actions:
+  - return to Learn
+- Content highlights:
+  - top bar title: `Privacy`
+  - content sources:
+    - `privacy-en.md`
+    - `privacy-ru.md`
+  - content stays legal/informational rather than promotional
+- UI direction:
+  - use a calm reading surface
+  - prioritize typography, spacing, and readable line length
+- Open questions:
+  - whether the top bar should use mascot/logo only or mascot/logo plus brand text
+
+### Global not found screen
+
+- Status: `Current MVP`
+- Role: help the user recover when a URL does not map to a controlled route
+- Entry point: global not-found route state
+- Main user question: where should I go now that this page does not exist?
+- Primary decision: return to a safe destination
+- Layout regions:
+  - top bar
+  - main recovery content area
+- Navigation chrome:
+  - no dock
+- Action placement:
+  - recovery action lives in the content area
+- Primary actions:
+  - go to Learn
+- Secondary actions:
+  - none
+- Content highlights:
+  - short title
+  - short explanation
+  - no raw attempted URL shown in MVP UI
+- UI direction:
+  - calm, branded recovery treatment
+  - clarity beats cleverness
+- Open questions:
+  - final localized title and copy
+
+### Study resource unavailable screen
+
+- Status: `Current MVP`
+- Role: explain that a valid Study route could not load the requested lesson or module review set
+- Entry point:
+  - `/{locale}/app/learn/lessons/{lessonId}/study`
+  - `/{locale}/app/learn/modules/{moduleId}/review/study`
+- Main user question: how do I continue if this study resource cannot be opened?
+- Primary decision: return to Learn and choose another resource
+- Layout regions:
+  - top bar
+  - main recovery content area
+- Navigation chrome:
+  - no dock
+- Action placement:
+  - recovery action lives in the content area
+- Primary actions:
+  - go to Learn
+- Secondary actions:
+  - return to Learn from the top bar
+- Content highlights:
+  - message must distinguish resource unavailable from global not found
+  - message should not expose raw resource IDs
+- UI direction:
+  - reuse the normal app shell
+  - keep the state calm and recoverable
+- Open questions:
+  - whether the copy should say `could not be found` or softer wording such as `is not available`
+
+### Play resource unavailable screen
+
+- Status: `Current MVP`
+- Role: explain that a valid Play route could not load the requested lesson or module review set
+- Entry point:
+  - `/{locale}/app/learn/lessons/{lessonId}/play`
+  - `/{locale}/app/learn/modules/{moduleId}/review/play`
+- Main user question: how do I continue if this study resource cannot be played?
+- Primary decision: return to Learn and choose another resource
+- Layout regions:
+  - top bar
+  - main recovery content area
+- Navigation chrome:
+  - no dock
+- Action placement:
+  - recovery action lives in the content area
+- Primary actions:
+  - go to Learn
+- Secondary actions:
+  - return to Learn from the top bar
+- Content highlights:
+  - message must distinguish resource unavailable from global not found
+  - MVP recovery path stays focused on Learn instead of offering a secondary Study fallback here
+- UI direction:
+  - reuse the normal app shell
+  - keep the state calm and recoverable
+- Open questions:
+  - None
+
+### Explore entry screen
+
+- Status: `Current MVP`
+- Role: act as the top-level manual learning entry screen
+- Entry point: `/{locale}/app/learn` resolving to `/{locale}/app/learn/explore`
+- Main user question: what do I want to learn?
+- Primary decision: choose Alphabet or Vocabulary
+- Layout regions:
+  - branded header area
+  - learning-choice area with large tap targets
+- Navigation chrome:
+  - no back button
+  - dock visible
+  - header uses branding rather than a back action
+- Action placement:
+  - each learning path is a full-card tap target
+- Primary actions:
+  - open Alphabet catalog
+  - open Vocabulary catalog
+- Secondary actions:
+  - use dock to open Translit
+  - use dock to open Settings
+- Content highlights:
+  - title: `Explore`
+  - support line: `Choose what you want to learn.`
+  - Alphabet card copy: `Learn Georgian letters step by step.`
+  - Vocabulary card copy: `Learn useful words and phrases by topic.`
+  - screen must not mix current Explore behavior with future Recommended logic
+- UI direction:
+  - mobile-first
+  - should aim to fit common mobile heights without scroll in MVP
+  - shell should remain compatible with a future Explore/Recommended split
+- Open questions:
+  - exact mascot/logo treatment in the header
+  - whether the mascot appears only in the header or also inside the cards
+
+### Module browser screen pattern
+
+- Status: `Current MVP`
+- Role: shared pattern for browsing one module, selecting one study resource, and launching Study or Play
+- Entry point:
+  - currently used by Alphabet catalog and Vocabulary catalog
+  - may later support additional learning areas
+- Main user question: which lesson or module review set do I want to work with right now?
+- Primary decision: select one authored lesson or one module review set, then continue to Study or Play
+- Layout regions:
+  - top bar
+  - module header
+  - lessons section
+  - full-review section
+  - selected study-resource surface
+- Navigation chrome:
+  - no dock
+  - top-bar actions depend on the resource family
+- Action placement:
+  - direct interaction inside lesson/review cards selects the resource
+  - Study and Play live inside the selected study-resource surface
+- Primary actions:
+  - select one lesson
+  - select the module review set
+  - open the selected resource in Study
+  - open the selected resource in Play
+- Secondary actions:
+  - return to the parent browse route
+- Content highlights:
+  - every module browser exposes exactly one `Full review` section
+  - `Full review` is the UI label; the underlying product model is a module review set
+  - the selected study-resource surface is contextual, dismissible, and non-modal
+  - selecting another resource updates the same surface in place
+- UI direction:
+  - use the shared module-browser grid and selected-resource-drawer patterns from `ui-system.md`
+  - keep the selected surface contextual rather than turning it into embedded Study
+- Open questions:
+  - exact hierarchy between the module header and section headings
+  - how visually distinct the full-review card should feel from authored lesson cards
+
+### Alphabet catalog screen
+
+- Status: `Current MVP`
+- Role: browse grouped alphabet content, preview letter audio, and choose what to Study or Play
+- Entry point: `/{locale}/app/learn/explore/alphabet`
+- Main user question: which alphabet set do I want to work with right now?
+- Primary decision: select one alphabet lesson or the alphabet module review set
+- Layout regions:
+  - top bar with back action, two-line title, and sound toggle
+  - lessons section
+  - full-review section
+  - selected study-resource surface
+- Navigation chrome:
+  - no dock
+  - title pattern:
+    - `Explore`
+    - `Alphabet`
+- Action placement:
+  - lesson and review selection starts from direct interaction inside cards
+  - Study and Play live inside the selected study-resource surface
+- Primary actions:
+  - select one alphabet lesson
+  - open the selected resource in Study
+  - open the selected resource in Play
+- Secondary actions:
+  - return to Explore
+  - toggle alphabet preview audio
+- Content highlights:
+  - page helper copy depends on sound state
+  - current lesson set:
+    - `The five vowels`
+    - `Sounds you know`
+    - `More easy sounds`
+    - `Puff and Pop`
+    - `The K family`
+    - `Hissing sounds`
+    - `Buzzing sounds`
+  - tapping a preview letter selects the containing lesson context
+  - when sound is enabled, tapping a preview letter also plays that letter's audio
+  - when sound is disabled, alphabet preview taps fail silently
+  - full review includes all alphabet letters and targets module-review routes, not an authored lesson
+- UI direction:
+  - keep the screen aligned to the shared module-browser pattern
+  - use the alphabet-specific preview language from `ui-system.md`
+- Open questions:
+  - exact visual treatment that distinguishes the full-review card without changing its internal grid model
+  - sound-toggle iconography and label treatment
+
+### Vocabulary catalog screen
+
+- Status: `Current MVP`
+- Role: browse vocabulary lessons in the current module and choose what to Study or Play
+- Entry point: `/{locale}/app/learn/explore/vocabulary`
+- Main user question: which vocabulary set do I want to work with right now?
+- Primary decision: select one vocabulary lesson or the vocabulary module review set
+- Layout regions:
+  - top bar with back action and two-line title
+  - module header
+  - lessons section
+  - full-review section
+  - selected study-resource surface
+- Navigation chrome:
+  - no dock
+  - title pattern:
+    - `Explore`
+    - `Vocabulary`
+- Action placement:
+  - lesson and review selection starts from direct interaction inside cards
+  - Study and Play live inside the selected study-resource surface
+- Primary actions:
+  - select one vocabulary lesson
+  - select the vocabulary module review set
+  - open the selected resource in Study
+  - open the selected resource in Play
+- Secondary actions:
+  - return to Explore
+- Content highlights:
+  - current route acts as the module browser for the only authored vocabulary module
+  - current module title: `Everyday basics`
+  - preview assets are visual-only in MVP and do not add preview audio
+  - preview ordering follows authored item order
+  - the last preview slot may become an overflow slot when needed
+- UI direction:
+  - keep the screen aligned to the shared module-browser pattern
+  - avoid turning the screen into a dense vocabulary table
+- Open questions:
+  - exact preview-slot count before overflow once real content is authored
+
+### Study screen
+
+- Status: `Current MVP`
+- Role: preview one study resource, move between summary and detail, and launch Play whenever ready
+- Entry point:
+  - `/{locale}/app/learn/lessons/{lessonId}/study`
+  - `/{locale}/app/learn/modules/{moduleId}/review/study`
+- Main user question: do I stay in summary, inspect a specific item, or start playing now?
+- Primary decision: stay in summary, inspect an item, or open Play
+- Layout regions:
+  - top bar
+  - study navigation bar
+  - main area with summary or one focused detail card
+  - sticky Play CTA area
+- Navigation chrome:
+  - no dock
+  - canonical browse return target comes from `routing-and-flows.md`
+  - top bar keeps resource context visible
+  - sound toggle appears only when the resource family exposes Study audio
+- Action placement:
+  - global route actions live in the top bar
+  - summary/detail navigation lives in the study navigation bar
+  - item selection lives inside the summary card
+  - Play stays available from a persistent CTA
+- Primary actions:
+  - open Play
+  - open item detail from summary
+  - move to previous or next study position
+- Secondary actions:
+  - return to summary
+  - return to the owning browse route
+  - toggle sound when audio is available
+- Content highlights:
+  - Study is optional and opens on summary by default
+  - summary shows all items in the current resource
+  - summary item interaction opens detail and does not play audio directly
+  - previous from the first detail item returns to summary
+  - next is disabled on the last item
+  - item position remains internal UI state, not URL state
+  - alphabet detail includes Georgian letter, transliteration, pronunciation hint, and audio playback
+  - vocabulary detail includes Georgian block, translation, visual asset, optional audio, Georgian-only example phrase, and optional note area
+  - muted explicit audio controls remain visible and explain why playback is unavailable
+- UI direction:
+  - one shared Study shell across lesson types
+  - lesson types swap summary/detail variants without changing shell behavior
+  - sticky Play CTA is especially important on mobile
+- Open questions:
+  - how much student-specific item status, if any, should appear in item detail later
+
+### Play screen
+
+- Status: `Current MVP`
+- Role: host the full game flow for one lesson or one module review set
+- Entry point:
+  - `/{locale}/app/learn/lessons/{lessonId}/play`
+  - `/{locale}/app/learn/modules/{moduleId}/review/play`
+- Main user question: am I ready to start, how do I answer, and what do I do when the session ends?
+- Primary decision: start the session, answer the rounds, and choose the next step after Results
+- Layout regions:
+  - header/top-bar region
+  - main game region that swaps flow screens
+  - optional support areas such as keyboard hints when useful
+- Navigation chrome:
+  - Lobby uses a back-style return to Study
+  - active rounds and feedback use a leave-game action instead of a back arrow
+  - Results use explicit next-step actions instead of a back arrow
+- Action placement:
+  - Lobby actions live in the main game region
+  - round answers live in the answer area
+  - correct feedback auto-progresses after a short wait unless skipped
+  - wrong feedback requires acknowledgment before continuing
+- Primary actions:
+  - start the prepared session
+  - answer the active round
+  - replay after Results
+- Secondary actions:
+  - leave Play
+  - return to Study or Learn after the session
+- Content highlights:
+  - the Lobby prepares the game plan before start
+  - exact round count, variant summary, and listening-round inclusion belong to the prepared plan
+  - one active round at a time
+  - MVP format family is `single-choice`
+  - active-session sound changes affect playback immediately without regenerating the current prepared sequence
+  - leaving from an active round or feedback state uses a confirmation surface because progress would be lost
+- UI direction:
+  - prioritize speed, clarity, and focus over heavy explanation
+  - correct and wrong answer states must be distinct at a glance
+- Open questions:
+  - None
+
+#### Game Lobby flow screen
+
+- Status: `Current MVP`
+- Role: present the prepared session clearly and let the student start with minimal friction
+- Entry point: immediately after Play resolves the current resource and prepares its initial plan
+- Main user question: am I ready to start, and do I want to adjust listening rounds first?
+- Primary decision: start the prepared session
+- Layout regions:
+  - Lobby header
+  - session summary area
+  - session options area
+  - primary action area
+- Navigation chrome:
+  - header back arrow returns to the canonical Study route for the current resource
+  - sound toggle remains visible
+  - title pattern:
+    - `Play`
+    - current study-resource title
+- Action placement:
+  - summary and options live in the main content area
+  - `Start` is visually dominant
+  - `Back to Study` lives near the primary action instead of in the header
+- Primary actions:
+  - start the prepared session
+- Secondary actions:
+  - back to Study
+  - toggle sound
+  - include or exclude listening rounds
+- Content highlights:
+  - show exact round count
+  - show a compact variant summary
+  - show whether listening rounds are included
+  - listening-round control appears only for audio-capable resources
+  - when sound turns off in the Lobby, listening rounds turn off and the prepared plan regenerates
+  - when sound turns on in the Lobby, the user may choose to turn listening rounds back on before starting
+  - no extra item preview is required in MVP
+- UI direction:
+  - compact and utilitarian, but clearly the start of the core game experience
+  - the `Start` action should dominate
+- Open questions:
+  - exact visual format for the compact variant summary
+  - visual treatment for the `Back to Study` action
+
+#### Game Round flow screen
+
+- Status: `Current MVP`
+- Role: present one active round and accept an immediate answer
+- Entry point: when the next prepared round becomes active
+- Main user question: what is the correct answer for this cue?
+- Primary decision: answer the current round now
+- Layout regions:
+  - round header
+  - cue area
+  - answer area
+- Navigation chrome:
+  - leave-game action visible
+  - hybrid progress indicator always visible
+  - current sound state/control visible
+  - study-resource title hidden during active rounds
+- Action placement:
+  - replay and cue-specific controls live in the cue area
+  - instruction prompt sits in or just above the answer area
+  - four answer options live in the answer area
+- Primary actions:
+  - answer with one of four options
+  - replay cue audio on listening rounds
+- Secondary actions:
+  - leave the session
+- Content highlights:
+  - cue payload may be text, visual, or audio
+  - listening rounds autoplay once when the round appears
+  - replay remains available before answering
+  - muted replay controls stay visible and explain why playback is unavailable
+  - each new round starts with a short input guard to prevent accidental carry-over taps
+  - answer submission is immediate and locks inputs right away
+  - desktop answer bindings use `1`, `2`, `3`, and `4`
+- UI direction:
+  - keep cue and answers clearly separated
+  - answer options should feel equal in importance and size
+- Open questions:
+  - None
+
+#### Game Round Feedback flow screen
+
+- Status: `Current MVP`
+- Role: resolve the answered round, teach what happened, and move to the next round
+- Entry point: immediately after an answer resolves
+- Main user question: was I right, and if not, what was correct?
+- Primary decision:
+  - correct: continue immediately or let the wait finish
+  - wrong: acknowledge the correction and continue
+- Layout regions:
+  - round header
+  - cue area
+  - answer area in feedback state
+  - lightweight feedback surface above the round content
+- Navigation chrome:
+  - leave-game action remains available
+  - round progress remains visible
+  - sound state/control remains visible
+  - answer hotkeys are inactive during feedback
+- Action placement:
+  - correct feedback can be skipped from the feedback surface or a safe round area
+  - wrong feedback continues by acknowledging the correct answer
+- Primary actions:
+  - continue from feedback
+- Secondary actions:
+  - leave the session
+- Content highlights:
+  - correct feedback uses a short wait then auto-advances
+  - wrong feedback reveals the correct answer and does not auto-advance
+  - wrong feedback preserves the chosen wrong answer state and disables the rest
+  - `Space` continues from feedback on desktop when continuation is allowed
+- UI direction:
+  - correct feedback should be fast and low-friction
+  - wrong feedback should teach without becoming a separate heavy screen
+- Open questions:
+  - None
+
+#### Game Results flow screen
+
+- Status: `Current MVP`
+- Role: close the session, show what the student missed, and direct the next useful action
+- Entry point: after the final round resolves
+- Main user question: how did I do, what should I review, and what do I want to do next?
+- Primary decision: replay, return to Study, or choose something else
+- Layout regions:
+  - results header
+  - failed-items review area
+  - results action area
+- Navigation chrome:
+  - no back arrow
+  - results header uses a two-line pattern:
+    - score summary
+    - lightweight tone/mood line
+- Action placement:
+  - failed-items review sits in the body
+  - CTA actions sit below the review area
+- Primary actions:
+  - play again
+  - back to Study
+  - choose something else
+- Secondary actions:
+  - none
+- Content highlights:
+  - show only failed items in the review area
+  - deduplicate failed items across repeated misses
+  - review shows correct answer/detail only, not the wrong choices again
+  - failed-item review opens on summary first and reuses the Study summary/detail navigation pattern
+  - if nothing was failed, show a success card in the same area
+  - `Play again` returns to the Lobby first instead of starting immediately
+- UI direction:
+  - reflective and useful, not just celebratory
+  - review should feel related to Study without becoming the Study route
+- Open questions:
+  - exact tone/mood buckets such as `Very good`, `Not bad`, or `Keep trying`
+
+### Translit screen
+
+- Status: `Current MVP`
+- Role: transliterate text between Georgian and Latin scripts and support token-level inspection
+- Entry point: `/{locale}/app/translit`
+- Main user question: how do I transliterate this text and inspect how the tokens map between scripts?
+- Primary decision: enter source text, inspect the output, and optionally switch direction or copy the result
+- Layout regions:
+  - top bar
+  - source panel
+  - transliteration panel
+- Navigation chrome:
+  - dock visible
+  - back target comes from `routing-and-flows.md`
+- Action placement:
+  - source actions live in the source panel
+  - output actions live in the output panel
+  - token inspection is embedded in the output surface
+- Primary actions:
+  - type or paste source text
+  - switch direction
+  - copy output
+  - inspect token mapping
+- Secondary actions:
+  - clear source text
+- Content highlights:
+  - transliteration runs on every input change
+  - switching direction turns the current output into the new input
+  - output stays read-only
+  - output preserves whitespace runs
+  - punctuation stays attached to the surrounding token
+  - output-token inspection reveals the matching source token
+  - direction is not persisted between visits in MVP
+- UI direction:
+  - practical utility treatment
+  - prioritize fast editing, panel separation, and readable text
+- Open questions:
+  - whether token tooltips should later include translations for recognized vocabulary
+  - whether the screen should later support loading example text from learning content
+
+### Settings screen
+
+- Status: `Current MVP`
+- Role: provide global app utilities and metadata in a simple, low-frequency control surface
+- Entry point: `/{locale}/app/settings`
+- Main user question: how do I adjust app-wide preferences and view app information quickly?
+- Primary decision: update a global preference now
+- Layout regions:
+  - top bar
+  - single-column main area with sections for Language, Sound, Privacy, and About
+- Navigation chrome:
+  - dock visible
+  - back target comes from `routing-and-flows.md`
+- Action placement:
+  - inline actions inside each section
+  - no sticky CTA region
+- Primary actions:
+  - change UI language
+  - toggle global sound
+  - accept optional analytics
+  - reject optional analytics
+- Secondary actions:
+  - open Privacy page
+  - open project GitHub link
+- Content highlights:
+  - language changes apply immediately
+  - sound applies globally across browse preview, Study, and Play audio
+  - Privacy section distinguishes essential storage from optional analytics
+  - consent status is shown as not chosen yet, accepted, or rejected
+  - Settings does not offer a reset-to-unknown control
+  - About includes app version, content version, and project link
+- UI direction:
+  - conservative, practical utility presentation
+  - same layout behavior across devices
+- Open questions:
+  - exact microcopy that explains essential storage versus optional analytics
+  - exact GitHub URL
+  - exact format for hardcoded app/content version strings

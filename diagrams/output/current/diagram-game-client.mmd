@@ -23,167 +23,178 @@ end
 end
 P["layout.tsx"]
 T["not-found.tsx"]
-end
-W["robots.ts"]
-end
-subgraph X["i18n"]
-Y["generate-metadata-for-supported-locale.ts"]
-12["generate-static-params-for-supported-locales.ts"]
-13["i18n-config.ts"]
-15["i18n-constants.ts"]
-16["i18n-provider.tsx"]
-1A["index.ts"]
-subgraph 1B["resources"]
-1C["deep-same-keys.ts"]
-1D["i18next.d.ts"]
-subgraph 1F["messages"]
-subgraph 1G["en"]
-1H["common.ts"]
-1I["home.ts"]
-1J["learn.ts"]
-1K["metadata.ts"]
-1L["not-found.ts"]
-1M["translit.ts"]
-end
-subgraph 1N["ru"]
-1O["common.ts"]
-1P["home.ts"]
-1Q["learn.ts"]
-1R["metadata.ts"]
-1S["not-found.ts"]
-1T["translit.ts"]
+subgraph W["settings"]
+X["page.tsx"]
 end
 end
-1U["metadata-by-locale.ts"]
-20["resources-en.ts"]
-26["resources-ru.ts"]
-2D["resources.ts"]
-2F["same-keys-as-reference-resources.ts"]
+10["robots.ts"]
+end
+subgraph 11["i18n"]
+12["generate-metadata-for-supported-locale.ts"]
+16["generate-static-params-for-supported-locales.ts"]
+17["i18n-config.ts"]
+19["i18n-constants.ts"]
+1A["i18n-provider.tsx"]
+1E["index.ts"]
+1F["locale-utils.ts"]
+subgraph 1G["resources"]
+1H["deep-same-keys.ts"]
+1I["i18next.d.ts"]
+subgraph 1K["messages"]
+subgraph 1L["en"]
+1M["common.ts"]
+1N["home.ts"]
+1O["learn.ts"]
+1P["metadata.ts"]
+1Q["not-found.ts"]
+1R["settings.ts"]
+1S["translit.ts"]
+end
+subgraph 1T["ru"]
+1U["common.ts"]
+1V["home.ts"]
+1W["learn.ts"]
+1X["metadata.ts"]
+1Y["not-found.ts"]
+1Z["settings.ts"]
+20["translit.ts"]
 end
 end
-subgraph 2H["learning-content"]
-2I["index.ts"]
-subgraph 2J["library"]
-2K["get-library-server.tsx"]
-2P["build-library.tsx"]
-2X["library.tsx"]
-end
-subgraph 2V["utils"]
-2W["transliteration.tsx"]
-end
-subgraph 2Y["ingestion"]
-subgraph 2Z["common-data"]
-30["common-data.ts"]
-31["common-data-json-schema.ts"]
-32["common-data-repository.ts"]
-33["default-common-data-repository.ts"]
-36["parse-and-map-common-data.ts"]
-37["extended-common-data-repository.ts"]
-end
-subgraph 34["data-sources"]
-35["default-common-data.json"]
-38["extended-common-data.json"]
-3B["default-localized-data.en.json"]
-3C["default-localized-data.ru.json"]
-3I["extended-localized-data.en.json"]
-3J["extended-localized-data.ru.json"]
-end
-subgraph 39["localized-data"]
-3A["default-localized-data-repository.ts"]
-3D["localized-data-repository.ts"]
-3E["localized-data.ts"]
-3F["parse-and-map-localized-data.ts"]
-3G["localized-data-json-schema.ts"]
-3H["extended-localized-data-repository.ts"]
+21["metadata-by-locale.ts"]
+27["resources-en.ts"]
+2E["resources-ru.ts"]
+2M["resources.ts"]
+2O["same-keys-as-reference-resources.ts"]
 end
 end
-subgraph 3K["integration"]
-3L["get-common-data.ts"]
-3M["get-localized-data.ts"]
+subgraph 2Q["learning-content"]
+2R["index.ts"]
+subgraph 2S["library"]
+2T["get-library-server.tsx"]
+2Y["build-library.tsx"]
+36["library.tsx"]
+end
+subgraph 34["utils"]
+35["transliteration.tsx"]
+end
+subgraph 37["ingestion"]
+subgraph 38["common-data"]
+39["common-data.ts"]
+3A["common-data-json-schema.ts"]
+3B["common-data-repository.ts"]
+3C["default-common-data-repository.ts"]
+3F["parse-and-map-common-data.ts"]
+3G["extended-common-data-repository.ts"]
+end
+subgraph 3D["data-sources"]
+3E["default-common-data.json"]
+3H["extended-common-data.json"]
+3K["default-localized-data.en.json"]
+3L["default-localized-data.ru.json"]
+3R["extended-localized-data.en.json"]
+3S["extended-localized-data.ru.json"]
+end
+subgraph 3I["localized-data"]
+3J["default-localized-data-repository.ts"]
+3M["localized-data-repository.ts"]
+3N["localized-data.ts"]
+3O["parse-and-map-localized-data.ts"]
+3P["localized-data-json-schema.ts"]
+3Q["extended-localized-data-repository.ts"]
 end
 end
-subgraph 3N["navigation"]
-3O["index.ts"]
-3P["navigation-context.tsx"]
-3Q["next-navigation-root-layout.tsx"]
-3V["split-localized-pathname.ts"]
-3W["spa-navigation-root-layout.tsx"]
-end
-3X["proxy.ts"]
-subgraph 3Y["root-layout"]
-3Z["root-database-initializer.tsx"]
-46["root-layout.tsx"]
-47["globals.css"]
-48["root-query-client-provider.tsx"]
-end
-subgraph 49["student"]
-subgraph 4A["identifiers"]
-4B["device-id.ts"]
-4C["owner-id.ts"]
-end
-subgraph 4D["item-activity-device-states-collection"]
-4E["batch-upsert-item-activity-view-events.ts"]
-4F["create-item-activity-states-collection.ts"]
-4H["item-activity-state-database.ts"]
-4I["item-activity-state.ts"]
-4J["use-item-activity-states-collection.ts"]
-4K["use-item-activity-view-events.ts"]
-end
-subgraph 4L["item-activity-summary"]
-4M["item-acitivty-summaries-live-query.tsx"]
-4P["item-activity-summaries-by-id.tsx"]
-4S["item-activity-summary.ts"]
+subgraph 3T["integration"]
+3U["get-common-data.ts"]
+3V["get-localized-data.ts"]
 end
 end
-subgraph 4T["ui"]
-subgraph 4U["screens"]
-subgraph 4V["home"]
-subgraph 4W["components"]
-4X["heading.tsx"]
-4Y["lesson-card.tsx"]
-52["module-card.tsx"]
-53["modules-list.tsx"]
+subgraph 3W["navigation"]
+3X["index.ts"]
+3Y["navigation-context.tsx"]
+3Z["next-navigation-root-layout.tsx"]
+44["split-localized-pathname.ts"]
+45["spa-navigation-root-layout.tsx"]
 end
-55["home-client.tsx"]
-subgraph 5D["view"]
-5E["home-view.ts"]
-5H["build-home-view.tsx"]
+46["proxy.ts"]
+subgraph 47["root-layout"]
+48["root-database-initializer.tsx"]
+4F["root-layout.tsx"]
+4G["globals.css"]
+4H["root-query-client-provider.tsx"]
 end
-5F["home-page-server.tsx"]
+subgraph 4I["student"]
+subgraph 4J["identifiers"]
+4K["device-id.ts"]
+4L["owner-id.ts"]
 end
-subgraph 5J["learn"]
-5K["learn-page-client.tsx"]
-5L["learn-page-server.tsx"]
+subgraph 4M["item-activity-device-states-collection"]
+4N["batch-upsert-item-activity-view-events.ts"]
+4O["create-item-activity-states-collection.ts"]
+4Q["item-activity-state-database.ts"]
+4R["item-activity-state.ts"]
+4S["use-item-activity-states-collection.ts"]
+4T["use-item-activity-view-events.ts"]
 end
-subgraph 5M["not-found"]
-5N["not-found-client.tsx"]
-5O["not-found-page-server.tsx"]
-end
-subgraph 5P["translit"]
-5Q["translit-action-tooltip.stories.tsx"]
-5R["translit-action-tooltip.tsx"]
-5U["translit-client.tsx"]
-60["translit-page-server.tsx"]
+subgraph 4U["item-activity-summary"]
+4V["item-acitivty-summaries-live-query.tsx"]
+4Y["item-activity-summaries-by-id.tsx"]
+51["item-activity-summary.ts"]
 end
 end
-subgraph 61["shared"]
-subgraph 62["components"]
-subgraph 63["game-app-bar"]
-64["animated-back-button.tsx"]
-65["game-app-bar-elements.tsx"]
-66["game-app-bar.tsx"]
-6C["language-selector.tsx"]
-6D["title.tsx"]
-6E["mascot.tsx"]
-6F["offline-indicator.tsx"]
-6G["sound-toggle.tsx"]
+subgraph 52["ui"]
+subgraph 53["screens"]
+subgraph 54["home"]
+subgraph 55["components"]
+56["heading.tsx"]
+57["lesson-card.tsx"]
+5B["module-card.tsx"]
+5C["modules-list.tsx"]
 end
-subgraph 6H["game-app-dock"]
-6I["game-app-dock-button.tsx"]
-6J["game-app-dock-main-links.tsx"]
-6K["game-app-dock.tsx"]
+5E["home-client.tsx"]
+subgraph 5M["view"]
+5N["home-view.ts"]
+5Q["build-home-view.tsx"]
 end
-6L["game-shell.tsx"]
+5O["home-page-server.tsx"]
+end
+subgraph 5S["learn"]
+5T["learn-page-client.tsx"]
+5U["learn-page-server.tsx"]
+end
+subgraph 5V["not-found"]
+5W["not-found-client.tsx"]
+5X["not-found-page-server.tsx"]
+end
+subgraph 5Y["settings"]
+5Z["settings-client.tsx"]
+62["settings-page-server.tsx"]
+end
+subgraph 63["translit"]
+64["translit-action-tooltip.stories.tsx"]
+65["translit-action-tooltip.tsx"]
+67["translit-client.tsx"]
+6F["translit-output-segments.ts"]
+6G["translit-output.stories.tsx"]
+6H["translit-output.tsx"]
+6I["translit-page-server.tsx"]
+6J["translit-tooltip-styles.ts"]
+end
+end
+subgraph 6K["shared"]
+subgraph 6L["components"]
+subgraph 6M["game-app-bar"]
+6N["animated-back-button.tsx"]
+6O["game-app-bar-elements.tsx"]
+6P["game-app-bar.tsx"]
+6T["title.tsx"]
+6U["mascot.tsx"]
+end
+subgraph 6V["game-app-dock"]
+6W["game-app-dock-button.tsx"]
+6X["game-app-dock-main-links.tsx"]
+6Y["game-app-dock.tsx"]
+end
+6Z["game-shell.tsx"]
 end
 end
 end
@@ -191,130 +202,136 @@ end
 subgraph 5["@game-client"]
 subgraph 6["i18n"]
 7[" "]
-Z["i18n-constants"]
-subgraph 10["resources"]
-11["metadata-by-locale"]
-14["resources"]
-1E["resources-en"]
-subgraph 1V["messages"]
-subgraph 1W["en"]
-1X["metadata"]
-21["common"]
-22["home"]
-23["learn"]
-24["not-found"]
-25["translit"]
+13["i18n-constants"]
+subgraph 14["resources"]
+15["metadata-by-locale"]
+18["resources"]
+1J["resources-en"]
+subgraph 22["messages"]
+subgraph 23["en"]
+24["metadata"]
+28["common"]
+29["home"]
+2A["learn"]
+2B["not-found"]
+2C["settings"]
+2D["translit"]
 end
-subgraph 1Y["ru"]
-1Z["metadata"]
-27["common"]
-28["home"]
-29["learn"]
-2A["not-found"]
-2B["translit"]
+subgraph 25["ru"]
+26["metadata"]
+2F["common"]
+2G["home"]
+2H["learn"]
+2I["not-found"]
+2J["settings"]
+2K["translit"]
 end
 end
-2C["same-keys-as-reference-resources"]
-2E["resources-ru"]
-2G["deep-same-keys"]
+2L["same-keys-as-reference-resources"]
+2N["resources-ru"]
+2P["deep-same-keys"]
 end
-17["i18n-config"]
+1B["i18n-config"]
 end
 subgraph 8["ui"]
 subgraph 9["screens"]
 subgraph A["home"]
 B["home-page-server"]
-subgraph 50["view"]
-51["home-view"]
+subgraph 59["view"]
+5A["home-view"]
 end
-5G["home-client"]
+5P["home-client"]
 end
 subgraph F["learn"]
 G["learn-page-server"]
 end
 subgraph N["translit"]
 O["translit-page-server"]
-5Z["translit-action-tooltip"]
+66["translit-tooltip-styles"]
+6C["translit-action-tooltip"]
+6D["translit-output"]
+6E["translit-output-segments"]
 end
 subgraph U["not-found"]
 V["not-found-page-server"]
 end
+subgraph Y["settings"]
+Z["settings-page-server"]
 end
-subgraph 3S["shared"]
-subgraph 3T["components"]
-3U["game-shell"]
-subgraph 5S["game-app-bar"]
-5T["game-app-bar-elements"]
-67["mascot"]
-68["offline-indicator"]
-69["sound-toggle"]
-6M["game-app-bar"]
+end
+subgraph 41["shared"]
+subgraph 42["components"]
+43["game-shell"]
+subgraph 60["game-app-bar"]
+61["game-app-bar-elements"]
+6Q["mascot"]
+70["game-app-bar"]
 end
 end
 end
 end
 subgraph Q["navigation"]
-3R["navigation-context"]
+40["navigation-context"]
 end
 subgraph R["root-layout"]
 S["root-layout"]
 end
-subgraph 18["logging"]
-19["dev-logger"]
+subgraph 1C["logging"]
+1D["dev-logger"]
 end
-subgraph 2L["learning-content"]
-subgraph 2M["integration"]
-2N["get-common-data"]
-2O["get-localized-data"]
+subgraph 2U["learning-content"]
+subgraph 2V["integration"]
+2W["get-common-data"]
+2X["get-localized-data"]
 end
-subgraph 2Q["ingestion"]
-subgraph 2R["common-data"]
-2S["common-data"]
+subgraph 2Z["ingestion"]
+subgraph 30["common-data"]
+31["common-data"]
 end
-subgraph 2T["localized-data"]
-2U["localized-data"]
-end
-end
-5I[" "]
-subgraph 5V["library"]
-5W["library"]
-end
-subgraph 5X["utils"]
-5Y["transliteration"]
+subgraph 32["localized-data"]
+33["localized-data"]
 end
 end
-subgraph 40["student"]
-subgraph 41["identifiers"]
-42["device-id"]
-43["owner-id"]
+5R[" "]
+subgraph 68["library"]
+69["library"]
 end
-subgraph 44["item-activity-device-states-collection"]
-45["item-activity-state-database"]
-4G["item-activity-state"]
-4N["use-item-activity-states-collection"]
-4O["use-item-activity-view-events"]
-end
-subgraph 4Q["item-activity-summary"]
-4R["item-activity-summary"]
-4Z["item-activity-summaries-by-id"]
-54["item-acitivty-summaries-live-query"]
+subgraph 6A["utils"]
+6B["transliteration"]
 end
 end
+subgraph 49["student"]
+subgraph 4A["identifiers"]
+4B["device-id"]
+4C["owner-id"]
 end
-subgraph 56["@kartuli"]
-subgraph 57["ui"]
-subgraph 58["components"]
-subgraph 59["containers"]
-5A["responsive-container"]
+subgraph 4D["item-activity-device-states-collection"]
+4E["item-activity-state-database"]
+4P["item-activity-state"]
+4W["use-item-activity-states-collection"]
+4X["use-item-activity-view-events"]
 end
-subgraph 6A["layout"]
-6B["app-bar"]
-6N["app-content"]
-6O["app-screen"]
+subgraph 4Z["item-activity-summary"]
+50["item-activity-summary"]
+58["item-activity-summaries-by-id"]
+5D["item-acitivty-summaries-live-query"]
 end
 end
-subgraph 5B["utils"]
-5C["cn"]
+end
+subgraph 5F["@kartuli"]
+subgraph 5G["ui"]
+subgraph 5H["components"]
+subgraph 5I["containers"]
+5J["responsive-container"]
+end
+subgraph 6R["layout"]
+6S["app-bar"]
+71["app-content"]
+72["app-screen"]
+end
+end
+subgraph 5K["utils"]
+5L["cn"]
 end
 end
 end
@@ -330,177 +347,192 @@ P-->Q
 P-->S
 T-->6
 T-->V
-Y-->Z
-Y-->11
-12-->Z
-13-->15
-13-->14
-16-->17
-16-->19
-1A-->Y
-1A-->12
-1A-->15
-1A-->16
-1D-->1E
-1U-->Z
-1U-->1X
-1U-->1Z
-20-->21
-20-->22
-20-->23
-20-->1X
-20-->24
-20-->25
-26-->27
-26-->28
-26-->29
-26-->1Z
-26-->2A
-26-->2B
-26-->2C
-2D-->1E
-2D-->2E
-2F-->20
-2F-->2G
-2I-->2K
-2I-->2X
-2K-->2P
-2K-->2X
-2K-->2N
-2K-->2O
-2P-->2W
-2P-->2X
-2P-->2S
-2P-->2U
-2P-->19
-2W-->2S
-2X-->30
-32-->30
-33-->35
-33-->32
-33-->36
-36-->30
-36-->31
-37-->38
-37-->32
-37-->36
-3A-->3B
-3A-->3C
-3A-->3D
-3A-->3F
-3D-->3E
-3F-->3E
-3F-->3G
-3H-->3I
-3H-->3J
-3H-->3D
-3H-->3F
-3L-->30
-3L-->33
-3L-->37
-3M-->3A
-3M-->3H
-3M-->2U
+X-->6
+X-->Z
+12-->13
+12-->15
+16-->13
+17-->19
+17-->18
+1A-->1B
+1A-->1D
+1E-->12
+1E-->16
+1E-->19
+1E-->1A
+1E-->1F
+1F-->19
+1I-->1J
+21-->13
+21-->24
+21-->26
+27-->28
+27-->29
+27-->2A
+27-->24
+27-->2B
+27-->2C
+27-->2D
+2E-->2F
+2E-->2G
+2E-->2H
+2E-->26
+2E-->2I
+2E-->2J
+2E-->2K
+2E-->2L
+2M-->1J
+2M-->2N
+2O-->27
+2O-->2P
+2R-->2T
+2R-->36
+2T-->2Y
+2T-->36
+2T-->2W
+2T-->2X
+2Y-->35
+2Y-->36
+2Y-->31
+2Y-->33
+2Y-->1D
+35-->31
+36-->39
+3B-->39
+3C-->3E
+3C-->3B
+3C-->3F
+3F-->39
+3F-->3A
+3G-->3H
+3G-->3B
+3G-->3F
+3J-->3K
+3J-->3L
+3J-->3M
+3J-->3O
+3M-->3N
+3O-->3N
 3O-->3P
-3O-->3Q
-3O-->3W
-3O-->3V
-3Q-->3V
 3Q-->3R
-3Q-->3U
-3V-->Z
-3W-->3V
-3W-->3R
-3W-->3U
-3X-->6
-3Z-->19
-3Z-->42
+3Q-->3S
+3Q-->3M
+3Q-->3O
+3U-->39
+3U-->3C
+3U-->3G
+3V-->3J
+3V-->3Q
+3V-->33
+3X-->3Y
+3X-->3Z
+3X-->45
+3X-->44
+3Z-->44
+3Z-->40
 3Z-->43
-3Z-->45
-46-->47
-46-->3Z
-46-->48
+44-->13
+45-->44
+45-->40
+45-->43
 46-->6
-48-->19
-4B-->19
-4C-->19
-4E-->4B
-4E-->4C
-4E-->4F
-4E-->4I
-4E-->4H
-4E-->19
-4F-->4H
+48-->1D
+48-->4B
+48-->4C
+48-->4E
 4F-->4G
-4H-->4I
-4H-->19
-4J-->4F
-4K-->4E
-4K-->4F
-4M-->4P
-4M-->43
-4M-->4N
-4M-->4O
-4P-->4R
-4Y-->4Z
-4Y-->51
-52-->4Y
-52-->4Z
-52-->51
-53-->52
-53-->54
-53-->4Z
-53-->51
-55-->4X
-55-->53
-55-->5E
-55-->5A
-55-->5C
-5F-->5H
-5F-->2L
-5F-->5G
-5H-->5E
-5H-->5I
-5H-->19
-5K-->5A
-5L-->5K
-5N-->3R
-5N-->5A
-5O-->5N
+4F-->48
+4F-->4H
+4F-->6
+4H-->1D
+4K-->1D
+4L-->1D
+4N-->4K
+4N-->4L
+4N-->4O
+4N-->4R
+4N-->4Q
+4N-->1D
+4O-->4Q
+4O-->4P
+4Q-->4R
+4Q-->1D
+4S-->4O
+4T-->4N
+4T-->4O
+4V-->4Y
+4V-->4C
+4V-->4W
+4V-->4X
+4Y-->50
+57-->58
+57-->5A
+5B-->57
+5B-->58
+5B-->5A
+5C-->5B
+5C-->5D
+5C-->58
+5C-->5A
+5E-->56
+5E-->5C
+5E-->5N
+5E-->5J
+5E-->5L
+5O-->5Q
+5O-->2U
+5O-->5P
+5Q-->5N
 5Q-->5R
-5R-->5T
-5R-->5C
-5U-->5W
-5U-->5Y
-5U-->5Z
-5U-->5A
-5U-->5C
-60-->5U
-60-->2L
-64-->3R
-64-->5T
-66-->64
-66-->6C
-66-->6D
-66-->67
-66-->68
-66-->69
-66-->6B
-6C-->6
-6C-->3R
-6C-->5T
-6D-->3R
-6E-->5T
-6F-->3R
-6G-->5T
-6I-->5C
-6J-->6I
-6J-->3R
-6J-->5C
-6K-->6J
-6K-->5C
-6L-->6K
-6L-->6M
-6L-->6N
-6L-->6O
-6L-->5C
+5Q-->1D
+5T-->5J
+5U-->5T
+5W-->40
+5W-->5J
+5X-->5W
+5Z-->6
+5Z-->Q
+5Z-->61
+5Z-->5J
+5Z-->5L
+62-->5Z
+62-->6
+64-->65
+65-->66
+65-->61
+65-->5L
+67-->69
+67-->6B
+67-->6C
+67-->6D
+67-->6E
+67-->5J
+67-->5L
+6G-->6H
+6G-->6F
+6H-->6E
+6H-->66
+6H-->5L
+6I-->67
+6I-->2U
+6J-->5L
+6N-->40
+6N-->61
+6P-->6N
+6P-->6T
+6P-->6Q
+6P-->6S
+6T-->40
+6U-->61
+6W-->5L
+6X-->6W
+6X-->6
+6X-->40
+6X-->5L
+6Y-->6X
+6Y-->5L
+6Z-->6Y
+6Z-->70
+6Z-->71
+6Z-->72
+6Z-->5L
