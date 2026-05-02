@@ -9,7 +9,6 @@ This project is a Georgian language learning platform.
 3. Respect pinned Node from `.nvmrc` (`24.13.1`).
 4. Before considering work complete, always run:
    - `pnpm run validate:all`
-   - `pnpm run diagrams:all` (runs [`@kartuli/diagram-generator`](tools/diagram-generator/package.json); configs in [`tools/diagram-generator/config/`](tools/diagram-generator/config/))
 5. Never commit unless explicitly requested by the user.
 
 ## Git Workflow
