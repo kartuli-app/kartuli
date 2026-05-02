@@ -7,6 +7,6 @@ import { defaultLocale } from '@game-client/i18n';
  * Use this in page specs that aren't about locale-specific behavior
  * (locale-specific tests live in i18n.spec.ts).
  *
- * @example `${defaultLocaleBase}/learn` -> `/en/learn`
+ * @example `${defaultLocaleBase}/settings` -> `/en/settings`
  */
 export const defaultLocaleBase = `/${defaultLocale}`;

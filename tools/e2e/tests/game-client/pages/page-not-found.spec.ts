@@ -6,6 +6,7 @@ import { defaultLocaleBase } from '../../helpers/locale-url';
 const heading = enResources.notFound.heading;
 const removedPaths = [
   'debug',
+  'learn',
   'privacy',
   'profile',
   'saved',

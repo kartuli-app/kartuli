@@ -155,7 +155,7 @@ const hreflangByLang: Record<SupportedLocale, string> = {
 
 /**
  * Builds canonical URL and language alternates (hreflang) for the current path.
- * pathSegments: full route segments e.g. [] (root), ['en'], or ['ru', 'learn', 'lesson-1'].
+ * pathSegments: full route segments e.g. [] (root), ['en'], or ['ru', 'settings'].
  * Root ([]) is treated as default locale: canonical and x-default point to /en.
  * Call only when path is root or first segment is a supported locale (see getLocaleMetadata).
  */
