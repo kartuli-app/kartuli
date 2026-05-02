@@ -6,8 +6,8 @@ test.describe('Backoffice Client Smoke Tests', () => {
   test('debug page has minimal structure', async ({ page }) => {
     await expectDebugPageStructure(page, {
       path: '/debug',
-      heading: /🔧 Debug Info/,
-      appLabel: 'App: @kartuli/backoffice-client',
+      heading: 'Backoffice debug',
+      appLabel: '@kartuli/backoffice-client',
     });
   });
 

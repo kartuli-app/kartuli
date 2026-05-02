@@ -5,10 +5,6 @@ import {
   translitTooltipArrowInnerClassName,
   translitTooltipPopupClassName,
 } from '@game-client/ui/screens/translit/translit-tooltip-styles';
-import {
-  buttonIconClassNames,
-  iconClassNames,
-} from '@game-client/ui/shared/components/game-app-bar/game-app-bar-elements';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
@@ -49,8 +45,23 @@ export function TranslitActionTooltip({
       <Tooltip.Trigger
         type="button"
         className={cn(
-          iconClassNames,
-          buttonIconClassNames,
+          'size-11',
+          'shrink-0',
+          'rounded-full',
+          'flex',
+          'justify-center',
+          'items-center',
+          'cursor-pointer',
+          'focus-ring',
+          'disabled:cursor-not-allowed',
+          'disabled:opacity-50',
+          'bg-ds1-color-text-200',
+          'hover:bg-ds1-color-text-300',
+          'data-[pressed]:bg-ds1-color-text-300',
+          'active:scale-95',
+          'transition-transform duration-300',
+          'border',
+          'border-ds1-color-text-300',
           'bg-transparent hover:bg-ds1-color-text-100',
           className,
         )}

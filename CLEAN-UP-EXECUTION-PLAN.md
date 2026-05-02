@@ -16,6 +16,12 @@ This is not a controlled migration plan. The app is not in production, nobody de
 - `NextNavigationRootLayout` does not need to disappear immediately if it stays small and useful.
 - The part that should disappear first is the mandatory shell coupling inside it.
 
+## Validation for every phase
+
+- For every phase that changes the game client, do not rely on `pnpm run validate:all` alone.
+- Always run `pnpm run c:preview:game-client` and then `pnpm run c:e2e:game-client` before treating the phase as complete.
+- This is required so structural regressions like missing landmarks, missing page-level headings, or route-level production-only issues are caught locally before CI.
+
 ## Preserve, remove, defer
 
 ### Preserve
