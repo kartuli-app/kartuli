@@ -1,14 +1,17 @@
+---
+description: Route-screen catalog and Play flow-screen specifications for the game client.
+---
+
 # Screens
 
 This document owns the screen contract, route-screen catalog, and Play flow-screen specifications.
 
-Reusable UI rules live in [ui-system.md](ui-system.md). Route-level navigation targets live in [routing-and-flows.md](routing-and-flows.md).
+Reusable UI rules live in [Ui System](./08-ui-system.md). Route-level navigation targets live in [Routing and Flows](./06-routing-and-flows.md).
 
 ## Screen contract template
 
 Each screen entry must define:
 
-- Status
 - Role
 - Entry point
 - Main user question
@@ -25,8 +28,6 @@ Each screen entry must define:
 ## Screen catalog
 
 ### Privacy screen
-
-- Status: `Current MVP`
 - Role: present the privacy notice as readable longform content and explain storage and analytics behavior
 - Entry point: `/{locale}/privacy`
 - Main user question: what does the app store, what does consent control, and where can I read the full privacy notice?
@@ -36,7 +37,7 @@ Each screen entry must define:
   - longform content area
 - Navigation chrome:
   - no dock
-  - route-level back target lives in `routing-and-flows.md`
+  - route-level back target lives in [Routing and Flows](./06-routing-and-flows.md)
 - Action placement:
   - no primary CTA region
   - navigation lives in the top bar
@@ -49,7 +50,7 @@ Each screen entry must define:
   - content sources:
     - `privacy-en.md`
     - `privacy-ru.md`
-  - content stays legal/informational rather than promotional
+  - content stays legal and informational rather than promotional
 - UI direction:
   - use a calm reading surface
   - prioritize typography, spacing, and readable line length
@@ -57,8 +58,6 @@ Each screen entry must define:
   - whether the top bar should use mascot/logo only or mascot/logo plus brand text
 
 ### Global not found screen
-
-- Status: `Current MVP`
 - Role: help the user recover when a URL does not map to a controlled route
 - Entry point: global not-found route state
 - Main user question: where should I go now that this page does not exist?
@@ -85,8 +84,6 @@ Each screen entry must define:
   - final localized title and copy
 
 ### Study resource unavailable screen
-
-- Status: `Current MVP`
 - Role: explain that a valid Study route could not load the requested lesson or module review set
 - Entry point:
   - `/{locale}/app/learn/lessons/{lessonId}/study`
@@ -114,8 +111,6 @@ Each screen entry must define:
   - whether the copy should say `could not be found` or softer wording such as `is not available`
 
 ### Play resource unavailable screen
-
-- Status: `Current MVP`
 - Role: explain that a valid Play route could not load the requested lesson or module review set
 - Entry point:
   - `/{locale}/app/learn/lessons/{lessonId}/play`
@@ -143,8 +138,6 @@ Each screen entry must define:
   - None
 
 ### Explore entry screen
-
-- Status: `Current MVP`
 - Role: act as the top-level manual learning entry screen
 - Entry point: `/{locale}/app/learn` resolving to `/{locale}/app/learn/explore`
 - Main user question: what do I want to learn?
@@ -173,14 +166,12 @@ Each screen entry must define:
 - UI direction:
   - mobile-first
   - should aim to fit common mobile heights without scroll in MVP
-  - shell should remain compatible with a future Explore/Recommended split
+  - shell should remain compatible with a future Explore and Recommended split
 - Open questions:
   - exact mascot/logo treatment in the header
   - whether the mascot appears only in the header or also inside the cards
 
 ### Module browser screen pattern
-
-- Status: `Current MVP`
 - Role: shared pattern for browsing one module, selecting one study resource, and launching Study or Play
 - Entry point:
   - currently used by Alphabet catalog and Vocabulary catalog
@@ -197,7 +188,7 @@ Each screen entry must define:
   - no dock
   - top-bar actions depend on the resource family
 - Action placement:
-  - direct interaction inside lesson/review cards selects the resource
+  - direct interaction inside lesson and review cards selects the resource
   - Study and Play live inside the selected study-resource surface
 - Primary actions:
   - select one lesson
@@ -212,15 +203,13 @@ Each screen entry must define:
   - the selected study-resource surface is contextual, dismissible, and non-modal
   - selecting another resource updates the same surface in place
 - UI direction:
-  - use the shared module-browser grid and selected-resource-drawer patterns from `ui-system.md`
+  - use the shared module-browser grid and selected-resource-drawer patterns from [Ui System](./08-ui-system.md)
   - keep the selected surface contextual rather than turning it into embedded Study
 - Open questions:
   - exact hierarchy between the module header and section headings
   - how visually distinct the full-review card should feel from authored lesson cards
 
 ### Alphabet catalog screen
-
-- Status: `Current MVP`
 - Role: browse grouped alphabet content, preview letter audio, and choose what to Study or Play
 - Entry point: `/{locale}/app/learn/explore/alphabet`
 - Main user question: which alphabet set do I want to work with right now?
@@ -261,14 +250,12 @@ Each screen entry must define:
   - full review includes all alphabet letters and targets module-review routes, not an authored lesson
 - UI direction:
   - keep the screen aligned to the shared module-browser pattern
-  - use the alphabet-specific preview language from `ui-system.md`
+  - use the alphabet-specific preview language from [Ui System](./08-ui-system.md)
 - Open questions:
   - exact visual treatment that distinguishes the full-review card without changing its internal grid model
   - sound-toggle iconography and label treatment
 
 ### Vocabulary catalog screen
-
-- Status: `Current MVP`
 - Role: browse vocabulary lessons in the current module and choose what to Study or Play
 - Entry point: `/{locale}/app/learn/explore/vocabulary`
 - Main user question: which vocabulary set do I want to work with right now?
@@ -307,8 +294,6 @@ Each screen entry must define:
   - exact preview-slot count before overflow once real content is authored
 
 ### Study screen
-
-- Status: `Current MVP`
 - Role: preview one study resource, move between summary and detail, and launch Play whenever ready
 - Entry point:
   - `/{locale}/app/learn/lessons/{lessonId}/study`
@@ -322,12 +307,12 @@ Each screen entry must define:
   - sticky Play CTA area
 - Navigation chrome:
   - no dock
-  - canonical browse return target comes from `routing-and-flows.md`
+  - canonical browse return target comes from [Routing and Flows](./06-routing-and-flows.md)
   - top bar keeps resource context visible
   - sound toggle appears only when the resource family exposes Study audio
 - Action placement:
   - global route actions live in the top bar
-  - summary/detail navigation lives in the study navigation bar
+  - summary and detail navigation lives in the study navigation bar
   - item selection lives inside the summary card
   - Play stays available from a persistent CTA
 - Primary actions:
@@ -350,14 +335,12 @@ Each screen entry must define:
   - muted explicit audio controls remain visible and explain why playback is unavailable
 - UI direction:
   - one shared Study shell across lesson types
-  - lesson types swap summary/detail variants without changing shell behavior
+  - lesson types swap summary and detail variants without changing shell behavior
   - sticky Play CTA is especially important on mobile
 - Open questions:
   - how much student-specific item status, if any, should appear in item detail later
 
 ### Play screen
-
-- Status: `Current MVP`
 - Role: host the full game flow for one lesson or one module review set
 - Entry point:
   - `/{locale}/app/learn/lessons/{lessonId}/play`
@@ -365,7 +348,7 @@ Each screen entry must define:
 - Main user question: am I ready to start, how do I answer, and what do I do when the session ends?
 - Primary decision: start the session, answer the rounds, and choose the next step after Results
 - Layout regions:
-  - header/top-bar region
+  - header and top-bar region
   - main game region that swaps flow screens
   - optional support areas such as keyboard hints when useful
 - Navigation chrome:
@@ -398,8 +381,6 @@ Each screen entry must define:
   - None
 
 #### Game Lobby flow screen
-
-- Status: `Current MVP`
 - Role: present the prepared session clearly and let the student start with minimal friction
 - Entry point: immediately after Play resolves the current resource and prepares its initial plan
 - Main user question: am I ready to start, and do I want to adjust listening rounds first?
@@ -441,8 +422,6 @@ Each screen entry must define:
   - visual treatment for the `Back to Study` action
 
 #### Game Round flow screen
-
-- Status: `Current MVP`
 - Role: present one active round and accept an immediate answer
 - Entry point: when the next prepared round becomes active
 - Main user question: what is the correct answer for this cue?
@@ -454,7 +433,7 @@ Each screen entry must define:
 - Navigation chrome:
   - leave-game action visible
   - hybrid progress indicator always visible
-  - current sound state/control visible
+  - current sound state and control visible
   - study-resource title hidden during active rounds
 - Action placement:
   - replay and cue-specific controls live in the cue area
@@ -480,8 +459,6 @@ Each screen entry must define:
   - None
 
 #### Game Round Feedback flow screen
-
-- Status: `Current MVP`
 - Role: resolve the answered round, teach what happened, and move to the next round
 - Entry point: immediately after an answer resolves
 - Main user question: was I right, and if not, what was correct?
@@ -496,7 +473,7 @@ Each screen entry must define:
 - Navigation chrome:
   - leave-game action remains available
   - round progress remains visible
-  - sound state/control remains visible
+  - sound state and control remain visible
   - answer hotkeys are inactive during feedback
 - Action placement:
   - correct feedback can be skipped from the feedback surface or a safe round area
@@ -517,8 +494,6 @@ Each screen entry must define:
   - None
 
 #### Game Results flow screen
-
-- Status: `Current MVP`
 - Role: close the session, show what the student missed, and direct the next useful action
 - Entry point: after the final round resolves
 - Main user question: how did I do, what should I review, and what do I want to do next?
@@ -531,7 +506,7 @@ Each screen entry must define:
   - no back arrow
   - results header uses a two-line pattern:
     - score summary
-    - lightweight tone/mood line
+    - lightweight tone and mood line
 - Action placement:
   - failed-items review sits in the body
   - CTA actions sit below the review area
@@ -544,19 +519,17 @@ Each screen entry must define:
 - Content highlights:
   - show only failed items in the review area
   - deduplicate failed items across repeated misses
-  - review shows correct answer/detail only, not the wrong choices again
-  - failed-item review opens on summary first and reuses the Study summary/detail navigation pattern
+  - review shows correct answer and detail only, not the wrong choices again
+  - failed-item review opens on summary first and reuses the Study summary and detail navigation pattern
   - if nothing was failed, show a success card in the same area
   - `Play again` returns to the Lobby first instead of starting immediately
 - UI direction:
   - reflective and useful, not just celebratory
   - review should feel related to Study without becoming the Study route
 - Open questions:
-  - exact tone/mood buckets such as `Very good`, `Not bad`, or `Keep trying`
+  - exact tone and mood buckets such as `Very good`, `Not bad`, or `Keep trying`
 
 ### Translit screen
-
-- Status: `Current MVP`
 - Role: transliterate text between Georgian and Latin scripts and support token-level inspection
 - Entry point: `/{locale}/app/translit`
 - Main user question: how do I transliterate this text and inspect how the tokens map between scripts?
@@ -567,7 +540,7 @@ Each screen entry must define:
   - transliteration panel
 - Navigation chrome:
   - dock visible
-  - back target comes from `routing-and-flows.md`
+  - back target comes from [Routing and Flows](./06-routing-and-flows.md)
 - Action placement:
   - source actions live in the source panel
   - output actions live in the output panel
@@ -595,8 +568,6 @@ Each screen entry must define:
   - whether the screen should later support loading example text from learning content
 
 ### Settings screen
-
-- Status: `Current MVP`
 - Role: provide global app utilities and metadata in a simple, low-frequency control surface
 - Entry point: `/{locale}/app/settings`
 - Main user question: how do I adjust app-wide preferences and view app information quickly?
@@ -606,7 +577,7 @@ Each screen entry must define:
   - single-column main area with sections for Language, Sound, Privacy, and About
 - Navigation chrome:
   - dock visible
-  - back target comes from `routing-and-flows.md`
+  - back target comes from [Routing and Flows](./06-routing-and-flows.md)
 - Action placement:
   - inline actions inside each section
   - no sticky CTA region
@@ -631,4 +602,5 @@ Each screen entry must define:
 - Open questions:
   - exact microcopy that explains essential storage versus optional analytics
   - exact GitHub URL
-  - exact format for hardcoded app/content version strings
+  - exact format for hardcoded app and content version strings
+

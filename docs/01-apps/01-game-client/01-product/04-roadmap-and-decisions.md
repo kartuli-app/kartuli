@@ -1,8 +1,21 @@
+---
+description: Time-scoped scope, deferred work, candidate routes, and reduced decision history for the game client.
+---
+
 # Roadmap and Decisions
 
-This document owns time-scoped product scope, future work, candidate routes/pages, backlog, and reduced decision history.
+This document owns time-scoped product scope, future work, candidate routes and pages, backlog, and reduced decision history.
 
-Stable product truth belongs in [../PRODUCT.md](../PRODUCT.md). Route, screen, and UI truth belongs in the focused companion docs.
+Stable product truth lives in the focused source-of-truth docs:
+
+- [Product Overview](./03-product-overview.md)
+- [Core](./05-core.md)
+- [Client Preferences](./09-client-preferences.md)
+- [Audio and Sound](./10-audio-and-sound.md)
+- [Privacy and Analytics](./11-privacy-and-analytics.md)
+- [Routing and Flows](./06-routing-and-flows.md)
+- [Screens](./07-screens.md)
+- [Ui System](./08-ui-system.md)
 
 ## Current MVP scope
 
@@ -43,7 +56,7 @@ Stable product truth belongs in [../PRODUCT.md](../PRODUCT.md). Route, screen, a
 - offline mode
 - mastery tracking derived from low-level activity
 - recommendation mode based on user activity
-- anonymous profile/state continuity
+- anonymous profile and state continuity
 
 ## Candidate future work
 
@@ -84,8 +97,8 @@ These entries record why a non-obvious choice exists. The current rule itself sh
 - Why:
   - Recommended mode is intentionally deferred, and exposing Learn as an Explore-first route keeps the current product model unambiguous
 - Canonical owners:
-  - [../PRODUCT.md](../PRODUCT.md)
-  - [routing-and-flows.md](routing-and-flows.md)
+  - [Product Overview](./03-product-overview.md)
+  - [Routing and Flows](./06-routing-and-flows.md)
 
 ### Module review sets are first-class resources
 
@@ -94,9 +107,9 @@ These entries record why a non-obvious choice exists. The current rule itself sh
 - Why:
   - the generated resource needs shareable, routable behavior and must participate in the same selection, Study, and Play flows as authored lessons
 - Canonical owners:
-  - [../PRODUCT.md](../PRODUCT.md)
-  - [routing-and-flows.md](routing-and-flows.md)
-  - [screens.md](screens.md)
+  - [Core](./05-core.md)
+  - [Routing and Flows](./06-routing-and-flows.md)
+  - [Screens](./07-screens.md)
 
 ### Global not found versus resource unavailable
 
@@ -105,8 +118,8 @@ These entries record why a non-obvious choice exists. The current rule itself sh
 - Why:
   - implementation work needs a clear distinction between an invalid URL and a valid route that failed to load its resource
 - Canonical owners:
-  - [routing-and-flows.md](routing-and-flows.md)
-  - [screens.md](screens.md)
+  - [Routing and Flows](./06-routing-and-flows.md)
+  - [Screens](./07-screens.md)
 
 ### Global sound versus listening rounds
 
@@ -115,9 +128,10 @@ These entries record why a non-obvious choice exists. The current rule itself sh
 - Why:
   - the product needs deterministic audio behavior without making every sound toggle silently regenerate active session structure
 - Canonical owners:
-  - [../PRODUCT.md](../PRODUCT.md)
-  - [routing-and-flows.md](routing-and-flows.md)
-  - [screens.md](screens.md)
+  - [Client Preferences](./09-client-preferences.md)
+  - [Audio and Sound](./10-audio-and-sound.md)
+  - [Routing and Flows](./06-routing-and-flows.md)
+  - [Screens](./07-screens.md)
 
 ### Results focus on failed-item review
 
@@ -126,7 +140,7 @@ These entries record why a non-obvious choice exists. The current rule itself sh
 - Why:
   - the post-game screen should bias toward immediate learning value and actionable next steps
 - Canonical owners:
-  - [screens.md](screens.md)
+  - [Screens](./07-screens.md)
 
 ### Semantic-role-first UI system
 
@@ -135,4 +149,5 @@ These entries record why a non-obvious choice exists. The current rule itself sh
 - Why:
   - the product needs a coherent design system that scales across routes and components without inventing one-off styling rules per screen
 - Canonical owners:
-  - [ui-system.md](ui-system.md)
+  - [Ui System](./08-ui-system.md)
+
