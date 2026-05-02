@@ -5,7 +5,7 @@ import {
   type SupportedLocale,
   supportedLocales,
 } from '@game-client/i18n';
-import clsx from 'clsx';
+import { cn } from '@kartuli/ui/utils/cn';
 import { Manrope } from 'next/font/google';
 import localFont from 'next/font/local';
 import { notFound, redirect } from 'next/navigation';
@@ -45,7 +45,7 @@ export async function RootLayout({
   return (
     <html
       lang={locale}
-      className={clsx(
+      className={cn(
         georgianFont.variable,
         defaultFont.variable,
         defaultFont.className,

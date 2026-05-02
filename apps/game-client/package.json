@@ -21,7 +21,6 @@
     "@tanstack/query-db-collection": "catalog:",
     "@tanstack/react-db": "catalog:",
     "@tanstack/react-query": "catalog:",
-    "clsx": "catalog:",
     "i18next": "catalog:",
     "idb": "catalog:",
     "js-cookie": "catalog:",
