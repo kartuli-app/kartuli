@@ -22,7 +22,7 @@ export type NavigationContextValue = Readonly<{
   navigate: (to: string, opts?: { replace?: boolean }) => void;
   back: () => void;
   NavigationLink: ComponentType<NavigationLinkProps>;
-  /** Path without the locale prefix (e.g. `/learn` when the URL is `/en/learn`). */
+  /** Path without the locale prefix (e.g. `/settings` when the URL is `/en/settings`). */
   pathname: string;
   /** Full pathname including locale when present (matches Next `usePathname()` for this app). */
   localizedPathname: string;

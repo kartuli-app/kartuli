@@ -1,28 +1,21 @@
 'use client';
+
 import { useNavigation } from '@game-client/navigation/navigation-context';
-import { ResponsiveContainer } from '@kartuli/ui/components/containers/responsive-container';
-import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 export function NotFoundClient() {
   const { localizedPathname } = useNavigation();
   const { t } = useTranslation('notFound');
+
   return (
-    <main>
-      <ResponsiveContainer
-        className={clsx('justify-center', 'py-ds1-spacing-xlarge', 'sm:py-ds1-spacing-2xlarge')}
-      >
-        <div className={clsx('flex flex-col', 'gap-ds1-spacing-large')}>
-          <h1 className={clsx('text-3xl', 'text-center')}>{t('heading')}</h1>
-          <p className={clsx('text-xl font-bold pb-ds1-spacing-2xlarge', 'text-center')}>
-            {localizedPathname}
-          </p>
-          <picture>
-            <source srcSet="/images/not-found.svg" type="image/svg+xml" />
-            <img src="/images/not-found.svg" alt={t('heading')} className="max-h-[40vh] mx-auto" />
-          </picture>
-        </div>
-      </ResponsiveContainer>
+    <main className="px-6 py-10 sm:px-10">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-4">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{t('heading')}</h1>
+        <p className="break-all font-mono text-sm text-ds1-color-text-900 sm:text-base">
+          {localizedPathname}
+        </p>
+        <p className="max-w-2xl text-base text-ds1-color-text-700 sm:text-lg">{t('message')}</p>
+      </div>
     </main>
   );
 }

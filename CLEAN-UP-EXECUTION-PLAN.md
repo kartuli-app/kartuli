@@ -104,6 +104,8 @@ Actions:
 - Keep settings route behavior working.
 - Keep locale switching working from settings.
 - Keep not-found behavior working.
+- Remove the current `/{locale}/learn` placeholder route entirely.
+- Treat the future `/{locale}/app/learn` route as a later Phase 3 route-architecture concern, not as something to preserve from the old surface.
 - Replace any unstable or noisy pages with simple placeholders.
 - If needed, temporarily collapse route screens to basic hardcoded content.
 - Do not try to preserve the previous visual hierarchy.
@@ -112,7 +114,7 @@ Recommended bias:
 
 - prefer deleting unstable UI over adapting it
 - prefer plain markup over carrying forward old class-heavy screens
-- keep learning-content access available even if the screen using it is temporarily primitive
+- do not preserve misleading temporary routes just because they share a future route name
 
 Files and areas likely touched:
 
@@ -120,11 +122,13 @@ Files and areas likely touched:
 - `apps/game-client/src/ui/screens/settings/*`
 - `apps/game-client/src/ui/screens/translit/*`
 - `apps/game-client/src/ui/screens/not-found/*`
+- `apps/game-client/src/ui/screens/learn/*`
 
 Checkpoint state:
 
 - only a small number of routes are active
 - translit and settings still behave correctly
+- the old `/{locale}/learn` placeholder is gone
 - the app is ugly but understandable
 - screen ownership is local and explicit
 

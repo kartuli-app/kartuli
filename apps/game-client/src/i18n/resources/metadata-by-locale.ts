@@ -1,6 +1,6 @@
 /**
  * SEO metadata (title, description, keywords) per locale.
- * Import only this in get-locale-metadata to avoid pulling in all i18n namespaces (common, game, learn, debug).
+ * Import only this in get-locale-metadata to avoid pulling in all i18n namespaces (common, home, settings, translit, notFound).
  */
 
 import type { SupportedLocale } from '@game-client/i18n/i18n-constants';
