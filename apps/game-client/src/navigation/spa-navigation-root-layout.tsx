@@ -5,7 +5,6 @@ import {
   type NavigationContextValue,
   type NavigationLinkProps,
 } from '@game-client/navigation/navigation-context';
-import { GameShell } from '@game-client/ui/shared/components/game-shell';
 import { type ReactNode, useMemo, useSyncExternalStore } from 'react';
 import { splitLocalizedPathname } from './split-localized-pathname';
 
@@ -64,9 +63,5 @@ export function SpaNavigationRootLayout({ children }: Readonly<{ children: React
     [pathname, localizedPathname],
   );
 
-  return (
-    <NavigationContext.Provider value={value}>
-      <GameShell>{children}</GameShell>
-    </NavigationContext.Provider>
-  );
+  return <NavigationContext.Provider value={value}>{children}</NavigationContext.Provider>;
 }

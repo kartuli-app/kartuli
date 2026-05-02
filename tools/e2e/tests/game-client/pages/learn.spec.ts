@@ -11,10 +11,6 @@ test.describe('Learn page', () => {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   });
 
-  test('has a single h1 from the app bar', async ({ page }) => {
-    await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
-  });
-
   test('has no a11y violations on initial load', async ({ page }) => {
     await expectA11y(page, { label: 'learn: initial load' });
   });

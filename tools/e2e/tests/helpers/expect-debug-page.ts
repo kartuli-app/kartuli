@@ -20,6 +20,7 @@ export async function expectDebugPageStructure(
 ): Promise<void> {
   await page.goto(options.path);
 
+  await expect(page.getByTestId('backoffice-debug')).toBeVisible({ timeout });
   await expect(page.getByText(options.heading)).toBeVisible({ timeout });
   await expect(page.getByText(options.appLabel)).toBeVisible({ timeout });
 }

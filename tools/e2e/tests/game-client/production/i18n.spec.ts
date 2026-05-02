@@ -10,7 +10,6 @@ const en_current_language = enResources.settings.current_language.replace(
 const en_language_section = enResources.settings.language_section;
 const en_switch_to_ru_label = enResources.settings.languages.ru;
 const en_title = enResources.metadata.title;
-const en_home_heading = enResources.home.heading;
 const ru_current_language = ruResources.settings.current_language.replace(
   '{{language}}',
   ruResources.settings.languages.ru,
@@ -19,7 +18,7 @@ const ru_description = ruResources.metadata.description;
 const ru_language_section = ruResources.settings.language_section;
 const ru_switch_to_en_label = ruResources.settings.languages.en;
 const ru_title = ruResources.metadata.title;
-const ru_home_heading = ruResources.home.heading;
+const home_placeholder_heading = 'Kartuli is in cleanup mode';
 
 test.describe('Game Client i18n', () => {
   test('/en has html lang="en", English content, and locale-specific metadata', async ({
@@ -33,7 +32,7 @@ test.describe('Game Client i18n', () => {
       'content',
       en_description,
     );
-    await expect(page.getByRole('heading', { name: en_home_heading })).toBeVisible();
+    await expect(page.getByRole('heading', { name: home_placeholder_heading })).toBeVisible();
   });
 
   test('/ru has html lang="ru", Russian content, and locale-specific metadata', async ({
@@ -47,7 +46,7 @@ test.describe('Game Client i18n', () => {
       'content',
       ru_description,
     );
-    await expect(page.getByRole('heading', { name: ru_home_heading })).toBeVisible();
+    await expect(page.getByRole('heading', { name: home_placeholder_heading })).toBeVisible();
   });
 
   test('settings language switcher: from /en/settings switch to Russian updates URL, html lang and content', async ({
@@ -99,6 +98,6 @@ test.describe('Game Client i18n', () => {
     await page.goto('/');
     await expect(page).toHaveURL(/\/ru(\/|$)/, { timeout: 10000 });
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('heading', { name: ru_home_heading })).toBeVisible();
+    await expect(page.getByRole('heading', { name: home_placeholder_heading })).toBeVisible();
   });
 });

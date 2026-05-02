@@ -8,7 +8,6 @@ import {
   supportedLocales,
 } from '@game-client/i18n';
 import { useNavigation } from '@game-client/navigation';
-import { buttonIconClassNames } from '@game-client/ui/shared/components/game-app-bar/game-app-bar-elements';
 import { ResponsiveContainer } from '@kartuli/ui/components/containers/responsive-container';
 import { cn } from '@kartuli/ui/utils/cn';
 import clsx from 'clsx';
@@ -31,7 +30,17 @@ function LanguageSwitchButton({
       type="button"
       onClick={() => onClick(locale)}
       className={clsx(
-        buttonIconClassNames,
+        'cursor-pointer',
+        'focus-ring',
+        'disabled:cursor-not-allowed',
+        'disabled:opacity-50',
+        'bg-ds1-color-text-200',
+        'hover:bg-ds1-color-text-300',
+        'data-[pressed]:bg-ds1-color-text-300',
+        'active:scale-95',
+        'transition-transform duration-300',
+        'border',
+        'border-ds1-color-text-300',
         'inline-flex items-center gap-3 rounded-xl px-4 py-3',
         'w-full sm:w-auto',
         'text-left font-bold text-ds1-color-text-900',
