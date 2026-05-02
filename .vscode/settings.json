@@ -31,5 +31,43 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "heading.1.markdown entity.name.section.markdown, heading.1.markdown punctuation.definition.heading.markdown",
+        "settings": {
+          "foreground": "#9cecfb",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "heading.2.markdown entity.name.section.markdown, heading.2.markdown punctuation.definition.heading.markdown",
+        "settings": {
+          "foreground": "#7dd3fc",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "heading.3.markdown entity.name.section.markdown, heading.3.markdown punctuation.definition.heading.markdown",
+        "settings": {
+          "foreground": "#5eead4",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "heading.4.markdown entity.name.section.markdown, heading.4.markdown punctuation.definition.heading.markdown",
+        "settings": {
+          "foreground": "#94a3b8",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "markup.inline.raw.string.markdown",
+        "settings": {
+          "foreground": "#aaff00"
+        }
+      }
+    ]
   }
 }
