@@ -2235,11 +2235,448 @@ Direction:
 
 ## Design system
 
-Not defined yet.
+This section holds reusable design decisions at the product-source-of-truth level.
+
+Derivative docs may restate these decisions for implementation handoff, but they do not replace them.
+
+### Design system principles
+
+Direction:
+- reusable design decisions are confirmed here first before they are extracted into derivative docs such as `DESIGN.md`
+- the system is role-first and value-light:
+  - semantic roles describe what a design element is for
+  - small shared foundation families later provide the actual values
+- one semantic role does not imply one unique token value
+- the MVP design system prefers a small number of foundation families with many semantic roles mapped onto them
+- product structure and interaction meaning come before ornamental styling
+- the UI stays mobile-first, with desktop support extending the same composition rather than replacing it
+- the product should feel clear, warm, encouraging, and lightly playful rather than loud, gamified, or overly decorative
+- reusable design language should feel calm and coherent across Learn, Study, Play, Translit, Settings, and low-content recovery states
+
+### Visual theme and atmosphere
+
+Direction:
+- the product should feel like a focused mobile learning tool rather than a generic SaaS dashboard
+- visual emphasis should come mostly from hierarchy, structure, and contrast in importance rather than from visual noise
+- the mascot is the main recurring personality layer and should soften low-content, recovery, and success/failure states without turning the product childish
+- humor should stay small, occasional, and charming
+- the product should support both quiet reference behavior and faster game behavior without splitting into unrelated visual languages
+- the default surface language is rounded-rectangle based, not sharp-corner brutalist and not pill-heavy
+- the system should preserve restraint:
+  - most surfaces should not compete for attention at the same time
+  - floating/interruptive surfaces should feel special because they are used selectively
+
+### Color palette and role model
+
+Exact color values are not locked yet.
+
+Direction:
+- the product uses semantic color families first, with exact values deferred:
+  - `neutral-*`
+  - `accent-*`
+  - `positive-*`
+  - `negative-*`
+  - `focus-*`
+- a warning family may exist later if the product develops a real warning state family that is distinct from error/destructive states
+- the neutral family should carry most surface and reading behavior
+- accent should represent brand emphasis, selection, and current-context emphasis rather than becoming a large arbitrary fill by default
+- positive and negative are semantic state families, not general decorative colors
+- focus has its own dedicated role and should not be implied only through selected styling
+
+#### Surface color roles
+
+Direction:
+- the design system needs semantic surface roles even before exact values are chosen:
+  - `app-bg`
+  - `page-bg`
+  - `surface-default`
+  - `surface-subtle`
+  - `surface-prominent`
+  - `surface-overlay`
+  - `surface-slot`
+  - `surface-input`
+  - `surface-answer`
+  - `surface-banner`
+  - `surface-notification`
+- most normal cards and panels should reuse `surface-default`
+- smaller framed internal elements such as preview slots should reuse `surface-slot`
+- larger choice-oriented or highlighted surfaces may use `surface-prominent`
+- drawers, blocking overlays, tooltips, and other floating layers should reuse `surface-overlay`
+- the lined alphabet-slot treatment is a decorative/content treatment layered inside the slot surface, not a separate surface family
+
+#### State color roles
+
+Direction:
+- the design system needs semantic state roles even before exact values are chosen:
+  - `neutral-*`
+  - `selected-*`
+  - `positive-*`
+  - `negative-*`
+  - `disabled-*`
+  - `muted-*`
+  - `focus-ring`
+- state roles should support `bg`, `stroke`, `text`, and `icon` needs when relevant
+- `selected`, `muted`, and `disabled` remain distinct meanings:
+  - `selected` means current choice or current context
+  - `muted` means still interactive, but sound-dependent behavior is unavailable
+  - `disabled` means unavailable and not interactive
+- muted is not an error state and should not reuse negative/error styling by default
+- Play answer states should preserve distinct semantic meaning:
+  - neutral answer
+  - selected answer when relevant
+  - correct / positive answer
+  - wrong / negative answer
+  - locked or disabled answer
+
+### Typography rules
+
+Exact font files and exact numeric sizes are not locked yet.
+
+Direction:
+- typography is modeled in 3 layers:
+  - size foundations
+  - font-family foundations
+  - weight foundations
+- semantic typography roles map onto those foundations
+- the design system should not create a completely separate typography universe for Georgian script
+- Georgian script primarily differs by font-family swap inside shared semantic roles
+
+#### Typography foundations
+
+Direction:
+- the design system uses numeric type foundations:
+  - `type-1`
+  - `type-2`
+  - `type-3`
+  - `type-4`
+  - `type-5`
+  - `type-6`
+- intended hierarchy:
+  - `type-1`: caption, helper, micro support, tooltip-scale text
+  - `type-2`: default body and control text
+  - `type-3`: small heading or emphasized support text
+  - `type-4`: prominent component text and word-level focal text
+  - `type-5`: page-title and larger results/title text
+  - `type-6`: largest focused display text such as single-letter Study detail
+- the design system uses 2 font-family foundations:
+  - `font-ui`
+  - `font-georgian`
+- the design system uses 3 weight foundations:
+  - `weight-regular`
+  - `weight-medium`
+  - `weight-strong`
+- Georgian script uses `font-georgian`
+- transliteration, English, Russian, labels, body copy, and most controls use `font-ui`
+- in the current model, only the larger title/display foundations should scale responsively by default:
+  - `type-5`
+  - `type-6`
+- smaller body and UI foundations should stay stable unless a specific screen requires otherwise
+
+#### Typography role catalog
+
+Direction:
+- page/content roles:
+  - `page-eyebrow`
+  - `page-title`
+  - `support-copy`
+  - `section-title`
+  - `card-title`
+  - `card-support`
+  - `body`
+  - `body-strong`
+  - `caption`
+- control roles:
+  - `button-label`
+  - `input-label`
+  - `input-text`
+  - `tooltip-text`
+- catalog preview roles:
+  - `preview-letter-georgian`
+  - `preview-letter-translit`
+  - `preview-overflow`
+  - `preview-helper`
+- Study summary roles:
+  - `summary-item-georgian`
+  - `summary-item-translit`
+  - `summary-item-translation`
+- Study detail roles:
+  - letter detail:
+    - `detail-letter-georgian`
+    - `detail-letter-translit`
+    - `detail-letter-pronunciation`
+  - word detail:
+    - `detail-word-georgian`
+    - `detail-word-translit`
+    - `detail-word-translation`
+  - shared detail support:
+    - `detail-example`
+    - `detail-note`
+- Play roles:
+  - `instruction-text`
+  - `cue-text`
+  - `answer-text`
+  - `progress-text`
+  - `result-score`
+  - `result-tone`
+- utility/feedback roles:
+  - `notification-text`
+  - `banner-text`
+- the letter detail hierarchy must stay distinct from the word detail hierarchy because a single Georgian letter and a full Georgian word/phrase are different focal jobs
+
+### Layout principles
+
+Exact numeric spacing values and exact breakpoint widths are not locked yet.
+
+Direction:
+- the design system uses numeric spacing foundations:
+  - `space-1`
+  - `space-2`
+  - `space-3`
+  - `space-4`
+  - `space-5`
+- intended spacing hierarchy:
+  - `space-1`: tight
+  - `space-2`: small
+  - `space-3`: medium
+  - `space-4`: large
+  - `space-5`: extra-large
+- many spacing roles may map to the same spacing foundation
+- a spacing role describes the job, not a guaranteed unique value
+- outer page padding stays shared across the app, including Play
+- max-content-width behavior should stay shared across the app unless a route has an explicit product reason to differ
+
+#### Spacing role catalog
+
+Direction:
+- outer shell roles:
+  - `page-padding`
+  - `page-max-width-gap`
+  - `topbar-padding`
+  - `main-content-gap`
+- header roles:
+  - `title-block-gap`
+  - `header-support-gap`
+  - `header-to-content-gap`
+  - `header-actions-gap`
+- section roles:
+  - `section-stack-gap`
+  - `section-header-gap`
+  - `section-to-section-gap`
+- card/surface roles:
+  - `card-padding`
+  - `card-stack-gap`
+  - `card-title-gap`
+  - `card-actions-gap`
+  - `surface-padding`
+- preview-grid roles:
+  - `preview-grid-gap`
+  - `preview-slot-padding`
+  - `preview-text-gap`
+- Study roles:
+  - `study-nav-gap`
+  - `summary-grid-gap`
+  - `summary-item-padding`
+  - `detail-card-padding`
+  - `detail-content-gap`
+  - `sticky-cta-padding`
+- Play roles:
+  - `play-header-gap`
+  - `lobby-section-gap`
+  - `cue-to-answers-gap`
+  - `answer-stack-gap`
+  - `results-section-gap`
+  - `results-actions-gap`
+- overlay/feedback roles:
+  - `drawer-padding`
+  - `modal-padding`
+  - `tooltip-padding`
+  - `banner-padding`
+  - `notification-padding`
+
+### Depth and elevation
+
+Exact radii, border widths, and shadow values are not locked yet.
+
+Direction:
+- the design system uses numeric shape and separation foundations:
+  - radius:
+    - `radius-1`
+    - `radius-2`
+    - `radius-3`
+  - stroke:
+    - `stroke-1`
+    - `stroke-2`
+  - shadow:
+    - `shadow-1`
+    - `shadow-2`
+- intended shape hierarchy:
+  - `radius-1`: tight internal elements
+  - `radius-2`: standard app surfaces
+  - `radius-3`: larger or more prominent surfaces
+- the default surface language is rounded-rectangle based
+- most core surfaces should be separated by fill difference and stroke before shadow is introduced
+- shadows should be reserved for floating or interruptive surfaces so they still feel special
+- `stroke-2` is for emphasis and strong state treatment rather than neutral default framing
+
+#### Surface hierarchy
+
+Direction:
+- small internal elements such as preview slots, inputs, and tooltips should use tighter shape treatment
+- most app surfaces such as lesson cards, review cards, Study surfaces, Settings sections, answer options, and standard buttons should stay in the standard radius family
+- larger or more prominent surfaces such as destination cards, drawers, banners, and blocking overlays may use the softer/prominent radius family
+- most lesson cards, review cards, Study surfaces, and answer options should remain mostly flat and border-led by default
+- drawers, notifications, tooltips, and blocking overlays may introduce lift
+- blocking overlays should feel more elevated than non-blocking drawers and non-blocking notifications
+
+### Responsive rule model
+
+Direction:
+- the product remains mobile-first
+- desktop and tablet should preserve the same product structure rather than inventing a separate IA
+- Explore entry should aim to fit common mobile heights without scroll in the MVP
+- module-browser card grids use tiered layout:
+  - mobile: 1 card per row
+  - tablet: 2 cards per row
+  - desktop: 3 cards per row
+- the full-review card may span more width than standard lesson cards on wider layouts
+- Study summary and detail preserve the same shell across devices while allowing denser structure on larger screens when the content benefits from it
+- touch-first interaction remains primary even when desktop keyboard support exists
+
+### Cross-product design guardrails
+
+Direction:
+- do preserve the semantic distinction between reference behavior, Study review behavior, and Play interaction behavior
+- do keep reusable component families visually related unless product meaning requires a distinction
+- do prefer semantic roles mapped onto small foundation families over one-off custom values
+- do keep the product calm and legible before trying to make it dramatic
+- do not treat mute as if it were an error
+- do not turn every card family into a visually unrelated special case
+- do not use shadow as the default separation method for every normal surface
+- do not let catalog preview behavior leak into Study or Play when the product behavior is different
+- do not introduce catalog overflow-slot behavior into Study summary
+- do not invent new visual tokens in derivative docs before they are confirmed here
 
 ## Components catalog
 
-Not defined yet.
+### Shared control primitives
+
+Direction:
+- the design system includes a small set of shared control primitives that higher-level components reuse:
+  - `button`
+  - `icon-button`
+  - `toggle-row`
+  - `input-field`
+  - `text-area`
+- route-level screens and flow screens should use these primitives through higher-level product components rather than inventing unrelated local controls
+
+### Shell and navigation components
+
+Direction:
+- `page-header`
+  - optional fuller header block that may contain navigation plus support copy
+- `topbar-row`
+  - compact navigation/action row inside a page header or standalone top bar
+- `title-block`
+  - default 2-line title treatment
+- `support-copy`
+  - optional orienting copy below a topbar row
+- `dock`
+  - top-level destination navigation family that may render differently by device
+
+### Browse and catalog components
+
+Direction:
+- `destination-card`
+  - top-level route choice card such as Explore entry choices
+- `section-header`
+  - reusable section-heading family inside browse and utility screens
+- `module-header`
+  - current-module identity surface inside module-browser screens
+- `lesson-card`
+  - browse/catalog card for one study resource
+- `full-review-card`
+  - lesson-card family variant for one generated module review resource
+- `preview-grid`
+  - reusable internal preview structure used by lesson-card-family components
+- `preview-slot`
+  - one fixed internal slot inside a preview-grid
+- `selected-resource-drawer`
+  - non-blocking contextual next-action surface for the current selected study resource
+
+Component relationship rules:
+- `destination-card` is a separate family from `lesson-card`
+- `full-review-card` is a variant inside the `lesson-card` family, not a totally unrelated component family
+- `preview-grid` is reusable across lesson-card-family components and any Study summary that intentionally reuses the same grid language
+- in non-audio browsers, preview interaction remains selection-only
+- in alphabet browsing, tapping a preview asset still selects the containing lesson context first
+
+### Study components
+
+Direction:
+- `study-nav-bar`
+  - shared summary/detail navigation control family inside Study and Study-like Results review
+- `summary-card`
+  - Study summary family with lesson-type variants
+- `detail-card`
+  - Study detail family with item-type variants
+- `sticky-play-cta`
+  - persistent Play progression surface inside Study
+
+Component relationship rules:
+- `summary-card` is one family with different lesson-type variants such as alphabet summary and vocabulary summary
+- `detail-card` is one family with different item-type variants such as letter detail and word detail
+- Results may reuse a limited Study-like summary/detail body pattern through these same family relationships without becoming the Study route itself
+
+### Play components
+
+Direction:
+- `lobby-panel`
+  - compact session-prep content block family inside the Game Lobby
+- `lobby-option-row`
+  - session option row family inside the Lobby
+- `progress-indicator`
+  - hybrid round-progress family used during active Play
+- `cue-block`
+  - active round cue family with text, visual, and audio-capable variants
+- `answer-option`
+  - active answer-choice family for Play
+- `feedback-notification`
+  - lightweight Play feedback surface family
+- `results-review-block`
+  - Results review body that reuses limited Study-like summary/detail structure
+- `leave-game-confirmation`
+  - blocking confirmation surface for active Play exit
+
+Component relationship rules:
+- `cue-block` is one family with content-type variants rather than separate unrelated components for every round type
+- `answer-option` is its own component family because it carries important Play-specific state semantics
+- `feedback-notification` belongs to the global notification family but has Play-specific usage
+- `leave-game-confirmation` is a blocking overlay family member, not a contextual drawer
+
+### Utility and public components
+
+Direction:
+- `reading-surface`
+  - longform content surface such as Privacy
+- `settings-section`
+  - section family for grouped utility controls and metadata
+- `privacy-banner`
+  - persistent non-blocking analytics-choice surface
+- `translit-source-panel`
+  - source editing panel family
+- `translit-output-panel`
+  - read-only transliteration panel family
+- `token-inspection-tooltip`
+  - anchored inspection/helper surface for token mapping and similar local explanation
+
+### Overlay and feedback relationships
+
+Direction:
+- `selected-resource-drawer` belongs to the context-drawer family
+- `leave-game-confirmation` belongs to the blocking-overlay family
+- `token-inspection-tooltip` belongs to the tooltip family
+- `feedback-notification` and lightweight status toasts belong to the notification family
+- overlay family choice is determined by interaction job first, not by visual shape first
 
 ## Remaining open questions
 
@@ -2428,3 +2865,16 @@ This section can hold future ideas that are not yet committed.
 - Lesson and module preview cards use a shared preview-grid system with type-specific visual assets
 - Multi-card module browser views prioritize equal card size; single review cards may expand to more rows
 - Temporary emoji-based visual assets are acceptable for word-based and rule-based lesson previews
+- Reusable design decisions are confirmed in `PRODUCT.md` before they are restated in derivative docs such as `DESIGN.md`
+- The design system uses small numeric foundation families such as `space-*`, `type-*`, `radius-*`, `stroke-*`, and `shadow-*`, with semantic roles mapped onto them
+- One semantic role does not imply one unique token value
+- Georgian script uses shared semantic typography roles with a font-family swap rather than a separate typography system
+- The MVP typography foundation model uses `font-ui`, `font-georgian`, `weight-regular`, `weight-medium`, and `weight-strong`
+- Outer page padding stays shared across the app, including Play
+- UI state semantics keep `selected`, `muted`, and `disabled` distinct
+- Color, surface, and state systems are documented first as semantic role families, with exact values deferred
+- Most core surfaces are border-led and mostly flat by default; lift/shadow is reserved for floating and overlay surfaces
+- Destination cards are a separate family from lesson cards
+- Full review cards are lesson-card-family variants rather than a separate card family
+- Study uses shared summary-card and detail-card families with lesson-type and item-type variants
+- Responsive type scaling is focused on the larger title/display foundations first, while smaller body and UI foundations stay stable by default
