@@ -955,7 +955,7 @@ Each screen should define:
   - Return to Learn through the top bar back action.
 - What this screen should communicate:
   - The route format is valid, but this specific study resource could not be shown.
-  - The lesson or module review set may not exist or may not be available right now.
+  - The lesson or module review set either does not exist or is not available right now.
 - What this screen should not try to do:
   - It should not present itself as a generic global 404.
   - It should not expose raw resource IDs or technical failure details.
@@ -987,7 +987,7 @@ Each screen should define:
   - Return to Learn through the top bar back action.
 - What this screen should communicate:
   - The route format is valid, but this specific study resource cannot start in Play.
-  - The lesson or module review set may not exist or may not be available right now.
+  - The lesson or module review set either does not exist or is not available right now.
 - What this screen should not try to do:
   - It should not present itself as a generic global 404.
   - It should not expose raw resource IDs or technical failure details.
@@ -1272,7 +1272,7 @@ Each screen should define:
     - no text inside the slot
   - Vocabulary preview ordering:
     - preview assets follow first-authored item order
-    - when the preview grid does not show every item, the last slot may become an overflow slot such as `+N`
+    - when the preview grid does not show every item, the last slot becomes an overflow slot such as `+N`
   - Section heading: `Full review`
   - Full review card:
     - does not show its own visible card title in the catalog
@@ -1316,7 +1316,7 @@ Each screen should define:
   - For alphabet lessons, back returns to `/{locale}/app/learn/explore/alphabet`.
   - For vocabulary lessons, back returns to `/{locale}/app/learn/explore/vocabulary`.
   - The top bar keeps the lesson title/context visible.
-  - Sound toggle is available when the current lesson type may expose item audio in Study.
+  - Sound toggle is available when the current lesson type exposes item audio in Study.
   - If a specific item has no audio, its detail card simply omits the audio control.
   - No dock.
   - No selected-lesson drawer behavior exists inside Study.
@@ -1614,7 +1614,7 @@ Each screen should define:
     - the MVP prompt remains literal text rather than a lighter abstract treatment
   - Cue behavior:
     - the cue area changes by round variant
-    - cue payloads may be text, visual asset, or audio
+    - cue payloads are text, visual asset, or audio
     - listening rounds autoplay once when the round appears
     - listening rounds expose a replay control
     - replay is allowed multiple times before answering
@@ -1624,7 +1624,7 @@ Each screen should define:
     - if cue audio is playing and the student turns sound off, the audio stops immediately
   - Answer area:
     - always 4 equal answer options in the MVP
-    - answer payloads may be Georgian text, transliteration, or English text depending on the variant
+    - answer payloads are Georgian text, transliteration, or English text depending on the variant
     - answer payloads are not images in the MVP
   - Input guard:
     - each new round begins with a short input-guard window before answers become active
@@ -1656,7 +1656,7 @@ Each screen should define:
   - The round header remains visible.
   - The cue area remains visible.
   - The answer area remains visible in feedback state.
-  - A lightweight feedback surface such as a toast, floating icon, or emoji may appear above the round content.
+  - A lightweight feedback surface such as a toast, floating icon, or emoji appears above the round content.
 - Navigation chrome:
   - Leave-game action remains available.
   - Round progress remains visible.
@@ -1688,7 +1688,7 @@ Each screen should define:
     - a short wait period begins
     - the initial MVP target for that wait is about `500 ms`
     - the game auto-advances when that wait ends
-    - the student may skip the remaining wait
+    - the student can skip the remaining wait
   - Wrong feedback:
     - the chosen wrong answer stays visible in the wrong state
     - the correct answer becomes visible in the right state
@@ -1748,14 +1748,18 @@ Each screen should define:
     - if the same item was failed multiple times in different round variants, it still appears only once here
     - failed items are shown with the correct answer/detail only
     - wrong answer options are not shown again in Results
-    - the review area may use:
+    - the review area uses:
       - a failed-items summary view
       - a focused failed-item detail view
     - the failed-items review opens on its summary view first in the MVP
+    - the failed-items review uses the same summary/detail navigation pattern as Study:
+      - selecting a failed summary item opens that item in detail
+      - previous from the first failed item returns to the failed-items summary
+      - next is disabled on the last failed item
     - this can visually reuse the Study body pattern while keeping Results-specific header and CTA actions
     - if no items were failed, a success card should occupy the same review space
   - Failed-item detail:
-    - may reuse the same detail-card system as Study for the current item type
+    - reuses the same detail-card system as Study for the current item type
     - should emphasize the correct form rather than the previous wrong choice
   - Results actions:
     - `Play again` returns to the Lobby first, not directly into a new session
@@ -1943,6 +1947,38 @@ Direction:
 - app logo or back button
 - screen title
 - contextual actions
+
+### Page header
+
+Some pages use a fuller page-header block above the main content instead of only a compact navigation row.
+
+Direction:
+- a page header may contain:
+  - a top-bar row
+  - an optional support-copy block below it
+- the top-bar row may contain:
+  - a leading area for back navigation or branding
+  - a title block
+  - a trailing actions area
+- support copy sits below the top-bar row and above the page main content
+- support copy is explanatory copy, not a new section heading
+- support copy is optional and should appear only when it helps orient the student
+
+### Title block
+
+Direction:
+- the default page-title treatment is a 2-line title block
+- the title block contains:
+  - a smaller context or eyebrow line
+  - a main heading line
+- examples:
+  - `kartuli.app` / `Explore`
+  - `Explore` / `Alphabet`
+  - `Study` / `{lesson title}`
+  - `Play` / `{study resource title}`
+- the page still exposes one primary heading for document structure and accessibility
+- implementation may keep the 2 visual lines inside one primary heading block as long as the page still exposes one clear primary heading
+- metadata/browser titles may use a fuller contextual phrase than the visible heading block when that is useful for search, sharing, or browser context
 
 ### Page heading semantics
 
@@ -2381,7 +2417,8 @@ This section can hold future ideas that are not yet committed.
 - Leave-game confirmation uses a bottom sheet on smaller screens, a centered modal on larger screens, and `Leave game` returns to the source Study route
 - Results focus on failed items and show only the correct answer/detail for them
 - Failed items are deduplicated in Results even if they were missed multiple times across the session
-- Results may reuse a limited Study-like body pattern for failed-item review while keeping Results-specific header and CTA actions
+- Results reuse a limited Study-like body pattern for failed-item review while keeping Results-specific header and CTA actions
+- Results failed-items review uses the same summary/detail navigation pattern as Study for failed items
 - Results failed-item review opens on its summary view first in the MVP
 - `Play again` returns to the Lobby first rather than starting a new session immediately
 - The product uses one global not-found screen for uncontrolled routes
