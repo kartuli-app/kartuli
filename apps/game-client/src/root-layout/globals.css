@@ -3,22 +3,14 @@
  *
  * Order matters:
  * 1. Tailwind directives
- * 2. Theme contract from @kartuli/tailwind-config
- * 3. App-specific value overrides
+ * 2. Shared theme contract from @kartuli/tailwind-config
  */
 
-/* Tailwind v4 import */
 @import "tailwindcss";
-
-/* `@import` resolves packages/modules (like Node resolution), so package names are correct here. */
 @import "@kartuli/tailwind-config";
 
-/* Import app-specific theme overrides */
-@import "./theme.css";
-
-/* `@source` is Tailwind's file scanner, so use real filesystem paths (not TS aliases). */
-@source "../"; /* generate classes for the files in the src directory */
-@source "../../../../packages/ui/src"; /* generate classes for the files in the ui package */
+@source "../";
+@source "../../../../packages/ui/src";
 
 @layer utilities {
   .scrollbar-gutter-stable {
@@ -32,7 +24,6 @@
   --font-default: var(--font-default);
 }
 
-/* Apply theme font to body last so it wins over Tailwind base. Variable name must match root-layout (e.g. --font-noto-georgian). */
 @layer utilities {
   .root {
     isolation: isolate;
@@ -42,9 +33,11 @@
 ::-webkit-scrollbar {
   width: 0.25rem;
 }
+
 ::-webkit-scrollbar-track {
-  background: var(--color-ds1-color-app-bg);
+  background: white;
 }
+
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-ds1-color-primary-900);
+  background-color: black;
 }

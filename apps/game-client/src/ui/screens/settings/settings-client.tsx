@@ -24,7 +24,7 @@ function LanguageSwitchButton({
     <button
       type="button"
       onClick={() => onClick(locale)}
-      className="focus-ring w-full rounded-xl border border-ds1-color-text-300 px-4 py-3 text-left font-semibold text-ds1-color-text-900 transition-colors hover:bg-ds1-color-text-100"
+      className="focus-ring w-full border px-4 py-3 text-left font-semibold hover:bg-gray-100"
       aria-label={label}
     >
       <span>{label}</span>
@@ -59,7 +59,7 @@ export function SettingsClient({
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             {t('language_section')}
           </h1>
-          <p className="max-w-2xl text-base text-ds1-color-text-700 sm:text-lg">
+          <p className="max-w-2xl text-base text-gray-700 sm:text-lg">
             {t('current_language', { language: currentLanguageLabel })}
           </p>
         </div>

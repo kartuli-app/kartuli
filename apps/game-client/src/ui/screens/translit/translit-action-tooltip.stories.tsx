@@ -9,7 +9,7 @@ import { TranslitActionTooltip } from './translit-action-tooltip';
 // it fires pointer events without moving the real browser pointer, so CSS
 // `:hover` never triggers and Base UI tooltips (which open on real
 // pointerenter) stay closed. This component relies on both
-// (`hover:bg-ds1-color-text-100` + Base UI `Tooltip`), so the play() assertions
+// (a hover background change + Base UI `Tooltip`), so the play() assertions
 // need a real mouse — `vitest/browser`'s userEvent drives Playwright under
 // addon-vitest's browser mode and delivers one.
 //
@@ -175,8 +175,7 @@ export const ChangesBackgroundOnHover: Story = {
     const bgOf = (element: Element) => getComputedStyle(element).backgroundColor;
 
     // Capture whatever the resting background is. The exact value depends on
-    // Tailwind class-merge order (bg-transparent vs the base bg-ds1-color-text-200
-    // from buttonIconClassNames) — we only care that it changes on hover.
+    // the final class merge order — we only care that it changes on hover.
     const idleBg = bgOf(trigger);
 
     await step('Hovering the trigger changes the background color', async () => {

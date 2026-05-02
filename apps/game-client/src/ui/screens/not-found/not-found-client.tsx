@@ -11,10 +11,8 @@ export function NotFoundClient() {
     <main className="px-6 py-10 sm:px-10">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-4">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{t('heading')}</h1>
-        <p className="break-all font-mono text-sm text-ds1-color-text-900 sm:text-base">
-          {localizedPathname}
-        </p>
-        <p className="max-w-2xl text-base text-ds1-color-text-700 sm:text-lg">{t('message')}</p>
+        <p className="break-all font-mono text-sm sm:text-base">{localizedPathname}</p>
+        <p className="max-w-2xl text-base text-gray-700 sm:text-lg">{t('message')}</p>
       </div>
     </main>
   );

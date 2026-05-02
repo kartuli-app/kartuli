@@ -9,7 +9,6 @@ import {
 import { TranslitActionTooltip } from '@game-client/ui/screens/translit/translit-action-tooltip';
 import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output';
 import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
-import { ResponsiveContainer } from '@kartuli/ui/components/containers/responsive-container';
 import { cn } from '@kartuli/ui/utils/cn';
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +36,7 @@ function AnchoredToasts() {
   const { toasts } = Toast.useToastManager();
   return (
     <Toast.Portal>
-      <Toast.Viewport className={cn('fixed', 'inset-0', 'z-50', 'pointer-events-none')}>
+      <Toast.Viewport className={cn('pointer-events-none', 'fixed', 'inset-0', 'z-50')}>
         {toasts.map((toast) => (
           <Toast.Positioner
             sideOffset={12}
@@ -48,14 +47,16 @@ function AnchoredToasts() {
             <Toast.Root toast={toast}>
               <Toast.Content
                 className={cn(
-                  'bg-ds1-color-text-600',
-                  'text-ds1-color-text-100',
-                  'p-ds1-spacing-regular',
-                  'text-lg',
-                  'shadow-lg',
-                  'rounded-md',
-                  'max-w-72',
                   'pointer-events-auto',
+                  'max-w-72',
+                  'rounded-md',
+                  'border',
+                  'bg-black',
+                  'px-3',
+                  'py-2',
+                  'text-sm',
+                  'text-white',
+                  'shadow-lg',
                 )}
               >
                 <Toast.Description />
@@ -295,64 +296,43 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   return (
     <Toast.Provider toastManager={toastManager}>
       <Tooltip.Provider delay={300}>
-        <main className={cn('flex', 'grow', 'min-h-0', 'w-full', 'flex-col', 'overflow-hidden')}>
+        <main className={cn('flex', 'min-h-0', 'w-full', 'grow', 'flex-col', 'overflow-hidden')}>
           <h1 className="sr-only">Translit</h1>
-          <ResponsiveContainer
+          <div
             className={cn(
-              //
-              'grow',
+              'mx-auto',
+              'flex',
               'min-h-0',
+              'w-full',
+              'max-w-4xl',
+              'grow',
               'flex-col',
+              'gap-4',
               'overflow-hidden',
-              'gap-ds1-spacing-large',
-              'pt-ds1-spacing-large',
+              'p-4',
             )}
           >
-            {/* input area */}
             <div
-              className={cn(
-                //
-                'flex flex-col',
-                'grow',
-                'basis-0',
-                'min-h-0',
-                //
-                'bg-white',
-                'w-full',
-                'rounded-lg',
-                'border',
-                //
-                'border-ds1-color-text-300',
-                //
-                'shadow-sm',
-              )}
+              className={cn('flex', 'min-h-0', 'grow', 'basis-0', 'flex-col', 'border', 'bg-white')}
             >
-              {/* bar */}
               <div
                 className={cn(
-                  //
                   'flex',
                   'items-center',
                   'justify-between',
-                  //
-                  'px-ds1-spacing-large',
-                  'py-ds1-spacing-regular',
-                  //
-                  'border-b-2',
-                  'border-ds1-color-primary-500',
+                  'gap-4',
+                  'border-b',
+                  'px-4',
+                  'py-2',
                 )}
               >
-                {/* label */}
-                <label htmlFor="translit-input" className={cn('flex flex-col')}>
-                  <div className={cn('text-sm uppercase text-ds1-color-primary-900')}>
+                <label htmlFor="translit-input" className={cn('flex', 'flex-col')}>
+                  <div className={cn('text-xs', 'uppercase', 'tracking-[0.12em]', 'text-gray-600')}>
                     {t('source')}
                   </div>
-                  <div className={cn('text-2xl uppercase text-ds1-color-text-600')}>
-                    {sourceFromLabel}
-                  </div>
+                  <div className={cn('text-xl', 'uppercase')}>{sourceFromLabel}</div>
                 </label>
-                {/* buttons */}
-                <div className={cn('flex', 'gap-ds1-spacing-regular')}>
+                <div className={cn('flex', 'gap-2')}>
                   <TranslitActionTooltip
                     tooltipLabel={clearTextLabel}
                     side="bottom"
@@ -376,26 +356,22 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   </TranslitActionTooltip>
                 </div>
               </div>
-              {/* text area */}
-              <div className={cn('p-ds1-spacing-large', 'grow', 'min-h-0')}>
+              <div className={cn('min-h-0', 'grow', 'p-4')}>
                 <textarea
                   lang={inputLang}
                   className={cn(
-                    //
-                    'w-full',
                     'h-full',
                     'min-h-0',
+                    'w-full',
                     'resize-none',
-                    surfaceTextSizeClassName,
-                    'p-ds1-spacing-large',
-                    //
+                    'border',
+                    'p-4',
                     'caret-black',
-                    //
-                    'rounded-lg',
-                    //
-                    'border-2 border-ds1-color-text-200',
-                    'focus:border-ds1-color-text-400 focus:outline-none',
-                    'placeholder:text-ds1-color-text-400',
+                    'focus:outline-none',
+                    'focus:ring-1',
+                    'focus:ring-black',
+                    'placeholder:text-gray-500',
+                    surfaceTextSizeClassName,
                     inputScriptClassName,
                   )}
                   id="translit-input"
@@ -407,52 +383,27 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 />
               </div>
             </div>
-            {/* output area */}
             <div
-              className={cn(
-                //
-                'flex flex-col',
-                'grow',
-                'basis-0',
-                'min-h-0',
-                //
-                //
-                'bg-white',
-                'w-full',
-                'rounded-lg',
-                'border',
-                //
-                'border-ds1-color-text-300',
-                //
-                'shadow-sm',
-              )}
+              className={cn('flex', 'min-h-0', 'grow', 'basis-0', 'flex-col', 'border', 'bg-white')}
             >
-              {/* bar */}
               <div
                 className={cn(
-                  //
                   'flex',
                   'items-center',
                   'justify-between',
-                  //
-                  'px-ds1-spacing-large',
-                  'py-ds1-spacing-regular',
-                  //
-                  'border-b-2',
-                  'border-ds1-color-primary-500',
+                  'gap-4',
+                  'border-b',
+                  'px-4',
+                  'py-2',
                 )}
               >
-                {/* label */}
-                <div id={outputLabelId} className={cn('flex flex-col')}>
-                  <div className={cn('text-sm uppercase text-ds1-color-primary-900')}>
+                <div id={outputLabelId} className={cn('flex', 'flex-col')}>
+                  <div className={cn('text-xs', 'uppercase', 'tracking-[0.12em]', 'text-gray-600')}>
                     {t('transliteration')}
                   </div>
-                  <div className={cn('text-2xl uppercase text-ds1-color-text-600')}>
-                    {transliterationToLabel}
-                  </div>
+                  <div className={cn('text-xl', 'uppercase')}>{transliterationToLabel}</div>
                 </div>
-                {/* buttons */}
-                <div className={cn('flex', 'gap-ds1-spacing-regular')}>
+                <div className={cn('flex', 'gap-2')}>
                   <TranslitActionTooltip
                     tooltipLabel={copyTransliterationLabel}
                     side="top"
@@ -468,8 +419,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   </TranslitActionTooltip>
                 </div>
               </div>
-              {/* text area */}
-              <div className={cn('p-ds1-spacing-large', 'grow', 'min-h-0')}>
+              <div className={cn('min-h-0', 'grow', 'p-4')}>
                 <TranslitOutput
                   ariaLabelledBy={outputLabelId}
                   className={cn(surfaceTextSizeClassName, outputScriptClassName)}
@@ -481,28 +431,28 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 />
               </div>
             </div>
-          </ResponsiveContainer>
+          </div>
           <div
             aria-hidden
             className={cn(
+              'invisible',
+              'pointer-events-none',
               'fixed',
               'left-0',
               'top-0',
+              '-z-10',
               'size-0',
               'overflow-hidden',
-              'pointer-events-none',
-              'invisible',
-              '-z-10',
             )}
           >
             <div
               ref={inputMeasureRef}
               className={cn(
                 'whitespace-pre-wrap',
-                'wrap-break-word',
+                'break-words',
                 'text-2xl',
                 'leading-8',
-                'p-ds1-spacing-large',
+                'p-4',
                 inputScriptClassName,
               )}
             >
@@ -512,10 +462,10 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               ref={outputMeasureRef}
               className={cn(
                 'whitespace-pre-wrap',
-                'wrap-break-word',
+                'break-words',
                 'text-2xl',
                 'leading-8',
-                'p-ds1-spacing-large',
+                'p-4',
                 outputScriptClassName,
               )}
             >

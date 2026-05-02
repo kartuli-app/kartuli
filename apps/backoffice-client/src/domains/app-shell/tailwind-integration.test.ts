@@ -15,15 +15,17 @@ async function compileCssFromEntry(entryFileName: string): Promise<string> {
 }
 
 describe('tailwind integration (backoffice-client)', () => {
-  it('generates the UI-only arbitrary background utility in consumer output', async () => {
+  it('generates the shared UI token-demo utilities in consumer output', async () => {
     const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain(String.raw`.bg-\[rebeccapurple\]`);
+    expect(css).toContain('.bg-color-token-test-primary');
+    expect(css).toContain('.text-color-token-test-neutral');
+    expect(css).toContain('.gap-spacing-token-test-small');
+    expect(css).toContain('.px-spacing-token-test-big');
   });
 
-  it('falls back to shared brand token defaults when app does not override them', async () => {
+  it('applies the app token-demo color overrides', async () => {
     const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('--color-ds1-color-accent: oklch(63.7% 0.237 25.331);');
-    expect(css).toContain('--color-ds1-color-accent-muted: oklch(92.5% 0.05 250);');
-    expect(css).not.toContain('--color-ds1-color-accent: oklch(72.114% 0.179 155.2);');
+    expect(css).toContain('--color-color-token-test-primary: oklch(20.13% 0.05785 148.293);');
+    expect(css).toContain('--color-color-token-test-neutral: oklch(80.668% 0.0999 252.641);');
   });
 });

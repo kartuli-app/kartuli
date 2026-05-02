@@ -22,23 +22,23 @@ type TranslitOutputProps = {
 };
 
 const tokenTriggerClassName = cn(
+  'focus-ring',
   'inline',
   'cursor-help',
   'rounded-sm',
-  'bg-transparent',
   'border-0',
+  'bg-transparent',
   'p-0',
-  'align-baseline',
   'text-left',
+  'align-baseline',
   'whitespace-pre-wrap',
   'break-words',
   'transition-colors',
   'duration-150',
-  'hover:bg-ds1-color-primary-100',
-  'focus-visible:bg-ds1-color-primary-100',
-  'data-[popup-open]:bg-ds1-color-primary-100',
+  'hover:bg-gray-200',
+  'focus-visible:bg-gray-200',
+  'data-[popup-open]:bg-gray-200',
   'focus:outline-none',
-  'focus-ring',
 );
 
 export function TranslitOutput({
@@ -113,19 +113,17 @@ export function TranslitOutput({
       lang={lang}
       aria-labelledby={ariaLabelledBy}
       className={cn(
-        'w-full',
         'h-full',
         'min-h-0',
+        'w-full',
         'overflow-auto',
+        'whitespace-pre-wrap',
+        'break-words',
+        'border',
+        'p-4',
         'text-left',
         'align-top',
         'text-2xl',
-        'p-ds1-spacing-large',
-        'rounded-lg',
-        'border-2',
-        'border-ds1-color-text-200',
-        'whitespace-pre-wrap',
-        'wrap-break-word',
         className,
       )}
       onScroll={handleScroll}
@@ -161,7 +159,7 @@ export function TranslitOutput({
               type="button"
               closeOnClick={false}
               disabled={usesTapInteraction}
-              className={cn(tokenTriggerClassName, isActive && 'bg-ds1-color-primary-100')}
+              className={cn(tokenTriggerClassName, isActive && 'bg-gray-200')}
               style={{ color: 'inherit', font: 'inherit' }}
               aria-label={segment.outputText}
               aria-expanded={usesTapInteraction ? isActive : undefined}

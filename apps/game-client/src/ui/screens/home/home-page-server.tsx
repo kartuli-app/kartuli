@@ -5,11 +5,11 @@ export function HomePageServer() {
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
           Kartuli is in cleanup mode
         </h1>
-        <p className="max-w-2xl text-base text-ds1-color-text-700 sm:text-lg">
+        <p className="max-w-2xl text-base text-gray-700 sm:text-lg">
           The old home screen has been removed so the new route structure can be rebuilt with less
           noise.
         </p>
-        <p className="max-w-2xl text-base text-ds1-color-text-700 sm:text-lg">
+        <p className="max-w-2xl text-base text-gray-700 sm:text-lg">
           Translit, settings, locale behavior, and the learning-content system are still in the
           repo. The home route is intentionally a temporary placeholder for Phase 1.
         </p>

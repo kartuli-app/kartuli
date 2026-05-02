@@ -6,7 +6,7 @@
  */
 
 :root {
-  /* Minimal semantic overrides */
-  --color-ink: oklch(20.13% 0.05785 148.293);
-  --color-canvas: oklch(80.668% 0.0999 252.641);
+  /* Minimal shared token demo overrides */
+  --color-color-token-test-primary: oklch(20.13% 0.05785 148.293);
+  --color-color-token-test-neutral: oklch(80.668% 0.0999 252.641);
 }

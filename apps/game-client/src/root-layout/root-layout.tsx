@@ -49,11 +49,10 @@ export async function RootLayout({
         georgianFont.variable,
         defaultFont.variable,
         defaultFont.className,
-        'bg-ds1-color-dock-bg md:bg-ds1-color-app-bg',
-        'text-ds1-color-text-800',
+        'bg-white text-black',
       )}
     >
-      <body className="h-dvh flex">
+      <body className="flex h-dvh">
         <RootQueryClientProvider>
           <RootDatabaseInitializer />
           <I18nProvider locale={locale}>{children}</I18nProvider>

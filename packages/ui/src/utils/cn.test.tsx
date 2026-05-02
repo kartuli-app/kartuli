@@ -3,8 +3,8 @@ import { cn } from './cn';
 
 describe('cn', () => {
   it('merges tailwind classes and keeps the latest conflicting utility', () => {
-    expect(cn('px-ds1-spacing-small', 'px-ds1-spacing-large', 'flex')).toBe(
-      'px-ds1-spacing-large flex',
+    expect(cn('px-spacing-token-test-small', 'px-spacing-token-test-big', 'flex')).toBe(
+      'px-spacing-token-test-big flex',
     );
   });
 
