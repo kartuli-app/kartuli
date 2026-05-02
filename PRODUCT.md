@@ -317,8 +317,25 @@ Muted behavior depends on whether the audio affordance is lightweight preview be
 Direction:
 - lightweight preview audio in the alphabet catalog fails silently when sound is disabled
 - explicit audio controls in Study and Play remain visible when sound is disabled
+- explicit audio controls affected by mute are not treated as true disabled controls in the MVP
+- muted explicit audio controls remain tappable so they can explain why playback is unavailable
 - tapping an explicit audio control while sound is disabled shows lightweight feedback such as `Turn sound on to listen`
 - turning sound off while audio is currently playing stops that playback immediately
+
+## Client-side preference resolution
+
+Some client-stored preferences must be resolved after the app reaches the browser runtime.
+
+Direction:
+- client-stored preferences such as global sound and privacy consent have an internal boot-time resolution state before their persisted value is known
+- this internal resolution state is not a user-facing product preference state
+- the app should not treat unresolved client preference state as if it were a real resolved preference value
+- SSR or static output should avoid showing the wrong final sound or privacy state and then flipping immediately after hydration
+- preference-backed controls may render a stable neutral placeholder or non-committed shell until the client resolves the real stored value
+- privacy-banner visibility is decided only after the privacy consent preference has been resolved on the client
+- once resolved:
+  - sound uses its real `enabled` or `disabled` state
+  - privacy consent uses its real `unknown`, `granted`, or `rejected` state
 
 ## Privacy, storage, and analytics
 
@@ -789,6 +806,7 @@ Direction:
 ### Privacy consent flow
 
 Direction:
+- on app init, the app first resolves the stored privacy consent state from client-side storage before deciding whether the banner should appear
 - on app init, the app checks the stored privacy consent choice
 - if no consent choice exists, the state is treated as `unknown`
 - if the state is `unknown`, the app shows a non-dismissible privacy banner
@@ -1968,6 +1986,64 @@ Direction:
 
 Direction:
 - game answer controls may live in a dedicated game control area outside normal inline content
+
+## Overlay and feedback system
+
+### Overlay families
+
+Direction:
+- the MVP uses a small overlay-and-feedback system rather than many unrelated surface concepts
+- overlay choice is defined by interaction job first, not by visual shape first
+- the main families are:
+  - blocking overlay
+  - context drawer
+  - tooltip
+  - notification
+
+### Blocking overlays
+
+Direction:
+- blocking overlays interrupt the current interaction until the student decides what to do
+- blocking overlays are used for destructive or progress-losing decisions
+- the current MVP blocking-overlay case is the Play leave confirmation surface
+- blocking overlays dim the background and visually separate themselves from the underlying screen
+- visual presentation may vary by viewport without changing the interaction role:
+  - smaller screens may use a bottom sheet
+  - larger screens may use a centered modal
+
+### Context drawers
+
+Direction:
+- context drawers are non-blocking overlays tied to the current screen context
+- context drawers keep the underlying screen visible and let the user keep working from the same screen
+- context drawers are used when the student selects a resource and needs contextual next actions without entering a separate route
+- the current MVP context-drawer case is the selected study-resource surface in module browsers
+
+### Tooltips
+
+Direction:
+- tooltips are anchored helper surfaces attached to a specific trigger or inspected element
+- tooltips are used for local explanation or inspection, not for global status feedback
+- current MVP tooltip cases include:
+  - icon-button explanation
+  - translit token inspection
+
+### Notifications
+
+Direction:
+- notifications are global, non-anchored feedback surfaces
+- notifications appear in one shared global location rather than attaching themselves to each trigger
+- the MVP uses the notification family for lightweight status, confirmation, and feedback moments
+- current MVP notification cases include:
+  - sound toggled on or off
+  - copy-to-clipboard confirmation
+  - `Turn sound on to listen`
+  - Play positive feedback
+  - Play negative feedback
+- notifications may vary by tone, such as:
+  - neutral
+  - positive
+  - negative
 
 ## Preview grid system
 
