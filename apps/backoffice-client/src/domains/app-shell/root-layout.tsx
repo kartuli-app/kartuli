@@ -7,7 +7,7 @@ export function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-dvh flex">{children}</body>
+      <body className="bg-white text-black">{children}</body>
     </html>
   );
 }

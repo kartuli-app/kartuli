@@ -1,10 +1,6 @@
 'use client';
 import { Tooltip } from '@base-ui/react/tooltip';
-import {
-  translitTooltipArrowClassName,
-  translitTooltipArrowInnerClassName,
-  translitTooltipPopupClassName,
-} from '@game-client/ui/screens/translit/translit-tooltip-styles';
+import { translitTooltipPopupClassName } from '@game-client/ui/screens/translit/translit-tooltip-styles';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
@@ -45,19 +41,12 @@ export function TranslitActionTooltip({
       <Tooltip.Trigger
         type="button"
         className={cn(
-          'focus-ring',
-          'flex',
-          'size-10',
-          'shrink-0',
-          'cursor-pointer',
+          'inline-flex',
           'items-center',
           'justify-center',
-          'rounded-full',
           'border',
-          'bg-white',
-          'transition-colors',
+          'p-2',
           'hover:bg-gray-100',
-          'disabled:cursor-not-allowed',
           'disabled:opacity-50',
           className,
         )}
@@ -67,12 +56,7 @@ export function TranslitActionTooltip({
       </Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Positioner side={side} sideOffset={sideOffset}>
-          <Tooltip.Popup className={translitTooltipPopupClassName}>
-            <Tooltip.Arrow className={translitTooltipArrowClassName}>
-              <div className={translitTooltipArrowInnerClassName} />
-            </Tooltip.Arrow>
-            {tooltipLabel}
-          </Tooltip.Popup>
+          <Tooltip.Popup className={translitTooltipPopupClassName}>{tooltipLabel}</Tooltip.Popup>
         </Tooltip.Positioner>
       </Tooltip.Portal>
     </Tooltip.Root>

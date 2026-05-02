@@ -12,32 +12,7 @@
 @source "../";
 @source "../../../../packages/ui/src";
 
-@layer utilities {
-  .scrollbar-gutter-stable {
-    scrollbar-gutter: stable;
-    padding-left: 0.25rem;
-  }
-}
-
 @theme {
   --font-georgian: var(--font-georgian);
   --font-default: var(--font-default);
-}
-
-@layer utilities {
-  .root {
-    isolation: isolate;
-  }
-}
-
-::-webkit-scrollbar {
-  width: 0.25rem;
-}
-
-::-webkit-scrollbar-track {
-  background: white;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: black;
 }

@@ -45,14 +45,9 @@ export async function RootLayout({
   return (
     <html
       lang={locale}
-      className={cn(
-        georgianFont.variable,
-        defaultFont.variable,
-        defaultFont.className,
-        'bg-white text-black',
-      )}
+      className={cn(georgianFont.variable, defaultFont.variable, defaultFont.className)}
     >
-      <body className="flex h-dvh">
+      <body className="bg-white text-black">
         <RootQueryClientProvider>
           <RootDatabaseInitializer />
           <I18nProvider locale={locale}>{children}</I18nProvider>

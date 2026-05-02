@@ -2,11 +2,7 @@
 
 import { Tooltip } from '@base-ui/react/tooltip';
 import type { TranslitOutputSegment } from '@game-client/ui/screens/translit/translit-output-segments';
-import {
-  translitTooltipArrowClassName,
-  translitTooltipArrowInnerClassName,
-  translitTooltipPopupClassName,
-} from '@game-client/ui/screens/translit/translit-tooltip-styles';
+import { translitTooltipPopupClassName } from '@game-client/ui/screens/translit/translit-tooltip-styles';
 import { cn } from '@kartuli/ui/utils/cn';
 import { type RefObject, type UIEventHandler, useEffect, useRef, useState } from 'react';
 
@@ -22,23 +18,17 @@ type TranslitOutputProps = {
 };
 
 const tokenTriggerClassName = cn(
-  'focus-ring',
   'inline',
   'cursor-help',
-  'rounded-sm',
   'border-0',
   'bg-transparent',
   'p-0',
   'text-left',
-  'align-baseline',
   'whitespace-pre-wrap',
   'break-words',
-  'transition-colors',
-  'duration-150',
   'hover:bg-gray-200',
   'focus-visible:bg-gray-200',
   'data-[popup-open]:bg-gray-200',
-  'focus:outline-none',
 );
 
 export function TranslitOutput({
@@ -113,17 +103,13 @@ export function TranslitOutput({
       lang={lang}
       aria-labelledby={ariaLabelledBy}
       className={cn(
-        'h-full',
-        'min-h-0',
+        'h-64',
         'w-full',
         'overflow-auto',
         'whitespace-pre-wrap',
         'break-words',
         'border',
-        'p-4',
-        'text-left',
-        'align-top',
-        'text-2xl',
+        'p-2',
         className,
       )}
       onScroll={handleScroll}
@@ -178,9 +164,6 @@ export function TranslitOutput({
             <Tooltip.Portal container={tooltipPortalContainer}>
               <Tooltip.Positioner side="top" sideOffset={12}>
                 <Tooltip.Popup className={cn(translitTooltipPopupClassName, tooltipClassName)}>
-                  <Tooltip.Arrow className={translitTooltipArrowClassName}>
-                    <div className={translitTooltipArrowInnerClassName} />
-                  </Tooltip.Arrow>
                   <span>{segment.sourceText}</span>
                 </Tooltip.Popup>
               </Tooltip.Positioner>

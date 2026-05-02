@@ -45,20 +45,7 @@ function AnchoredToasts() {
             className={cn('pointer-events-none')}
           >
             <Toast.Root toast={toast}>
-              <Toast.Content
-                className={cn(
-                  'pointer-events-auto',
-                  'max-w-72',
-                  'rounded-md',
-                  'border',
-                  'bg-black',
-                  'px-3',
-                  'py-2',
-                  'text-sm',
-                  'text-white',
-                  'shadow-lg',
-                )}
-              >
+              <Toast.Content className={cn('pointer-events-auto', 'border', 'bg-white', 'p-2')}>
                 <Toast.Description />
               </Toast.Content>
             </Toast.Root>
@@ -296,163 +283,85 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   return (
     <Toast.Provider toastManager={toastManager}>
       <Tooltip.Provider delay={300}>
-        <main className={cn('flex', 'min-h-0', 'w-full', 'grow', 'flex-col', 'overflow-hidden')}>
-          <h1 className="sr-only">Translit</h1>
-          <div
-            className={cn(
-              'mx-auto',
-              'flex',
-              'min-h-0',
-              'w-full',
-              'max-w-4xl',
-              'grow',
-              'flex-col',
-              'gap-4',
-              'overflow-hidden',
-              'p-4',
-            )}
-          >
-            <div
-              className={cn('flex', 'min-h-0', 'grow', 'basis-0', 'flex-col', 'border', 'bg-white')}
-            >
-              <div
-                className={cn(
-                  'flex',
-                  'items-center',
-                  'justify-between',
-                  'gap-4',
-                  'border-b',
-                  'px-4',
-                  'py-2',
-                )}
+        <main className="p-4">
+          <h1>Translit</h1>
+          <section>
+            <h2 id="translit-input-label">
+              {t('source')}: {sourceFromLabel}
+            </h2>
+            <div className={cn('flex', 'gap-2')}>
+              <TranslitActionTooltip
+                tooltipLabel={clearTextLabel}
+                side="bottom"
+                onClick={clearInput}
+                aria-label={clearTextLabel}
               >
-                <label htmlFor="translit-input" className={cn('flex', 'flex-col')}>
-                  <div className={cn('text-xs', 'uppercase', 'tracking-[0.12em]', 'text-gray-600')}>
-                    {t('source')}
-                  </div>
-                  <div className={cn('text-xl', 'uppercase')}>{sourceFromLabel}</div>
-                </label>
-                <div className={cn('flex', 'gap-2')}>
-                  <TranslitActionTooltip
-                    tooltipLabel={clearTextLabel}
-                    side="bottom"
-                    onClick={clearInput}
-                    aria-label={clearTextLabel}
-                  >
-                    {showEmptyClearIcon ? (
-                      <RiDeleteBin6Line className="size-5" />
-                    ) : (
-                      <RiDeleteBin6Fill className="size-5" />
-                    )}
-                  </TranslitActionTooltip>
-                  <TranslitActionTooltip
-                    tooltipLabel={switchDirectionLabel}
-                    side="bottom"
-                    onClick={toggleDirection}
-                    aria-label={switchDirectionLabel}
-                    aria-controls="translit-input translit-output"
-                  >
-                    <HiOutlineSwitchHorizontal className="size-5" />
-                  </TranslitActionTooltip>
-                </div>
-              </div>
-              <div className={cn('min-h-0', 'grow', 'p-4')}>
-                <textarea
-                  lang={inputLang}
-                  className={cn(
-                    'h-full',
-                    'min-h-0',
-                    'w-full',
-                    'resize-none',
-                    'border',
-                    'p-4',
-                    'caret-black',
-                    'focus:outline-none',
-                    'focus:ring-1',
-                    'focus:ring-black',
-                    'placeholder:text-gray-500',
-                    surfaceTextSizeClassName,
-                    inputScriptClassName,
-                  )}
-                  id="translit-input"
-                  value={input}
-                  onChange={handleInputChange}
-                  onScroll={handleInputScroll}
-                  ref={inputRef}
-                  placeholder={placeholder}
-                />
-              </div>
-            </div>
-            <div
-              className={cn('flex', 'min-h-0', 'grow', 'basis-0', 'flex-col', 'border', 'bg-white')}
-            >
-              <div
-                className={cn(
-                  'flex',
-                  'items-center',
-                  'justify-between',
-                  'gap-4',
-                  'border-b',
-                  'px-4',
-                  'py-2',
-                )}
+                {showEmptyClearIcon ? <RiDeleteBin6Line /> : <RiDeleteBin6Fill />}
+              </TranslitActionTooltip>
+              <TranslitActionTooltip
+                tooltipLabel={switchDirectionLabel}
+                side="bottom"
+                onClick={toggleDirection}
+                aria-label={switchDirectionLabel}
+                aria-controls="translit-input translit-output"
               >
-                <div id={outputLabelId} className={cn('flex', 'flex-col')}>
-                  <div className={cn('text-xs', 'uppercase', 'tracking-[0.12em]', 'text-gray-600')}>
-                    {t('transliteration')}
-                  </div>
-                  <div className={cn('text-xl', 'uppercase')}>{transliterationToLabel}</div>
-                </div>
-                <div className={cn('flex', 'gap-2')}>
-                  <TranslitActionTooltip
-                    tooltipLabel={copyTransliterationLabel}
-                    side="top"
-                    tooltipDisabled={suppressCopyTooltip}
-                    onClick={copyOutput}
-                    aria-label={copyTransliterationLabel}
-                  >
-                    {isCopySuccess ? (
-                      <FaCheck className="size-5" />
-                    ) : (
-                      <FaRegCopy className="size-5" />
-                    )}
-                  </TranslitActionTooltip>
-                </div>
-              </div>
-              <div className={cn('min-h-0', 'grow', 'p-4')}>
-                <TranslitOutput
-                  ariaLabelledBy={outputLabelId}
-                  className={cn(surfaceTextSizeClassName, outputScriptClassName)}
-                  containerRef={outputRef}
-                  lang={outputLang}
-                  onScroll={handleOutputScroll}
-                  segments={outputSegments}
-                  tooltipClassName={tooltipScriptClassName}
-                />
-              </div>
+                <HiOutlineSwitchHorizontal />
+              </TranslitActionTooltip>
             </div>
-          </div>
-          <div
-            aria-hidden
-            className={cn(
-              'invisible',
-              'pointer-events-none',
-              'fixed',
-              'left-0',
-              'top-0',
-              '-z-10',
-              'size-0',
-              'overflow-hidden',
-            )}
-          >
+            <textarea
+              lang={inputLang}
+              aria-labelledby="translit-input-label"
+              className={cn(
+                'h-64',
+                'w-full',
+                'resize-none',
+                'border',
+                'p-2',
+                surfaceTextSizeClassName,
+                inputScriptClassName,
+              )}
+              id="translit-input"
+              value={input}
+              onChange={handleInputChange}
+              onScroll={handleInputScroll}
+              ref={inputRef}
+              placeholder={placeholder}
+            />
+          </section>
+          <section>
+            <h2 id={outputLabelId}>
+              {t('transliteration')}: {transliterationToLabel}
+            </h2>
+            <div className={cn('flex', 'gap-2')}>
+              <TranslitActionTooltip
+                tooltipLabel={copyTransliterationLabel}
+                side="top"
+                tooltipDisabled={suppressCopyTooltip}
+                onClick={copyOutput}
+                aria-label={copyTransliterationLabel}
+              >
+                {isCopySuccess ? <FaCheck /> : <FaRegCopy />}
+              </TranslitActionTooltip>
+            </div>
+            <TranslitOutput
+              ariaLabelledBy={outputLabelId}
+              className={cn(surfaceTextSizeClassName, outputScriptClassName)}
+              containerRef={outputRef}
+              lang={outputLang}
+              onScroll={handleOutputScroll}
+              segments={outputSegments}
+              tooltipClassName={tooltipScriptClassName}
+            />
+          </section>
+          <div aria-hidden className={cn('invisible', 'absolute', 'overflow-hidden')}>
             <div
               ref={inputMeasureRef}
               className={cn(
                 'whitespace-pre-wrap',
-                'break-words',
+                'wrap-break-word',
                 'text-2xl',
                 'leading-8',
-                'p-4',
+                'p-2',
                 inputScriptClassName,
               )}
             >
@@ -462,10 +371,10 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               ref={outputMeasureRef}
               className={cn(
                 'whitespace-pre-wrap',
-                'break-words',
+                'wrap-break-word',
                 'text-2xl',
                 'leading-8',
-                'p-4',
+                'p-2',
                 outputScriptClassName,
               )}
             >
