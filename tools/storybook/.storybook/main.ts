@@ -47,8 +47,21 @@ const config: StorybookConfig = {
   docs: {},
   typescript: {
     reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      exclude: [
+        '**/*.stories.tsx',
+        '../../apps/game-client/src/**/*.stories.tsx',
+        '../../packages/ui/src/**/*.stories.tsx',
+      ],
+      include: [
+        '.storybook/**/*.tsx',
+        '../../apps/game-client/src/**/*.tsx',
+        '../../packages/ui/src/**/*.tsx',
+      ],
+      tsconfigPath: './tsconfig.docgen.json',
+    },
   },
-  viteFinal: async (config, options) => {
+  viteFinal: async (config) => {
     const { default: tailwindcss } = await import('@tailwindcss/vite');
 
     return {
@@ -76,21 +89,19 @@ const config: StorybookConfig = {
           NEXT_PUBLIC_VERCEL_REGION: process.env.NEXT_PUBLIC_VERCEL_REGION,
         }),
       },
-      // Force the automatic JSX runtime for app stories during static builds.
-      // Without this, esbuild reads the tsconfig nearest each source file.
-      // `apps/game-client` inherits Next's `jsx: "preserve"`, which leaves
-      // JSX + TS generics intact in stories imported from the app, and the
-      // downstream Storybook build parser then fails on the first `<`.
-      //
-      // We intentionally scope this to PRODUCTION so `storybook test` keeps
-      // using its oxc-based path without reviving the deprecated esbuild warning.
-      esbuild:
-        options.configType === 'PRODUCTION'
-          ? {
-              ...config.esbuild,
-              jsx: 'automatic',
-            }
-          : config.esbuild,
+      // Force automatic JSX for app stories (Vite 8 uses Oxc; `esbuild` is deprecated).
+      // Without this, transforms follow the tsconfig nearest each file; `apps/game-client`
+      // inherits Next's `jsx: "preserve"`, leaving `<` in the module. Storybook's
+      // `external-globals-plugin` then runs `es-module-lexer` on that source and throws
+      // misleading parse errors.
+      ...(config.oxc === false
+        ? {}
+        : {
+            oxc: {
+              ...(typeof config.oxc === 'object' && config.oxc ? config.oxc : {}),
+              jsx: { runtime: 'automatic' as const },
+            },
+          }),
       plugins: [...(config.plugins || []), tailwindcss()],
     };
   },
