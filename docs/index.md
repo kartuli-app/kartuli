@@ -26,7 +26,7 @@ No required accounts, no paywalls, no premium content; learning works offline an
 - Use the **search bar** at the top to find pages by keyword.
 
 Documentation is grouped by section:
-- **Product**: Mission, vision, and how we run the project; product backlog.
+- **Product**: Product identity, core model, routing, screens, UI system, and roadmap for the game client.
 - **Tech**: Development and documentation standards; technical backlog.
 - **Tools**: e.g. web docs client and its CI/CD.
 - **Providers**: GitHub Actions, GitHub Pages, and similar.

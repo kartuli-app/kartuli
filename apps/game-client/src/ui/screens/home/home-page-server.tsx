@@ -1,14 +1,15 @@
-import { getLibraryServer } from '@game-client/learning-content';
-import { HomeClient } from '@game-client/ui/screens/home/home-client';
-import { buildHomeView } from './view/build-home-view';
-
-export async function HomePageServer({
-  params,
-}: Readonly<{
-  params: Promise<{ locale: string }>;
-}>) {
-  const { locale } = await params;
-  const library = await getLibraryServer(locale);
-  const homeView = await buildHomeView(library);
-  return <HomeClient homeView={homeView} />;
+export function HomePageServer() {
+  return (
+    <main>
+      <h1>Kartuli is in cleanup mode</h1>
+      <p>
+        The old home screen has been removed so the new route structure can be rebuilt with less
+        noise.
+      </p>
+      <p>
+        Translit, settings, locale behavior, and the learning-content system are still in the repo.
+        The home route is intentionally a temporary placeholder for Phase 1.
+      </p>
+    </main>
+  );
 }

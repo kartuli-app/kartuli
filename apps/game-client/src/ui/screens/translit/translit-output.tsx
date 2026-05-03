@@ -1,12 +1,8 @@
 'use client';
 
 import { Tooltip } from '@base-ui/react/tooltip';
+import { tooltipPopupClassName } from '@game-client/ui/components/tooltip';
 import type { TranslitOutputSegment } from '@game-client/ui/screens/translit/translit-output-segments';
-import {
-  translitTooltipArrowClassName,
-  translitTooltipArrowInnerClassName,
-  translitTooltipPopupClassName,
-} from '@game-client/ui/screens/translit/translit-tooltip-styles';
 import { cn } from '@kartuli/ui/utils/cn';
 import { type RefObject, type UIEventHandler, useEffect, useRef, useState } from 'react';
 
@@ -24,21 +20,15 @@ type TranslitOutputProps = {
 const tokenTriggerClassName = cn(
   'inline',
   'cursor-help',
-  'rounded-sm',
-  'bg-transparent',
   'border-0',
+  'bg-transparent',
   'p-0',
-  'align-baseline',
   'text-left',
   'whitespace-pre-wrap',
   'break-words',
-  'transition-colors',
-  'duration-150',
-  'hover:bg-ds1-color-primary-100',
-  'focus-visible:bg-ds1-color-primary-100',
-  'data-[popup-open]:bg-ds1-color-primary-100',
-  'focus:outline-none',
-  'focus-ring',
+  'hover:bg-gray-200',
+  'focus-visible:bg-gray-200',
+  'data-[popup-open]:bg-gray-200',
 );
 
 export function TranslitOutput({
@@ -113,19 +103,13 @@ export function TranslitOutput({
       lang={lang}
       aria-labelledby={ariaLabelledBy}
       className={cn(
+        'h-64',
         'w-full',
-        'h-full',
-        'min-h-0',
         'overflow-auto',
-        'text-left',
-        'align-top',
-        'text-2xl',
-        'p-ds1-spacing-large',
-        'rounded-lg',
-        'border-2',
-        'border-ds1-color-text-200',
         'whitespace-pre-wrap',
-        'wrap-break-word',
+        'break-words',
+        'border',
+        'p-2',
         className,
       )}
       onScroll={handleScroll}
@@ -161,7 +145,7 @@ export function TranslitOutput({
               type="button"
               closeOnClick={false}
               disabled={usesTapInteraction}
-              className={cn(tokenTriggerClassName, isActive && 'bg-ds1-color-primary-100')}
+              className={cn(tokenTriggerClassName, isActive && 'bg-gray-200')}
               style={{ color: 'inherit', font: 'inherit' }}
               aria-label={segment.outputText}
               aria-expanded={usesTapInteraction ? isActive : undefined}
@@ -179,10 +163,7 @@ export function TranslitOutput({
             </Tooltip.Trigger>
             <Tooltip.Portal container={tooltipPortalContainer}>
               <Tooltip.Positioner side="top" sideOffset={12}>
-                <Tooltip.Popup className={cn(translitTooltipPopupClassName, tooltipClassName)}>
-                  <Tooltip.Arrow className={translitTooltipArrowClassName}>
-                    <div className={translitTooltipArrowInnerClassName} />
-                  </Tooltip.Arrow>
+                <Tooltip.Popup className={cn(tooltipPopupClassName, tooltipClassName)}>
                   <span>{segment.sourceText}</span>
                 </Tooltip.Popup>
               </Tooltip.Positioner>

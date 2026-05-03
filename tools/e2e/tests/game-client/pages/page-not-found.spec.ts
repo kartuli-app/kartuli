@@ -6,6 +6,7 @@ import { defaultLocaleBase } from '../../helpers/locale-url';
 const heading = enResources.notFound.heading;
 const removedPaths = [
   'debug',
+  'learn',
   'privacy',
   'profile',
   'saved',
@@ -19,10 +20,6 @@ test.describe('Page not found', () => {
       const response = await page.goto(`${defaultLocaleBase}/non-existent-page`);
       expect(response?.status(), 'not-found route should return HTTP 404').toBe(404);
       await expect(page.getByRole('heading', { name: heading })).toBeVisible();
-    });
-
-    test('has a single h1 from the app bar', async ({ page }) => {
-      await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
     });
 
     test('has no a11y violations on initial load', async ({ page }) => {

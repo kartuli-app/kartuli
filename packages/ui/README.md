@@ -5,10 +5,10 @@ Shared UI component library for Kartuli applications.
 ## Quick Start
 
 ```tsx
-import { Button } from '@kartuli/ui/components/Button';
+import { TokenDemoButton } from '@kartuli/ui/components/token-demo-button';
 
 export function MyApp() {
-  return <Button className="custom-class">Click me</Button>;
+  return <TokenDemoButton className="w-fit">Token demo</TokenDemoButton>;
 }
 ```
 
@@ -26,4 +26,3 @@ pnpm test   # Run tests
 ## Related
 - [Project Overview](https://docs.kartuli.app/)
 - [Code Conventions](https://docs.kartuli.app/conventions)
-

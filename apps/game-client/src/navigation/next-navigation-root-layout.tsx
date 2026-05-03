@@ -5,7 +5,6 @@ import {
   type NavigationContextValue,
   type NavigationLinkProps,
 } from '@game-client/navigation/navigation-context';
-import { GameShell } from '@game-client/ui/shared/components/game-shell';
 import NextLink from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { type ReactNode, useMemo } from 'react';
@@ -58,9 +57,5 @@ export function NextNavigationRootLayout({ children }: Readonly<{ children: Reac
     [router, pathname, localizedPathname],
   );
 
-  return (
-    <NavigationContext.Provider value={value}>
-      <GameShell>{children}</GameShell>
-    </NavigationContext.Provider>
-  );
+  return <NavigationContext.Provider value={value}>{children}</NavigationContext.Provider>;
 }

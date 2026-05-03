@@ -2,18 +2,9 @@ import { Tooltip } from '@base-ui/react/tooltip';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ComponentProps } from 'react';
 import { useRef } from 'react';
-import { expect, waitFor, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { TranslitOutput } from './translit-output';
 import { getTranslitOutputSegments } from './translit-output-segments';
-
-async function getBrowserUserEventOrNull() {
-  try {
-    const mod = await import('vitest/browser');
-    return mod.userEvent;
-  } catch {
-    return null;
-  }
-}
 
 function TranslitOutputStoryRender(args: ComponentProps<typeof TranslitOutput>) {
   const tooltipPortalContainerRef = useRef<HTMLDivElement>(null);
@@ -73,9 +64,6 @@ export const Default: Story = {};
 
 export const ShowsSourceTooltipOnHover: Story = {
   play: async ({ canvasElement, step }) => {
-    const userEvent = await getBrowserUserEventOrNull();
-    if (!userEvent) return;
-
     const canvas = within(canvasElement);
     const token = canvas.getByRole('button', { name: 'gamarjoba.' });
 

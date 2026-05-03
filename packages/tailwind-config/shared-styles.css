@@ -1,57 +1,14 @@
 /**
  * @kartuli/tailwind-config - Shared Tailwind Styles
  *
- * This file declares the token CONTRACT (names) for the Kartuli design system.
- *
- * Rules:
- * - @theme must be top-level only (no selectors/media nesting)
- * - Apps override token VALUES using selectors (:root, [data-theme])
- * - New token NAMES (if ever needed) are declared via @theme at top level in the app
+ * This file keeps only a tiny shared token contract so the shared Tailwind setup
+ * stays exercised without leaking a real design system back into the apps.
  */
 
 @theme {
-  /* ============================================
-     COLORS (OKLCH)
-     ============================================ */
+  --color-color-token-test-primary: black;
+  --color-color-token-test-neutral: white;
 
-  /* Semantic colors */
-  /* App-level minimal semantic tokens */
-  --color-ink: lime; /* default text color */
-  --color-canvas: grey; /* default background color */
-  --color-ds1-color-accent: oklch(63.7% 0.237 25.331); /* default brand accent */
-  --color-ds1-color-accent-muted: oklch(92.5% 0.05 250); /* default softer brand accent */
-  /* ds1 primary */
-  --color-ds1-color-dock-bg: var(--color-slate-800);
-  --color-ds1-color-app-bg: var(--color-violet-50);
-  --color-ds1-color-primary-50: var(--color-violet-50);
-  --color-ds1-color-primary-100: var(--color-violet-100);
-  --color-ds1-color-primary-200: var(--color-violet-200);
-  --color-ds1-color-primary-300: var(--color-violet-300);
-  --color-ds1-color-primary-400: var(--color-violet-400);
-  --color-ds1-color-primary-500: var(--color-violet-500);
-  --color-ds1-color-primary-600: var(--color-violet-600);
-  --color-ds1-color-primary-700: var(--color-violet-700);
-  --color-ds1-color-primary-800: var(--color-violet-800);
-  --color-ds1-color-primary-900: var(--color-violet-900);
-  --color-ds1-color-text-50: var(--color-slate-50);
-  --color-ds1-color-text-100: var(--color-slate-100);
-  --color-ds1-color-text-200: var(--color-slate-200);
-  --color-ds1-color-text-300: var(--color-slate-300);
-  --color-ds1-color-text-400: var(--color-slate-400);
-  --color-ds1-color-text-500: var(--color-slate-500);
-  --color-ds1-color-text-600: var(--color-slate-600);
-  --color-ds1-color-text-700: var(--color-slate-700);
-  --color-ds1-color-text-800: var(--color-slate-800);
-  --color-ds1-color-text-900: var(--color-slate-900);
-
-  /* ============================================
-     SPACING
-     ============================================ */
-  --spacing-ds1-spacing-xsmall: calc(var(--spacing) * 0.5);
-  --spacing-ds1-spacing-small: calc(var(--spacing) * 1);
-  --spacing-ds1-spacing-regular: calc(var(--spacing) * 2);
-  --spacing-ds1-spacing-large: calc(var(--spacing) * 4);
-  --spacing-ds1-spacing-xlarge: calc(var(--spacing) * 8);
-  --spacing-ds1-spacing-2xlarge: calc(var(--spacing) * 16);
-  --spacing-ds1-spacing-3xlarge: calc(var(--spacing) * 24);
+  --spacing-spacing-token-test-small: calc(var(--spacing) * 1);
+  --spacing-spacing-token-test-big: calc(var(--spacing) * 4);
 }
