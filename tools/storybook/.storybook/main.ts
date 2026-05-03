@@ -48,8 +48,9 @@ const config: StorybookConfig = {
   typescript: {
     reactDocgen: 'react-docgen-typescript',
   },
-  viteFinal: async (config) => {
+  viteFinal: async (config, options) => {
     const { default: tailwindcss } = await import('@tailwindcss/vite');
+
     return {
       ...config,
       resolve: {
@@ -75,6 +76,21 @@ const config: StorybookConfig = {
           NEXT_PUBLIC_VERCEL_REGION: process.env.NEXT_PUBLIC_VERCEL_REGION,
         }),
       },
+      // Force the automatic JSX runtime for app stories during static builds.
+      // Without this, esbuild reads the tsconfig nearest each source file.
+      // `apps/game-client` inherits Next's `jsx: "preserve"`, which leaves
+      // JSX + TS generics intact in stories imported from the app, and the
+      // downstream Storybook build parser then fails on the first `<`.
+      //
+      // We intentionally scope this to PRODUCTION so `storybook test` keeps
+      // using its oxc-based path without reviving the deprecated esbuild warning.
+      esbuild:
+        options.configType === 'PRODUCTION'
+          ? {
+              ...config.esbuild,
+              jsx: 'automatic',
+            }
+          : config.esbuild,
       plugins: [...(config.plugins || []), tailwindcss()],
     };
   },
