@@ -21,13 +21,8 @@ function LanguageSwitchButton({
   onClick: (locale: SupportedLocale) => void;
 }>) {
   return (
-    <button
-      type="button"
-      onClick={() => onClick(locale)}
-      className="focus-ring w-full rounded-xl border border-ds1-color-text-300 px-4 py-3 text-left font-semibold text-ds1-color-text-900 transition-colors hover:bg-ds1-color-text-100"
-      aria-label={label}
-    >
-      <span>{label}</span>
+    <button type="button" onClick={() => onClick(locale)} className="border p-2" aria-label={label}>
+      {label}
     </button>
   );
 }
@@ -53,29 +48,20 @@ export function SettingsClient({
   };
 
   return (
-    <main className="px-6 py-10 sm:px-10">
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            {t('language_section')}
-          </h1>
-          <p className="max-w-2xl text-base text-ds1-color-text-700 sm:text-lg">
-            {t('current_language', { language: currentLanguageLabel })}
-          </p>
-        </div>
-
-        <ul aria-label={t('language_section')} className="flex w-full max-w-sm flex-col gap-3">
-          {switchableLocales.map((locale) => (
-            <li key={locale}>
-              <LanguageSwitchButton
-                locale={locale}
-                label={t(`languages.${locale}`)}
-                onClick={handleLanguageSwitch}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
+    <main>
+      <h1>{t('language_section')}</h1>
+      <p>{t('current_language', { language: currentLanguageLabel })}</p>
+      <ul aria-label={t('language_section')}>
+        {switchableLocales.map((locale) => (
+          <li key={locale}>
+            <LanguageSwitchButton
+              locale={locale}
+              label={t(`languages.${locale}`)}
+              onClick={handleLanguageSwitch}
+            />
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }

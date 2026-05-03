@@ -132,6 +132,67 @@ Checkpoint state:
 - the app is ugly but understandable
 - screen ownership is local and explicit
 
+### Phase 2.5: Strip the old ds1 visual token usage
+
+Goal:
+Remove the old `ds1`-style Tailwind token usage from the active app surface before route rebuilding starts.
+
+Why this phase exists:
+
+- The old shell is gone, but a lot of its design-token footprint still remains.
+- The current priority is reduction, not polish.
+- It is acceptable for the app to look plain or ugly during this step.
+- The main objective is to remove noisy tokenized styling so later rebuild work starts from a smaller baseline.
+
+Actions:
+
+- Remove `ds1` color and spacing utility usage from active game-client screens wherever it is not structurally necessary.
+- Prefer deleting visual styling entirely over replacing every old token with a new styled equivalent.
+- In simple screens like settings, not-found, and home, reduce styling to minimal plain Tailwind or no styling at all.
+- In translit, preserve behavior but simplify markup and styling aggressively:
+  - keep the transliteration logic
+  - keep token inspection / tooltip behavior
+  - keep copy / clear / direction switching behavior
+  - do not preserve the old ds1 visual treatment just because it exists
+- Reduce root-layout and global theme usage of ds1 tokens where possible, especially app-surface colors that only exist to support the removed visual system.
+- Remove now-unused ds1 helper styles and tokenized class clusters when their last consumer disappears.
+
+Explicit preserve:
+
+- Keep `packages/ui/src/utils/cn.tsx`.
+- Keep the `cn` unit test that verifies conflict resolution for custom spacing utilities.
+- It is acceptable to narrow the custom spacing support used by `cn` to a very small compatibility surface used only for tests or future targeted usage.
+- Preserving `cn` does not mean active app components need to keep using ds1 spacing or color classes.
+
+Recommended bias:
+
+- prefer `p-2`, `px-2`, `text-black`, `bg-white`, borders, or no styling at all over ds1 token classes
+- prefer removing wrappers and decorative classes over adapting them
+- keep only the minimum custom-token surface needed for `cn` behavior and tests
+- do not expand `shared-styles.css`, theme token maps, or ds1 variants during this phase
+
+Files and areas likely touched:
+
+- `apps/game-client/src/ui/screens/settings/*`
+- `apps/game-client/src/ui/screens/not-found/*`
+- `apps/game-client/src/ui/screens/home/*`
+- `apps/game-client/src/ui/screens/translit/*`
+- `apps/game-client/src/root-layout/root-layout.tsx`
+- `apps/game-client/src/root-layout/globals.css`
+- `apps/game-client/src/root-layout/theme.css`
+- `packages/ui/src/utils/cn.tsx`
+- `packages/ui/src/utils/cn.test.tsx`
+- `packages/tailwind-config/shared-styles.css`
+- any tiny shared helper still carrying ds1-only class strings
+
+Checkpoint state:
+
+- active game-client screens use dramatically fewer ds1 token classes
+- settings and other simple screens no longer depend on ds1 styling
+- translit still works but is visually much simpler
+- `cn` and its merge test still protect the custom-spacing conflict behavior
+- the app styling baseline is much smaller before Phase 3 route work begins
+
 ### Phase 3: Rebuild the route skeleton from the product docs
 
 Goal:

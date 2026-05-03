@@ -1,8 +1,8 @@
 /**
  * Storybook Global Styles
  *
- * This file imports Tailwind and the shared theme contract.
- * Storybook compiles all classes used by stories and UI source.
+ * This file imports Tailwind plus the tiny shared test-token contract and gives
+ * those tokens visible defaults inside Storybook.
  */
 
 /* All imports must come first */
@@ -14,3 +14,8 @@
 @source "../";
 @source "../../../packages/ui/src";
 @source "../../../apps/game-client/src";
+
+:root {
+  --color-color-token-test-primary: oklch(25% 0 0);
+  --color-color-token-test-neutral: oklch(98% 0 0);
+}

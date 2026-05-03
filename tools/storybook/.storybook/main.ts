@@ -47,9 +47,23 @@ const config: StorybookConfig = {
   docs: {},
   typescript: {
     reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      exclude: [
+        '**/*.stories.tsx',
+        '../../apps/game-client/src/**/*.stories.tsx',
+        '../../packages/ui/src/**/*.stories.tsx',
+      ],
+      include: [
+        '.storybook/**/*.tsx',
+        '../../apps/game-client/src/**/*.tsx',
+        '../../packages/ui/src/**/*.tsx',
+      ],
+      tsconfigPath: './tsconfig.docgen.json',
+    },
   },
   viteFinal: async (config) => {
     const { default: tailwindcss } = await import('@tailwindcss/vite');
+
     return {
       ...config,
       resolve: {
@@ -60,21 +74,6 @@ const config: StorybookConfig = {
           '@game-client': resolve(repoRoot, 'apps/game-client/src'),
           '@kartuli/ui': resolve(repoRoot, 'packages/ui/src'),
         }),
-      },
-      // Force the automatic JSX runtime for every file `storybook build`
-      // hands to esbuild. Without this, esbuild reads the tsconfig nearest
-      // each source file: packages/ui and tools/storybook both set
-      // `jsx: "react-jsx"`, but apps/game-client/tsconfig.json inherits
-      // `jsx: "preserve"` from the root tsconfig (required by Next.js).
-      // That leaves JSX + TS generics intact in stories under
-      // apps/game-client/src, and the downstream
-      // `storybook:external-globals-plugin` then fails with a parse error
-      // on the first `<` (e.g. `Meta<typeof ...>`). The Vitest / addon-vitest
-      // pipeline uses oxc instead (whose default runtime is already
-      // 'automatic'), so only esbuild needs pinning here.
-      esbuild: {
-        ...config.esbuild,
-        jsx: 'automatic',
       },
       define: {
         ...config.define,
@@ -90,6 +89,19 @@ const config: StorybookConfig = {
           NEXT_PUBLIC_VERCEL_REGION: process.env.NEXT_PUBLIC_VERCEL_REGION,
         }),
       },
+      // Force automatic JSX for app stories (Vite 8 uses Oxc; `esbuild` is deprecated).
+      // Without this, transforms follow the tsconfig nearest each file; `apps/game-client`
+      // inherits Next's `jsx: "preserve"`, leaving `<` in the module. Storybook's
+      // `external-globals-plugin` then runs `es-module-lexer` on that source and throws
+      // misleading parse errors.
+      ...(config.oxc === false
+        ? {}
+        : {
+            oxc: {
+              ...(typeof config.oxc === 'object' && config.oxc ? config.oxc : {}),
+              jsx: { runtime: 'automatic' as const },
+            },
+          }),
       plugins: [...(config.plugins || []), tailwindcss()],
     };
   },

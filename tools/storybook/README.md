@@ -23,20 +23,20 @@ pnpm test   # Run tests
 
 ## Theming in Storybook
 
-Import Storybook styles in your preview file and optionally override semantic tokens:
+Import Storybook styles in your preview file and optionally override the shared test tokens:
 
 ```ts
 // .storybook/preview.ts
 import './storybook.css'; // optional: overrides :root tokens
 ```
 
-Create `storybook.css` with overrides for the minimal semantic tokens:
+Create `storybook.css` with overrides for the minimal test-only color tokens:
 
 ```css
 /* tools/storybook/storybook.css */
 :root {
-  --color-ink: oklch(22% 0 0);
-  --color-canvas: oklch(99% 0 0);
+  --color-color-token-test-primary: oklch(22% 0 0);
+  --color-color-token-test-neutral: oklch(99% 0 0);
 }
 ```
 
