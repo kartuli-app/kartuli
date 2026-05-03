@@ -7,10 +7,16 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp",
+      "@swc/core",
       "esbuild",
-      "lefthook"
-    ]
+      "lefthook",
+      "sharp"
+    ],
+    "updateConfig": {
+      "ignoreDependencies": [
+        "@types/node"
+      ]
+    }
   },
   "packageManager": "pnpm@10.30.2+sha512.36cdc707e7b7940a988c9c1ecf88d084f8514b5c3f085f53a2e244c2921d3b2545bc20dd4ebe1fc245feec463bb298aecea7a63ed1f7680b877dc6379d8d0cb4",
   "scripts": {
@@ -54,11 +60,11 @@
     "c:preview:web-docs-client": "turbo run preview --filter=@kartuli/web-docs-client"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.10",
+    "@biomejs/biome": "^2.4.14",
     "@lhci/cli": "^0.15.0",
     "@vitest/coverage-v8": "catalog:",
     "lefthook": "^2.1.5",
-    "turbo": "^2.9.4",
+    "turbo": "^2.9.8",
     "vitest": "catalog:"
   }
 }
