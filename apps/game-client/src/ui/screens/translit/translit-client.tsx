@@ -1,12 +1,12 @@
 'use client';
-import { Toast } from '@base-ui/react/toast';
 import { Tooltip } from '@base-ui/react/tooltip';
 import type { Library } from '@game-client/learning-content/library/library';
 import {
   getStringTransliterationFromLatin,
   getStringTransliterationFromTargetScript,
 } from '@game-client/learning-content/utils/transliteration';
-import { TranslitActionTooltip } from '@game-client/ui/screens/translit/translit-action-tooltip';
+import { Notifications, showNotification } from '@game-client/ui/components/notifications';
+import { TooltipButton } from '@game-client/ui/components/tooltip-button';
 import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output';
 import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
 import { cn } from '@kartuli/ui/utils/cn';
@@ -16,7 +16,6 @@ import { FaCheck, FaRegCopy } from 'react-icons/fa6';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Fill, RiDeleteBin6Line } from 'react-icons/ri';
 
-const toastManager = Toast.createToastManager();
 // Compact mode is decided from fixed text-2xl/leading-8 measurement-space with whitespace-pre-wrap.
 // Because the real surfaces can switch text size and textarea wrapping differs slightly from div
 // wrapping, the threshold can differ by about one rendered line after toggling compact mode.
@@ -32,38 +31,12 @@ function getRenderedLineCount(element: HTMLElement): number {
   return Math.max(1, Math.ceil(contentHeight / lineHeight));
 }
 
-function AnchoredToasts() {
-  const { toasts } = Toast.useToastManager();
-  return (
-    <Toast.Portal>
-      <Toast.Viewport className={cn('pointer-events-none', 'fixed', 'inset-0', 'z-50')}>
-        {toasts.map((toast) => (
-          <Toast.Positioner
-            sideOffset={12}
-            key={toast.id}
-            toast={toast}
-            className={cn('pointer-events-none')}
-          >
-            <Toast.Root toast={toast}>
-              <Toast.Content className={cn('pointer-events-auto', 'border', 'bg-white', 'p-2')}>
-                <Toast.Description />
-              </Toast.Content>
-            </Toast.Root>
-          </Toast.Positioner>
-        ))}
-      </Toast.Viewport>
-    </Toast.Portal>
-  );
-}
-
 export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const { t } = useTranslation('translit');
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [isCopySuccess, setIsCopySuccess] = useState(false);
   const [isCompactText, setIsCompactText] = useState(false);
-  /** Hides copy tooltip as soon as the button is pressed (before async clipboard), so toast is not doubled with an open hover tooltip */
-  const [suppressCopyTooltip, setSuppressCopyTooltip] = useState(false);
   const [direction, setDirection] = useState<'georgian-to-latin' | 'latin-to-georgian'>(
     'georgian-to-latin',
   );
@@ -106,39 +79,21 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     setOutput('');
   };
 
-  const copyOutput = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    const anchorElement = event.currentTarget;
-    setSuppressCopyTooltip(true);
+  const copyOutput = async () => {
     const clipboard = globalThis.navigator?.clipboard;
     if (!clipboard) {
-      setSuppressCopyTooltip(false);
-      toastManager.add({
+      showNotification({
         description: t('toast_copy_failed'),
         timeout: 3200,
-        positionerProps: {
-          anchor: anchorElement,
-          side: 'top',
-          align: 'center',
-          sideOffset: 8,
-          positionMethod: 'fixed',
-        },
       });
       return;
     }
     try {
       await clipboard.writeText(output);
     } catch {
-      setSuppressCopyTooltip(false);
-      toastManager.add({
+      showNotification({
         description: t('toast_copy_failed'),
         timeout: 3200,
-        positionerProps: {
-          anchor: anchorElement,
-          side: 'top',
-          align: 'center',
-          sideOffset: 8,
-          positionMethod: 'fixed',
-        },
       });
       return;
     }
@@ -148,19 +103,11 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     setIsCopySuccess(true);
     copyFeedbackTimeoutRef.current = globalThis.setTimeout(() => {
       setIsCopySuccess(false);
-      setSuppressCopyTooltip(false);
       copyFeedbackTimeoutRef.current = null;
     }, 1200);
-    toastManager.add({
+    showNotification({
       description: t('toast_copied_transliteration'),
       timeout: 1200,
-      positionerProps: {
-        anchor: anchorElement,
-        side: 'top',
-        align: 'center',
-        sideOffset: 8,
-        positionMethod: 'fixed',
-      },
     });
   };
 
@@ -281,7 +228,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const surfaceTextSizeClassName = isCompactText ? 'text-xl' : 'text-2xl';
 
   return (
-    <Toast.Provider toastManager={toastManager}>
+    <Notifications>
       <Tooltip.Provider delay={300}>
         <main className="p-4">
           <h1>Translit</h1>
@@ -290,15 +237,15 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               {t('source')}: {sourceFromLabel}
             </h2>
             <div className={cn('flex', 'gap-2')}>
-              <TranslitActionTooltip
+              <TooltipButton
                 tooltipLabel={clearTextLabel}
                 side="bottom"
                 onClick={clearInput}
                 aria-label={clearTextLabel}
               >
                 {showEmptyClearIcon ? <RiDeleteBin6Line /> : <RiDeleteBin6Fill />}
-              </TranslitActionTooltip>
-              <TranslitActionTooltip
+              </TooltipButton>
+              <TooltipButton
                 tooltipLabel={switchDirectionLabel}
                 side="bottom"
                 onClick={toggleDirection}
@@ -306,7 +253,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 aria-controls="translit-input translit-output"
               >
                 <HiOutlineSwitchHorizontal />
-              </TranslitActionTooltip>
+              </TooltipButton>
             </div>
             <textarea
               lang={inputLang}
@@ -333,15 +280,14 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               {t('transliteration')}: {transliterationToLabel}
             </h2>
             <div className={cn('flex', 'gap-2')}>
-              <TranslitActionTooltip
+              <TooltipButton
                 tooltipLabel={copyTransliterationLabel}
                 side="top"
-                tooltipDisabled={suppressCopyTooltip}
                 onClick={copyOutput}
                 aria-label={copyTransliterationLabel}
               >
                 {isCopySuccess ? <FaCheck /> : <FaRegCopy />}
-              </TranslitActionTooltip>
+              </TooltipButton>
             </div>
             <TranslitOutput
               ariaLabelledBy={outputLabelId}
@@ -383,7 +329,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
           </div>
         </main>
       </Tooltip.Provider>
-      <AnchoredToasts />
-    </Toast.Provider>
+    </Notifications>
   );
 }

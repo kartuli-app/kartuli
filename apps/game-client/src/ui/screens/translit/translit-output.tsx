@@ -1,8 +1,8 @@
 'use client';
 
 import { Tooltip } from '@base-ui/react/tooltip';
+import { tooltipPopupClassName } from '@game-client/ui/components/tooltip';
 import type { TranslitOutputSegment } from '@game-client/ui/screens/translit/translit-output-segments';
-import { translitTooltipPopupClassName } from '@game-client/ui/screens/translit/translit-tooltip-styles';
 import { cn } from '@kartuli/ui/utils/cn';
 import { type RefObject, type UIEventHandler, useEffect, useRef, useState } from 'react';
 
@@ -163,7 +163,7 @@ export function TranslitOutput({
             </Tooltip.Trigger>
             <Tooltip.Portal container={tooltipPortalContainer}>
               <Tooltip.Positioner side="top" sideOffset={12}>
-                <Tooltip.Popup className={cn(translitTooltipPopupClassName, tooltipClassName)}>
+                <Tooltip.Popup className={cn(tooltipPopupClassName, tooltipClassName)}>
                   <span>{segment.sourceText}</span>
                 </Tooltip.Popup>
               </Tooltip.Positioner>
