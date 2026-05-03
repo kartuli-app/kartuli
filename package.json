@@ -7,9 +7,10 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp",
+      "@swc/core",
       "esbuild",
-      "lefthook"
+      "lefthook",
+      "sharp"
     ],
     "updateConfig": {
       "ignoreDependencies": [
