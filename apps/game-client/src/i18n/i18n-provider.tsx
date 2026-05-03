@@ -13,8 +13,15 @@ export function I18nProvider({
   readonly locale: string;
   readonly children: ReactNode;
 }>) {
-  // Prevent a visible "en -> ru" flash by not rendering translated children
-  // until i18next has switched to the target language.
+  // Architecture trade-off (Option A, accepted): i18next is a module singleton
+  // initialised with defaultLocale, so SSR-rendered HTML for non-default locales
+  // contains default-locale text. This gate prevents that wrong text from
+  // becoming visible after hydration; the blank → translated swap happens
+  // client-side via changeLanguage. Changing this requires per-request i18n
+  // instances or an RSC-first copy approach — out of scope unless a new item is opened.
+  //
+  // Prevent a visible flash by not rendering translated children until i18next
+  // has switched to the target language.
   const [isReady, setIsReady] = useState(i18n.resolvedLanguage === locale);
 
   const useIsomorphicLayoutEffect = globalThis.window ? useLayoutEffect : useEffect;

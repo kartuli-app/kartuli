@@ -7,4 +7,9 @@ export {
   supportedLocales,
 } from './i18n-constants';
 export { I18nProvider } from './i18n-provider';
-export { getCurrentSupportedLocale, getLocalizedPathnameForLocale } from './locale-utils';
+export {
+  getCurrentSupportedLocale,
+  getLocalizedPathnameForLocale,
+  getPathSuffixForBareLocaleRewrite,
+  getPreferredSupportedLocale,
+} from './locale-utils';
