@@ -11,6 +11,8 @@ description: |
 
 colors:
 
+  # Required by the @google/design.md linter as a top-level primary sentinel.
+  # Not a brand token — use brand-color-* tokens in the app instead.
   primary: "#ca00e8"
 
   brand-color-primary-soft: "#edb1ff"
