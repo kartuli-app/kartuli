@@ -1,4 +1,4 @@
-import { type SupportedLocale, supportedLocales } from './i18n-constants';
+import { defaultLocale, type SupportedLocale, supportedLocales } from './i18n-constants';
 
 export function getCurrentSupportedLocale(
   resolvedLanguage: string | undefined,
@@ -9,6 +9,55 @@ export function getCurrentSupportedLocale(
       (locale) => resolvedLanguage === locale || resolvedLanguage?.startsWith(`${locale}-`),
     ) ?? fallbackLocale
   );
+}
+
+/**
+ * Resolves the preferred supported locale from available signals.
+ * Priority: explicit cookie → Accept-Language primary subtag → defaultLocale.
+ */
+export function getPreferredSupportedLocale(
+  cookie?: string,
+  acceptLanguage?: string,
+): SupportedLocale {
+  if (cookie && supportedLocales.includes(cookie as SupportedLocale)) {
+    return cookie as SupportedLocale;
+  }
+  if (acceptLanguage) {
+    const primary = acceptLanguage.split(',')[0]?.split('-')[0]?.toLowerCase();
+    if (primary && supportedLocales.includes(primary as SupportedLocale)) {
+      return primary as SupportedLocale;
+    }
+  }
+  return defaultLocale;
+}
+
+/**
+ * Path tail for bare URLs handled by the edge proxy: everything that should appear
+ * after `/${preferredLocale}/` when the request path does not already start with a
+ * supported locale (en/ru).
+ *
+ * - `/` → `""`
+ * - `/de/settings` → `"settings"` (strip a single two-letter unsupported prefix)
+ * - `/de` → `""`
+ * - `/settings` → `"settings"` (no locale prefix — keep full suffix)
+ */
+export function getPathSuffixForBareLocaleRewrite(pathname: string): string {
+  const tokens = pathname.split('/').filter(Boolean);
+  if (tokens.length === 0) {
+    return '';
+  }
+  const first = tokens[0];
+  if (supportedLocales.includes(first as SupportedLocale)) {
+    return tokens.slice(1).join('/');
+  }
+  const looksLikeTwoLetterLang = /^[a-z]{2}$/i.test(first);
+  if (looksLikeTwoLetterLang && tokens.length >= 2) {
+    return tokens.slice(1).join('/');
+  }
+  if (looksLikeTwoLetterLang && tokens.length === 1) {
+    return '';
+  }
+  return tokens.join('/');
 }
 
 export function getLocalizedPathnameForLocale(path: string, newLocale: SupportedLocale): string {

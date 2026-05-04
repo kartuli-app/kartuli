@@ -114,11 +114,12 @@ const baseMetadata: Metadata = {
     },
   },
 
-  // Served from `public/favicon.svg`. Omit URLs for missing files — otherwise
-  // `/favicon.ico`, `/icon.svg`, etc. are matched by `app/[locale]` and break.
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-    shortcut: '/favicon.svg',
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.ico',
   },
 
   // Additional meta tags
@@ -159,10 +160,10 @@ const hreflangByLang: Record<SupportedLocale, string> = {
  * Root ([]) is treated as default locale: canonical and x-default point to /en.
  * Call only when path is root or first segment is a supported locale (see getLocaleMetadata).
  */
-function buildAlternates(
-  pathSegments: string[],
-  _lang: SupportedLocale,
-): { canonical: string; languages: Record<string, string> } {
+function buildAlternates(pathSegments: string[]): {
+  canonical: string;
+  languages: Record<string, string>;
+} {
   const base = siteConfig.url.replace(/\/$/, '');
   const isRoot = pathSegments.length === 0;
   const pathSuffix = isRoot ? [] : pathSegments.slice(1);
@@ -192,16 +193,14 @@ export function generateMetadataForSupportedLocale(
     pathSegments !== undefined &&
     (pathSegments.length === 0 || supportedLocales.includes(pathSegments[0] as SupportedLocale));
   const alternates =
-    pathSegments !== undefined && shouldBuildAlternates
-      ? buildAlternates(pathSegments, locale as SupportedLocale)
-      : undefined;
+    pathSegments !== undefined && shouldBuildAlternates ? buildAlternates(pathSegments) : undefined;
 
   return {
     ...baseMetadata,
-    title: {
-      default: meta.title,
-      template: `%s | ${siteConfig.name}`,
-    },
+    title:
+      pathSegments === undefined
+        ? { default: meta.title, template: `%s | ${siteConfig.name}` }
+        : { absolute: meta.title },
     description: meta.description,
     keywords: [...meta.keywords],
     openGraph: {

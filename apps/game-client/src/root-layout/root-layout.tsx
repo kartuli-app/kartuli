@@ -1,14 +1,8 @@
 import './globals.css';
-import {
-  defaultLocale,
-  I18nProvider,
-  type SupportedLocale,
-  supportedLocales,
-} from '@game-client/i18n';
+import { I18nProvider } from '@game-client/i18n';
 import { cn } from '@kartuli/ui/utils/cn';
 import { Manrope } from 'next/font/google';
 import localFont from 'next/font/local';
-import { notFound, redirect } from 'next/navigation';
 import { RootDatabaseInitializer } from './root-database-initializer';
 import { RootQueryClientProvider } from './root-query-client-provider';
 
@@ -24,10 +18,6 @@ const defaultFont = Manrope({
   display: 'swap',
 });
 
-function getRedirectUrlForUnsupportedLocalePath(locale: string): string {
-  return `/${defaultLocale}/unsupported-locale/${locale}`;
-}
-
 export async function RootLayout({
   children,
   params,
@@ -36,12 +26,6 @@ export async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { locale } = await params;
-  if (locale.includes('.')) {
-    return notFound();
-  }
-  if (!supportedLocales.includes(locale as SupportedLocale)) {
-    return redirect(getRedirectUrlForUnsupportedLocalePath(locale));
-  }
   return (
     <html
       lang={locale}

@@ -4,6 +4,8 @@ import { RootLayout } from '@game-client/root-layout/root-layout';
 import type { Viewport } from 'next';
 import type { ReactNode } from 'react';
 
+export const dynamicParams = true;
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   return generateMetadataForSupportedLocale(locale);
