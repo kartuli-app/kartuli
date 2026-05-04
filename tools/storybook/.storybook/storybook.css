@@ -14,8 +14,3 @@
 @source "../";
 @source "../../../packages/ui/src";
 @source "../../../apps/game-client/src";
-
-:root {
-  --color-color-token-test-primary: oklch(25% 0 0);
-  --color-color-token-test-neutral: oklch(98% 0 0);
-}

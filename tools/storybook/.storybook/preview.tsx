@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
 import './storybook.css';
-import { BackofficeThemeWrapper, GameThemeWrapper } from './theme-wrappers';
+import { PrimaryGreenThemeWrapper, PrimaryRedThemeWrapper } from './theme-wrappers';
 
 const preview: Preview = {
   parameters: {
@@ -41,8 +41,8 @@ const preview: Preview = {
         icon: 'paintbrush',
         items: [
           { value: 'default', title: 'Default', icon: 'circle' },
-          { value: 'game', title: 'Game', icon: 'graphbar' },
-          { value: 'backoffice', title: 'Backoffice', icon: 'admin' },
+          { value: 'primary-green', title: 'Primary Green', icon: 'graphbar' },
+          { value: 'primary-red', title: 'Primary Red', icon: 'admin' },
         ],
         dynamicTitle: true,
       },
@@ -68,10 +68,10 @@ const preview: Preview = {
       );
 
       switch (theme) {
-        case 'game':
-          return <GameThemeWrapper>{content}</GameThemeWrapper>;
-        case 'backoffice':
-          return <BackofficeThemeWrapper>{content}</BackofficeThemeWrapper>;
+        case 'primary-green':
+          return <PrimaryGreenThemeWrapper>{content}</PrimaryGreenThemeWrapper>;
+        case 'primary-red':
+          return <PrimaryRedThemeWrapper>{content}</PrimaryRedThemeWrapper>;
         default:
           return content;
       }

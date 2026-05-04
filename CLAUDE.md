@@ -83,10 +83,10 @@ Student progress is persisted entirely client-side in **IndexedDB** via the `idb
 
 The design system is defined in `DESIGN.md` (a `design.md` format file with DTCG token frontmatter). The pipeline:
 
-1. `pnpm run design:export:dtcg` → `generated/design.tokens.json`
-2. `pnpm run design:build-css` (runs `build-design-css.mjs`) → `src/styles/generated/tokens.css` + `tailwind-theme.css`
+1. `pnpm run design:export:dtcg` → `generated/design.tokens.json` (intermediate artifact, gitignored)
+2. `pnpm run design:build-css` (delegates to `packages/tailwind-config/build-design-css.mjs`) → `packages/tailwind-config/shared-styles.css` (combined `:root` CSS vars + `@theme static` Tailwind block)
 
-These generated files are consumed by `@kartuli/tailwind-config` and imported in app global styles.
+`shared-styles.css` is the package main export and is already imported by all consumers via `@import "@kartuli/tailwind-config"` — no consumer changes are needed when tokens change. The file is committed to git so consumers always have it available without running the pipeline.
 
 ### Shared UI
 

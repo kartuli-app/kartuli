@@ -57,7 +57,11 @@
     "c:preview:game-client": "turbo run preview --filter=@kartuli/game-client",
     "c:preview:backoffice-client": "turbo run preview --filter=@kartuli/backoffice-client",
     "c:preview:storybook": "turbo run preview --filter=@kartuli/storybook",
-    "c:preview:web-docs-client": "turbo run preview --filter=@kartuli/web-docs-client"
+    "c:preview:web-docs-client": "turbo run preview --filter=@kartuli/web-docs-client",
+    "design:lint": "pnpm dlx @google/design.md@0.1.1 lint DESIGN.md",
+    "design:export:dtcg": "mkdir -p generated && pnpm dlx @google/design.md@0.1.1 export --format dtcg DESIGN.md > generated/design.tokens.json",
+    "design:build-css": "pnpm --filter @kartuli/tailwind-config run design:build-css",
+    "design:build": "pnpm run design:export:dtcg && pnpm run design:build-css"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",

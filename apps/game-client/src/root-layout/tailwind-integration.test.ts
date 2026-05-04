@@ -15,19 +15,18 @@ async function compileCssFromEntry(entryFileName: string): Promise<string> {
 }
 
 describe('tailwind integration (game-client)', () => {
-  it('generates the shared UI token-demo utilities in consumer output', async () => {
+  it('emits design token CSS variables from shared-styles', async () => {
     const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('.bg-color-token-test-primary');
-    expect(css).toContain('.text-color-token-test-neutral');
-    expect(css).toContain('.gap-spacing-token-test-small');
-    expect(css).toContain('.px-spacing-token-test-big');
+    expect(css).toContain('--brand-color-primary: #ca00e8;');
+    expect(css).toContain('--brand-spacing-1: 4px;');
+    expect(css).toContain('--brand-radius-1: 8px;');
+    expect(css).toContain('--brand-typography-title-font-size: 24px;');
   });
 
-  it('keeps only the minimal shared theme contract', async () => {
+  it('wires design tokens into the Tailwind theme', async () => {
     const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('--color-color-token-test-primary: black;');
-    expect(css).toContain('--color-color-token-test-neutral: white;');
-    expect(css).toContain('--spacing-spacing-token-test-small: calc(var(--spacing) * 1);');
-    expect(css).toContain('--spacing-spacing-token-test-big: calc(var(--spacing) * 4);');
+    expect(css).toContain('--color-brand-color-primary: var(--brand-color-primary);');
+    expect(css).toContain('--spacing-brand-spacing-1: var(--brand-spacing-1);');
+    expect(css).toContain('--radius-brand-radius-1: var(--brand-radius-1);');
   });
 });

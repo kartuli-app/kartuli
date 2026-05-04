@@ -1,246 +1,375 @@
-# Design System for kartuli.app
+---
+version: alpha
+name: kartuli.app
+description: |
+  A mobile-first Georgian language learning app for short lessons and simple games.
+  The visual system is warm, focused, lightly playful, and neutral-first. Most UI is calm
+  and border-led, with primary color used as a restrained signal for progression, active
+  navigation, and selected context. Success and fail colors exist as semantic tokens for
+  Play feedback, but the initial theme keeps them restrained so the interface can mature
+  from a stable neutral foundation.
 
-## 1. Visual Theme & Atmosphere
+colors:
 
-`kartuli.app` should feel like a focused mobile learning product: clear, warm, encouraging, and lightly playful. It is not a dense productivity dashboard and not a loud children’s game. The interface needs to support 2 modes without splitting into unrelated styles: quiet reference/review behavior in Explore and Study, and faster, more directed interaction in Play.
+  primary: "#ca00e8"
 
-The mascot is the main personality layer. It should soften low-content screens, recovery states, and success/failure moments without becoming noisy or childish. Most of the product’s confidence should come from hierarchy, structure, rhythm, and semantic state styling rather than from ornamental effects.
+  brand-color-primary-soft: "#edb1ff"
+  brand-color-primary: "#ca00e8"
+  brand-color-primary-strong: "#570065"
 
-The shape language is rounded-rectangle based. Normal surfaces should feel calm and coherent; floating and interruptive surfaces should feel more special because they are used selectively. Accent is a signal, not a default fill.
+  brand-color-neutral-soft: "#c3c7c7"
+  brand-color-neutral: "#767979"
+  brand-color-neutral-strong: "#101111"
 
-**Key Characteristics**
-- Mobile-first learning product, desktop-supported but not desktop-led
-- Warm, encouraging tone with small, charming humor
-- Calm, reusable surface language across Learn, Study, Play, Translit, Settings, and recovery states
-- Product structure and interaction meaning come before decorative styling
-- Floating and interruptive surfaces are selective, not ubiquitous
+  brand-color-semantic-success-soft: "#aafebb"
+  brand-color-semantic-success: "#32e970"
+  brand-color-semantic-success-strong: "#0d5a27"
 
-## 2. Color Palette & Roles
+  brand-color-semantic-error-soft: "#f19d9d"
+  brand-color-semantic-error: "#942121"
+  brand-color-semantic-error-strong: "#460a0a"
 
-The color system is semantic first.
+typography:
+  brand-typography-title:
+    fontSize: 24px
+    fontWeight: 700
+    lineHeight: 1.15
+    letterSpacing: -0.2px
 
-### Brand and Accent
-- **Accent** (`accent-*`): brand emphasis, selected state, current-context emphasis, CTA emphasis
-- Accent should behave like a signal color, not a large arbitrary fill across the product
+  brand-typography-subtitle:
+    fontSize: 18px
+    fontWeight: 600
+    lineHeight: 1.25
+    letterSpacing: 0px
 
-### Neutral System
-- **Neutral** (`neutral-*`): page floors, default surfaces, framed slots, body text, secondary text, dividers, and quiet utility states
-- The neutral family carries most reading and surface behavior
+  brand-typography-button:
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.25
+    letterSpacing: 0px
 
-### State and Feedback
-- **Positive** (`positive-*`): correct answers, success, positive feedback
-- **Negative** (`negative-*`): wrong answers, destructive/error-like states
-- **Focus** (`focus-*`): keyboard and accessibility focus treatment
-- **Selected** (`selected-*`): current choice or current context
-- **Muted** (`muted-*`): still interactive, but sound-dependent behavior is unavailable
-- **Disabled** (`disabled-*`): unavailable and not interactive
+rounded:
+  brand-radius-none: 0px
+  brand-radius-1: 8px
+  brand-radius-2: 16px
+  brand-radius-3: 24px
+  brand-radius-full: 9999px
 
-### Surface Roles
-- `app-bg`, `page-bg`
-- `surface-default`, `surface-subtle`, `surface-prominent`, `surface-overlay`
-- `surface-slot`, `surface-input`, `surface-answer`
-- `surface-banner`, `surface-notification`
+spacing:
+  brand-spacing-1: 4px
+  brand-spacing-2: 8px
+  brand-spacing-3: 12px
+  brand-spacing-4: 16px
+
+components:
+  appbar-title:
+    backgroundColor: "transparent"
+    textColor: "{colors.brand-color-neutral}"
+    typography: "{typography.brand-typography-title}"
+
+  button-primary:
+    backgroundColor: "{colors.brand-color-primary}"
+    textColor: "{colors.brand-color-neutral-soft}"
+    typography: "{typography.brand-typography-button}"
+    rounded: "{rounded.brand-radius-3}"
+    padding: "{spacing.brand-spacing-3}"
+---
+
+## Overview
+
+`kartuli.app` is a Georgian language learning product for short lessons and simple games. The core product promise is simple: when a student has a few free minutes, the interface should help them feel, “I practiced some Georgian.”
+
+The design system is mobile-first, touch-first, and learning-first. It should feel warm, focused, encouraging, and lightly playful without becoming childish or visually noisy. The mascot is the main personality layer; the interface itself should stay calm, structured, and reusable.
+
+The MVP is optimized for mobile web. On desktop, the app should render inside a centered mobile app shell rather than becoming a separate desktop product. Desktop support is intentional, but desktop optimization is post-MVP.
+
+**Key characteristics:**
+
+- Neutral-first visual system with restrained primary color usage.
+- Rounded-rectangle shape language.
+- Border-led surfaces rather than shadow-led surfaces.
+- Short-session learning rhythm: Explore → optional Study → Play → Repeat.
+- Georgian script gets a dedicated font family, but not a separate visual universe.
+- Play states must be fast to scan and clearly distinct.
+- Study and Explore should feel calmer than Play.
+- AI tools must compose from the defined tokens and component families instead of inventing new styles.
+
+## Colors
+
+The color system is semantic and neutral-first. Most UI should be built from background, surface, border, and text tokens. Primary, success, and fail tokens exist from the start, but their first theme values are intentionally restrained.
+
+### Compatibility Alias
+
+- **Primary** (`{colors.primary}` — `#3A352F`) exists as a conventional `DESIGN.md` compatibility alias.
+- App code and Tailwind utilities should prefer the searchable token name `{colors.brand-color-primary}`.
+
+### Neutral Foundation
+
+- **Background** (`{colors.brand-color-bg}`): outer app background and mobile shell surroundings.
+- **Page** (`{colors.brand-color-page}`): page floor inside the app shell.
+- **Surface** (`{colors.brand-color-surface}`): default cards, panels, controls, answer options, and normal content blocks.
+- **Surface Muted** (`{colors.brand-color-surface-muted}`): preview slots, subtle panels, quiet grouped areas, and low-emphasis fills.
+- **Surface Raised** (`{colors.brand-color-surface-raised}`): surfaces that need to separate from the page without changing the visual language.
+- **Surface Overlay** (`{colors.brand-color-surface-overlay}`): bottom sheets, drawers, notifications, and blocking overlays.
+
+### Borders and Text
+
+- **Border** (`{colors.brand-color-border}`): default 1px framing for cards, slots, inputs, answer options, and sections.
+- **Border Strong** (`{colors.brand-color-border-strong}`): emphasized selected/focused framing when color alone is not enough.
+- **Text** (`{colors.brand-color-text}`): primary readable text.
+- **Text Muted** (`{colors.brand-color-text-muted}`): support copy, captions, helper copy, inactive navigation labels.
+- **Text Subtle** (`{colors.brand-color-text-subtle}`): disabled text and least-emphasis metadata.
+- **Text Inverse** (`{colors.brand-color-text-inverse}`): text on primary filled actions.
+
+### Primary
+
+- **Primary Soft** (`{colors.brand-color-primary-soft}`): selected background, active context tint, and light emphasis.
+- **Primary** (`{colors.brand-color-primary}`): primary CTA, active navigation, selected resource border/icon, and tiny emphasis moments.
+- **Primary Strong** (`{colors.brand-color-primary-strong}`): pressed state, high emphasis, and stronger CTA feedback.
+
+Primary is a signal, not a default fill. It should not be used to make every card colorful.
+
+### Success and Fail
+
+- **Success Soft** (`{colors.brand-color-success-soft}`): correct answer background and positive feedback tint.
+- **Success** (`{colors.brand-color-success}`): correct answer border/icon/text signal.
+- **Success Strong** (`{colors.brand-color-success-strong}`): strong positive state only when required.
+
+- **Fail Soft** (`{colors.brand-color-fail-soft}`): wrong answer background and negative feedback tint.
+- **Fail** (`{colors.brand-color-fail}`): wrong answer border/icon/text signal.
+- **Fail Strong** (`{colors.brand-color-fail-strong}`): destructive or high-emphasis negative state only when required.
+
+The initial success/fail values are restrained and close to neutral. This is intentional. Correct and wrong states must also use copy, icons, border strength, and layout so that they remain understandable before the palette becomes more colorful.
+
+### Muted, Disabled, and Focus
+
+- **Muted** (`{colors.brand-color-muted}`): still-interactive but sound-dependent behavior is unavailable.
+- **Disabled** (`{colors.brand-color-disabled}`): unavailable and not interactive.
+- **Focus** (`{colors.brand-color-focus}`): keyboard/accessibility focus ring.
+
+Muted is not an error and must not use fail styling.
+
+## Typography
+
+The type system uses a general UI stack plus a Georgian-script stack. Georgian does not get a separate hierarchy; it uses the same role structure with a family swap where needed.
+
+### Families
+
+- **UI text:** Inter/system stack for English, Russian, transliteration, controls, and interface copy.
+- **Georgian text:** Noto Sans Georgian stack for Georgian letters, words, and example phrases.
+
+### Roles
+
+- `{typography.brand-type-page-title}`: page identity, major route title, result title.
+- `{typography.brand-type-section-title}`: section headings and module headers.
+- `{typography.brand-type-card-title}`: lesson cards, destination cards, product-specific card titles.
+- `{typography.brand-type-body}`: default readable UI copy.
+- `{typography.brand-type-body-strong}`: answer options, emphasized body, compact labels.
+- `{typography.brand-type-caption}`: helper text, captions, dock labels, small metadata.
+- `{typography.brand-type-button}`: buttons and control labels.
+- `{typography.brand-type-georgian-display}`: single-letter detail moments.
+- `{typography.brand-type-georgian-word}`: focused Georgian word or phrase.
+- `{typography.brand-type-georgian-body}`: Georgian examples, summary items, and readable Georgian copy.
 
 ### Principles
-- Muted is not an error state and should not reuse negative styling
-- Selected, muted, and disabled must stay visually distinct
-- Small internal framed elements should rely on `surface-slot`
-- Drawers, blocking overlays, and tooltips should rely on `surface-overlay`
-- The lined alphabet-slot treatment is a decorative layer inside the slot, not a separate surface family
 
-## 3. Typography Rules
+- Keep body text stable and legible.
+- Put responsive typography pressure mainly on page titles and Georgian display moments.
+- Do not create a separate typography universe for Georgian.
+- Do not use heavy display type everywhere. The learning flow should feel calm and fast to scan.
 
-The typography system is built around 2 families: a general UI family and a Georgian-script family. Georgian does not get a separate hierarchy; it uses the same role structure with a family swap. This keeps the product coherent across English, Russian, transliteration, and Georgian while still letting Georgian script feel intentional and legible.
+## Layout
 
-### Font Families
-- **UI / Latin / Russian / transliteration**: `font-ui`
-- **Georgian script**: `font-georgian`
+The layout system is mobile-first and shell-scoped.
 
-### Weights
-- `weight-regular`
-- `weight-medium`
-- `weight-strong`
+### Mobile App Shell
 
-### Type Scale
-- `type-1`: captions, helper text, tooltips, micro support
-- `type-2`: body text, controls, most default UI copy
-- `type-3`: small headings and emphasized support text
-- `type-4`: prominent component text and word-level focal text
-- `type-5`: page titles and major result/title moments
-- `type-6`: single-item display moments such as letter detail
+- On mobile, the app fills the viewport.
+- On tablet and desktop for MVP, the app remains inside a centered mobile shell.
+- Recommended maximum shell width: 430px.
+- Desktop should not stretch app bars, bottom docks, bottom sheets, or overlays across the full browser width.
+- Dedicated desktop layouts are post-MVP.
 
-### Hierarchy
+### Spacing
 
-| Role | Primary Tokens | Use | Notes |
-|---|---|---|---|
-| Page Identity | `page-eyebrow`, `page-title`, `support-copy` | Page headers across Explore, Study, Play, utilities | `page-title` is one of the main responsive pressure points |
-| Section Heading | `section-title`, `card-title`, `card-support` | Screen sections, grouped cards, module headers | Should feel clear and structured, not oversized |
-| Body / Controls | `body`, `body-strong`, `button-label`, `input-text`, `caption` | Reading text, controls, labels, helper text | Most UI should live here |
-| Alphabet Preview | `preview-letter-georgian`, `preview-letter-translit`, `preview-helper` | Alphabet slots and audio-helper copy | Large Georgian mark over smaller transliteration |
-| Study Summary | `summary-item-georgian`, `summary-item-translit`, `summary-item-translation` | Summary rows and grid items | More informative than catalog preview |
-| Letter Detail | `detail-letter-georgian`, `detail-letter-translit`, `detail-letter-pronunciation` | Single-letter Study focus | `detail-letter-georgian` is the strongest type moment in Study |
-| Word Detail | `detail-word-georgian`, `detail-word-translit`, `detail-word-translation`, `detail-example`, `detail-note` | Word and phrase Study detail | Prominent, but not display-sized like letter detail |
-| Play / Feedback | `instruction-text`, `cue-text`, `answer-text`, `progress-text`, `result-score`, `result-tone`, `notification-text` | Game loop, results, notifications | Must stay fast to scan under interaction pressure |
+Spacing uses a small scale:
 
-### Principles
-- One semantic role does not imply one unique token value
-- The biggest responsive scaling pressure should sit on `type-5` and `type-6`
-- Smaller body and UI text should stay stable unless a screen has a specific reason to differ
-- Letter detail and word detail should stay distinct; a single Georgian letter and a full Georgian word/phrase are different focal jobs
+- `{spacing.brand-spacing-1}`: 4px — micro gaps.
+- `{spacing.brand-spacing-2}`: 8px — tight internal grouping.
+- `{spacing.brand-spacing-3}`: 12px — compact control gaps.
+- `{spacing.brand-spacing-4}`: 16px — default page/card spacing.
+- `{spacing.brand-spacing-5}`: 20px — larger card padding.
+- `{spacing.brand-spacing-6}`: 24px — section separation and larger internal rhythm.
+- `{spacing.brand-spacing-8}`: 32px — major vertical grouping.
+- `{spacing.brand-spacing-10}`: 40px — rare large breathing space.
 
-## 4. Component Stylings
+### Page Rhythm
 
-The component system should read as one product language with a few clear families, not as a different design for every screen. Browse, Study, Play, and utility surfaces each have their own interaction rhythm, but they should still look like they belong to the same app.
+- Default page padding should start at `{spacing.brand-spacing-4}`.
+- Cards and sections should use repeated gaps rather than one-off spacing.
+- Explore and catalog screens are card-driven.
+- Study and Play use stronger vertical grouping.
+- Play should avoid luxury whitespace; it must stay compact and directed.
 
-### Buttons and Controls
+## Elevation & Depth
 
-Buttons and small controls should feel straightforward and mobile-friendly rather than ornamental. Standard controls should sit comfortably inside the rounded-rectangle system; they should not become pills by default. Icon buttons, toggles, and inputs should feel like close relatives of card and slot surfaces rather than mini alien widgets.
-
-### Browse Cards
-
-There are 2 major browse-card families. **Destination cards** are top-level route choices such as Explore entry. They are more prominent, larger, and more choice-oriented. **Lesson cards** are flatter and more utilitarian. They sit inside the module-browser rhythm and are built around the preview-grid language. The full-review card is part of the lesson-card family, not a separate visual language.
-
-Preview grids are the core recognition pattern for browse surfaces. Slots should be fixed and framed. Alphabet slots stack a Georgian letter over a smaller transliteration; vocabulary slots are visual-only in MVP. The preview grid should feel like a fast recognition device, not a tiny embedded Study screen.
-
-### Study Surfaces
-
-Study is built from a shared shell with a `summary-card`, a `detail-card`, and a sticky Play CTA. Summary can borrow the preview-grid language, but it is more informative than catalog preview. Detail is more focal, more text-forward, and calmer. Letter detail is allowed to become more display-like; word detail should stay prominent but more reading-oriented.
-
-### Play Surfaces
-
-Play should feel compact, fast, and directed. The Lobby is utilitarian and preparation-focused. During active play, cue and answers are the main composition. Answer options should feel equal in size and importance; they should not look like mixed-priority buttons. Feedback should stay lightweight and global enough to avoid turning each round into a new mini-screen.
-
-### Utility, Public, and Overlay Surfaces
-
-Utility and public screens should stay calmer and more typography-led. The `reading-surface` for Privacy should feel quiet and readable. The `privacy-banner` is persistent but not modal. The `selected-resource-drawer` is a non-blocking contextual drawer; the `leave-game-confirmation` is a blocking overlay. Those 2 should not collapse into the same surface language even if they share some styling primitives.
-
-### Family Rules
-- `destination-card` is separate from `lesson-card`
-- `full-review-card` is part of the `lesson-card` family
-- `preview-grid` is reusable across browse and Study summary contexts when the product behavior supports it
-- `summary-card` is one family with lesson-type variants
-- `detail-card` is one family with item-type variants
-- `cue-block` is one family with text, visual, and audio-capable variants
-- `answer-option` is its own family because it carries Play-specific state semantics
-
-## 5. Layout Principles
-
-The layout system uses a small spacing foundation family plus semantic spacing roles.
-
-### Spacing System
-- `space-1` to `space-5`
-- The scale should cover tight, small, medium, large, and extra-large spacing jobs
-- Many semantic roles may map to the same spacing token
-
-### Core Layout Rules
-- Outer page padding stays shared across the app, including Play
-- Max-content-width behavior should stay shared unless a route has a product reason to differ
-- Preview grids are for fast recognition, not literal payload display
-- Study summary may reveal more than catalog preview while still borrowing the same underlying language
-- Catalog overflow behavior such as `+N` belongs to browse/catalog contexts, not Study summary
-
-### Grid and Grouping
-- Explore and module-browser screens are card-grid driven
-- Module-browser grids use 1 / 2 / 3 card columns across mobile / tablet / desktop tiers
-- Full review can span more width than standard lesson cards on wider layouts
-- Study and Play keep stronger vertical grouping and simpler horizontal structure than browse screens
-
-### Whitespace Philosophy
-- The product should feel structured, not crowded
-- Most rhythm should come from repeated gaps, card padding, section spacing, and title-to-content spacing
-- The system should avoid luxury whitespace and avoid cramped mini-app density
-
-## 6. Depth & Elevation
-
-The product should feel mostly flat, framed, and calm. Shadow is reserved for moments that need to feel lifted.
-
-### Shape Foundations
-- `radius-1`: tight internal elements
-- `radius-2`: standard app surfaces
-- `radius-3`: larger or more prominent surfaces
-
-### Separation Foundations
-- `stroke-1`: default framing
-- `stroke-2`: emphasized framing / strong state treatment
-- `shadow-1`: floating surface lift
-- `shadow-2`: stronger overlay lift
+The system should feel mostly flat, framed, and calm.
 
 ### Elevation Model
 
-| Level | Treatment | Use |
-|---|---|---|
-| Flat | fill + no lift | page floors, quiet content areas |
-| Framed | `stroke-1`, usually `radius-2`, no shadow | lesson cards, Study surfaces, settings sections, answer options |
-| Floating | framed + `shadow-1` | drawers, tooltips, notifications |
-| Blocking | more prominent radius + `shadow-2` | leave-game confirmation and similar interruptive overlays |
-| Emphasized State | `stroke-2` and/or semantic state color | selection, strong active state, focused surfaces |
+- **Flat:** page floors and quiet content areas.
+- **Framed:** normal cards, lesson cards, summary/detail cards, answer options, settings sections.
+- **Floating:** bottom sheets, drawers, notifications, tooltips.
+- **Blocking:** leave-game confirmation and other interruptive overlays.
+- **Emphasized State:** selected, correct, wrong, focused, or active surfaces.
+
+Normal content should separate with background and border, not shadows. Shadow is reserved for overlays and floating surfaces.
+
+### Shadow Policy
+
+- Do not use shadow as the default card treatment.
+- If a floating surface needs lift, use one subtle shadow consistently in implementation.
+- Blocking overlays may use a stronger shadow than notifications or drawers.
+- The exact shadow values should live in CSS/Tailwind implementation, not as a custom top-level token group in this file until the specification formally supports it.
+
+## Shapes
+
+The shape language is rounded-rectangle based, calm, and touch-friendly.
+
+### Radius Scale
+
+- `{rounded.brand-radius-none}`: 0px — rare reset.
+- `{rounded.brand-radius-sm}`: 8px — internal slots, compact controls.
+- `{rounded.brand-radius-md}`: 14px — default cards, inputs, answer options, buttons.
+- `{rounded.brand-radius-lg}`: 22px — destination cards, detail cards, sheets, prominent surfaces.
+- `{rounded.brand-radius-shell}`: 28px — desktop mobile shell.
+- `{rounded.brand-radius-full}`: 9999px — icon buttons, badges, pills when needed.
 
 ### Principles
-- Most core surfaces should stay border-led rather than shadow-led
-- Preview slots, inputs, and other small internal elements should use tighter shape treatment
-- Destination cards, banners, drawers, and overlays can use softer/prominent radius treatment
-- Blocking overlays should feel more elevated than drawers and notifications
 
-## 7. Do’s and Don’ts
+- Most app surfaces use `{rounded.brand-radius-md}`.
+- Prominent cards and overlays may use `{rounded.brand-radius-lg}`.
+- Do not make every control a pill.
+- Use full radius only for circular icon buttons, badges, and explicitly pill-shaped controls.
+
+## Components
+
+This section defines component families and their intended behavior. Production components should use the front matter tokens and should not introduce raw hex values or one-off spacing.
+
+### Shell and Page
+
+**`app-shell`**  
+The app viewport boundary. On desktop, the shell is centered with max width around 430px and rounded corners. All fixed/sticky UI chrome must be scoped to the shell.
+
+**`page`**  
+Default screen surface. Uses `{colors.brand-color-page}` with shared padding.
+
+**`page-header` / `title-block`**  
+Used for visible page identity. Some pages use a compact top bar, others use a larger title block. Every route still needs one primary heading for accessibility.
+
+### Buttons
+
+**`button-primary`**  
+Primary CTA. Use for Start Play, Continue, Accept, and the single most important action in a context.
+
+**`button-secondary`**  
+Neutral secondary action. Use for Back to Study, Cancel, Choose something else, and lower-priority actions.
+
+**`button-muted`**  
+Use for sound-dependent actions that remain visible but unavailable because sound is off.
+
+**`button-disabled`**  
+Use only for unavailable non-interactive controls.
+
+Primary buttons use filled primary. Secondary buttons stay neutral. Do not invent extra button colors.
+
+### Cards
+
+**`card`**  
+Default framed surface.
+
+**`card-muted`**  
+Subtle grouped or inactive panel.
+
+**`selected-card`**  
+Selected context, such as selected resource or active choice. Uses primary-soft background and primary/border emphasis in implementation.
+
+**`destination-card`**  
+Top-level route choice, such as Alphabet or Vocabulary from Explore. Larger and more choice-oriented than lesson cards.
+
+**`lesson-card`**  
+Browse/catalog card for an authored lesson or module review set. Flatter and more utilitarian than destination cards.
+
+### Preview Grid
+
+**`preview-slot`**  
+Fixed-size framed slot used inside lesson cards and summary cards. Alphabet slots stack Georgian script over transliteration. Vocabulary slots may use emoji or visual placeholders in MVP.
+
+Preview grids optimize for fast recognition, not full payload display. Catalog overflow behavior such as `+N` belongs to browse/catalog contexts and must not leak into Study summaries.
+
+### Study
+
+**`summary-card`**  
+Overview of all items in the current resource. May borrow preview-grid language, but reveals more than catalog preview.
+
+**`detail-card`**  
+Focused item review. Letter detail may use `{typography.brand-type-georgian-display}`. Word detail uses `{typography.brand-type-georgian-word}` and should stay prominent but readable.
+
+Study uses one shared shell across lesson types. Lesson type changes should swap summary/detail variants, not the whole layout.
+
+### Play
+
+**`answer-option`**  
+Default answer choice. Four options should feel equal in size and importance.
+
+**`answer-option-selected`**  
+Selected answer before resolution or selected context where applicable.
+
+**`answer-option-correct`**  
+Correct resolved answer. Must be distinct through color, border, icon, and copy.
+
+**`answer-option-wrong`**  
+Chosen wrong answer. Must be distinct from correct, disabled, and muted.
+
+Play should feel compact, fast, and directed. Feedback should be lightweight and should not turn every round into a new heavy screen.
+
+### Navigation and Overlays
+
+**`bottom-dock`**  
+Visible only on top-level destinations: Learn, Translit, Settings. For MVP, do not convert to sidebar on desktop.
+
+**`bottom-sheet`**  
+Mobile contextual or blocking surface. For MVP, do not automatically replace with desktop drawer/dialog unless explicitly requested.
+
+**`notification`**  
+Global feedback such as sound toggled, copy confirmation, correct/wrong feedback, or “Turn sound on to listen.”
+
+Overlays must be scoped to the app shell, not the full browser viewport.
+
+## Do's and Don'ts
 
 ### Do
-- Preserve the distinction between reference behavior, Study review behavior, and Play interaction behavior
-- Keep reusable component families visually related unless product meaning requires a split
-- Prefer semantic roles mapped onto small foundation families over one-off values
-- Let the mascot carry most of the product’s explicit personality
-- Keep Play fast and focused, and keep Study calmer and more legible
-- Preserve the distinction between `selected`, `muted`, `disabled`, `positive`, and `negative`
 
-### Don’t
-- Don’t treat mute as if it were an error
-- Don’t turn every card family into a separate visual language
-- Don’t use shadow as the default separation method for normal surfaces
-- Don’t let catalog-preview behavior leak into Study or Play when the product behavior is different
-- Don’t introduce `+N` overflow behavior into Study summary
-- Don’t invent new tokens or surface families in implementation when a shared family already exists
+- Do use neutral tokens for most UI.
+- Do use `{colors.brand-color-primary}` only for primary CTAs, active navigation, selected resource state, and small emphasis.
+- Do use success/fail tokens only for semantic feedback.
+- Do keep selected, muted, disabled, success, and fail visually distinct.
+- Do keep Play fast and compact.
+- Do keep Study calmer and more legible.
+- Do keep Georgian script in the Georgian font stack.
+- Do make Storybook the implementation truth for tokens and reusable components.
+- Do use token-based Tailwind utilities in implementation.
+- Do keep desktop MVP inside a centered mobile shell.
 
-## 8. Responsive Behavior
+### Don't
 
-The product is mobile-first. Tablet and desktop preserve the same product structure rather than inventing a separate information architecture.
-
-| Tier | Key Changes |
-|---|---|
-| Mobile | Single-column browse rhythm, strongest focus on touch, Explore should aim to fit common heights without scroll |
-| Tablet | Module-browser grids expand to 2 columns, wider summary/detail layouts become more comfortable |
-| Desktop | Module-browser grids expand to 3 columns, full-review can span wider, keyboard support becomes additive in Play |
-
-### Responsive Rules
-- `type-5` and `type-6` are the main responsive typography pressure points
-- Study summary and detail keep the same shell across devices
-- Play remains touch-first even when keyboard support exists
-- Full review can widen before standard lesson cards do
-- Dense content may become more table-like on larger screens, especially vocabulary summary
-
-## 9. Agent Prompt Guide
-
-### Quick System Reference
-- Color families: `neutral-*`, `accent-*`, `positive-*`, `negative-*`, `focus-*`
-- Surface roles: `surface-*`
-- State roles: `selected-*`, `muted-*`, `disabled-*`
-- Typography foundations: `type-*`, `font-ui`, `font-georgian`, `weight-*`
-- Layout and shape foundations: `space-*`, `radius-*`, `stroke-*`, `shadow-*`
-
-### Implementation Rules
-- Start from semantic roles and shared families first
-- Use existing token names even when numeric values are defined elsewhere
-- Keep Georgian script in `font-georgian`; keep transliteration and UI/support text in `font-ui`
-- Keep normal surfaces mostly flat and framed; reserve shadow for floating and blocking layers
-- Reuse preview-grid language across lesson-card-family components and Study summaries that intentionally borrow it
-
-### Example Prompts
-- “Create an alphabet lesson card using the lesson-card family: `surface-default`, `card-title`, `preview-grid`, and alphabet preview slots with `preview-letter-georgian` above `preview-letter-translit`.”
-- “Build a Study word detail surface using the shared detail-card family with `detail-word-georgian`, `detail-word-translit`, `detail-word-translation`, and a sticky Play CTA.”
-- “Design a Play answer-option set as four equal framed options using shared answer-state semantics: neutral by default, `positive-*` for correct, `negative-*` for wrong, and non-winning locked options separated from muted audio states.”
-
-### Iteration Guide
-1. Treat accent as a signal, not a default large surface fill.
-2. Keep browse, Study, and Play distinct in rhythm, but not in overall visual language.
-3. Use `font-georgian` only for Georgian script; keep transliteration and UI/support text in `font-ui`.
-4. Keep most surfaces flat and framed; add lift only when a surface truly floats or interrupts.
-5. Preserve the distinction between `selected`, `muted`, `disabled`, `positive`, and `negative`.
-6. If a new screen needs a card, first decide whether it belongs to destination-card, lesson-card, summary-card, or detail-card behavior before inventing a new card type.
+- Don't use raw hex colors in components.
+- Don't use Tailwind default palette utilities for branded UI.
+- Don't create `primary-50` through `primary-900` shade scales in the MVP.
+- Don't invent new color families without updating this file.
+- Don't treat muted audio as an error state.
+- Don't make every card colorful.
+- Don't use shadow as the default separation method.
+- Don't stretch bottom navigation, top bars, sheets, or overlays to full desktop width.
+- Don't convert the MVP into a full responsive desktop redesign.
+- Don't let generated AI screens introduce new navbars, button styles, or typography scales.
