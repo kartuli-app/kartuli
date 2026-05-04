@@ -63,6 +63,11 @@ describe('getPathSuffixForBareLocaleRewrite', () => {
     expect(getPathSuffixForBareLocaleRewrite('/fr/translit')).toBe('translit');
   });
 
+  it('strips a supported locale prefix', () => {
+    expect(getPathSuffixForBareLocaleRewrite('/en/settings')).toBe('settings');
+    expect(getPathSuffixForBareLocaleRewrite('/ru/translit')).toBe('translit');
+  });
+
   it('returns empty when only a two-letter unsupported prefix is present', () => {
     expect(getPathSuffixForBareLocaleRewrite('/de')).toBe('');
   });

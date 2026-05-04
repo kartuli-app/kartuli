@@ -31,8 +31,12 @@ export function proxy(request: NextRequest) {
   return NextResponse.redirect(url.toString());
 }
 
-// Matches / and any path whose first segment is not a supported locale or Next.js internal.
-// IMPORTANT: update the negative lookahead here if supported locales change.
+// Matches / and any path whose first segment is not a supported locale, Next.js internal,
+// or a root public asset (so /og-image.png, /images/*, etc. stay on the bare URL for bots).
+// IMPORTANT: update the negative lookahead if supported locales or root public files change.
+// Matcher must be a string literal here — Next.js rejects non-literals (e.g. variables, String.raw).
 export const config = {
-  matcher: ['/((?!en(?:/|$)|ru(?:/|$)|_next/|favicon\\.|icon\\.|robots\\.|manifest\\.).*)'],
+  matcher: [
+    '/((?!en(?:/|$)|ru(?:/|$)|_next/|favicon\\.|icon\\.|robots\\.|manifest\\.|og-image(?:\\.|$)|twitter-image(?:\\.|$)|apple-touch-icon(?:\\.|$)|browserconfig(?:\\.|$)|images(?:/|$)|fonts(?:/|$)).*)',
+  ],
 };
