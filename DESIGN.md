@@ -35,19 +35,19 @@ typography:
   brand-typography-title:
     fontSize: 24px
     fontWeight: 700
-    lineHeight: 1.15
+    lineHeight: 28px
     letterSpacing: -0.2px
 
   brand-typography-subtitle:
     fontSize: 18px
     fontWeight: 600
-    lineHeight: 1.25
+    lineHeight: 23px
     letterSpacing: 0px
 
   brand-typography-button:
     fontSize: 16px
     fontWeight: 400
-    lineHeight: 1.25
+    lineHeight: 20px
     letterSpacing: 0px
 
 rounded:

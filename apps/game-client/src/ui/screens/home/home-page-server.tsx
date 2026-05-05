@@ -10,9 +10,6 @@ export function HomePageServer() {
         Translit, settings, locale behavior, and the learning-content system are still in the repo.
         The home route is intentionally a temporary placeholder for Phase 1.
       </p>
-      <div className="bg-brand-color-primary-soft p-brand-spacing-3 rounded-brand-radius-3">
-        <p>Hello, world!</p>
-      </div>
     </main>
   );
 }

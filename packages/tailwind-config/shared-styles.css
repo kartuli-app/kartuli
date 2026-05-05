@@ -27,12 +27,15 @@
   --brand-typography-title-font-size: 24px;
   --brand-typography-title-font-weight: 700;
   --brand-typography-title-letter-spacing: -0.2px;
+  --brand-typography-title-line-height: 28px;
   --brand-typography-subtitle-font-size: 18px;
   --brand-typography-subtitle-font-weight: 600;
   --brand-typography-subtitle-letter-spacing: 0px;
+  --brand-typography-subtitle-line-height: 23px;
   --brand-typography-button-font-size: 16px;
   --brand-typography-button-font-weight: 400;
   --brand-typography-button-letter-spacing: 0px;
+  --brand-typography-button-line-height: 20px;
 }
 
 @theme static {
@@ -61,10 +64,13 @@
   --text-brand-typography-title: var(--brand-typography-title-font-size);
   --text-brand-typography-title--font-weight: var(--brand-typography-title-font-weight);
   --text-brand-typography-title--letter-spacing: var(--brand-typography-title-letter-spacing);
+  --text-brand-typography-title--line-height: var(--brand-typography-title-line-height);
   --text-brand-typography-subtitle: var(--brand-typography-subtitle-font-size);
   --text-brand-typography-subtitle--font-weight: var(--brand-typography-subtitle-font-weight);
   --text-brand-typography-subtitle--letter-spacing: var(--brand-typography-subtitle-letter-spacing);
+  --text-brand-typography-subtitle--line-height: var(--brand-typography-subtitle-line-height);
   --text-brand-typography-button: var(--brand-typography-button-font-size);
   --text-brand-typography-button--font-weight: var(--brand-typography-button-font-weight);
   --text-brand-typography-button--letter-spacing: var(--brand-typography-button-letter-spacing);
+  --text-brand-typography-button--line-height: var(--brand-typography-button-line-height);
 }

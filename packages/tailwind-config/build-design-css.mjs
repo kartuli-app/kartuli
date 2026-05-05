@@ -7,7 +7,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const inputPath = path.resolve(__dirname, '../../generated/design.tokens.json');
 const outputPath = path.resolve(__dirname, 'shared-styles.css');
 
-const tokens = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+let tokens;
+try {
+  tokens = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+} catch (error) {
+  if (error.code === 'ENOENT') {
+    process.stderr.write(
+      `Error: ${inputPath} not found.\nRun \`pnpm design:build\` from the repo root to generate it first.\n`,
+    );
+    process.exit(1);
+  }
+  throw error;
+}
 
 function isMetaKey(key) {
   return key.startsWith('$');
@@ -26,7 +37,7 @@ function readDimension(tokenOrValue) {
   if (
     value &&
     typeof value === 'object' &&
-    typeof value.value !== 'undefined' &&
+    value.value !== undefined &&
     typeof value.unit === 'string'
   ) {
     return `${value.value}${value.unit}`;
@@ -38,6 +49,13 @@ function readRaw(value) {
   if (typeof value === 'string') return value;
   if (typeof value === 'number') return String(value);
   return undefined;
+}
+
+// The @google/design.md DTCG exporter strips the px unit from lineHeight,
+// emitting a bare number (e.g. 28 instead of "28px"). Re-attach px here.
+function readLineHeight(value) {
+  if (typeof value === 'number') return `${value}px`;
+  return readDimension(value) ?? readRaw(value);
 }
 
 function cssVar(name) {
@@ -86,27 +104,32 @@ for (const [name, token] of Object.entries(tokens.typography ?? {})) {
   const fontSize = readDimension(value.fontSize);
   const fontWeight = readRaw(value.fontWeight);
   const letterSpacing = readDimension(value.letterSpacing);
-  const lineHeight = readDimension(value.lineHeight) ?? readRaw(value.lineHeight);
+  const lineHeight = readLineHeight(value.lineHeight);
 
   if (fontFamily) {
-    tokenLines.push(`  --${name}-font-family: ${fontFamily};`);
-    tailwindLines.push(`  --font-${name}: ${cssVar(`${name}-font-family`)};`);
+    const varName = `${name}-font-family`;
+    tokenLines.push(`  --${varName}: ${fontFamily};`);
+    tailwindLines.push(`  --font-${name}: ${cssVar(varName)};`);
   }
   if (fontSize) {
-    tokenLines.push(`  --${name}-font-size: ${fontSize};`);
-    tailwindLines.push(`  --text-${name}: ${cssVar(`${name}-font-size`)};`);
+    const varName = `${name}-font-size`;
+    tokenLines.push(`  --${varName}: ${fontSize};`);
+    tailwindLines.push(`  --text-${name}: ${cssVar(varName)};`);
   }
   if (fontWeight) {
-    tokenLines.push(`  --${name}-font-weight: ${fontWeight};`);
-    tailwindLines.push(`  --text-${name}--font-weight: ${cssVar(`${name}-font-weight`)};`);
+    const varName = `${name}-font-weight`;
+    tokenLines.push(`  --${varName}: ${fontWeight};`);
+    tailwindLines.push(`  --text-${name}--font-weight: ${cssVar(varName)};`);
   }
   if (letterSpacing) {
-    tokenLines.push(`  --${name}-letter-spacing: ${letterSpacing};`);
-    tailwindLines.push(`  --text-${name}--letter-spacing: ${cssVar(`${name}-letter-spacing`)};`);
+    const varName = `${name}-letter-spacing`;
+    tokenLines.push(`  --${varName}: ${letterSpacing};`);
+    tailwindLines.push(`  --text-${name}--letter-spacing: ${cssVar(varName)};`);
   }
   if (lineHeight) {
-    tokenLines.push(`  --${name}-line-height: ${lineHeight};`);
-    tailwindLines.push(`  --text-${name}--line-height: ${cssVar(`${name}-line-height`)};`);
+    const varName = `${name}-line-height`;
+    tokenLines.push(`  --${varName}: ${lineHeight};`);
+    tailwindLines.push(`  --text-${name}--line-height: ${cssVar(varName)};`);
   }
 }
 
