@@ -98,7 +98,38 @@ Canonical browse targets from Study:
 
 ## Route catalog
 
-### Root route
+### Route map
+
+| Route  | Name | Type |
+| ------------- | ------------- | ------------- |
+| `/`  | [Root redirect](#root-redirect)  | redirect |
+| **APP ROUTES: LEARN** | | |
+| `/{locale}/app/learn`  | Learn   | redirect |
+| **APP ROUTES: LEARN: EXPLORE** | | | 
+| `/{locale}/app/learn/explore`  | Explore entry   | page |
+| `/{locale}/app/learn/explore/alphabet`  | Explore Alphabet   | page |
+| `/{locale}/app/learn/explore/vocabulary`  | Explore Vocabulary   | page |
+| **APP ROUTES: LEARN: RESOURCES** | | |
+| `/{locale}/app/learn/lessons/{lessonId}/study`  | Study   | page |
+| `/{locale}/app/learn/lessons/{lessonId}/play`  | Play   | page |
+| `/{locale}/app/learn/modules/{moduleId}/review/study`  | Module review Study   | page |
+| `/{locale}/app/learn/modules/{moduleId}/review/play`  | Module review Play   | page |
+| **APP ROUTES: UTILITIES** | | |
+| `/{locale}/app/translit`  | Translit   | page |
+| `/{locale}/app/settings`  | Settings   | page |
+| **PUBLIC ROUTES** | |  |
+| `/{locale}/privacy`  | Privacy   | page |
+
+### Root redirect
+
+This route resolves the best localized entry URL for the user.
+
+First, it resolves the preferred locale in this order:
+- preferred locale cookie
+- browser `Accept-Language` header
+- default locale
+
+After resolving the preferred locale, it resolves the target route, 
 
 #### `/`
 
