@@ -61,11 +61,11 @@
     "design:lint": "design.md lint DESIGN.md",
     "design:export:dtcg": "mkdir -p generated && design.md export --format dtcg DESIGN.md > generated/design.tokens.json",
     "design:build-css": "pnpm --filter @kartuli/tailwind-config run design:build-css",
-    "design:build": "pnpm run design:export:dtcg && pnpm run design:build-css"
+    "design:build": "pnpm run design:lint && pnpm run design:export:dtcg && pnpm run design:build-css"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",
-    "@google/design.md": "^0.1.1",
+    "@google/design.md": "0.1.1",
     "@lhci/cli": "^0.15.0",
     "@vitest/coverage-v8": "catalog:",
     "lefthook": "^2.1.5",

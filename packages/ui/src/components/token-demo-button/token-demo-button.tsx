@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react';
 import { cn } from '../../utils/cn';
 
-type TokenDemoButtonProps = ComponentPropsWithoutRef<'button'>;
+interface TokenDemoButtonProps extends ComponentPropsWithoutRef<'button'> {}
 
 export function TokenDemoButton({
   children = 'Token demo',

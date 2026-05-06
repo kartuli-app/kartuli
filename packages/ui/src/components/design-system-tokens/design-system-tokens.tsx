@@ -1,9 +1,10 @@
+import type { ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 
 function DesignSystemTokenSection({
   title,
   children,
-}: Readonly<{ title: string; children: React.ReactNode }>) {
+}: Readonly<{ title: string; children: ReactNode }>) {
   return (
     <section className="flex flex-col gap-4 px-2">
       <h2 className="text-3xl text-slate-500">{title}</h2>
@@ -12,11 +13,11 @@ function DesignSystemTokenSection({
   );
 }
 
-function Row({ children }: Readonly<{ children?: React.ReactNode }>) {
+function Row({ children }: Readonly<{ children?: ReactNode }>) {
   return <div className="flex flex-row flex-wrap gap-8">{children}</div>;
 }
 
-function TokenBlock({ title, children }: Readonly<{ title: string; children: React.ReactNode }>) {
+function TokenBlock({ title, children }: Readonly<{ title: string; children: ReactNode }>) {
   return (
     <div className="flex min-w-0 flex-col gap-1">
       <h3 className="text-sm text-slate-500">{title}</h3>
@@ -25,17 +26,11 @@ function TokenBlock({ title, children }: Readonly<{ title: string; children: Rea
   );
 }
 
-function Box({
-  className,
-  children,
-}: Readonly<{ className?: string; children?: React.ReactNode }>) {
+function Box({ className, children }: Readonly<{ className?: string; children?: ReactNode }>) {
   return <div className={cn(className)}>{children}</div>;
 }
 
-function ColorBox({
-  className,
-  children,
-}: Readonly<{ className?: string; children?: React.ReactNode }>) {
+function ColorBox({ className, children }: Readonly<{ className?: string; children?: ReactNode }>) {
   return (
     <Box
       className={cn(
@@ -145,6 +140,12 @@ function TypographyTokens() {
 }
 
 const SPACING_STEPS = ['1', '2', '3', '4'] as const;
+const SPACING_CLASS: Record<(typeof SPACING_STEPS)[number], string> = {
+  '1': 'p-brand-spacing-1',
+  '2': 'p-brand-spacing-2',
+  '3': 'p-brand-spacing-3',
+  '4': 'p-brand-spacing-4',
+};
 
 function SpacingTokens() {
   return (
@@ -153,15 +154,7 @@ function SpacingTokens() {
         {SPACING_STEPS.map((step) => (
           <TokenBlock key={step} title={`brand-spacing-${step}`}>
             <div className="inline-flex border border-dashed border-brand-color-neutral bg-brand-color-neutral-soft">
-              <div
-                className={cn(
-                  'bg-brand-color-primary-soft',
-                  step === '1' && 'p-brand-spacing-1',
-                  step === '2' && 'p-brand-spacing-2',
-                  step === '3' && 'p-brand-spacing-3',
-                  step === '4' && 'p-brand-spacing-4',
-                )}
-              >
+              <div className={cn('bg-brand-color-primary-soft', SPACING_CLASS[step])}>
                 <div className="h-32 w-32 bg-brand-color-primary" />
               </div>
             </div>
@@ -173,6 +166,13 @@ function SpacingTokens() {
 }
 
 const RADIUS_STEPS = ['none', '1', '2', '3', 'full'] as const;
+const RADIUS_CLASS: Record<(typeof RADIUS_STEPS)[number], string> = {
+  none: 'rounded-brand-radius-none',
+  '1': 'rounded-brand-radius-1',
+  '2': 'rounded-brand-radius-2',
+  '3': 'rounded-brand-radius-3',
+  full: 'rounded-brand-radius-full',
+};
 
 function RadiusTokens() {
   return (
@@ -183,11 +183,7 @@ function RadiusTokens() {
             <div
               className={cn(
                 'h-32 w-32 border border-brand-color-neutral-soft bg-brand-color-primary-soft',
-                step === 'none' && 'rounded-brand-radius-none',
-                step === '1' && 'rounded-brand-radius-1',
-                step === '2' && 'rounded-brand-radius-2',
-                step === '3' && 'rounded-brand-radius-3',
-                step === 'full' && 'rounded-brand-radius-full',
+                RADIUS_CLASS[step],
               )}
             />
           </TokenBlock>

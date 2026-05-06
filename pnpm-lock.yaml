@@ -171,7 +171,7 @@ importers:
         specifier: ^2.4.14
         version: 2.4.14
       '@google/design.md':
-        specifier: ^0.1.1
+        specifier: 0.1.1
         version: 0.1.1(@types/react@19.2.14)
       '@lhci/cli':
         specifier: ^0.15.0

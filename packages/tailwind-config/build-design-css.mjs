@@ -7,15 +7,26 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const inputPath = path.resolve(__dirname, '../../generated/design.tokens.json');
 const outputPath = path.resolve(__dirname, 'shared-styles.css');
 
+function exitForInvalidInput(message) {
+  process.stderr.write(
+    `${message}\nRun \`pnpm run design:build\` from the repo root to generate it again.\n`,
+  );
+  process.exit(1);
+}
+
 let tokens;
 try {
-  tokens = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+  const rawTokens = fs.readFileSync(inputPath, 'utf8').trim();
+  if (!rawTokens) {
+    exitForInvalidInput(`Error: ${inputPath} is empty.`);
+  }
+  tokens = JSON.parse(rawTokens);
 } catch (error) {
-  if (error.code === 'ENOENT') {
-    process.stderr.write(
-      `Error: ${inputPath} not found.\nRun \`pnpm design:build\` from the repo root to generate it first.\n`,
-    );
-    process.exit(1);
+  if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+    exitForInvalidInput(`Error: ${inputPath} not found.`);
+  }
+  if (error instanceof SyntaxError) {
+    exitForInvalidInput(`Error: ${inputPath} contains invalid JSON.`);
   }
   throw error;
 }
