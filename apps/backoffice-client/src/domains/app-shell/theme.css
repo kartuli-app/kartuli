@@ -1,12 +1,7 @@
 /**
  * Backoffice Client Theme Overrides
  *
- * This file defines the backoffice-specific theme values.
+ * Add backoffice-specific theme values here.
  * Import this after the shared theme in globals.css.
  */
 
-:root {
-  /* Minimal shared token demo overrides */
-  --color-color-token-test-primary: oklch(20.13% 0.05785 148.293);
-  --color-color-token-test-neutral: oklch(80.668% 0.0999 252.641);
-}

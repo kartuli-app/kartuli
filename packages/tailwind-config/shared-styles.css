@@ -1,14 +1,76 @@
-/**
- * @kartuli/tailwind-config - Shared Tailwind Styles
- *
- * This file keeps only a tiny shared token contract so the shared Tailwind setup
- * stays exercised without leaking a real design system back into the apps.
- */
+/* Generated from generated/design.tokens.json. */
+/* Do not edit manually. Update DESIGN.md, then run pnpm design:build. */
 
-@theme {
-  --color-color-token-test-primary: black;
-  --color-color-token-test-neutral: white;
+:root {
+  --primary: #ca00e8;
+  --brand-color-primary-soft: #edb1ff;
+  --brand-color-primary: #ca00e8;
+  --brand-color-primary-strong: #570065;
+  --brand-color-neutral-soft: #c3c7c7;
+  --brand-color-neutral: #767979;
+  --brand-color-neutral-strong: #101111;
+  --brand-color-semantic-success-soft: #aafebb;
+  --brand-color-semantic-success: #32e970;
+  --brand-color-semantic-success-strong: #0d5a27;
+  --brand-color-semantic-error-soft: #f19d9d;
+  --brand-color-semantic-error: #942121;
+  --brand-color-semantic-error-strong: #460a0a;
+  --brand-spacing-1: 4px;
+  --brand-spacing-2: 8px;
+  --brand-spacing-3: 12px;
+  --brand-spacing-4: 16px;
+  --brand-radius-none: 0px;
+  --brand-radius-1: 8px;
+  --brand-radius-2: 16px;
+  --brand-radius-3: 24px;
+  --brand-radius-full: 9999px;
+  --brand-typography-title-font-size: 24px;
+  --brand-typography-title-font-weight: 700;
+  --brand-typography-title-letter-spacing: -0.2px;
+  --brand-typography-title-line-height: 28px;
+  --brand-typography-subtitle-font-size: 18px;
+  --brand-typography-subtitle-font-weight: 600;
+  --brand-typography-subtitle-letter-spacing: 0px;
+  --brand-typography-subtitle-line-height: 23px;
+  --brand-typography-button-font-size: 16px;
+  --brand-typography-button-font-weight: 400;
+  --brand-typography-button-letter-spacing: 0px;
+  --brand-typography-button-line-height: 20px;
+}
 
-  --spacing-spacing-token-test-small: calc(var(--spacing) * 1);
-  --spacing-spacing-token-test-big: calc(var(--spacing) * 4);
+@theme static {
+  --color-primary: var(--primary);
+  --color-brand-color-primary-soft: var(--brand-color-primary-soft);
+  --color-brand-color-primary: var(--brand-color-primary);
+  --color-brand-color-primary-strong: var(--brand-color-primary-strong);
+  --color-brand-color-neutral-soft: var(--brand-color-neutral-soft);
+  --color-brand-color-neutral: var(--brand-color-neutral);
+  --color-brand-color-neutral-strong: var(--brand-color-neutral-strong);
+  --color-brand-color-semantic-success-soft: var(--brand-color-semantic-success-soft);
+  --color-brand-color-semantic-success: var(--brand-color-semantic-success);
+  --color-brand-color-semantic-success-strong: var(--brand-color-semantic-success-strong);
+  --color-brand-color-semantic-error-soft: var(--brand-color-semantic-error-soft);
+  --color-brand-color-semantic-error: var(--brand-color-semantic-error);
+  --color-brand-color-semantic-error-strong: var(--brand-color-semantic-error-strong);
+  --spacing-brand-spacing-1: var(--brand-spacing-1);
+  --spacing-brand-spacing-2: var(--brand-spacing-2);
+  --spacing-brand-spacing-3: var(--brand-spacing-3);
+  --spacing-brand-spacing-4: var(--brand-spacing-4);
+  --radius-brand-radius-none: var(--brand-radius-none);
+  --radius-brand-radius-1: var(--brand-radius-1);
+  --radius-brand-radius-2: var(--brand-radius-2);
+  --radius-brand-radius-3: var(--brand-radius-3);
+  --radius-brand-radius-full: var(--brand-radius-full);
+  --text-brand-typography-title: var(--brand-typography-title-font-size);
+  --text-brand-typography-title--font-weight: var(--brand-typography-title-font-weight);
+  --text-brand-typography-title--letter-spacing: var(--brand-typography-title-letter-spacing);
+  --text-brand-typography-title--line-height: var(--brand-typography-title-line-height);
+  --text-brand-typography-subtitle: var(--brand-typography-subtitle-font-size);
+  --text-brand-typography-subtitle--font-weight: var(--brand-typography-subtitle-font-weight);
+  --text-brand-typography-subtitle--letter-spacing: var(--brand-typography-subtitle-letter-spacing);
+  --text-brand-typography-subtitle--line-height: var(--brand-typography-subtitle-line-height);
+  --text-brand-typography-button: var(--brand-typography-button-font-size);
+  --text-brand-typography-button--font-weight: var(--brand-typography-button-font-weight);
+  --text-brand-typography-button--letter-spacing: var(--brand-typography-button-letter-spacing);
+  --text-brand-typography-button--line-height: var(--brand-typography-button-line-height);
 }

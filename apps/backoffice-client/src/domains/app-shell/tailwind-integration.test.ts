@@ -3,9 +3,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/postcss';
 import postcss from 'postcss';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
+let css = '';
 
 async function compileCssFromEntry(entryFileName: string): Promise<string> {
   const entryPath = path.resolve(currentDir, entryFileName);
@@ -15,17 +16,25 @@ async function compileCssFromEntry(entryFileName: string): Promise<string> {
 }
 
 describe('tailwind integration (backoffice-client)', () => {
-  it('generates the shared UI token-demo utilities in consumer output', async () => {
-    const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('.bg-color-token-test-primary');
-    expect(css).toContain('.text-color-token-test-neutral');
-    expect(css).toContain('.gap-spacing-token-test-small');
-    expect(css).toContain('.px-spacing-token-test-big');
+  beforeAll(async () => {
+    css = await compileCssFromEntry('globals.css');
   });
 
-  it('applies the app token-demo color overrides', async () => {
-    const css = await compileCssFromEntry('globals.css');
-    expect(css).toContain('--color-color-token-test-primary: oklch(20.13% 0.05785 148.293);');
-    expect(css).toContain('--color-color-token-test-neutral: oklch(80.668% 0.0999 252.641);');
+  it('emits design token CSS variables from shared-styles', () => {
+    // 'primary' is the stable sentinel required by the design.md linter
+    expect(css).toMatch(/--primary: .+;/);
+    // brand token categories are present (structure, not specific names/values)
+    expect(css).toMatch(/--brand-color-[\w-]+: #[0-9a-f]{6};/);
+    expect(css).toMatch(/--brand-spacing-\d+: \d+px;/);
+    expect(css).toMatch(/--brand-radius-[\w-]+: [\d.]+px;/);
+  });
+
+  it('wires design tokens into the Tailwind theme', () => {
+    // 'primary' wiring is the stable sentinel check
+    expect(css).toContain('--color-primary: var(--primary);');
+    // brand token categories are wired (structure, not specific names)
+    expect(css).toMatch(/--color-brand-color-[\w-]+: var\(--brand-color-[\w-]+\);/);
+    expect(css).toMatch(/--spacing-brand-spacing-\d+: var\(--brand-spacing-\d+\);/);
+    expect(css).toMatch(/--radius-brand-radius-[\w-]+: var\(--brand-radius-[\w-]+\);/);
   });
 });

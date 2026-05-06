@@ -10,6 +10,7 @@
     "shared-styles.css"
   ],
   "scripts": {
+    "design:build-css": "node build-design-css.mjs",
     "lint": "biome check ."
   }
 }
