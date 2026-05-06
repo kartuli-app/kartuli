@@ -47,9 +47,9 @@ Each dedicated screen doc should define:
 | Explore entry | Route screen | `/{locale}/app/learn/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) | migrated |
 | Alphabet catalog | Route screen | `/{locale}/app/learn/explore/alphabet` | [Alphabet Catalog Screen](./07-screens/alphabet-catalog.md) | migrated |
 | Vocabulary catalog | Route screen | `/{locale}/app/learn/explore/vocabulary` | [Vocabulary Catalog Screen](./07-screens/vocabulary-catalog.md) | migrated |
-| Study | Route screen | Study lesson/module routes | `./07-screens/study.md` | planned |
-| Play Lobby | Flow screen | Play route initial state | `./07-screens/play/lobby.md` | planned |
-| Game Round | Flow screen | Play active round state | `./07-screens/play/round.md` | planned |
+| Study | Route screen | Study lesson/module routes | [Study Screen](./07-screens/study.md) | migrated |
+| Play Lobby | Flow screen | Play route initial state | [Play Lobby Screen](./07-screens/play/lobby.md) | migrated |
+| Game Round | Flow screen | Play active round state | [Game Round Screen](./07-screens/play/round.md) | migrated |
 | Game Feedback | Flow screen | Play feedback state | `./07-screens/play/feedback.md` | planned |
 | Game Results | Flow screen | Play results state | `./07-screens/play/results.md` | planned |
 | Translit | Route screen | `/{locale}/app/translit` | `./07-screens/translit.md` | planned |
@@ -341,6 +341,9 @@ Migration note: The dedicated per-screen contract now lives in [Vocabulary Catal
   - exact preview-slot count before overflow once real content is authored
 
 ### Study screen
+
+Migration note: The dedicated per-screen contract now lives in [Study Screen](./07-screens/study.md). Keep the legacy entry below during migration.
+
 - Role: preview one study resource, move between summary and detail, and launch Play whenever ready
 - Entry point:
   - `/{locale}/app/learn/lessons/{lessonId}/study`
@@ -428,6 +431,9 @@ Migration note: The dedicated per-screen contract now lives in [Vocabulary Catal
   - None
 
 #### Game Lobby flow screen
+
+Migration note: The dedicated per-screen contract now lives in [Play Lobby Screen](./07-screens/play/lobby.md). Keep the legacy entry below during migration.
+
 - Role: present the prepared session clearly and let the student start with minimal friction
 - Entry point: immediately after Play resolves the current resource and prepares its initial plan
 - Main user question: am I ready to start, and do I want to adjust listening rounds first?
@@ -469,6 +475,9 @@ Migration note: The dedicated per-screen contract now lives in [Vocabulary Catal
   - visual treatment for the `Back to Study` action
 
 #### Game Round flow screen
+
+Migration note: The dedicated per-screen contract now lives in [Game Round Screen](./07-screens/play/round.md). Keep the legacy entry below during migration.
+
 - Role: present one active round and accept an immediate answer
 - Entry point: when the next prepared round becomes active
 - Main user question: what is the correct answer for this cue?
