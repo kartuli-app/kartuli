@@ -24,11 +24,15 @@ This page is the read-first entrypoint for the product documentation set.
   - [Routing and Flows](./06-routing-and-flows.md)
 - Screen implementation:
   - [Screens](./07-screens.md)
+  - [Explore Entry Screen](./07-screens/explore-entry.md)
+  - more per-screen docs will live under `./07-screens/`
+- Component implementation:
+  - [Component Catalog](./12-component-catalog.md)
 - Component families and design-system work:
   - [Ui System](./08-ui-system.md)
 - Scope, deferred work, and historical decisions:
   - [Roadmap and Decisions](./04-roadmap-and-decisions.md)
-- AI-facing UI summary:
+- AI-facing design tokens and visual contract:
   - repo-root `DESIGN.md` remains the AI helper doc and is intentionally outside this published product doc set
 
 ## Document map
@@ -44,7 +48,13 @@ This page is the read-first entrypoint for the product documentation set.
 - [Routing and Flows](./06-routing-and-flows.md)
   - information architecture, route catalog, navigation model, and high-level flows
 - [Screens](./07-screens.md)
-  - route screens and Play flow screens
+  - screen index, migration tracker, and legacy route-screen catalog
+- Screen Specs under `./07-screens/`
+  - per-screen implementation contracts, component inventories, states, and Storybook coverage
+- [Explore Entry Screen](./07-screens/explore-entry.md)
+  - first migrated per-screen contract
+- [Component Catalog](./12-component-catalog.md)
+  - component usage locations, variants, states, caveats, token guidance, and Storybook requirements
 - [Ui System](./08-ui-system.md)
   - reusable UI rules, global surfaces, and component families
 - [Client Preferences](./09-client-preferences.md)
@@ -61,4 +71,3 @@ If you are new to the repo, read these in order:
 1. [Documentation Contract](./02-documentation-contract.md)
 2. [Product Overview](./03-product-overview.md)
 3. [Core](./05-core.md)
-

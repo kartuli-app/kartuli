@@ -1,31 +1,69 @@
 ---
-description: Route-screen catalog and Play flow-screen specifications for the game client.
+description: Screen index, migration tracker, and legacy route-screen catalog for the game client.
 ---
 
 # Screens
 
-This document owns the screen contract, route-screen catalog, and Play flow-screen specifications.
+This document is the index for route screens and Play flow screens.
 
-Reusable UI rules live in [Ui System](./08-ui-system.md). Route-level navigation targets live in [Routing and Flows](./06-routing-and-flows.md).
+Detailed per-screen implementation contracts live in dedicated docs such as [Explore Entry Screen](./07-screens/explore-entry.md) and future screen docs under `./07-screens/`.
+
+Reusable UI rules live in [Ui System](./08-ui-system.md).
+Route-level navigation targets live in [Routing and Flows](./06-routing-and-flows.md).
+Component contracts live in [Component Catalog](./12-component-catalog.md).
+
+## Purpose
+
+This page now does three jobs:
+
+- keeps the screen-doc template close to the product docs
+- tracks migration from legacy in-page screen entries to dedicated per-screen docs
+- preserves existing screen facts until each screen gets its own reviewed doc
 
 ## Screen contract template
 
-Each screen entry must define:
+Use [Screen Template](./07-screens/_template.md) when creating a dedicated per-screen doc.
 
-- Role
-- Entry point
-- Main user question
-- Primary decision
+Each dedicated screen doc should define:
+
+- Summary
+- Source links
 - Layout regions
-- Navigation chrome
-- Action placement
-- Primary actions
-- Secondary actions
-- Content highlights
-- UI direction
+- Component inventory
+- Screen states
+- Actions
+- Content
+- Behavior notes
+- Design notes
+- Accessibility notes
+- Not this
+- Storybook coverage
 - Open questions
 
-## Screen catalog
+## Screen index
+
+| Screen | Kind | Route / entry point | Detail doc | Migration status |
+|---|---|---|---|---|
+| Explore entry | Route screen | `/{locale}/app/learn/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) | migrated |
+| Alphabet catalog | Route screen | `/{locale}/app/learn/explore/alphabet` | `./07-screens/alphabet-catalog.md` | planned |
+| Vocabulary catalog | Route screen | `/{locale}/app/learn/explore/vocabulary` | `./07-screens/vocabulary-catalog.md` | planned |
+| Study | Route screen | Study lesson/module routes | `./07-screens/study.md` | planned |
+| Play Lobby | Flow screen | Play route initial state | `./07-screens/play/lobby.md` | planned |
+| Game Round | Flow screen | Play active round state | `./07-screens/play/round.md` | planned |
+| Game Feedback | Flow screen | Play feedback state | `./07-screens/play/feedback.md` | planned |
+| Game Results | Flow screen | Play results state | `./07-screens/play/results.md` | planned |
+| Translit | Route screen | `/{locale}/app/translit` | `./07-screens/translit.md` | planned |
+| Settings | Route screen | `/{locale}/app/settings` | `./07-screens/settings.md` | planned |
+| Privacy | Route screen | `/{locale}/privacy` | `./07-screens/privacy.md` | planned |
+| Recovery screens | Route states | global not found / resource unavailable | `./07-screens/recovery.md` | planned |
+
+## Migration rule
+
+During migration, the original screen entries may remain in this file until their per-screen docs are created and reviewed.
+
+Once a screen has a dedicated doc, this file should keep only a short summary and link to the dedicated doc.
+
+## Legacy screen catalog
 
 ### Privacy screen
 - Role: present the privacy notice as readable longform content and explain storage and analytics behavior
@@ -138,6 +176,9 @@ Each screen entry must define:
   - None
 
 ### Explore entry screen
+
+Migration note: The dedicated per-screen contract now lives in [Explore Entry Screen](./07-screens/explore-entry.md). Keep the legacy entry below during migration.
+
 - Role: act as the top-level manual learning entry screen
 - Entry point: `/{locale}/app/learn` resolving to `/{locale}/app/learn/explore`
 - Main user question: what do I want to learn?
@@ -603,4 +644,3 @@ Each screen entry must define:
   - exact microcopy that explains essential storage versus optional analytics
   - exact GitHub URL
   - exact format for hardcoded app and content version strings
-

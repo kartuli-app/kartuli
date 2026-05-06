@@ -35,7 +35,11 @@ Other documents may mention that rule briefly when needed for orientation, but t
 - [Routing and Flows](./06-routing-and-flows.md)
   - information architecture, route catalog, navigation, and high-level flows
 - [Screens](./07-screens.md)
-  - route screens and Play flow screens
+  - screen index, migration tracker, and legacy route-screen catalog
+- Per-screen docs under `./07-screens/`
+  - detailed per-screen implementation contracts, component inventories, screen states, and Storybook coverage
+- [Component Catalog](./12-component-catalog.md)
+  - implementation-facing component contracts, variants, states, usage locations, caveats, token guidance, and Storybook requirements
 - [Ui System](./08-ui-system.md)
   - reusable UI rules, global UI surfaces, responsive behavior, and component families
 - [Roadmap and Decisions](./04-roadmap-and-decisions.md)
@@ -44,8 +48,11 @@ Other documents may mention that rule briefly when needed for orientation, but t
 ## Boundary rules
 
 - Route patterns, route metadata, navigation targets, and route-state families belong in [Routing and Flows](./06-routing-and-flows.md).
-- Screen roles, layout regions, actions, content, and screen-specific open questions belong in [Screens](./07-screens.md).
-- Reusable visual and component-family rules belong in [Ui System](./08-ui-system.md).
+- Screen roles, layout regions, actions, content, and screen-specific open questions belong in [Screens](./07-screens.md) and the owning per-screen docs under `./07-screens/`.
+- Screen-specific implementation details, component inventories, screen states, and Storybook coverage belong in per-screen docs under `./07-screens/`.
+- Concrete component contracts, variants, states, usage locations, caveats, token guidance, and Storybook requirements belong in [Component Catalog](./12-component-catalog.md).
+- [Ui System](./08-ui-system.md) owns reusable UI principles and component-family rules; it does not own the detailed implementation contract for every component.
+- Storybook is the executable UI reference for implemented components and states, but product behavior remains owned by the product docs.
 - Global sound behavior belongs in [Audio and Sound](./10-audio-and-sound.md).
 - Global privacy, storage, and analytics behavior belongs in [Privacy and Analytics](./11-privacy-and-analytics.md).
 - The list of client-side preferences and the shared resolution model belong in [Client Preferences](./09-client-preferences.md).
@@ -58,7 +65,7 @@ Open questions should live in the document that owns the unresolved decision.
 Examples:
 
 - a route question belongs in [Routing and Flows](./06-routing-and-flows.md)
-- a screen question belongs in [Screens](./07-screens.md)
+- a screen question belongs in [Screens](./07-screens.md) or the owning per-screen doc under `./07-screens/`
 - a global UI-surface question belongs in [Ui System](./08-ui-system.md)
 
 Do not collect open questions in one generic appendix.
@@ -78,7 +85,8 @@ The source-of-truth docs should read as product specifications, not backlog note
 
 ## AI-facing helper docs
 
-`DESIGN.md` has a different audience and purpose than the source-of-truth docs.
+`DESIGN.md` is an AI-facing design/token helper document.
+
+It may summarize product UI rules and define design tokens, but it is not the canonical source for product behavior, route behavior, audio behavior, privacy behavior, or screen-specific interaction rules.
 
 It may summarize or duplicate parts of [Ui System](./08-ui-system.md) when that helps AI assistants work effectively.
-
