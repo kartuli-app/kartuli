@@ -45,7 +45,7 @@ Each dedicated screen doc should define:
 | Screen | Kind | Route / entry point | Detail doc | Migration status |
 |---|---|---|---|---|
 | Explore entry | Route screen | `/{locale}/app/learn/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) | migrated |
-| Alphabet catalog | Route screen | `/{locale}/app/learn/explore/alphabet` | `./07-screens/alphabet-catalog.md` | planned |
+| Alphabet catalog | Route screen | `/{locale}/app/learn/explore/alphabet` | [Alphabet Catalog Screen](./07-screens/alphabet-catalog.md) | migrated |
 | Vocabulary catalog | Route screen | `/{locale}/app/learn/explore/vocabulary` | `./07-screens/vocabulary-catalog.md` | planned |
 | Study | Route screen | Study lesson/module routes | `./07-screens/study.md` | planned |
 | Play Lobby | Flow screen | Play route initial state | `./07-screens/play/lobby.md` | planned |
@@ -251,6 +251,9 @@ Migration note: The dedicated per-screen contract now lives in [Explore Entry Sc
   - how visually distinct the full-review card should feel from authored lesson cards
 
 ### Alphabet catalog screen
+
+Migration note: The dedicated per-screen contract now lives in [Alphabet Catalog Screen](./07-screens/alphabet-catalog.md). Keep the legacy entry below during migration.
+
 - Role: browse grouped alphabet content, preview letter audio, and choose what to Study or Play
 - Entry point: `/{locale}/app/learn/explore/alphabet`
 - Main user question: which alphabet set do I want to work with right now?
