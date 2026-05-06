@@ -43,6 +43,7 @@ Each component entry should define:
 | `TopBar` | Shell / navigation | Catalog, Study, Play, Translit, Settings, Privacy, recovery | planned |
 | `BottomDock` | Navigation | Explore, Translit, Settings | planned |
 | `DestinationCard` | Browse | Explore entry | planned |
+| `ModuleHeader` | Browse | Vocabulary catalog | planned |
 | `LessonCard` | Browse | Alphabet catalog, Vocabulary catalog | planned |
 | `FullReviewCard` | Browse | Alphabet catalog, Vocabulary catalog | planned |
 | `PreviewGrid` | Preview | Catalog, Study summary | planned |

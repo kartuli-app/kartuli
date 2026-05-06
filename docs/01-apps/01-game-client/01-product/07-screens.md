@@ -46,7 +46,7 @@ Each dedicated screen doc should define:
 |---|---|---|---|---|
 | Explore entry | Route screen | `/{locale}/app/learn/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) | migrated |
 | Alphabet catalog | Route screen | `/{locale}/app/learn/explore/alphabet` | [Alphabet Catalog Screen](./07-screens/alphabet-catalog.md) | migrated |
-| Vocabulary catalog | Route screen | `/{locale}/app/learn/explore/vocabulary` | `./07-screens/vocabulary-catalog.md` | planned |
+| Vocabulary catalog | Route screen | `/{locale}/app/learn/explore/vocabulary` | [Vocabulary Catalog Screen](./07-screens/vocabulary-catalog.md) | migrated |
 | Study | Route screen | Study lesson/module routes | `./07-screens/study.md` | planned |
 | Play Lobby | Flow screen | Play route initial state | `./07-screens/play/lobby.md` | planned |
 | Game Round | Flow screen | Play active round state | `./07-screens/play/round.md` | planned |
@@ -300,6 +300,9 @@ Migration note: The dedicated per-screen contract now lives in [Alphabet Catalog
   - sound-toggle iconography and label treatment
 
 ### Vocabulary catalog screen
+
+Migration note: The dedicated per-screen contract now lives in [Vocabulary Catalog Screen](./07-screens/vocabulary-catalog.md). Keep the legacy entry below during migration.
+
 - Role: browse vocabulary lessons in the current module and choose what to Study or Play
 - Entry point: `/{locale}/app/learn/explore/vocabulary`
 - Main user question: which vocabulary set do I want to work with right now?
