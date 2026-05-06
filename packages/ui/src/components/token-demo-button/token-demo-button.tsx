@@ -1,5 +1,5 @@
+import { cn } from '@kartuli/ui/utils/cn';
 import type { ComponentPropsWithoutRef } from 'react';
-import { cn } from '../../utils/cn';
 
 interface TokenDemoButtonProps extends ComponentPropsWithoutRef<'button'> {}
 
