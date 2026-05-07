@@ -1,176 +1,139 @@
 ---
-description: Stable conceptual model, glossary, localization, learning content, activity, and mastery for the product.
+description: Stable conceptual model and sectioned glossary for learning content, student activity, and app experience.
 ---
 
 # Core
 
 This document owns the stable conceptual model of the product.
 
-## Glossary
+## Learning content
 
-### Public section
+### Curated learning content
 
-The information-facing part of the product.
+The authored learning content of the product.
 
-Current public page:
+It defines the items, lessons, and modules that the student can learn from.
 
-- `/{locale}/privacy`
+### Content family
 
-### App section
+A learning-content family.
 
-The learning-side part of the product.
+The product model recognizes `alphabet`, `vocabulary`, and `grammar` content families.
 
-Current top-level destinations:
+### Item
 
-- Learn
-- Translit
-- Settings
+The smallest learnable unit in curated learning content.
 
-### Learn
+Every item belongs to one content family.
 
-The main learning area of the product.
+### Letter
 
-### Explore
+An alphabet item.
 
-The manual lesson-selection mode inside Learn.
+A letter carries Georgian script, transliteration, and a pronunciation hint.
 
-### Study
+### Word
 
-The preview and review stage before Play.
+A vocabulary item.
 
-Study is optional and does not gate Play.
+A word carries Georgian script, transliteration, and translation.
 
-### Play
+### Rule
 
-The active game stage for one study resource.
+A grammar item.
 
-### Game
-
-A Play session generated from one study resource.
-
-The current game structure is:
-
-- Game Lobby
-- Game Round
-- Game Round Feedback
-- Game Results
-
-Each session has one active round at a time.
-
-### Translit
-
-The utility route for Georgian <-> Latin transliteration.
-
-### Settings
-
-The utility route for app-wide preferences and metadata.
+A rule carries the grammar concept the student learns or reviews.
 
 ### Lesson
 
-A user-facing study resource that the student can choose, study, and play.
+An authored set of items from curated learning content.
+
+A lesson is a first-class set.
 
 ### Module
 
-A group of lessons.
+An authored set of lessons from curated learning content.
 
-### Module review set
+A module defines lesson grouping and lesson order.
 
-A generated study and play resource built from all items in one module.
+### Module review
 
-It is not an authored lesson, but it is still a first-class study and play resource with its own Study and Play routes.
+A generated set derived from one authored module.
 
-When a full visible title is needed, use:
+Its items are collected from the module's lessons, deduped, and kept in authored lesson order.
 
-`{module name}: Full review`
+### Set
 
-### Global not found
+A collection of items used by Study and Play.
 
-The recovery state for a URL that does not match a controlled route pattern.
+A set may be authored or generated.
 
-### Resource unavailable
-
-The recovery state for a valid controlled route that cannot load the lesson or module review set it needs.
-
-## Product modeling hierarchy
-
-Use this hierarchy when modeling product behavior:
-
-`Route -> Page -> Screen / Flow screen -> UI state`
-
-Definitions:
-
-- `Route`
-  - a URL-addressable destination in the product model
-- `Page`
-  - the implementation bound to a route when that route renders UI
-- `Screen`
-  - a user-facing interface state presented by a page
-- `Flow screen`
-  - a screen inside a page flow that is not directly landable by URL
-- `UI state`
-  - a smaller transient state inside a screen
-
-## Localization
-
-- Supported locales: English (`en`) and Russian (`ru`)
-- Default locale: English (`en`)
-- Localized public and app routes use the `/{locale}/...` pattern
-- `/` is the non-localized locale-resolution route
-
-## Learning-content model
-
-### Alphabet
-
-Letters are a first-class learning content type.
-
-They support:
-
-- Georgian script
-- transliteration
-- pronunciation hint
-
-### Vocabulary
-
-Words and phrases are a first-class learning content type.
-
-They support:
-
-- Georgian script
-- transliteration
-- translation
-
-### Lessons and modules
-
-Lessons are the unit the student chooses, studies, and plays.
-
-Modules group lessons together.
-
-Vocabulary is currently organized as module-based content, and modules may also expose one generated module review set.
-
-### Module review-set ordering
-
-Module review sets are derived from one authored module.
-
-Their item order follows:
-
-- lesson order first
-- item order inside each lesson second
-
-If the same item appears more than once, the first occurrence wins and later repeats are skipped.
+This abstraction keeps Study and Play independent from how the set was produced.
 
 ## Student activity
 
-The product tracks activity at item level.
+### Student activity
 
-The low-level tracked fact is:
+The stored record of what the student has done with learning items.
 
-- item view count
+Student activity is factual data, not interpretation.
 
-This is intentionally simple so richer behavior can be derived later without changing the base model.
+### Item activity
 
-## Mastery
+The stored activity record for one item in one student context.
 
-The documented product model does not currently expose a first-class mastery state.
+It stores counts and timestamps for views, successes, and failures.
 
-The current foundation is low-level item activity. That foundation can support richer mastery interpretation later without changing the current core model.
+### Item activity summary
 
+An aggregate view of item activity for one student and one item.
+
+### Mastery
+
+A derived interpretation of student activity for one item or one set.
+
+Mastery is not a stored activity fact.
+
+### Recommendation
+
+A derived suggestion about which set the student should study or play next.
+
+Recommendation is not a stored activity fact.
+
+## App experience
+
+### Explore
+
+The experience where the student chooses what to learn.
+
+Explore is about selecting a set.
+
+### Study
+
+The experience where the student reviews a chosen set.
+
+Study works with sets.
+
+### Play
+
+The experience where the student practices a chosen set through a game session.
+
+Play works with sets.
+
+### Game
+
+A Play session for one chosen set.
+
+A game has a lobby, rounds, and results.
+
+### Translit
+
+The utility experience for Georgian <-> Latin transliteration.
+
+### Settings
+
+The utility experience for changing app preferences.
+
+### Global not found
+
+The recovery state for a URL that does not map to a controlled route.

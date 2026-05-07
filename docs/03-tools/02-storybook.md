@@ -1,5 +1,5 @@
 ---
-description: Storybook tool description
+description: Storybook tool
 ---
 
 ## Overview

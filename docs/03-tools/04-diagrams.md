@@ -1,5 +1,5 @@
 ---
-description: Diagrams tool description
+description: Diagrams tool
 ---
 
 ## Overview

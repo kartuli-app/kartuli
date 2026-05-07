@@ -1,5 +1,5 @@
 ---
-description: Web docs client tool description
+description: Web docs client tool
 ---
 
 ## Overview

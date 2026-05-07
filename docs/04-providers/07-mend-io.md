@@ -1,5 +1,5 @@
 ---
-description: Renovate dependency updates
+description: Dependency updates
 ---
 
 ## Overview

@@ -1,5 +1,5 @@
 ---
-description: Tailwind config package description
+description: Tailwind config package
 ---
 
 ## Overview
