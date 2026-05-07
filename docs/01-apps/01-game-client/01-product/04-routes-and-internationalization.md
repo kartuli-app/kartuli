@@ -33,8 +33,8 @@ Examples:
 | `/`  |  Root redirect | [Root route locale redirect](#root-route-locale-redirect) |
 | **Explore routes** | | | 
 | `/{locale}/explore`  | Explore entry  (***localized initial route***) | Custom ([Explore Entry Screen](./07-screens/explore-entry.md)) |
-| `/{locale}/explore/alphabet`  | Explore Alphabet   | [Browser](#browser-routes) |
-| `/{locale}/explore/vocabulary`  | Explore Vocabulary   | [Browser](#browser-routes) |
+| `/{locale}/explore/alphabet`  | Explore Alphabet   | [Browse](#browse-routes) |
+| `/{locale}/explore/vocabulary`  | Explore Vocabulary   | [Browse](#browse-routes) |
 | **Study routes** | | |
 | `/{locale}/lessons/{lessonId}/study`  | Lesson Study   | [Study](#study-routes) |
 | `/{locale}/modules/{moduleId}/review/study`  | Module review Study   | [Study](#study-routes) |
@@ -52,9 +52,22 @@ Examples:
 
 These are routes that define their own behavior, documented on the route screen documentation.
 
-### Browser routes
+### Browse routes
 
-These are routes that share the same "browser" experience, documented on TODO: add link to the browser screen documentation.
+These are routes that share the same `Browse` experience, documented in [Browse Screen](./07-screens/browse.md).
+
+The route decides which content family is loaded and which title the shared screen receives.
+
+- `/{locale}/explore/alphabet`
+  - experience: `Browse`
+  - title: `Alphabet`
+  - content family: `alphabet`
+  - source: authored alphabet lessons and alphabet module review
+- `/{locale}/explore/vocabulary`
+  - experience: `Browse`
+  - title: `Vocabulary`
+  - content family: `vocabulary`
+  - source: authored vocabulary lessons and vocabulary module review
 
 ### Study routes
 
@@ -103,4 +116,3 @@ be resolved normally, delegating non existing routes to global not-found handlin
 - if the user attemps to visit a existing page with an unsupported locale, such as `/it/settings`, the app would redirect to the same page with the user preferred locale, such as `/ru/settings` and the user would see the settings page in russian
 
 - if the user attemps to visit a non-existing page, such as `/it/non-existing-page`, the app would redirect to the same page with the user preferred locale, such as `/ru/non-existing-page` and the user would see the the global not-found page in russian
-

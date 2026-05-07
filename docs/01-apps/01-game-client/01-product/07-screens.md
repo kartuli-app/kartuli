@@ -51,28 +51,29 @@ Detailed behavior, states, actions, and open questions belong in the dedicated s
 
 | Screen | Kind | Route / entry point | Detail doc | Migration status |
 |---|---|---|---|---|
-| Explore entry | Route screen | `/{locale}/app/learn/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) | migrated |
-| Alphabet catalog | Route screen | `/{locale}/app/learn/explore/alphabet` | [Alphabet Catalog Screen](./07-screens/alphabet-catalog.md) | migrated |
-| Vocabulary catalog | Route screen | `/{locale}/app/learn/explore/vocabulary` | [Vocabulary Catalog Screen](./07-screens/vocabulary-catalog.md) | migrated |
+| Explore entry | Route screen | `/{locale}/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) | migrated |
+| Browse | Route screen | `/{locale}/explore/alphabet`, `/{locale}/explore/vocabulary` | [Browse Screen](./07-screens/browse.md) | migrated |
 | Study | Route screen | Study lesson/module routes | [Study Screen](./07-screens/study.md) | migrated |
 | Play Lobby | Flow screen | Play route initial state | [Play Lobby Screen](./07-screens/play/lobby.md) | migrated |
 | Game Round | Flow screen | Play active round state | [Game Round Screen](./07-screens/play/round.md) | migrated |
 | Game Feedback | Flow screen | Play feedback state | [Game Feedback Screen](./07-screens/play/feedback.md) | migrated |
 | Game Results | Flow screen | Play results state | [Game Results Screen](./07-screens/play/results.md) | migrated |
-| Translit | Route screen | `/{locale}/app/translit` | [Translit Screen](./07-screens/translit.md) | migrated |
-| Settings | Route screen | `/{locale}/app/settings` | [Settings Screen](./07-screens/settings.md) | migrated |
+| Translit | Route screen | `/{locale}/translit` | [Translit Screen](./07-screens/translit.md) | migrated |
+| Settings | Route screen | `/{locale}/settings` | [Settings Screen](./07-screens/settings.md) | migrated |
 | Privacy | Route screen | `/{locale}/privacy` | [Privacy Screen](./07-screens/privacy.md) | migrated |
 | Recovery screens | Route states | global not found / resource unavailable | [Recovery Screens](./07-screens/recovery.md) | migrated |
 
 ## Shared Screen Patterns
 
-### Module browser pattern
+### Browse pattern
 
-- Used by [Alphabet Catalog Screen](./07-screens/alphabet-catalog.md) and [Vocabulary Catalog Screen](./07-screens/vocabulary-catalog.md)
-- Shared role: browse one module, select one study resource, and launch Study or Play
+- Used by the `Browse` routes
+- Shared role: browse one content family, select one study resource, and launch Study or Play
 - Shared rules:
-  - every module browser exposes exactly one `Full review` section
+  - every browse route exposes exactly one `Full review` section
   - `Full review` is the UI label; the underlying product model is a module review set
+  - browse cards use the same shared grid structure across content families
+  - only the preview visual asset changes by content family
   - the selected study-resource surface is contextual, dismissible, and non-modal
   - selecting another resource updates the same surface in place
 - Shared owners:
@@ -113,8 +114,7 @@ Detailed behavior, states, actions, and open questions belong in the dedicated s
 ### Route screens
 
 - [Explore Entry Screen](./07-screens/explore-entry.md): top-level Learn entry for choosing Alphabet or Vocabulary
-- [Alphabet Catalog Screen](./07-screens/alphabet-catalog.md): module browser for alphabet lessons and alphabet full review
-- [Vocabulary Catalog Screen](./07-screens/vocabulary-catalog.md): module browser for vocabulary lessons and vocabulary full review
+- [Browse Screen](./07-screens/browse.md): shared browse experience for alphabet and vocabulary routes
 - [Study Screen](./07-screens/study.md): summary/detail preview flow for one study resource before Play
 - [Translit Screen](./07-screens/translit.md): Georgian <-> Latin transliteration utility with token inspection
 - [Settings Screen](./07-screens/settings.md): app-wide preferences and app metadata

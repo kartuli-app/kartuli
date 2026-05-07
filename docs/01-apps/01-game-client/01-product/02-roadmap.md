@@ -46,11 +46,11 @@ The MVP learning loop is:
 - Explore lets the student choose between `Alphabet` and `Vocabulary`.
 - Explore in MVP is curated, not personalized.
 
-### Browser
+### Browse
 
-- The MVP includes an alphabet browser and a vocabulary browser.
-- Each browser lists authored lessons for its module.
-- Each browser also includes one `Full review` entry for the whole module.
+- The MVP includes Browse routes for alphabet and vocabulary.
+- Each Browse route lists authored lessons for its module.
+- Each Browse route also includes one `Full review` entry for the whole module.
 - Selecting a lesson or `Full review` exposes the next available actions: `Study` and `Play`.
 
 ### Study
