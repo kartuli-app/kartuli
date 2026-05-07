@@ -1,10 +1,10 @@
 ---
-description: TODO: Explain what does this document own.
+description: Route catalog and internationalization rules for the game client.
 ---
 
 # Routes
 
-TODO: Explain what does this document own.
+This document owns the route catalog and internationalization rules for the game client.
 
 ## Route notation
 
