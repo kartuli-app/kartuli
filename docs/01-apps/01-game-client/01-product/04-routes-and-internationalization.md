@@ -71,7 +71,22 @@ The route decides which content family is loaded and which title the shared scre
 
 ### Study routes
 
-These are routes that share the same "study" experience, documented on TODO: add link to the study screen documentation.
+These are routes that share the same `Study` experience, documented in [Study Screen](./07-screens/study.md).
+
+The route provides the title, item set, content family, and back target for the shared screen.
+
+- `/{locale}/lessons/{lessonId}/study`
+  - experience: `Study`
+  - title: lesson title
+  - set: lesson items
+  - content family: from the lesson
+  - back target: relevant Browse route
+- `/{locale}/modules/{moduleId}/review/study`
+  - experience: `Study`
+  - title: `Full review`
+  - set: module review items
+  - content family: from the module
+  - back target: relevant Browse route
 
 ### Play routes
 

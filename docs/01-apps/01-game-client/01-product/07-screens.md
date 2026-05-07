@@ -80,6 +80,19 @@ Detailed behavior, states, actions, and open questions belong in the dedicated s
   - reusable layout and drawer patterns: [Ui System](./08-ui-system.md)
   - canonical navigation targets: [Routing and Flows](./06-routing-and-flows.md)
 
+### Study pattern
+
+- Used by the lesson and module review `Study` routes
+- Shared role: review one route-provided item set before Play
+- Shared rules:
+  - the route provides title, content family, item set, and back target
+  - the study navigation bar is shared across content families
+  - summary shows all items and may scroll
+  - detail shows one item at a time
+  - `Play` remains available in summary and detail
+- Shared owners:
+  - canonical route behavior: [Routing and Flows](./06-routing-and-flows.md)
+
 ### Play host pattern
 
 - Used by the canonical Play routes for lessons and module review sets
