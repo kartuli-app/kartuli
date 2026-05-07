@@ -117,7 +117,10 @@ Detailed behavior, states, actions, and open questions belong in the dedicated s
 
 - Used by [Recovery Screens](./07-screens/recovery.md)
 - Shared role: help the student recover from invalid URLs or valid routes that cannot load their required resource
-- Shared rule: valid controlled routes with missing data use route-owned unavailable screens instead of collapsing into global not found
+- Shared rules:
+  - valid controlled routes with missing data use route-owned unavailable screens instead of collapsing into global not found
+  - the safe return destination is `/{locale}/explore`
+  - route-owned unavailable states are separate from the normal `Study` and `Play` experiences
 - Shared owners:
   - route-state families: [Routing and Flows](./06-routing-and-flows.md)
   - recovery-state distinction: [Roadmap and Decisions](./04-roadmap-and-decisions.md)

@@ -1,157 +1,88 @@
 ---
-description: Grouped implementation contract for the recovery route states in the game client.
+description: Recovery route states for invalid URLs and unavailable Study or Play resources.
 ---
 
 # Recovery Screens
 
-## Summary
+## Purpose
 
-- Role: group the recovery route states that help the student recover from invalid URLs or missing learning resources
-- Entry points:
-  - global not-found route state
-  - Study resource unavailable route state
-  - Play resource unavailable route state
-- Screen type: route states
-- Primary user question: how do I continue from this invalid or unavailable route state?
-- Primary decision: return to a safe destination
+Recovery screens handle invalid URLs and valid routes that cannot resolve the resource they need.
 
-## Source links
+Recovery screens are separate from the normal `Study` and `Play` experiences.
 
-- Core: [Core](../05-core.md)
-- Routing: [Routing and Flows](../06-routing-and-flows.md)
-- UI system: [Ui System](../08-ui-system.md)
-- Component catalog: [Component Catalog](../12-component-catalog.md)
-- Roadmap decisions: [Roadmap and Decisions](../04-roadmap-and-decisions.md)
+## States
 
-## Shared recovery rules
+- Global not found
+- Study resource unavailable
+- Play resource unavailable
 
-- Recovery states stay distinct from normal route screens.
-- Valid controlled routes with missing data use route-owned unavailable screens rather than collapsing into global not found.
-- Recovery states do not show the dock.
-- Recovery states should feel calm, branded, and easy to exit.
+## Shared Behavior
 
-## Layout regions
+- Recovery screens do not show the dock.
+- Recovery screens use a safe return destination.
+- The safe return destination is `/{locale}/explore`.
+- Recovery screens should stay calm, clear, and easy to exit.
+- Route-owned unavailable states stay distinct from global not found.
 
-| Region | Required | Used by states | Components | Notes |
-|---|---:|---|---|---|
-| Top bar | yes | global not found, Study resource unavailable, Play resource unavailable | `TopBar` | Route-owned unavailable states expose a Learn return action; global not found still uses the same recovery-shell region without adding extra dock navigation |
-| Main recovery content area | yes | global not found, Study resource unavailable, Play resource unavailable | `PageHeader` | Holds short recovery copy and the recovery action |
+## Layout
 
-## Component inventory
+- top bar with back arrow to `/{locale}/explore`
+- recovery content area
+- primary recovery action
 
-| Component | Usage | Variants / states | Catalog link |
-|---|---|---|---|
-| `TopBar` | Recovery-shell chrome for route-state handling | global not found, Study unavailable, Play unavailable | [Component Catalog](../12-component-catalog.md) |
-| `PageHeader` | Recovery title, explanation, and action surface | global not found, Study unavailable, Play unavailable | [Component Catalog](../12-component-catalog.md) |
+## Actions
 
-## Recovery State Index
-
-| State | Trigger | Primary action | Notes |
-|---|---|---|---|
-| Global not found | requested URL does not match a controlled route pattern after locale handling | go to Learn | Invalid URL recovery |
-| Study resource unavailable | valid Study route cannot load its lesson or module review set | go to Learn | Must remain distinct from global not found |
-| Play resource unavailable | valid Play route cannot load its lesson or module review set | go to Learn | MVP keeps recovery focused on Learn |
+- back arrow -> `/{locale}/explore`
+- primary action: `Choose something else` -> `/{locale}/explore`
 
 ## Global Not Found
 
-- Entry point: global not-found route state
-- Main user question: where should I go now that this page does not exist?
-- Primary decision: return to a safe destination
-
-### Actions
-
-- Primary:
-  - go to Learn
-- Secondary:
-  - none
-
-### Content
-
-- short title
-- short explanation
-- no raw attempted URL shown in MVP UI
-
-### Behavior notes
-
-- Trigger ownership lives in [Routing and Flows](../06-routing-and-flows.md).
-- This state is for invalid route intent, not for valid routes that fail to load data.
+- Trigger: the requested URL does not match a controlled route pattern after locale handling
+- This state is for invalid route intent.
+- It is not used for valid routes that fail to load their data.
+- The screen should show:
+  - short title
+  - short explanation
+  - primary recovery action
+- The UI should not expose the raw attempted URL.
 
 ## Study Resource Unavailable
 
-- Entry point:
-  - `/{locale}/app/learn/lessons/{lessonId}/study`
-  - `/{locale}/app/learn/modules/{moduleId}/review/study`
-- Main user question: how do I continue if this study resource cannot be opened?
-- Primary decision: return to Learn and choose another resource
-
-### Actions
-
-- Primary:
-  - go to Learn
-- Secondary:
-  - return to Learn from the top bar
-
-### Content
-
-- message must distinguish resource unavailable from global not found
-- message should not expose raw resource IDs
-
-### Behavior notes
-
-- Trigger ownership lives in [Routing and Flows](../06-routing-and-flows.md).
-- This is a route-owned unavailable state for a valid Study route.
+- Trigger: a valid Study route cannot resolve its lesson or module review set
+- Routes:
+  - `/{locale}/lessons/{lessonId}/study`
+  - `/{locale}/modules/{moduleId}/review/study`
+- This state is not part of the normal Study screen.
+- The screen should show:
+  - short title
+  - short explanation
+  - primary recovery action
+- The UI should not expose raw resource ids.
+- The screen should not show:
+  - study navigation bar
+  - summary card
+  - detail card
+  - persistent `Play` button
 
 ## Play Resource Unavailable
 
-- Entry point:
-  - `/{locale}/app/learn/lessons/{lessonId}/play`
-  - `/{locale}/app/learn/modules/{moduleId}/review/play`
-- Main user question: how do I continue if this study resource cannot be played?
-- Primary decision: return to Learn and choose another resource
+- Trigger: a valid Play route cannot resolve its lesson or module review set
+- Routes:
+  - `/{locale}/lessons/{lessonId}/play`
+  - `/{locale}/modules/{moduleId}/review/play`
+- This state is not part of the normal Play flow.
+- The screen should show:
+  - short title
+  - short explanation
+  - primary recovery action
+- The UI should not expose raw resource ids.
+- The screen should not show:
+  - play lobby
+  - round
+  - feedback
+  - results
 
-### Actions
+## Notes
 
-- Primary:
-  - go to Learn
-- Secondary:
-  - return to Learn from the top bar
-
-### Content
-
-- message must distinguish resource unavailable from global not found
-- MVP recovery path stays focused on Learn instead of offering a secondary Study fallback here
-
-### Behavior notes
-
-- Trigger ownership lives in [Routing and Flows](../06-routing-and-flows.md).
-- This is a route-owned unavailable state for a valid Play route.
-
-## Design notes
-
-- Use a calm, branded recovery treatment.
-- Clarity beats cleverness.
-- Route-owned unavailable states should reuse the normal app shell and stay calm and recoverable.
-
-## Accessibility notes
-
-- Each recovery state needs a clear heading, short explanation, and one obvious recovery action.
-- Recovery copy should stay easy to scan and should not rely on mascot treatment alone.
-- Recovery states should avoid exposing raw URLs or resource IDs in MVP UI.
-
-## Not this
-
-- Do not collapse route-owned unavailable states into global not found.
-- Do not show the dock on recovery states.
-- Do not expose raw attempted URLs or resource IDs in MVP UI.
-- Do not offer a Study fallback from Play resource unavailable in MVP.
-
-## Storybook coverage
-
-- Global not found recovery composition
-- Study resource unavailable composition
-- Play resource unavailable composition
-
-## Open questions
-
-- Final localized title and copy for global not found.
-- Whether Study resource unavailable should say `could not be found` or softer wording such as `is not available`.
+- A valid route with missing data should not collapse into global not found.
+- Recovery copy should guide the student toward choosing another resource.

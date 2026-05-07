@@ -88,9 +88,13 @@ The route provides the title, item set, content family, and back target for the 
   - content family: from the module
   - back target: relevant Browse route
 
+If a valid Study route cannot resolve its resource, render [Study resource unavailable](./07-screens/recovery.md).
+
 ### Play routes
 
-These are routes that share the same "play" experience, documented on TODO: add link to the play screen documentation.
+These are routes that share the same Play experience.
+
+If a valid Play route cannot resolve its resource, render [Play resource unavailable](./07-screens/recovery.md).
 
 ## Internationalization
 
