@@ -32,8 +32,8 @@ Main exits:
 
 ## Layout
 
-- branded header
-- screen title and short support copy
+- branded top bar
+- screen support copy
 - two large destination cards
 - bottom dock
 
@@ -44,13 +44,16 @@ Main exits:
 - `Alphabet` card copy: `Learn Georgian letters step by step.`
 - `Vocabulary` card copy: `Learn useful words and phrases by topic.`
 
-## Variants
-
-- Default
-  - shows the header, the two destination cards, and the dock
-
 ## Notes
 
 - The two destinations should feel like primary choices, not like lesson cards.
 - This screen does not include recommendations.
 - This screen should fit common mobile heights without scroll.
+
+## Components usage
+
+- `TopBar (branded)`
+- two `DestinationCard` instances
+  - `Alphabet`
+  - `Vocabulary`
+- `Dock`
