@@ -50,7 +50,7 @@ Examples:
 
 ### Custom routes
 
-These are routes that define their own behavior, documented on the route screen documentation.
+These are routes that define their own behavior in their dedicated screen docs.
 
 ### Browse routes
 
@@ -117,9 +117,9 @@ If a valid Play route cannot resolve its resource, render [Play resource unavail
 
 ## Internationalization
 
-### Suported locales
+### Supported locales
 
-The game client supports this supported locales:
+The game client supports these locales:
 
 - English (`en`)
 - Russian (`ru`)
@@ -130,7 +130,7 @@ The default locale is English (`en`).
 
 ### Root route locale redirect
 
-The root route `/` is non-localized, it detects the most appropiate locale, and redirects to the `localized initial route` for that locale. 
+The root route `/` is non-localized, detects the most appropriate locale, and redirects to the localized initial route for that locale.
 
 The `localized initial route` is the `Explore entry` route for the detected locale.
 
@@ -146,11 +146,12 @@ The preferred locale is resolved in this order:
 
 All other routes are localized, they use the `/{locale}/...` pattern
 
-### Unsupported locale handing
+### Unsupported locale handling
 
-When the locale is not supported, the app would replace the wrong locale with the default locale, and route will 
-be resolved normally, delegating non existing routes to global not-found handling
+When the locale is not supported, the app replaces it with the resolved preferred locale, or with the default locale when no preferred locale can be resolved.
 
-- if the user attemps to visit a existing page with an unsupported locale, such as `/it/settings`, the app would redirect to the same page with the user preferred locale, such as `/ru/settings` and the user would see the settings page in russian
+After that replacement, the route resolves normally and delegates non-existing routes to global not found handling.
 
-- if the user attemps to visit a non-existing page, such as `/it/non-existing-page`, the app would redirect to the same page with the user preferred locale, such as `/ru/non-existing-page` and the user would see the the global not-found page in russian
+- if the user attempts to visit an existing page with an unsupported locale, such as `/it/settings`, the app redirects to the same page with the resolved preferred locale, such as `/ru/settings`
+
+- if the user attempts to visit a non-existing page, such as `/it/non-existing-page`, the app redirects to the same page with the resolved preferred locale, such as `/ru/non-existing-page`, and then renders the global not found page

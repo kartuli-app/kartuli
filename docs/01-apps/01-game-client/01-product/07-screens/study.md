@@ -118,5 +118,5 @@ Behavior:
 
 - Study is agnostic to whether the current set came from a lesson or a module review.
 - Current item position is internal screen state, not URL state.
-- Browse and Study may use related item representations, but Study can reveal more detail.
+- Browse and Study use related item representations, but Study reveals more detail.
 - Study should not gate `Play`.

@@ -54,7 +54,7 @@ This page does two jobs:
 - Shared rules:
   - the route provides title, content family, item set, and back target
   - the study navigation bar is shared across content families
-  - summary shows all items and may scroll
+  - summary shows all items and is scrollable
   - detail shows one item at a time
   - `Play` remains available in summary and detail
 
@@ -75,7 +75,7 @@ This page does two jobs:
   - the first wrong answer marks the round failed and enters corrective elimination inside the round
   - the round includes active, corrective, and resolved states inside the same screen
   - resolved rounds pause briefly and then auto-advance
-  - Results show the outcome first and may open Mistakes review from the failed-result variant
+  - Results show the outcome first, and the failed-result variant includes entry into Mistakes review
   - leaving from an active or resolved round state uses a confirmation surface because progress would be lost
 
 ### Recovery-state pattern
@@ -96,7 +96,7 @@ This page does two jobs:
 - [Study Screen](./07-screens/study.md): summary/detail preview flow for one study resource before Play
 - [Play Experience](./07-screens/play.md): shared Play experience for lesson and module review routes
 - [Translit Screen](./07-screens/translit.md): Georgian <-> Latin transliteration utility with token inspection
-- [Settings Screen](./07-screens/settings.md): app language selection in MVP
+- [Settings Screen](./07-screens/settings.md): app language selection utility
 
 ### Play flow screens
 

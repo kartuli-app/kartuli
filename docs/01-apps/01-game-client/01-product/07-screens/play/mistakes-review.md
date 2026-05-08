@@ -37,7 +37,7 @@ It reuses review mechanics from Study without becoming the Study screen.
 
 - review summary is specific to failed-item review
 - it is not the same surface as the Study summary
-- it may reuse item preview language while reflecting that the source set is the failed-item set
+- it reuses item preview language while reflecting that the source set is the failed-item set
 
 ## Detail Cards
 

@@ -72,14 +72,14 @@ Its role is still the same: take the route-provided set and output a generated g
 
 - assign a compatible minigame variant after the round order is built
 - avoid repetitive streaks when more than one compatible variant exists
-- the MVP may still use one minigame family, but the generation step stays separate from round scheduling
+- minigame assignment stays separate from round scheduling even when all rounds use the same minigame family
 
 ### Regeneration
 
 - Play generates the first game before the Lobby is shown
-- the Lobby may request a new game for the same route-provided set
+- the Lobby can request a new game for the same route-provided set
 - regeneration keeps the same route inputs and back target
-- regeneration may change round order, answer options, minigame distribution, and game preview order
+- regeneration rebuilds round order, answer options, minigame distribution, and game preview order
 
 ## Flow
 
@@ -95,13 +95,13 @@ The Round loop includes:
 - corrective attempt when needed
 - resolved pause before auto-advance
 
-Results may open Mistakes review when the completed game has failed items and the student chooses to review them.
+Results include entry into Mistakes review when the completed game has failed items.
 
 ## Round Outcome Model
 
 - A round is clean when the first selected answer is correct.
 - A round is failed on the first wrong answer.
-- A failed round may still resolve through corrective attempts inside the same round.
+- A failed round still resolves through corrective attempts inside the same round.
 - Play stores the wrong-attempt count for each failed round inside the game.
 - Results focus on rounds that were marked failed.
 

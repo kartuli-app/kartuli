@@ -79,8 +79,8 @@ Recovery screens are separate from the normal `Study` and `Play` experiences.
 - The screen should not show:
   - play lobby
   - round
-  - feedback
   - results
+  - mistakes review
 
 ## Notes
 

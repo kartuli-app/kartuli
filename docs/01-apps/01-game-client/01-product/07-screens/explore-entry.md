@@ -10,7 +10,7 @@ Explore entry is the top-level Learn screen.
 
 It lets the student choose whether to go to `Alphabet` or `Vocabulary`.
 
-In MVP, this screen is curated, not personalized.
+This screen is curated, not personalized.
 
 ## Route
 
@@ -52,10 +52,5 @@ Main exits:
 ## Notes
 
 - The two destinations should feel like primary choices, not like lesson cards.
-- This screen should not include recommendations in MVP.
-- It should aim to fit common mobile heights without scroll when possible.
-
-## Open questions
-
-- Exact mascot or logo treatment in the header
-- Whether the mascot appears only in the header or also inside the cards
+- This screen does not include recommendations.
+- This screen should fit common mobile heights without scroll.

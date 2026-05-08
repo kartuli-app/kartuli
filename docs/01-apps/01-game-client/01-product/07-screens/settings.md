@@ -1,12 +1,11 @@
----
-description: Utility screen for changing the app language in MVP.
+description: Utility screen for changing the app language.
 ---
 
 # Settings Screen
 
 ## Purpose
 
-Settings is the utility screen for changing the app language in MVP.
+Settings is the utility screen for changing the app language.
 
 ## Route
 
@@ -42,7 +41,5 @@ Main exits:
 
 ## Notes
 
-- Settings in MVP supports language selection only.
-- Settings does not include audio controls.
-- Settings does not include privacy controls.
+- Settings supports language selection only.
 - Language changes apply immediately.

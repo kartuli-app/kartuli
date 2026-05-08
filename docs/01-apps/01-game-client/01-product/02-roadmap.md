@@ -1,5 +1,4 @@
----
-description: Current MVP scope, explicit exclusions, and post-MVP candidates for the game client.
+description: Current MVP scope and post-MVP candidates for the game client.
 ---
 
 # Roadmap
@@ -30,8 +29,8 @@ The MVP learning loop is:
 ### Recovery
 
 - The MVP includes a global not-found page for invalid URLs.
-- The MVP includes a Study resource not-found state for valid Study routes that cannot load their lesson or module review.
-- The MVP includes a Play resource not-found state for valid Play routes that cannot load their lesson or module review.
+- The MVP includes a Study resource unavailable state for valid Study routes that cannot load their lesson or module review.
+- The MVP includes a Play resource unavailable state for valid Play routes that cannot load their lesson or module review.
 
 ### Learning content
 
@@ -68,9 +67,9 @@ The MVP learning loop is:
 - Play is available for lessons and module review sets.
 - Play includes:
   - lobby
-  - round
-  - feedback
+  - round loop
   - results
+  - mistakes review for failed items
 - MVP gameplay uses one minigame type: `single-choice`.
 - Included alphabet round variants:
   - question: Georgian letter, answers: transliteration

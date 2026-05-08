@@ -8,9 +8,9 @@ This document owns the high-level definition, promise, learning experience, and 
 
 ## Product definition
 
-`kartuli.app` is a Georgian language learning app where students practice alphabet, vocabulary and grammar playing short games.
+`kartuli.app` is a Georgian language learning app where students practice the Georgian alphabet and vocabulary through short study and play flows.
 
-The app is offered via a web app that runs in any device with a modern browser.
+The app is offered as a web app that runs on any device with a modern browser.
 
 ## Core promise
 
@@ -28,37 +28,45 @@ The learning experience is built around a simple loop:
 flowchart LR
     choose[choose] --> study[study]
     study --> play[play]
-    choose -- 😎 YOLO 😎 --> play
+    choose --> play
     play --> repeat[repeat]
     repeat --> choose
 ```
 
 ### Choose what to learn
 
- Students chan choose what to learn in different ways:
- - get recommended custom lessons based on their activity (repeat items viewed recently, reinforce items already mastered, introduce new items or focus on items they've struggled with)
- - explore curated alphabet or vocabulary lessons
- - create a custom lesson froms the saved items list
- - seasonal lessons: Christmas, Summer, Easter, Halloween...
+Students choose one curated learning resource:
+
+- an alphabet lesson
+- a vocabulary lesson
+- a `Full review` set for one module
 
 ### Study the items (optional)
 
-Students can review each item with detailed flashcards that include:
+Students can review the chosen set before Play.
+
+Study shows item summaries and item details, including:
+
 - Georgian script
 - transliteration
 - translation
-- images
-- audios
 - examples
 - notes
 
 ### Play short games
 
-Games are focused on practicing the items in a fun and engaging way.
+Play turns the chosen set into a short generated game made of rounds.
 
-Each game is alwaysdifferent and has multiple minigame rounds.
+The game focuses on practicing the chosen items in a fast, repeatable loop.
 
-After the game, students can review the items they got wrong, and continue learning by playing again, or choose something else.
+After the game, students can review the items they got wrong, play again, or choose something else.
+
+### Supporting utilities
+
+The product also includes:
+
+- `Translit` for Georgian <-> Latin transliteration
+- `Settings` for changing the app language
 
 ## Brand identity
 

@@ -58,7 +58,7 @@ Main exits:
 - switching direction turns the current output into the new input
 - token inspection reveals the matching source token for the selected output token
 - token inspection uses token mapping, not character-position comparison
-- direction is not persisted between visits in MVP
+- direction is not persisted between visits
 
 ## Notes
 
