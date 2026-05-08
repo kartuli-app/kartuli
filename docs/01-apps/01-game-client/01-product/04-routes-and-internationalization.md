@@ -92,7 +92,26 @@ If a valid Study route cannot resolve its resource, render [Study resource unava
 
 ### Play routes
 
-These are routes that share the same Play experience.
+These are routes that share the same [Play Experience](./07-screens/play.md).
+
+The route provides the title, item set, content family, and back target.
+
+Play uses those inputs to generate a game before the Lobby is shown.
+
+`Results` and `Mistakes review` are internal Play flow screens, not separate routes.
+
+- `/{locale}/lessons/{lessonId}/play`
+  - experience: `Play`
+  - title: lesson title
+  - set: lesson items
+  - content family: from the lesson
+  - back target: relevant Study route
+- `/{locale}/modules/{moduleId}/review/play`
+  - experience: `Play`
+  - title: `Full review`
+  - set: module review items
+  - content family: from the module
+  - back target: relevant Study route
 
 If a valid Play route cannot resolve its resource, render [Play resource unavailable](./07-screens/recovery.md).
 

@@ -1,67 +1,35 @@
 ---
-description: Screen index, shared screen-pattern notes, and per-screen doc hub for the game client.
+description: Screen and experience index for the game client, with a few shared pattern notes.
 ---
 
 # Screens
 
-This document is the index for route screens and Play flow screens.
+This document indexes route screens, route experiences, and Play flow screens.
 
-Detailed per-screen implementation contracts live in dedicated docs under `./07-screens/`.
-
-Reusable UI rules live in [Ui System](./08-ui-system.md).
-Route-level navigation targets and route-state ownership live in [Routing and Flows](./06-routing-and-flows.md).
-Component contracts live in [Component Catalog](./12-component-catalog.md).
+Detailed definitions live in dedicated docs under `./07-screens/`.
 
 ## Purpose
 
-This page now does three jobs:
+This page does two jobs:
 
-- provides the screen-doc template entry point
-- indexes dedicated screen docs
-- keeps only the shared screen-pattern notes that span more than one dedicated screen doc
-
-## Screen contract template
-
-Use [Screen Template](./07-screens/_template.md) when creating or revising a dedicated per-screen doc.
-
-Each dedicated screen doc should define:
-
-- Summary
-- Source links
-- Layout regions
-- Component inventory
-- Screen states
-- Actions
-- Content
-- Behavior notes
-- Design notes
-- Accessibility notes
-- Not this
-- Storybook coverage
-- Open questions
-
-## Migration status
-
-All tracked screens and recovery route states now have dedicated docs.
-
-This file should keep only short summaries and shared cross-screen notes.
-Detailed behavior, states, actions, and open questions belong in the dedicated screen docs.
+- index dedicated screen and experience docs
+- keep only short shared notes that span more than one dedicated doc
 
 ## Screen index
 
-| Screen | Kind | Route / entry point | Detail doc | Migration status |
-|---|---|---|---|---|
-| Explore entry | Route screen | `/{locale}/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) | migrated |
-| Browse | Route screen | `/{locale}/explore/alphabet`, `/{locale}/explore/vocabulary` | [Browse Screen](./07-screens/browse.md) | migrated |
-| Study | Route screen | Study lesson/module routes | [Study Screen](./07-screens/study.md) | migrated |
-| Play Lobby | Flow screen | Play route initial state | [Play Lobby Screen](./07-screens/play/lobby.md) | migrated |
-| Game Round | Flow screen | Play active round state | [Game Round Screen](./07-screens/play/round.md) | migrated |
-| Game Feedback | Flow screen | Play feedback state | [Game Feedback Screen](./07-screens/play/feedback.md) | migrated |
-| Game Results | Flow screen | Play results state | [Game Results Screen](./07-screens/play/results.md) | migrated |
-| Translit | Route screen | `/{locale}/translit` | [Translit Screen](./07-screens/translit.md) | migrated |
-| Settings | Route screen | `/{locale}/settings` | [Settings Screen](./07-screens/settings.md) | migrated |
-| Privacy | Route screen | `/{locale}/privacy` | [Privacy Screen](./07-screens/privacy.md) | migrated |
-| Recovery screens | Route states | global not found / resource unavailable | [Recovery Screens](./07-screens/recovery.md) | migrated |
+| Screen | Kind | Route or entry | Detail doc |
+|---|---|---|---|
+| Explore entry | Route screen | `/{locale}/explore` | [Explore Entry Screen](./07-screens/explore-entry.md) |
+| Browse | Route screen | `/{locale}/explore/alphabet`, `/{locale}/explore/vocabulary` | [Browse Screen](./07-screens/browse.md) |
+| Study | Route screen | Study lesson and module review routes | [Study Screen](./07-screens/study.md) |
+| Play | Route experience | Play lesson and module review routes | [Play Experience](./07-screens/play.md) |
+| Play Lobby | Flow screen | Play route initial state | [Play Lobby Screen](./07-screens/play/lobby.md) |
+| Play Round | Flow screen | Active round state | [Play Round Screen](./07-screens/play/round.md) |
+| Play Results | Flow screen | End-of-game outcome state | [Play Results Screen](./07-screens/play/results.md) |
+| Play Mistakes Review | Flow screen | Post-results review state | [Play Mistakes Review Screen](./07-screens/play/mistakes-review.md) |
+| Translit | Route screen | `/{locale}/translit` | [Translit Screen](./07-screens/translit.md) |
+| Settings | Route screen | `/{locale}/settings` | [Settings Screen](./07-screens/settings.md) |
+| Recovery screens | Route states | Global not found and resource unavailable states | [Recovery Screens](./07-screens/recovery.md) |
 
 ## Shared Screen Patterns
 
@@ -76,9 +44,6 @@ Detailed behavior, states, actions, and open questions belong in the dedicated s
   - only the preview visual asset changes by content family
   - the selected study-resource surface is contextual, dismissible, and non-modal
   - selecting another resource updates the same surface in place
-- Shared owners:
-  - reusable layout and drawer patterns: [Ui System](./08-ui-system.md)
-  - canonical navigation targets: [Routing and Flows](./06-routing-and-flows.md)
 
 ### Study pattern
 
@@ -90,28 +55,26 @@ Detailed behavior, states, actions, and open questions belong in the dedicated s
   - summary shows all items and may scroll
   - detail shows one item at a time
   - `Play` remains available in summary and detail
-- Shared owners:
-  - canonical route behavior: [Routing and Flows](./06-routing-and-flows.md)
 
-### Play host pattern
+### Play pattern
 
 - Used by the canonical Play routes for lessons and module review sets
-- Shared role: host the full Play flow for one study resource
+- Shared role: generate a game for one route-provided set and run the full Play flow
 - Flow order:
+  - [Play Experience](./07-screens/play.md)
   - [Play Lobby Screen](./07-screens/play/lobby.md)
-  - [Game Round Screen](./07-screens/play/round.md)
-  - [Game Feedback Screen](./07-screens/play/feedback.md)
-  - [Game Results Screen](./07-screens/play/results.md)
+  - [Play Round Screen](./07-screens/play/round.md)
+  - [Play Results Screen](./07-screens/play/results.md)
+  - [Play Mistakes Review Screen](./07-screens/play/mistakes-review.md)
 - Shared rules:
-  - the Lobby prepares the game plan before the session starts
+  - Play generates the game before the Lobby is shown
   - one active round is shown at a time
-  - MVP answer format remains `single-choice`
-  - leaving from an active round or feedback state uses a confirmation surface because progress would be lost
-  - active-session sound changes affect playback immediately without regenerating the prepared round sequence
-- Shared owners:
-  - route flow and return targets: [Routing and Flows](./06-routing-and-flows.md)
-  - sound behavior: [Audio and Sound](./10-audio-and-sound.md)
-  - overlay and feedback families: [Ui System](./08-ui-system.md)
+  - answer buttons submit immediately
+  - the first wrong answer marks the round failed and enters corrective elimination inside the round
+  - the round includes active, corrective, and resolved states inside the same screen
+  - resolved rounds pause briefly and then auto-advance
+  - Results show the outcome first and may open Mistakes review from the failed-result variant
+  - leaving from an active or resolved round state uses a confirmation surface because progress would be lost
 
 ### Recovery-state pattern
 
@@ -121,27 +84,24 @@ Detailed behavior, states, actions, and open questions belong in the dedicated s
   - valid controlled routes with missing data use route-owned unavailable screens instead of collapsing into global not found
   - the safe return destination is `/{locale}/explore`
   - route-owned unavailable states are separate from the normal `Study` and `Play` experiences
-- Shared owners:
-  - route-state families: [Routing and Flows](./06-routing-and-flows.md)
-  - recovery-state distinction: [Roadmap and Decisions](./04-roadmap-and-decisions.md)
 
 ## Dedicated Screen Docs
 
-### Route screens
+### Route screens and experiences
 
 - [Explore Entry Screen](./07-screens/explore-entry.md): top-level Learn entry for choosing Alphabet or Vocabulary
 - [Browse Screen](./07-screens/browse.md): shared browse experience for alphabet and vocabulary routes
 - [Study Screen](./07-screens/study.md): summary/detail preview flow for one study resource before Play
+- [Play Experience](./07-screens/play.md): shared Play experience for lesson and module review routes
 - [Translit Screen](./07-screens/translit.md): Georgian <-> Latin transliteration utility with token inspection
-- [Settings Screen](./07-screens/settings.md): app-wide preferences and app metadata
-- [Privacy Screen](./07-screens/privacy.md): longform privacy notice and storage/analytics explanation
+- [Settings Screen](./07-screens/settings.md): app language selection in MVP
 
 ### Play flow screens
 
-- [Play Lobby Screen](./07-screens/play/lobby.md): prepared-session review and start point
-- [Game Round Screen](./07-screens/play/round.md): active answering state for one round
-- [Game Feedback Screen](./07-screens/play/feedback.md): resolved-answer teaching and continuation state
-- [Game Results Screen](./07-screens/play/results.md): post-session failed-item review and next-step actions
+- [Play Lobby Screen](./07-screens/play/lobby.md): generated-game review and start point
+- [Play Round Screen](./07-screens/play/round.md): active, corrective, and resolved states for one round
+- [Play Results Screen](./07-screens/play/results.md): post-game outcome screen and next-step actions
+- [Play Mistakes Review Screen](./07-screens/play/mistakes-review.md): failed-item review flow after Results
 
 ### Recovery route states
 

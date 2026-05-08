@@ -116,13 +116,13 @@ Study works with sets.
 
 ### Play
 
-The experience where the student practices a chosen set through a game session.
+The experience where the student practices a chosen set through a game.
 
 Play works with sets.
 
 ### Game
 
-A Play session for one chosen set.
+A generated Play game for one chosen set.
 
 A game has a lobby, rounds, and results.
 

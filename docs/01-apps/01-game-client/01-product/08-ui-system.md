@@ -1,12 +1,12 @@
 ---
-description: Reusable UI rules, global surfaces, responsive behavior, and component families for the game client.
+description: Temporary shared UI notes for reusable patterns, visual foundations, and component families.
 ---
 
 # UI System
 
-This document owns reusable UI rules, global UI surfaces, responsive behavior, and component families.
+This document is a temporary holding place for reusable UI patterns, visual foundations, and component families.
 
-It is the authoritative UI source of truth. `DESIGN.md` may summarize this material for AI assistants, but it does not replace it.
+Screen-specific behavior belongs in the screen docs and should not be redefined here.
 
 ## UI contract
 
@@ -50,14 +50,6 @@ Examples:
 
 Every route-rendered page still needs one clear primary heading for document structure and accessibility.
 
-### Game top bar
-
-The Play header changes by flow state:
-
-- Lobby shows a back arrow, the Play title block, and the sound toggle
-- Round and Feedback show the leave-game action, the hybrid progress indicator, and the sound toggle
-- Results use a results-specific header and no back arrow
-
 ## Action placement
 
 - actions may live inline when a separate action region is unnecessary
@@ -81,10 +73,6 @@ Families:
 
 Blocking overlays interrupt the current interaction until the student decides what to do.
 
-The main blocking-overlay case is the Play leave confirmation surface.
-
-Smaller screens may use a bottom sheet, while larger screens may use a centered modal without changing the interaction role.
-
 ### Context drawers
 
 Context drawers are non-blocking and keep the underlying screen visible.
@@ -106,11 +94,7 @@ Notifications are global, non-anchored feedback surfaces.
 
 Current notification cases include:
 
-- sound toggled on or off
 - copy-to-clipboard confirmation
-- `Turn sound on to listen`
-- Play positive feedback
-- Play negative feedback
 
 Notifications may vary by tone, such as:
 
@@ -174,49 +158,6 @@ Rules:
 
 - emojis should live inside the same controlled slot frame as later curated assets
 - the grid structure should not depend on emoji rendering as the final branded solution
-
-## Global UI surfaces
-
-### Privacy consent banner
-
-- Role: collect the first optional-analytics decision without forcing a full-screen interruption
-- Trigger: app init after privacy consent resolves to `unknown`
-- Primary actions:
-  - `Accept`
-  - `Reject`
-- Secondary actions:
-  - open Privacy page
-- Content:
-  - short explanation of essential storage
-  - short explanation of optional analytics
-  - explicit `Accept` and `Reject` actions
-- UI direction:
-  - persistent until a choice is made
-  - visible without hiding the active route
-  - explicit, non-deceptive action hierarchy
-- Open questions:
-  - exact banner copy per locale
-  - final placement on mobile and desktop
-
-### Play leave confirmation surface
-
-- Role: prevent accidental loss of session progress during an active round or feedback state
-- Trigger: leave-game action during active Play after the session has started
-- Primary actions:
-  - `Resume game`
-  - `Leave game`
-- Secondary actions:
-  - none
-- Content:
-  - short confirmation title
-  - short message that current session progress will be lost
-  - `Leave game` targets the canonical Study route for the current resource
-- UI direction:
-  - smaller screens use a bottom-sheet treatment
-  - larger screens use a centered modal treatment
-  - resume should feel like the safe default
-- Open questions:
-  - None
 
 ## Design-system principles
 
@@ -466,9 +407,7 @@ Relationship rules:
 - `progress-indicator`
 - `cue-block`
 - `answer-option`
-- `feedback-notification`
 - `results-review-block`
-- `leave-game-confirmation`
 
 Relationship rules:
 
@@ -479,7 +418,6 @@ Relationship rules:
 
 - `reading-surface`
 - `settings-section`
-- `privacy-banner`
 - `translit-source-panel`
 - `translit-output-panel`
 - `token-inspection-tooltip`
@@ -487,16 +425,12 @@ Relationship rules:
 ### Overlay relationships
 
 - `selected-resource-drawer` belongs to the context-drawer family
-- `leave-game-confirmation` belongs to the blocking-overlay family
 - `token-inspection-tooltip` belongs to the tooltip family
-- `feedback-notification` belongs to the notification family
 
 ## Design guardrails
 
 - preserve the distinction between reference behavior, Study review behavior, and Play interaction behavior
 - keep reusable component families visually related unless product meaning requires a distinction
 - prefer semantic roles mapped onto small foundation families over one-off custom values
-- do not treat mute as an error
 - do not let catalog-preview behavior leak into Study or Play where the product behavior differs
 - do not introduce Study-summary overflow slots modeled after browse-card overflow
-
