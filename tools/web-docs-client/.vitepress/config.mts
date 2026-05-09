@@ -1,3 +1,5 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitepress';
 import { configureDiagramsPlugin } from 'vitepress-plugin-diagrams';
 import {
@@ -12,6 +14,12 @@ const title = 'Kartuli Docs';
 const description = 'Kartuli Web Docs Client';
 const srcDir = '../../docs/';
 const llmBundleUrl = '/kartuli/assets/kartuli-llm.txt';
+
+/** Must match VitePress `public/diagrams` (not repo-root `public/`), regardless of `process.cwd()`. */
+const diagramsDir = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '../public/diagrams',
+);
 
 const { mergedSections } = processDocs();
 
@@ -186,7 +194,7 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       configureDiagramsPlugin(md, {
-        diagramsDir: 'public/diagrams',
+        diagramsDir,
         publicPath: '/kartuli/diagrams',
       });
     },
