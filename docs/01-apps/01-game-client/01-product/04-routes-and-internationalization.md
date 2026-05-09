@@ -32,7 +32,7 @@ Examples:
 | ------------- | ------------- | ------------- |
 | `/`  |  Root redirect | [Root route locale redirect](#root-route-locale-redirect) |
 | **Explore routes** | | | 
-| `/{locale}/explore`  | Explore entry  (***localized initial route***) | Custom ([Explore Entry Screen](./07-screens/explore-entry.md)) |
+| `/{locale}/explore`  | Explore entry  (***localized initial route***) | Custom ([Explore Entry Screen](./06-screens-catalog/01-explore-entry.md)) |
 | `/{locale}/explore/alphabet`  | Explore Alphabet   | [Browse](#browse-routes) |
 | `/{locale}/explore/vocabulary`  | Explore Vocabulary   | [Browse](#browse-routes) |
 | **Study routes** | | |
@@ -42,8 +42,8 @@ Examples:
 | `/{locale}/lessons/{lessonId}/play`  | Lesson Play   | [Play](#play-routes) |
 | `/{locale}/modules/{moduleId}/review/play`  | Module review Play   | [Play](#play-routes) |
 | **Utilities routes** | | |
-| `/{locale}/translit`  | Translit   | Custom ([Translit Screen](./07-screens/translit.md)) |
-| `/{locale}/settings`  | Settings   | Custom ([Settings Screen](./07-screens/settings.md)) |
+| `/{locale}/translit`  | Translit   | Custom ([Translit Screen](./06-screens-catalog/07-translit.md)) |
+| `/{locale}/settings`  | Settings   | Custom ([Settings Screen](./06-screens-catalog/08-settings.md)) |
 
 
 ## Route types
@@ -54,7 +54,7 @@ These are routes that define their own behavior in their dedicated screen docs.
 
 ### Browse routes
 
-These are routes that share the same `Browse` experience, documented in [Browse Screen](./07-screens/browse.md).
+These are routes that share the same `Browse` experience, documented in [Browse Screen](./06-screens-catalog/02-browse.md).
 
 The route decides which content family is loaded and which title the shared screen receives.
 
@@ -71,7 +71,7 @@ The route decides which content family is loaded and which title the shared scre
 
 ### Study routes
 
-These are routes that share the same `Study` experience, documented in [Study Screen](./07-screens/study.md).
+These are routes that share the same `Study` experience, documented in [Study Screen](./06-screens-catalog/03-study.md).
 
 The route provides the title, item set, content family, and back target for the shared screen.
 
@@ -88,11 +88,11 @@ The route provides the title, item set, content family, and back target for the 
   - content family: from the module
   - back target: relevant Browse route
 
-If a valid Study route cannot resolve its resource, render [Study resource unavailable](./07-screens/recovery.md).
+If a valid Study route cannot resolve its resource, render [Study resource unavailable](./06-screens-catalog/06-recovery.md).
 
 ### Play routes
 
-These are routes that share the same [Play Experience](./07-screens/play.md).
+These are routes that share the same [Play Experience](./06-screens-catalog/04-play.md).
 
 The route provides the title, item set, content family, and back target.
 
@@ -113,7 +113,7 @@ Play uses those inputs to generate a game before the Lobby is shown.
   - content family: from the module
   - back target: relevant Study route
 
-If a valid Play route cannot resolve its resource, render [Play resource unavailable](./07-screens/recovery.md).
+If a valid Play route cannot resolve its resource, render [Play resource unavailable](./06-screens-catalog/06-recovery.md).
 
 ## Internationalization
 

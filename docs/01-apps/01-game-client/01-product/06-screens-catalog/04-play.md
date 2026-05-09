@@ -84,10 +84,10 @@ Its role is still the same: take the route-provided set and output a generated g
 ## Flow
 
 - game generation
-- Lobby
+- [Lobby](./05-play-screens/01-lobby.md)
 - Round loop
-- Results
-- optional Mistakes review
+- [Results](./05-play-screens/03-results.md)
+- optional [Mistakes review](./05-play-screens/04-mistakes-review.md)
 
 The Round loop includes:
 

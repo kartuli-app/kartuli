@@ -34,7 +34,7 @@ Results closes the game, shows the outcome, and offers the next useful actions.
 
 - shows outcome content for a game with one or more failed items
 - includes the `Review mistakes` action
-- the `Review mistakes` action opens [Mistakes Review Screen](./mistakes-review.md)
+- the `Review mistakes` action opens [Mistakes Review Screen](./04-mistakes-review.md)
 
 ## Actions
 
@@ -45,5 +45,5 @@ Results closes the game, shows the outcome, and offers the next useful actions.
 ## Notes
 
 - Results does not own the failed-item review flow.
-- Failed-item review lives in [Mistakes Review Screen](./mistakes-review.md).
+- Failed-item review lives in [Mistakes Review Screen](./04-mistakes-review.md).
 - The stable CTA area stays available regardless of the outcome variant.

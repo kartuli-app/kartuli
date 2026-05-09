@@ -12,7 +12,7 @@ It reuses review mechanics from Study without becoming the Study screen.
 
 ## Entry
 
-- from [Play Results Screen](./results.md) when the completed game has one or more failed items
+- from [Play Results Screen](./03-results.md) when the completed game has one or more failed items
 
 ## Layout
 
@@ -22,7 +22,7 @@ It reuses review mechanics from Study without becoming the Study screen.
 
 ## Top Bar
 
-- back arrow to [Play Results Screen](./results.md)
+- back arrow to [Play Results Screen](./03-results.md)
 - fixed subtitle `Mistakes review`
 - route-provided title
 
