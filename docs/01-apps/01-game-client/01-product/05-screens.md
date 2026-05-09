@@ -8,8 +8,6 @@ This document indexes route screens, route experiences, and Play flow screens.
 
 Detailed definitions live in dedicated docs under `./06-screens-catalog/`.
 
-Shared product UI components live in [Component Catalog](./09-component-catalog.md).
-
 ## Purpose
 
 This page does two jobs:
