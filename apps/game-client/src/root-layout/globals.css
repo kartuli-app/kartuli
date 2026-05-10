@@ -12,32 +12,32 @@
 @source "../";
 @source "../../../../packages/ui/src";
 
+:root {
+  /* primitive tokens */
+  --kartuli-color-primitive-neutral-50: oklch(98.4% 0.003 247.858);
+  --kartuli-color-primitive-neutral-200: oklch(92.9% 0.013 255.508);
+  --kartuli-color-primitive-neutral-500: oklch(55.4% 0.046 257.417);
+  --kartuli-color-primitive-neutral-900: oklch(27.9% 0.041 260.031);
+  --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
+  /* semantic tokens */
+  --kartuli-color-semantic-surface: var(--kartuli-color-primitive-neutral-50);
+  --kartuli-color-semantic-surface-border: var(--kartuli-color-primitive-neutral-200);
+  /* component tokens */
+  --kartuli-color-component-pattern-background: var(--kartuli-color-semantic-surface);
+  --kartuli-color-component-pattern-base: var(--kartuli-color-semantic-surface);
+  --kartuli-color-component-pattern-highlight: var(--kartuli-color-semantic-surface-border);
+}
+
 @theme {
-  /* component colors */
-  --color-kartuli-color-dock-bg: var(--color-slate-800);
-  --color-kartuli-color-app-bg: var(--color-violet-50);
-  /* primary colors */
-  --color-kartuli-color-primary-50: var(--color-violet-50);
-  --color-kartuli-color-primary-100: var(--color-violet-100);
-  --color-kartuli-color-primary-200: var(--color-violet-200);
-  --color-kartuli-color-primary-300: var(--color-violet-300);
-  --color-kartuli-color-primary-400: var(--color-violet-400);
-  --color-kartuli-color-primary-500: var(--color-violet-500);
-  --color-kartuli-color-primary-600: var(--color-violet-600);
-  --color-kartuli-color-primary-700: var(--color-violet-700);
-  --color-kartuli-color-primary-800: var(--color-violet-800);
-  --color-kartuli-color-primary-900: var(--color-violet-900);
-  /* text colors */
-  --color-kartuli-color-text-50: var(--color-slate-50);
-  --color-kartuli-color-text-100: var(--color-slate-100);
-  --color-kartuli-color-text-200: var(--color-slate-200);
-  --color-kartuli-color-text-300: var(--color-slate-300);
-  --color-kartuli-color-text-400: var(--color-slate-400);
-  --color-kartuli-color-text-500: var(--color-slate-500);
-  --color-kartuli-color-text-600: var(--color-slate-600);
-  --color-kartuli-color-text-700: var(--color-slate-700);
-  --color-kartuli-color-text-800: var(--color-slate-800);
-  --color-kartuli-color-text-900: var(--color-slate-900);
+  /* semantic colors */
+  --color-kartuli-color-semantic-surface: var(--kartuli-color-semantic-surface);
+  --color-kartuli-color-semantic-surface-border: var(--kartuli-color-semantic-surface-border);
+  /* primitive colors */
+  --color-kartuli-color-primitive-neutral-50: var(--kartuli-color-primitive-neutral-50);
+  --color-kartuli-color-primitive-neutral-200: var(--kartuli-color-primitive-neutral-200);
+  --color-kartuli-color-primitive-neutral-500: var(--kartuli-color-primitive-neutral-500);
+  --color-kartuli-color-primitive-neutral-900: var(--kartuli-color-primitive-neutral-900);
+  --color-kartuli-color-primitive-neutral-950: var(--kartuli-color-primitive-neutral-950);
 }
 
 /*
@@ -60,19 +60,23 @@
 /*
  Custom scrollbar styles
  */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0.25rem;
 }
 ::-webkit-scrollbar-track {
-  background: black;
+  background: var(--kartuli-color-surface);
 }
 ::-webkit-scrollbar-thumb {
-  background-color: yellow;
-} */
+  background-color: var(--kartuli-color-neutral-900);
+}
 
 :root {
   --app-bar-height: 5rem;
   --rail-dock-height: 5rem;
   --rail-collapsed-width: 6rem;
   --rail-expanded-width: 14rem;
+}
+
+:root {
+  overflow-y: scroll;
 }

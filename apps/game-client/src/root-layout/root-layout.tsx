@@ -31,7 +31,7 @@ export async function RootLayout({
       lang={locale}
       className={cn(georgianFont.variable, defaultFont.variable, defaultFont.className)}
     >
-      <body className="bg-white text-black h-dvh flex">
+      <body className="bg-kartuli-color-semantic-surface h-dvh flex">
         <RootQueryClientProvider>
           <RootDatabaseInitializer />
           <I18nProvider locale={locale}>{children}</I18nProvider>
