@@ -41,7 +41,7 @@ function ResponsiveContainer({ children }: Readonly<{ children: React.ReactNode 
         'w-full',
         'lg:max-w-4xl xl:max-w-4xl',
         'mx-auto',
-        // 'bg-red-500',
+        'bg-red-500',
         'p-4',
       )}
     >
@@ -73,13 +73,14 @@ function DockButton({
         'rounded-md',
         'flex',
         'flex-col lg:flex-row',
-        'gap-1 lg:gap-2',
+        'gap-1 lg:gap-4',
         'md:px-4',
         'justify-center lg:justify-start',
         'w-15 lg:w-full',
         'h-15 lg:h-11',
-        !isActive && 'hover:bg-slate-200',
+        !isActive && 'hover:bg-slate-500',
         isActive && 'bg-slate-900',
+        'group',
       )}
     >
       <Icon
@@ -87,7 +88,8 @@ function DockButton({
           //
           'shrink-0',
           'size-6',
-          'text-slate-900',
+          'text-slate-500',
+          !isActive && 'group-hover:text-white',
           isActive && 'text-white',
         )}
         aria-hidden
@@ -96,6 +98,8 @@ function DockButton({
         className={cn(
           //
           'text-sm lg:text-lg',
+          'text-slate-500',
+          !isActive && 'group-hover:text-white',
           isActive && 'text-white',
         )}
       >
@@ -145,11 +149,10 @@ function LeftRail({
         'h-(--rail-dock-height) md:h-full',
         'w-full md:w-(--rail-collapsed-width) lg:w-(--rail-expanded-width)',
         'justify-center md:justify-start',
-        // ' bg-slate-200',
         'bg-white',
         'border-t-2 md:border-t-0',
         'border-r-0 md:border-r-2',
-        'border-slate-300',
+        'border-slate-200',
 
         className,
       )}
@@ -157,7 +160,7 @@ function LeftRail({
       <div
         className={cn(
           'flex',
-          'gap-1 md:gap-2',
+          'gap-1 md:gap-2 lg:gap-4',
           'items-center',
           'flex-row md:flex-col',
           'justify-center md:justify-start',
@@ -180,14 +183,15 @@ function RightRail({
     <div
       className={cn(
         //
-        'hidden xl:fixed',
+        'hidden xl:fixed overflow-hidden',
         'right-0 top-0 bottom-0',
         //
         'h-full',
         'w-(--rail-expanded-width)',
         //
         'flex',
-        // ' bg-slate-200',
+        'border-l-0 md:border-l-2',
+        'border-slate-200',
         className,
       )}
     >
@@ -204,7 +208,6 @@ function MainContainer({ children }: Readonly<{ children: React.ReactNode }>) {
         'ml-0 md:ml-(--rail-collapsed-width) lg:ml-(--rail-expanded-width)',
         'mr-0 xl:mr-(--rail-expanded-width)',
         'mt-(--app-bar-height)',
-        // 'bg-slate-400',
         //
         'pb-(--rail-dock-height) md:pb-0',
       )}
