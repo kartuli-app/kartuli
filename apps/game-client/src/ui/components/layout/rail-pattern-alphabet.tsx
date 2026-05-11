@@ -60,7 +60,7 @@ const patternCells = Array.from({ length: PATTERN_CELL_COUNT }, (_, index) => {
   return PATTERN_GLYPHS[index % PATTERN_GLYPHS.length];
 });
 
-export function Pattern() {
+export function RailPatternAlphabet() {
   return (
     <div aria-hidden="true" className="relative flex-1 overflow-hidden" style={patternCssVariables}>
       <div

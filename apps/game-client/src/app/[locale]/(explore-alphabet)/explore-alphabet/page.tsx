@@ -1,19 +1,11 @@
+import { GameAppBarIconLink } from '@game-client/ui/components/layout/app-bar-icon-action';
+import { AppShell } from '@game-client/ui/components/layout/app-shell';
+import { GameClientAppBar } from '@game-client/ui/components/layout/game-client-app-bar';
+import { GameClientDock } from '@game-client/ui/components/layout/game-client-dock';
+import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-pattern-alphabet';
 import { cn } from '@kartuli/ui/utils/cn';
-import { FaBook } from 'react-icons/fa6';
-import {
-  IoEyeOutline,
-  IoPlayCircleOutline,
-  IoSettingsOutline,
-  IoSettingsSharp,
-} from 'react-icons/io5';
-import {
-  PiArrowsClockwiseBold,
-  PiArrowsClockwiseLight,
-  PiBookOpenTextFill,
-  PiBookOpenTextLight,
-} from 'react-icons/pi';
+import { IoEyeOutline, IoPlayCircleOutline, IoSearchCircleOutline } from 'react-icons/io5';
 import styles from './explore-alphabet-card.module.css';
-import { Pattern } from './pattern';
 
 function CardGroup({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -112,6 +104,7 @@ function CardButton({
     </button>
   );
 }
+
 function Card({ module, lesson }: Readonly<{ module: Module; lesson: Lesson }>) {
   return (
     <div
@@ -193,231 +186,7 @@ function CardItemPreview({ item }: Readonly<{ item: Item }>) {
   );
 }
 
-function DockButton({
-  label,
-  icon,
-  iconActive,
-  isActive,
-}: Readonly<{
-  label: string;
-  isActive?: boolean;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  iconActive: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-}>) {
-  const Icon = isActive ? iconActive : icon;
-  return (
-    <button
-      type="button"
-      className={cn(
-        //
-        'flex',
-        'cursor-pointer',
-        'items-center',
-        'rounded-md',
-        'flex',
-        'flex-col lg:flex-row',
-        'gap-1 lg:gap-4',
-        'md:px-4',
-        'justify-center lg:justify-start',
-        'w-15 lg:w-full',
-        'h-15 lg:h-11',
-        !isActive && 'hover:bg-kartuli-color-primitive-neutral-500',
-        isActive && 'bg-kartuli-color-primitive-neutral-900',
-        'group',
-      )}
-    >
-      <Icon
-        className={cn(
-          //
-          'shrink-0',
-          'size-6',
-          'text-kartuli-color-primitive-neutral-500',
-          !isActive && 'group-hover:text-kartuli-color-primitive-neutral-50',
-          isActive && 'text-kartuli-color-primitive-neutral-50',
-        )}
-        aria-hidden
-      />
-      <div
-        className={cn(
-          //
-          'text-sm lg:text-lg',
-          'text-kartuli-color-primitive-neutral-500',
-          !isActive && 'group-hover:text-kartuli-color-primitive-neutral-50',
-          isActive && 'text-kartuli-color-primitive-neutral-50',
-        )}
-      >
-        {label}
-      </div>
-    </button>
-  );
-}
-
-function TopBar() {
-  return (
-    <div
-      className={cn(
-        //
-        'flex fixed',
-        //md
-        'h-(--app-bar-height)',
-        'left-0 md:left-(--rail-collapsed-width) lg:left-(--rail-expanded-width)',
-        'right-0 2xl:mr-(--rail-expanded-width)',
-        'top-0',
-        //
-        'justify-between',
-        'items-center',
-        'bg-kartuli-color-semantic-surface',
-        //
-        'border-b-2',
-        'border-kartuli-color-semantic-surface-border',
-        'z-20',
-        // 'bg-black',
-      )}
-    >
-      <ResponsiveContainer>
-        <div className="flex items-center justify-start gap-4">
-          <div className="flex items-center justify-center borderr h-11 w-11 shrink-0">
-            <picture>
-              <source srcSet="/images/mascot-64.webp" type="image/webp" />
-              <img
-                className="scale-160 size-11"
-                src="/images/mascot-64.png"
-                alt="kartuli.app mascot"
-              />
-            </picture>
-          </div>
-          <div
-            className={cn(
-              'flex',
-              'flex-col mdd:flex-row',
-              'items-start mdd:items-center',
-              'justify-center',
-              'uppercase borderr',
-              'gap-0 md:gap-0',
-              'h-14',
-            )}
-          >
-            <h1 className="text-kartuli-color-primitive-neutral-500 text-sm font-bold">
-              kartuli.app
-            </h1>
-            <h1 className="text-kartuli-color-primitive-neutral-900 text-xl font-black">
-              Learn: Alphabet
-            </h1>
-          </div>
-          {/* <div className="ml-auto flex items-center justify-center borderr h-11 w-11 shrink-0 rounded-full border">
-            <SearchIcon className="size-11" />
-          </div> */}
-        </div>
-      </ResponsiveContainer>
-    </div>
-  );
-}
-
-function LeftRail({
-  children,
-  className,
-}: Readonly<{ children?: React.ReactNode; className?: string }>) {
-  return (
-    <div
-      className={cn(
-        'flex',
-        'fixed',
-        'left-0',
-        'bottom-0',
-        'right-0',
-        'h-(--rail-dock-height) md:h-full',
-        'w-full md:w-(--rail-collapsed-width) lg:w-(--rail-expanded-width)',
-        'justify-center md:justify-start',
-        'bg-kartuli-color-semantic-surface',
-        //
-        'border-t-2 md:border-t-0',
-        'border-r-0 md:border-r-2',
-        'border-kartuli-color-semantic-surface-border',
-        'z-20',
-        className,
-      )}
-    >
-      <div
-        className={cn(
-          'flex',
-          'gap-1 md:gap-2 lg:gap-4',
-          'items-center',
-          'flex-row md:flex-col',
-          'justify-center md:justify-start',
-          'w-auto lg:w-full',
-          'p-4 lg:p-8',
-        )}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function RightRail({
-  children,
-  className,
-}: Readonly<{ children?: React.ReactNode; className?: string }>) {
-  return (
-    <div
-      className={cn(
-        //
-        'hidden 2xl:fixed overflow-hidden',
-        'right-0 top-0 bottom-0',
-        //
-        'h-full',
-        'w-(--rail-expanded-width)',
-        //
-        'flex',
-        //
-        'border-l-0 2xl:border-l-2',
-        'border-kartuli-color-semantic-surface-border',
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-function MainContainer({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <div
-      className={cn(
-        //
-        'ml-0 md:ml-(--rail-collapsed-width) lg:ml-(--rail-expanded-width)',
-        'mr-0 2xl:mr-(--rail-expanded-width)',
-        'mt-(--app-bar-height)',
-        //
-        'pb-(--rail-dock-height) md:pb-0',
-        // 'bg-black',
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-function ResponsiveContainer({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <div
-      className={cn(
-        //
-        'flex-1',
-        'flex flex-col',
-        'w-full',
-        'max-w-5xl',
-        'mx-auto',
-        // 'sm:bg-red-100 md:bg-orange-500 lg:bg-red-500 xl:bg-green-600 2xl:bg-blue-800 ',
-        // 'bg-red-500',
-        'p-4',
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-function ExploreAlphabetPage() {
+function AlphabetCatalog() {
   const lessonsAlphabetEasy = [
     {
       id: 'lesson-alphabet-vowels',
@@ -573,59 +342,39 @@ function ExploreAlphabetPage() {
     },
   ];
   return (
-    // shell
-    <div
-      className={cn(
-        //
-        'flex-1',
-        'flex flex-col',
-        'relative',
-      )}
-    >
-      {/* top bar */}
-      <TopBar />
-
-      {/* scroll container */}
-      <MainContainer>
-        <ResponsiveContainer>
-          <div className="flex flex-col gap-14">
-            {modules.map((module) => (
-              <CardGroup key={module.id}>
-                {module.lessons.map((lesson) => (
-                  <Card key={lesson.id} module={module} lesson={lesson} />
-                ))}
-              </CardGroup>
-            ))}
-          </div>
-        </ResponsiveContainer>
-      </MainContainer>
-
-      {/* right rail */}
-      <RightRail>
-        <Pattern />
-      </RightRail>
-      {/* left rail */}
-      <LeftRail>
-        <DockButton
-          label="Learn"
-          icon={PiBookOpenTextLight}
-          iconActive={PiBookOpenTextFill}
-          isActive
-        />
-        <DockButton label="Saved" icon={IoSettingsOutline} iconActive={IoSettingsSharp} />
-        <DockButton
-          label="Profile"
-          icon={PiArrowsClockwiseLight}
-          iconActive={PiArrowsClockwiseBold}
-        />
-        <DockButton
-          label="Translit"
-          icon={PiArrowsClockwiseLight}
-          iconActive={PiArrowsClockwiseBold}
-        />
-        <DockButton label="Settings" icon={IoSettingsOutline} iconActive={IoSettingsSharp} />
-      </LeftRail>
+    <div className="flex flex-col gap-14">
+      {modules.map((module) => (
+        <CardGroup key={module.id}>
+          {module.lessons.map((lesson) => (
+            <Card key={lesson.id} module={module} lesson={lesson} />
+          ))}
+        </CardGroup>
+      ))}
     </div>
+  );
+}
+
+function ExploreAlphabetPage() {
+  return (
+    <AppShell
+      appBar={
+        <GameClientAppBar
+          title="Learn: Alphabet"
+          context="kartuli.app"
+          action={
+            <GameAppBarIconLink
+              href="/explore/search"
+              label="Search"
+              icon={IoSearchCircleOutline}
+            />
+          }
+        />
+      }
+      startRail={<GameClientDock activeItemId="learn" />}
+      endRail={<RailPatternAlphabet />}
+    >
+      <AlphabetCatalog />
+    </AppShell>
   );
 }
 
