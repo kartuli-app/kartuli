@@ -23,7 +23,7 @@ export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
           'bottom-0',
           'right-0',
           'h-(--rail-dock-height) md:h-full',
-          'w-full md:w-(--rail-collapsed-width) lg:w-(--rail-expanded-width)',
+          'w-full md:w-(--rail-collapsed-width) xl:w-(--rail-expanded-width)',
           'justify-center md:justify-start',
           'z-20',
           'border-t-2 md:border-t-0',

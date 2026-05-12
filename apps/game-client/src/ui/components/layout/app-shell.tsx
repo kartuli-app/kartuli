@@ -24,7 +24,7 @@ export function AppShell({ appBar, startRail, endRail, children }: Readonly<AppS
           'fixed',
           'top-0',
           'left-0',
-          startRail && 'left-0 md:left-(--rail-collapsed-width) lg:left-(--rail-expanded-width)',
+          startRail && 'left-0 md:left-(--rail-collapsed-width) xl:left-(--rail-expanded-width)',
           'right-0',
           endRail && 'right-0 2xl:mr-(--rail-expanded-width)',
           'z-20',
@@ -37,7 +37,7 @@ export function AppShell({ appBar, startRail, endRail, children }: Readonly<AppS
         className={cn(
           //
           'mt-(--app-bar-height)',
-          startRail && 'ml-0 md:ml-(--rail-collapsed-width) lg:ml-(--rail-expanded-width)',
+          startRail && 'ml-0 md:ml-(--rail-collapsed-width) xl:ml-(--rail-expanded-width)',
           startRail && 'pb-(--rail-dock-height) md:pb-0',
           endRail && 'mr-0 2xl:mr-(--rail-expanded-width)',
           //

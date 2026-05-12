@@ -18,18 +18,18 @@ export function DockButton({
       className={cn(
         //
         'flex',
-        'cursor-pointer',
         'items-center',
         'rounded-md',
         'flex',
-        'flex-col lg:flex-row',
-        'gap-1 lg:gap-4',
+        'flex-col xl:flex-row',
+        'gap-1 xl:gap-4',
         'md:px-4',
-        'justify-center lg:justify-start',
-        'w-15 lg:w-full',
-        'h-15 lg:h-11',
+        'justify-center xl:justify-start',
+        'w-15 xl:w-full',
+        'h-15 xl:h-11',
         !isActive && 'hover:bg-kartuli-color-primitive-neutral-500',
         isActive && 'bg-kartuli-color-primitive-neutral-900',
+        !isActive && 'cursor-pointer',
         'group',
       )}
     >
@@ -47,7 +47,7 @@ export function DockButton({
       <div
         className={cn(
           //
-          'text-sm lg:text-lg',
+          'text-sm xl:text-lg',
           'text-kartuli-color-primitive-neutral-500',
           !isActive && 'group-hover:text-kartuli-color-primitive-neutral-50',
           isActive && 'text-kartuli-color-primitive-neutral-50',

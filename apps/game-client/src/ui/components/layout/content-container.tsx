@@ -12,6 +12,7 @@ export function ContentContainer({ children }: Readonly<{ children: ReactNode }>
         'max-w-5xl',
         'mx-auto',
         'p-4',
+        // 'bg-red-300',
       )}
     >
       {children}

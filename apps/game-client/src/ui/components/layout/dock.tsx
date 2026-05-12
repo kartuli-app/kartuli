@@ -9,12 +9,12 @@ export function Dock({
     <div
       className={cn(
         'flex',
-        'gap-1 md:gap-2 lg:gap-4',
+        'gap-1 md:gap-2 xl:gap-4',
         'items-center',
         'flex-row md:flex-col',
         'justify-center md:justify-start',
-        'w-auto lg:w-full',
-        'p-4 lg:p-8',
+        'w-auto xl:w-full',
+        'p-4 xl:p-8',
         className,
       )}
     >

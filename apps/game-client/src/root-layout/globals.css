@@ -17,7 +17,7 @@
   --kartuli-color-primitive-neutral-50: oklch(98.4% 0.003 247.858);
   --kartuli-color-primitive-neutral-200: oklch(92.9% 0.013 255.508);
   --kartuli-color-primitive-neutral-500: oklch(55.4% 0.046 257.417);
-  --kartuli-color-primitive-neutral-900: oklch(27.9% 0.041 260.031);
+  --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
   --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
   /* semantic tokens */
   --kartuli-color-semantic-surface: var(--kartuli-color-primitive-neutral-50);
@@ -64,10 +64,10 @@
   width: 0.25rem;
 }
 ::-webkit-scrollbar-track {
-  background: var(--kartuli-color-surface);
+  background: var(--kartuli-color-semantic-surface);
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--kartuli-color-neutral-900);
+  background-color: var(--kartuli-color-primitive-neutral-900);
 }
 
 :root {
