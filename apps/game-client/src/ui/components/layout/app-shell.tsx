@@ -40,6 +40,8 @@ export function AppShell({ appBar, startRail, endRail, children }: Readonly<AppS
           startRail && 'ml-0 md:ml-(--rail-collapsed-width) xl:ml-(--rail-expanded-width)',
           startRail && 'pb-(--rail-dock-height) md:pb-0',
           endRail && 'mr-0 2xl:mr-(--rail-expanded-width)',
+          'flex',
+          'grow',
           //
         )}
       >

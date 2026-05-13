@@ -12,7 +12,7 @@ const appBarIconActionClassName = cn(
   'hover:bg-kartuli-color-primitive-neutral-500',
   'hover:text-kartuli-color-primitive-neutral-50',
   'text-kartuli-color-primitive-neutral-500',
-  'rounded-md',
+  'rounded-full',
 );
 
 type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -33,7 +33,7 @@ export function AppBarIconButton({ label, icon, onClick }: Readonly<AppBarIconBu
       onClick={onClick}
       className={appBarIconActionClassName}
     >
-      <Icon className="size-11" aria-hidden="true" />
+      <Icon className="size-8" aria-hidden="true" />
     </button>
   );
 }
@@ -49,7 +49,7 @@ export function GameAppBarIconLink({ href, label, icon }: Readonly<GameAppBarIco
 
   return (
     <Link href={href} aria-label={label} className={appBarIconActionClassName}>
-      <Icon className="size-11" aria-hidden="true" />
+      <Icon className="size-8" aria-hidden="true" />
     </Link>
   );
 }

@@ -113,3 +113,23 @@ This file defines the initial design token set and a small set of component cont
 - Lint with `pnpm run design:lint`.
 - Rebuild exported artifacts with `pnpm run design:build`.
 - Review the current rendered output in Storybook when validating token changes.
+
+## Notes
+
+### Icons
+
+<!-- Appbar -->
+- Go back
+- Search
+<!-- Dock -->
+- Learn
+- Translit
+- Settings
+<!-- Translit -->
+- Switch
+- Delete
+- Copy
+<!-- Study -->
+- Summary PiHouse / PiHouseFill
+- Previous PiCaretDoubleLeft
+- Next PiCaretDoubleRight
