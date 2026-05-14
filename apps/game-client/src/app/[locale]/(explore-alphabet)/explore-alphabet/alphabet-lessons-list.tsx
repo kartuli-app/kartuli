@@ -50,13 +50,16 @@ function CardHeader({
       className={cn(
         //
         'border-b-2',
-        variant === 'secondary' && 'group-hover:border-kartuli-color-primitive-neutral-500',
+        //
         variant === 'primary' && 'bg-kartuli-color-primitive-neutral-500',
-        variant === 'primary' && 'group-hover:bg-kartuli-color-primitive-neutral-900',
-
         variant === 'primary' && 'border-kartuli-color-primitive-neutral-500',
+        variant === 'primary' && 'group-hover:bg-kartuli-color-primitive-neutral-900',
+        variant === 'primary' && 'group-active:bg-kartuli-color-primitive-neutral-950',
+        //
         variant === 'secondary' && 'bg-kartuli-color-primitive-neutral-50',
         variant === 'secondary' && 'border-kartuli-color-primitive-neutral-200',
+        variant === 'secondary' && 'group-hover:border-kartuli-color-primitive-neutral-500',
+        variant === 'secondary' && 'group-active:border-kartuli-color-primitive-neutral-500',
         'uppercase',
       )}
     >
@@ -108,15 +111,15 @@ function Card({
     <div
       className={cn(
         //
-        'cursor-pointer',
         'w-full min-w-0',
         'flex',
         'flex-col',
         'rounded-3xl',
         'border-2',
         'border-kartuli-color-primitive-neutral-200',
-        variant === 'secondary' && 'hover:border-kartuli-color-primitive-neutral-500',
         'group',
+        variant === 'secondary' && 'hover:border-kartuli-color-primitive-neutral-500',
+        variant === 'secondary' && 'group-active:border-kartuli-color-primitive-neutral-500',
         variant === 'primary' && 'bg-kartuli-color-primitive-neutral-500',
         variant === 'secondary' && 'bg-kartuli-color-primitive-neutral-50',
         'overflow-hidden',
@@ -327,7 +330,11 @@ export async function AlphabetLessonsList() {
       {/* lessons grid */}
       <CardsGrid size="grid-item">
         {lessons.map((lesson) => (
-          <Link href={`/en/study/`} key={lesson.id} className="flex grow">
+          <Link
+            href={`/en/study/`}
+            key={lesson.id}
+            className="flex grow cursor-pointer active:scale-95 group"
+          >
             <Card
               key={lesson.id}
               context="Alphabet"
@@ -341,7 +348,7 @@ export async function AlphabetLessonsList() {
       </CardsGrid>
       {/* full review card */}
       <CardsGrid size="full">
-        <Link href={`/en/study/`} className="flex grow">
+        <Link href={`/en/study/`} className="flex grow cursor-pointer active:scale-95 group">
           <Card
             key="all-items"
             context="Alphabet"

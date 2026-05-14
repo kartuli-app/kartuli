@@ -10,9 +10,12 @@ const appBarIconActionClassName = cn(
   'size-full',
   'cursor-pointer',
   'hover:bg-kartuli-color-primitive-neutral-500',
+  'active:bg-kartuli-color-primitive-neutral-500',
   'hover:text-kartuli-color-primitive-neutral-50',
+  'active:text-kartuli-color-primitive-neutral-50',
   'text-kartuli-color-primitive-neutral-500',
   'rounded-full',
+  'active:scale-95',
 );
 
 type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
