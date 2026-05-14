@@ -3,7 +3,10 @@ import type { Lesson, LetterItem, Library } from '@game-client/learning-content/
 import { cn } from '@kartuli/ui/utils/cn';
 import Link from 'next/link';
 
-function CardsGrid({ children }: Readonly<{ children: React.ReactNode }>) {
+function CardsGrid({
+  children,
+  size,
+}: Readonly<{ children: React.ReactNode; size: 'grid-item' | 'full' }>) {
   return (
     <div
       className={cn(
@@ -11,7 +14,8 @@ function CardsGrid({ children }: Readonly<{ children: React.ReactNode }>) {
         'mx-auto',
         'w-full',
         'max-w-[400px] min-[600px]:max-w-full md:max-w-full',
-        'grid-cols-1 min-[600px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3',
+        size === 'grid-item' && 'grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-3',
+        size === 'full' && 'grid-cols-1',
       )}
     >
       {children}
@@ -98,6 +102,8 @@ function Card({
   variant: 'primary' | 'secondary';
   size: 'grid-item' | 'full';
 }>) {
+  const placeholderGroups = getCardPreviewPlaceholderGroups(items.length, size);
+
   return (
     <div
       className={cn(
@@ -129,10 +135,10 @@ function Card({
           <div
             className={cn(
               //
-              size === 'grid-item' && 'grid grid-cols-4',
-              size === 'full' && 'flex flex-wrap ga',
+              size === 'grid-item' && 'grid grid-cols-6',
+              size === 'full' && 'grid grid-cols-6 min-[600px]:grid-cols-12 lg:grid-cols-18',
               'w-full',
-              'gap-y-8',
+              'gap-y-4',
               'py-2',
             )}
           >
@@ -140,6 +146,12 @@ function Card({
               const key = `${context}-${item.id}`;
               return <CardItemPreview key={key} item={item} />;
             })}
+            {placeholderGroups.flatMap((group, groupIndex) =>
+              Array.from({ length: group.count }).map((_, itemIndex) => {
+                const key = `${context}-${title}-placeholder-${groupIndex}-${itemIndex}`;
+                return <CardItemPreviewPlaceholder key={key} className={group.className} />;
+              }),
+            )}
           </div>
         </CardSectionContainer>
       </div>
@@ -149,22 +161,12 @@ function Card({
 
 function CardItemPreview({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <div
-      className={cn(
-        'aspect-square',
-        'min-w-15',
-        'justify-center',
-        'flex flex-col',
-        'gap-0',
-        // 'hover:bg-kartuli-color-primitive-neutral-200',
-        // 'cursor-pointer',
-      )}
-    >
+    <div className={cn('aspect-square', 'justify-center', 'flex flex-col', 'gap-0', 'border-')}>
       <div
         className={cn(
           //
           'font-georgian',
-          'text-5xl',
+          'text-4xl',
           'text-kartuli-color-primitive-neutral-900',
           'flex',
           'items-center',
@@ -173,14 +175,14 @@ function CardItemPreview({ item }: Readonly<{ item: LetterItem }>) {
           '',
         )}
       >
-        <span className="absolute top-3/10 left-0 bg-blue-200 w-full h-[2px]"></span>
-        <span className="absolute top-6/10 left-0 bg-blue-200 w-full h-[2px]"></span>
+        <span className="absolute top-3/10 left-0 bg-blue-100 w-full h-[2px]"></span>
+        <span className="absolute top-6/10 left-0 bg-blue-100 w-full h-[2px]"></span>
         <span className="z-10">{item.targetScript}</span>
       </div>
       <div
         className={cn(
           //
-          'text-2xl',
+          'text-xl',
           'text-kartuli-color-primitive-neutral-500',
           'flex',
           'items-center',
@@ -193,6 +195,95 @@ function CardItemPreview({ item }: Readonly<{ item: LetterItem }>) {
       </div>
     </div>
   );
+}
+
+function CardItemPreviewPlaceholder({ className }: Readonly<{ className?: string }>) {
+  return (
+    <div
+      aria-hidden="true"
+      className={cn(
+        'aspect-square',
+        'justify-center',
+        'flex',
+        'flex-col',
+        'gap-0',
+        'pointer-events-none',
+        className,
+      )}
+    >
+      <div
+        className={cn(
+          //
+          'font-georgian',
+          'text-4xl',
+          'text-kartuli-color-primitive-neutral-900',
+          'flex',
+          'items-center',
+          'justify-center',
+          'relative',
+          '',
+        )}
+      >
+        <span className="absolute top-3/10 left-0 bg-blue-100 w-full h-[2px]"></span>
+        <span className="absolute top-6/10 left-0 bg-blue-100 w-full h-[2px]"></span>
+        <span className="z-10 text-transparent">{'-'}</span>
+      </div>
+      <div
+        className={cn(
+          //
+          'text-xl',
+          'text-kartuli-color-primitive-neutral-500',
+          'flex',
+          'items-center',
+          'justify-center',
+        )}
+      >
+        <span className="text-transparent">[</span>
+        <span className="text-transparent">{'-'}</span>
+        <span className="text-transparent">]</span>
+      </div>
+    </div>
+  );
+}
+
+type CardPreviewPlaceholderGroup = {
+  count: number;
+  className?: string;
+};
+
+function getCardPreviewMissingItemsCount(
+  itemsCount: number,
+  columnsCount: number,
+  onlyWhenSingleRow: boolean,
+) {
+  if (onlyWhenSingleRow && itemsCount >= columnsCount) return 0;
+  const remainder = itemsCount % columnsCount;
+  if (remainder === 0) return 0;
+  return columnsCount - remainder;
+}
+
+function getCardPreviewPlaceholderGroups(
+  itemsCount: number,
+  size: 'grid-item' | 'full',
+): CardPreviewPlaceholderGroup[] {
+  if (size === 'grid-item') {
+    return [{ count: getCardPreviewMissingItemsCount(itemsCount, 6, true) }];
+  }
+
+  return [
+    {
+      count: getCardPreviewMissingItemsCount(itemsCount, 6, false),
+      className: 'min-[600px]:hidden',
+    },
+    {
+      count: getCardPreviewMissingItemsCount(itemsCount, 12, false),
+      className: 'hidden min-[600px]:flex lg:hidden',
+    },
+    {
+      count: getCardPreviewMissingItemsCount(itemsCount, 18, false),
+      className: 'hidden lg:flex',
+    },
+  ];
 }
 
 type AlphabetLesson = {
@@ -234,7 +325,7 @@ export async function AlphabetLessonsList() {
   return (
     <div className="flex flex-col gap-8">
       {/* lessons grid */}
-      <CardsGrid>
+      <CardsGrid size="grid-item">
         {lessons.map((lesson) => (
           <Link href={`/en/study/`} key={lesson.id} className="flex grow">
             <Card
@@ -249,16 +340,18 @@ export async function AlphabetLessonsList() {
         ))}
       </CardsGrid>
       {/* full review card */}
-      <Link href={`/en/study/`} className="flex grow">
-        <Card
-          key="all-items"
-          context="Alphabet"
-          title={'Full Review'}
-          items={allItemsDeduplicated}
-          variant="primary"
-          size="full"
-        />
-      </Link>
+      <CardsGrid size="full">
+        <Link href={`/en/study/`} className="flex grow">
+          <Card
+            key="all-items"
+            context="Alphabet"
+            title={'Full Review'}
+            items={allItemsDeduplicated}
+            variant="primary"
+            size="full"
+          />
+        </Link>
+      </CardsGrid>
     </div>
   );
 }

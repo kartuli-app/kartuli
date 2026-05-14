@@ -5,14 +5,10 @@ import { GameClientAppBar } from '@game-client/ui/components/layout/game-client-
 import { GameClientDock } from '@game-client/ui/components/layout/game-client-dock';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-pattern-alphabet';
 import { cn } from '@kartuli/ui/utils/cn';
-import { useState } from 'react';
-import { IoSearchCircleOutline } from 'react-icons/io5';
+import { startTransition, useState, ViewTransition } from 'react';
 import {
-  PiCaretDoubleLeft,
-  PiCaretDoubleRight,
   PiCaretLeft,
   PiCaretRight,
-  PiHandSwipeLeft,
   PiHouse,
   PiHouseFill,
   PiMagnifyingGlass,
@@ -68,8 +64,8 @@ export function StudyNavigationButton({
         // !isActive && 'border-kartuli-color-primitive-neutral-500',
         'border-kartuli-color-primitive-neutral-500',
         //
-        isActive && 'border-kartuli-color-primitive-neutral-900',
-        isActive && 'bg-kartuli-color-primitive-neutral-900',
+        isActive && 'border-kartuli-color-primitive-neutral-500',
+        isActive && 'bg-kartuli-color-primitive-neutral-500',
         !isActive && 'bg-kartuli-color-primitive-neutral-50',
         !isActive && !disabled && 'hover:bg-kartuli-color-primitive-neutral-500',
         'group',
@@ -168,24 +164,30 @@ type useStudyNavigationReturnType = {
 };
 
 function useStudyNavigation(): useStudyNavigationReturnType {
-  const totalItems = 10;
+  const totalItems = 34;
   const [currentItem, setCurrentItem] = useState<number | 'summary'>('summary');
   const canGoPrevious = currentItem !== 'summary';
   const canGoNext = currentItem !== totalItems - 1;
   const canGoToSummary = currentItem !== 'summary';
 
   const handlePrevious = () => {
-    if (!canGoPrevious) return;
-    if (currentItem === 0) setCurrentItem('summary');
-    else setCurrentItem(currentItem - 1);
+    startTransition(() => {
+      if (!canGoPrevious) return;
+      if (currentItem === 0) setCurrentItem('summary');
+      else setCurrentItem(currentItem - 1);
+    });
   };
   const handleNext = () => {
-    if (currentItem === 'summary') setCurrentItem(0);
-    else setCurrentItem(currentItem + 1);
+    startTransition(() => {
+      if (currentItem === 'summary') setCurrentItem(0);
+      else setCurrentItem(currentItem + 1);
+    });
   };
   const handleGoToSummary = () => {
-    if (!canGoToSummary) return;
-    setCurrentItem('summary');
+    startTransition(() => {
+      if (!canGoToSummary) return;
+      setCurrentItem('summary');
+    });
   };
   return {
     totalItems,
@@ -221,19 +223,12 @@ function StudyNavigationBar(props: Readonly<useStudyNavigationReturnType>) {
         'p-2',
         'flex',
         'items-center',
-        'justify-around',
+        'justify-between',
         'gap-4',
       )}
     >
+      {/* left buttons */}
       <div className="flex items-center justify-center gap-4">
-        <StudyNavigationButton
-          label="Summary"
-          icon={PiHouse}
-          iconActive={PiHouseFill}
-          isActive={currentItem === 'summary'}
-          disabled={!canGoToSummary}
-          onClick={handleGoToSummary}
-        />
         <StudyNavigationButton
           label="Previous"
           icon={PiCaretLeft}
@@ -243,43 +238,48 @@ function StudyNavigationBar(props: Readonly<useStudyNavigationReturnType>) {
           onClick={handlePrevious}
         />
       </div>
+      {/* center */}
       <div
         className={cn(
           //
-          'w-full',
-          'h-full',
-          'flex',
-          'flex-col',
-          'justify-center',
-          'items-center',
+          'flex items-center justify-center gap-2',
         )}
       >
+        <StudyNavigationButton
+          label="Summary"
+          icon={PiHouse}
+          iconActive={PiHouseFill}
+          isActive={currentItem === 'summary'}
+          disabled={!canGoToSummary}
+          onClick={handleGoToSummary}
+        />
         <div
           className={cn(
             //
             'text-xl',
             'text-kartuli-color-primitive-neutral-900',
             'uppercase',
-            'max-w-50 w-full',
-            'h-full',
             'flex',
             'items-center',
+            'h-11',
+            'min-w-40',
             'justify-center',
             'rounded-full',
             'bg-kartuli-color-primitive-neutral-500',
             'text-kartuli-color-primitive-neutral-50',
+            // 'bg-red-500',
           )}
         >
           {currentItem === 'summary' ? (
-            <div>{totalItems} letters</div>
+            <div className="">{totalItems} letters</div>
           ) : (
-            <div>
+            <div className="">
               {currentItem + 1} / {totalItems}
             </div>
           )}
         </div>
       </div>
-
+      {/* right buttons */}
       <div className="flex items-center justify-center gap-4">
         <StudyNavigationButton
           label="Next"
@@ -290,6 +290,93 @@ function StudyNavigationBar(props: Readonly<useStudyNavigationReturnType>) {
           onClick={handleNext}
         />
       </div>
+    </div>
+  );
+}
+
+function SummaryItemPreview() {
+  return (
+    <div
+      className={cn(
+        //
+        'flex min-h-0 min-w-0 items-center justify-center',
+      )}
+    >
+      <div
+        className={cn(
+          //
+          'h-full',
+          'aspect-square',
+          'max-w-full',
+          'rounded-xl',
+          'border',
+        )}
+      ></div>
+    </div>
+  );
+}
+
+const SUMMARY_GRID_BUCKETS = [
+  { maxItems: 1, className: 'grid-cols-1 grid-rows-1' },
+  { maxItems: 2, className: 'grid-cols-1 grid-rows-2' },
+  { maxItems: 4, className: 'grid-cols-2 grid-rows-2' },
+  { maxItems: 6, className: 'grid-cols-2 grid-rows-3' },
+  { maxItems: 9, className: 'grid-cols-3 grid-rows-3' },
+  { maxItems: 12, className: 'grid-cols-3 grid-rows-4' },
+  { maxItems: 15, className: 'grid-cols-3 grid-rows-5' },
+  { maxItems: 16, className: 'grid-cols-4 grid-rows-4' },
+  { maxItems: 20, className: 'grid-cols-4 grid-rows-5' },
+  { maxItems: 24, className: 'grid-cols-4 grid-rows-6' },
+  { maxItems: 25, className: 'grid-cols-5 grid-rows-5' },
+  { maxItems: 30, className: 'grid-cols-5 grid-rows-6' },
+  { maxItems: 35, className: 'grid-cols-5 grid-rows-[repeat(7,minmax(0,1fr))]' },
+  { maxItems: 36, className: 'grid-cols-6 grid-rows-6' },
+  { maxItems: 40, className: 'grid-cols-5 grid-rows-[repeat(8,minmax(0,1fr))]' },
+] as const;
+
+function getSummaryGridClassName(itemsCount: number) {
+  const boundedItemsCount = Math.max(0, Math.min(itemsCount, 40));
+  return (
+    SUMMARY_GRID_BUCKETS.find((bucket) => boundedItemsCount <= bucket.maxItems)?.className ??
+    SUMMARY_GRID_BUCKETS[SUMMARY_GRID_BUCKETS.length - 1].className
+  );
+}
+
+function SummaryCard({ itemsCount }: Readonly<{ itemsCount: number }>) {
+  const boundedItemsCount = Math.max(0, Math.min(itemsCount, 40));
+  const gridClassName = getSummaryGridClassName(boundedItemsCount);
+
+  return (
+    <div className="flex grow min-h-0 w-full p-2">
+      <div
+        className={cn(
+          //
+          'grid',
+          'h-full',
+          'w-full',
+          'min-h-0',
+          'min-w-0',
+          'place-content-evenly',
+
+          'place-self-center',
+          'bg-red-200',
+          'gap-1',
+          gridClassName,
+        )}
+      >
+        {Array.from({ length: boundedItemsCount }).map((_, index) => {
+          const key = `summary-item-preview-${index}`;
+          return <SummaryItemPreview key={key} />;
+        })}
+      </div>
+    </div>
+  );
+}
+
+function DetailCard({ itemNumber }: Readonly<{ itemNumber: number }>) {
+  return (
+    <div className="flex flex-col gap-2 grow items-center justify-center">
+      <div className="text-5xl font-bold">Detail {itemNumber}</div>
     </div>
   );
 }
@@ -313,27 +400,33 @@ function StudyScreen() {
         )}
       >
         {/* card */}
-        <div
-          className={cn(
-            //
-            'flex flex-col gap-2',
-            'w-full',
-            'h-full',
-            'rounded-3xl',
-            'border-2',
-            'border-kartuli-color-primitive-neutral-500',
-            'items-center',
-            'justify-center',
-          )}
+        <ViewTransition
+          enter="auto"
+          exit="auto"
+          default="auto"
+          key={studyNavigationProps.currentItem}
         >
-          <div className="flex flex-col gap-2">
-            <div className="text-2xl font-bold">
-              {studyNavigationProps.currentItem === 'summary'
-                ? 'Summary'
-                : studyNavigationProps.currentItem + 1}
-            </div>
+          <div
+            className={cn(
+              //
+              'flex flex-col gap-2',
+              'w-full',
+              'h-full',
+              'rounded-3xl',
+              // 'border-2',
+              'border-kartuli-color-primitive-neutral-500',
+              // 'items-center',
+              // 'justify-center',
+              'bg-kartuli-color-primitive-neutral-200',
+            )}
+          >
+            {studyNavigationProps.currentItem === 'summary' ? (
+              <SummaryCard itemsCount={studyNavigationProps.totalItems} />
+            ) : (
+              <DetailCard itemNumber={studyNavigationProps.currentItem + 1} />
+            )}
           </div>
-        </div>
+        </ViewTransition>
       </div>
       {/* cta button */}
       <div
