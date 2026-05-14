@@ -138,8 +138,8 @@ function Card({
               size === 'grid-item' && 'grid grid-cols-6',
               size === 'full' && 'grid grid-cols-6 min-[600px]:grid-cols-12 lg:grid-cols-18',
               'w-full',
-              'gap-y-4',
-              'py-2',
+              'gap-y-8',
+              'py-4',
             )}
           >
             {items.map((item) => {
@@ -161,7 +161,7 @@ function Card({
 
 function CardItemPreview({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <div className={cn('aspect-square', 'justify-center', 'flex flex-col', 'gap-0', 'border-')}>
+    <div className={cn('aspect-square', 'justify-center', 'flex flex-col', 'gap-1', 'border-')}>
       <div
         className={cn(
           //
