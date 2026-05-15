@@ -33,7 +33,7 @@ const gameClientDockItems = [
 ];
 
 type GameClientDockProps = {
-  activeItemId: string;
+  activeItemId?: string;
 };
 
 export function GameClientDock({ activeItemId }: Readonly<GameClientDockProps>) {
@@ -43,6 +43,7 @@ export function GameClientDock({ activeItemId }: Readonly<GameClientDockProps>) 
         <DockButton
           key={item.id}
           label={item.label}
+          href={item.href}
           icon={item.icon}
           iconActive={item.activeIcon}
           isActive={item.id === activeItemId}

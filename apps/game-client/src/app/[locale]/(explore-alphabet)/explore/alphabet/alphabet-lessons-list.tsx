@@ -298,6 +298,7 @@ type AlphabetLesson = {
 type AlphabetListData = {
   lessons: AlphabetLesson[];
   allItemsDeduplicated: LetterItem[];
+  moduleId: string | undefined;
 };
 
 function getAlphabetListDataFromLibrary(library: Library): AlphabetListData {
@@ -316,22 +317,27 @@ function getAlphabetListDataFromLibrary(library: Library): AlphabetListData {
   const allItemsDeduplicated = lessonsAlphabet
     .flatMap((lesson) => lesson.items)
     .filter((item, index, self) => index === self.findIndex((t) => t.id === item.id));
+  const alphabetLessonIds = new Set(lessons.map((l) => l.id));
+  const alphabetModule = library.modules.find((m) =>
+    m.lessonIds.some((id) => alphabetLessonIds.has(id)),
+  );
   return {
     lessons: lessonsAlphabet,
     allItemsDeduplicated,
+    moduleId: alphabetModule?.id,
   };
 }
 
 export async function AlphabetLessonsList() {
   const library = await getLibraryServer('en');
-  const { lessons, allItemsDeduplicated } = getAlphabetListDataFromLibrary(library);
+  const { lessons, allItemsDeduplicated, moduleId } = getAlphabetListDataFromLibrary(library);
   return (
     <div className="flex flex-col gap-8">
       {/* lessons grid */}
       <CardsGrid size="grid-item">
         {lessons.map((lesson) => (
           <Link
-            href={`/en/study/`}
+            href={`/en/study/lesson/${lesson.id}`}
             key={lesson.id}
             className="flex grow cursor-pointer active:scale-95 group"
           >
@@ -347,18 +353,23 @@ export async function AlphabetLessonsList() {
         ))}
       </CardsGrid>
       {/* full review card */}
-      <CardsGrid size="full">
-        <Link href={`/en/study/`} className="flex grow cursor-pointer active:scale-95 group">
-          <Card
-            key="all-items"
-            context="Alphabet"
-            title={'Full Review'}
-            items={allItemsDeduplicated}
-            variant="primary"
-            size="full"
-          />
-        </Link>
-      </CardsGrid>
+      {moduleId && (
+        <CardsGrid size="full">
+          <Link
+            href={`/en/study/module/${moduleId}`}
+            className="flex grow cursor-pointer active:scale-95 group"
+          >
+            <Card
+              key="all-items"
+              context="Alphabet"
+              title="Full Review"
+              items={allItemsDeduplicated}
+              variant="primary"
+              size="full"
+            />
+          </Link>
+        </CardsGrid>
+      )}
     </div>
   );
 }

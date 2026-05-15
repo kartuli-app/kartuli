@@ -1,25 +1,12 @@
 'use client';
-import { GameAppBarIconLink } from '@game-client/ui/components/layout/app-bar-icon-action';
-import { AppShell } from '@game-client/ui/components/layout/app-shell';
-import { GameClientAppBar } from '@game-client/ui/components/layout/game-client-app-bar';
-import { GameClientDock } from '@game-client/ui/components/layout/game-client-dock';
-import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-pattern-alphabet';
+import type { LetterItem } from '@game-client/learning-content/library/library';
 import { cn } from '@kartuli/ui/utils/cn';
 import { startTransition, useState } from 'react';
-import {
-  PiCaretLeft,
-  PiCaretRight,
-  PiGridNine,
-  PiHouseLight,
-  PiMagnifyingGlass,
-  PiPlayFill,
-} from 'react-icons/pi';
+import { PiCaretLeft, PiCaretRight, PiHouseLight, PiPlayFill } from 'react-icons/pi';
 
 const MAX_ITEMS_COUNT = 42;
 
-const DEBUG_ITEMS_COUNT = 33;
-
-export function CtaButton({
+function CtaButton({
   className,
   label,
   icon,
@@ -37,17 +24,14 @@ export function CtaButton({
       aria-label={label}
       onClick={onClick}
       className={cn(
-        //
         'flex',
         'items-center',
         'rounded-full',
-        'flex',
         'flex-row',
         'gap-4',
         'p-2',
         'justify-center',
         'w-full',
-        'h-full',
         'h-16',
         'md:h-20',
         'border-2',
@@ -61,29 +45,13 @@ export function CtaButton({
         className,
       )}
     >
-      <Icon
-        className={cn(
-          //
-          'shrink-0',
-          'size-7',
-          'text-kartuli-color-primitive-neutral-50',
-        )}
-      />
-      <div
-        className={cn(
-          //
-          'text-2xl',
-          'uppercase',
-          'text-kartuli-color-primitive-neutral-50',
-        )}
-      >
-        {label}
-      </div>
+      <Icon className="shrink-0 size-7 text-kartuli-color-primitive-neutral-50" />
+      <div className="text-2xl uppercase text-kartuli-color-primitive-neutral-50">{label}</div>
     </button>
   );
 }
 
-export function StudyNavigationButton({
+function StudyNavigationButton({
   className,
   label,
   icon,
@@ -108,10 +76,8 @@ export function StudyNavigationButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        //
         'flex',
         'rounded-full',
-        'flex',
         'flex-row',
         'gap-1',
         'p-2',
@@ -121,13 +87,10 @@ export function StudyNavigationButton({
         size === 'small' && 'w-26',
         size === 'large' && 'w-36',
         'border-2',
-        //
         disabled && 'cursor-not-allowed',
         !disabled && 'cursor-pointer',
         disabled && 'opacity-20',
-        //
         'border-kartuli-color-primitive-neutral-500',
-        //
         !disabled && 'hover:bg-kartuli-color-primitive-neutral-500',
         !disabled && 'active:bg-kartuli-color-primitive-neutral-500',
         !disabled && 'active:scale-95',
@@ -137,11 +100,9 @@ export function StudyNavigationButton({
     >
       <Icon
         className={cn(
-          //
           iconPosition === 'right' && 'order-1',
           'shrink-0',
-          'size-4',
-          size === 'large' && 'size-6',
+          size === 'small' ? 'size-4' : 'size-6',
           'text-kartuli-color-primitive-neutral-500',
           !disabled && 'group-hover:text-kartuli-color-primitive-neutral-50',
           !disabled && 'group-active:text-kartuli-color-primitive-neutral-50',
@@ -149,9 +110,8 @@ export function StudyNavigationButton({
       />
       <div
         className={cn(
-          //
-          'text-sm uppercase',
-          size === 'large' && 'text-lg',
+          'uppercase',
+          size === 'small' ? 'text-sm' : 'text-lg',
           'text-kartuli-color-primitive-neutral-500',
           !disabled && 'group-hover:text-kartuli-color-primitive-neutral-50',
           !disabled && 'group-active:text-kartuli-color-primitive-neutral-50',
@@ -163,7 +123,8 @@ export function StudyNavigationButton({
   );
 }
 
-type useStudyNavigationReturnType = {
+type UseStudyNavigationReturnType = {
+  items: LetterItem[];
   totalItems: number;
   currentItem: number | 'summary';
   setCurrentItem: (item: number | 'summary') => void;
@@ -175,11 +136,11 @@ type useStudyNavigationReturnType = {
   handleGoToSummary: () => void;
 };
 
-function useStudyNavigation(): useStudyNavigationReturnType {
-  const totalItems = DEBUG_ITEMS_COUNT;
+function useStudyNavigation(items: LetterItem[]): UseStudyNavigationReturnType {
+  const totalItems = items.length;
   const [currentItem, setCurrentItem] = useState<number | 'summary'>('summary');
   const canGoPrevious = currentItem !== 'summary';
-  const canGoNext = currentItem !== totalItems - 1;
+  const canGoNext = totalItems > 0 && currentItem !== totalItems - 1;
   const canGoToSummary = currentItem !== 'summary';
 
   const handlePrevious = () => {
@@ -201,7 +162,9 @@ function useStudyNavigation(): useStudyNavigationReturnType {
       setCurrentItem('summary');
     });
   };
+
   return {
+    items,
     totalItems,
     currentItem,
     setCurrentItem,
@@ -214,7 +177,7 @@ function useStudyNavigation(): useStudyNavigationReturnType {
   };
 }
 
-function NavigationBar(props: Readonly<useStudyNavigationReturnType>) {
+function NavigationBar(props: Readonly<UseStudyNavigationReturnType>) {
   const {
     totalItems,
     currentItem,
@@ -227,61 +190,25 @@ function NavigationBar(props: Readonly<useStudyNavigationReturnType>) {
   } = props;
 
   return (
-    <div
-      className={cn(
-        //
-        // 'bg-orange-200',
-        'w-full',
-        'flex',
-        'items-center',
-        'justify-between',
-        'gap-2',
-      )}
-    >
-      {/* left buttons */}
-      <div
-        className={cn(
-          //
-          'flex items-center justify-center ',
-        )}
-      >
+    <div className="w-full flex items-center justify-between gap-2">
+      <div className="flex items-center justify-center">
         <StudyNavigationButton
-          className={cn(
-            //
-            'flex pointer-coarse:hidden ',
-          )}
+          className="flex pointer-coarse:hidden"
           label="Previous"
           icon={PiCaretLeft}
           disabled={!canGoPrevious}
           onClick={handlePrevious}
         />
       </div>
-      {/* center */}
-      <div
-        className={cn(
-          //
-          'flex items-center justify-center',
-        )}
-      >
+      <div className="flex items-center justify-center">
         {currentItem === 'summary' ? (
           <div
             className={cn(
-              //
-              'text-lg',
-              'text-kartuli-color-primitive-neutral-900',
-              'uppercase',
-              'flex',
-              'items-center',
-              'h-11',
-              'w-36',
-              'justify-center',
-              'rounded-full',
-              'bg-kartuli-color-primitive-neutral-500',
-              'text-kartuli-color-primitive-neutral-50',
-              // 'bg-red-500',
+              'text-lg uppercase flex items-center h-11 w-36 justify-center rounded-full',
+              'bg-kartuli-color-primitive-neutral-500 text-kartuli-color-primitive-neutral-50',
             )}
           >
-            <div className="">{totalItems} letters</div>
+            {totalItems} letters
           </div>
         ) : (
           <StudyNavigationButton
@@ -293,18 +220,9 @@ function NavigationBar(props: Readonly<useStudyNavigationReturnType>) {
           />
         )}
       </div>
-      {/* right buttons */}
-      <div
-        className={cn(
-          //
-          'flex items-center justify-center gap-4',
-        )}
-      >
+      <div className="flex items-center justify-center gap-4">
         <StudyNavigationButton
-          className={cn(
-            //
-            'flex pointer-coarse:hidden ',
-          )}
+          className="flex pointer-coarse:hidden"
           label="Next"
           icon={PiCaretRight}
           disabled={!canGoNext}
@@ -316,29 +234,12 @@ function NavigationBar(props: Readonly<useStudyNavigationReturnType>) {
   );
 }
 
-function InfoBar(props: Readonly<useStudyNavigationReturnType>) {
+function InfoBar(props: Readonly<UseStudyNavigationReturnType>) {
   const { totalItems, currentItem, canGoPrevious, canGoNext, handlePrevious, handleNext } = props;
 
   return (
-    <div
-      className={cn(
-        //
-        // 'bg-orange-300',
-        'w-full',
-        'flex',
-        'items-center',
-        'justify-between',
-        'gap-4',
-      )}
-    >
-      {/* left buttons */}
-      <div
-        className={cn(
-          //
-          'flex items-center justify-center gap-4',
-          'hidden pointer-coarse:flex ',
-        )}
-      >
+    <div className="w-full flex items-center justify-between gap-4">
+      <div className="flex items-center justify-center gap-4 hidden pointer-coarse:flex">
         <StudyNavigationButton
           label="Previous"
           icon={PiCaretLeft}
@@ -346,28 +247,11 @@ function InfoBar(props: Readonly<useStudyNavigationReturnType>) {
           onClick={handlePrevious}
         />
       </div>
-      {/* center */}
-      <div
-        className={cn(
-          //
-          'flex items-center justify-center gap-2 mx-auto h-10',
-        )}
-      >
+      <div className="flex items-center justify-center gap-2 mx-auto h-10">
         <div
           className={cn(
-            //
-            'text-sm',
-            'text-kartuli-color-primitive-neutral-900',
-            'uppercase',
-            'flex',
-            'items-center',
-            'h-11',
-            'justify-center',
-            'rounded-full',
-            // 'bg-kartuli-color-primitive-neutral-500',
+            'text-sm uppercase flex items-center h-11 justify-center rounded-full',
             'text-kartuli-color-primitive-neutral-500',
-            'uppercase',
-            // 'bg-red-500',
           )}
         >
           {currentItem === 'summary' ? (
@@ -384,14 +268,7 @@ function InfoBar(props: Readonly<useStudyNavigationReturnType>) {
           )}
         </div>
       </div>
-      {/* right buttons */}
-      <div
-        className={cn(
-          //
-          'flex items-center justify-center gap-4',
-          'hidden pointer-coarse:flex ',
-        )}
-      >
+      <div className="flex items-center justify-center gap-4 hidden pointer-coarse:flex">
         <StudyNavigationButton
           label="Next"
           icon={PiCaretRight}
@@ -405,42 +282,35 @@ function InfoBar(props: Readonly<useStudyNavigationReturnType>) {
 }
 
 function SummaryItemPreview({
-  itemNumber,
+  item,
   onClick,
-}: Readonly<{ itemNumber: number; onClick: () => void }>) {
+}: Readonly<{ item: LetterItem; onClick: () => void }>) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={cn(
-        //
-        'flex min-h-0 min-w-0 items-center justify-center',
-        'group',
-        'cursor-pointer',
-      )}
+      className="flex min-h-0 min-w-0 items-center justify-center group cursor-pointer"
     >
       <div
         className={cn(
-          //
-          'h-full',
-          // 'w-full',
-          'aspect-square',
-          'max-w-full',
-          'rounded-full',
+          'h-full aspect-square max-w-full',
           'group-hover:bg-kartuli-color-primitive-neutral-500',
           'group-active:bg-kartuli-color-primitive-neutral-500',
           'group-hover:text-kartuli-color-primitive-neutral-50',
           'group-active:text-kartuli-color-primitive-neutral-50',
-          'cursor-pointer',
           'active:scale-95',
-          'border',
-          'items-center',
-          'justify-center',
-          'flex',
-          'text-2xl',
+          // 'border',
+          'items-center justify-center flex',
+          '@container',
         )}
       >
-        {itemNumber}
+        <div
+          className={cn(
+            'font-georgian text-2xl @[50px]:text-4xl @[100px]:text-5xl @[150px]:text-6xl',
+          )}
+        >
+          {item.targetScript}
+        </div>
       </div>
     </button>
   );
@@ -466,146 +336,76 @@ const SUMMARY_GRID_BUCKETS = [
 ] as const;
 
 function getSummaryGridClassName(itemsCount: number) {
-  const boundedItemsCount = Math.max(0, Math.min(itemsCount, MAX_ITEMS_COUNT));
+  const bounded = Math.max(0, Math.min(itemsCount, MAX_ITEMS_COUNT));
   return (
-    SUMMARY_GRID_BUCKETS.find((bucket) => boundedItemsCount <= bucket.maxItems)?.className ??
+    SUMMARY_GRID_BUCKETS.find((bucket) => bounded <= bucket.maxItems)?.className ??
     SUMMARY_GRID_BUCKETS[SUMMARY_GRID_BUCKETS.length - 1].className
   );
 }
 
-function SummaryCard(props: Readonly<useStudyNavigationReturnType>) {
-  const { totalItems, setCurrentItem } = props;
-  const boundedItemsCount = Math.max(0, Math.min(totalItems, MAX_ITEMS_COUNT));
-  const gridClassName = getSummaryGridClassName(boundedItemsCount);
-
-  const handleItemClick = (itemNumber: number) => {
-    setCurrentItem(itemNumber);
-  };
+function SummaryCard(props: Readonly<UseStudyNavigationReturnType>) {
+  const { items, setCurrentItem } = props;
+  const boundedItems = items.slice(0, MAX_ITEMS_COUNT);
+  const gridClassName = getSummaryGridClassName(boundedItems.length);
 
   return (
     <div className="flex grow min-h-0 w-full p-2">
       <div
         className={cn(
-          //
-          'grid',
-          'h-full',
-          'w-full',
-          'min-h-0',
-          'min-w-0',
-          'place-content-center',
-          'place-self-center',
-          // 'bg-red-200',
-          'gap-1',
+          'grid h-full w-full min-h-0 min-w-0 place-content-center place-self-center gap-1 overflow-hidden',
           gridClassName,
-          'overflow-hidden',
         )}
       >
-        {Array.from({ length: boundedItemsCount }).map((_, index) => {
-          const key = `summary-item-preview-${index}`;
-          return (
-            <SummaryItemPreview
-              key={key}
-              itemNumber={index + 1}
-              onClick={() => handleItemClick(index)}
-            />
-          );
-        })}
+        {boundedItems.map((item, index) => (
+          <SummaryItemPreview key={item.id} item={item} onClick={() => setCurrentItem(index)} />
+        ))}
       </div>
     </div>
   );
 }
 
-function DetailCard({ itemNumber }: Readonly<{ itemNumber: number }>) {
+function DetailCard({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <div className="flex flex-col gap-2 h-full w-full items-center justify-center">
-      <div className="text-5xl font-bold">Detail</div>
-      <div className="text-5xl font-bold">{itemNumber}</div>
+    <div className="flex flex-col gap-6 h-full w-full items-center justify-center">
+      <div className="font-georgian text-9xl leading-none text-kartuli-color-primitive-neutral-900">
+        {item.targetScript}
+      </div>
+      <div className="text-4xl text-kartuli-color-primitive-neutral-500 flex items-center justify-center gap-1">
+        <span className="text-orange-500 w-4">[</span>
+        <span className="flex w-10">{item.transliteration}</span>
+        <span className="text-orange-500 w-4">]</span>
+      </div>
+      <div className="text-xl text-kartuli-color-primitive-neutral-500 text-center">
+        {item.pronunciationHint}
+      </div>
     </div>
   );
 }
 
-function StudyScreen() {
-  const studyNavigationProps = useStudyNavigation();
-
-  const handlePlay = () => {
-    // TODO: implement play
-  };
+export function StudyScreen({ items }: Readonly<{ items: LetterItem[] }>) {
+  const nav = useStudyNavigation(items);
 
   return (
     <div className="flex flex-col gap-4 grow h-full max-w-[600px] w-full mx-auto">
-      <NavigationBar {...studyNavigationProps} />
-      {/* card container */}
-      <div
-        className={cn(
-          //
-          'flex grow w-full',
-          // 'bg-red-200',
-        )}
-      >
-        {/* card */}
-        {/* <ViewTransition
-          enter="auto"
-          exit="auto"
-          default="auto"
-          key={studyNavigationProps.currentItem}
-        > */}
+      <NavigationBar {...nav} />
+      <div className="flex grow w-full">
         <div
           className={cn(
-            //
-            'flex flex-col gap-2',
-            'w-full',
-            'h-full',
-            'grow',
-            'rounded-3xl',
-            // 'border-2',
+            'flex flex-col gap-2 w-full h-full grow rounded-3xl',
             'border-kartuli-color-primitive-neutral-500',
-            // 'items-center',
-            // 'justify-center',
-            // 'bg-kartuli-color-primitive-neutral-200',
           )}
         >
-          {studyNavigationProps.currentItem === 'summary' ? (
-            <SummaryCard {...studyNavigationProps} />
+          {nav.currentItem === 'summary' ? (
+            <SummaryCard {...nav} />
           ) : (
-            <DetailCard itemNumber={studyNavigationProps.currentItem + 1} />
+            <DetailCard item={items[nav.currentItem]} />
           )}
         </div>
-        {/* </ViewTransition> */}
       </div>
-      <InfoBar {...studyNavigationProps} />
-      {/* cta button */}
-      <div
-        className={cn(
-          //
-          'flex w-full',
-          // 'bg-orange-200',
-        )}
-      >
-        <CtaButton label="Play now" icon={PiPlayFill} onClick={handlePlay} />
+      <InfoBar {...nav} />
+      <div className="flex w-full">
+        <CtaButton label="Play now" icon={PiPlayFill} />
       </div>
     </div>
   );
 }
-
-function StudyPage() {
-  return (
-    <AppShell
-      appBar={
-        <GameClientAppBar
-          title="The five vowels"
-          context="Study Alphabet"
-          backHref="/en/explore-alphabet"
-          action={
-            <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />
-          }
-        />
-      }
-      startRail={<GameClientDock activeItemId="learn" />}
-      endRail={<RailPatternAlphabet />}
-    >
-      <StudyScreen />
-    </AppShell>
-  );
-}
-
-export default StudyPage;
