@@ -20,7 +20,7 @@
   --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
   --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
   /* semantic tokens */
-  --kartuli-color-semantic-surface: var(--kartuli-color-primitive-neutral-50);
+  --kartuli-color-semantic-surface: #e0b24f;
   --kartuli-color-semantic-surface-border: var(--kartuli-color-primitive-neutral-200);
   /* component tokens */
   --kartuli-color-component-pattern-background: var(--kartuli-color-semantic-surface);

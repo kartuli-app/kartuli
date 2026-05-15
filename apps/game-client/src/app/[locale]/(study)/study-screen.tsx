@@ -296,6 +296,7 @@ function SummaryItemPreview({
           'h-full aspect-square max-w-full',
           'group-hover:bg-kartuli-color-primitive-neutral-500',
           'group-active:bg-kartuli-color-primitive-neutral-500',
+          'text-kartuli-color-primitive-neutral-500',
           'group-hover:text-kartuli-color-primitive-neutral-50',
           'group-active:text-kartuli-color-primitive-neutral-50',
           'active:scale-95',
@@ -367,7 +368,7 @@ function SummaryCard(props: Readonly<UseStudyNavigationReturnType>) {
 function DetailCard({ item }: Readonly<{ item: LetterItem }>) {
   return (
     <div className="flex flex-col gap-6 h-full w-full items-center justify-center">
-      <div className="font-georgian text-9xl leading-none text-kartuli-color-primitive-neutral-900">
+      <div className="font-georgian text-9xl leading-none text-kartuli-color-primitive-neutral-500">
         {item.targetScript}
       </div>
       <div className="text-4xl text-kartuli-color-primitive-neutral-500 flex items-center justify-center gap-1">
