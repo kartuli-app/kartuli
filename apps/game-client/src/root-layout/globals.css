@@ -324,19 +324,9 @@
   --kartuli-color-primitive-neutral-500: oklch(55.4% 0.046 257.417);
   --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
   --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
-  /* semantic tokens */
-  --kartuli-color-semantic-surface: var(--kartuli-color-primitive-neutral-50);
-  --kartuli-color-semantic-surface-border: var(--kartuli-color-primitive-neutral-200);
-  /* component tokens */
-  --kartuli-color-component-pattern-background: var(--kartuli-color-semantic-surface);
-  --kartuli-color-component-pattern-base: var(--kartuli-color-semantic-surface);
-  --kartuli-color-component-pattern-highlight: var(--kartuli-color-semantic-surface-border);
 }
 
 @theme static {
-  /* semantic colors */
-  --color-kartuli-color-semantic-surface: var(--kartuli-color-semantic-surface);
-  --color-kartuli-color-semantic-surface-border: var(--kartuli-color-semantic-surface-border);
   /* primitive colors */
   --color-kartuli-color-primitive-neutral-50: var(--kartuli-color-primitive-neutral-50);
   --color-kartuli-color-primitive-neutral-200: var(--kartuli-color-primitive-neutral-200);
@@ -369,10 +359,10 @@
   width: 0.25rem;
 }
 ::-webkit-scrollbar-track {
-  background: var(--kartuli-color-semantic-surface);
+  background-color: var(--p-color-accent-100);
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--kartuli-color-primitive-neutral-900);
+  background-color: var(--p-color-neutral-500);
 }
 
 :root {
