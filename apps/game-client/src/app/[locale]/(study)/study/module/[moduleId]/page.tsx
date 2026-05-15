@@ -45,8 +45,8 @@ export default async function ModuleStudyPage({
           }
         />
       }
-      startRail={<GameClientDock />}
-      endRail={<RailPatternAlphabet />}
+      startRailContent={<GameClientDock />}
+      endRailContent={<RailPatternAlphabet />}
     >
       <StudyScreen items={items} />
     </AppShell>

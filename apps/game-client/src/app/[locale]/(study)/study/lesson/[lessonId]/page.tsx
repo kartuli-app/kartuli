@@ -35,8 +35,8 @@ export default async function LessonStudyPage({
           }
         />
       }
-      startRail={<GameClientDock />}
-      endRail={<RailPatternAlphabet />}
+      startRailContent={<GameClientDock />}
+      endRailContent={<RailPatternAlphabet />}
     >
       <StudyScreen items={items} />
     </AppShell>

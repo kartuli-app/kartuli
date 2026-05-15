@@ -9,8 +9,313 @@
 @import "tailwindcss";
 @import "@kartuli/tailwind-config";
 
+@source "./";
 @source "../";
 @source "../../../../packages/ui/src";
+
+:root {
+  /*
+   * Primitive tokens
+   * Raw values. No UI meaning.
+   * These are the ingredients.
+   */
+
+  /* Primitive: color */
+  --p-color-neutral-50: oklch(98.5% 0.002 247.839);
+  --p-color-neutral-200: oklch(87.2% 0.01 258.338);
+  --p-color-neutral-500: oklch(55.1% 0.027 264.364);
+  --p-color-neutral-700: oklch(37.3% 0.034 259.733);
+  --p-color-neutral-900: oklch(21% 0.034 264.665);
+
+  --p-color-brand-50: ;
+  --p-color-brand-200: ;
+  --p-color-brand-500: ;
+  --p-color-brand-700: ;
+  --p-color-brand-900: ;
+
+  --p-color-accent-50: oklch(0.975 0.012 23.84);
+  --p-color-accent-100: oklch(0.95 0.023 24.19);
+  --p-color-accent-200: oklch(0.902 0.049 24.36);
+  --p-color-accent-300: oklch(0.853 0.076 25.77);
+  --p-color-accent-400: oklch(0.805 0.105 27.51);
+  --p-color-accent-500: oklch(0.762 0.136 28.81);
+  --p-color-accent-600: oklch(0.643 0.206 36.44);
+  --p-color-accent-700: oklch(0.518 0.166 36.46);
+  --p-color-accent-800: oklch(0.394 0.126 36.47);
+  --p-color-accent-900: oklch(0.269 0.086 36.91);
+  --p-color-accent-950: oklch(0.206 0.066 36.34);
+
+  --p-color-success-100: ;
+  --p-color-success-500: ;
+  --p-color-success-900: ;
+
+  --p-color-error-100: ;
+  --p-color-error-500: ;
+  --p-color-error-900: ;
+
+  /* Primitive: spacing */
+  --p-space-0: ;
+  --p-space-1: ;
+  --p-space-2: ;
+  --p-space-3: ;
+  --p-space-4: ;
+  --p-space-5: ;
+  --p-space-6: ;
+
+  /* Primitive: radius */
+  --p-radius-none: ;
+  --p-radius-1: ;
+  --p-radius-2: ;
+  --p-radius-3: ;
+  --p-radius-full: ;
+
+  /* Primitive: typography foundations */
+  --p-font-family-sans: ;
+  --p-font-family-georgian: ;
+
+  --p-font-size-1: ;
+  --p-font-size-2: ;
+  --p-font-size-3: ;
+  --p-font-size-4: ;
+
+  --p-font-weight-regular: ;
+  --p-font-weight-bold: ;
+  --p-font-weight-black: ;
+
+  --p-line-height-1: ;
+  --p-line-height-2: ;
+  --p-line-height-3: ;
+
+  --p-letter-spacing-tight: ;
+  --p-letter-spacing-normal: ;
+
+  /*
+   * Semantic tokens
+   * UI meaning. These describe roles in the interface.
+   * Components should usually depend on these, not raw primitive values.
+   */
+
+  /* Semantic: surfaces */
+  --s-surface-app: var(--p-color-accent-100);
+  --s-surface-shell: var(--p-color-accent-100);
+  --s-surface-card: var(--p-color-neutral-50);
+  --s-surface-card-muted: ;
+  --s-surface-game: ;
+  --s-surface-game-panel: ;
+
+  /* Semantic: borders */
+  --s-border-shell: var(--p-color-accent-500);
+  --s-border-subtle: ;
+  --s-border-default: ;
+  --s-border-strong: ;
+
+  --s-border-width-medium: 2px;
+
+  /* Semantic: content on normal surfaces */
+  --s-content-primary: ;
+  --s-content-secondary: ;
+  --s-content-muted: ;
+  --s-content-inverse: ;
+
+  /* Semantic: content on shell surfaces */
+  --s-content-shell-primary: var(--p-color-neutral-900);
+  --s-content-shell-secondary: var(--p-color-neutral-700);
+  --s-content-shell-muted: var(--p-color-neutral-500);
+
+  /* Semantic: content on game surfaces */
+  --s-content-game-primary: ;
+  --s-content-game-secondary: ;
+  --s-content-game-muted: ;
+
+  /* Semantic: decorative elements */
+  --s-decoration-shell-pattern: var(--p-color-neutral-200);
+
+  /* Semantic: actions */
+  --s-action-primary-bg: ;
+  --s-action-primary-fg: ;
+  --s-action-primary-bg-hover: ;
+  --s-action-primary-fg-hover: ;
+
+  --s-action-secondary-bg: ;
+  --s-action-secondary-fg: ;
+  --s-action-secondary-border: ;
+  --s-action-secondary-bg-hover: ;
+  --s-action-secondary-fg-hover: ;
+
+  --s-action-ghost-bg: ;
+  --s-action-ghost-fg: ;
+  --s-action-ghost-bg-hover: ;
+  --s-action-ghost-fg-hover: ;
+
+  /* Semantic: selection and focus */
+  --s-selection-bg: ;
+  --s-selection-fg: ;
+  --s-focus-ring: ;
+
+  /* Semantic: states */
+  --s-state-success-bg: ;
+  --s-state-success-fg: ;
+  --s-state-success-border: ;
+
+  --s-state-error-bg: ;
+  --s-state-error-fg: ;
+  --s-state-error-border: ;
+
+  /* Semantic: typography styles */
+  --s-text-screen-title-font-family: ;
+  --s-text-screen-title-font-size: ;
+  --s-text-screen-title-font-weight: ;
+  --s-text-screen-title-line-height: ;
+  --s-text-screen-title-letter-spacing: ;
+
+  --s-text-screen-context-font-family: ;
+  --s-text-screen-context-font-size: ;
+  --s-text-screen-context-font-weight: ;
+  --s-text-screen-context-line-height: ;
+  --s-text-screen-context-letter-spacing: ;
+
+  --s-text-card-title-font-family: ;
+  --s-text-card-title-font-size: ;
+  --s-text-card-title-font-weight: ;
+  --s-text-card-title-line-height: ;
+  --s-text-card-title-letter-spacing: ;
+
+  --s-text-card-subtitle-font-family: ;
+  --s-text-card-subtitle-font-size: ;
+  --s-text-card-subtitle-font-weight: ;
+  --s-text-card-subtitle-line-height: ;
+  --s-text-card-subtitle-letter-spacing: ;
+
+  --s-text-button-font-family: ;
+  --s-text-button-font-size: ;
+  --s-text-button-font-weight: ;
+  --s-text-button-line-height: ;
+  --s-text-button-letter-spacing: ;
+
+  /*
+   * Component tokens
+   * Stable component contracts.
+   * These map component parts to semantic roles.
+   */
+
+  /* Component: shell rail */
+  --c-rail-bg: var(--s-surface-shell);
+  --c-rail-border-color: var(--s-border-shell);
+  --c-rail-border-width: var(--s-border-width-medium);
+  --c-rail-width-compact: 6rem;
+  --c-rail-width-expanded: 14rem;
+
+  /* Component: main container */
+  --c-main-content-bg: var(--s-surface-app);
+
+  /* Component: appbar */
+  --c-appbar-bg: var(--s-surface-shell);
+  --c-appbar-border-color: var(--s-border-shell);
+  --c-appbar-border-width: var(--s-border-width-medium);
+  --c-appbar-height: 5rem;
+  --c-appbar-content-gap: ;
+  --c-appbar-slot-size: ;
+
+  --c-appbar-title-color: ;
+  --c-appbar-context-color: ;
+
+  /* Component: dock */
+  --c-dock-height-mobile: 5rem;
+  --c-dock-padding-block-mobile: ;
+  --c-dock-padding-inline-mobile: ;
+  --c-dock-padding-block-desktop: ;
+  --c-dock-padding-inline-desktop: ;
+  --c-dock-gap: ;
+
+  /* Component: dock button */
+  --c-dock-button-fg: ;
+  --c-dock-button-bg-hover: ;
+  --c-dock-button-fg-hover: ;
+  --c-dock-button-bg-active: ;
+  --c-dock-button-fg-active: ;
+  --c-dock-button-radius: ;
+  --c-dock-button-size: ;
+  --c-dock-button-icon-size: ;
+
+  /* Component: button */
+  --c-button-radius: ;
+  --c-button-height-sm: ;
+  --c-button-height-md: ;
+  --c-button-height-lg: ;
+  --c-button-padding-inline-sm: ;
+  --c-button-padding-inline-md: ;
+  --c-button-padding-inline-lg: ;
+
+  --c-button-primary-bg: ;
+  --c-button-primary-fg: ;
+  --c-button-primary-bg-hover: ;
+  --c-button-primary-fg-hover: ;
+
+  --c-button-secondary-bg: ;
+  --c-button-secondary-fg: ;
+  --c-button-secondary-border: ;
+  --c-button-secondary-bg-hover: ;
+  --c-button-secondary-fg-hover: ;
+
+  --c-button-ghost-bg: ;
+  --c-button-ghost-fg: ;
+  --c-button-ghost-bg-hover: ;
+  --c-button-ghost-fg-hover: ;
+
+  /* Component: icon button */
+  --c-icon-button-size: ;
+  --c-icon-button-radius: ;
+  --c-icon-button-bg: ;
+  --c-icon-button-fg: ;
+  --c-icon-button-bg-hover: ;
+  --c-icon-button-fg-hover: ;
+
+  /* Component: card */
+  --c-card-bg: ;
+  --c-card-border-color: ;
+  --c-card-border-width: ;
+  --c-card-radius: ;
+  --c-card-padding: ;
+
+  --c-card-title-color: ;
+  --c-card-subtitle-color: ;
+
+  /* Component: card header */
+  --c-card-header-default-bg: ;
+  --c-card-header-default-title-color: ;
+  --c-card-header-default-subtitle-color: ;
+
+  --c-card-header-review-bg: ;
+  --c-card-header-review-title-color: ;
+  --c-card-header-review-subtitle-color: ;
+
+  --c-card-header-module-bg: ;
+  --c-card-header-module-title-color: ;
+  --c-card-header-module-subtitle-color: ;
+
+  /* Component: rail pattern */
+  --c-rail-pattern-color: var(--s-decoration-shell-pattern);
+  --c-rail-pattern-opacity: ;
+}
+
+@theme static {
+  --color-surface-app: var(--s-surface-app);
+  --color-surface-shell: var(--s-surface-shell);
+  --color-border-shell: var(--s-border-shell);
+  --color-appbar-bg: var(--c-appbar-bg);
+  --color-appbar-border: var(--c-appbar-border-color);
+  --color-main-content-bg: var(--c-main-content-bg);
+
+  --color-rail-bg: var(--c-rail-bg);
+  --color-rail-border: var(--c-rail-border-color);
+
+  --color-rail-pattern-color: var(--c-rail-pattern-color);
+
+  --spacing-rail-width-compact: var(--c-rail-width-compact);
+  --spacing-rail-width-expanded: var(--c-rail-width-expanded);
+  --spacing-dock-height-mobile: var(--c-dock-height-mobile);
+  --spacing-appbar-height: var(--c-appbar-height);
+}
 
 :root {
   /* primitive tokens */
@@ -20,7 +325,7 @@
   --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
   --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
   /* semantic tokens */
-  --kartuli-color-semantic-surface: #e0b24f;
+  --kartuli-color-semantic-surface: var(--kartuli-color-primitive-neutral-50);
   --kartuli-color-semantic-surface-border: var(--kartuli-color-primitive-neutral-200);
   /* component tokens */
   --kartuli-color-component-pattern-background: var(--kartuli-color-semantic-surface);
@@ -28,7 +333,7 @@
   --kartuli-color-component-pattern-highlight: var(--kartuli-color-semantic-surface-border);
 }
 
-@theme {
+@theme static {
   /* semantic colors */
   --color-kartuli-color-semantic-surface: var(--kartuli-color-semantic-surface);
   --color-kartuli-color-semantic-surface-border: var(--kartuli-color-semantic-surface-border);
@@ -68,13 +373,6 @@
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--kartuli-color-primitive-neutral-900);
-}
-
-:root {
-  --app-bar-height: 5rem;
-  --rail-dock-height: 5rem;
-  --rail-collapsed-width: 6rem;
-  --rail-expanded-width: 14rem;
 }
 
 :root {

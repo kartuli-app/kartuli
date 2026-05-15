@@ -18,8 +18,8 @@ export function ExploreAlphabetPage() {
           }
         />
       }
-      startRail={<GameClientDock activeItemId="learn" />}
-      endRail={<RailPatternAlphabet />}
+      startRailContent={<GameClientDock activeItemId="learn" />}
+      endRailContent={<RailPatternAlphabet />}
     >
       <ExploreAlphabetScreen />
     </AppShell>
