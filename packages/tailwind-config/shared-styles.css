@@ -76,6 +76,21 @@
   --s-color-shell-border: var(--p-color-accent-500);
   --s-width-shell-border: 2px;
 
+  /* shell focus */
+  --s-width-shell-focus-ring: 4px;
+
+  /* shell action ghost */
+  --s-color-shell-action-ghost-bg: transparent;
+  --s-color-shell-action-ghost-content: var(--p-color-neutral-700);
+  --s-color-shell-action-ghost-ring: var(--p-color-neutral-900);
+  --s-color-shell-action-ghost-hover-bg: var(--p-color-neutral-500);
+  --s-color-shell-action-ghost-hover-content: var(--p-color-neutral-50);
+
+  /* shell action selected */
+  --s-color-shell-action-selected-bg: var(--p-color-neutral-900);
+  --s-color-shell-action-selected-content: var(--p-color-neutral-50);
+  --s-color-shell-action-selected-ring: var(--p-color-neutral-50);
+
   /* panel */
 
   /* detail */
@@ -92,8 +107,15 @@
 
   /* Component: appbar */
   --c-height-appbar: 5rem;
+
   /* Component: dock */
   --c-height-dock-mobile: 5rem;
+
+  /* Component: dock item */
+  --c-width-dock-item-mobile: 4rem;
+  --c-height-dock-item-mobile: 4rem;
+  --c-width-dock-item-desktop: 100%;
+  --c-height-dock-item-desktop: 3rem;
 }
 
 @theme static {
@@ -172,6 +194,18 @@
   --color-s-color-shell-content-decoration: var(--s-color-shell-content-decoration);
   --color-s-color-shell-border: var(--s-color-shell-border);
 
+  /* shell action ghost */
+  --color-s-color-shell-action-ghost-bg: var(--s-color-shell-action-ghost-bg);
+  --color-s-color-shell-action-ghost-content: var(--s-color-shell-action-ghost-content);
+  --color-s-color-shell-action-ghost-ring: var(--s-color-shell-action-ghost-ring);
+  --color-s-color-shell-action-ghost-hover-bg: var(--s-color-shell-action-ghost-hover-bg);
+  --color-s-color-shell-action-ghost-hover-content: var(--s-color-shell-action-ghost-hover-content);
+
+  /* shell action ghost selected */
+  --color-s-color-shell-action-selected-bg: var(--s-color-shell-action-selected-bg);
+  --color-s-color-shell-action-selected-content: var(--s-color-shell-action-selected-content);
+  --color-s-color-shell-action-selected-ring: var(--s-color-shell-action-selected-ring);
+
   /*
    * Component utilities
    * These map component tokens to utility classes.
@@ -185,6 +219,12 @@
 
   /* Component: dock */
   --spacing-height-dock-mobile: var(--c-height-dock-mobile);
+
+  /* Component: dock item */
+  --spacing-width-dock-item-mobile: var(--c-width-dock-item-mobile);
+  --spacing-height-dock-item-mobile: var(--c-height-dock-item-mobile);
+  --spacing-width-dock-item-desktop: var(--c-width-dock-item-desktop);
+  --spacing-height-dock-item-desktop: var(--c-height-dock-item-desktop);
 
   /*
    * Georgian font and default font variables

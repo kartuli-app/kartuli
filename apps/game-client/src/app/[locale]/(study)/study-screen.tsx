@@ -367,7 +367,7 @@ function SummaryCard(props: Readonly<UseStudyNavigationReturnType>) {
 
 function DetailCard({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <div className="flex flex-col gap-6 h-full w-full items-center justify-center">
+    <div className="flex flex-col gap-8 h-full w-full items-center justify-center">
       <div className="font-georgian text-9xl leading-none text-kartuli-color-primitive-neutral-500">
         {item.targetScript}
       </div>

@@ -28,7 +28,7 @@ export default async function LessonStudyPage({
       appBar={
         <GameClientAppBar
           title={lesson.title}
-          context="Study Alphabet"
+          context="Learn: Alphabet"
           backHref={`/${locale}/explore/alphabet`}
           action={
             <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />

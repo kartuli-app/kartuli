@@ -33,6 +33,7 @@ const dockItemIconLabels: Record<keyof typeof dockItemIcons, string> = {
 type DockItemStoryProps = Omit<ComponentProps<typeof DockItem>, 'icon' | 'activeIcon' | 'href'> & {
   icon: keyof typeof dockItemIcons;
   activeIcon: keyof typeof dockItemIcons;
+  id?: string;
 };
 
 function DockItemStory({ icon, activeIcon, ...props }: Readonly<DockItemStoryProps>) {
@@ -166,5 +167,28 @@ export const ActiveHoverFocusVisible: Story = {
   },
   parameters: {
     pseudo: { hover: true, focusVisible: true },
+  },
+};
+
+export const Comparison: Story = {
+  render: () => (
+    <div className="flex flex-col gap-2">
+      <DockItemStory label="Learn" active icon="learnOutline" activeIcon="learnActive" />
+      <DockItemStory
+        label="Translit"
+        active={false}
+        icon="translitOutline"
+        activeIcon="translitActive"
+      />
+      <DockItemStory
+        label="Settings"
+        active={false}
+        icon="settingsOutline"
+        activeIcon="settingsActive"
+      />
+    </div>
+  ),
+  parameters: {
+    controls: { disable: true },
   },
 };

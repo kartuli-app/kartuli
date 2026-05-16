@@ -7,7 +7,7 @@ export function ContentContainer({ children }: Readonly<{ children: ReactNode }>
       className={cn(
         //
         'flex-1',
-        'flex flex-col',
+        'flex flex-col justify-center',
         'w-full',
         'h-full',
         'max-w-5xl',

@@ -9,12 +9,13 @@ export function Dock({
     <div
       className={cn(
         'flex',
-        'gap-1 md:gap-2 xl:gap-4',
+        'p-p-spacing-4',
         'items-center',
+        // responsive layout
         'flex-row md:flex-col',
+        'gap-p-spacing-2 md:gap-p-spacing-4',
         'justify-center md:justify-start',
         'w-auto xl:w-full',
-        'p-4 xl:p-8',
         className,
       )}
     >

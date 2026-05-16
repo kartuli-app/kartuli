@@ -8,7 +8,7 @@ import {
   PiBookOpenTextLight,
 } from 'react-icons/pi';
 
-const gameClientDockItems = [
+export const gameClientDockItems = [
   {
     id: 'learn',
     label: 'Learn',
