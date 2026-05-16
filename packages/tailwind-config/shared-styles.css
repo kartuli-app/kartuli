@@ -1,76 +1,194 @@
-/* Generated from generated/design.tokens.json. */
-/* Do not edit manually. Update DESIGN.md, then run pnpm design:build. */
-
 :root {
-  --primary: #ca00e8;
-  --brand-color-primary-soft: #edb1ff;
-  --brand-color-primary: #ca00e8;
-  --brand-color-primary-strong: #570065;
-  --brand-color-neutral-soft: #c3c7c7;
-  --brand-color-neutral: #767979;
-  --brand-color-neutral-strong: #101111;
-  --brand-color-semantic-success-soft: #aafebb;
-  --brand-color-semantic-success: #32e970;
-  --brand-color-semantic-success-strong: #0d5a27;
-  --brand-color-semantic-error-soft: #f19d9d;
-  --brand-color-semantic-error: #942121;
-  --brand-color-semantic-error-strong: #460a0a;
-  --brand-spacing-1: 4px;
-  --brand-spacing-2: 8px;
-  --brand-spacing-3: 12px;
-  --brand-spacing-4: 16px;
-  --brand-radius-none: 0px;
-  --brand-radius-1: 8px;
-  --brand-radius-2: 16px;
-  --brand-radius-3: 24px;
-  --brand-radius-full: 9999px;
-  --brand-typography-title-font-size: 24px;
-  --brand-typography-title-font-weight: 700;
-  --brand-typography-title-letter-spacing: -0.2px;
-  --brand-typography-title-line-height: 28px;
-  --brand-typography-subtitle-font-size: 18px;
-  --brand-typography-subtitle-font-weight: 600;
-  --brand-typography-subtitle-letter-spacing: 0px;
-  --brand-typography-subtitle-line-height: 23px;
-  --brand-typography-button-font-size: 16px;
-  --brand-typography-button-font-weight: 400;
-  --brand-typography-button-letter-spacing: 0px;
-  --brand-typography-button-line-height: 20px;
+  /*
+   * Legacy tokens
+   * This will be replaced by the new design token system in the next pass
+   */
+  --kartuli-color-primitive-neutral-50: oklch(98.4% 0.003 247.858);
+  --kartuli-color-primitive-neutral-200: oklch(92.9% 0.013 255.508);
+  --kartuli-color-primitive-neutral-500: oklch(55.4% 0.046 257.417);
+  --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
+  --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
+
+  /*
+   * Primitive tokens
+   * Raw values. No UI meaning.
+   * These are the ingredients.
+   */
+
+  /* Primitive: color */
+  --p-color-neutral-50: oklch(98.5% 0.002 247.839);
+  --p-color-neutral-200: oklch(87.2% 0.01 258.338);
+  --p-color-neutral-500: oklch(55.1% 0.027 264.364);
+  --p-color-neutral-700: oklch(37.3% 0.034 259.733);
+  --p-color-neutral-900: oklch(21% 0.034 264.665);
+
+  --p-color-brand-50: ;
+  --p-color-brand-200: ;
+  --p-color-brand-500: ;
+  --p-color-brand-700: ;
+  --p-color-brand-900: ;
+
+  --p-color-accent-50: oklch(0.975 0.012 23.84);
+  --p-color-accent-100: oklch(0.95 0.023 24.19);
+  --p-color-accent-200: oklch(0.902 0.049 24.36);
+  --p-color-accent-300: oklch(0.853 0.076 25.77);
+  --p-color-accent-400: oklch(0.805 0.105 27.51);
+  --p-color-accent-500: oklch(0.762 0.136 28.81);
+  --p-color-accent-600: oklch(0.643 0.206 36.44);
+  --p-color-accent-700: oklch(0.518 0.166 36.46);
+  --p-color-accent-800: oklch(0.394 0.126 36.47);
+  --p-color-accent-900: oklch(0.269 0.086 36.91);
+  --p-color-accent-950: oklch(0.206 0.066 36.34);
+
+  --p-color-success-100: ;
+  --p-color-success-500: ;
+  --p-color-success-900: ;
+
+  --p-color-error-100: ;
+  --p-color-error-500: ;
+  --p-color-error-900: ;
+
+  /* Primitive: spacing */
+  --p-spacing-0: 0px;
+  --p-spacing-1: 4px;
+  --p-spacing-2: 8px;
+  --p-spacing-3: 12px;
+  --p-spacing-4: 16px;
+  --p-spacing-5: 20px;
+  --p-spacing-6: 24px;
+
+  /* Primitive: radius */
+  --p-radius-none: 0px;
+  --p-radius-1: 8px;
+  --p-radius-2: 16px;
+  --p-radius-3: 24px;
+  --p-radius-full: 9999px;
+
+  /*
+   * Semantic tokens
+   * UI meaning. These describe roles in the interface.
+   * There are 3 different contexts: shell, panel, detail.
+   */
+
+  /* shell */
+  --s-color-shell-bg: var(--p-color-accent-200);
+  --s-color-shell-content-decoration: var(--p-color-neutral-200);
+  --s-color-shell-border: var(--p-color-accent-500);
+  --s-width-shell-border: 2px;
+
+  /* panel */
+
+  /* detail */
+
+  /*
+   * Component tokens
+   * Stable component contracts.
+   * These map component parts to semantic roles.
+   */
+
+  /* Component: shell rail */
+  --c-width-rail-compact: 6rem;
+  --c-width-rail-expanded: 14rem;
+
+  /* Component: appbar */
+  --c-height-appbar: 5rem;
+  /* Component: dock */
+  --c-height-dock-mobile: 5rem;
 }
 
 @theme static {
-  --color-primary: var(--primary);
-  --color-brand-color-primary-soft: var(--brand-color-primary-soft);
-  --color-brand-color-primary: var(--brand-color-primary);
-  --color-brand-color-primary-strong: var(--brand-color-primary-strong);
-  --color-brand-color-neutral-soft: var(--brand-color-neutral-soft);
-  --color-brand-color-neutral: var(--brand-color-neutral);
-  --color-brand-color-neutral-strong: var(--brand-color-neutral-strong);
-  --color-brand-color-semantic-success-soft: var(--brand-color-semantic-success-soft);
-  --color-brand-color-semantic-success: var(--brand-color-semantic-success);
-  --color-brand-color-semantic-success-strong: var(--brand-color-semantic-success-strong);
-  --color-brand-color-semantic-error-soft: var(--brand-color-semantic-error-soft);
-  --color-brand-color-semantic-error: var(--brand-color-semantic-error);
-  --color-brand-color-semantic-error-strong: var(--brand-color-semantic-error-strong);
-  --spacing-brand-spacing-1: var(--brand-spacing-1);
-  --spacing-brand-spacing-2: var(--brand-spacing-2);
-  --spacing-brand-spacing-3: var(--brand-spacing-3);
-  --spacing-brand-spacing-4: var(--brand-spacing-4);
-  --radius-brand-radius-none: var(--brand-radius-none);
-  --radius-brand-radius-1: var(--brand-radius-1);
-  --radius-brand-radius-2: var(--brand-radius-2);
-  --radius-brand-radius-3: var(--brand-radius-3);
-  --radius-brand-radius-full: var(--brand-radius-full);
-  --text-brand-typography-title: var(--brand-typography-title-font-size);
-  --text-brand-typography-title--font-weight: var(--brand-typography-title-font-weight);
-  --text-brand-typography-title--letter-spacing: var(--brand-typography-title-letter-spacing);
-  --text-brand-typography-title--line-height: var(--brand-typography-title-line-height);
-  --text-brand-typography-subtitle: var(--brand-typography-subtitle-font-size);
-  --text-brand-typography-subtitle--font-weight: var(--brand-typography-subtitle-font-weight);
-  --text-brand-typography-subtitle--letter-spacing: var(--brand-typography-subtitle-letter-spacing);
-  --text-brand-typography-subtitle--line-height: var(--brand-typography-subtitle-line-height);
-  --text-brand-typography-button: var(--brand-typography-button-font-size);
-  --text-brand-typography-button--font-weight: var(--brand-typography-button-font-weight);
-  --text-brand-typography-button--letter-spacing: var(--brand-typography-button-letter-spacing);
-  --text-brand-typography-button--line-height: var(--brand-typography-button-line-height);
+  /*
+   * Legacy tokens
+   * This will be replaced by the new design token system in the next pass
+   */
+  --color-kartuli-color-primitive-neutral-50: var(--kartuli-color-primitive-neutral-50);
+  --color-kartuli-color-primitive-neutral-200: var(--kartuli-color-primitive-neutral-200);
+  --color-kartuli-color-primitive-neutral-500: var(--kartuli-color-primitive-neutral-500);
+  --color-kartuli-color-primitive-neutral-900: var(--kartuli-color-primitive-neutral-900);
+  --color-kartuli-color-primitive-neutral-950: var(--kartuli-color-primitive-neutral-950);
+
+  /*
+   * Primitive utilities
+   * These map primitive tokens to utility classes.
+   */
+
+  /* Primitive: color */
+  --color-p-color-neutral-50: var(--p-color-neutral-50);
+  --color-p-color-neutral-200: var(--p-color-neutral-200);
+  --color-p-color-neutral-500: var(--p-color-neutral-500);
+  --color-p-color-neutral-700: var(--p-color-neutral-700);
+  --color-p-color-neutral-900: var(--p-color-neutral-900);
+
+  --color-p-color-brand-50: var(--p-color-brand-50);
+  --color-p-color-brand-200: var(--p-color-brand-200);
+  --color-p-color-brand-500: var(--p-color-brand-500);
+  --color-p-color-brand-700: var(--p-color-brand-700);
+  --color-p-color-brand-900: var(--p-color-brand-900);
+
+  --color-p-color-accent-50: var(--p-color-accent-50);
+  --color-p-color-accent-100: var(--p-color-accent-100);
+  --color-p-color-accent-200: var(--p-color-accent-200);
+  --color-p-color-accent-300: var(--p-color-accent-300);
+  --color-p-color-accent-400: var(--p-color-accent-400);
+  --color-p-color-accent-500: var(--p-color-accent-500);
+  --color-p-color-accent-600: var(--p-color-accent-600);
+  --color-p-color-accent-700: var(--p-color-accent-700);
+  --color-p-color-accent-800: var(--p-color-accent-800);
+  --color-p-color-accent-900: var(--p-color-accent-900);
+  --color-p-color-accent-950: var(--p-color-accent-950);
+
+  --color-p-color-success-100: var(--p-color-success-100);
+  --color-p-color-success-500: var(--p-color-success-500);
+  --color-p-color-success-900: var(--p-color-success-900);
+
+  --color-p-color-error-100: var(--p-color-error-100);
+  --color-p-color-error-500: var(--p-color-error-500);
+  --color-p-color-error-900: var(--p-color-error-900);
+
+  /* Primitive: spacing */
+  --spacing-p-spacing-0: var(--p-spacing-0);
+  --spacing-p-spacing-1: var(--p-spacing-1);
+  --spacing-p-spacing-2: var(--p-spacing-2);
+  --spacing-p-spacing-3: var(--p-spacing-3);
+  --spacing-p-spacing-4: var(--p-spacing-4);
+  --spacing-p-spacing-5: var(--p-spacing-5);
+  --spacing-p-spacing-6: var(--p-spacing-6);
+
+  /* Primitive: radius */
+  --radius-p-radius-none: var(--p-radius-none);
+  --radius-p-radius-1: var(--p-radius-1);
+  --radius-p-radius-2: var(--p-radius-2);
+  --radius-p-radius-3: var(--p-radius-3);
+  --radius-p-radius-full: var(--p-radius-full);
+
+  /*
+   * Semantic utilities
+   * These map semantic tokens to utility classes.
+   * There are 3 different contexts: shell, panel, detail.
+   */
+
+  /* shell */
+  --color-s-color-shell-bg: var(--s-color-shell-bg);
+  --color-s-color-shell-content-decoration: var(--s-color-shell-content-decoration);
+  --color-s-color-shell-border: var(--s-color-shell-border);
+
+  /*
+   * Component utilities
+   * These map component tokens to utility classes.
+   */
+  /* Component: shell rail */
+  --spacing-width-rail-compact: var(--c-width-rail-compact);
+  --spacing-width-rail-expanded: var(--c-width-rail-expanded);
+
+  /* Component: appbar */
+  --spacing-height-appbar: var(--c-height-appbar);
+
+  /* Component: dock */
+  --spacing-height-dock-mobile: var(--c-height-dock-mobile);
+
+ /*
+ Georgian font and default font variables
+ */
+  --font-georgian: var(--font-georgian-family);
+  --font-default: var(--font-default-family);
 }

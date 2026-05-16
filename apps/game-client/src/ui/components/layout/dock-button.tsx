@@ -37,7 +37,7 @@ export function DockButton({
         className={cn(
           'shrink-0',
           'size-6',
-          'text-kartuli-color-primitive-neutral-500',
+          'text-kartuli-color-primitive-neutral-700',
           !isActive && 'group-hover:text-kartuli-color-primitive-neutral-50',
           isActive && 'text-kartuli-color-primitive-neutral-50',
         )}
@@ -46,7 +46,7 @@ export function DockButton({
       <div
         className={cn(
           'text-sm xl:text-lg',
-          'text-kartuli-color-primitive-neutral-500',
+          'text-kartuli-color-primitive-neutral-700',
           !isActive && 'group-hover:text-kartuli-color-primitive-neutral-50',
           isActive && 'text-kartuli-color-primitive-neutral-50',
         )}

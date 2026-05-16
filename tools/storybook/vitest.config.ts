@@ -7,6 +7,14 @@ import { defineConfig } from 'vitest/config';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '../..');
+const optimizeDepsInclude = [
+  'next/link',
+  'react-icons/fa6',
+  'react-icons/hi',
+  'react-icons/io5',
+  'react-icons/pi',
+  'react-icons/ri',
+];
 
 /**
  * Runs every story as a Vitest browser-mode test via @storybook/addon-vitest.
@@ -36,6 +44,9 @@ export default defineConfig({
       '@game-client': resolve(repoRoot, 'apps/game-client/src'),
       '@kartuli/ui': resolve(repoRoot, 'packages/ui/src'),
     },
+  },
+  optimizeDeps: {
+    include: optimizeDepsInclude,
   },
   test: {
     name: 'storybook',

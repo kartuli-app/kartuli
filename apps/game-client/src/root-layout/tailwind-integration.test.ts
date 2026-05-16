@@ -21,20 +21,20 @@ describe('tailwind integration (game-client)', () => {
   });
 
   it('emits design token CSS variables from shared-styles', () => {
-    // 'primary' is the stable sentinel required by the design.md linter
-    expect(css).toMatch(/--primary: .+;/);
-    // brand token categories are present (structure, not specific names/values)
-    expect(css).toMatch(/--brand-color-[\w-]+: #[0-9a-f]{6};/);
-    expect(css).toMatch(/--brand-spacing-\d+: \d+px;/);
-    expect(css).toMatch(/--brand-radius-[\w-]+: [\d.]+px;/);
+    // 'p-neutral-500' is the stable color
+    expect(css).toMatch(/--p-color-neutral-500: .+;/);
+    // p-spacing-3 is the stable spacing
+    expect(css).toMatch(/--p-spacing-3: .+;/);
+    // p-radius-1 is the stable radius
+    expect(css).toMatch(/--p-radius-1: .+;/);
   });
 
   it('wires design tokens into the Tailwind theme', () => {
-    // 'primary' wiring is the stable sentinel check
-    expect(css).toContain('--color-primary: var(--primary);');
-    // brand token categories are wired (structure, not specific names)
-    expect(css).toMatch(/--color-brand-color-[\w-]+: var\(--brand-color-[\w-]+\);/);
-    expect(css).toMatch(/--spacing-brand-spacing-\d+: var\(--brand-spacing-\d+\);/);
-    expect(css).toMatch(/--radius-brand-radius-[\w-]+: var\(--brand-radius-[\w-]+\);/);
+    // 'p-color-neutral-500' wiring is the stable color check
+    expect(css).toContain('--color-p-color-neutral-500: var(--p-color-neutral-500);');
+    // 'p-spacing-3' wiring is the stable spacing check
+    expect(css).toContain('--spacing-p-spacing-3: var(--p-spacing-3);');
+    // 'p-radius-1' wiring is the stable radius check
+    expect(css).toContain('--radius-p-radius-1: var(--p-radius-1);');
   });
 });
