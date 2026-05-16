@@ -186,9 +186,9 @@
   /* Component: dock */
   --spacing-height-dock-mobile: var(--c-height-dock-mobile);
 
- /*
- Georgian font and default font variables
- */
+  /*
+   * Georgian font and default font variables
+   */
   --font-georgian: var(--font-georgian-family);
   --font-default: var(--font-default-family);
 }

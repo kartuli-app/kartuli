@@ -1,5 +1,5 @@
 import { Dock } from '@game-client/ui/components/layout/dock';
-import { DockButton } from '@game-client/ui/components/layout/dock-button';
+import { DockItem } from '@game-client/ui/components/layout/dock-item';
 import { IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
 import {
   PiArrowsClockwiseBold,
@@ -40,13 +40,13 @@ export function GameClientDock({ activeItemId }: Readonly<GameClientDockProps>) 
   return (
     <Dock>
       {gameClientDockItems.map((item) => (
-        <DockButton
+        <DockItem
           key={item.id}
           label={item.label}
           href={item.href}
           icon={item.icon}
-          iconActive={item.activeIcon}
-          isActive={item.id === activeItemId}
+          activeIcon={item.activeIcon}
+          active={item.id === activeItemId}
         />
       ))}
     </Dock>

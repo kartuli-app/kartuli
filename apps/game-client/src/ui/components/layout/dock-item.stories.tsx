@@ -8,9 +8,9 @@ import {
   PiBookOpenTextLight,
 } from 'react-icons/pi';
 import { Surface } from '../surface/surface';
-import { DockButton } from './dock-button';
+import { DockItem } from './dock-item';
 
-const dockButtonIcons = {
+const dockItemIcons = {
   learnOutline: PiBookOpenTextLight,
   learnActive: PiBookOpenTextFill,
   translitOutline: PiArrowsClockwiseLight,
@@ -19,9 +19,9 @@ const dockButtonIcons = {
   settingsActive: IoSettingsSharp,
 } satisfies Record<string, ComponentType<SVGProps<SVGSVGElement>>>;
 
-const dockButtonIconOptions = Object.keys(dockButtonIcons) as Array<keyof typeof dockButtonIcons>;
+const dockItemIconOptions = Object.keys(dockItemIcons) as Array<keyof typeof dockItemIcons>;
 
-const dockButtonIconLabels: Record<keyof typeof dockButtonIcons, string> = {
+const dockItemIconLabels: Record<keyof typeof dockItemIcons, string> = {
   learnOutline: 'Learn outline',
   learnActive: 'Learn active',
   translitOutline: 'Translit outline',
@@ -30,20 +30,18 @@ const dockButtonIconLabels: Record<keyof typeof dockButtonIcons, string> = {
   settingsActive: 'Settings active',
 };
 
-type DockButtonStoryProps = Omit<ComponentProps<typeof DockButton>, 'icon' | 'iconActive'> & {
-  icon: keyof typeof dockButtonIcons;
-  iconActive: keyof typeof dockButtonIcons;
+type DockItemStoryProps = Omit<ComponentProps<typeof DockItem>, 'icon' | 'activeIcon'> & {
+  icon: keyof typeof dockItemIcons;
+  activeIcon: keyof typeof dockItemIcons;
 };
 
-function DockButtonStory({ icon, iconActive, ...props }: Readonly<DockButtonStoryProps>) {
-  return (
-    <DockButton {...props} icon={dockButtonIcons[icon]} iconActive={dockButtonIcons[iconActive]} />
-  );
+function DockItemStory({ icon, activeIcon, ...props }: Readonly<DockItemStoryProps>) {
+  return <DockItem {...props} icon={dockItemIcons[icon]} activeIcon={dockItemIcons[activeIcon]} />;
 }
 
-const meta: Meta<typeof DockButtonStory> = {
-  title: 'UI/DockButton',
-  component: DockButtonStory,
+const meta: Meta<typeof DockItemStory> = {
+  title: 'UI/DockItem',
+  component: DockItemStory,
   parameters: {
     layout: 'centered',
     docs: {
@@ -65,7 +63,7 @@ const meta: Meta<typeof DockButtonStory> = {
       control: 'text',
       description: 'The label of the button',
     },
-    isActive: {
+    active: {
       control: 'boolean',
       description: 'Whether the button is active',
     },
@@ -76,26 +74,26 @@ const meta: Meta<typeof DockButtonStory> = {
     icon: {
       control: {
         type: 'select',
-        labels: dockButtonIconLabels,
+        labels: dockItemIconLabels,
       },
-      options: dockButtonIconOptions,
+      options: dockItemIconOptions,
       description: 'The icon shown when the button is inactive',
     },
-    iconActive: {
+    activeIcon: {
       control: {
         type: 'select',
-        labels: dockButtonIconLabels,
+        labels: dockItemIconLabels,
       },
-      options: dockButtonIconOptions,
+      options: dockItemIconOptions,
       description: 'The icon shown when the button is active',
     },
   },
   args: {
     label: 'Learn',
-    isActive: false,
+    active: false,
     href: '/',
     icon: 'learnOutline',
-    iconActive: 'learnActive',
+    activeIcon: 'learnActive',
   },
 };
 
@@ -103,11 +101,65 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+// scenarios:
+// - default
+// - default focus visible
+// - default hover
+// - default hover focus visible
+// - active
+// - active focus visible
+// - active hover
+// - active hover focus visible
+
 export const Default: Story = {};
 
+export const DefaultFocusVisible: Story = {
+  parameters: {
+    pseudo: { focusVisible: true },
+  },
+};
+
+export const DefaultHover: Story = {
+  parameters: {
+    pseudo: { hover: true },
+  },
+};
+
+export const DefaultHoverFocusVisible: Story = {
+  parameters: {
+    pseudo: { hover: true, focusVisible: true },
+  },
+};
+
 export const Active: Story = {
-  name: 'Active',
   args: {
-    isActive: true,
+    active: true,
+  },
+};
+
+export const ActiveFocusVisible: Story = {
+  args: {
+    active: true,
+  },
+  parameters: {
+    pseudo: { focusVisible: true },
+  },
+};
+
+export const ActiveHover: Story = {
+  args: {
+    active: true,
+  },
+  parameters: {
+    pseudo: { hover: true },
+  },
+};
+
+export const ActiveHoverFocusVisible: Story = {
+  args: {
+    active: true,
+  },
+  parameters: {
+    pseudo: { hover: true, focusVisible: true },
   },
 };
