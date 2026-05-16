@@ -14,8 +14,8 @@ export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
     <div
       className={cn(
         'flex',
-        'bg-rail-bg',
-        'border-rail-border',
+        'bg-s-color-shell-bg',
+        'border-s-color-shell-border',
         //
         placement === 'start' && [
           //
@@ -26,18 +26,18 @@ export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
           'z-20',
           // on mobile the start rail is in the botton and has the height of the dock
           // on desktop the start rail is in the side and has the height of the full screen
-          'h-dock-height-mobile md:h-full',
+          'h-height-dock-mobile md:h-full',
           // on mobile the start rail is full width
           // on tablet the start rail is compact on the left
           // on desktop the start rail is expanded on the left
-          'w-full md:w-rail-width-compact xl:w-rail-width-expanded',
+          'w-full md:w-width-rail-compact xl:w-width-rail-expanded',
           // on mobile the start rail content is centered
           // on tablet and desktop the start rail content is left aligned
           'justify-center md:justify-start',
           // on mobile the start rail border is on the top to separate it from the content
           // on tablet and desktop the start rail border is on the right to separate it from the content
-          'border-t-(length:--c-rail-border-width) md:border-t-0',
-          'border-r-0 md:border-r-(length:--c-rail-border-width)',
+          'border-t-(length:--s-width-shell-border) md:border-t-0',
+          'border-r-0 md:border-r-(length:--s-width-shell-border)',
         ],
         //
         placement === 'end' && [
@@ -50,10 +50,10 @@ export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
           'h-full',
           'hidden 2xl:flex 2xl:fixed',
           // when visible the end rail is expanded on the right
-          'w-rail-width-expanded',
+          'w-width-rail-expanded',
           'right-0',
           // on wide desktop the end rail border is on the left to separate it from the content
-          'border-l-0 2xl:border-l-(length:--c-rail-border-width)',
+          'border-l-0 2xl:border-l-(length:--s-width-shell-border)',
         ],
       )}
     >

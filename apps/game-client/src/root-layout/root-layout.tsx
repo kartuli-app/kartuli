@@ -8,13 +8,13 @@ import { RootQueryClientProvider } from './root-query-client-provider';
 
 const georgianFont = localFont({
   src: '../../public/fonts/mersad.ttf',
-  variable: '--font-georgian',
+  variable: '--font-georgian-family',
   display: 'swap',
 });
 
 const defaultFont = Manrope({
   subsets: ['latin'],
-  variable: '--font-default',
+  variable: '--font-default-family',
   display: 'swap',
 });
 
@@ -31,7 +31,7 @@ export async function RootLayout({
       lang={locale}
       className={cn(georgianFont.variable, defaultFont.variable, defaultFont.className)}
     >
-      <body className="bg-surface-app h-dvh flex">
+      <body className="bg-s-color-shell-bg h-dvh flex">
         <RootQueryClientProvider>
           <RootDatabaseInitializer />
           <I18nProvider locale={locale}>{children}</I18nProvider>

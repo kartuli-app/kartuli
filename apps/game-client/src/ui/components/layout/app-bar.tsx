@@ -14,11 +14,11 @@ export function AppBar({ leading, context, title, action }: Readonly<AppBarProps
       className={cn(
         //
         'flex',
-        'h-appbar-height',
+        'h-height-appbar',
         'items-center',
-        'bg-appbar-bg',
-        'border-b-(length:--c-appbar-border-width)',
-        'border-appbar-border',
+        'bg-s-color-shell-bg',
+        'border-b-(length:--s-width-shell-border)',
+        'border-s-color-shell-border',
       )}
     >
       <ContentContainer>

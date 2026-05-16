@@ -58,7 +58,7 @@ export function RailPatternAlphabet() {
           return (
             <span
               key={`${glyph}-${index}`}
-              className="grid place-items-center text-rail-pattern-color"
+              className="grid place-items-center text-s-color-shell-content-decoration"
             >
               {glyph}
             </span>

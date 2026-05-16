@@ -21,7 +21,6 @@ export function AppShell({
         'flex-1',
         'flex flex-col',
         'relative',
-        'bg-surface-shell',
       )}
     >
       {/* app bar wrapper */}
@@ -34,12 +33,12 @@ export function AppShell({
           // if there is a start rail content, the margin left is the width of the start rail
           // compact on tablet, expanded on desktop
           'left-0',
-          startRailContent && 'left-0 md:left-rail-width-compact xl:left-rail-width-expanded',
+          startRailContent && 'left-0 md:left-width-rail-compact xl:left-width-rail-expanded',
           'right-0',
           // if there is no end rail content, there is no margin right
           // if there is a end rail content, the margin right is the width of the end rail
           // expanded on wide desktop
-          endRailContent && 'right-0 2xl:mr-rail-width-expanded',
+          endRailContent && 'right-0 2xl:mr-width-rail-expanded',
           'z-20',
         )}
       >
@@ -51,20 +50,20 @@ export function AppShell({
         className={cn(
           //
           // the margin top is the height of the app bar
-          'mt-appbar-height',
+          'mt-height-appbar',
           // if there is no start rail content, there is no margin left
           // if there is a start rail content, the margin left is the width of the start rail
           // compact on tablet, expanded on desktop
-          startRailContent && 'ml-0 md:ml-rail-width-compact xl:ml-rail-width-expanded',
+          startRailContent && 'ml-0 md:ml-width-rail-compact xl:ml-width-rail-expanded',
           // if there is no start rail content, there is no padding bottom
           // if there is a start rail content, the padding bottom is the height of the dock
           // on mobile the padding bottom is the height of the dock
           // on desktop the padding bottom is 0
-          startRailContent && 'pb-dock-height-mobile md:pb-0',
+          startRailContent && 'pb-height-dock-mobile md:pb-0',
           // if there is no end rail content, there is no margin right
           // if there is a end rail content, the margin right is the width of the end rail
           // expanded on wide desktop
-          endRailContent && 'mr-0 2xl:mr-rail-width-expanded',
+          endRailContent && 'mr-0 2xl:mr-width-rail-expanded',
           'flex',
           'grow',
           //

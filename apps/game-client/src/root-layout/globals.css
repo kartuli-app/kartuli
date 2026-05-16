@@ -15,6 +15,16 @@
 
 :root {
   /*
+   * Legacy tokens
+   * This will be replaced by the new design token system in the next pass
+   */
+  --kartuli-color-primitive-neutral-50: oklch(98.4% 0.003 247.858);
+  --kartuli-color-primitive-neutral-200: oklch(92.9% 0.013 255.508);
+  --kartuli-color-primitive-neutral-500: oklch(55.4% 0.046 257.417);
+  --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
+  --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
+
+  /*
    * Primitive tokens
    * Raw values. No UI meaning.
    * These are the ingredients.
@@ -54,143 +64,37 @@
   --p-color-error-900: ;
 
   /* Primitive: spacing */
-  --p-space-0: ;
-  --p-space-1: ;
-  --p-space-2: ;
-  --p-space-3: ;
-  --p-space-4: ;
-  --p-space-5: ;
-  --p-space-6: ;
+  --p-spacing-0: 0px;
+  --p-spacing-1: 4px;
+  --p-spacing-2: 8px;
+  --p-spacing-3: 12px;
+  --p-spacing-4: 16px;
+  --p-spacing-5: 20px;
+  --p-spacing-6: 24px;
 
   /* Primitive: radius */
-  --p-radius-none: ;
-  --p-radius-1: ;
-  --p-radius-2: ;
-  --p-radius-3: ;
-  --p-radius-full: ;
-
-  /* Primitive: typography foundations */
-  --p-font-family-sans: ;
-  --p-font-family-georgian: ;
-
-  --p-font-size-1: ;
-  --p-font-size-2: ;
-  --p-font-size-3: ;
-  --p-font-size-4: ;
-
-  --p-font-weight-regular: ;
-  --p-font-weight-bold: ;
-  --p-font-weight-black: ;
-
-  --p-line-height-1: ;
-  --p-line-height-2: ;
-  --p-line-height-3: ;
-
-  --p-letter-spacing-tight: ;
-  --p-letter-spacing-normal: ;
+  --p-radius-none: 0px;
+  --p-radius-1: 8px;
+  --p-radius-2: 16px;
+  --p-radius-3: 24px;
+  --p-radius-full: 9999px;
 
   /*
    * Semantic tokens
    * UI meaning. These describe roles in the interface.
-   * Components should usually depend on these, not raw primitive values.
+   * There are 3 different contexts: shell, panel, detail.
    */
 
-  /* Semantic: surfaces */
-  --s-surface-app: var(--p-color-accent-100);
+  /* shell */
   --s-surface-shell: var(--p-color-accent-100);
-  --s-surface-card: var(--p-color-neutral-50);
-  --s-surface-card-muted: ;
-  --s-surface-game: ;
-  --s-surface-game-panel: ;
+  --s-color-shell-bg: var(--p-color-accent-100);
+  --s-color-shell-content-decoration: var(--p-color-neutral-200);
+  --s-color-shell-border: var(--p-color-accent-500);
+  --s-width-shell-border: 2px;
 
-  /* Semantic: borders */
-  --s-border-shell: var(--p-color-accent-500);
-  --s-border-subtle: ;
-  --s-border-default: ;
-  --s-border-strong: ;
+  /* panel */
 
-  --s-border-width-medium: 2px;
-
-  /* Semantic: content on normal surfaces */
-  --s-content-primary: ;
-  --s-content-secondary: ;
-  --s-content-muted: ;
-  --s-content-inverse: ;
-
-  /* Semantic: content on shell surfaces */
-  --s-content-shell-primary: var(--p-color-neutral-900);
-  --s-content-shell-secondary: var(--p-color-neutral-700);
-  --s-content-shell-muted: var(--p-color-neutral-500);
-
-  /* Semantic: content on game surfaces */
-  --s-content-game-primary: ;
-  --s-content-game-secondary: ;
-  --s-content-game-muted: ;
-
-  /* Semantic: decorative elements */
-  --s-decoration-shell-pattern: var(--p-color-neutral-200);
-
-  /* Semantic: actions */
-  --s-action-primary-bg: ;
-  --s-action-primary-fg: ;
-  --s-action-primary-bg-hover: ;
-  --s-action-primary-fg-hover: ;
-
-  --s-action-secondary-bg: ;
-  --s-action-secondary-fg: ;
-  --s-action-secondary-border: ;
-  --s-action-secondary-bg-hover: ;
-  --s-action-secondary-fg-hover: ;
-
-  --s-action-ghost-bg: ;
-  --s-action-ghost-fg: ;
-  --s-action-ghost-bg-hover: ;
-  --s-action-ghost-fg-hover: ;
-
-  /* Semantic: selection and focus */
-  --s-selection-bg: ;
-  --s-selection-fg: ;
-  --s-focus-ring: ;
-
-  /* Semantic: states */
-  --s-state-success-bg: ;
-  --s-state-success-fg: ;
-  --s-state-success-border: ;
-
-  --s-state-error-bg: ;
-  --s-state-error-fg: ;
-  --s-state-error-border: ;
-
-  /* Semantic: typography styles */
-  --s-text-screen-title-font-family: ;
-  --s-text-screen-title-font-size: ;
-  --s-text-screen-title-font-weight: ;
-  --s-text-screen-title-line-height: ;
-  --s-text-screen-title-letter-spacing: ;
-
-  --s-text-screen-context-font-family: ;
-  --s-text-screen-context-font-size: ;
-  --s-text-screen-context-font-weight: ;
-  --s-text-screen-context-line-height: ;
-  --s-text-screen-context-letter-spacing: ;
-
-  --s-text-card-title-font-family: ;
-  --s-text-card-title-font-size: ;
-  --s-text-card-title-font-weight: ;
-  --s-text-card-title-line-height: ;
-  --s-text-card-title-letter-spacing: ;
-
-  --s-text-card-subtitle-font-family: ;
-  --s-text-card-subtitle-font-size: ;
-  --s-text-card-subtitle-font-weight: ;
-  --s-text-card-subtitle-line-height: ;
-  --s-text-card-subtitle-letter-spacing: ;
-
-  --s-text-button-font-family: ;
-  --s-text-button-font-size: ;
-  --s-text-button-font-weight: ;
-  --s-text-button-line-height: ;
-  --s-text-button-letter-spacing: ;
+  /* detail */
 
   /*
    * Component tokens
@@ -199,157 +103,63 @@
    */
 
   /* Component: shell rail */
-  --c-rail-bg: var(--s-surface-shell);
-  --c-rail-border-color: var(--s-border-shell);
-  --c-rail-border-width: var(--s-border-width-medium);
-  --c-rail-width-compact: 6rem;
-  --c-rail-width-expanded: 14rem;
-
-  /* Component: main container */
-  --c-main-content-bg: var(--s-surface-app);
+  --c-width-rail-compact: 6rem;
+  --c-width-rail-expanded: 14rem;
 
   /* Component: appbar */
-  --c-appbar-bg: var(--s-surface-shell);
-  --c-appbar-border-color: var(--s-border-shell);
-  --c-appbar-border-width: var(--s-border-width-medium);
-  --c-appbar-height: 5rem;
-  --c-appbar-content-gap: ;
-  --c-appbar-slot-size: ;
-
-  --c-appbar-title-color: ;
-  --c-appbar-context-color: ;
-
+  --c-height-appbar: 5rem;
   /* Component: dock */
-  --c-dock-height-mobile: 5rem;
-  --c-dock-padding-block-mobile: ;
-  --c-dock-padding-inline-mobile: ;
-  --c-dock-padding-block-desktop: ;
-  --c-dock-padding-inline-desktop: ;
-  --c-dock-gap: ;
+  --c-height-dock-mobile: 5rem;
 
-  /* Component: dock button */
-  --c-dock-button-fg: ;
-  --c-dock-button-bg-hover: ;
-  --c-dock-button-fg-hover: ;
-  --c-dock-button-bg-active: ;
-  --c-dock-button-fg-active: ;
-  --c-dock-button-radius: ;
-  --c-dock-button-size: ;
-  --c-dock-button-icon-size: ;
-
-  /* Component: button */
-  --c-button-radius: ;
-  --c-button-height-sm: ;
-  --c-button-height-md: ;
-  --c-button-height-lg: ;
-  --c-button-padding-inline-sm: ;
-  --c-button-padding-inline-md: ;
-  --c-button-padding-inline-lg: ;
-
-  --c-button-primary-bg: ;
-  --c-button-primary-fg: ;
-  --c-button-primary-bg-hover: ;
-  --c-button-primary-fg-hover: ;
-
-  --c-button-secondary-bg: ;
-  --c-button-secondary-fg: ;
-  --c-button-secondary-border: ;
-  --c-button-secondary-bg-hover: ;
-  --c-button-secondary-fg-hover: ;
-
-  --c-button-ghost-bg: ;
-  --c-button-ghost-fg: ;
-  --c-button-ghost-bg-hover: ;
-  --c-button-ghost-fg-hover: ;
-
-  /* Component: icon button */
-  --c-icon-button-size: ;
-  --c-icon-button-radius: ;
-  --c-icon-button-bg: ;
-  --c-icon-button-fg: ;
-  --c-icon-button-bg-hover: ;
-  --c-icon-button-fg-hover: ;
-
-  /* Component: card */
-  --c-card-bg: ;
-  --c-card-border-color: ;
-  --c-card-border-width: ;
-  --c-card-radius: ;
-  --c-card-padding: ;
-
-  --c-card-title-color: ;
-  --c-card-subtitle-color: ;
-
-  /* Component: card header */
-  --c-card-header-default-bg: ;
-  --c-card-header-default-title-color: ;
-  --c-card-header-default-subtitle-color: ;
-
-  --c-card-header-review-bg: ;
-  --c-card-header-review-title-color: ;
-  --c-card-header-review-subtitle-color: ;
-
-  --c-card-header-module-bg: ;
-  --c-card-header-module-title-color: ;
-  --c-card-header-module-subtitle-color: ;
-
-  /* Component: rail pattern */
-  --c-rail-pattern-color: var(--s-decoration-shell-pattern);
-  --c-rail-pattern-opacity: ;
+  /**
+   * Global styles
+   */
+  overflow-y: scroll;
 }
 
 @theme static {
-  --color-surface-app: var(--s-surface-app);
-  --color-surface-shell: var(--s-surface-shell);
-  --color-border-shell: var(--s-border-shell);
-  --color-appbar-bg: var(--c-appbar-bg);
-  --color-appbar-border: var(--c-appbar-border-color);
-  --color-main-content-bg: var(--c-main-content-bg);
-
-  --color-rail-bg: var(--c-rail-bg);
-  --color-rail-border: var(--c-rail-border-color);
-
-  --color-rail-pattern-color: var(--c-rail-pattern-color);
-
-  --spacing-rail-width-compact: var(--c-rail-width-compact);
-  --spacing-rail-width-expanded: var(--c-rail-width-expanded);
-  --spacing-dock-height-mobile: var(--c-dock-height-mobile);
-  --spacing-appbar-height: var(--c-appbar-height);
-}
-
-:root {
-  /* primitive tokens */
-  --kartuli-color-primitive-neutral-50: oklch(98.4% 0.003 247.858);
-  --kartuli-color-primitive-neutral-200: oklch(92.9% 0.013 255.508);
-  --kartuli-color-primitive-neutral-500: oklch(55.4% 0.046 257.417);
-  --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
-  --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
-}
-
-@theme static {
-  /* primitive colors */
+  /*
+   * Legacy tokens
+   * This will be replaced by the new design token system in the next pass
+   */
   --color-kartuli-color-primitive-neutral-50: var(--kartuli-color-primitive-neutral-50);
   --color-kartuli-color-primitive-neutral-200: var(--kartuli-color-primitive-neutral-200);
   --color-kartuli-color-primitive-neutral-500: var(--kartuli-color-primitive-neutral-500);
   --color-kartuli-color-primitive-neutral-900: var(--kartuli-color-primitive-neutral-900);
   --color-kartuli-color-primitive-neutral-950: var(--kartuli-color-primitive-neutral-950);
+
+  /*
+   * Semantic utilities
+   * These map semantic tokens to utility classes.
+   * There are 3 different contexts: shell, panel, detail.
+   */
+
+  /* shell */
+  --color-s-color-shell-bg: var(--s-color-shell-bg);
+  --color-s-color-shell-content-decoration: var(--s-color-shell-content-decoration);
+  --color-s-color-shell-border: var(--s-color-shell-border);
+
+  /*
+   * Component utilities
+   * These map component tokens to utility classes.
+   */
+  /* Component: shell rail */
+  --spacing-width-rail-compact: var(--c-width-rail-compact);
+  --spacing-width-rail-expanded: var(--c-width-rail-expanded);
+
+  /* Component: appbar */
+  --spacing-height-appbar: var(--c-height-appbar);
+
+  /* Component: dock */
+  --spacing-height-dock-mobile: var(--c-height-dock-mobile);
 }
 
 /*
  Georgian font and default font variables
  */
 @theme {
-  --font-georgian: var(--font-georgian);
-  --font-default: var(--font-default);
-}
-/*
- This makes all pages have a stable scrollbar gutter
- so there are no layout shifts for pages with / withouth scrollbars
- */
-@layer utilities {
-  .scrollbar-gutter-stable {
-    scrollbar-gutter: stable;
-  }
+  --font-georgian: var(--font-georgian-family);
+  --font-default: var(--font-default-family);
 }
 
 /*
@@ -363,8 +173,4 @@
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--p-color-neutral-500);
-}
-
-:root {
-  overflow-y: scroll;
 }
