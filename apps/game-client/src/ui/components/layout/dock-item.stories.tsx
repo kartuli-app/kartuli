@@ -30,13 +30,20 @@ const dockItemIconLabels: Record<keyof typeof dockItemIcons, string> = {
   settingsActive: 'Settings active',
 };
 
-type DockItemStoryProps = Omit<ComponentProps<typeof DockItem>, 'icon' | 'activeIcon'> & {
+type DockItemStoryProps = Omit<ComponentProps<typeof DockItem>, 'icon' | 'activeIcon' | 'href'> & {
   icon: keyof typeof dockItemIcons;
   activeIcon: keyof typeof dockItemIcons;
 };
 
 function DockItemStory({ icon, activeIcon, ...props }: Readonly<DockItemStoryProps>) {
-  return <DockItem {...props} icon={dockItemIcons[icon]} activeIcon={dockItemIcons[activeIcon]} />;
+  return (
+    <DockItem
+      href="/"
+      {...props}
+      icon={dockItemIcons[icon]}
+      activeIcon={dockItemIcons[activeIcon]}
+    />
+  );
 }
 
 const meta: Meta<typeof DockItemStory> = {
@@ -49,6 +56,9 @@ const meta: Meta<typeof DockItemStory> = {
         component:
           'Compact navigation button used in the game client dock. The icon controls expose the same icon set used by the live app while keeping the Storybook args serializable.',
       },
+    },
+    controls: {
+      exclude: ['href'],
     },
   },
   decorators: [
@@ -66,10 +76,6 @@ const meta: Meta<typeof DockItemStory> = {
     active: {
       control: 'boolean',
       description: 'Whether the button is active',
-    },
-    href: {
-      control: 'text',
-      description: 'The href of the button',
     },
     icon: {
       control: {
@@ -91,7 +97,6 @@ const meta: Meta<typeof DockItemStory> = {
   args: {
     label: 'Learn',
     active: false,
-    href: '/',
     icon: 'learnOutline',
     activeIcon: 'learnActive',
   },
@@ -101,7 +106,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// scenarios:
+// Story scenarios:
 // - default
 // - default focus visible
 // - default hover

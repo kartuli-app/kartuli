@@ -36,7 +36,6 @@ export function DockItem({
     // hover state
     !active && 'hover:bg-kartuli-color-primitive-neutral-500',
     !active && 'hover:text-kartuli-color-primitive-neutral-50',
-    !active && 'focus-visible:ring-kartuli-color-primitive-neutral-900',
     // active state
     active && 'bg-kartuli-color-primitive-neutral-900',
     active && 'text-kartuli-color-primitive-neutral-50',
