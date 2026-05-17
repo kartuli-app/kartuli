@@ -4,8 +4,8 @@ import { MascotLogo } from './mascot-logo';
 
 type GameClientAppBarProps = {
   backHref?: string;
-  eyeBrow: React.ReactNode;
-  title: React.ReactNode;
+  eyeBrow: string;
+  title: string;
   action?: React.ReactNode;
 };
 

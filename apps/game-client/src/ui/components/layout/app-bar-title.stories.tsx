@@ -60,17 +60,22 @@ type Story = StoryObj<typeof meta>;
 // - long eye brow and long title
 
 export const Default: Story = {
-  args: {},
+  args: {
+    eyeBrow: 'kartuli.app',
+    title: 'Alphabet',
+  },
 };
 
 export const LongEyeBrow: Story = {
   args: {
     eyeBrow: 'Long Eye Brow (really long)',
+    title: 'Alphabet',
   },
 };
 
 export const LongTitle: Story = {
   args: {
+    eyeBrow: 'kartuli.app',
     title: 'Long Title (really long)',
   },
 };

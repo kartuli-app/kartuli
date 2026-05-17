@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     turbopackFileSystemCacheForDev: false,
+    viewTransition: true,
   },
   turbopack: {
     root: path.resolve(dir, '../..'),

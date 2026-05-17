@@ -4,8 +4,8 @@ import { AppBarTitle } from './app-bar-title';
 
 type AppBarProps = {
   leading?: React.ReactNode;
-  eyeBrow: React.ReactNode;
-  title: React.ReactNode;
+  eyeBrow: string;
+  title: string;
   action?: React.ReactNode;
 };
 
@@ -42,6 +42,7 @@ export function AppBar({ leading, eyeBrow, title, action }: Readonly<AppBarProps
                 'shrink-0',
                 'items-center',
                 'justify-center',
+                'size-12',
               )}
             >
               {leading}
@@ -50,19 +51,18 @@ export function AppBar({ leading, eyeBrow, title, action }: Readonly<AppBarProps
 
           <AppBarTitle title={title} eyeBrow={eyeBrow} />
 
-          {action ? (
-            <div
-              className={cn(
-                //
-                'flex',
-                'shrink-0',
-                'items-center',
-                'justify-center',
-              )}
-            >
-              {action}
-            </div>
-          ) : null}
+          <div
+            className={cn(
+              //
+              'flex',
+              'shrink-0',
+              'items-center',
+              'justify-center',
+              'size-12',
+            )}
+          >
+            {action}
+          </div>
         </div>
       </ContentContainer>
     </header>

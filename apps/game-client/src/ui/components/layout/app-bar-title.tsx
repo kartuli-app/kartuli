@@ -1,9 +1,7 @@
 import { cn } from '@kartuli/ui/utils/cn';
+// import { ViewTransition } from 'react';
 
-export function AppBarTitle({
-  title,
-  eyeBrow,
-}: Readonly<{ title: React.ReactNode; eyeBrow: React.ReactNode }>) {
+export function AppBarTitle({ title, eyeBrow }: Readonly<{ title: string; eyeBrow: string }>) {
   return (
     <div
       className={cn(
@@ -17,6 +15,7 @@ export function AppBarTitle({
         'uppercase',
       )}
     >
+      {/* <ViewTransition key={`${eyeBrow}`} name="eyebrow"> */}
       <div
         className={cn(
           //
@@ -29,7 +28,8 @@ export function AppBarTitle({
       >
         {eyeBrow}
       </div>
-
+      {/* </ViewTransition> */}
+      {/* <ViewTransition key={`${title}`} name="title"> */}
       <h1
         className={cn(
           //
@@ -42,6 +42,7 @@ export function AppBarTitle({
       >
         {title}
       </h1>
+      {/* </ViewTransition> */}
     </div>
   );
 }
