@@ -1,20 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { ComponentProps, ComponentType, SVGProps } from 'react';
-import { IoSettingsOutline, IoSettingsSharp } from 'react-icons/io5';
-import {
-  PiArrowsClockwiseBold,
-  PiArrowsClockwiseLight,
-  PiBookOpenTextFill,
-  PiBookOpenTextLight,
-} from 'react-icons/pi';
+import type { ComponentProps } from 'react';
 import { Surface } from '../surface/surface';
 import { Dock } from './dock';
 import { DockItem } from './dock-item';
-import { gameClientDockItems } from './game-client-dock';
+import { gameClientDockItems } from './game-client-dock-items';
 
 type DockStoryProps = Omit<ComponentProps<typeof Dock>, 'children'> & {
   activeItemId?: string;
 };
+
+const dockItemLabelById = {
+  learn: 'Learn',
+  translit: 'Translit',
+  settings: 'Settings',
+} satisfies Record<(typeof gameClientDockItems)[number]['id'], string>;
 
 function DockStory({ activeItemId }: Readonly<DockStoryProps>) {
   return (
@@ -25,7 +24,7 @@ function DockStory({ activeItemId }: Readonly<DockStoryProps>) {
           href={item.href}
           icon={item.icon}
           activeIcon={item.activeIcon}
-          label={item.label}
+          label={dockItemLabelById[item.id]}
           active={item.id === activeItemId}
         />
       ))}
@@ -33,7 +32,7 @@ function DockStory({ activeItemId }: Readonly<DockStoryProps>) {
   );
 }
 
-const dockItemLabels = [...new Set(gameClientDockItems.map((item) => item.label)), 'None', 'Wrong'];
+const dockItemLabels = [...Object.values(dockItemLabelById), 'None', 'Wrong'];
 const dockItemOptions = [
   ...new Set(gameClientDockItems.map((item) => item.id)),
   undefined,

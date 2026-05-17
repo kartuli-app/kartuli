@@ -1,14 +1,15 @@
 import { ContentContainer } from '@game-client/ui/components/layout/content-container';
 import { cn } from '@kartuli/ui/utils/cn';
+import { AppBarTitle } from './app-bar-title';
 
 type AppBarProps = {
   leading?: React.ReactNode;
-  context?: React.ReactNode;
+  eyeBrow: React.ReactNode;
   title: React.ReactNode;
   action?: React.ReactNode;
 };
 
-export function AppBar({ leading, context, title, action }: Readonly<AppBarProps>) {
+export function AppBar({ leading, eyeBrow, title, action }: Readonly<AppBarProps>) {
   return (
     <header
       className={cn(
@@ -26,9 +27,11 @@ export function AppBar({ leading, context, title, action }: Readonly<AppBarProps
           className={cn(
             //
             'flex',
+            'min-w-0',
+            'w-full',
             'items-center',
             'justify-start',
-            'gap-4',
+            'gap-p-spacing-4',
           )}
         >
           {leading ? (
@@ -37,7 +40,6 @@ export function AppBar({ leading, context, title, action }: Readonly<AppBarProps
                 //
                 'flex',
                 'shrink-0',
-                'size-11',
                 'items-center',
                 'justify-center',
               )}
@@ -45,47 +47,14 @@ export function AppBar({ leading, context, title, action }: Readonly<AppBarProps
               {leading}
             </div>
           ) : null}
-          <div
-            className={cn(
-              //
-              'flex',
-              'flex-col',
-              'items-start',
-              'justify-center',
-              'uppercase',
-            )}
-          >
-            {context ? (
-              <div
-                className={cn(
-                  //
-                  'text-kartuli-color-primitive-neutral-500',
-                  'text-sm',
-                  'font-bold',
-                )}
-              >
-                {context}
-              </div>
-            ) : null}
 
-            <h1
-              className={cn(
-                //
-                'text-kartuli-color-primitive-neutral-900',
-                'text-xl',
-                'font-black',
-              )}
-            >
-              {title}
-            </h1>
-          </div>
+          <AppBarTitle title={title} eyeBrow={eyeBrow} />
+
           {action ? (
             <div
               className={cn(
                 //
-                'ml-auto',
                 'flex',
-                'size-11',
                 'shrink-0',
                 'items-center',
                 'justify-center',

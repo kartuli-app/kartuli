@@ -7,14 +7,21 @@ const appBarIconActionClassName = cn(
   'items-center',
   'justify-center',
   'shrink-0',
-  'size-full',
+  'size-12',
+  // default (ghost)
+  'bg-s-color-shell-action-ghost-bg',
+  'text-s-color-shell-action-ghost-content',
+  'focus-visible:ring-s-color-shell-action-ghost-ring',
+  // hover (ghost)
+  'hover:bg-s-color-shell-action-ghost-hover-bg',
+  'hover:text-s-color-shell-action-ghost-hover-content',
+  // button styles
   'cursor-pointer',
-  'hover:bg-kartuli-color-primitive-neutral-500',
-  'active:bg-kartuli-color-primitive-neutral-500',
-  'hover:text-kartuli-color-primitive-neutral-50',
-  'active:text-kartuli-color-primitive-neutral-50',
-  'text-kartuli-color-primitive-neutral-500',
-  'rounded-full',
+  'rounded-p-radius-full',
+  'focus-visible:ring-(length:--s-width-shell-focus-ring)',
+  'outline-none',
+  'uppercase',
+  // pressed state
   'active:scale-95',
 );
 

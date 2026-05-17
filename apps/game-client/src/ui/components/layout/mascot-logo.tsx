@@ -7,8 +7,8 @@ export function MascotLogo() {
       <img
         className={cn(
           //
-          'scale-160',
-          'size-11',
+          'scale-150',
+          'size-12',
         )}
         src="/images/mascot-64.png"
         alt="kartuli.app mascot"

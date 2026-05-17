@@ -12,7 +12,7 @@ export function ContentContainer({ children }: Readonly<{ children: ReactNode }>
         'h-full',
         'max-w-5xl',
         'mx-auto',
-        'p-2 sm:p-4',
+        'p-p-spacing-2 sm:p-p-spacing-4',
       )}
     >
       {children}

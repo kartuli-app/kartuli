@@ -18,7 +18,7 @@ export async function SettingsPageServer({
   return (
     <AppShell
       appBar={
-        <GameClientAppBar title="Settings" context="kartuli.app" backHref="/en/explore/alphabet" />
+        <GameClientAppBar title="Settings" eyeBrow="kartuli.app" backHref="/en/explore/alphabet" />
       }
       startRailContent={<GameClientDock activeItemId="settings" />}
       endRailContent={<RailPatternAlphabet />}

@@ -42,7 +42,7 @@ export function DockItem({
         active && 'text-s-color-shell-action-selected-content',
         active && 'focus-visible:ring-s-color-action-selected-ring',
         // button styles
-        'rounded-md',
+        'rounded-p-radius-1',
         'focus-visible:ring-(length:--s-width-shell-focus-ring)',
         'outline-none',
         'uppercase',

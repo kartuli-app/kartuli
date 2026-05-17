@@ -1,29 +1,24 @@
-import { IoArrowBackOutline } from 'react-icons/io5';
 import { AppBar } from './app-bar';
-import { GameAppBarIconLink } from './app-bar-icon-action';
+import { BackButton } from './back-button';
 import { MascotLogo } from './mascot-logo';
-
-function BackButton({ href }: Readonly<{ href: string }>) {
-  return <GameAppBarIconLink href={href} label="Back" icon={IoArrowBackOutline} />;
-}
 
 type GameClientAppBarProps = {
   backHref?: string;
-  context?: React.ReactNode;
+  eyeBrow: React.ReactNode;
   title: React.ReactNode;
   action?: React.ReactNode;
 };
 
 export function GameClientAppBar({
   backHref,
-  context,
+  eyeBrow,
   title,
   action,
 }: Readonly<GameClientAppBarProps>) {
   return (
     <AppBar
       leading={backHref ? <BackButton href={backHref} /> : <MascotLogo />}
-      context={context}
+      eyeBrow={eyeBrow}
       title={title}
       action={action}
     />

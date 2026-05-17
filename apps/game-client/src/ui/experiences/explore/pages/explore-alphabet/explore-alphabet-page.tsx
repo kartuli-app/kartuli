@@ -11,8 +11,8 @@ export function ExploreAlphabetPage() {
     <AppShell
       appBar={
         <GameClientAppBar
-          title="Learn: Alphabet"
-          context="kartuli.app"
+          title="Alphabet"
+          eyeBrow="kartuli.app"
           action={
             <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />
           }

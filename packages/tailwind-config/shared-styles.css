@@ -28,17 +28,17 @@
   --p-color-brand-700: ;
   --p-color-brand-900: ;
 
-  --p-color-accent-50: oklch(0.975 0.012 23.84);
-  --p-color-accent-100: oklch(0.95 0.023 24.19);
-  --p-color-accent-200: oklch(0.902 0.049 24.36);
-  --p-color-accent-300: oklch(0.853 0.076 25.77);
-  --p-color-accent-400: oklch(0.805 0.105 27.51);
-  --p-color-accent-500: oklch(0.762 0.136 28.81);
-  --p-color-accent-600: oklch(0.643 0.206 36.44);
-  --p-color-accent-700: oklch(0.518 0.166 36.46);
-  --p-color-accent-800: oklch(0.394 0.126 36.47);
-  --p-color-accent-900: oklch(0.269 0.086 36.91);
-  --p-color-accent-950: oklch(0.206 0.066 36.34);
+  --p-color-accent-50: oklch(96.9% 0.016 293.756);
+  --p-color-accent-100: oklch(94.3% 0.029 294.588);
+  --p-color-accent-200: oklch(89.4% 0.057 293.283);
+  --p-color-accent-300: oklch(81.1% 0.111 293.571);
+  --p-color-accent-400: oklch(70.2% 0.183 293.541);
+  --p-color-accent-500: oklch(60.6% 0.25 292.717);
+  --p-color-accent-600: oklch(54.1% 0.281 293.009);
+  --p-color-accent-700: oklch(49.1% 0.27 292.581);
+  --p-color-accent-800: oklch(43.2% 0.232 292.759);
+  --p-color-accent-900: oklch(38% 0.189 293.745);
+  --p-color-accent-950: oklch(28.3% 0.141 291.089);
 
   --p-color-success-100: ;
   --p-color-success-500: ;
@@ -72,8 +72,10 @@
 
   /* shell */
   --s-color-shell-bg: var(--p-color-accent-200);
-  --s-color-shell-content-decoration: var(--p-color-neutral-200);
-  --s-color-shell-border: var(--p-color-accent-500);
+  --s-color-shell-content-primary: var(--p-color-neutral-900);
+  --s-color-shell-content-secondary: var(--p-color-neutral-700);
+  --s-color-shell-content-decoration: var(--p-color-accent-100);
+  --s-color-shell-border: var(--p-color-accent-100);
   --s-width-shell-border: 2px;
 
   /* shell focus */
@@ -87,7 +89,7 @@
   --s-color-shell-action-ghost-hover-content: var(--p-color-neutral-50);
 
   /* shell action selected */
-  --s-color-shell-action-selected-bg: var(--p-color-neutral-900);
+  --s-color-shell-action-selected-bg: var(--p-color-neutral-700);
   --s-color-shell-action-selected-content: var(--p-color-neutral-50);
   --s-color-shell-action-selected-ring: var(--p-color-neutral-50);
 
@@ -191,6 +193,8 @@
 
   /* shell */
   --color-s-color-shell-bg: var(--s-color-shell-bg);
+  --color-s-color-shell-content-primary: var(--s-color-shell-content-primary);
+  --color-s-color-shell-content-secondary: var(--s-color-shell-content-secondary);
   --color-s-color-shell-content-decoration: var(--s-color-shell-content-decoration);
   --color-s-color-shell-border: var(--s-color-shell-border);
 

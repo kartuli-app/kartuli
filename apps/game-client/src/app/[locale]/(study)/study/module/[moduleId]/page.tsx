@@ -38,7 +38,7 @@ export default async function ModuleStudyPage({
       appBar={
         <GameClientAppBar
           title={module.title}
-          context="Learn: Alphabet"
+          eyeBrow="Alphabet"
           backHref={`/${locale}/explore/alphabet`}
           action={
             <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />

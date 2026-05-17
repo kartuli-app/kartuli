@@ -15,7 +15,7 @@ export async function TranslitPageServer({
   return (
     <AppShell
       appBar={
-        <GameClientAppBar title="Translit" context="kartuli.app" backHref="/en/explore/alphabet" />
+        <GameClientAppBar title="Translit" eyeBrow="kartuli.app" backHref="/en/explore/alphabet" />
       }
       startRailContent={<GameClientDock activeItemId="translit" />}
       endRailContent={<RailPatternAlphabet />}
