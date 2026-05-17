@@ -94,6 +94,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+// Story scenarios:
+// - default
+// - hover
+// - focus visible
+// - pressed
+
 export const ButtonDefault: Story = {};
 
 export const ButtonHover: Story = {
@@ -105,6 +111,12 @@ export const ButtonHover: Story = {
 export const ButtonFocusVisible: Story = {
   parameters: {
     pseudo: { focusVisible: true },
+  },
+};
+
+export const ButtonPressed: Story = {
+  parameters: {
+    pseudo: { active: true },
   },
 };
 
@@ -129,5 +141,14 @@ export const LinkFocusVisible: Story = {
   },
   parameters: {
     pseudo: { focusVisible: true },
+  },
+};
+
+export const LinkPressed: Story = {
+  args: {
+    kind: 'link',
+  },
+  parameters: {
+    pseudo: { active: true },
   },
 };

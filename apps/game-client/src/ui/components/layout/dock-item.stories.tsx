@@ -116,6 +116,7 @@ type Story = StoryObj<typeof meta>;
 // - active focus visible
 // - active hover
 // - active hover focus visible
+// - pressed
 
 export const Default: Story = {};
 
@@ -167,6 +168,12 @@ export const ActiveHoverFocusVisible: Story = {
   },
   parameters: {
     pseudo: { hover: true, focusVisible: true },
+  },
+};
+
+export const Pressed: Story = {
+  parameters: {
+    pseudo: { active: true },
   },
 };
 

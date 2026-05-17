@@ -46,8 +46,10 @@ export function DockItem({
         'focus-visible:ring-(length:--s-width-shell-focus-ring)',
         'outline-none',
         'uppercase',
-        // pressed state
+        // pressed state (hover ghost)
         'active:scale-95',
+        !active && 'active:bg-s-color-shell-action-ghost-hover-bg',
+        !active && 'active:text-s-color-shell-action-ghost-hover-content',
       )}
       aria-current={active ? 'page' : undefined}
     >

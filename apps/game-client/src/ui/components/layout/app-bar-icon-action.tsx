@@ -21,8 +21,10 @@ const appBarIconActionClassName = cn(
   'focus-visible:ring-(length:--s-width-shell-focus-ring)',
   'outline-none',
   'uppercase',
-  // pressed state
+  // pressed state (hover)
   'active:scale-95',
+  'active:bg-s-color-shell-action-ghost-hover-bg',
+  'active:text-s-color-shell-action-ghost-hover-content',
 );
 
 type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
