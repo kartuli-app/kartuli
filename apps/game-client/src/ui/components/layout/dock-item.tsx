@@ -24,7 +24,7 @@ export function DockItem({
         'items-center',
         // responsive layout
         'flex-col xl:flex-row',
-        'gap-p-spacing-1 xl:gap-p-spacing-4',
+        'gap-p-spacing-1 xl:gap-p-spacing-2',
         'xl:px-p-spacing-4',
         'justify-center xl:justify-start',
         'w-width-dock-item-mobile xl:w-width-dock-item-desktop',
