@@ -9,10 +9,10 @@ export function ContextAwareGreeting() {
     <div className="flex justify-center py-4">
       <div className="flex flex-col gap-2">
         <h2 className="text-4xl text-center">👋</h2>
-        <h2 className="text-4xl text-center text-kartuli-color-primitive-neutral-500">
+        <h2 className="text-4xl text-center text-s-color-shell-content-secondary">
           <span className="font-georgian">{contextAwareGreeting}</span>
         </h2>
-        <h3 className="text-2xl text-kartuli-color-primitive-neutral-900 text-center">
+        <h3 className="text-2xl text-s-color-shell-content-primary text-center">
           Lets learn Georgian!
         </h3>
       </div>

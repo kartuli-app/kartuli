@@ -27,8 +27,8 @@ export function LetterPreviewPlaceholder({ className }: Readonly<{ className?: s
           '',
         )}
       >
-        <span className="absolute top-3/10 left-0 bg-blue-100 w-full h-[2px]"></span>
-        <span className="absolute top-6/10 left-0 bg-blue-100 w-full h-[2px]"></span>
+        <span className="absolute top-3/10 left-0 bg-blue-200 w-full h-[2px]"></span>
+        <span className="absolute top-6/10 left-0 bg-blue-200 w-full h-[2px]"></span>
         <span className="z-10 text-transparent">{'-'}</span>
       </div>
       <div

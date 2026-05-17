@@ -9,7 +9,7 @@ export function LetterPreview({ item }: Readonly<{ item: LetterItem }>) {
           //
           'font-georgian',
           'text-4xl',
-          'text-kartuli-color-primitive-neutral-500',
+          'text-p-color-neutral-700',
           'flex',
           'items-center',
           'justify-center',
@@ -17,15 +17,15 @@ export function LetterPreview({ item }: Readonly<{ item: LetterItem }>) {
           '',
         )}
       >
-        <span className="absolute top-3/10 left-0 bg-blue-100 w-full h-[2px]"></span>
-        <span className="absolute top-6/10 left-0 bg-blue-100 w-full h-[2px]"></span>
+        <span className="absolute top-3/10 left-0 bg-blue-200 w-full h-[2px]"></span>
+        <span className="absolute top-6/10 left-0 bg-blue-200 w-full h-[2px]"></span>
         <span className="z-10">{item.targetScript}</span>
       </div>
       <div
         className={cn(
           //
           'text-xl',
-          'text-kartuli-color-primitive-neutral-500',
+          'text-p-color-neutral-500',
           'flex',
           'items-center',
           'justify-center',

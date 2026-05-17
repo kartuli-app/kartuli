@@ -1,4 +1,5 @@
 import { cn } from '@kartuli/ui/utils/cn';
+import { PiStudent } from 'react-icons/pi';
 import { ContentCardSection } from './content-card-section';
 
 export function ContentCardHeader({
@@ -9,43 +10,50 @@ export function ContentCardHeader({
   return (
     <div
       className={cn(
-        //
-        'border-b-2',
-        //
-        variant === 'primary' && 'bg-kartuli-color-primitive-neutral-500',
-        variant === 'primary' && 'border-kartuli-color-primitive-neutral-500',
-        variant === 'primary' && 'group-hover:bg-kartuli-color-primitive-neutral-900',
-        variant === 'primary' && 'group-active:bg-kartuli-color-primitive-neutral-950',
-        //
-        variant === 'secondary' && 'bg-kartuli-color-primitive-neutral-50',
-        variant === 'secondary' && 'border-kartuli-color-primitive-neutral-200',
-        variant === 'secondary' && 'group-hover:border-kartuli-color-primitive-neutral-500',
-        variant === 'secondary' && 'group-active:border-kartuli-color-primitive-neutral-500',
         'uppercase',
+        'border-b-3',
+        'border-b-p-color-accent-500',
+        // 'group-hover:border-b-p-color-neutral-600',
+
+        // 'bg-kartuli-color-primitive-neutral-500',
+        variant === 'primary' && 'bg-p-color-accent-500',
+        // variant === 'primary' && 'group-hover:bg-p-color-neutral-600',
+        // variant === 'secondary' && 'bg-p-color-neutral-300',
+        // variant === 'secondary' && 'group-hover:bg-p-color-neutral-400',
       )}
     >
       <ContentCardSection>
-        <div className="flex flex-col">
-          <div
-            className={cn(
-              //
-              'text-sm',
-              'font-bold',
-              variant === 'primary' && 'text-kartuli-color-primitive-neutral-200',
-              variant === 'secondary' && 'text-kartuli-color-primitive-neutral-500',
-            )}
-          >
-            {context}
-          </div>
-          <div
-            className={cn(
-              'text-xl',
-              'font-black',
-              variant === 'primary' && 'text-kartuli-color-primitive-neutral-50',
-              variant === 'secondary' && 'text-kartuli-color-primitive-neutral-900',
-            )}
-          >
-            {title}
+        <div className="flex justify-start gap-p-spacing-2 w-full">
+          {variant === 'primary' && (
+            <div className="flex items-center justify-center borderr h-full aspect-square">
+              <PiStudent className="size-11 text-p-color-neutral-200" />
+            </div>
+          )}
+          <div className="flex flex-col">
+            <div
+              className={cn(
+                //
+                'text-sm',
+                'font-bold',
+                variant === 'primary' && 'text-p-color-neutral-300',
+                variant === 'secondary' && 'text-p-color-neutral-700',
+                // 'text-p-color-neutral-700',
+              )}
+            >
+              {context}
+            </div>
+            <div
+              className={cn(
+                //
+                'text-xl',
+                'font-black',
+                variant === 'primary' && 'text-p-color-neutral-50',
+                variant === 'secondary' && 'text-p-color-accent-500',
+                // 'text-p-color-neutral-900',
+              )}
+            >
+              {title}
+            </div>
           </div>
         </div>
       </ContentCardSection>
