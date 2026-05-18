@@ -1,32 +1,47 @@
 import { cn } from '@kartuli/ui/utils/cn';
-import { PiStudent } from 'react-icons/pi';
 import { ContentCardSection } from './content-card-section';
+
+type ContentCardHeaderProps = {
+  context: string;
+  title: string;
+  variant: 'default' | 'inverted';
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+};
 
 export function ContentCardHeader({
   context,
   title,
   variant,
-}: Readonly<{ context: string; title: string; variant: 'primary' | 'secondary' }>) {
+  icon,
+}: Readonly<ContentCardHeaderProps>) {
+  const Icon = icon;
+
   return (
     <div
       className={cn(
         'uppercase',
-        'border-b-3',
-        'border-b-p-color-accent-500',
-        // 'group-hover:border-b-p-color-neutral-600',
-
-        // 'bg-kartuli-color-primitive-neutral-500',
-        variant === 'primary' && 'bg-p-color-accent-500',
-        // variant === 'primary' && 'group-hover:bg-p-color-neutral-600',
-        // variant === 'secondary' && 'bg-p-color-neutral-300',
-        // variant === 'secondary' && 'group-hover:bg-p-color-neutral-400',
+        'border-b-(length:--s-width-panel-border)',
+        'border-b-s-color-panel-header-border',
+        variant === 'default' && 'bg-s-color-panel-header-bg',
+        variant === 'inverted' && 'bg-s-color-panel-header-inverted-bg',
       )}
     >
       <ContentCardSection>
         <div className="flex justify-start gap-p-spacing-2 w-full">
-          {variant === 'primary' && (
-            <div className="flex items-center justify-center borderr h-full aspect-square">
-              <PiStudent className="size-11 text-p-color-neutral-200" />
+          {icon && (
+            <div
+              className={cn(
+                //
+                'flex',
+                'items-center',
+                'justify-center',
+                'h-full',
+                'aspect-square',
+                variant === 'default' && 'text-s-color-panel-header-content-secondary',
+                variant === 'inverted' && 'text-s-color-panel-header-inverted-content-secondary',
+              )}
+            >
+              {Icon ? <Icon className="size-11 text-inherit" /> : null}
             </div>
           )}
           <div className="flex flex-col">
@@ -35,9 +50,8 @@ export function ContentCardHeader({
                 //
                 'text-sm',
                 'font-bold',
-                variant === 'primary' && 'text-p-color-neutral-300',
-                variant === 'secondary' && 'text-p-color-neutral-700',
-                // 'text-p-color-neutral-700',
+                variant === 'default' && 'text-s-color-panel-header-content-secondary',
+                variant === 'inverted' && 'text-s-color-panel-header-inverted-content-secondary',
               )}
             >
               {context}
@@ -47,14 +61,29 @@ export function ContentCardHeader({
                 //
                 'text-xl',
                 'font-black',
-                variant === 'primary' && 'text-p-color-neutral-50',
-                variant === 'secondary' && 'text-p-color-accent-500',
-                // 'text-p-color-neutral-900',
+                variant === 'default' && 'text-s-color-panel-header-content-primary',
+                variant === 'inverted' && 'text-s-color-panel-header-inverted-content-primary',
               )}
             >
               {title}
             </div>
           </div>
+          {icon && (
+            <div
+              className={cn(
+                //
+                'flex',
+                'items-center',
+                'justify-center',
+                'h-full',
+                'aspect-square',
+                variant === 'default' && 'text-s-color-panel-header-content-secondary',
+                variant === 'inverted' && 'text-s-color-panel-header-inverted-content-secondary',
+              )}
+            >
+              {Icon ? <Icon className="size-11 text-inherit" /> : null}
+            </div>
+          )}
         </div>
       </ContentCardSection>
     </div>

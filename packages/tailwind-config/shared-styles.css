@@ -40,37 +40,31 @@
   --p-color-neutral-900: oklch(21% 0.034 264.665);
   --p-color-neutral-950: oklch(13% 0.028 261.692);
 
-  --p-color-brand-50: ;
-  --p-color-brand-200: ;
-  --p-color-brand-500: ;
-  --p-color-brand-700: ;
-  --p-color-brand-900: ;
+  --p-color-brand-50: oklch(96.9% 0.016 293.756);
+  --p-color-brand-100: oklch(94.3% 0.029 294.588);
+  --p-color-brand-200: oklch(89.4% 0.057 293.283);
+  --p-color-brand-300: oklch(81.1% 0.111 293.571);
+  --p-color-brand-400: oklch(70.2% 0.183 293.541);
+  --p-color-brand-500: oklch(60.6% 0.25 292.717);
+  --p-color-brand-600: oklch(54.1% 0.281 293.009);
+  --p-color-brand-700: oklch(49.1% 0.27 292.581);
+  --p-color-brand-800: oklch(43.2% 0.232 292.759);
+  --p-color-brand-900: oklch(38% 0.189 293.745);
+  --p-color-brand-950: oklch(28.3% 0.141 291.089);
 
-  --p-color-accent-50: oklch(96.9% 0.016 293.756);
-  --p-color-accent-100: oklch(94.3% 0.029 294.588);
-  --p-color-accent-200: oklch(89.4% 0.057 293.283);
-  --p-color-accent-300: oklch(81.1% 0.111 293.571);
-  --p-color-accent-400: oklch(70.2% 0.183 293.541);
-  --p-color-accent-500: oklch(60.6% 0.25 292.717);
-  --p-color-accent-600: oklch(54.1% 0.281 293.009);
-  --p-color-accent-700: oklch(49.1% 0.27 292.581);
-  --p-color-accent-800: oklch(43.2% 0.232 292.759);
-  --p-color-accent-900: oklch(38% 0.189 293.745);
-  --p-color-accent-950: oklch(28.3% 0.141 291.089);
+  --p-color-accent-50: oklch(0.983 0.009 52.18);
+  --p-color-accent-100: oklch(0.966 0.019 57.24);
+  --p-color-accent-200: oklch(0.933 0.04 58.79);
+  --p-color-accent-300: oklch(0.901 0.063 62.98);
+  --p-color-accent-400: oklch(0.867 0.089 65.66);
+  --p-color-accent-500: oklch(0.833 0.121 68.31);
+  --p-color-accent-600: oklch(0.695 0.137 72.23);
+  --p-color-accent-700: oklch(0.557 0.109 72.94);
+  --p-color-accent-800: oklch(0.417 0.082 72.75);
+  --p-color-accent-900: oklch(0.278 0.055 71.12);
+  --p-color-accent-950: oklch(0.207 0.04 71.03);
 
-  /* --p-color-accent-50: oklch(0.96 0.018 17.57);
-  --p-color-accent-100: oklch(0.918 0.039 17.93);
-  --p-color-accent-200: oklch(0.83 0.087 20.85);
-  --p-color-accent-300: oklch(0.749 0.141 22.55);
-  --p-color-accent-400: oklch(0.662 0.21 26.89);
-  --p-color-accent-500: oklch(0.575 0.213 29.55);
-  --p-color-accent-600: oklch(0.488 0.18 29.63);
-  --p-color-accent-700: oklch(0.406 0.15 29.69);
-  --p-color-accent-800: oklch(0.316 0.117 29.7);
-  --p-color-accent-900: oklch(0.235 0.087 29.14);
-  --p-color-accent-950: oklch(0.183 0.069 29.58); */
-
-  --p-color-success-100: ;
+  --p-color-accentsuccess-100: ;
   --p-color-success-500: ;
   --p-color-success-900: ;
 
@@ -109,7 +103,7 @@
   --s-width-shell-border: 3px;
 
   /* shell focus */
-  --s-width-shell-focus-ring: 4px;
+  --s-width-shell-focus-ring: 3px;
 
   /* shell action ghost */
   --s-color-shell-action-ghost-bg: transparent;
@@ -119,11 +113,26 @@
   --s-color-shell-action-ghost-hover-content: var(--p-color-neutral-50);
 
   /* shell action selected */
-  --s-color-shell-action-selected-bg: var(--p-color-accent-600);
+  --s-color-shell-action-selected-bg: var(--p-color-brand-600);
   --s-color-shell-action-selected-content: var(--p-color-neutral-50);
   --s-color-shell-action-selected-ring: var(--p-color-neutral-50);
 
   /* panel */
+  --s-color-panel-bg: var(--p-color-neutral-50);
+  --s-color-panel-border: transparent;
+  --s-color-panel-border-hover: var(--p-color-brand-500);
+  --s-width-panel-border: 3px;
+
+  /* panel header */
+  --s-color-panel-header-bg: var(--p-color-neutral-50);
+  --s-color-panel-header-content-primary: var(--p-color-brand-500);
+  --s-color-panel-header-content-secondary: var(--p-color-neutral-500);
+  --s-color-panel-header-border: var(--p-color-brand-500);
+  
+  /* panel header inverted */
+  --s-color-panel-header-inverted-bg: var(--p-color-brand-500);
+  --s-color-panel-header-inverted-content-primary: var(--p-color-neutral-50);
+  --s-color-panel-header-inverted-content-secondary: var(--p-color-neutral-200);
 
   /* detail */
 
@@ -180,10 +189,16 @@
   --color-p-color-neutral-950: var(--p-color-neutral-950);
 
   --color-p-color-brand-50: var(--p-color-brand-50);
+  --color-p-color-brand-100: var(--p-color-brand-100);
   --color-p-color-brand-200: var(--p-color-brand-200);
+  --color-p-color-brand-300: var(--p-color-brand-300);
+  --color-p-color-brand-400: var(--p-color-brand-400);
   --color-p-color-brand-500: var(--p-color-brand-500);
+  --color-p-color-brand-600: var(--p-color-brand-600);
   --color-p-color-brand-700: var(--p-color-brand-700);
+  --color-p-color-brand-800: var(--p-color-brand-800);
   --color-p-color-brand-900: var(--p-color-brand-900);
+  --color-p-color-brand-950: var(--p-color-brand-950);
 
   --color-p-color-accent-50: var(--p-color-accent-50);
   --color-p-color-accent-100: var(--p-color-accent-100);
@@ -245,6 +260,22 @@
   --color-s-color-shell-action-selected-bg: var(--s-color-shell-action-selected-bg);
   --color-s-color-shell-action-selected-content: var(--s-color-shell-action-selected-content);
   --color-s-color-shell-action-selected-ring: var(--s-color-shell-action-selected-ring);
+
+  /* panel */
+  --color-s-color-panel-bg: var(--s-color-panel-bg);
+  --color-s-color-panel-border: var(--s-color-panel-border);
+  --color-s-color-panel-border-hover: var(--s-color-panel-border-hover);
+
+  /* panel header */
+  --color-s-color-panel-header-bg: var(--s-color-panel-header-bg);
+  --color-s-color-panel-header-content-primary: var(--s-color-panel-header-content-primary);
+  --color-s-color-panel-header-content-secondary: var(--s-color-panel-header-content-secondary);
+  --color-s-color-panel-header-border: var(--s-color-panel-header-border);
+
+  /* panel header inverted */
+  --color-s-color-panel-header-inverted-bg: var(--s-color-panel-header-inverted-bg);
+  --color-s-color-panel-header-inverted-content-primary: var(--s-color-panel-header-inverted-content-primary);
+  --color-s-color-panel-header-inverted-content-secondary: var(--s-color-panel-header-inverted-content-secondary);
 
   /*
    * Component utilities

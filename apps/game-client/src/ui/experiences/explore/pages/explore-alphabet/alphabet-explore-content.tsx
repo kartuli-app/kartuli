@@ -3,6 +3,7 @@ import type { Lesson, LetterItem, Library } from '@game-client/learning-content/
 import { ContentCard } from '@game-client/ui/experiences/explore/components/content-card/content-card';
 import { ModuleCardsLayout } from '@game-client/ui/experiences/explore/components/module-cards-layout';
 import Link from 'next/link';
+import { PiStudent } from 'react-icons/pi';
 import { LettersPreviewGrid } from './components/letters-preview-grid';
 
 type AlphabetLesson = {
@@ -45,7 +46,7 @@ export async function AlphabetExploreContent() {
           key={lesson.id}
           className="flex grow cursor-pointer active:scale-95 group"
         >
-          <ContentCard context="Alphabet" title={lesson.name} variant="secondary">
+          <ContentCard context="Alphabet" title={lesson.name} variant="default">
             <LettersPreviewGrid items={lesson.items} size="grid-item" />
           </ContentCard>
         </Link>
@@ -56,7 +57,7 @@ export async function AlphabetExploreContent() {
             href={`/en/study/module/${moduleId}`}
             className="flex grow cursor-pointer active:scale-95 group"
           >
-            <ContentCard context="Alphabet" title="Full Review" variant="primary">
+            <ContentCard context="Alphabet" title="Full Review" variant="inverted" icon={PiStudent}>
               <LettersPreviewGrid items={allItemsDeduplicated} size="full" />
             </ContentCard>
           </Link>

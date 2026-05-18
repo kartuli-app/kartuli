@@ -29,7 +29,7 @@ export function DockItem({
         'justify-center xl:justify-start',
         'w-width-dock-item-mobile xl:w-width-dock-item-desktop',
         'h-height-dock-item-mobile xl:h-height-dock-item-desktop',
-        'text-[0.6rem] xl:text-base',
+        'text-[0.6rem] xl:text-lg',
         // default (ghost)
         'bg-s-color-shell-action-ghost-bg',
         'text-s-color-shell-action-ghost-content',

@@ -2,17 +2,21 @@ import { cn } from '@kartuli/ui/utils/cn';
 import { ContentCardHeader } from './content-card-header';
 import { ContentCardSection } from './content-card-section';
 
+type ContentCardProps = {
+  context: string;
+  title: string;
+  variant: 'default' | 'inverted';
+  children: React.ReactNode;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+};
+
 export function ContentCard({
   context,
   title,
   variant,
   children,
-}: Readonly<{
-  context: string;
-  title: string;
-  variant: 'primary' | 'secondary';
-  children: React.ReactNode;
-}>) {
+  icon,
+}: Readonly<ContentCardProps>) {
   return (
     <div
       className={cn(
@@ -20,33 +24,21 @@ export function ContentCard({
         'w-full min-w-0',
         'flex',
         'flex-col',
-        'rounded-p-radius-1',
         'shadow-sm',
-        'bg-p-color-neutral-100',
-        'hover:bg-p-color-neutral-50',
-        'border-p-color-neutral-400',
-        'border-transparent',
-        'hover:border-p-color-accent-500',
-        'active:scale-95',
-        'border-3',
-        // 'border-kartuli-color-primitive-neutral-200',
         'group',
-        // variant === 'secondary' && 'hover:border-kartuli-color-primitive-neutral-500',
-        // variant === 'secondary' && 'group-active:border-kartuli-color-primitive-neutral-500',
-        // variant === 'primary' && 'bg-kartuli-color-primitive-neutral-500',
-        // variant === 'secondary' && 'bg-kartuli-color-primitive-neutral-50',
         'overflow-hidden',
+        // card styles
+        'active:scale-95',
+        'rounded-p-radius-1',
+        // colors and borders
+        'bg-s-color-panel-bg',
+        'border-(length:--s-width-panel-border)',
+        'border-s-color-panel-border',
+        'hover:border-s-color-panel-border-hover',
       )}
     >
-      <ContentCardHeader context={context} title={title} variant={variant} />
-      <div
-        className={cn(
-          // 'bg-kartuli-color-primitive-neutral-50',
-          // variant === 'secondary' && 'bg-kartuli-color-primitive-neutral-50',
-        )}
-      >
-        <ContentCardSection>{children}</ContentCardSection>
-      </div>
+      <ContentCardHeader context={context} title={title} variant={variant} icon={icon} />
+      <ContentCardSection>{children}</ContentCardSection>
     </div>
   );
 }
