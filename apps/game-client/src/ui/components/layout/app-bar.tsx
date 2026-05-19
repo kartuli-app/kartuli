@@ -6,10 +6,19 @@ type AppBarProps = {
   leading?: React.ReactNode;
   eyeBrow: string;
   title: string;
-  trailing?: React.ReactNode;
+  trailingPrimary?: React.ReactNode;
+  trailingSecondary?: React.ReactNode;
 };
 
-export function AppBar({ leading, eyeBrow, title, trailing }: Readonly<AppBarProps>) {
+const actionSlotClassName = cn('flex', 'shrink-0', 'items-center', 'justify-center', 'size-12');
+
+export function AppBar({
+  leading,
+  eyeBrow,
+  title,
+  trailingPrimary,
+  trailingSecondary,
+}: Readonly<AppBarProps>) {
   return (
     <header
       className={cn(
@@ -34,37 +43,23 @@ export function AppBar({ leading, eyeBrow, title, trailing }: Readonly<AppBarPro
             'gap-p-spacing-4',
           )}
         >
-          {leading ? (
-            <div
-              className={cn(
-                //
-                'flex',
-                'shrink-0',
-                'items-center',
-                'justify-center',
-                'size-12',
-              )}
-            >
-              {leading}
-            </div>
-          ) : null}
+          {leading ? <div className={actionSlotClassName}>{leading}</div> : null}
 
           <AppBarTitle title={title} eyeBrow={eyeBrow} />
 
-          {trailing ? (
-            <div
-              className={cn(
-                //
-                'flex',
-                'shrink-0',
-                'flex-nowrap',
-                'items-center',
-                'gap-p-spacing-2',
-              )}
-            >
-              {trailing}
-            </div>
-          ) : null}
+          <div
+            className={cn(
+              //
+              'flex',
+              'shrink-0',
+              'flex-nowrap',
+              'items-center',
+              'gap-p-spacing-2',
+            )}
+          >
+            <div className={actionSlotClassName}>{trailingSecondary}</div>
+            <div className={actionSlotClassName}>{trailingPrimary}</div>
+          </div>
         </div>
       </ContentContainer>
     </header>

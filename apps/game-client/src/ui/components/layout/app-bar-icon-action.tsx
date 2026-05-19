@@ -18,7 +18,7 @@ const appBarIconActionClassName = cn(
   // button styles
   'cursor-pointer',
   'rounded-p-radius-full',
-  'focus-visible:ring-(length:--s-width-shell-focus-ring)',
+  'focus-visible:ring-(length:--s-width-focus-ring)',
   'outline-none',
   'uppercase',
   // pressed state (hover)

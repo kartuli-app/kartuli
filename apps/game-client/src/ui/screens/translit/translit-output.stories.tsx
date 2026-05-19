@@ -1,4 +1,9 @@
 import { Tooltip } from '@base-ui/react/tooltip';
+import { Panel } from '@game-client/ui/components/panel/panel';
+import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
+import { PanelSection } from '@game-client/ui/components/panel/panel-section';
+import { Surface } from '@game-client/ui/components/surface/surface';
+import { cn } from '@kartuli/ui/utils/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ComponentProps } from 'react';
 import { useRef } from 'react';
@@ -42,8 +47,15 @@ const meta: Meta<typeof TranslitOutput> = {
   decorators: [
     (Story) => (
       <Tooltip.Provider delay={0} closeDelay={0}>
-        <div style={{ width: '28rem', height: '18rem', padding: '2rem', background: 'white' }}>
-          <Story />
+        <div className="w-[28rem]">
+          <Surface context="shell">
+            <Panel className="h-[20rem]">
+              <PanelHeader context="Transliteration" title="Latin" variant="default" />
+              <PanelSection className={cn('h-full')}>
+                <Story />
+              </PanelSection>
+            </Panel>
+          </Surface>
         </div>
       </Tooltip.Provider>
     ),

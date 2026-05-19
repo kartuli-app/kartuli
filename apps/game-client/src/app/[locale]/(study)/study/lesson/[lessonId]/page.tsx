@@ -30,7 +30,7 @@ export default async function LessonStudyPage({
           title={lesson.title}
           eyeBrow="Alphabet"
           backHref={`/${locale}/explore/alphabet`}
-          trailing={
+          trailingPrimary={
             <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />
           }
         />

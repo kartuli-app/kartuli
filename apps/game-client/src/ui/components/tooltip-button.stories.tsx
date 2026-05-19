@@ -3,25 +3,37 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
-import { TooltipButton } from './tooltip-button';
+import { HeaderActionButton } from './header-action-button';
+import { Panel } from './panel/panel';
+import { PanelHeader } from './panel/panel-header';
+import { Surface } from './surface/surface';
 
-const meta: Meta<typeof TooltipButton> = {
-  title: 'UI/TooltipButton',
-  component: TooltipButton,
+const meta: Meta<typeof HeaderActionButton> = {
+  title: 'UI/HeaderActionButton',
+  component: HeaderActionButton,
   parameters: {
     layout: 'centered',
     docs: {
       description: {
         component:
-          'Reusable app-local button trigger with a Base UI tooltip. Used by translit today and kept outside screen folders so it can be reused elsewhere before promotion to the shared UI package.',
+          'Header action button with a built-in tooltip. Used by translit panel headers and still exported through the legacy `TooltipButton` alias for compatibility.',
       },
     },
   },
   decorators: [
     (Story) => (
       <Tooltip.Provider delay={0} closeDelay={0}>
-        <div style={{ padding: '6rem' }}>
-          <Story />
+        <div className="w-[28rem]">
+          <Surface context="shell">
+            <Panel>
+              <PanelHeader
+                context="Source"
+                title="Georgian"
+                trailing={<Story />}
+                variant="default"
+              />
+            </Panel>
+          </Surface>
         </div>
       </Tooltip.Provider>
     ),

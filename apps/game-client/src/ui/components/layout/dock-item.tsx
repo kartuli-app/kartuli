@@ -33,6 +33,7 @@ export function DockItem({
         // default (ghost)
         'bg-s-color-shell-action-ghost-bg',
         'text-s-color-shell-action-ghost-content',
+        'focus-visible:ring-(length:--s-width-focus-ring)',
         'focus-visible:ring-s-color-shell-action-ghost-ring',
         // hover (ghost)
         !active && 'hover:bg-s-color-shell-action-ghost-hover-bg',
@@ -40,10 +41,9 @@ export function DockItem({
         // active (selected)
         active && 'bg-s-color-shell-action-selected-bg',
         active && 'text-s-color-shell-action-selected-content',
-        active && 'focus-visible:ring-s-color-action-selected-ring',
+        active && 'focus-visible:ring-s-color-shell-action-selected-ring',
         // button styles
         'rounded-p-radius-1',
-        'focus-visible:ring-(length:--s-width-shell-focus-ring)',
         'outline-none',
         'uppercase',
         // pressed state (hover ghost)

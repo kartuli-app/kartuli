@@ -5,11 +5,12 @@ import {
   getStringTransliterationFromLatin,
   getStringTransliterationFromTargetScript,
 } from '@game-client/learning-content/utils/transliteration';
+import { HeaderActionButton } from '@game-client/ui/components/header-action-button';
 import { Notifications, showNotification } from '@game-client/ui/components/notifications';
 import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
-import { TooltipButton } from '@game-client/ui/components/tooltip-button';
+import { TranslitInput } from '@game-client/ui/screens/translit/translit-input';
 import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output';
 import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
 import { cn } from '@kartuli/ui/utils/cn';
@@ -245,7 +246,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               titleId={inputTitleId}
               trailing={
                 <>
-                  <TooltipButton
+                  <HeaderActionButton
                     tooltipLabel={clearTextLabel}
                     side="bottom"
                     onClick={clearInput}
@@ -256,8 +257,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     ) : (
                       <RiDeleteBin6Fill className="size-5" />
                     )}
-                  </TooltipButton>
-                  <TooltipButton
+                  </HeaderActionButton>
+                  <HeaderActionButton
                     tooltipLabel={switchDirectionLabel}
                     side="bottom"
                     onClick={toggleDirection}
@@ -265,31 +266,22 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     aria-controls="translit-input translit-output"
                   >
                     <HiOutlineSwitchHorizontal className="size-5" />
-                  </TooltipButton>
+                  </HeaderActionButton>
                 </>
               }
               variant="default"
             />
             <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'px-4 py-4', 'h-full')}>
-              <textarea
-                lang={inputLang}
-                aria-labelledby={`${inputContextId} ${inputTitleId}`}
-                className={cn(
-                  'h-full',
-                  'w-full',
-                  'resize-none',
-                  'rounded-p-radius-2',
-                  'bg-p-color-neutral-200',
-                  'p-4',
-                  surfaceTextSizeClassName,
-                  inputScriptClassName,
-                )}
+              <TranslitInput
+                ariaLabelledBy={`${inputContextId} ${inputTitleId}`}
+                className={cn(surfaceTextSizeClassName, inputScriptClassName)}
                 id="translit-input"
-                value={input}
+                lang={inputLang}
                 onChange={handleInputChange}
                 onScroll={handleInputScroll}
-                ref={inputRef}
                 placeholder={placeholder}
+                textareaRef={inputRef}
+                value={input}
               />
             </PanelSection>
           </Panel>
@@ -300,7 +292,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               title={transliterationToLabel}
               titleId={outputLabelId}
               trailing={
-                <TooltipButton
+                <HeaderActionButton
                   tooltipLabel={copyTransliterationLabel}
                   side="top"
                   onClick={copyOutput}
@@ -311,7 +303,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   ) : (
                     <FaRegCopy className="size-5" />
                   )}
-                </TooltipButton>
+                </HeaderActionButton>
               }
               variant="default"
             />
@@ -335,7 +327,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'wrap-break-word',
                 'text-2xl',
                 'leading-8',
-                'p-2',
+                'p-4',
                 inputScriptClassName,
               )}
             >

@@ -102,20 +102,17 @@
   --s-color-shell-border: var(--p-color-accent-300);
   --s-width-shell-border: 3px;
 
-  /* shell focus */
-  --s-width-shell-focus-ring: 3px;
-
   /* shell action ghost */
   --s-color-shell-action-ghost-bg: transparent;
   --s-color-shell-action-ghost-content: var(--p-color-neutral-700);
-  --s-color-shell-action-ghost-ring: var(--p-color-neutral-900);
+  --s-color-shell-action-ghost-ring: var(--p-color-neutral-500);
   --s-color-shell-action-ghost-hover-bg: var(--p-color-neutral-500);
   --s-color-shell-action-ghost-hover-content: var(--p-color-neutral-50);
 
   /* shell action selected */
   --s-color-shell-action-selected-bg: var(--p-color-brand-600);
   --s-color-shell-action-selected-content: var(--p-color-neutral-50);
-  --s-color-shell-action-selected-ring: var(--p-color-neutral-50);
+  --s-color-shell-action-selected-ring: var(--p-color-accent-600);
 
   /* panel */
   --s-color-panel-bg: var(--p-color-neutral-50);
@@ -139,15 +136,22 @@
   --s-color-panel-action-outline-border: var(--p-color-neutral-700);
   --s-width-panel-action-outline-border: 1px;
   --s-color-panel-action-outline-content: var(--p-color-neutral-700);
-  --s-color-panel-action-outline-ring: var(--p-color-neutral-900);
+  --s-color-panel-action-outline-ring: var(--p-color-neutral-500);
   --s-color-panel-action-outline-hover-bg: var(--p-color-neutral-200);
   --s-color-panel-action-outline-hover-border: var(--s-color-panel-header-content-secondary);
   --s-color-panel-action-outline-hover-content: var(--p-color-neutral-900);
+
+  /* panel control focus */
+  --s-color-panel-control-ring: var(--p-color-neutral-500);
 
   /* floating */
   --s-color-floating-bg: var(--p-color-neutral-500);
   --s-color-floating-border: var(--p-color-neutral-700);
   --s-color-floating-content-primary: var(--p-color-neutral-50);
+
+    /* focus ring */
+  --s-width-focus-ring: 4px;
+
 
   /* detail */
 
@@ -300,6 +304,9 @@
   --color-s-color-panel-action-outline-hover-bg: var(--s-color-panel-action-outline-hover-bg);
   --color-s-color-panel-action-outline-hover-border: var(--s-color-panel-action-outline-hover-border);
   --color-s-color-panel-action-outline-hover-content: var(--s-color-panel-action-outline-hover-content);
+
+  /* panel control focus */
+  --color-s-color-panel-control-ring: var(--s-color-panel-control-ring);
 
   /* floating */
   --color-s-color-floating-bg: var(--s-color-floating-bg);

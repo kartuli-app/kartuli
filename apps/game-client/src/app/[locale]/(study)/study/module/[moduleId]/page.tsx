@@ -40,7 +40,7 @@ export default async function ModuleStudyPage({
           title={module.title}
           eyeBrow="Alphabet"
           backHref={`/${locale}/explore/alphabet`}
-          trailing={
+          trailingPrimary={
             <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />
           }
         />

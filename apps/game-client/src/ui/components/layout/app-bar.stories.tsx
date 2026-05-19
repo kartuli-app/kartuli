@@ -1,4 +1,3 @@
-import { cn } from '@kartuli/ui/utils/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { IoArrowBackOutline, IoSettingsOutline } from 'react-icons/io5';
 import { PiMagnifyingGlass } from 'react-icons/pi';
@@ -27,7 +26,7 @@ const appBarActionLabels: Record<keyof typeof appBarIcons, string> = {
 };
 
 type AppBarActionKind = 'button' | 'link';
-type TrailingMode = 'none' | 'one' | 'two' | 'mixed';
+type TrailingMode = 'none' | 'primary-only' | 'secondary-only' | 'both';
 
 type AppBarStoryProps = {
   eyeBrow: string;
@@ -37,28 +36,6 @@ type AppBarStoryProps = {
   leadingIcon: keyof typeof appBarIcons;
   trailingMode: TrailingMode;
 };
-
-function AppBarStatusChip({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <span
-      className={cn(
-        'inline-flex',
-        'shrink-0',
-        'items-center',
-        'rounded-p-radius-full',
-        'bg-s-color-shell-action-selected-bg',
-        'px-3',
-        'py-1',
-        'text-sm',
-        'font-bold',
-        'text-s-color-shell-action-selected-content',
-        'uppercase',
-      )}
-    >
-      {children}
-    </span>
-  );
-}
 
 function renderAppBarAction(
   kind: AppBarActionKind,
@@ -77,28 +54,25 @@ function renderAppBarAction(
 
 function renderTrailing(mode: TrailingMode) {
   if (mode === 'none') {
-    return undefined;
+    return {};
   }
 
-  if (mode === 'one') {
-    return renderAppBarAction('button', 'search', '/search');
+  if (mode === 'primary-only') {
+    return {
+      trailingPrimary: renderAppBarAction('button', 'search', '/search'),
+    };
   }
 
-  if (mode === 'two') {
-    return (
-      <>
-        {renderAppBarAction('link', 'search', '/search')}
-        {renderAppBarAction('button', 'settings', '/settings')}
-      </>
-    );
+  if (mode === 'secondary-only') {
+    return {
+      trailingSecondary: renderAppBarAction('link', 'search', '/search'),
+    };
   }
 
-  return (
-    <>
-      <AppBarStatusChip>Beta</AppBarStatusChip>
-      {renderAppBarAction('button', 'settings', '/settings')}
-    </>
-  );
+  return {
+    trailingSecondary: renderAppBarAction('link', 'search', '/search'),
+    trailingPrimary: renderAppBarAction('button', 'settings', '/settings'),
+  };
 }
 
 function AppBarStory({
@@ -109,12 +83,15 @@ function AppBarStory({
   leadingIcon,
   trailingMode,
 }: Readonly<AppBarStoryProps>) {
+  const trailingSlots = renderTrailing(trailingMode);
+
   return (
     <AppBar
       eyeBrow={eyeBrow}
       title={title}
       leading={showLeading ? renderAppBarAction(leadingKind, leadingIcon, '/') : undefined}
-      trailing={renderTrailing(trailingMode)}
+      trailingPrimary={trailingSlots.trailingPrimary}
+      trailingSecondary={trailingSlots.trailingSecondary}
     />
   );
 }
@@ -127,7 +104,7 @@ const meta: Meta<typeof AppBarStory> = {
     docs: {
       description: {
         component:
-          'Top-level shell bar that balances a fixed leading slot and a flexible trailing slot around a truncating title block.',
+          'Top-level shell bar that balances an optional leading action with two reserved trailing action slots around a truncating title block.',
       },
     },
   },
@@ -168,8 +145,8 @@ const meta: Meta<typeof AppBarStory> = {
     },
     trailingMode: {
       control: 'inline-radio',
-      options: ['none', 'one', 'two', 'mixed'],
-      description: 'The content rendered in the trailing region',
+      options: ['none', 'primary-only', 'secondary-only', 'both'],
+      description: 'Which reserved trailing action slots are populated',
     },
   },
   args: {
@@ -178,7 +155,7 @@ const meta: Meta<typeof AppBarStory> = {
     showLeading: true,
     leadingKind: 'link',
     leadingIcon: 'back',
-    trailingMode: 'one',
+    trailingMode: 'primary-only',
   },
 };
 
@@ -196,13 +173,13 @@ export const WithoutTrailing: Story = {
 
 export const TwoTrailingActions: Story = {
   args: {
-    trailingMode: 'two',
+    trailingMode: 'both',
   },
 };
 
-export const MixedTrailingContent: Story = {
+export const SecondaryOnly: Story = {
   args: {
-    trailingMode: 'mixed',
+    trailingMode: 'secondary-only',
   },
 };
 
@@ -210,7 +187,7 @@ export const LongTitleWithTwoTrailingActions: Story = {
   args: {
     eyeBrow: 'kartuli.app learning journey and progress overview',
     title: 'Explore the Georgian alphabet through letters, sounds, and pattern groups',
-    trailingMode: 'two',
+    trailingMode: 'both',
   },
   render: (args) => (
     <div className="w-full max-w-[320px]">
@@ -228,7 +205,7 @@ export const Comparison: Story = {
         showLeading
         leadingKind="link"
         leadingIcon="back"
-        trailingMode="one"
+        trailingMode="primary-only"
       />
       <AppBarStory
         eyeBrow="Browse"
@@ -236,7 +213,7 @@ export const Comparison: Story = {
         showLeading={false}
         leadingKind="button"
         leadingIcon="back"
-        trailingMode="two"
+        trailingMode="both"
       />
       <AppBarStory
         eyeBrow="kartuli.app"
@@ -244,7 +221,7 @@ export const Comparison: Story = {
         showLeading
         leadingKind="button"
         leadingIcon="back"
-        trailingMode="mixed"
+        trailingMode="none"
       />
     </div>
   ),

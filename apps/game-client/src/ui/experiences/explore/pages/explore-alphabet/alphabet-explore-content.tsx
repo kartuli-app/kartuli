@@ -4,6 +4,7 @@ import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import { ModuleCardsLayout } from '@game-client/ui/experiences/explore/components/module-cards-layout';
+import { cn } from '@kartuli/ui/utils/cn';
 import Link from 'next/link';
 import { PiStudent } from 'react-icons/pi';
 import { LettersPreviewGrid } from './components/letters-preview-grid';
@@ -37,6 +38,14 @@ function getDataFromLibrary(library: Library) {
   return { lessons: alphabetLessons, allItemsDeduplicated, moduleId: alphabetModule?.id };
 }
 
+const linkCardClassName = cn(
+  'flex grow cursor-pointer active:scale-95',
+  'focus-visible:ring-(length:--s-width-focus-ring)',
+  'focus-visible:ring-s-color-panel-border-hover',
+  'outline-none',
+  'rounded-p-radius-1',
+);
+
 export async function AlphabetExploreContent() {
   const library = await getLibraryServer('en');
   const { lessons, allItemsDeduplicated, moduleId } = getDataFromLibrary(library);
@@ -46,7 +55,10 @@ export async function AlphabetExploreContent() {
         <Link
           href={`/en/study/lesson/${lesson.id}`}
           key={lesson.id}
-          className="flex grow cursor-pointer active:scale-95"
+          className={cn(
+            //
+            linkCardClassName,
+          )}
         >
           <Panel className="hover:border-s-color-panel-border-hover">
             <PanelHeader context="Alphabet" title={lesson.name} variant="default" />
@@ -60,7 +72,10 @@ export async function AlphabetExploreContent() {
         moduleId ? (
           <Link
             href={`/en/study/module/${moduleId}`}
-            className="flex grow cursor-pointer active:scale-95"
+            className={cn(
+              //
+              linkCardClassName,
+            )}
           >
             <Panel className="hover:border-s-color-panel-border-hover">
               <PanelHeader
