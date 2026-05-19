@@ -1,6 +1,8 @@
 import { getLibraryServer } from '@game-client/learning-content/library/get-library-server';
 import type { Lesson, LetterItem, Library } from '@game-client/learning-content/library/library';
-import { ContentCard } from '@game-client/ui/experiences/explore/components/content-card/content-card';
+import { Panel } from '@game-client/ui/components/panel/panel';
+import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
+import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import { ModuleCardsLayout } from '@game-client/ui/experiences/explore/components/module-cards-layout';
 import Link from 'next/link';
 import { PiStudent } from 'react-icons/pi';
@@ -44,22 +46,33 @@ export async function AlphabetExploreContent() {
         <Link
           href={`/en/study/lesson/${lesson.id}`}
           key={lesson.id}
-          className="flex grow cursor-pointer active:scale-95 group"
+          className="flex grow cursor-pointer active:scale-95"
         >
-          <ContentCard context="Alphabet" title={lesson.name} variant="default">
-            <LettersPreviewGrid items={lesson.items} size="grid-item" />
-          </ContentCard>
+          <Panel className="hover:border-s-color-panel-border-hover">
+            <PanelHeader context="Alphabet" title={lesson.name} variant="default" />
+            <PanelSection className="flex gap-4">
+              <LettersPreviewGrid items={lesson.items} size="grid-item" />
+            </PanelSection>
+          </Panel>
         </Link>
       ))}
       fullReviewCard={
         moduleId ? (
           <Link
             href={`/en/study/module/${moduleId}`}
-            className="flex grow cursor-pointer active:scale-95 group"
+            className="flex grow cursor-pointer active:scale-95"
           >
-            <ContentCard context="Alphabet" title="Full Review" variant="inverted" icon={PiStudent}>
-              <LettersPreviewGrid items={allItemsDeduplicated} size="full" />
-            </ContentCard>
+            <Panel className="hover:border-s-color-panel-border-hover">
+              <PanelHeader
+                context="Alphabet"
+                title="Full Review"
+                variant="inverted"
+                leading={<PiStudent className="size-11" aria-hidden="true" />}
+              />
+              <PanelSection className="flex gap-4">
+                <LettersPreviewGrid items={allItemsDeduplicated} size="full" />
+              </PanelSection>
+            </Panel>
           </Link>
         ) : undefined
       }

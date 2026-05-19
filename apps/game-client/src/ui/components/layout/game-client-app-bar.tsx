@@ -6,21 +6,21 @@ type GameClientAppBarProps = {
   backHref?: string;
   eyeBrow: string;
   title: string;
-  action?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
 export function GameClientAppBar({
   backHref,
   eyeBrow,
   title,
-  action,
+  trailing,
 }: Readonly<GameClientAppBarProps>) {
   return (
     <AppBar
       leading={backHref ? <BackButton href={backHref} /> : <MascotLogo />}
       eyeBrow={eyeBrow}
       title={title}
-      action={action}
+      trailing={trailing}
     />
   );
 }

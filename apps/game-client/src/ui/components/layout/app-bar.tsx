@@ -6,10 +6,10 @@ type AppBarProps = {
   leading?: React.ReactNode;
   eyeBrow: string;
   title: string;
-  action?: React.ReactNode;
+  trailing?: React.ReactNode;
 };
 
-export function AppBar({ leading, eyeBrow, title, action }: Readonly<AppBarProps>) {
+export function AppBar({ leading, eyeBrow, title, trailing }: Readonly<AppBarProps>) {
   return (
     <header
       className={cn(
@@ -51,18 +51,20 @@ export function AppBar({ leading, eyeBrow, title, action }: Readonly<AppBarProps
 
           <AppBarTitle title={title} eyeBrow={eyeBrow} />
 
-          <div
-            className={cn(
-              //
-              'flex',
-              'shrink-0',
-              'items-center',
-              'justify-center',
-              'size-12',
-            )}
-          >
-            {action}
-          </div>
+          {trailing ? (
+            <div
+              className={cn(
+                //
+                'flex',
+                'shrink-0',
+                'flex-nowrap',
+                'items-center',
+                'gap-p-spacing-2',
+              )}
+            >
+              {trailing}
+            </div>
+          ) : null}
         </div>
       </ContentContainer>
     </header>

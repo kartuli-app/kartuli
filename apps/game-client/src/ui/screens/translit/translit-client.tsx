@@ -6,6 +6,9 @@ import {
   getStringTransliterationFromTargetScript,
 } from '@game-client/learning-content/utils/transliteration';
 import { Notifications, showNotification } from '@game-client/ui/components/notifications';
+import { Panel } from '@game-client/ui/components/panel/panel';
+import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
+import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import { TooltipButton } from '@game-client/ui/components/tooltip-button';
 import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output';
 import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
@@ -47,11 +50,11 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const copyFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isSyncingScrollRef = useRef(false);
 
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // }, []);
 
   const getOutput = (directionValue: 'georgian-to-latin' | 'latin-to-georgian', text: string) => {
     if (directionValue === 'georgian-to-latin') {
@@ -71,7 +74,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     setDirection(newDirection);
     setInput(newInput);
     setOutput(newOutput);
-    inputRef.current?.focus();
+    // inputRef.current?.focus();
   };
 
   const clearInput = () => {
@@ -221,84 +224,104 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const inputLang = direction === 'georgian-to-latin' ? 'ka-GE' : 'ka-Latn';
   const outputLang = direction === 'georgian-to-latin' ? 'ka-Latn' : 'ka-GE';
   const outputSegments = getTranslitOutputSegments(input, output);
+  const inputContextId = 'translit-input-context';
+  const inputTitleId = 'translit-input-title';
   const outputLabelId = 'translit-output-label';
-  const inputScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
-  const outputScriptClassName = direction === 'georgian-to-latin' ? undefined : 'font-georgian';
-  const tooltipScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
+  const outputContextId = 'translit-output-context';
+  // const inputScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
+  // const outputScriptClassName = direction === 'georgian-to-latin' ? undefined : 'font-georgian';
+  // const tooltipScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
+  const inputScriptClassName = 'font-georgian';
+  const outputScriptClassName = 'font-georgian';
+  const tooltipScriptClassName = 'font-georgian';
   const surfaceTextSizeClassName = isCompactText ? 'text-xl' : 'text-2xl';
 
   return (
     <Notifications>
       <Tooltip.Provider delay={300}>
-        <main className="p-4">
-          <h1>Translit</h1>
-          <section>
-            <h2 id="translit-input-label">
-              {t('source')}: {sourceFromLabel}
-            </h2>
-            <div className={cn('flex', 'gap-2')}>
-              <TooltipButton
-                tooltipLabel={clearTextLabel}
-                side="bottom"
-                onClick={clearInput}
-                aria-label={clearTextLabel}
-              >
-                {showEmptyClearIcon ? <RiDeleteBin6Line /> : <RiDeleteBin6Fill />}
-              </TooltipButton>
-              <TooltipButton
-                tooltipLabel={switchDirectionLabel}
-                side="bottom"
-                onClick={toggleDirection}
-                aria-label={switchDirectionLabel}
-                aria-controls="translit-input translit-output"
-              >
-                <HiOutlineSwitchHorizontal />
-              </TooltipButton>
-            </div>
-            <textarea
-              lang={inputLang}
-              aria-labelledby="translit-input-label"
-              className={cn(
-                'h-64',
-                'w-full',
-                'resize-none',
-                'border',
-                'p-2',
-                surfaceTextSizeClassName,
-                inputScriptClassName,
-              )}
-              id="translit-input"
-              value={input}
-              onChange={handleInputChange}
-              onScroll={handleInputScroll}
-              ref={inputRef}
-              placeholder={placeholder}
+        <main className={cn('flex', 'flex-col', 'gap-4', 'p-0', 'h-full')}>
+          <Panel className="flex-1">
+            <PanelHeader
+              context={t('source')}
+              contextId={inputContextId}
+              title={sourceFromLabel}
+              titleId={inputTitleId}
+              trailing={
+                <>
+                  <TooltipButton
+                    tooltipLabel={clearTextLabel}
+                    side="bottom"
+                    onClick={clearInput}
+                    aria-label={clearTextLabel}
+                  >
+                    {showEmptyClearIcon ? <RiDeleteBin6Line /> : <RiDeleteBin6Fill />}
+                  </TooltipButton>
+                  <TooltipButton
+                    tooltipLabel={switchDirectionLabel}
+                    side="bottom"
+                    onClick={toggleDirection}
+                    aria-label={switchDirectionLabel}
+                    aria-controls="translit-input translit-output"
+                  >
+                    <HiOutlineSwitchHorizontal />
+                  </TooltipButton>
+                </>
+              }
+              variant="default"
             />
-          </section>
-          <section>
-            <h2 id={outputLabelId}>
-              {t('transliteration')}: {transliterationToLabel}
-            </h2>
-            <div className={cn('flex', 'gap-2')}>
-              <TooltipButton
-                tooltipLabel={copyTransliterationLabel}
-                side="top"
-                onClick={copyOutput}
-                aria-label={copyTransliterationLabel}
-              >
-                {isCopySuccess ? <FaCheck /> : <FaRegCopy />}
-              </TooltipButton>
-            </div>
-            <TranslitOutput
-              ariaLabelledBy={outputLabelId}
-              className={cn(surfaceTextSizeClassName, outputScriptClassName)}
-              containerRef={outputRef}
-              lang={outputLang}
-              onScroll={handleOutputScroll}
-              segments={outputSegments}
-              tooltipClassName={tooltipScriptClassName}
+            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'px-4 py-4', 'h-full')}>
+              <textarea
+                lang={inputLang}
+                aria-labelledby={`${inputContextId} ${inputTitleId}`}
+                className={cn(
+                  'h-full',
+                  'w-full',
+                  'resize-none',
+                  'rounded-p-radius-2',
+                  'bg-p-color-neutral-200',
+                  'p-2',
+                  surfaceTextSizeClassName,
+                  inputScriptClassName,
+                )}
+                id="translit-input"
+                value={input}
+                onChange={handleInputChange}
+                onScroll={handleInputScroll}
+                ref={inputRef}
+                placeholder={placeholder}
+              />
+            </PanelSection>
+          </Panel>
+          <Panel className="flex-1">
+            <PanelHeader
+              context={t('transliteration')}
+              contextId={outputContextId}
+              title={transliterationToLabel}
+              titleId={outputLabelId}
+              trailing={
+                <TooltipButton
+                  tooltipLabel={copyTransliterationLabel}
+                  side="top"
+                  onClick={copyOutput}
+                  aria-label={copyTransliterationLabel}
+                >
+                  {isCopySuccess ? <FaCheck /> : <FaRegCopy />}
+                </TooltipButton>
+              }
+              variant="default"
             />
-          </section>
+            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'h-full')}>
+              <TranslitOutput
+                ariaLabelledBy={`${outputContextId} ${outputLabelId}`}
+                className={cn(surfaceTextSizeClassName, outputScriptClassName)}
+                containerRef={outputRef}
+                lang={outputLang}
+                onScroll={handleOutputScroll}
+                segments={outputSegments}
+                tooltipClassName={tooltipScriptClassName}
+              />
+            </PanelSection>
+          </Panel>
           <div aria-hidden className={cn('invisible', 'absolute', 'overflow-hidden')}>
             <div
               ref={inputMeasureRef}

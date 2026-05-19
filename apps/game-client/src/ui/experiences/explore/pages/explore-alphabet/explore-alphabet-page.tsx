@@ -13,7 +13,7 @@ export function ExploreAlphabetPage() {
         <GameClientAppBar
           title="Alphabet"
           eyeBrow="kartuli.app"
-          action={
+          trailing={
             <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />
           }
         />
