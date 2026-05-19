@@ -112,8 +112,9 @@ export const ChangesBackgroundOnHover: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Copy transliteration' });
 
-    await step('The trigger keeps the hover affordance class', async () => {
-      expect(trigger.className).toContain('hover:bg-gray-100');
+    await step('The trigger keeps the semantic action token classes', async () => {
+      expect(trigger.className).toContain('hover:bg-s-color-panel-action-outline-hover-bg');
+      expect(trigger.className).toContain('focus-visible:ring-s-color-panel-action-outline-ring');
     });
   },
 };

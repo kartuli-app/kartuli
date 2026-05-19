@@ -251,7 +251,11 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     onClick={clearInput}
                     aria-label={clearTextLabel}
                   >
-                    {showEmptyClearIcon ? <RiDeleteBin6Line /> : <RiDeleteBin6Fill />}
+                    {showEmptyClearIcon ? (
+                      <RiDeleteBin6Line className="size-5" />
+                    ) : (
+                      <RiDeleteBin6Fill className="size-5" />
+                    )}
                   </TooltipButton>
                   <TooltipButton
                     tooltipLabel={switchDirectionLabel}
@@ -260,7 +264,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     aria-label={switchDirectionLabel}
                     aria-controls="translit-input translit-output"
                   >
-                    <HiOutlineSwitchHorizontal />
+                    <HiOutlineSwitchHorizontal className="size-5" />
                   </TooltipButton>
                 </>
               }
@@ -276,7 +280,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   'resize-none',
                   'rounded-p-radius-2',
                   'bg-p-color-neutral-200',
-                  'p-2',
+                  'p-4',
                   surfaceTextSizeClassName,
                   inputScriptClassName,
                 )}
@@ -302,7 +306,11 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   onClick={copyOutput}
                   aria-label={copyTransliterationLabel}
                 >
-                  {isCopySuccess ? <FaCheck /> : <FaRegCopy />}
+                  {isCopySuccess ? (
+                    <FaCheck className="size-5" />
+                  ) : (
+                    <FaRegCopy className="size-5" />
+                  )}
                 </TooltipButton>
               }
               variant="default"
@@ -340,7 +348,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'wrap-break-word',
                 'text-2xl',
                 'leading-8',
-                'p-2',
+                'p-4',
                 outputScriptClassName,
               )}
             >

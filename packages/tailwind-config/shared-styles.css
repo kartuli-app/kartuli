@@ -128,11 +128,26 @@
   --s-color-panel-header-content-primary: var(--p-color-brand-500);
   --s-color-panel-header-content-secondary: var(--p-color-neutral-500);
   --s-color-panel-header-border: var(--p-color-brand-500);
-  
+
   /* panel header inverted */
   --s-color-panel-header-inverted-bg: var(--p-color-brand-500);
   --s-color-panel-header-inverted-content-primary: var(--p-color-neutral-50);
   --s-color-panel-header-inverted-content-secondary: var(--p-color-neutral-200);
+
+  /* panel action outline */
+  --s-color-panel-action-outline-bg: transparent;
+  --s-color-panel-action-outline-border: var(--p-color-neutral-700);
+  --s-width-panel-action-outline-border: 1px;
+  --s-color-panel-action-outline-content: var(--p-color-neutral-700);
+  --s-color-panel-action-outline-ring: var(--p-color-neutral-900);
+  --s-color-panel-action-outline-hover-bg: var(--p-color-neutral-200);
+  --s-color-panel-action-outline-hover-border: var(--s-color-panel-header-content-secondary);
+  --s-color-panel-action-outline-hover-content: var(--p-color-neutral-900);
+
+  /* floating */
+  --s-color-floating-bg: var(--p-color-neutral-500);
+  --s-color-floating-border: var(--p-color-neutral-700);
+  --s-color-floating-content-primary: var(--p-color-neutral-50);
 
   /* detail */
 
@@ -276,6 +291,20 @@
   --color-s-color-panel-header-inverted-bg: var(--s-color-panel-header-inverted-bg);
   --color-s-color-panel-header-inverted-content-primary: var(--s-color-panel-header-inverted-content-primary);
   --color-s-color-panel-header-inverted-content-secondary: var(--s-color-panel-header-inverted-content-secondary);
+
+  /* panel action outline */
+  --color-s-color-panel-action-outline-bg: var(--s-color-panel-action-outline-bg);
+  --color-s-color-panel-action-outline-border: var(--s-color-panel-action-outline-border);
+  --color-s-color-panel-action-outline-content: var(--s-color-panel-action-outline-content);
+  --color-s-color-panel-action-outline-ring: var(--s-color-panel-action-outline-ring);
+  --color-s-color-panel-action-outline-hover-bg: var(--s-color-panel-action-outline-hover-bg);
+  --color-s-color-panel-action-outline-hover-border: var(--s-color-panel-action-outline-hover-border);
+  --color-s-color-panel-action-outline-hover-content: var(--s-color-panel-action-outline-hover-content);
+
+  /* floating */
+  --color-s-color-floating-bg: var(--s-color-floating-bg);
+  --color-s-color-floating-border: var(--s-color-floating-border);
+  --color-s-color-floating-content-primary: var(--s-color-floating-content-primary);
 
   /*
    * Component utilities

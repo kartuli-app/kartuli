@@ -4,6 +4,31 @@ import { cn } from '@kartuli/ui/utils/cn';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Tooltip } from './tooltip';
 
+const tooltipButtonClassName = cn(
+  'inline-flex',
+  'items-center',
+  'justify-center',
+  'border-(length:--s-width-panel-action-outline-border) solid',
+  'border-s-color-panel-action-outline-border',
+  'bg-s-color-panel-action-outline-bg',
+  'p-2',
+  'text-s-color-panel-action-outline-content',
+  'focus-visible:ring-(length:--s-width-shell-focus-ring)',
+  'focus-visible:ring-s-color-panel-action-outline-ring',
+  'hover:bg-s-color-panel-action-outline-hover-bg',
+  'hover:border-s-color-panel-action-outline-hover-border',
+  'hover:text-s-color-panel-action-outline-hover-content',
+  'active:bg-s-color-panel-action-outline-hover-bg',
+  'active:border-s-color-panel-action-outline-hover-border',
+  'active:text-s-color-panel-action-outline-hover-content',
+  'disabled:opacity-50',
+  'outline-none',
+  'rounded-p-radius-full',
+  'size-11',
+  'active:scale-95',
+  'cursor-pointer',
+);
+
 interface TooltipButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
   children: ReactNode;
   tooltipLabel: ReactNode;
@@ -16,7 +41,7 @@ export function TooltipButton({
   children,
   className,
   side = 'top',
-  sideOffset = 12,
+  sideOffset = 8,
   tooltipLabel,
   tooltipPopupClassName,
   type = 'button',
@@ -29,20 +54,7 @@ export function TooltipButton({
       side={side}
       sideOffset={sideOffset}
     >
-      <button
-        type={type}
-        className={cn(
-          'inline-flex',
-          'items-center',
-          'justify-center',
-          'border',
-          'p-2',
-          'hover:bg-gray-100',
-          'disabled:opacity-50',
-          className,
-        )}
-        {...buttonProps}
-      >
+      <button type={type} className={cn(tooltipButtonClassName, className)} {...buttonProps}>
         {children}
       </button>
     </Tooltip>
