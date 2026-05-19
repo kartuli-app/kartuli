@@ -228,9 +228,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const inputTitleId = 'translit-input-title';
   const outputLabelId = 'translit-output-label';
   const outputContextId = 'translit-output-context';
-  // const inputScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
-  // const outputScriptClassName = direction === 'georgian-to-latin' ? undefined : 'font-georgian';
-  // const tooltipScriptClassName = direction === 'georgian-to-latin' ? 'font-georgian' : undefined;
   const inputScriptClassName = 'font-georgian';
   const outputScriptClassName = 'font-georgian';
   const tooltipScriptClassName = 'font-georgian';
