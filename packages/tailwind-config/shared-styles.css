@@ -95,11 +95,11 @@
    */
 
   /* shell */
-  --s-color-shell-bg: var(--p-color-accent-200);
+  --s-color-shell-bg: var(--p-color-brand-100);
   --s-color-shell-content-primary: var(--p-color-neutral-900);
   --s-color-shell-content-secondary: var(--p-color-neutral-700);
-  --s-color-shell-content-decoration: var(--p-color-accent-300);
-  --s-color-shell-border: var(--p-color-accent-300);
+  --s-color-shell-content-decoration: var(--p-color-brand-200);
+  --s-color-shell-border: var(--p-color-brand-400);
   --s-width-shell-border: 3px;
 
   /* shell action ghost */
@@ -149,9 +149,8 @@
   --s-color-floating-border: var(--p-color-neutral-700);
   --s-color-floating-content-primary: var(--p-color-neutral-50);
 
-    /* focus ring */
+  /* focus ring */
   --s-width-focus-ring: 4px;
-
 
   /* detail */
 
@@ -293,8 +292,12 @@
 
   /* panel header inverted */
   --color-s-color-panel-header-inverted-bg: var(--s-color-panel-header-inverted-bg);
-  --color-s-color-panel-header-inverted-content-primary: var(--s-color-panel-header-inverted-content-primary);
-  --color-s-color-panel-header-inverted-content-secondary: var(--s-color-panel-header-inverted-content-secondary);
+  --color-s-color-panel-header-inverted-content-primary: var(
+    --s-color-panel-header-inverted-content-primary
+  );
+  --color-s-color-panel-header-inverted-content-secondary: var(
+    --s-color-panel-header-inverted-content-secondary
+  );
 
   /* panel action outline */
   --color-s-color-panel-action-outline-bg: var(--s-color-panel-action-outline-bg);
@@ -302,8 +305,12 @@
   --color-s-color-panel-action-outline-content: var(--s-color-panel-action-outline-content);
   --color-s-color-panel-action-outline-ring: var(--s-color-panel-action-outline-ring);
   --color-s-color-panel-action-outline-hover-bg: var(--s-color-panel-action-outline-hover-bg);
-  --color-s-color-panel-action-outline-hover-border: var(--s-color-panel-action-outline-hover-border);
-  --color-s-color-panel-action-outline-hover-content: var(--s-color-panel-action-outline-hover-content);
+  --color-s-color-panel-action-outline-hover-border: var(
+    --s-color-panel-action-outline-hover-border
+  );
+  --color-s-color-panel-action-outline-hover-content: var(
+    --s-color-panel-action-outline-hover-content
+  );
 
   /* panel control focus */
   --color-s-color-panel-control-ring: var(--s-color-panel-control-ring);

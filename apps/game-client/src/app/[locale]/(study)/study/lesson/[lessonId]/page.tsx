@@ -9,6 +9,10 @@ import { notFound } from 'next/navigation';
 import { PiMagnifyingGlass } from 'react-icons/pi';
 import { StudyScreen } from '../../../study-screen';
 
+export function generateStaticParams() {
+  return [];
+}
+
 export default async function LessonStudyPage({
   params,
 }: Readonly<{
