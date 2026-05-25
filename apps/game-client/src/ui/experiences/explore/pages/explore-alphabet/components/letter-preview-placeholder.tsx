@@ -19,7 +19,6 @@ export function LetterPreviewPlaceholder({ className }: Readonly<{ className?: s
           //
           'font-georgian',
           'text-4xl',
-          'text-kartuli-color-primitive-neutral-900',
           'flex',
           'items-center',
           'justify-center',
@@ -35,7 +34,6 @@ export function LetterPreviewPlaceholder({ className }: Readonly<{ className?: s
         className={cn(
           //
           'text-xl',
-          'text-kartuli-color-primitive-neutral-500',
           'flex',
           'items-center',
           'justify-center',

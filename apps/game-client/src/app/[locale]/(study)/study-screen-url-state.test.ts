@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   getStudyScreenCurrentItem,
+  getStudyScreenCurrentItemFromSlideIndex,
   getStudyScreenUrl,
+  getStudySlideIndex,
   STUDY_ITEM_SEARCH_PARAM,
 } from './study-screen-url-state';
 
@@ -18,6 +20,33 @@ describe('getStudyScreenCurrentItem', () => {
 
   it('falls back to summary for an unknown item id', () => {
     expect(getStudyScreenCurrentItem(items, 'letter-unknown')).toBe('summary');
+  });
+});
+
+describe('getStudySlideIndex', () => {
+  it('maps summary to the first slide', () => {
+    expect(getStudySlideIndex('summary')).toBe(0);
+  });
+
+  it('maps detail items to the following slide positions', () => {
+    expect(getStudySlideIndex(0)).toBe(1);
+    expect(getStudySlideIndex(2)).toBe(3);
+  });
+});
+
+describe('getStudyScreenCurrentItemFromSlideIndex', () => {
+  it('maps the first slide back to summary', () => {
+    expect(getStudyScreenCurrentItemFromSlideIndex(items.length, 0)).toBe('summary');
+  });
+
+  it('maps detail slides back to their item indexes', () => {
+    expect(getStudyScreenCurrentItemFromSlideIndex(items.length, 1)).toBe(0);
+    expect(getStudyScreenCurrentItemFromSlideIndex(items.length, 3)).toBe(2);
+  });
+
+  it('clamps out-of-range slide indexes to the available bounds', () => {
+    expect(getStudyScreenCurrentItemFromSlideIndex(items.length, -10)).toBe('summary');
+    expect(getStudyScreenCurrentItemFromSlideIndex(items.length, 99)).toBe(2);
   });
 });
 

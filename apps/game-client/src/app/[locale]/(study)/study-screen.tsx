@@ -2,21 +2,55 @@
 
 import type { LetterItem } from '@game-client/learning-content/library/library';
 import { Panel } from '@game-client/ui/components/panel/panel';
-import { SafeViewTransition } from '@game-client/ui/components/safe-view-transition';
 import { cn } from '@kartuli/ui/utils/cn';
+import { animate, motion, type PanInfo, useMotionValue } from 'motion/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { PiCaretLeft, PiCaretRight, PiHouseLight, PiPlayFill } from 'react-icons/pi';
+import { getStudySwipeNavigationDirection } from './study-screen-swipe';
 import {
   getStudyScreenCurrentItem,
+  getStudyScreenCurrentItemFromSlideIndex,
   getStudyScreenUrl,
+  getStudySlideIndex,
   STUDY_ITEM_SEARCH_PARAM,
   type StudyScreenCurrentItem,
 } from './study-screen-url-state';
 
 const MAX_ITEMS_COUNT = 42;
-const STUDY_NAV_FORWARD = 'study-nav-forward';
-const STUDY_NAV_BACK = 'study-nav-back';
+const STUDY_SLIDE_ANIMATION_BASE_DURATION_SECONDS = 0.1;
+const STUDY_SLIDE_ANIMATION_EXTRA_DURATION_SECONDS = 0.02;
+const STUDY_SLIDE_ANIMATION_MAX_DURATION_SECONDS = 0.2;
+type StudySlide =
+  | {
+      key: 'summary';
+      kind: 'summary';
+    }
+  | {
+      key: string;
+      kind: 'detail';
+      item: LetterItem;
+      itemIndex: number;
+    };
+
+type StudyNavigationState = {
+  items: LetterItem[];
+  totalItems: number;
+  currentItem: StudyScreenCurrentItem;
+  currentSlideIndex: number;
+  lastSlideIndex: number;
+  canGoPrevious: boolean;
+  canGoNext: boolean;
+  canGoToSummary: boolean;
+};
+
+type StudyNavigationModel = StudyNavigationState & {
+  navigateToSlide: (targetSlideIndex: number) => void;
+  handlePrevious: () => void;
+  handleNext: () => void;
+  handleGoToSummary: () => void;
+  handleSelectItem: (itemIndex: number) => void;
+};
 
 function CtaButton({
   className,
@@ -47,18 +81,19 @@ function CtaButton({
         'h-16',
         'md:h-20',
         'border-2',
-        'border-kartuli-color-primitive-neutral-900',
+        'border-p-color-brand-600',
         'bg-p-color-brand-600',
-        'hover:bg-kartuli-color-primitive-neutral-950',
-        'active:bg-kartuli-color-primitive-neutral-950',
+        'hover:bg-p-color-brand-700',
+        'active:bg-p-color-brand-700',
         'active:scale-95',
         'cursor-pointer',
         'group',
+        'text-p-color-neutral-50',
         className,
       )}
     >
-      <Icon className="shrink-0 size-7 text-kartuli-color-primitive-neutral-50" />
-      <div className="text-2xl uppercase text-kartuli-color-primitive-neutral-50">{label}</div>
+      <Icon className="shrink-0 size-7 text-inherit" />
+      <div className="text-2xl uppercase text-inherit">{label}</div>
     </button>
   );
 }
@@ -108,9 +143,9 @@ function StudyNavigationButton({
         disabled && 'opacity-20',
         'bg-p-color-neutral-500',
         'text-p-color-neutral-50',
-        'border-kartuli-color-primitive-neutral-500',
-        !disabled && 'hover:bg-kartuli-color-primitive-neutral-500',
-        !disabled && 'active:bg-kartuli-color-primitive-neutral-500',
+        'border-p-color-neutral-500',
+        !disabled && 'hover:bg-p-color-neutral-700',
+        !disabled && 'active:bg-p-color-neutral-700',
         !disabled && 'active:scale-95',
         'group',
         className,
@@ -143,35 +178,23 @@ function StudyNavigationButton({
   );
 }
 
-type StudyNavigationState = {
-  items: LetterItem[];
-  totalItems: number;
-  currentItem: StudyScreenCurrentItem;
-  canGoPrevious: boolean;
-  canGoNext: boolean;
-  canGoToSummary: boolean;
-};
-
-type StudyNavigationModel = StudyNavigationState & {
-  handlePrevious: () => void;
-  handleNext: () => void;
-  handleGoToSummary: () => void;
-  handleSelectItem: (itemIndex: number) => void;
-};
-
 function createStudyNavigationState(
   items: LetterItem[],
   currentItem: StudyScreenCurrentItem,
 ): StudyNavigationState {
   const totalItems = items.length;
+  const currentSlideIndex = getStudySlideIndex(currentItem);
+  const lastSlideIndex = totalItems;
 
   return {
     items,
     totalItems,
     currentItem,
-    canGoPrevious: currentItem !== 'summary',
-    canGoNext: totalItems > 0 && currentItem !== totalItems - 1,
-    canGoToSummary: currentItem !== 'summary',
+    currentSlideIndex,
+    lastSlideIndex,
+    canGoPrevious: currentSlideIndex > 0,
+    canGoNext: currentSlideIndex < lastSlideIndex,
+    canGoToSummary: currentSlideIndex > 0,
   };
 }
 
@@ -229,9 +252,6 @@ function StatusPill({
   currentItem,
   totalItems,
 }: Readonly<Pick<StudyNavigationState, 'currentItem' | 'totalItems'> & { className?: string }>) {
-  const statusLabel =
-    currentItem === 'summary' ? `${totalItems} letters` : `${currentItem + 1} / ${totalItems}`;
-
   return (
     <div
       className={cn(
@@ -243,16 +263,28 @@ function StatusPill({
         'items-center',
         'justify-center',
         'rounded-full',
-        'bg-kartuli-color-primitive-neutral-200',
+        'bg-p-color-neutral-300',
         'px-3',
-        'text-sm',
         'font-bold',
         'uppercase',
-        'text-kartuli-color-primitive-neutral-900',
+        'text-p-color-neutral-900',
+        // 'border',
         className,
       )}
     >
-      <span className="truncate">{statusLabel}</span>
+      {currentItem === 'summary' ? (
+        <div className="flex items-center justify-center gap-1 text-xs">
+          <span className="font-bold">{totalItems}</span> letters
+        </div>
+      ) : (
+        <div className="flex items-center justify-center gap-1 text-base">
+          <div className="font-bold w-6 text-right borderr text-p-color-neutral-900">
+            {currentItem + 1}
+          </div>
+          <div className="w-3 text-p-color-neutral-600 borderr text-center">/</div>
+          <div className="w-6 text-p-color-neutral-600 borderr">{totalItems}</div>
+        </div>
+      )}
     </div>
   );
 }
@@ -315,17 +347,18 @@ function SummaryItemPreview({
   return (
     <button
       type="button"
+      aria-label={`Open ${item.targetScript}`}
       onClick={onClick}
       className="flex min-h-0 min-w-0 items-center justify-center group cursor-pointer"
     >
       <div
         className={cn(
           'h-full aspect-square max-w-full',
-          'group-hover:bg-kartuli-color-primitive-neutral-500',
-          'group-active:bg-kartuli-color-primitive-neutral-500',
-          'text-kartuli-color-primitive-neutral-500',
-          'group-hover:text-kartuli-color-primitive-neutral-50',
-          'group-active:text-kartuli-color-primitive-neutral-50',
+          'group-hover:bg-p-color-neutral-500',
+          'group-active:bg-p-color-neutral-500',
+          'text-p-color-neutral-500',
+          'group-hover:text-p-color-neutral-50',
+          'group-active:text-p-color-neutral-50',
           'active:scale-95',
           'items-center justify-center flex',
           '@container',
@@ -378,80 +411,245 @@ function SummaryCard({
   const gridClassName = getSummaryGridClassName(boundedItems.length);
 
   return (
-    <Panel className="flex grow min-h-0 w-full p-2">
-      <div
-        className={cn(
-          'grid h-full w-full min-h-0 min-w-0 place-content-center place-self-center gap-1 overflow-hidden',
-          gridClassName,
-        )}
-      >
-        {boundedItems.map((item, index) => (
-          <SummaryItemPreview key={item.id} item={item} onClick={() => handleSelectItem(index)} />
-        ))}
-      </div>
-    </Panel>
+    <div
+      className={cn(
+        'grid h-full w-full min-h-0 min-w-0 place-content-center place-self-center gap-1 overflow-hidden',
+        gridClassName,
+      )}
+    >
+      {boundedItems.map((item, index) => (
+        <SummaryItemPreview key={item.id} item={item} onClick={() => handleSelectItem(index)} />
+      ))}
+    </div>
   );
 }
 
 function DetailCard({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <Panel className="flex grow min-h-0 w-full p-2">
-      <div className="flex flex-col gap-8 h-full w-full items-center justify-center">
-        <div className="font-georgian text-9xl leading-none text-kartuli-color-primitive-neutral-500">
-          {item.targetScript}
-        </div>
-        <div className="text-4xl text-kartuli-color-primitive-neutral-500 flex items-center justify-center gap-1">
-          <span className="text-orange-500 w-4">[</span>
-          <span className="flex w-10">{item.transliteration}</span>
-          <span className="text-orange-500 w-4">]</span>
-        </div>
-        <div className="text-xl text-kartuli-color-primitive-neutral-500 text-center">
-          {item.pronunciationHint}
-        </div>
+    <div className="flex h-full min-h-0 w-full flex-col items-center justify-centerr pt-[15%] gap-8 @container">
+      <div className="font-georgian text-[45cqw] leading-none text-p-color-neutral-700 relative items-center justify-center max-w-[80%] w-full flex">
+        <span className="absolute top-3/10 left-0 bg-blue-200 w-full h-[1cqw] z-10"></span>
+        <span className="absolute top-6/10 left-0 bg-blue-200 w-full h-[1cqw] z-10"></span>
+        <span className="z-50 relative mx-auto">{item.targetScript}</span>
       </div>
-    </Panel>
+      <div className="flex items-center justify-center gap-1 text-[10cqw] text-p-color-neutral-500">
+        <span className="text-orange-500">[</span>
+        <span className="flex">{item.transliteration}</span>
+        <span className="text-orange-500">]</span>
+      </div>
+      <div className="text-center text-2xl text-p-color-neutral-500 max-w-[80%]">
+        {item.pronunciationHint}
+      </div>
+    </div>
+  );
+}
+
+function getStudySlides(items: ReadonlyArray<LetterItem>): StudySlide[] {
+  return [
+    { key: 'summary', kind: 'summary' },
+    ...items.map<StudySlide>((item, itemIndex) => ({
+      key: item.id,
+      kind: 'detail',
+      item,
+      itemIndex,
+    })),
+  ];
+}
+
+function getStudySlideAnimationDuration(fromSlideIndex: number, toSlideIndex: number): number {
+  const distance = Math.abs(toSlideIndex - fromSlideIndex);
+
+  if (distance <= 1) return STUDY_SLIDE_ANIMATION_BASE_DURATION_SECONDS;
+
+  return Math.min(
+    STUDY_SLIDE_ANIMATION_BASE_DURATION_SECONDS +
+      STUDY_SLIDE_ANIMATION_EXTRA_DURATION_SECONDS * (distance - 1),
+    STUDY_SLIDE_ANIMATION_MAX_DURATION_SECONDS,
   );
 }
 
 function StudyScreenLayout({ nav }: Readonly<{ nav: StudyNavigationModel }>) {
-  const currentViewKey =
-    nav.currentItem === 'summary'
-      ? 'summary'
-      : `detail-${nav.items[nav.currentItem]?.id ?? nav.currentItem}`;
+  const slides = useMemo(() => getStudySlides(nav.items), [nav.items]);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const slideRefs = useRef<Array<HTMLElement | null>>([]);
+  const trackX = useMotionValue(0);
+  const [slideWidth, setSlideWidth] = useState(0);
+  const hasInitializedTrackRef = useRef(false);
+  const previousSlideIndexRef = useRef(nav.currentSlideIndex);
+  const previousSlideWidthRef = useRef(0);
+  const trackAnimationRef = useRef<{ stop: () => void } | null>(null);
+  const pendingFocusSlideIndexRef = useRef<number | null>(null);
+
+  const stopTrackAnimation = () => {
+    trackAnimationRef.current?.stop();
+    trackAnimationRef.current = null;
+  };
+
+  const focusSlideIfNeeded = (slideIndex: number) => {
+    if (pendingFocusSlideIndexRef.current !== slideIndex) return;
+
+    slideRefs.current[slideIndex]?.focus();
+    pendingFocusSlideIndexRef.current = null;
+  };
+
+  const animateTrackToSlide = (fromSlideIndex: number, toSlideIndex: number) => {
+    if (slideWidth <= 0) return;
+
+    stopTrackAnimation();
+    trackAnimationRef.current = animate(trackX, -toSlideIndex * slideWidth, {
+      duration: getStudySlideAnimationDuration(fromSlideIndex, toSlideIndex),
+      ease: 'easeOut',
+      onComplete: () => {
+        trackAnimationRef.current = null;
+        focusSlideIfNeeded(toSlideIndex);
+      },
+    });
+  };
+
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport || hasInitializedTrackRef.current) return;
+
+    const initialSlideWidth = viewport.clientWidth;
+    if (initialSlideWidth <= 0) return;
+
+    setSlideWidth(initialSlideWidth);
+    trackX.set(-nav.currentSlideIndex * initialSlideWidth);
+    previousSlideWidthRef.current = initialSlideWidth;
+    previousSlideIndexRef.current = nav.currentSlideIndex;
+    hasInitializedTrackRef.current = true;
+  }, [nav.currentSlideIndex, trackX]);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      const nextSlideWidth = entries[0]?.contentRect.width ?? viewport.clientWidth;
+      if (nextSlideWidth <= 0) return;
+
+      setSlideWidth((currentSlideWidth) =>
+        currentSlideWidth === nextSlideWidth ? currentSlideWidth : nextSlideWidth,
+      );
+    });
+
+    resizeObserver.observe(viewport);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (slideWidth <= 0 || !hasInitializedTrackRef.current) return;
+
+    const targetX = -nav.currentSlideIndex * slideWidth;
+    const widthChanged = previousSlideWidthRef.current !== slideWidth;
+    const slideChanged = previousSlideIndexRef.current !== nav.currentSlideIndex;
+
+    if (widthChanged) {
+      stopTrackAnimation();
+      trackX.set(targetX);
+      previousSlideWidthRef.current = slideWidth;
+      previousSlideIndexRef.current = nav.currentSlideIndex;
+      return;
+    }
+
+    if (!slideChanged) return;
+
+    const fromSlideIndex = previousSlideIndexRef.current;
+    previousSlideWidthRef.current = slideWidth;
+    previousSlideIndexRef.current = nav.currentSlideIndex;
+    animateTrackToSlide(fromSlideIndex, nav.currentSlideIndex);
+  }, [nav.currentSlideIndex, slideWidth, trackX]);
+
+  useEffect(() => {
+    return () => {
+      stopTrackAnimation();
+    };
+  }, []);
+
+  const handleTrackDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    if (slideWidth <= 0) return;
+
+    const swipeDirection = getStudySwipeNavigationDirection({
+      offsetX: info.offset.x,
+      velocityX: info.velocity.x,
+      slideWidth,
+    });
+
+    if (swipeDirection === 'forward' && nav.canGoNext) {
+      nav.handleNext();
+      return;
+    }
+
+    if (swipeDirection === 'back' && nav.canGoPrevious) {
+      nav.handlePrevious();
+      return;
+    }
+
+    animateTrackToSlide(nav.currentSlideIndex, nav.currentSlideIndex);
+  };
+
+  const handleSummaryItemSelect = (itemIndex: number) => {
+    pendingFocusSlideIndexRef.current = itemIndex + 1;
+    nav.handleSelectItem(itemIndex);
+  };
+
+  const trackWidth = slideWidth > 0 ? slideWidth * slides.length : `${slides.length * 100}%`;
+  const individualSlideWidth = slideWidth > 0 ? slideWidth : `${100 / slides.length}%`;
 
   return (
-    <div className="flex flex-col gap-4 grow h-full max-w-[600px] w-full mx-auto">
+    <div className="flex flex-1 min-h-0 min-w-0 flex-col gap-4 h-full max-w-[600px] w-full mx-auto">
       <NavigationBar {...nav} />
-      <div className="flex grow w-full">
-        <SafeViewTransition
-          key={currentViewKey}
-          name="study-card"
-          enter={{
-            [STUDY_NAV_FORWARD]: STUDY_NAV_FORWARD,
-            [STUDY_NAV_BACK]: STUDY_NAV_BACK,
-            default: 'none',
-          }}
-          exit={{
-            [STUDY_NAV_FORWARD]: STUDY_NAV_FORWARD,
-            [STUDY_NAV_BACK]: STUDY_NAV_BACK,
-            default: 'none',
-          }}
-          default="none"
-          share="none"
-        >
-          <div
-            className={cn(
-              'flex flex-col gap-2 w-full h-full grow rounded-3xl',
-              'border-kartuli-color-primitive-neutral-500',
-            )}
+      <div
+        ref={viewportRef}
+        className="relative flex flex-1 min-h-0 min-w-0 w-full overflow-hidden touch-pan-y"
+      >
+        <Panel className="h-full min-h-0 w-full p-2 overflow-hidden">
+          <motion.div
+            className="absolute inset-y-0 left-0 flex min-h-0 will-change-transform  overflow-hidden"
+            style={{ x: trackX, width: trackWidth }}
+            drag="x"
+            dragConstraints={{ left: -(nav.lastSlideIndex * slideWidth), right: 0 }}
+            dragDirectionLock
+            dragElastic={0.08}
+            dragMomentum={false}
+            onDragStart={stopTrackAnimation}
+            onDragEnd={handleTrackDragEnd}
           >
-            {nav.currentItem === 'summary' ? (
-              <SummaryCard items={nav.items} handleSelectItem={nav.handleSelectItem} />
-            ) : (
-              <DetailCard item={nav.items[nav.currentItem]} />
-            )}
-          </div>
-        </SafeViewTransition>
+            {slides.map((slide, slideIndex) => {
+              const isActive = slideIndex === nav.currentSlideIndex;
+
+              return (
+                <section
+                  key={slide.key}
+                  ref={(element) => {
+                    slideRefs.current[slideIndex] = element;
+                  }}
+                  aria-hidden={!isActive}
+                  aria-label={
+                    slide.kind === 'summary'
+                      ? 'Summary slide'
+                      : `Detail slide ${slide.itemIndex + 1}`
+                  }
+                  className="flex h-full min-h-0 min-w-0 shrink-0 overflow-hidden"
+                  data-active={isActive ? 'true' : 'false'}
+                  data-study-slide-index={slideIndex}
+                  inert={!isActive}
+                  style={{ width: individualSlideWidth }}
+                  tabIndex={isActive ? -1 : undefined}
+                >
+                  {slide.kind === 'summary' ? (
+                    <SummaryCard items={nav.items} handleSelectItem={handleSummaryItemSelect} />
+                  ) : (
+                    <DetailCard item={slide.item} />
+                  )}
+                </section>
+              );
+            })}
+          </motion.div>
+        </Panel>
       </div>
       <MobileInfoBar {...nav} />
       <div className="flex w-full">
@@ -469,56 +667,42 @@ function StudyScreenUrlState({ items }: Readonly<{ items: LetterItem[] }>) {
   const currentItem = getStudyScreenCurrentItem(items, searchParams.get(STUDY_ITEM_SEARCH_PARAM));
   const navigationState = createStudyNavigationState(items, currentItem);
 
-  const updateCurrentItem = (
-    nextCurrentItem: StudyScreenCurrentItem,
-    transitionType: typeof STUDY_NAV_FORWARD | typeof STUDY_NAV_BACK,
-  ) => {
+  const navigateToSlide = (targetSlideIndex: number) => {
+    const nextCurrentItem = getStudyScreenCurrentItemFromSlideIndex(items.length, targetSlideIndex);
+    if (nextCurrentItem === currentItem) return;
+
     const nextItemId = nextCurrentItem === 'summary' ? null : (items[nextCurrentItem]?.id ?? null);
+    if (nextCurrentItem !== 'summary' && nextItemId === null) return;
+
     const nextUrl = getStudyScreenUrl(pathname, searchParams.toString(), nextItemId);
-    router.push(nextUrl, {
-      scroll: false,
-      transitionTypes: [transitionType],
-    });
+    router.push(nextUrl, { scroll: false });
   };
 
   const handleSelectItem = (itemIndex: number) => {
     if (!items[itemIndex]) return;
-    updateCurrentItem(itemIndex, STUDY_NAV_FORWARD);
+    navigateToSlide(itemIndex + 1);
   };
 
   const handlePrevious = () => {
     if (!navigationState.canGoPrevious) return;
-
-    if (currentItem === 0) {
-      updateCurrentItem('summary', STUDY_NAV_BACK);
-      return;
-    }
-
-    if (currentItem !== 'summary') {
-      updateCurrentItem(currentItem - 1, STUDY_NAV_BACK);
-    }
+    navigateToSlide(navigationState.currentSlideIndex - 1);
   };
 
   const handleNext = () => {
     if (!navigationState.canGoNext) return;
-
-    if (currentItem === 'summary') {
-      updateCurrentItem(0, STUDY_NAV_FORWARD);
-      return;
-    }
-
-    updateCurrentItem(currentItem + 1, STUDY_NAV_FORWARD);
+    navigateToSlide(navigationState.currentSlideIndex + 1);
   };
 
   const handleGoToSummary = () => {
     if (!navigationState.canGoToSummary) return;
-    updateCurrentItem('summary', STUDY_NAV_BACK);
+    navigateToSlide(0);
   };
 
   return (
     <StudyScreenLayout
       nav={{
         ...navigationState,
+        navigateToSlide,
         handlePrevious,
         handleNext,
         handleGoToSummary,
@@ -536,6 +720,7 @@ function StudyScreenFallback({ items }: Readonly<{ items: LetterItem[] }>) {
     <StudyScreenLayout
       nav={{
         ...navigationState,
+        navigateToSlide: noop,
         handlePrevious: noop,
         handleNext: noop,
         handleGoToSummary: noop,

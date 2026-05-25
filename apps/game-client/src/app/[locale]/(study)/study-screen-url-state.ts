@@ -4,6 +4,22 @@ export const STUDY_ITEM_SEARCH_PARAM = 'item';
 
 export type StudyScreenCurrentItem = number | 'summary';
 
+export function getStudySlideIndex(currentItem: StudyScreenCurrentItem): number {
+  return currentItem === 'summary' ? 0 : currentItem + 1;
+}
+
+export function getStudyScreenCurrentItemFromSlideIndex(
+  itemsCount: number,
+  slideIndex: number,
+): StudyScreenCurrentItem {
+  const lastSlideIndex = Math.max(0, itemsCount);
+  const boundedSlideIndex = Math.max(0, Math.min(slideIndex, lastSlideIndex));
+
+  if (boundedSlideIndex === 0) return 'summary';
+
+  return boundedSlideIndex - 1;
+}
+
 export function getStudyScreenCurrentItem(
   items: ReadonlyArray<Pick<LetterItem, 'id'>>,
   itemId: string | null,

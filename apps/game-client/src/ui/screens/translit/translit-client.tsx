@@ -51,12 +51,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   const copyFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isSyncingScrollRef = useRef(false);
 
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.focus();
-  //   }
-  // }, []);
-
   const getOutput = (directionValue: 'georgian-to-latin' | 'latin-to-georgian', text: string) => {
     if (directionValue === 'georgian-to-latin') {
       return getStringTransliterationFromTargetScript(
@@ -75,7 +69,6 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
     setDirection(newDirection);
     setInput(newInput);
     setOutput(newOutput);
-    // inputRef.current?.focus();
   };
 
   const clearInput = () => {
@@ -271,7 +264,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               }
               variant="default"
             />
-            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'px-4 py-4', 'h-full')}>
+            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'p-2', 'h-full')}>
               <TranslitInput
                 ariaLabelledBy={`${inputContextId} ${inputTitleId}`}
                 className={cn(surfaceTextSizeClassName, inputScriptClassName)}
@@ -307,7 +300,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               }
               variant="default"
             />
-            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'h-full')}>
+            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'p-2', 'h-full')}>
               <TranslitOutput
                 ariaLabelledBy={`${outputContextId} ${outputLabelId}`}
                 className={cn(surfaceTextSizeClassName, outputScriptClassName)}

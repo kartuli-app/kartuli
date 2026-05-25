@@ -1,15 +1,5 @@
 :root {
   /*
-   * Legacy tokens
-   * This will be replaced by the new design token system in the next pass
-   */
-  --kartuli-color-primitive-neutral-50: oklch(98.4% 0.003 247.858);
-  --kartuli-color-primitive-neutral-200: oklch(92.9% 0.013 255.508);
-  --kartuli-color-primitive-neutral-500: oklch(55.4% 0.046 257.417);
-  --kartuli-color-primitive-neutral-900: oklch(37.2% 0.044 257.287);
-  --kartuli-color-primitive-neutral-950: oklch(12.9% 0.042 264.695);
-
-  /*
    * Primitive tokens
    * Raw values. No UI meaning.
    * These are the ingredients.
@@ -178,16 +168,6 @@
 }
 
 @theme static {
-  /*
-   * Legacy tokens
-   * This will be replaced by the new design token system in the next pass
-   */
-  --color-kartuli-color-primitive-neutral-50: var(--kartuli-color-primitive-neutral-50);
-  --color-kartuli-color-primitive-neutral-200: var(--kartuli-color-primitive-neutral-200);
-  --color-kartuli-color-primitive-neutral-500: var(--kartuli-color-primitive-neutral-500);
-  --color-kartuli-color-primitive-neutral-900: var(--kartuli-color-primitive-neutral-900);
-  --color-kartuli-color-primitive-neutral-950: var(--kartuli-color-primitive-neutral-950);
-
   /*
    * Primitive utilities
    * These map primitive tokens to utility classes.

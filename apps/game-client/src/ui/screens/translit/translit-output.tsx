@@ -110,7 +110,7 @@ export function TranslitOutput({
         'wrap-break-word',
         'rounded-p-radius-2',
         'bg-p-color-neutral-200',
-        'p-4',
+        'p-2',
         className,
       )}
       onScroll={handleScroll}
