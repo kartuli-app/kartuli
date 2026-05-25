@@ -11,7 +11,7 @@ catalogs:
       version: 4.11.3
     '@base-ui/react':
       specifier: ^1.4.0
-      version: 1.4.1
+      version: 1.5.0
     '@playwright/test':
       specifier: ^1.59.1
       version: 1.60.0
@@ -41,13 +41,13 @@ catalogs:
       version: 4.3.0
     '@tanstack/db':
       specifier: ^0.6.2
-      version: 0.6.5
+      version: 0.6.7
     '@tanstack/query-db-collection':
       specifier: ^1.0.33
-      version: 1.0.36
+      version: 1.0.38
     '@tanstack/react-db':
       specifier: ^0.1.80
-      version: 0.1.83
+      version: 0.1.85
     '@tanstack/react-query':
       specifier: ^5.100.8
       version: 5.100.10
@@ -68,7 +68,7 @@ catalogs:
       version: 24.12.4
     '@types/react':
       specifier: ^19.2.14
-      version: 19.2.14
+      version: 19.2.15
     '@types/react-dom':
       specifier: ^19.2.3
       version: 19.2.3
@@ -90,6 +90,9 @@ catalogs:
     clsx:
       specifier: ^2.1.1
       version: 2.1.1
+    dependency-cruiser:
+      specifier: ^17.4.0
+      version: 17.4.2
     esbuild:
       specifier: ^0.28.0
       version: 0.28.0
@@ -107,7 +110,7 @@ catalogs:
       version: 3.0.7
     motion:
       specifier: ^12.23.24
-      version: 12.38.0
+      version: 12.40.0
     next:
       specifier: ^16.2.2
       version: 16.2.6
@@ -494,10 +497,10 @@ importers:
         version: 5.6.0(react@19.2.6)
       storybook:
         specifier: 'catalog:'
-        version: 10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        version: 10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       storybook-addon-pseudo-states:
         specifier: 'catalog:'
-        version: 10.4.0(storybook@10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
+        version: 10.4.0(storybook@10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.0
@@ -9962,11 +9965,11 @@ snapshots:
 
   std-env@4.1.0: {}
 
-  storybook-addon-pseudo-states@10.4.0(storybook@10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)):
+  storybook-addon-pseudo-states@10.4.0(storybook@10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)):
     dependencies:
-      storybook: 10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      storybook: 10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
 
-  storybook@10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
+  storybook@10.4.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@testing-library/dom@10.4.1)(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6):
     dependencies:
       '@storybook/global': 5.0.0
       '@storybook/icons': 2.0.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -10175,7 +10178,7 @@ snapshots:
   tsconfig-paths-webpack-plugin@4.2.0:
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.21.3
+      enhanced-resolve: 5.22.0
       tapable: 2.3.3
       tsconfig-paths: 4.2.0
 
