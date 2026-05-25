@@ -16,11 +16,8 @@ type SafeViewTransitionProps = Readonly<{
   update?: ViewTransitionClass;
 }>;
 
-type ReactNamespaceWithViewTransition = typeof React & {
-  ViewTransition?: React.ComponentType<SafeViewTransitionProps>;
-};
-
-const ViewTransitionComponent = (React as ReactNamespaceWithViewTransition).ViewTransition;
+const ViewTransitionComponent: React.ComponentType<SafeViewTransitionProps> | undefined =
+  React.ViewTransition;
 
 export function SafeViewTransition({
   children,

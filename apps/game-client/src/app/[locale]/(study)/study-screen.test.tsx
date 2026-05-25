@@ -42,6 +42,43 @@ vi.mock('next/navigation', () => ({
 vi.mock('motion/react', async () => {
   const React = await import('react');
 
+  type MockMotionDivProps = React.HTMLAttributes<HTMLDivElement> & {
+    drag?: unknown;
+    dragConstraints?: unknown;
+    dragDirectionLock?: unknown;
+    dragElastic?: unknown;
+    dragMomentum?: unknown;
+    onDragEnd?: unknown;
+    onDragStart?: unknown;
+    style?: React.CSSProperties & { x?: unknown };
+  };
+
+  function getMockMotionDivDomProps(
+    props: Omit<MockMotionDivProps, 'children' | 'style'>,
+  ): React.HTMLAttributes<HTMLDivElement> {
+    const domProps: Omit<MockMotionDivProps, 'children' | 'style'> = { ...props };
+
+    delete domProps.drag;
+    delete domProps.dragConstraints;
+    delete domProps.dragDirectionLock;
+    delete domProps.dragElastic;
+    delete domProps.dragMomentum;
+    delete domProps.onDragEnd;
+    delete domProps.onDragStart;
+
+    return domProps;
+  }
+
+  function getMockMotionDivStyle(
+    style?: MockMotionDivProps['style'],
+  ): React.CSSProperties | undefined {
+    if (!style) return undefined;
+
+    const domStyle: React.CSSProperties & { x?: unknown } = { ...style };
+    delete domStyle.x;
+    return domStyle;
+  }
+
   class MockMotionValue {
     private value: number;
 
@@ -58,38 +95,18 @@ vi.mock('motion/react', async () => {
     }
   }
 
-  const MotionDiv = React.forwardRef<
-    HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement> & { style?: React.CSSProperties & { x?: unknown } }
-  >(({ children, style, ...props }, ref) => {
-    const {
-      drag,
-      dragConstraints,
-      dragDirectionLock,
-      dragElastic,
-      dragMomentum,
-      onDragEnd,
-      onDragStart,
-      ...domProps
-    } = props as Record<string, unknown>;
+  const MotionDiv = React.forwardRef<HTMLDivElement, MockMotionDivProps>(
+    ({ children, style, ...props }, ref) => {
+      const domProps = getMockMotionDivDomProps(props);
+      const domStyle = getMockMotionDivStyle(style);
 
-    void drag;
-    void dragConstraints;
-    void dragDirectionLock;
-    void dragElastic;
-    void dragMomentum;
-    void onDragEnd;
-    void onDragStart;
-
-    const { x, ...domStyle } = style ?? {};
-    void x;
-
-    return (
-      <div ref={ref} style={domStyle} {...(domProps as React.HTMLAttributes<HTMLDivElement>)}>
-        {children}
-      </div>
-    );
-  });
+      return (
+        <div ref={ref} style={domStyle} {...domProps}>
+          {children}
+        </div>
+      );
+    },
+  );
 
   return {
     animate: (
@@ -137,7 +154,9 @@ class MockResizeObserver {
     );
   }
 
-  disconnect() {}
+  disconnect() {
+    return undefined;
+  }
 }
 
 const items = [

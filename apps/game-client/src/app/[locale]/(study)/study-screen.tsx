@@ -52,6 +52,102 @@ type StudyNavigationModel = StudyNavigationState & {
   handleSelectItem: (itemIndex: number) => void;
 };
 
+type StudyNavigationButtonSize = 'small' | 'large' | 'icon';
+
+type StudyNavigationButtonProps = Readonly<{
+  className?: string;
+  label: string;
+  visualLabel?: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  disabled?: boolean;
+  onClick?: () => void;
+  iconPosition?: 'left' | 'right';
+  size?: StudyNavigationButtonSize;
+}>;
+
+const STUDY_NAVIGATION_BUTTON_SIZE_CLASS_NAMES = {
+  small: {
+    button: 'w-26',
+    icon: 'size-4',
+    label: 'text-sm',
+    rendersLabel: true,
+  },
+  large: {
+    button: 'w-36',
+    icon: 'size-6',
+    label: 'text-lg',
+    rendersLabel: true,
+  },
+  icon: {
+    button: 'w-11',
+    icon: 'size-5',
+    label: undefined,
+    rendersLabel: false,
+  },
+} as const satisfies Record<
+  StudyNavigationButtonSize,
+  {
+    button: string;
+    icon: string;
+    label?: string;
+    rendersLabel: boolean;
+  }
+>;
+
+function getStudyNavigationButtonClassName({
+  className,
+  disabled,
+  size,
+}: Pick<StudyNavigationButtonProps, 'className' | 'disabled' | 'size'>) {
+  const sizeClasses = STUDY_NAVIGATION_BUTTON_SIZE_CLASS_NAMES[size ?? 'small'];
+  const isDisabled = disabled === true;
+
+  return cn(
+    'flex',
+    'rounded-full',
+    'flex-row',
+    'items-center',
+    'justify-center',
+    'h-11',
+    sizeClasses.rendersLabel && 'gap-1',
+    sizeClasses.rendersLabel && 'p-2',
+    sizeClasses.button,
+    'border-2',
+    isDisabled
+      ? 'cursor-not-allowed opacity-20'
+      : 'cursor-pointer hover:bg-p-color-neutral-700 active:bg-p-color-neutral-700 active:scale-95',
+    'bg-p-color-neutral-500',
+    'text-p-color-neutral-50',
+    'border-p-color-neutral-500',
+    'group',
+    className,
+  );
+}
+
+function getStudyNavigationButtonIconClassName({
+  iconPosition,
+  size,
+}: Pick<StudyNavigationButtonProps, 'iconPosition' | 'size'>) {
+  const sizeClasses = STUDY_NAVIGATION_BUTTON_SIZE_CLASS_NAMES[size ?? 'small'];
+
+  return cn(iconPosition === 'right' && 'order-1', 'shrink-0', sizeClasses.icon, 'text-inherit');
+}
+
+function getStudyNavigationButtonLabelClassName({
+  disabled,
+  size,
+}: Pick<StudyNavigationButtonProps, 'disabled' | 'size'>) {
+  const sizeClasses = STUDY_NAVIGATION_BUTTON_SIZE_CLASS_NAMES[size ?? 'small'];
+  const isDisabled = disabled === true;
+
+  return cn(
+    'uppercase',
+    sizeClasses.label,
+    'text-inherit',
+    isDisabled ? undefined : 'group-hover:text-inherit group-active:text-inherit',
+  );
+}
+
 function CtaButton({
   className,
   label,
@@ -107,73 +203,27 @@ function StudyNavigationButton({
   onClick,
   iconPosition = 'left',
   size = 'small',
-}: Readonly<{
-  className?: string;
-  label: string;
-  visualLabel?: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  disabled?: boolean;
-  onClick?: () => void;
-  iconPosition?: 'left' | 'right';
-  size?: 'small' | 'large' | 'icon';
-}>) {
+}: StudyNavigationButtonProps) {
   const Icon = icon;
   const renderedLabel = visualLabel ?? label;
+  const isDisabled = disabled === true;
+  const shouldRenderLabel = STUDY_NAVIGATION_BUTTON_SIZE_CLASS_NAMES[size].rendersLabel;
+  const labelElement = shouldRenderLabel ? (
+    <div className={getStudyNavigationButtonLabelClassName({ disabled, size })}>
+      {renderedLabel}
+    </div>
+  ) : null;
+
   return (
     <button
       type="button"
       aria-label={label}
-      disabled={disabled}
+      disabled={isDisabled}
       onClick={onClick}
-      className={cn(
-        'flex',
-        'rounded-full',
-        'flex-row',
-        'items-center',
-        'justify-center',
-        'h-11',
-        size !== 'icon' && 'gap-1',
-        size !== 'icon' && 'p-2',
-        size === 'small' && 'w-26',
-        size === 'large' && 'w-36',
-        size === 'icon' && 'w-11',
-        'border-2',
-        disabled && 'cursor-not-allowed',
-        !disabled && 'cursor-pointer',
-        disabled && 'opacity-20',
-        'bg-p-color-neutral-500',
-        'text-p-color-neutral-50',
-        'border-p-color-neutral-500',
-        !disabled && 'hover:bg-p-color-neutral-700',
-        !disabled && 'active:bg-p-color-neutral-700',
-        !disabled && 'active:scale-95',
-        'group',
-        className,
-      )}
+      className={getStudyNavigationButtonClassName({ className, disabled, size })}
     >
-      <Icon
-        className={cn(
-          iconPosition === 'right' && 'order-1',
-          'shrink-0',
-          size === 'small' && 'size-4',
-          size === 'large' && 'size-6',
-          size === 'icon' && 'size-5',
-          'text-inherit',
-        )}
-      />
-      {size !== 'icon' ? (
-        <div
-          className={cn(
-            'uppercase',
-            size === 'small' ? 'text-sm' : 'text-lg',
-            'text-inherit',
-            !disabled && 'group-hover:text-inherit',
-            !disabled && 'group-active:text-inherit',
-          )}
-        >
-          {renderedLabel}
-        </div>
-      ) : null}
+      <Icon className={getStudyNavigationButtonIconClassName({ iconPosition, size })} />
+      {labelElement}
     </button>
   );
 }
@@ -399,7 +449,8 @@ function getSummaryGridClassName(itemsCount: number) {
   const bounded = Math.max(0, Math.min(itemsCount, MAX_ITEMS_COUNT));
   return (
     SUMMARY_GRID_BUCKETS.find((bucket) => bounded <= bucket.maxItems)?.className ??
-    SUMMARY_GRID_BUCKETS[SUMMARY_GRID_BUCKETS.length - 1].className
+    SUMMARY_GRID_BUCKETS.at(-1)?.className ??
+    ''
   );
 }
 
