@@ -1,5 +1,6 @@
 export default {
   dock: {
+    navigation: 'Основная навигация',
     learn: 'Учить',
     translit: 'Транслит',
     settings: 'Настройки',

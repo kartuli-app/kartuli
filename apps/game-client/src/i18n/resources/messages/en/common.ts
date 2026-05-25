@@ -1,5 +1,6 @@
 export default {
   dock: {
+    navigation: 'Primary navigation',
     learn: 'Learn',
     translit: 'Translit',
     settings: 'Settings',

@@ -16,21 +16,23 @@ export function GameClientDock({ activeItemId }: Readonly<GameClientDockProps>) 
   const locale = i18n.resolvedLanguage as SupportedLocale;
 
   return (
-    <Dock>
-      {gameClientDockItems.map((item) => {
-        const localizedHref = getLocalizedPathnameForLocale(item.href, locale);
-        const label = t(`dock.${item.id}`);
-        return (
-          <DockItem
-            key={item.id}
-            label={label}
-            href={localizedHref}
-            icon={item.icon}
-            activeIcon={item.activeIcon}
-            active={item.id === activeItemId}
-          />
-        );
-      })}
-    </Dock>
+    <nav aria-label={t('dock.navigation')}>
+      <Dock>
+        {gameClientDockItems.map((item) => {
+          const localizedHref = getLocalizedPathnameForLocale(item.href, locale);
+          const label = t(`dock.${item.id}`);
+          return (
+            <DockItem
+              key={item.id}
+              label={label}
+              href={localizedHref}
+              icon={item.icon}
+              activeIcon={item.activeIcon}
+              active={item.id === activeItemId}
+            />
+          );
+        })}
+      </Dock>
+    </nav>
   );
 }
