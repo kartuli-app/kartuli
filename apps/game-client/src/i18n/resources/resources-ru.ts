@@ -1,3 +1,4 @@
+import ruAlphabet from '@game-client/i18n/resources/messages/ru/alphabet';
 import ruCommon from '@game-client/i18n/resources/messages/ru/common';
 import ruHome from '@game-client/i18n/resources/messages/ru/home';
 import ruMetadata from '@game-client/i18n/resources/messages/ru/metadata';
@@ -7,6 +8,7 @@ import ruTranslit from '@game-client/i18n/resources/messages/ru/translit';
 import type { SameKeysAsReferenceResources } from '@game-client/i18n/resources/same-keys-as-reference-resources';
 
 export const ruResources: SameKeysAsReferenceResources = {
+  alphabet: ruAlphabet,
   common: ruCommon,
   home: ruHome,
   metadata: ruMetadata,

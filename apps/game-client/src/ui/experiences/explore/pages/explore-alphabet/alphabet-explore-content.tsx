@@ -1,3 +1,4 @@
+import { getMessagesForLocale, type SupportedLocale } from '@game-client/i18n';
 import { getLibraryServer } from '@game-client/learning-content/library/get-library-server';
 import type { Lesson, LetterItem, Library } from '@game-client/learning-content/library/library';
 import { Panel } from '@game-client/ui/components/panel/panel';
@@ -46,14 +47,15 @@ const linkCardClassName = cn(
   'rounded-p-radius-1',
 );
 
-export async function AlphabetExploreContent() {
-  const library = await getLibraryServer('en');
+export async function AlphabetExploreContent({ locale }: Readonly<{ locale: SupportedLocale }>) {
+  const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
+  const library = await getLibraryServer(locale);
   const { lessons, allItemsDeduplicated, moduleId } = getDataFromLibrary(library);
   return (
     <ModuleCardsLayout
       lessonCards={lessons.map((lesson) => (
         <Link
-          href={`/en/study/lesson/${lesson.id}`}
+          href={`/${locale}/study/lesson/${lesson.id}`}
           key={lesson.id}
           className={cn(
             //
@@ -61,7 +63,7 @@ export async function AlphabetExploreContent() {
           )}
         >
           <Panel className="hover:border-s-color-panel-border-hover">
-            <PanelHeader context="Alphabet" title={lesson.name} variant="default" />
+            <PanelHeader context={alphabetMessages.title} title={lesson.name} variant="default" />
             <PanelSection className="flex gap-4">
               <LettersPreviewGrid items={lesson.items} size="grid-item" />
             </PanelSection>
@@ -71,7 +73,7 @@ export async function AlphabetExploreContent() {
       fullReviewCard={
         moduleId ? (
           <Link
-            href={`/en/study/module/${moduleId}`}
+            href={`/${locale}/study/module/${moduleId}`}
             className={cn(
               //
               linkCardClassName,
@@ -79,8 +81,8 @@ export async function AlphabetExploreContent() {
           >
             <Panel className="hover:border-s-color-panel-border-hover">
               <PanelHeader
-                context="Alphabet"
-                title="Full Review"
+                context={alphabetMessages.title}
+                title={alphabetMessages.full_review}
                 variant="inverted"
                 leading={<PiStudent className="size-11" aria-hidden="true" />}
               />

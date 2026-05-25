@@ -3,18 +3,16 @@ import { cn } from '@kartuli/ui/utils/cn';
 
 export function LetterPreview({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <div className={cn('aspect-square', 'justify-center', 'flex flex-col', 'gap-1', 'border-')}>
+    <div className={cn('aspect-square', 'justify-center', 'flex', 'flex-col', 'gap-1')}>
       <div
         className={cn(
-          //
-          'font-georgian',
-          'text-4xl',
-          'text-p-color-neutral-700',
+          'relative',
           'flex',
           'items-center',
           'justify-center',
-          'relative',
-          '',
+          'font-georgian',
+          'text-4xl',
+          'text-p-color-neutral-700',
         )}
       >
         <span className="absolute top-3/10 left-0 bg-blue-200 w-full h-[2px]"></span>

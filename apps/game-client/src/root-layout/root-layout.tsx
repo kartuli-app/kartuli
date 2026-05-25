@@ -1,4 +1,5 @@
 import './globals.css';
+import type { SupportedLocale } from '@game-client/i18n';
 import { I18nProvider } from '@game-client/i18n';
 import { cn } from '@kartuli/ui/utils/cn';
 import { Manrope } from 'next/font/google';
@@ -18,14 +19,13 @@ const defaultFont = Manrope({
   display: 'swap',
 });
 
-export async function RootLayout({
+export function RootLayout({
   children,
-  params,
+  locale,
 }: Readonly<{
-  params: Promise<{ locale: string }>;
+  locale: SupportedLocale;
   children: React.ReactNode;
 }>) {
-  const { locale } = await params;
   return (
     <html
       lang={locale}

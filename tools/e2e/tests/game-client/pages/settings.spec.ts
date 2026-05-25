@@ -3,12 +3,14 @@ import { expect, test } from '@playwright/test';
 import { expectA11y } from '../../helpers/expect-a11y';
 import { defaultLocaleBase } from '../../helpers/locale-url';
 
+const settingsTitle = enResources.common.dock.settings;
 const settings = enResources.settings;
 const current_language = settings.current_language.replace('{{language}}', settings.languages.en);
 
 test.describe('Settings page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`${defaultLocaleBase}/settings`);
+    await expect(page.getByRole('heading', { name: settingsTitle })).toBeVisible();
     await expect(page.getByRole('heading', { name: settings.language_section })).toBeVisible();
   });
 

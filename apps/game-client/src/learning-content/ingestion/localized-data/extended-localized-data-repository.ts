@@ -1,3 +1,4 @@
+import type { SupportedLocale } from '@game-client/i18n';
 import ExtendedLocalizedDataEnJson from '../data-sources/extended-localized-data.en.json';
 import ExtendedLocalizedDataRuJson from '../data-sources/extended-localized-data.ru.json';
 import type { LocalizedDataRepository } from './localized-data-repository';
@@ -7,7 +8,7 @@ export function extendedLocalizedDataRepository(): LocalizedDataRepository {
   const source = 'extended';
 
   return {
-    get(locale: string) {
+    get(locale: SupportedLocale) {
       if (locale === 'en') {
         return parseAndMapLocalizedData(ExtendedLocalizedDataEnJson, source);
       }

@@ -328,11 +328,9 @@ function StatusPill({
         </div>
       ) : (
         <div className="flex items-center justify-center gap-1 text-base">
-          <div className="font-bold w-6 text-right borderr text-p-color-neutral-900">
-            {currentItem + 1}
-          </div>
-          <div className="w-3 text-p-color-neutral-600 borderr text-center">/</div>
-          <div className="w-6 text-p-color-neutral-600 borderr">{totalItems}</div>
+          <div className="w-6 text-right font-bold text-p-color-neutral-900">{currentItem + 1}</div>
+          <div className="w-3 text-center text-p-color-neutral-600">/</div>
+          <div className="w-6 text-p-color-neutral-600">{totalItems}</div>
         </div>
       )}
     </div>
@@ -477,7 +475,7 @@ function SummaryCard({
 
 function DetailCard({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <div className="flex h-full min-h-0 w-full flex-col items-center justify-centerr pt-[15%] gap-8 @container">
+    <div className="flex h-full min-h-0 w-full flex-col items-center justify-center gap-8 pt-[15%] @container">
       <div className="font-georgian text-[45cqw] leading-none text-p-color-neutral-700 relative items-center justify-center max-w-[80%] w-full flex">
         <span className="absolute top-3/10 left-0 bg-blue-200 w-full h-[1cqw] z-10"></span>
         <span className="absolute top-6/10 left-0 bg-blue-200 w-full h-[1cqw] z-10"></span>

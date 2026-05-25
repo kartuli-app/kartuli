@@ -1,12 +1,15 @@
+import {
+  getLocalizedRouteParams,
+  getMessagesForLocale,
+  type RouteParamsWithLocalePromise,
+} from '@game-client/i18n';
 import { getLibraryServer } from '@game-client/learning-content/library/get-library-server';
 import type { LetterItem } from '@game-client/learning-content/library/library';
-import { GameAppBarIconLink } from '@game-client/ui/components/layout/app-bar-icon-action';
 import { AppShell } from '@game-client/ui/components/layout/app-shell';
 import { GameClientAppBar } from '@game-client/ui/components/layout/game-client-app-bar';
 import { GameClientDock } from '@game-client/ui/components/layout/game-client-dock';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-pattern-alphabet';
 import { notFound } from 'next/navigation';
-import { PiMagnifyingGlass } from 'react-icons/pi';
 import { StudyScreen } from '../../../study-screen';
 
 export function generateStaticParams() {
@@ -16,9 +19,10 @@ export function generateStaticParams() {
 export default async function LessonStudyPage({
   params,
 }: Readonly<{
-  params: Promise<{ locale: string; lessonId: string }>;
+  params: RouteParamsWithLocalePromise<{ lessonId: string }>;
 }>) {
-  const { locale, lessonId } = await params;
+  const { locale, lessonId } = await getLocalizedRouteParams(params);
+  const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
   const library = await getLibraryServer(locale);
   const lesson = library.lessonsById.get(lessonId);
   if (!lesson) notFound();
@@ -32,11 +36,8 @@ export default async function LessonStudyPage({
       appBar={
         <GameClientAppBar
           title={lesson.title}
-          eyeBrow="Alphabet"
+          eyeBrow={alphabetMessages.title}
           backHref={`/${locale}/explore/alphabet`}
-          trailingPrimary={
-            <GameAppBarIconLink href="/explore/search" label="Search" icon={PiMagnifyingGlass} />
-          }
         />
       }
       startRailContent={<GameClientDock />}

@@ -1,7 +1,7 @@
 'use client';
 
-import type { SupportedLocale } from '@game-client/i18n';
 import { getLocalizedPathnameForLocale } from '@game-client/i18n/locale-utils';
+import { useCurrentRouteLocale } from '@game-client/navigation';
 import { Dock } from '@game-client/ui/components/layout/dock';
 import { DockItem } from '@game-client/ui/components/layout/dock-item';
 import { gameClientDockItems } from '@game-client/ui/components/layout/game-client-dock-items';
@@ -12,8 +12,8 @@ type GameClientDockProps = {
 };
 
 export function GameClientDock({ activeItemId }: Readonly<GameClientDockProps>) {
-  const { t, i18n } = useTranslation('common');
-  const locale = i18n.resolvedLanguage as SupportedLocale;
+  const { t } = useTranslation('common');
+  const locale = useCurrentRouteLocale();
 
   return (
     <nav aria-label={t('dock.navigation')}>

@@ -1,6 +1,6 @@
 export default {
   //
   anon: 'anon',
-  heading: 'Lets learn Georgian!',
+  heading: "Let's learn Georgian!",
   //
 } as const;

@@ -1,4 +1,7 @@
-export function ContextAwareGreeting() {
+import { getMessagesForLocale, type SupportedLocale } from '@game-client/i18n';
+
+export function ContextAwareGreeting({ locale }: Readonly<{ locale: SupportedLocale }>) {
+  const homeMessages = getMessagesForLocale(locale, 'home');
   const greetings = [
     'გამარჯობა ჩემო მეგობარო', // hello my friend
     'დილა მშვიდობისა', // good morning
@@ -13,7 +16,7 @@ export function ContextAwareGreeting() {
           <span className="font-georgian">{contextAwareGreeting}</span>
         </h2>
         <h3 className="text-2xl text-s-color-shell-content-primary text-center">
-          Lets learn Georgian!
+          {homeMessages.heading}
         </h3>
       </div>
     </div>
