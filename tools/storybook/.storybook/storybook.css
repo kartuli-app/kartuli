@@ -6,20 +6,20 @@
  */
 
 /* All imports must come first */
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+@import "https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap";
 @import "tailwindcss";
 /* `@import` resolves package exports; this loads the shared token contract CSS. */
 @import "@kartuli/tailwind-config";
 
 @font-face {
-  font-family: "Mersad";
-  src: url("../../../apps/game-client/public/fonts/mersad.ttf") format("truetype");
+  font-family: Mersad;
+  src: url(../../../apps/game-client/public/fonts/mersad.ttf) format("truetype");
   font-display: swap;
 }
 
 :root {
-  --font-default-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-georgian-family: "Mersad", serif;
+  --font-default-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  --font-georgian-family: Mersad, serif;
 }
 
 html,

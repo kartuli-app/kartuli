@@ -4,14 +4,17 @@ interface ThemeWrapperProps {
   children: ReactNode;
 }
 
-type CssVariableMap = Record<`--${string}`, string>;
+interface CssVariableMap {
+  [variableName: `--${string}`]: string;
+}
 
 function useRootCssVariables(variables: CssVariableMap) {
   useEffect(() => {
     const rootStyle = document.documentElement.style;
-    const previousValues = new Map<keyof CssVariableMap, string>();
+    const previousValues = new Map<string, string>();
+    const variableEntries = Object.entries(variables) as Array<[string, string]>;
 
-    for (const [name, value] of Object.entries(variables) as [keyof CssVariableMap, string][]) {
+    for (const [name, value] of variableEntries) {
       previousValues.set(name, rootStyle.getPropertyValue(name));
       rootStyle.setProperty(name, value);
     }
