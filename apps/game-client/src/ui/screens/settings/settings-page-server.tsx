@@ -13,7 +13,7 @@ export function SettingsPageServer({ locale }: Readonly<{ locale: SupportedLocal
       appBar={
         <GameClientAppBar
           title={commonMessages.dock.settings}
-          eyeBrow="kartuli.app"
+          eyeBrow={commonMessages.appBar.brand}
           backHref={`/${locale}/explore/alphabet`}
         />
       }

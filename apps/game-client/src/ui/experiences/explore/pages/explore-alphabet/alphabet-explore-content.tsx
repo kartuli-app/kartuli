@@ -10,11 +10,11 @@ import Link from 'next/link';
 import { PiStudent } from 'react-icons/pi';
 import { LettersPreviewGrid } from './components/letters-preview-grid';
 
-type AlphabetLesson = {
+interface AlphabetLesson {
   id: string;
   name: string;
   items: LetterItem[];
-};
+}
 
 function getDataFromLibrary(library: Library) {
   const lessons = library.lessons.filter((lesson: Lesson) =>
@@ -24,9 +24,9 @@ function getDataFromLibrary(library: Library) {
     (lesson: Lesson): AlphabetLesson => ({
       id: lesson.id,
       name: lesson.title,
-      items: lesson.itemIds.map(
-        (itemId: string) => library.letterItemsById.get(itemId) as LetterItem,
-      ),
+      items: lesson.itemIds
+        .map((itemId: string) => library.letterItemsById.get(itemId))
+        .filter((item): item is LetterItem => item !== undefined),
     }),
   );
   const allItemsDeduplicated = alphabetLessons

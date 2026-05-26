@@ -14,7 +14,7 @@ export async function TranslitPageServer({ locale }: Readonly<{ locale: Supporte
       appBar={
         <GameClientAppBar
           title={commonMessages.dock.translit}
-          eyeBrow="kartuli.app"
+          eyeBrow={commonMessages.appBar.brand}
           backHref={`/${locale}/explore/alphabet`}
         />
       }

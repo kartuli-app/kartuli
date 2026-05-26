@@ -11,7 +11,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: RouteParamsWithLocalePromise }) {
   const { locale } = await getLocalizedRouteParams(params);
-  return generateMetadataForSupportedLocale(locale, [locale]);
+  return generateMetadataForSupportedLocale(locale, {
+    pathSegments: [locale],
+  });
 }
 
 export { HomePageServer as default } from '@game-client/ui/screens/home/home-page-server';

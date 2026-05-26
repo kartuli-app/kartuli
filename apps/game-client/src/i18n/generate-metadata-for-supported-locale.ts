@@ -182,12 +182,19 @@ function buildAlternates(pathSegments: string[]): {
   return { canonical, languages };
 }
 
+interface GenerateMetadataForSupportedLocaleOptions {
+  pathSegments?: string[];
+  pageTitle?: string;
+}
+
 export function generateMetadataForSupportedLocale(
   locale: string,
-  pathSegments?: string[],
+  options: GenerateMetadataForSupportedLocaleOptions = {},
 ): Metadata {
+  const { pageTitle, pathSegments } = options;
   const meta = metadataByLocale[locale as SupportedLocale] ?? metadataByLocale[defaultLocale];
   const ogLocale = ogLocaleByLang[locale as SupportedLocale] ?? ogLocaleByLang[defaultLocale];
+  const resolvedTitle = pageTitle ? `${pageTitle} | ${siteConfig.name}` : meta.title;
 
   const shouldBuildAlternates =
     pathSegments !== undefined &&
@@ -200,19 +207,19 @@ export function generateMetadataForSupportedLocale(
     title:
       pathSegments === undefined
         ? { default: meta.title, template: `%s | ${siteConfig.name}` }
-        : { absolute: meta.title },
+        : { absolute: resolvedTitle },
     description: meta.description,
     keywords: [...meta.keywords],
     openGraph: {
       ...baseMetadata.openGraph,
       locale: ogLocale,
-      title: meta.title,
+      title: resolvedTitle,
       description: meta.description,
       ...(alternates && { url: alternates.canonical }),
     },
     twitter: {
       ...baseMetadata.twitter,
-      title: meta.title,
+      title: resolvedTitle,
       description: meta.description,
     },
     ...(alternates && {

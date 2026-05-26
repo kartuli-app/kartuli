@@ -1,14 +1,15 @@
-import { AppBar } from './app-bar';
-import { BackButton } from './back-button';
-import { MascotLogo } from './mascot-logo';
+import { AppBar } from '@game-client/ui/components/layout/app-bar';
+import { BackButton } from '@game-client/ui/components/layout/back-button';
+import { MascotLogo } from '@game-client/ui/components/layout/mascot-logo';
+import type { ReactNode } from 'react';
 
-type GameClientAppBarProps = {
+export interface GameClientAppBarProps {
   backHref?: string;
   eyeBrow: string;
   title: string;
-  trailingPrimary?: React.ReactNode;
-  trailingSecondary?: React.ReactNode;
-};
+  trailingPrimary?: ReactNode;
+  trailingSecondary?: ReactNode;
+}
 
 export function GameClientAppBar({
   backHref,

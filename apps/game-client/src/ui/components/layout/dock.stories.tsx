@@ -3,11 +3,14 @@ import type { ComponentProps } from 'react';
 import { Surface } from '../surface/surface';
 import { Dock } from './dock';
 import { DockItem } from './dock-item';
+import type { GameClientDockItemId } from './game-client-dock-items';
 import { gameClientDockItems } from './game-client-dock-items';
 
-type DockStoryProps = Omit<ComponentProps<typeof Dock>, 'children'> & {
-  activeItemId?: string;
-};
+type DockStoryActiveItemId = GameClientDockItemId | 'none' | 'wrong';
+
+interface DockStoryProps extends Omit<ComponentProps<typeof Dock>, 'children'> {
+  activeItemId: DockStoryActiveItemId;
+}
 
 const dockItemLabelById = {
   learn: 'Learn',
@@ -32,12 +35,15 @@ function DockStory({ activeItemId }: Readonly<DockStoryProps>) {
   );
 }
 
-const dockItemLabels = [...Object.values(dockItemLabelById), 'None', 'Wrong'];
-const dockItemOptions = [
-  ...new Set(gameClientDockItems.map((item) => item.id)),
-  undefined,
-  'wrong',
-];
+const dockItemControlLabels: Record<DockStoryActiveItemId, string> = {
+  learn: 'Learn',
+  translit: 'Translit',
+  settings: 'Settings',
+  none: 'None',
+  wrong: 'Wrong',
+};
+
+const dockItemOptions = ['learn', 'translit', 'settings', 'none', 'wrong'] as const;
 
 const meta: Meta<typeof DockStory> = {
   title: 'UI/Dock',
@@ -61,7 +67,7 @@ const meta: Meta<typeof DockStory> = {
     activeItemId: {
       control: {
         type: 'select',
-        labels: dockItemLabels,
+        labels: dockItemControlLabels,
       },
       options: dockItemOptions,
       description: 'The ID of the active item',
@@ -89,7 +95,7 @@ export const WithActiveItem: Story = {
 
 export const WithNoActiveItem: Story = {
   args: {
-    activeItemId: undefined,
+    activeItemId: 'none',
   },
 };
 

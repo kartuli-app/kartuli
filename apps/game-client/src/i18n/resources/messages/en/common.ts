@@ -6,6 +6,7 @@ export default {
     settings: 'Settings',
   },
   appBar: {
+    brand: 'kartuli.app',
     goBack: 'Go back',
   },
 } as const;

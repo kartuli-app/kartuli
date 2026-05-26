@@ -4,14 +4,14 @@ import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import { Surface } from '@game-client/ui/components/surface/surface';
+import { TranslitInput } from '@game-client/ui/screens/translit/translit-input';
+import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output';
+import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { FaRegCopy } from 'react-icons/fa6';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import { TranslitInput } from './translit-input';
-import { TranslitOutput } from './translit-output';
-import { getTranslitOutputSegments } from './translit-output-segments';
 
 function TranslitPanelsPreview() {
   const inputContextId = 'translit-panels-source-context';

@@ -1,8 +1,8 @@
 'use client';
 
+import { Tooltip } from '@game-client/ui/components/tooltip';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { Tooltip } from './tooltip';
 
 const headerActionButtonClassName = cn(
   'inline-flex',
@@ -30,7 +30,8 @@ const headerActionButtonClassName = cn(
 );
 
 export interface HeaderActionButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'children'> {
+  'aria-label': string;
   children: ReactNode;
   tooltipLabel: ReactNode;
   tooltipPopupClassName?: string;

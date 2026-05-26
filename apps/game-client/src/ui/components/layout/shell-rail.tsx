@@ -1,9 +1,10 @@
 import { cn } from '@kartuli/ui/utils/cn';
+import type { ReactNode } from 'react';
 
-type ShellRailProps = {
+export interface ShellRailProps {
   placement: 'start' | 'end';
-  children?: React.ReactNode;
-};
+  children?: ReactNode;
+}
 
 export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
   // if there is no children, the rail is not rendered at all

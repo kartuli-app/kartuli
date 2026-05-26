@@ -6,11 +6,14 @@ import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-patt
 import { ExploreAlphabetScreen } from './explore-alphabet-screen';
 
 export function ExploreAlphabetPage({ locale }: Readonly<{ locale: SupportedLocale }>) {
+  const commonMessages = getMessagesForLocale(locale, 'common');
   const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
 
   return (
     <AppShell
-      appBar={<GameClientAppBar title={alphabetMessages.title} eyeBrow="kartuli.app" />}
+      appBar={
+        <GameClientAppBar title={alphabetMessages.title} eyeBrow={commonMessages.appBar.brand} />
+      }
       startRailContent={<GameClientDock activeItemId="learn" />}
       endRailContent={<RailPatternAlphabet />}
     >

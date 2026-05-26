@@ -2,11 +2,13 @@ import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
 
 export function Dock({
+  ariaLabel,
   children,
   className,
-}: Readonly<{ children?: ReactNode; className?: string }>) {
+}: Readonly<{ ariaLabel?: string; children?: ReactNode; className?: string }>) {
   return (
-    <div
+    <nav
+      aria-label={ariaLabel}
       className={cn(
         'flex',
         'p-p-spacing-4',
@@ -20,6 +22,6 @@ export function Dock({
       )}
     >
       {children}
-    </div>
+    </nav>
   );
 }
