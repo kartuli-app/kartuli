@@ -1,3 +1,4 @@
+import type { SupportedLocale } from '@game-client/i18n';
 import type { LocalizedData } from '@game-client/learning-content/ingestion/localized-data/localized-data';
 import { defaultLocalizedDataRepository } from '../ingestion/localized-data/default-localized-data-repository';
 import { extendedLocalizedDataRepository } from '../ingestion/localized-data/extended-localized-data-repository';
@@ -23,7 +24,7 @@ function mergeLocalizedData(localizedDataSources: LocalizedData[]): LocalizedDat
   };
 }
 
-export async function getLocalizedData(locale: string): Promise<LocalizedData> {
+export async function getLocalizedData(locale: SupportedLocale): Promise<LocalizedData> {
   const defaultDataRepository = defaultLocalizedDataRepository();
   const extendedDataRepository = extendedLocalizedDataRepository();
   const defaultData = defaultDataRepository.get(locale);

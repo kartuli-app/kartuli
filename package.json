@@ -64,12 +64,12 @@
     "design:build": "pnpm run design:lint && pnpm run design:export:dtcg && pnpm run design:build-css"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.14",
+    "@biomejs/biome": "^2.4.15",
     "@google/design.md": "0.1.1",
-    "@lhci/cli": "^0.15.0",
+    "@lhci/cli": "^0.15.1",
     "@vitest/coverage-v8": "catalog:",
-    "lefthook": "^2.1.5",
-    "turbo": "^2.9.8",
+    "lefthook": "^2.1.8",
+    "turbo": "^2.9.14",
     "vitest": "catalog:"
   }
 }

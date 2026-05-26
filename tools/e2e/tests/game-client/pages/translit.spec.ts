@@ -5,6 +5,7 @@ import { defaultLocaleBase } from '../../helpers/locale-url';
 
 // The translit page has no page-level heading — it's a two-pane transliteration
 // tool. We land on the "source" label (associated with the input textarea).
+const translitTitle = enResources.common.dock.translit;
 const sourceLabel = enResources.translit.source;
 const switchToLatinGeorgian = enResources.translit.switch_direction_to_latin_to_georgian;
 const switchToGeorgianLatin = enResources.translit.switch_direction_to_georgian_to_latin;
@@ -12,6 +13,7 @@ const switchToGeorgianLatin = enResources.translit.switch_direction_to_georgian_
 test.describe('Translit page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`${defaultLocaleBase}/translit`);
+    await expect(page.getByRole('heading', { name: translitTitle })).toBeVisible();
     await expect(page.getByText(sourceLabel)).toBeVisible();
   });
 

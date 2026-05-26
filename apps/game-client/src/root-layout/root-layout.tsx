@@ -1,4 +1,5 @@
 import './globals.css';
+import type { SupportedLocale } from '@game-client/i18n';
 import { I18nProvider } from '@game-client/i18n';
 import { cn } from '@kartuli/ui/utils/cn';
 import { Manrope } from 'next/font/google';
@@ -8,30 +9,29 @@ import { RootQueryClientProvider } from './root-query-client-provider';
 
 const georgianFont = localFont({
   src: '../../public/fonts/mersad.ttf',
-  variable: '--font-georgian',
+  variable: '--font-georgian-family',
   display: 'swap',
 });
 
 const defaultFont = Manrope({
   subsets: ['latin'],
-  variable: '--font-default',
+  variable: '--font-default-family',
   display: 'swap',
 });
 
-export async function RootLayout({
+export function RootLayout({
   children,
-  params,
+  locale,
 }: Readonly<{
-  params: Promise<{ locale: string }>;
+  locale: SupportedLocale;
   children: React.ReactNode;
 }>) {
-  const { locale } = await params;
   return (
     <html
       lang={locale}
       className={cn(georgianFont.variable, defaultFont.variable, defaultFont.className)}
     >
-      <body className="bg-white text-black">
+      <body className="bg-s-color-shell-bg h-dvh flex">
         <RootQueryClientProvider>
           <RootDatabaseInitializer />
           <I18nProvider locale={locale}>{children}</I18nProvider>

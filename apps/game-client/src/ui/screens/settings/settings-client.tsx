@@ -1,13 +1,12 @@
 'use client';
 
 import {
-  getCurrentSupportedLocale,
   getLocalizedPathnameForLocale,
   PREFERRED_LOCALE_KEY,
   type SupportedLocale,
   supportedLocales,
 } from '@game-client/i18n';
-import { useNavigation } from '@game-client/navigation';
+import { useCurrentRouteLocale, useNavigation } from '@game-client/navigation';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 
@@ -27,15 +26,11 @@ function LanguageSwitchButton({
   );
 }
 
-export function SettingsClient({
-  initialLocale,
-}: Readonly<{
-  initialLocale: SupportedLocale;
-}>) {
+export function SettingsClient() {
   const { t } = useTranslation('settings');
   const { i18n } = useTranslation('common');
   const { localizedPathname, navigate } = useNavigation();
-  const currentLocale = getCurrentSupportedLocale(i18n.resolvedLanguage, initialLocale);
+  const currentLocale = useCurrentRouteLocale();
   const currentLanguageLabel = t(`languages.${currentLocale}`);
   const switchableLocales = supportedLocales.filter((locale) => locale !== currentLocale);
 

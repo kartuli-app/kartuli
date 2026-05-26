@@ -103,12 +103,13 @@ export function TranslitOutput({
       lang={lang}
       aria-labelledby={ariaLabelledBy}
       className={cn(
-        'h-64',
         'w-full',
+        'h-full',
         'overflow-auto',
         'whitespace-pre-wrap',
-        'break-words',
-        'border',
+        'wrap-break-word',
+        'rounded-p-radius-2',
+        'bg-p-color-neutral-200',
         'p-2',
         className,
       )}

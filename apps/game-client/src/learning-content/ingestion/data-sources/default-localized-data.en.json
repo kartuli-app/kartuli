@@ -3,17 +3,9 @@
     {
       "id": "module-alphabet-by-sounds",
       "title": "Alphabet by sounds"
-    },
-    {
-      "id": "module-alphabet",
-      "title": "Full Alphabet"
     }
   ],
   "localizedLessons": [
-    {
-      "id": "lesson-full-alphabet",
-      "title": "All the letters"
-    },
     {
       "id": "lesson-alphabet-vowels",
       "title": "The Five Vowels"

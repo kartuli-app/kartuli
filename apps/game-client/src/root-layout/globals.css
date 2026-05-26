@@ -9,10 +9,26 @@
 @import "tailwindcss";
 @import "@kartuli/tailwind-config";
 
+@source "./";
 @source "../";
 @source "../../../../packages/ui/src";
 
-@theme {
-  --font-georgian: var(--font-georgian);
-  --font-default: var(--font-default);
+:root {
+  /**
+   * Global styles
+   */
+  overflow-y: scroll;
+}
+
+/*
+ Custom scrollbar styles
+ */
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--p-color-accent-100);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--p-color-neutral-500);
 }

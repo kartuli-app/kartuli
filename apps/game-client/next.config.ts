@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION ?? pkg.version,
   },
+  experimental: {
+    turbopackFileSystemCacheForDev: false,
+    viewTransition: true,
+  },
+  turbopack: {
+    root: path.resolve(dir, '../..'),
+  },
 };
 
 export default withSerwist(nextConfig);

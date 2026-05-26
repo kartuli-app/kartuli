@@ -1,3 +1,4 @@
+import '@game-client/ui/components/notifications';
 import type { Preview } from '@storybook/react-vite';
 import './storybook.css';
 import { PrimaryGreenThemeWrapper, PrimaryRedThemeWrapper } from './theme-wrappers';

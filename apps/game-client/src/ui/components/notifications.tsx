@@ -3,6 +3,7 @@
 import { Toast } from '@base-ui/react/toast';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
+import { FLOATING_SURFACE_CLASS_NAMES } from './floating-surface';
 
 const notificationManager = Toast.createToastManager();
 
@@ -13,7 +14,7 @@ interface ShowNotificationOptions {
 
 export function showNotification({
   description,
-  timeout = 3200,
+  timeout = 32000,
 }: Readonly<ShowNotificationOptions>) {
   notificationManager.add({ description, timeout });
 }
@@ -23,22 +24,34 @@ function NotificationViewport() {
 
   return (
     <Toast.Portal>
-      <Toast.Viewport className={cn('pointer-events-none', 'fixed', 'inset-0', 'z-50')}>
+      <Toast.Viewport
+        className={cn(
+          'pointer-events-none',
+          'fixed',
+          'inset-0',
+          'z-50',
+          'flex',
+          'flex-col',
+          'items-center',
+          'justify-center',
+          'gap-p-spacing-3',
+          'p-p-spacing-4',
+        )}
+      >
         {toasts.map((toast) => (
-          <Toast.Positioner
-            align="center"
-            side="top"
-            sideOffset={16}
-            key={toast.id}
-            toast={toast}
-            className={cn('pointer-events-none')}
-          >
-            <Toast.Root toast={toast}>
-              <Toast.Content className={cn('pointer-events-auto', 'border', 'bg-white', 'p-2')}>
-                <Toast.Description />
-              </Toast.Content>
-            </Toast.Root>
-          </Toast.Positioner>
+          <Toast.Root key={toast.id} toast={toast} className={cn('pointer-events-auto', 'w-auto')}>
+            <Toast.Content
+              className={cn(
+                FLOATING_SURFACE_CLASS_NAMES,
+                'overflow-hidden',
+                'p-2',
+                'rounded-p-radius-1',
+                'text-xl',
+              )}
+            >
+              <Toast.Description />
+            </Toast.Content>
+          </Toast.Root>
         ))}
       </Toast.Viewport>
     </Toast.Portal>

@@ -29,6 +29,14 @@ function getAbsolutePath(value: string): string {
 }
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
+const optimizeDepsInclude = [
+  'next/link',
+  'react-icons/fa6',
+  'react-icons/hi',
+  'react-icons/io5',
+  'react-icons/pi',
+  'react-icons/ri',
+];
 
 const config: StorybookConfig = {
   stories: [
@@ -39,6 +47,7 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-docs'),
     getAbsolutePath('@storybook/addon-vitest'),
+    getAbsolutePath('storybook-addon-pseudo-states'),
   ],
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
@@ -103,6 +112,12 @@ const config: StorybookConfig = {
             },
           }),
       plugins: [...(config.plugins || []), tailwindcss()],
+      optimizeDeps: {
+        ...config.optimizeDeps,
+        include: Array.from(
+          new Set([...(config.optimizeDeps?.include || []), ...optimizeDepsInclude]),
+        ),
+      },
     };
   },
 };

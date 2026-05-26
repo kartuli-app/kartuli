@@ -1,6 +1,7 @@
 'use client';
 
 import { i18n } from '@game-client/i18n/i18n-config';
+import type { SupportedLocale } from '@game-client/i18n/i18n-constants';
 import { logger } from '@game-client/logging/dev-logger';
 import type { ReactNode } from 'react';
 import { useEffect, useLayoutEffect, useState } from 'react';
@@ -10,7 +11,7 @@ export function I18nProvider({
   locale,
   children,
 }: Readonly<{
-  readonly locale: string;
+  readonly locale: SupportedLocale;
   readonly children: ReactNode;
 }>) {
   // Architecture trade-off (Option A, accepted): i18next is a module singleton

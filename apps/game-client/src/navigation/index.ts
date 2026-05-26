@@ -10,3 +10,4 @@ export {
   type SplitLocalizedPathname,
   splitLocalizedPathname,
 } from './split-localized-pathname';
+export { useCurrentRouteLocale } from './use-current-route-locale';

@@ -1,4 +1,8 @@
-import { generateMetadataForSupportedLocale } from '@game-client/i18n';
+import {
+  generateMetadataForSupportedLocale,
+  getLocalizedRouteParams,
+  type RouteParamsWithLocalePromise,
+} from '@game-client/i18n';
 import { NextNavigationRootLayout } from '@game-client/navigation';
 import { RootLayout } from '@game-client/root-layout/root-layout';
 import type { Viewport } from 'next';
@@ -6,8 +10,8 @@ import type { ReactNode } from 'react';
 
 export const dynamicParams = true;
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
+export async function generateMetadata({ params }: { params: RouteParamsWithLocalePromise }) {
+  const { locale } = await getLocalizedRouteParams(params);
   return generateMetadataForSupportedLocale(locale);
 }
 
@@ -29,10 +33,12 @@ export default async function LocaleLayout({
   params,
 }: Readonly<{
   children: ReactNode;
-  params: Promise<{ locale: string }>;
+  params: RouteParamsWithLocalePromise;
 }>) {
+  const { locale } = await getLocalizedRouteParams(params);
+
   return (
-    <RootLayout params={params}>
+    <RootLayout locale={locale}>
       <NextNavigationRootLayout>{children}</NextNavigationRootLayout>
     </RootLayout>
   );

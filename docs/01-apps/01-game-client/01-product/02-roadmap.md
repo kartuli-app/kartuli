@@ -9,6 +9,7 @@ It should answer one question clearly: what is included in the MVP right now?
 
 This document defines scope only.
 The detailed behavior of included screens belongs in the screen docs.
+Current sequencing and PR strategy live in the [Delivery plan](./09-delivery-plan.md).
 
 ## Current target: MVP
 

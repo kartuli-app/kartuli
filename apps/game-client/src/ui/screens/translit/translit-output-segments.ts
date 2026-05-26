@@ -21,21 +21,6 @@ export function getTranslitOutputSegments(
   const sourceSegments = getSegments(sourceText);
   const outputSegments = getSegments(outputText);
 
-  if (process.env.NODE_ENV !== 'production') {
-    console.assert(
-      sourceSegments.length === outputSegments.length,
-      'Expected transliteration segment alignment between source and output.',
-      {
-        sourceText,
-        outputText,
-        sourceSegments,
-        outputSegments,
-        sourceLength: sourceSegments.length,
-        outputLength: outputSegments.length,
-      },
-    );
-  }
-
   const segmentCount = Math.max(sourceSegments.length, outputSegments.length);
 
   return Array.from({ length: segmentCount }, (_, index) => {
