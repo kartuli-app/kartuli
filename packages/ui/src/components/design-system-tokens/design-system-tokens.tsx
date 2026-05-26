@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 
 interface DesignSystemTokenSectionProps {
@@ -40,15 +40,20 @@ function TokenBlock({ title, children }: Readonly<TokenBlockProps>) {
 interface BoxProps {
   className?: string;
   children?: ReactNode;
+  style?: CSSProperties;
 }
 
-function Box({ className, children }: Readonly<BoxProps>) {
-  return <div className={cn(className)}>{children}</div>;
+function Box({ className, children, style }: Readonly<BoxProps>) {
+  return (
+    <div className={cn(className)} style={style}>
+      {children}
+    </div>
+  );
 }
 
 interface SwatchToken {
   label: string;
-  swatchClassName: string;
+  tokenVariable: string;
 }
 
 interface ColorFamily {
@@ -59,73 +64,52 @@ interface ColorFamily {
 const SAMPLE_TEXT_ENGLISH = 'What will we learn today?';
 const SAMPLE_TEXT_GEORGIAN = 'რას ვისწავლით დღეს?';
 
+const COLOR_STEPS = [
+  '50',
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900',
+  '950',
+] as const;
+
+function createColorFamily(name: 'neutral' | 'brand' | 'accent'): ColorFamily {
+  return {
+    title: `p-color-${name}`,
+    tokens: COLOR_STEPS.map((step) => ({
+      label: step,
+      tokenVariable: `p-color-${name}-${step}`,
+    })),
+  };
+}
+
 const COLOR_FAMILIES: readonly ColorFamily[] = [
-  {
-    title: 'p-color-neutral',
-    tokens: [
-      { label: '50', swatchClassName: 'bg-p-color-neutral-50' },
-      { label: '100', swatchClassName: 'bg-p-color-neutral-100' },
-      { label: '200', swatchClassName: 'bg-p-color-neutral-200' },
-      { label: '300', swatchClassName: 'bg-p-color-neutral-300' },
-      { label: '400', swatchClassName: 'bg-p-color-neutral-400' },
-      { label: '500', swatchClassName: 'bg-p-color-neutral-500' },
-      { label: '600', swatchClassName: 'bg-p-color-neutral-600' },
-      { label: '700', swatchClassName: 'bg-p-color-neutral-700' },
-      { label: '800', swatchClassName: 'bg-p-color-neutral-800' },
-      { label: '900', swatchClassName: 'bg-p-color-neutral-900' },
-      { label: '950', swatchClassName: 'bg-p-color-neutral-950' },
-    ],
-  },
-  {
-    title: 'p-color-brand',
-    tokens: [
-      { label: '50', swatchClassName: 'bg-p-color-brand-50' },
-      { label: '100', swatchClassName: 'bg-p-color-brand-100' },
-      { label: '200', swatchClassName: 'bg-p-color-brand-200' },
-      { label: '300', swatchClassName: 'bg-p-color-brand-300' },
-      { label: '400', swatchClassName: 'bg-p-color-brand-400' },
-      { label: '500', swatchClassName: 'bg-p-color-brand-500' },
-      { label: '600', swatchClassName: 'bg-p-color-brand-600' },
-      { label: '700', swatchClassName: 'bg-p-color-brand-700' },
-      { label: '800', swatchClassName: 'bg-p-color-brand-800' },
-      { label: '900', swatchClassName: 'bg-p-color-brand-900' },
-      { label: '950', swatchClassName: 'bg-p-color-brand-950' },
-    ],
-  },
-  {
-    title: 'p-color-accent',
-    tokens: [
-      { label: '50', swatchClassName: 'bg-p-color-accent-50' },
-      { label: '100', swatchClassName: 'bg-p-color-accent-100' },
-      { label: '200', swatchClassName: 'bg-p-color-accent-200' },
-      { label: '300', swatchClassName: 'bg-p-color-accent-300' },
-      { label: '400', swatchClassName: 'bg-p-color-accent-400' },
-      { label: '500', swatchClassName: 'bg-p-color-accent-500' },
-      { label: '600', swatchClassName: 'bg-p-color-accent-600' },
-      { label: '700', swatchClassName: 'bg-p-color-accent-700' },
-      { label: '800', swatchClassName: 'bg-p-color-accent-800' },
-      { label: '900', swatchClassName: 'bg-p-color-accent-900' },
-      { label: '950', swatchClassName: 'bg-p-color-accent-950' },
-    ],
-  },
+  createColorFamily('neutral'),
+  createColorFamily('brand'),
+  createColorFamily('accent'),
 ];
 
 const SPACING_TOKENS: readonly SwatchToken[] = [
-  { label: '0', swatchClassName: 'p-p-spacing-0' },
-  { label: '1', swatchClassName: 'p-p-spacing-1' },
-  { label: '2', swatchClassName: 'p-p-spacing-2' },
-  { label: '3', swatchClassName: 'p-p-spacing-3' },
-  { label: '4', swatchClassName: 'p-p-spacing-4' },
-  { label: '5', swatchClassName: 'p-p-spacing-5' },
-  { label: '6', swatchClassName: 'p-p-spacing-6' },
+  { label: '0', tokenVariable: 'p-spacing-0' },
+  { label: '1', tokenVariable: 'p-spacing-1' },
+  { label: '2', tokenVariable: 'p-spacing-2' },
+  { label: '3', tokenVariable: 'p-spacing-3' },
+  { label: '4', tokenVariable: 'p-spacing-4' },
+  { label: '5', tokenVariable: 'p-spacing-5' },
+  { label: '6', tokenVariable: 'p-spacing-6' },
 ];
 
 const RADIUS_TOKENS: readonly SwatchToken[] = [
-  { label: 'none', swatchClassName: 'rounded-p-radius-none' },
-  { label: '1', swatchClassName: 'rounded-p-radius-1' },
-  { label: '2', swatchClassName: 'rounded-p-radius-2' },
-  { label: '3', swatchClassName: 'rounded-p-radius-3' },
-  { label: 'full', swatchClassName: 'rounded-p-radius-full' },
+  { label: 'none', tokenVariable: 'p-radius-none' },
+  { label: '1', tokenVariable: 'p-radius-1' },
+  { label: '2', tokenVariable: 'p-radius-2' },
+  { label: '3', tokenVariable: 'p-radius-3' },
+  { label: 'full', tokenVariable: 'p-radius-full' },
 ];
 
 interface FontAlias {
@@ -138,6 +122,19 @@ const FONT_ALIASES: readonly FontAlias[] = [
   { title: 'font-georgian', className: 'font-georgian' },
 ];
 
+function cssVariable(name: string): string {
+  return `var(--${name})`;
+}
+
+function cssVariableStyle(
+  name: string,
+  property: 'backgroundColor' | 'padding' | 'borderRadius',
+): CSSProperties {
+  return {
+    [property]: cssVariable(name),
+  };
+}
+
 function ColorTokens() {
   return (
     <DesignSystemTokenSection title="Primitive palettes">
@@ -147,10 +144,9 @@ function ColorTokens() {
             {family.tokens.map((token) => (
               <div key={token.label} className="flex min-w-0 flex-col gap-2">
                 <Box
-                  className={cn(
-                    'h-20 rounded-p-radius-1 border border-p-color-neutral-300',
-                    token.swatchClassName,
-                  )}
+                  data-token-variable={token.tokenVariable}
+                  className={cn('h-20 rounded-p-radius-1 border border-p-color-neutral-300')}
+                  style={cssVariableStyle(token.tokenVariable, 'backgroundColor')}
                 />
                 <span className="text-xs text-p-color-neutral-700">{token.label}</span>
               </div>
@@ -169,7 +165,10 @@ function SpacingTokens() {
         {SPACING_TOKENS.map((token) => (
           <TokenBlock key={token.label} title={`p-spacing-${token.label}`}>
             <div className="inline-flex border border-dashed border-p-color-neutral-400 bg-p-color-neutral-100">
-              <div className={cn('bg-p-color-brand-200', token.swatchClassName)}>
+              <div
+                className="bg-p-color-brand-200"
+                style={cssVariableStyle(token.tokenVariable, 'padding')}
+              >
                 <div className="h-20 w-20 bg-p-color-brand-600" />
               </div>
             </div>
@@ -187,10 +186,8 @@ function RadiusTokens() {
         {RADIUS_TOKENS.map((token) => (
           <TokenBlock key={token.label} title={`p-radius-${token.label}`}>
             <Box
-              className={cn(
-                'h-20 w-20 border border-p-color-neutral-300 bg-p-color-brand-200',
-                token.swatchClassName,
-              )}
+              className="h-20 w-20 border border-p-color-neutral-300 bg-p-color-brand-200"
+              style={cssVariableStyle(token.tokenVariable, 'borderRadius')}
             />
           </TokenBlock>
         ))}
