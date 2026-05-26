@@ -3,10 +3,10 @@ import { cn } from '@kartuli/ui/utils/cn';
 import { LetterPreview } from './letter-preview';
 import { LetterPreviewPlaceholder } from './letter-preview-placeholder';
 
-type PlaceholderGroup = {
+interface PlaceholderGroup {
   count: number;
   className?: string;
-};
+}
 
 function getMissingCount(itemsCount: number, columnsCount: number, onlyWhenSingleRow: boolean) {
   if (onlyWhenSingleRow && itemsCount >= columnsCount) return 0;

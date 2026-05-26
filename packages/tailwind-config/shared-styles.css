@@ -5,19 +5,7 @@
    * These are the ingredients.
    */
 
-  /* Primitive: color */
-  /* --p-color-neutral-50: oklch(98.7% 0.002 197.1);
-  --p-color-neutral-100: oklch(96.3% 0.002 197.1);
-  --p-color-neutral-200: oklch(92.5% 0.005 214.3);
-  --p-color-neutral-300: oklch(87.2% 0.007 219.6);
-  --p-color-neutral-400: oklch(72.3% 0.014 214.4);
-  --p-color-neutral-500: oklch(56% 0.021 213.5);
-  --p-color-neutral-600: oklch(45% 0.017 213.2);
-  --p-color-neutral-700: oklch(37.8% 0.015 216);
-  --p-color-neutral-800: oklch(27.5% 0.011 216.9);
-  --p-color-neutral-900: oklch(21.8% 0.008 223.9);
-  --p-color-neutral-950: oklch(14.8% 0.004 228.8); */
-
+  /* Primitives: color */
   --p-color-neutral-50: oklch(98.5% 0.002 247.839);
   --p-color-neutral-100: oklch(96.7% 0.003 264.542);
   --p-color-neutral-200: oklch(92.8% 0.006 264.531);
@@ -54,15 +42,7 @@
   --p-color-accent-900: oklch(0.278 0.055 71.12);
   --p-color-accent-950: oklch(0.207 0.04 71.03);
 
-  --p-color-accentsuccess-100: ;
-  --p-color-success-500: ;
-  --p-color-success-900: ;
-
-  --p-color-error-100: ;
-  --p-color-error-500: ;
-  --p-color-error-900: ;
-
-  /* Primitive: spacing */
+  /* Primitives: spacing */
   --p-spacing-0: 0px;
   --p-spacing-1: 4px;
   --p-spacing-2: 8px;
@@ -71,7 +51,7 @@
   --p-spacing-5: 20px;
   --p-spacing-6: 24px;
 
-  /* Primitive: radius */
+  /* Primitives: radius */
   --p-radius-none: 0px;
   --p-radius-1: 8px;
   --p-radius-2: 16px;
@@ -82,6 +62,13 @@
    * Semantic tokens
    * UI meaning. These describe roles in the interface.
    * There are 3 different contexts: shell, panel, detail.
+   */
+
+  /* focus ring */
+  --s-width-focus-ring: 4px;
+
+   /**
+   * Context: shell
    */
 
   /* shell */
@@ -103,6 +90,10 @@
   --s-color-shell-action-selected-bg: var(--p-color-brand-600);
   --s-color-shell-action-selected-content: var(--p-color-neutral-50);
   --s-color-shell-action-selected-ring: var(--p-color-accent-600);
+
+  /**
+   * Context: panel
+   */
 
   /* panel */
   --s-color-panel-bg: var(--p-color-neutral-50);
@@ -134,15 +125,14 @@
   /* panel control focus */
   --s-color-panel-control-ring: var(--p-color-neutral-500);
 
+  /**
+   * Context: floating
+   */
+
   /* floating */
   --s-color-floating-bg: var(--p-color-neutral-500);
   --s-color-floating-border: var(--p-color-neutral-700);
   --s-color-floating-content-primary: var(--p-color-neutral-50);
-
-  /* focus ring */
-  --s-width-focus-ring: 4px;
-
-  /* detail */
 
   /*
    * Component tokens
@@ -210,14 +200,6 @@
   --color-p-color-accent-900: var(--p-color-accent-900);
   --color-p-color-accent-950: var(--p-color-accent-950);
 
-  --color-p-color-success-100: var(--p-color-success-100);
-  --color-p-color-success-500: var(--p-color-success-500);
-  --color-p-color-success-900: var(--p-color-success-900);
-
-  --color-p-color-error-100: var(--p-color-error-100);
-  --color-p-color-error-500: var(--p-color-error-500);
-  --color-p-color-error-900: var(--p-color-error-900);
-
   /* Primitive: spacing */
   --spacing-p-spacing-0: var(--p-spacing-0);
   --spacing-p-spacing-1: var(--p-spacing-1);
@@ -240,6 +222,10 @@
    * There are 3 different contexts: shell, panel, detail.
    */
 
+    /**
+   * Context: shell
+   */
+
   /* shell */
   --color-s-color-shell-bg: var(--s-color-shell-bg);
   --color-s-color-shell-content-primary: var(--s-color-shell-content-primary);
@@ -258,6 +244,10 @@
   --color-s-color-shell-action-selected-bg: var(--s-color-shell-action-selected-bg);
   --color-s-color-shell-action-selected-content: var(--s-color-shell-action-selected-content);
   --color-s-color-shell-action-selected-ring: var(--s-color-shell-action-selected-ring);
+
+   /**
+   * Context: panel
+   */
 
   /* panel */
   --color-s-color-panel-bg: var(--s-color-panel-bg);
@@ -294,6 +284,11 @@
 
   /* panel control focus */
   --color-s-color-panel-control-ring: var(--s-color-panel-control-ring);
+
+  /**
+   * Context: floating
+   */
+
 
   /* floating */
   --color-s-color-floating-bg: var(--s-color-floating-bg);

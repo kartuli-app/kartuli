@@ -2,10 +2,10 @@ import { cn } from '@kartuli/ui/utils/cn';
 
 const surfaceClasses = cn('w-full', 'p-10');
 
-type SurfaceProps = {
+interface SurfaceProps {
   children: React.ReactNode;
   context: 'shell' | 'panel' | 'detail';
-};
+}
 
 export function Surface({ children, context }: Readonly<SurfaceProps>) {
   return (

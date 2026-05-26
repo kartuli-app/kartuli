@@ -1,10 +1,10 @@
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
 
-type PanelProps = {
+interface PanelProps {
   children: ReactNode;
   className?: string;
-};
+}
 
 export function Panel({ children, className }: Readonly<PanelProps>) {
   return (

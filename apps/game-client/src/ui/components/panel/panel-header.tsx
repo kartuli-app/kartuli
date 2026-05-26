@@ -4,7 +4,7 @@ import { PanelSection } from './panel-section';
 
 type PanelHeaderVariant = 'default' | 'inverted';
 
-type PanelHeaderProps = {
+interface PanelHeaderProps {
   className?: string;
   context: string;
   contextId?: string;
@@ -13,7 +13,7 @@ type PanelHeaderProps = {
   titleId?: string;
   trailing?: ReactNode;
   variant: PanelHeaderVariant;
-};
+}
 
 function getSecondaryContentClassName(variant: PanelHeaderVariant) {
   return cn(

@@ -3,10 +3,10 @@
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactElement, ReactNode, RefObject } from 'react';
-import { floatingSurfaceClassName } from './floating-surface';
+import { FLOATING_SURFACE_CLASS_NAMES } from './floating-surface';
 
 export const tooltipPopupClassName = cn(
-  floatingSurfaceClassName,
+  FLOATING_SURFACE_CLASS_NAMES,
   'p-2',
   'rounded-p-radius-1',
   'uppercase',

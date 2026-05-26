@@ -3,7 +3,7 @@
 import { Toast } from '@base-ui/react/toast';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
-import { floatingSurfaceClassName } from './floating-surface';
+import { FLOATING_SURFACE_CLASS_NAMES } from './floating-surface';
 
 const notificationManager = Toast.createToastManager();
 
@@ -42,7 +42,7 @@ function NotificationViewport() {
           <Toast.Root key={toast.id} toast={toast} className={cn('pointer-events-auto', 'w-auto')}>
             <Toast.Content
               className={cn(
-                floatingSurfaceClassName,
+                FLOATING_SURFACE_CLASS_NAMES,
                 'overflow-hidden',
                 'p-2',
                 'rounded-p-radius-1',
