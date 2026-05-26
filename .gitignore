@@ -41,9 +41,6 @@ storybook-static/
 # Generated documentation (not tracked in git)
 docs/kartuli-llm.txt
 
-# Design token intermediate build artifact
-generated/
-
 # VitePress cache
 tools/web-docs-client/.vitepress/cache/
 
@@ -76,4 +73,3 @@ lerna-debug.log*
 *.swp
 *.swo
 *~
-

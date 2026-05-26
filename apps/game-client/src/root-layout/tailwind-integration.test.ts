@@ -20,7 +20,7 @@ describe('tailwind integration (game-client)', () => {
     css = await compileCssFromEntry('globals.css');
   });
 
-  it('emits design token CSS variables from shared-styles', () => {
+  it('emits shared token CSS variables from shared-styles', () => {
     // 'p-neutral-500' is the stable color
     expect(css).toMatch(/--p-color-neutral-500: .+;/);
     // p-spacing-3 is the stable spacing
@@ -29,7 +29,7 @@ describe('tailwind integration (game-client)', () => {
     expect(css).toMatch(/--p-radius-1: .+;/);
   });
 
-  it('wires design tokens into the Tailwind theme', () => {
+  it('wires shared tokens into the Tailwind theme', () => {
     // 'p-color-neutral-500' wiring is the stable color check
     expect(css).toContain('--color-p-color-neutral-500: var(--p-color-neutral-500);');
     // 'p-spacing-3' wiring is the stable spacing check

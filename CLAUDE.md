@@ -46,9 +46,6 @@ pnpm run c:preview:game-client      # build + serve
 
 # E2E (start the target app first, then run):
 pnpm run c:e2e:game-client          # BASE_URL=http://localhost:3000
-
-# Design system pipeline
-pnpm run design:build               # DESIGN.md → design tokens JSON → CSS vars + Tailwind theme
 ```
 
 **Run a single test file:**
@@ -79,14 +76,11 @@ Content flows: JSON data sources → ingestion layer → `Library` object → RS
 
 Student progress is persisted entirely client-side in **IndexedDB** via the `idb` library (`src/student/item-activity-device-states-collection/`). `@tanstack/react-db` provides a reactive collection layer on top. Student identity uses `deviceId` + `ownerId` (both generated and stored in localStorage). There is no backend or account system.
 
-### Design system
+### Shared tokens
 
-The design system is defined in `DESIGN.md` (a `design.md` format file with DTCG token frontmatter). The pipeline:
+`packages/tailwind-config/shared-styles.css` is the current hand-maintained source of truth for shared CSS variables and Tailwind `@theme` tokens.
 
-1. `pnpm run design:export:dtcg` → `generated/design.tokens.json` (intermediate artifact, gitignored)
-2. `pnpm run design:build-css` (delegates to `packages/tailwind-config/build-design-css.mjs`) → `packages/tailwind-config/shared-styles.css` (combined `:root` CSS vars + `@theme static` Tailwind block)
-
-`shared-styles.css` is the package main export and is already imported by all consumers via `@import "@kartuli/tailwind-config"` — no consumer changes are needed when tokens change. The file is committed to git so consumers always have it available without running the pipeline.
+Consumers continue to import `@kartuli/tailwind-config` via `@import "@kartuli/tailwind-config"`. The committed stylesheet is the artifact and the source for now, so token updates happen by editing `shared-styles.css` directly.
 
 ### Shared UI
 

@@ -7,7 +7,8 @@ const meta: Meta<typeof DesignSystemTokens> = {
   parameters: {
     docs: {
       description: {
-        component: 'Visual reference for design tokens: color, typography, spacing, and radius.',
+        component:
+          'Visual reference for the live shared token contract: primitive palettes, spacing, radius, and font aliases.',
       },
     },
   },

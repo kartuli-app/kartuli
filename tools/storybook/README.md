@@ -23,22 +23,14 @@ pnpm test   # Run tests
 
 ## Theming in Storybook
 
-Import Storybook styles in your preview file and optionally override the shared test tokens:
+Storybook imports the shared token contract from `@kartuli/tailwind-config` through `.storybook/storybook.css`.
 
 ```ts
 // .storybook/preview.ts
-import './storybook.css'; // optional: overrides :root tokens
+import './storybook.css';
 ```
 
-Create `storybook.css` with overrides for the minimal test-only color tokens:
-
-```css
-/* tools/storybook/storybook.css */
-:root {
-  --color-color-token-test-primary: oklch(22% 0 0);
-  --color-color-token-test-neutral: oklch(99% 0 0);
-}
-```
+The toolbar theme switcher can still override live shared tokens for preview purposes. It now works by swapping the primitive brand ramp instead of relying on placeholder `primary` tokens.
 
 ## Related
 - [Project Overview](https://docs.kartuli.app/)
