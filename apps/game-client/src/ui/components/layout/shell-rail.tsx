@@ -16,7 +16,8 @@ export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
       className={cn(
         'flex',
         'bg-s-color-shell-bg',
-        'border-s-color-shell-border',
+        'border-s-color-shell-border-mobile',
+        'xl:border-s-color-shell-border',
         //
         placement === 'start' && [
           //

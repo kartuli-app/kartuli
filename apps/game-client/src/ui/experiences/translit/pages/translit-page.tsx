@@ -1,26 +1,37 @@
-import { getMessagesForLocale, type SupportedLocale } from '@game-client/i18n';
+import {
+  getLocalizedRouteParams,
+  getMessagesForLocale,
+  type RouteParamsWithLocalePromise,
+} from '@game-client/i18n';
+import { getLibraryServer } from '@game-client/learning-content';
 import { AppShell } from '@game-client/ui/components/layout/app-shell';
 import { GameClientAppBar } from '@game-client/ui/components/layout/game-client-app-bar';
 import { GameClientDock } from '@game-client/ui/components/layout/game-client-dock';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-pattern-alphabet';
-import { SettingsClient } from './settings-client';
+import { TranslitClient } from '../components/translit-client';
 
-export function SettingsPageServer({ locale }: Readonly<{ locale: SupportedLocale }>) {
+export async function TranslitPage({
+  params,
+}: Readonly<{
+  params: RouteParamsWithLocalePromise;
+}>) {
+  const { locale } = await getLocalizedRouteParams(params);
   const commonMessages = getMessagesForLocale(locale, 'common');
+  const library = await getLibraryServer(locale);
 
   return (
     <AppShell
       appBar={
         <GameClientAppBar
-          title={commonMessages.dock.settings}
+          title={commonMessages.dock.translit}
           eyeBrow={commonMessages.appBar.brand}
           backHref={`/${locale}/explore/alphabet`}
         />
       }
-      startRailContent={<GameClientDock activeItemId="settings" />}
+      startRailContent={<GameClientDock activeItemId="translit" />}
       endRailContent={<RailPatternAlphabet />}
     >
-      <SettingsClient />
+      <TranslitClient library={library} />
     </AppShell>
   );
 }

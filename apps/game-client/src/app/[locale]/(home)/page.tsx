@@ -16,4 +16,4 @@ export async function generateMetadata({ params }: { params: RouteParamsWithLoca
   });
 }
 
-export { HomePageServer as default } from '@game-client/ui/screens/home/home-page-server';
+export { default } from '@game-client/ui/experiences/home/pages/home-redirect-page';

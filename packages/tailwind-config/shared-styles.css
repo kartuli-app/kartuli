@@ -76,7 +76,8 @@
   --s-color-shell-content-primary: var(--p-color-neutral-900);
   --s-color-shell-content-secondary: var(--p-color-neutral-700);
   --s-color-shell-content-decoration: var(--p-color-brand-200);
-  --s-color-shell-border: var(--p-color-brand-400);
+  --s-color-shell-border: var(--p-color-brand-200);
+  --s-color-shell-border-mobile: var(--p-color-brand-500);
   --s-width-shell-border: 3px;
 
   /* shell action ghost */
@@ -98,17 +99,17 @@
   /* panel */
   --s-color-panel-bg: var(--p-color-neutral-50);
   --s-color-panel-border: transparent;
-  --s-color-panel-border-hover: var(--p-color-brand-500);
+  --s-color-panel-border-hover: var(--p-color-brand-600);
   --s-width-panel-border: 3px;
 
   /* panel header */
   --s-color-panel-header-bg: var(--p-color-neutral-50);
-  --s-color-panel-header-content-primary: var(--p-color-brand-500);
+  --s-color-panel-header-content-primary: var(--p-color-brand-600);
   --s-color-panel-header-content-secondary: var(--p-color-neutral-500);
-  --s-color-panel-header-border: var(--p-color-brand-500);
+  --s-color-panel-header-border: var(--p-color-brand-600);
 
   /* panel header inverted */
-  --s-color-panel-header-inverted-bg: var(--p-color-brand-500);
+  --s-color-panel-header-inverted-bg: var(--p-color-brand-600);
   --s-color-panel-header-inverted-content-primary: var(--p-color-neutral-50);
   --s-color-panel-header-inverted-content-secondary: var(--p-color-neutral-200);
 
@@ -232,6 +233,7 @@
   --color-s-color-shell-content-secondary: var(--s-color-shell-content-secondary);
   --color-s-color-shell-content-decoration: var(--s-color-shell-content-decoration);
   --color-s-color-shell-border: var(--s-color-shell-border);
+  --color-s-color-shell-border-mobile: var(--s-color-shell-border-mobile);
 
   /* shell action ghost */
   --color-s-color-shell-action-ghost-bg: var(--s-color-shell-action-ghost-bg);
