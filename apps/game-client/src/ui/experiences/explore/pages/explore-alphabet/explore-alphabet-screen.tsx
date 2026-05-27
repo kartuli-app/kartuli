@@ -4,9 +4,9 @@ import { AlphabetExploreContent } from './alphabet-explore-content';
 
 export function ExploreAlphabetScreen({ locale }: Readonly<{ locale: SupportedLocale }>) {
   return (
-    <div className="flex flex-col gap-8">
+    <main className="flex flex-col gap-8">
       <ContextAwareGreeting locale={locale} />
       <AlphabetExploreContent locale={locale} />
-    </div>
+    </main>
   );
 }

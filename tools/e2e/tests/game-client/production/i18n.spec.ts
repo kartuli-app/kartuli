@@ -10,7 +10,8 @@ const en_current_language = enResources.settings.current_language.replace(
 const en_settings_title = enResources.common.dock.settings;
 const en_language_section = enResources.settings.language_section;
 const en_switch_to_ru_label = enResources.settings.languages.ru;
-const en_title = enResources.metadata.title;
+const en_alphabet_title = enResources.alphabet.title;
+const en_home_heading = enResources.home.heading;
 const ru_current_language = ruResources.settings.current_language.replace(
   '{{language}}',
   ruResources.settings.languages.ru,
@@ -19,8 +20,8 @@ const ru_description = ruResources.metadata.description;
 const ru_settings_title = ruResources.common.dock.settings;
 const ru_language_section = ruResources.settings.language_section;
 const ru_switch_to_en_label = ruResources.settings.languages.en;
-const ru_title = ruResources.metadata.title;
-const home_placeholder_heading = 'Kartuli is in cleanup mode';
+const ru_alphabet_title = ruResources.alphabet.title;
+const ru_home_heading = ruResources.home.heading;
 
 test.describe('Game Client i18n', () => {
   test('/en has html lang="en", English content, and locale-specific metadata', async ({
@@ -28,13 +29,15 @@ test.describe('Game Client i18n', () => {
   }) => {
     await page.goto('/en');
 
+    await expect(page).toHaveURL(/\/en\/explore\/alphabet\/?$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page).toHaveTitle(en_title);
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    await expect(page).toHaveTitle(`${en_alphabet_title} | Kartuli`);
+    await expect(page.locator('meta[name="description"]').first()).toHaveAttribute(
       'content',
       en_description,
     );
-    await expect(page.getByRole('heading', { name: home_placeholder_heading })).toBeVisible();
+    await expect(page.getByRole('heading', { name: en_alphabet_title })).toBeVisible();
+    await expect(page.getByText(en_home_heading)).toBeVisible();
   });
 
   test('/ru has html lang="ru", Russian content, and locale-specific metadata', async ({
@@ -42,13 +45,15 @@ test.describe('Game Client i18n', () => {
   }) => {
     await page.goto('/ru');
 
+    await expect(page).toHaveURL(/\/ru\/explore\/alphabet\/?$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page).toHaveTitle(ru_title);
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    await expect(page).toHaveTitle(`${ru_alphabet_title} | Kartuli`);
+    await expect(page.locator('meta[name="description"]').first()).toHaveAttribute(
       'content',
       ru_description,
     );
-    await expect(page.getByRole('heading', { name: home_placeholder_heading })).toBeVisible();
+    await expect(page.getByRole('heading', { name: ru_alphabet_title })).toBeVisible();
+    await expect(page.getByText(ru_home_heading)).toBeVisible();
   });
 
   test('settings language switcher: from /en/settings switch to Russian updates URL, html lang and content', async ({
@@ -102,8 +107,9 @@ test.describe('Game Client i18n', () => {
     await expect(page.getByText(ru_current_language)).toBeVisible();
 
     await page.goto('/');
-    await expect(page).toHaveURL(/\/ru(\/|$)/, { timeout: 10000 });
+    await expect(page).toHaveURL(/\/ru\/explore\/alphabet\/?$/, { timeout: 10000 });
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
-    await expect(page.getByRole('heading', { name: home_placeholder_heading })).toBeVisible();
+    await expect(page.getByRole('heading', { name: ru_alphabet_title })).toBeVisible();
+    await expect(page.getByText(ru_home_heading)).toBeVisible();
   });
 });

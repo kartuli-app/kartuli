@@ -7,10 +7,11 @@ test.describe('Game Client Smoke Tests', () => {
     await expectNoCriticalErrors(page);
   });
 
-  test('home placeholder and active direct route loads work', async ({ page }) => {
+  test('localized landing redirect and active direct route loads work', async ({ page }) => {
     await page.goto('/en');
 
-    await expect(page.getByRole('heading', { name: 'Kartuli is in cleanup mode' })).toBeVisible();
+    await expect(page).toHaveURL(/\/en\/explore\/alphabet\/?$/);
+    await expect(page.getByRole('heading', { name: enResources.alphabet.title })).toBeVisible();
 
     await page.goto('/en/translit');
     await expect(page.getByText(enResources.translit.source)).toBeVisible();
