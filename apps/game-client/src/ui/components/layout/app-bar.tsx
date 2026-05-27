@@ -28,7 +28,8 @@ export function AppBar({
         'items-center',
         'bg-s-color-shell-bg',
         'border-b-(length:--s-width-shell-border)',
-        'border-s-color-shell-border',
+        'border-s-color-shell-border-mobile',
+        'xl:border-s-color-shell-border',
       )}
     >
       <ContentContainer>

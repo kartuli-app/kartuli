@@ -2,7 +2,7 @@ import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import { Surface } from '@game-client/ui/components/surface/surface';
-import { TranslitInput } from '@game-client/ui/screens/translit/translit-input';
+import { TranslitInput } from '@game-client/ui/experiences/translit/components/translit-input';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ComponentProps } from 'react';

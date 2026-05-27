@@ -10,9 +10,9 @@ import { Notifications, showNotification } from '@game-client/ui/components/noti
 import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
-import { TranslitInput } from '@game-client/ui/screens/translit/translit-input';
-import { TranslitOutput } from '@game-client/ui/screens/translit/translit-output';
-import { getTranslitOutputSegments } from '@game-client/ui/screens/translit/translit-output-segments';
+import { TranslitInput } from '@game-client/ui/experiences/translit/components/translit-input';
+import { TranslitOutput } from '@game-client/ui/experiences/translit/components/translit-output';
+import { getTranslitOutputSegments } from '@game-client/ui/experiences/translit/components/translit-output-segments';
 import { cn } from '@kartuli/ui/utils/cn';
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

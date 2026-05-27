@@ -6,4 +6,4 @@ export function generateStaticParams() {
   return generateStaticParamsForSupportedLocales();
 }
 
-export { NotFoundPageServer as default } from '@game-client/ui/screens/not-found/not-found-page-server';
+export { NotFoundPage as default } from '@game-client/ui/experiences/not-found/pages/not-found-page';

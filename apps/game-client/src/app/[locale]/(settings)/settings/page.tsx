@@ -5,7 +5,6 @@ import {
   getMessagesForLocale,
   type RouteParamsWithLocalePromise,
 } from '@game-client/i18n';
-import { SettingsPageServer } from '@game-client/ui/screens/settings/settings-page-server';
 
 export function generateStaticParams() {
   return generateStaticParamsForSupportedLocales();
@@ -20,12 +19,4 @@ export async function generateMetadata({ params }: { params: RouteParamsWithLoca
   });
 }
 
-export default async function SettingsPage({
-  params,
-}: Readonly<{
-  params: RouteParamsWithLocalePromise;
-}>) {
-  const { locale } = await getLocalizedRouteParams(params);
-
-  return <SettingsPageServer locale={locale} />;
-}
+export { SettingsPage as default } from '@game-client/ui/experiences/settings/pages/settings-page';

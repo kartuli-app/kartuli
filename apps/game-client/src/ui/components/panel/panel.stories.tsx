@@ -214,9 +214,6 @@ export const InvertedHeader: Story = {
   args: {
     variant: 'inverted',
   },
-  parameters: {
-    a11y: { test: 'todo' },
-  },
 };
 
 export const LeadingOnly: Story = {
