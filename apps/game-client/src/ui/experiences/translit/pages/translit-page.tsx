@@ -8,7 +8,7 @@ import { AppShell } from '@game-client/ui/components/layout/app-shell';
 import { GameClientAppBar } from '@game-client/ui/components/layout/game-client-app-bar';
 import { GameClientDock } from '@game-client/ui/components/layout/game-client-dock';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-pattern-alphabet';
-import { TranslitClient } from '../components/translit-client';
+import { TranslitClient } from '@game-client/ui/experiences/translit/components/translit-client';
 
 export async function TranslitPage({
   params,

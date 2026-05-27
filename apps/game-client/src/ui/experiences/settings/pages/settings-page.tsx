@@ -7,7 +7,7 @@ import { AppShell } from '@game-client/ui/components/layout/app-shell';
 import { GameClientAppBar } from '@game-client/ui/components/layout/game-client-app-bar';
 import { GameClientDock } from '@game-client/ui/components/layout/game-client-dock';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/rail-pattern-alphabet';
-import { SettingsClient } from '../components/settings-client';
+import { SettingsClient } from '@game-client/ui/experiences/settings/components/settings-client';
 
 export async function SettingsPage({
   params,

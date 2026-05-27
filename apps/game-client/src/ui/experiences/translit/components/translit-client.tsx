@@ -10,15 +10,15 @@ import { Notifications, showNotification } from '@game-client/ui/components/noti
 import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
+import { TranslitInput } from '@game-client/ui/experiences/translit/components/translit-input';
+import { TranslitOutput } from '@game-client/ui/experiences/translit/components/translit-output';
+import { getTranslitOutputSegments } from '@game-client/ui/experiences/translit/components/translit-output-segments';
 import { cn } from '@kartuli/ui/utils/cn';
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaCheck, FaRegCopy } from 'react-icons/fa6';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Fill, RiDeleteBin6Line } from 'react-icons/ri';
-import { TranslitInput } from './translit-input';
-import { TranslitOutput } from './translit-output';
-import { getTranslitOutputSegments } from './translit-output-segments';
 
 // Compact mode is decided from fixed text-2xl/leading-8 measurement-space with whitespace-pre-wrap.
 // Because the real surfaces can switch text size and textarea wrapping differs slightly from div
