@@ -67,7 +67,7 @@
   /* focus ring */
   --s-width-focus-ring: 4px;
 
-   /**
+  /**
    * Context: shell
    */
 
@@ -222,7 +222,7 @@
    * There are 3 different contexts: shell, panel, detail.
    */
 
-    /**
+  /**
    * Context: shell
    */
 
@@ -245,7 +245,7 @@
   --color-s-color-shell-action-selected-content: var(--s-color-shell-action-selected-content);
   --color-s-color-shell-action-selected-ring: var(--s-color-shell-action-selected-ring);
 
-   /**
+  /**
    * Context: panel
    */
 
@@ -288,7 +288,6 @@
   /**
    * Context: floating
    */
-
 
   /* floating */
   --color-s-color-floating-bg: var(--s-color-floating-bg);

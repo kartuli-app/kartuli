@@ -1,10 +1,12 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 
-function DesignSystemTokenSection({
-  title,
-  children,
-}: Readonly<{ title: string; children: ReactNode }>) {
+interface DesignSystemTokenSectionProps {
+  title: string;
+  children: ReactNode;
+}
+
+function DesignSystemTokenSection({ title, children }: Readonly<DesignSystemTokenSectionProps>) {
   return (
     <section className="flex flex-col gap-4 px-2">
       <h2 className="text-3xl text-slate-500">{title}</h2>
@@ -13,149 +15,161 @@ function DesignSystemTokenSection({
   );
 }
 
-function Row({ children }: Readonly<{ children?: ReactNode }>) {
+interface RowProps {
+  children?: ReactNode;
+}
+
+function Row({ children }: Readonly<RowProps>) {
   return <div className="flex flex-row flex-wrap gap-8">{children}</div>;
 }
 
-function TokenBlock({ title, children }: Readonly<{ title: string; children: ReactNode }>) {
+interface TokenBlockProps {
+  title: string;
+  children: ReactNode;
+}
+
+function TokenBlock({ title, children }: Readonly<TokenBlockProps>) {
   return (
-    <div className="flex min-w-0 flex-col gap-1">
+    <div className="flex min-w-0 flex-col gap-3">
       <h3 className="text-sm text-slate-500">{title}</h3>
       {children}
     </div>
   );
 }
 
-function Box({ className, children }: Readonly<{ className?: string; children?: ReactNode }>) {
-  return <div className={cn(className)}>{children}</div>;
+interface BoxProps {
+  className?: string;
+  children?: ReactNode;
+  style?: CSSProperties;
 }
 
-function ColorBox({ className, children }: Readonly<{ className?: string; children?: ReactNode }>) {
+function Box({ className, children, style }: Readonly<BoxProps>) {
   return (
-    <Box
-      className={cn(
-        'min-h-24 h-24 w-64 flex-1 rounded-brand-radius-1 border border-brand-color-neutral-soft',
-        className,
-      )}
-    >
+    <div className={cn(className)} style={style}>
       {children}
-    </Box>
+    </div>
   );
 }
 
-const SAMPLE_TEXT_ENGLISH = 'What do you want to learn today';
-const SAMPLE_TEXT_GEORGIAN = 'რა გნობობს დღეს გნობობს?';
+interface SwatchToken {
+  label: string;
+  tokenVariable: string;
+}
+
+interface ColorFamily {
+  title: string;
+  tokens: readonly SwatchToken[];
+}
+
+const SAMPLE_TEXT_ENGLISH = 'What will we learn today?';
+const SAMPLE_TEXT_GEORGIAN = 'რას ვისწავლით დღეს?';
+
+const COLOR_STEPS = [
+  '50',
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900',
+  '950',
+] as const;
+
+function createColorFamily(name: 'neutral' | 'brand' | 'accent'): ColorFamily {
+  return {
+    title: `p-color-${name}`,
+    tokens: COLOR_STEPS.map((step) => ({
+      label: step,
+      tokenVariable: `p-color-${name}-${step}`,
+    })),
+  };
+}
+
+const COLOR_FAMILIES: readonly ColorFamily[] = [
+  createColorFamily('neutral'),
+  createColorFamily('brand'),
+  createColorFamily('accent'),
+];
+
+const SPACING_TOKENS: readonly SwatchToken[] = [
+  { label: '0', tokenVariable: 'p-spacing-0' },
+  { label: '1', tokenVariable: 'p-spacing-1' },
+  { label: '2', tokenVariable: 'p-spacing-2' },
+  { label: '3', tokenVariable: 'p-spacing-3' },
+  { label: '4', tokenVariable: 'p-spacing-4' },
+  { label: '5', tokenVariable: 'p-spacing-5' },
+  { label: '6', tokenVariable: 'p-spacing-6' },
+];
+
+const RADIUS_TOKENS: readonly SwatchToken[] = [
+  { label: 'none', tokenVariable: 'p-radius-none' },
+  { label: '1', tokenVariable: 'p-radius-1' },
+  { label: '2', tokenVariable: 'p-radius-2' },
+  { label: '3', tokenVariable: 'p-radius-3' },
+  { label: 'full', tokenVariable: 'p-radius-full' },
+];
+
+interface FontAlias {
+  title: string;
+  className: string;
+}
+
+const FONT_ALIASES: readonly FontAlias[] = [
+  { title: 'font-default', className: 'font-default' },
+  { title: 'font-georgian', className: 'font-georgian' },
+];
+
+function cssVariable(name: string): string {
+  return `var(--${name})`;
+}
+
+function cssVariableStyle(
+  name: string,
+  property: 'backgroundColor' | 'padding' | 'borderRadius',
+): CSSProperties {
+  return {
+    [property]: cssVariable(name),
+  };
+}
 
 function ColorTokens() {
   return (
-    <DesignSystemTokenSection title="Color">
-      <Row>
-        <TokenBlock title="primary">
-          <ColorBox className="bg-primary" />
+    <DesignSystemTokenSection title="Primitive palettes">
+      {COLOR_FAMILIES.map((family) => (
+        <TokenBlock key={family.title} title={family.title}>
+          <div className="grid grid-cols-2 gap-4 min-[600px]:grid-cols-4 lg:grid-cols-6">
+            {family.tokens.map((token) => (
+              <div key={token.label} className="flex min-w-0 flex-col gap-2">
+                <Box
+                  data-token-variable={token.tokenVariable}
+                  className={cn('h-20 rounded-p-radius-1 border border-p-color-neutral-300')}
+                  style={cssVariableStyle(token.tokenVariable, 'backgroundColor')}
+                />
+                <span className="text-xs text-p-color-neutral-700">{token.label}</span>
+              </div>
+            ))}
+          </div>
         </TokenBlock>
-      </Row>
-      <Row>
-        <TokenBlock title="brand-color-primary-soft">
-          <ColorBox className="bg-brand-color-primary-soft" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-primary">
-          <ColorBox className="bg-brand-color-primary" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-primary-strong">
-          <ColorBox className="bg-brand-color-primary-strong" />
-        </TokenBlock>
-      </Row>
-      <Row>
-        <TokenBlock title="brand-color-neutral-soft">
-          <ColorBox className="bg-brand-color-neutral-soft" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-neutral">
-          <ColorBox className="bg-brand-color-neutral" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-neutral-strong">
-          <ColorBox className="bg-brand-color-neutral-strong" />
-        </TokenBlock>
-      </Row>
-      <Row>
-        <TokenBlock title="brand-color-semantic-success-soft">
-          <ColorBox className="bg-brand-color-semantic-success-soft" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-semantic-success">
-          <ColorBox className="bg-brand-color-semantic-success" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-semantic-success-strong">
-          <ColorBox className="bg-brand-color-semantic-success-strong" />
-        </TokenBlock>
-      </Row>
-      <Row>
-        <TokenBlock title="brand-color-semantic-error-soft">
-          <ColorBox className="bg-brand-color-semantic-error-soft" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-semantic-error">
-          <ColorBox className="bg-brand-color-semantic-error" />
-        </TokenBlock>
-        <TokenBlock title="brand-color-semantic-error-strong">
-          <ColorBox className="bg-brand-color-semantic-error-strong" />
-        </TokenBlock>
-      </Row>
+      ))}
     </DesignSystemTokenSection>
   );
 }
-
-function TypographyTokens() {
-  return (
-    <DesignSystemTokenSection title="Typography">
-      <div className="flex max-w-3xl flex-col gap-6">
-        <TokenBlock title="brand-typography-title">
-          <div>
-            <p className="text-brand-typography-title text-brand-color-neutral-strong">
-              {SAMPLE_TEXT_ENGLISH}
-            </p>
-            <p className="text-brand-typography-title text-brand-color-neutral-strong">
-              {SAMPLE_TEXT_GEORGIAN}
-            </p>
-          </div>
-        </TokenBlock>
-        <TokenBlock title="brand-typography-subtitle">
-          <div>
-            <p className="text-brand-typography-subtitle text-brand-color-neutral-strong">
-              {SAMPLE_TEXT_ENGLISH}
-            </p>
-            <p className="text-brand-typography-subtitle text-brand-color-neutral-strong">
-              {SAMPLE_TEXT_GEORGIAN}
-            </p>
-          </div>
-        </TokenBlock>
-        <TokenBlock title="brand-typography-button">
-          <p className="text-brand-typography-button text-brand-color-neutral-strong">
-            {SAMPLE_TEXT_ENGLISH}
-          </p>
-          <p className="text-brand-typography-button text-brand-color-neutral-strong">
-            {SAMPLE_TEXT_GEORGIAN}
-          </p>
-        </TokenBlock>
-      </div>
-    </DesignSystemTokenSection>
-  );
-}
-
-const SPACING_STEPS = ['1', '2', '3', '4'] as const;
-const SPACING_CLASS: Record<(typeof SPACING_STEPS)[number], string> = {
-  '1': 'p-brand-spacing-1',
-  '2': 'p-brand-spacing-2',
-  '3': 'p-brand-spacing-3',
-  '4': 'p-brand-spacing-4',
-};
 
 function SpacingTokens() {
   return (
     <DesignSystemTokenSection title="Spacing">
       <Row>
-        {SPACING_STEPS.map((step) => (
-          <TokenBlock key={step} title={`brand-spacing-${step}`}>
-            <div className="inline-flex border border-dashed border-brand-color-neutral bg-brand-color-neutral-soft">
-              <div className={cn('bg-brand-color-primary-soft', SPACING_CLASS[step])}>
-                <div className="h-32 w-32 bg-brand-color-primary" />
+        {SPACING_TOKENS.map((token) => (
+          <TokenBlock key={token.label} title={`p-spacing-${token.label}`}>
+            <div className="inline-flex border border-dashed border-p-color-neutral-400 bg-p-color-neutral-100">
+              <div
+                className="bg-p-color-brand-200"
+                style={cssVariableStyle(token.tokenVariable, 'padding')}
+              >
+                <div className="h-20 w-20 bg-p-color-brand-600" />
               </div>
             </div>
           </TokenBlock>
@@ -165,26 +179,15 @@ function SpacingTokens() {
   );
 }
 
-const RADIUS_STEPS = ['none', '1', '2', '3', 'full'] as const;
-const RADIUS_CLASS: Record<(typeof RADIUS_STEPS)[number], string> = {
-  none: 'rounded-brand-radius-none',
-  '1': 'rounded-brand-radius-1',
-  '2': 'rounded-brand-radius-2',
-  '3': 'rounded-brand-radius-3',
-  full: 'rounded-brand-radius-full',
-};
-
 function RadiusTokens() {
   return (
     <DesignSystemTokenSection title="Radius">
       <Row>
-        {RADIUS_STEPS.map((step) => (
-          <TokenBlock key={step} title={`brand-radius-${step}`}>
-            <div
-              className={cn(
-                'h-32 w-32 border border-brand-color-neutral-soft bg-brand-color-primary-soft',
-                RADIUS_CLASS[step],
-              )}
+        {RADIUS_TOKENS.map((token) => (
+          <TokenBlock key={token.label} title={`p-radius-${token.label}`}>
+            <Box
+              className="h-20 w-20 border border-p-color-neutral-300 bg-p-color-brand-200"
+              style={cssVariableStyle(token.tokenVariable, 'borderRadius')}
             />
           </TokenBlock>
         ))}
@@ -193,13 +196,34 @@ function RadiusTokens() {
   );
 }
 
+function FontAliasTokens() {
+  return (
+    <DesignSystemTokenSection title="Font aliases">
+      <div className="grid gap-6 lg:grid-cols-2">
+        {FONT_ALIASES.map((fontAlias) => (
+          <TokenBlock key={fontAlias.title} title={fontAlias.title}>
+            <div className="rounded-p-radius-2 border border-p-color-neutral-300 bg-p-color-neutral-50 p-p-spacing-4">
+              <p className={cn('text-xl text-p-color-neutral-900', fontAlias.className)}>
+                {SAMPLE_TEXT_ENGLISH}
+              </p>
+              <p className={cn('text-2xl text-p-color-neutral-700', fontAlias.className)}>
+                {SAMPLE_TEXT_GEORGIAN}
+              </p>
+            </div>
+          </TokenBlock>
+        ))}
+      </div>
+    </DesignSystemTokenSection>
+  );
+}
+
 export function DesignSystemTokens() {
   return (
     <div className="flex max-w-5xl flex-col gap-8">
       <ColorTokens />
-      <TypographyTokens />
       <SpacingTokens />
       <RadiusTokens />
+      <FontAliasTokens />
     </div>
   );
 }

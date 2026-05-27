@@ -1,7 +1,7 @@
 import '@game-client/ui/components/notifications';
 import type { Preview } from '@storybook/react-vite';
 import './storybook.css';
-import { PrimaryGreenThemeWrapper, PrimaryRedThemeWrapper } from './theme-wrappers';
+import { BrandEmeraldThemeWrapper, BrandRoseThemeWrapper } from './theme-wrappers';
 
 const preview: Preview = {
   parameters: {
@@ -35,15 +35,15 @@ const preview: Preview = {
   },
   globalTypes: {
     theme: {
-      description: 'Global theme for components',
+      description: 'Override the primitive brand ramp for component previews',
       defaultValue: 'default',
       toolbar: {
         title: 'Theme',
         icon: 'paintbrush',
         items: [
           { value: 'default', title: 'Default', icon: 'circle' },
-          { value: 'primary-green', title: 'Primary Green', icon: 'graphbar' },
-          { value: 'primary-red', title: 'Primary Red', icon: 'admin' },
+          { value: 'brand-emerald', title: 'Brand Emerald', icon: 'graphbar' },
+          { value: 'brand-rose', title: 'Brand Rose', icon: 'admin' },
         ],
         dynamicTitle: true,
       },
@@ -69,10 +69,10 @@ const preview: Preview = {
       );
 
       switch (theme) {
-        case 'primary-green':
-          return <PrimaryGreenThemeWrapper>{content}</PrimaryGreenThemeWrapper>;
-        case 'primary-red':
-          return <PrimaryRedThemeWrapper>{content}</PrimaryRedThemeWrapper>;
+        case 'brand-emerald':
+          return <BrandEmeraldThemeWrapper>{content}</BrandEmeraldThemeWrapper>;
+        case 'brand-rose':
+          return <BrandRoseThemeWrapper>{content}</BrandRoseThemeWrapper>;
         default:
           return content;
       }

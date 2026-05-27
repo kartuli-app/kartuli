@@ -48,7 +48,7 @@ This is not a controlled migration plan. The app is not in production, nobody de
 
 ### Defer until later
 
-- new `DESIGN.md` token frontmatter
+- reintroducing a machine-readable token source if it becomes useful again
 - new design token package structure
 - component catalog expansion
 - polished top bars, docks, and navigation chrome
@@ -306,7 +306,7 @@ Define the new token source of truth only after the app surface is quiet.
 Actions:
 
 - formalize the new token vocabulary
-- add YAML frontmatter to `DESIGN.md`
+- decide whether a machine-readable token source should return at all
 - define minimal token groups first:
   - colors
   - typography
@@ -323,9 +323,9 @@ Important stance:
 
 Checkpoint state:
 
-- `DESIGN.md` becomes machine-readable
+- the next shared token source is explicit
 - token naming is stable
-- Tailwind token generation has a real source of truth
+- Tailwind token generation or direct stylesheet maintenance has a real source of truth
 - component work can begin on a clean base
 
 ## Position on `NextNavigationRootLayout`
@@ -372,6 +372,6 @@ Before starting the new design-system and new component pass, the repo should lo
 Once that state exists, the next effort should be:
 
 - define the new token contract
-- formalize `DESIGN.md`
+- reintroduce a machine-readable token source only if it earns its keep
 - wire token export into Tailwind
 - rebuild reusable components and screens intentionally
