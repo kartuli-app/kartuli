@@ -1,4 +1,4 @@
-import '@game-client/ui/components/notifications';
+import '@game-client/ui/components/feedback/notifications';
 import type { Preview } from '@storybook/react-vite';
 import './storybook.css';
 import { BrandEmeraldThemeWrapper, BrandRoseThemeWrapper } from './theme-wrappers';

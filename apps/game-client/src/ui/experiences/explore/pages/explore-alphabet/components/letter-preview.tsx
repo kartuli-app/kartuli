@@ -12,26 +12,26 @@ export function LetterPreview({ item }: Readonly<{ item: LetterItem }>) {
           'justify-center',
           'font-georgian',
           'text-4xl',
-          'text-p-color-neutral-700',
+          'text-s-color-panel-content-primary',
         )}
       >
-        <span className="absolute top-3/10 left-0 bg-blue-200 w-full h-[2px]"></span>
-        <span className="absolute top-6/10 left-0 bg-blue-200 w-full h-[2px]"></span>
+        <span className="absolute top-3/10 left-0 h-[2px] w-full bg-s-color-panel-content-notebook-line"></span>
+        <span className="absolute top-6/10 left-0 h-[2px] w-full bg-s-color-panel-content-notebook-line"></span>
         <span className="z-10">{item.targetScript}</span>
       </div>
       <div
         className={cn(
           //
           'text-xl',
-          'text-p-color-neutral-500',
+          'text-s-color-panel-content-secondary',
           'flex',
           'items-center',
           'justify-center',
         )}
       >
-        <span className="text-orange-500">[</span>
+        <span className="text-s-color-panel-content-transliteration-bracket">[</span>
         <span>{item.transliteration}</span>
-        <span className="text-orange-500">]</span>
+        <span className="text-s-color-panel-content-transliteration-bracket">]</span>
       </div>
     </div>
   );

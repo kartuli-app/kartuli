@@ -1,5 +1,5 @@
 import { Tooltip } from '@base-ui/react/tooltip';
-import { HeaderActionButton } from '@game-client/ui/components/header-action-button';
+import { PanelActionButton } from '@game-client/ui/components/actions/panel-action-button';
 import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
@@ -31,16 +31,16 @@ function TranslitPanelsPreview() {
               titleId={inputTitleId}
               trailing={
                 <>
-                  <HeaderActionButton aria-label="Clear text" tooltipLabel="Clear text">
+                  <PanelActionButton aria-label="Clear text" tooltipLabel="Clear text">
                     <RiDeleteBin6Line className="size-5" aria-hidden="true" />
-                  </HeaderActionButton>
-                  <HeaderActionButton
+                  </PanelActionButton>
+                  <PanelActionButton
                     aria-controls="translit-panels-source translit-panels-output"
                     aria-label="Switch to Latin → Georgian"
                     tooltipLabel="Switch to Latin → Georgian"
                   >
                     <HiOutlineSwitchHorizontal className="size-5" aria-hidden="true" />
-                  </HeaderActionButton>
+                  </PanelActionButton>
                 </>
               }
               variant="default"
@@ -64,12 +64,12 @@ function TranslitPanelsPreview() {
               title="Latin"
               titleId={outputTitleId}
               trailing={
-                <HeaderActionButton
+                <PanelActionButton
                   aria-label="Copy transliteration"
                   tooltipLabel="Copy transliteration"
                 >
                   <FaRegCopy className="size-5" aria-hidden="true" />
-                </HeaderActionButton>
+                </PanelActionButton>
               }
               variant="default"
             />

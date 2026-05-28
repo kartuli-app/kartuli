@@ -1,7 +1,7 @@
 'use client';
 
 import { Tooltip } from '@base-ui/react/tooltip';
-import { tooltipPopupClassName } from '@game-client/ui/components/tooltip';
+import { tooltipPopupClassName } from '@game-client/ui/components/overlay/tooltip';
 import type { TranslitOutputSegment } from '@game-client/ui/experiences/translit/components/translit-output-segments';
 import { cn } from '@kartuli/ui/utils/cn';
 import { type RefObject, type UIEventHandler, useEffect, useRef, useState } from 'react';

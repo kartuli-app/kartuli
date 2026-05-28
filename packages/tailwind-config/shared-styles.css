@@ -42,6 +42,9 @@
   --p-color-accent-900: oklch(0.278 0.055 71.12);
   --p-color-accent-950: oklch(0.207 0.04 71.03);
 
+  --p-color-notebook-line: oklch(88.2% 0.059 254.128);
+  --p-color-transliteration-bracket: oklch(75% 0.183 55.934);
+
   /* Primitives: spacing */
   --p-spacing-0: 0px;
   --p-spacing-1: 4px;
@@ -61,7 +64,7 @@
   /*
    * Semantic tokens
    * UI meaning. These describe roles in the interface.
-   * There are 3 different contexts: shell, panel, detail.
+   * There are 3 different contexts: shell, panel, floating.
    */
 
   /* focus ring */
@@ -87,10 +90,33 @@
   --s-color-shell-action-ghost-hover-bg: var(--p-color-neutral-500);
   --s-color-shell-action-ghost-hover-content: var(--p-color-neutral-50);
 
+  /* shell action secondary */
+  --s-color-shell-action-secondary-bg: var(--p-color-neutral-500);
+  --s-color-shell-action-secondary-border: var(--p-color-neutral-500);
+  --s-color-shell-action-secondary-content: var(--p-color-neutral-50);
+  --s-color-shell-action-secondary-ring: var(--p-color-neutral-500);
+  --s-color-shell-action-secondary-hover-bg: var(--p-color-neutral-700);
+  --s-color-shell-action-secondary-hover-border: var(--p-color-neutral-700);
+  --s-color-shell-action-secondary-hover-content: var(--p-color-neutral-50);
+
+  /* shell action primary */
+  --s-color-shell-action-primary-bg: var(--p-color-brand-600);
+  --s-color-shell-action-primary-border: var(--p-color-brand-600);
+  --s-color-shell-action-primary-content: var(--p-color-neutral-50);
+  --s-color-shell-action-primary-ring: var(--p-color-accent-600);
+  --s-color-shell-action-primary-hover-bg: var(--p-color-brand-700);
+  --s-color-shell-action-primary-hover-border: var(--p-color-brand-700);
+  --s-color-shell-action-primary-hover-content: var(--p-color-neutral-50);
+
   /* shell action selected */
   --s-color-shell-action-selected-bg: var(--p-color-brand-600);
   --s-color-shell-action-selected-content: var(--p-color-neutral-50);
   --s-color-shell-action-selected-ring: var(--p-color-accent-600);
+
+  /* shell status */
+  --s-color-shell-status-bg: var(--p-color-neutral-300);
+  --s-color-shell-status-content-primary: var(--p-color-neutral-900);
+  --s-color-shell-status-content-secondary: var(--p-color-neutral-600);
 
   /**
    * Context: panel
@@ -101,6 +127,12 @@
   --s-color-panel-border: transparent;
   --s-color-panel-border-hover: var(--p-color-brand-600);
   --s-width-panel-border: 3px;
+
+  /* panel content */
+  --s-color-panel-content-primary: var(--p-color-neutral-700);
+  --s-color-panel-content-secondary: var(--p-color-neutral-500);
+  --s-color-panel-content-notebook-line: var(--p-color-notebook-line);
+  --s-color-panel-content-transliteration-bracket: var(--p-color-transliteration-bracket);
 
   /* panel header */
   --s-color-panel-header-bg: var(--p-color-neutral-50);
@@ -120,8 +152,15 @@
   --s-color-panel-action-outline-content: var(--p-color-neutral-700);
   --s-color-panel-action-outline-ring: var(--p-color-neutral-500);
   --s-color-panel-action-outline-hover-bg: var(--p-color-neutral-200);
-  --s-color-panel-action-outline-hover-border: var(--s-color-panel-header-content-secondary);
+  --s-color-panel-action-outline-hover-border: var(--p-color-neutral-500);
   --s-color-panel-action-outline-hover-content: var(--p-color-neutral-900);
+
+  /* panel action ghost */
+  --s-color-panel-action-ghost-bg: transparent;
+  --s-color-panel-action-ghost-content: var(--p-color-neutral-500);
+  --s-color-panel-action-ghost-ring: var(--p-color-neutral-500);
+  --s-color-panel-action-ghost-hover-bg: var(--p-color-neutral-500);
+  --s-color-panel-action-ghost-hover-content: var(--p-color-neutral-50);
 
   /* panel control focus */
   --s-color-panel-control-ring: var(--p-color-neutral-500);
@@ -220,7 +259,7 @@
   /*
    * Semantic utilities
    * These map semantic tokens to utility classes.
-   * There are 3 different contexts: shell, panel, detail.
+   * There are 3 different contexts: shell, panel, floating.
    */
 
   /**
@@ -235,12 +274,43 @@
   --color-s-color-shell-border: var(--s-color-shell-border);
   --color-s-color-shell-border-mobile: var(--s-color-shell-border-mobile);
 
+  /* shell status */
+  --color-s-color-shell-status-bg: var(--s-color-shell-status-bg);
+  --color-s-color-shell-status-content-primary: var(--s-color-shell-status-content-primary);
+  --color-s-color-shell-status-content-secondary: var(--s-color-shell-status-content-secondary);
+
   /* shell action ghost */
   --color-s-color-shell-action-ghost-bg: var(--s-color-shell-action-ghost-bg);
   --color-s-color-shell-action-ghost-content: var(--s-color-shell-action-ghost-content);
   --color-s-color-shell-action-ghost-ring: var(--s-color-shell-action-ghost-ring);
   --color-s-color-shell-action-ghost-hover-bg: var(--s-color-shell-action-ghost-hover-bg);
   --color-s-color-shell-action-ghost-hover-content: var(--s-color-shell-action-ghost-hover-content);
+
+  /* shell action secondary */
+  --color-s-color-shell-action-secondary-bg: var(--s-color-shell-action-secondary-bg);
+  --color-s-color-shell-action-secondary-border: var(--s-color-shell-action-secondary-border);
+  --color-s-color-shell-action-secondary-content: var(--s-color-shell-action-secondary-content);
+  --color-s-color-shell-action-secondary-ring: var(--s-color-shell-action-secondary-ring);
+  --color-s-color-shell-action-secondary-hover-bg: var(--s-color-shell-action-secondary-hover-bg);
+  --color-s-color-shell-action-secondary-hover-border: var(
+    --s-color-shell-action-secondary-hover-border
+  );
+  --color-s-color-shell-action-secondary-hover-content: var(
+    --s-color-shell-action-secondary-hover-content
+  );
+
+  /* shell action primary */
+  --color-s-color-shell-action-primary-bg: var(--s-color-shell-action-primary-bg);
+  --color-s-color-shell-action-primary-border: var(--s-color-shell-action-primary-border);
+  --color-s-color-shell-action-primary-content: var(--s-color-shell-action-primary-content);
+  --color-s-color-shell-action-primary-ring: var(--s-color-shell-action-primary-ring);
+  --color-s-color-shell-action-primary-hover-bg: var(--s-color-shell-action-primary-hover-bg);
+  --color-s-color-shell-action-primary-hover-border: var(
+    --s-color-shell-action-primary-hover-border
+  );
+  --color-s-color-shell-action-primary-hover-content: var(
+    --s-color-shell-action-primary-hover-content
+  );
 
   /* shell action ghost selected */
   --color-s-color-shell-action-selected-bg: var(--s-color-shell-action-selected-bg);
@@ -255,6 +325,19 @@
   --color-s-color-panel-bg: var(--s-color-panel-bg);
   --color-s-color-panel-border: var(--s-color-panel-border);
   --color-s-color-panel-border-hover: var(--s-color-panel-border-hover);
+
+  /* panel content */
+  --color-s-color-panel-content-primary: var(--s-color-panel-content-primary);
+  --color-s-color-panel-content-secondary: var(--s-color-panel-content-secondary);
+  --color-s-color-panel-content-notebook-line: var(--s-color-panel-content-notebook-line);
+  --color-s-color-panel-content-transliteration-bracket: var(
+    --s-color-panel-content-transliteration-bracket
+  );
+  --color-s-color-panel-action-ghost-bg: var(--s-color-panel-action-ghost-bg);
+  --color-s-color-panel-action-ghost-content: var(--s-color-panel-action-ghost-content);
+  --color-s-color-panel-action-ghost-ring: var(--s-color-panel-action-ghost-ring);
+  --color-s-color-panel-action-ghost-hover-bg: var(--s-color-panel-action-ghost-hover-bg);
+  --color-s-color-panel-action-ghost-hover-content: var(--s-color-panel-action-ghost-hover-content);
 
   /* panel header */
   --color-s-color-panel-header-bg: var(--s-color-panel-header-bg);
