@@ -330,14 +330,14 @@
   --color-s-color-panel-content-primary: var(--s-color-panel-content-primary);
   --color-s-color-panel-content-secondary: var(--s-color-panel-content-secondary);
   --color-s-color-panel-content-notebook-line: var(--s-color-panel-content-notebook-line);
-  --color-s-color-panel-content-transliteration-bracket: var(--s-color-panel-content-transliteration-bracket);
+  --color-s-color-panel-content-transliteration-bracket: var(
+    --s-color-panel-content-transliteration-bracket
+  );
   --color-s-color-panel-action-ghost-bg: var(--s-color-panel-action-ghost-bg);
   --color-s-color-panel-action-ghost-content: var(--s-color-panel-action-ghost-content);
   --color-s-color-panel-action-ghost-ring: var(--s-color-panel-action-ghost-ring);
   --color-s-color-panel-action-ghost-hover-bg: var(--s-color-panel-action-ghost-hover-bg);
-  --color-s-color-panel-action-ghost-hover-content: var(
-    --s-color-panel-action-ghost-hover-content
-  );
+  --color-s-color-panel-action-ghost-hover-content: var(--s-color-panel-action-ghost-hover-content);
 
   /* panel header */
   --color-s-color-panel-header-bg: var(--s-color-panel-header-bg);
