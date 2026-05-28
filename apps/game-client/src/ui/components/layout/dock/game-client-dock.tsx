@@ -2,10 +2,13 @@
 
 import { getLocalizedPathnameForLocale } from '@game-client/i18n/locale-utils';
 import { useCurrentRouteLocale } from '@game-client/navigation';
+import { Dock } from '@game-client/ui/components/layout/dock/dock';
+import { DockItem } from '@game-client/ui/components/layout/dock/dock-item';
+import {
+  type GameClientDockItemId,
+  gameClientDockItems,
+} from '@game-client/ui/components/layout/dock/game-client-dock-items';
 import { useTranslation } from 'react-i18next';
-import { Dock } from './dock';
-import { DockItem } from './dock-item';
-import { type GameClientDockItemId, gameClientDockItems } from './game-client-dock-items';
 
 export interface GameClientDockProps {
   activeItemId?: GameClientDockItemId;

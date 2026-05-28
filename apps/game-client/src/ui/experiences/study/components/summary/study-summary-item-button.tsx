@@ -3,17 +3,19 @@
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
 
+interface StudySummaryItemButtonProps {
+  children: ReactNode;
+  className?: string;
+  label: string;
+  onClick: () => void;
+}
+
 export function StudySummaryItemButton({
   children,
   className,
   label,
   onClick,
-}: Readonly<{
-  children: ReactNode;
-  className?: string;
-  label: string;
-  onClick: () => void;
-}>) {
+}: Readonly<StudySummaryItemButtonProps>) {
   return (
     <button
       type="button"

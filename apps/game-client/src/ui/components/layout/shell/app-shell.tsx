@@ -1,13 +1,13 @@
 import { MainContent } from '@game-client/ui/components/layout/shell/main-content';
+import { ShellRail } from '@game-client/ui/components/layout/shell/shell-rail';
 import { cn } from '@kartuli/ui/utils/cn';
-import { ShellRail } from './shell-rail';
 
-type AppShellProps = {
+interface AppShellProps {
   appBar: React.ReactNode;
   startRailContent?: React.ReactNode;
   endRailContent?: React.ReactNode;
   children: React.ReactNode;
-};
+}
 
 export function AppShell({
   appBar,

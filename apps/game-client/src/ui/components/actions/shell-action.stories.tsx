@@ -5,17 +5,18 @@ import {
   type ShellActionVariant,
 } from '@game-client/ui/components/actions/shell-action';
 import { Surface } from '@game-client/ui/components/surface/surface';
+import { cn } from '@kartuli/ui/utils/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { PiMagnifyingGlass, PiPlayFill } from 'react-icons/pi';
 
 type ShellActionKind = 'button' | 'link';
 
-type ShellActionStoryProps = {
+interface ShellActionStoryProps {
   kind: ShellActionKind;
   label: string;
   size: ShellActionSize;
   variant: ShellActionVariant;
-};
+}
 
 function renderActionContent(size: ShellActionSize, label: string) {
   if (size === 'icon') {
@@ -44,7 +45,7 @@ function ShellActionStory({ kind, label, size, variant }: Readonly<ShellActionSt
         aria-label={label}
         size={size}
         variant={variant}
-        className={size === 'pill' ? 'min-w-28' : undefined}
+        className={cn(size === 'pill' && 'min-w-28')}
       >
         {content}
       </ShellActionLink>
@@ -56,7 +57,7 @@ function ShellActionStory({ kind, label, size, variant }: Readonly<ShellActionSt
       aria-label={label}
       size={size}
       variant={variant}
-      className={size === 'pill' ? 'min-w-28' : undefined}
+      className={cn(size === 'pill' && 'min-w-28')}
     >
       {content}
     </ShellActionButton>

@@ -1,7 +1,7 @@
+import { AppBar } from '@game-client/ui/components/layout/app-bar/app-bar';
+import { BackButton } from '@game-client/ui/components/layout/app-bar/back-button';
+import { MascotLogo } from '@game-client/ui/components/layout/app-bar/mascot-logo';
 import type { ReactNode } from 'react';
-import { AppBar } from './app-bar';
-import { BackButton } from './back-button';
-import { MascotLogo } from './mascot-logo';
 
 export interface GameClientAppBarProps {
   backHref?: string;

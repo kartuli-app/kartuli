@@ -2,7 +2,11 @@
 
 import type { LetterItem } from '@game-client/learning-content/library/library';
 
-export function LetterStudyDetailContent({ item }: Readonly<{ item: LetterItem }>) {
+interface LetterStudyDetailContentProps {
+  item: LetterItem;
+}
+
+export function LetterStudyDetailContent({ item }: Readonly<LetterStudyDetailContentProps>) {
   return (
     <>
       <div className="relative flex w-full max-w-[70%] items-center justify-center font-georgian text-[35cqw] leading-none text-s-color-panel-content-primary">

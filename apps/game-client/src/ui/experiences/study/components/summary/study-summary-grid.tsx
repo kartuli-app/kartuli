@@ -33,13 +33,12 @@ function getSummaryGridClassName(itemsCount: number) {
   );
 }
 
-export function StudySummaryGrid({
-  children,
-  itemsCount,
-}: Readonly<{
+interface StudySummaryGridProps {
   children: ReactNode;
   itemsCount: number;
-}>) {
+}
+
+export function StudySummaryGrid({ children, itemsCount }: Readonly<StudySummaryGridProps>) {
   return (
     <div
       className={cn(

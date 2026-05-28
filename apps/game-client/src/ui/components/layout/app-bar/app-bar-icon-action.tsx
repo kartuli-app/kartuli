@@ -8,11 +8,11 @@ const appBarIconActionClassName = cn('size-12');
 
 type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
-type AppBarIconButtonProps = {
+interface AppBarIconButtonProps {
   label: string;
   icon: IconComponent;
   onClick?: () => void;
-};
+}
 
 export function AppBarIconButton({ label, icon, onClick }: Readonly<AppBarIconButtonProps>) {
   const Icon = icon;
@@ -30,11 +30,11 @@ export function AppBarIconButton({ label, icon, onClick }: Readonly<AppBarIconBu
   );
 }
 
-type GameAppBarIconLinkProps = {
+interface GameAppBarIconLinkProps {
   href: string;
   label: string;
   icon: IconComponent;
-};
+}
 
 export function GameAppBarIconLink({ href, label, icon }: Readonly<GameAppBarIconLinkProps>) {
   const Icon = icon;

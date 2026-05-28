@@ -3,11 +3,11 @@ import { Surface } from '@game-client/ui/components/surface/surface';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-type NotificationPreviewProps = {
+interface NotificationPreviewProps {
   description: string;
   surfaceContext: 'shell' | 'panel';
   timeout: number;
-};
+}
 
 function NotificationPreview({
   description,

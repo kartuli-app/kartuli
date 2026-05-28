@@ -4,11 +4,11 @@ import { Surface } from '@game-client/ui/components/surface/surface';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-type TooltipPreviewProps = {
+interface TooltipPreviewProps {
   content: string;
   side: 'top' | 'bottom' | 'left' | 'right';
   surfaceContext: 'shell' | 'panel';
-};
+}
 
 function TooltipPreview({ content, side, surfaceContext }: Readonly<TooltipPreviewProps>) {
   return (

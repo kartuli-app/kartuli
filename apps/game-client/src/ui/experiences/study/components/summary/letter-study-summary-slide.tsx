@@ -6,13 +6,15 @@ import { StudySummaryGrid } from '@game-client/ui/experiences/study/components/s
 
 const MAX_SUMMARY_ITEMS_COUNT = 42;
 
+interface LetterStudySummarySlideProps {
+  items: ReadonlyArray<LetterItem>;
+  onSelectItem: (itemIndex: number) => void;
+}
+
 export function LetterStudySummarySlide({
   items,
   onSelectItem,
-}: Readonly<{
-  items: ReadonlyArray<LetterItem>;
-  onSelectItem: (itemIndex: number) => void;
-}>) {
+}: Readonly<LetterStudySummarySlideProps>) {
   const boundedItems = items.slice(0, MAX_SUMMARY_ITEMS_COUNT);
 
   return (
