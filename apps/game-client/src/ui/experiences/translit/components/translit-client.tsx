@@ -5,8 +5,8 @@ import {
   getStringTransliterationFromLatin,
   getStringTransliterationFromTargetScript,
 } from '@game-client/learning-content/utils/transliteration';
-import { HeaderActionButton } from '@game-client/ui/components/header-action-button';
-import { Notifications, showNotification } from '@game-client/ui/components/notifications';
+import { PanelActionButton } from '@game-client/ui/components/actions/panel-action-button';
+import { Notifications, showNotification } from '@game-client/ui/components/feedback/notifications';
 import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
@@ -239,7 +239,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               titleId={inputTitleId}
               trailing={
                 <>
-                  <HeaderActionButton
+                  <PanelActionButton
                     tooltipLabel={clearTextLabel}
                     side="bottom"
                     onClick={clearInput}
@@ -250,8 +250,8 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     ) : (
                       <RiDeleteBin6Fill className="size-5" />
                     )}
-                  </HeaderActionButton>
-                  <HeaderActionButton
+                  </PanelActionButton>
+                  <PanelActionButton
                     tooltipLabel={switchDirectionLabel}
                     side="bottom"
                     onClick={toggleDirection}
@@ -259,7 +259,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     aria-controls="translit-input translit-output"
                   >
                     <HiOutlineSwitchHorizontal className="size-5" />
-                  </HeaderActionButton>
+                  </PanelActionButton>
                 </>
               }
               variant="default"
@@ -285,7 +285,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               title={transliterationToLabel}
               titleId={outputLabelId}
               trailing={
-                <HeaderActionButton
+                <PanelActionButton
                   tooltipLabel={copyTransliterationLabel}
                   side="top"
                   onClick={copyOutput}
@@ -296,7 +296,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   ) : (
                     <FaRegCopy className="size-5" />
                   )}
-                </HeaderActionButton>
+                </PanelActionButton>
               }
               variant="default"
             />
