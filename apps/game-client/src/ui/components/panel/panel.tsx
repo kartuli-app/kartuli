@@ -18,7 +18,6 @@ export function Panel({ children, className }: Readonly<PanelProps>) {
         'rounded-p-radius-2',
         'bg-s-color-panel-bg',
         'shadow-md',
-        // 'border border-red-500',
         className,
       )}
     >

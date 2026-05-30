@@ -1,7 +1,6 @@
 'use client';
 
 import { ShellActionButton } from '@game-client/ui/components/actions/shell-action';
-import { cn } from '@kartuli/ui/utils/cn';
 import type { ComponentType, SVGProps } from 'react';
 
 export function StudyCtaButton({
@@ -21,7 +20,7 @@ export function StudyCtaButton({
     <ShellActionButton
       aria-label={label}
       onClick={onClick}
-      className={cn(className)}
+      className={className}
       size="cta"
       variant="primary"
     >

@@ -11,7 +11,6 @@ export function StudySummaryGrid({ children }: Readonly<StudySummaryGridProps>) 
   return (
     <div
       className={cn(
-        //
         'p-p-spacing-2',
         'grid',
         'grid-cols-2',
