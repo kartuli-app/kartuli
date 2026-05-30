@@ -112,6 +112,7 @@ export function ShellActionButton({
       className={cn(
         getShellActionClassName({ className, size, variant }),
         'disabled:cursor-not-allowed disabled:opacity-20',
+        'shadow-md',
       )}
       {...buttonProps}
     >

@@ -3,6 +3,7 @@ import { getLibraryServer } from '@game-client/learning-content/library/get-libr
 import type { Lesson, LetterItem, Library } from '@game-client/learning-content/library/library';
 import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
+import { PanelLinkHoverFrame } from '@game-client/ui/components/panel/panel-link-hover-frame';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import { ModuleCardsLayout } from '@game-client/ui/experiences/explore/components/module-cards-layout';
 import { cn } from '@kartuli/ui/utils/cn';
@@ -40,12 +41,16 @@ function getDataFromLibrary(library: Library) {
 }
 
 const linkCardClassName = cn(
-  'flex grow cursor-pointer active:scale-95',
+  'group flex grow cursor-pointer active:scale-95',
+  'outline-none',
   'focus-visible:ring-(length:--s-width-focus-ring)',
   'focus-visible:ring-s-color-panel-border-hover',
-  'outline-none',
-  'rounded-p-radius-1',
+  'rounded-p-radius-2',
 );
+
+const linkPanelClassName = cn('relative border-0');
+
+const linkPanelHeaderClassName = 'rounded-t-[inherit]';
 
 export async function AlphabetExploreContent({ locale }: Readonly<{ locale: SupportedLocale }>) {
   const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
@@ -62,9 +67,15 @@ export async function AlphabetExploreContent({ locale }: Readonly<{ locale: Supp
             linkCardClassName,
           )}
         >
-          <Panel className="hover:border-s-color-panel-border-hover">
-            <PanelHeader context={alphabetMessages.title} title={lesson.name} variant="default" />
-            <PanelSection className="flex gap-4">
+          <Panel className={linkPanelClassName}>
+            <PanelLinkHoverFrame />
+            <PanelHeader
+              className={linkPanelHeaderClassName}
+              context={alphabetMessages.title}
+              title={lesson.name}
+              variant="default"
+            />
+            <PanelSection>
               <LettersPreviewGrid items={lesson.items} size="grid-item" />
             </PanelSection>
           </Panel>
@@ -79,14 +90,16 @@ export async function AlphabetExploreContent({ locale }: Readonly<{ locale: Supp
               linkCardClassName,
             )}
           >
-            <Panel className="hover:border-s-color-panel-border-hover">
+            <Panel className={linkPanelClassName}>
+              <PanelLinkHoverFrame />
               <PanelHeader
+                className={linkPanelHeaderClassName}
                 context={alphabetMessages.title}
                 title={alphabetMessages.full_review}
                 variant="inverted"
                 leading={<PiStudent className="size-11" aria-hidden="true" />}
               />
-              <PanelSection className="flex gap-4">
+              <PanelSection>
                 <LettersPreviewGrid items={allItemsDeduplicated} size="full" />
               </PanelSection>
             </Panel>

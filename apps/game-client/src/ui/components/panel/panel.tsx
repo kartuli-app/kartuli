@@ -15,11 +15,10 @@ export function Panel({ children, className }: Readonly<PanelProps>) {
         'flex',
         'flex-col',
         'overflow-hidden',
-        'rounded-p-radius-1',
-        'border-(length:--s-width-panel-border)',
-        'border-s-color-panel-border',
+        'rounded-p-radius-2',
         'bg-s-color-panel-bg',
-        'shadow-sm',
+        'shadow-md',
+        // 'border border-red-500',
         className,
       )}
     >

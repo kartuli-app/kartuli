@@ -5,13 +5,17 @@ import { Panel } from '@game-client/ui/components/panel/panel';
 import { LetterStudyDetailSlide } from '@game-client/ui/experiences/study/components/detail/letter-study-detail-slide';
 import type { StudyNavigationModel } from '@game-client/ui/experiences/study/components/study-screen.types';
 import { getStudySwipeNavigationDirection } from '@game-client/ui/experiences/study/components/study-screen-swipe';
+import { useStudySummarySlidePointerSwipe } from '@game-client/ui/experiences/study/components/study-slide-pointer-swipe';
 import { LetterStudySummarySlide } from '@game-client/ui/experiences/study/components/summary/letter-study-summary-slide';
+import { cn } from '@kartuli/ui/utils/cn';
 import { animate, motion, type PanInfo, useMotionValue } from 'motion/react';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 const STUDY_SLIDE_ANIMATION_BASE_DURATION_SECONDS = 0.1;
 const STUDY_SLIDE_ANIMATION_EXTRA_DURATION_SECONDS = 0.02;
 const STUDY_SLIDE_ANIMATION_MAX_DURATION_SECONDS = 0.2;
+/** Matches `gap-p-spacing-6` / `--p-spacing-6` on the slides track. */
+const STUDY_SLIDES_GAP_PX = 64;
 
 type StudySlide =
   | {
@@ -60,6 +64,7 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
   const previousSlideWidthRef = useRef(0);
   const trackAnimationRef = useRef<{ stop: () => void } | null>(null);
   const pendingFocusSlideIndexRef = useRef<number | null>(null);
+  const slideStride = slideWidth > 0 ? slideWidth + STUDY_SLIDES_GAP_PX : 0;
 
   const stopTrackAnimation = () => {
     trackAnimationRef.current?.stop();
@@ -74,10 +79,10 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
   };
 
   const animateTrackToSlide = (fromSlideIndex: number, toSlideIndex: number) => {
-    if (slideWidth <= 0) return;
+    if (slideStride <= 0) return;
 
     stopTrackAnimation();
-    trackAnimationRef.current = animate(trackX, -toSlideIndex * slideWidth, {
+    trackAnimationRef.current = animate(trackX, -toSlideIndex * slideStride, {
       duration: getStudySlideAnimationDuration(fromSlideIndex, toSlideIndex),
       ease: 'easeOut',
       onComplete: () => {
@@ -95,7 +100,7 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
     if (initialSlideWidth <= 0) return;
 
     setSlideWidth(initialSlideWidth);
-    trackX.set(-nav.currentSlideIndex * initialSlideWidth);
+    trackX.set(-nav.currentSlideIndex * (initialSlideWidth + STUDY_SLIDES_GAP_PX));
     previousSlideWidthRef.current = initialSlideWidth;
     previousSlideIndexRef.current = nav.currentSlideIndex;
     hasInitializedTrackRef.current = true;
@@ -124,7 +129,7 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
   useLayoutEffect(() => {
     if (slideWidth <= 0 || !hasInitializedTrackRef.current) return;
 
-    const targetX = -nav.currentSlideIndex * slideWidth;
+    const targetX = -nav.currentSlideIndex * slideStride;
     const widthChanged = previousSlideWidthRef.current !== slideWidth;
     const slideChanged = previousSlideIndexRef.current !== nav.currentSlideIndex;
 
@@ -142,7 +147,7 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
     previousSlideWidthRef.current = slideWidth;
     previousSlideIndexRef.current = nav.currentSlideIndex;
     animateTrackToSlide(fromSlideIndex, nav.currentSlideIndex);
-  }, [nav.currentSlideIndex, slideWidth, trackX]);
+  }, [nav.currentSlideIndex, slideStride, slideWidth, trackX]);
 
   useEffect(() => {
     return () => {
@@ -150,12 +155,12 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
     };
   }, []);
 
-  const handleTrackDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleSwipeEnd = (offsetX: number, velocityX: number) => {
     if (slideWidth <= 0) return;
 
     const swipeDirection = getStudySwipeNavigationDirection({
-      offsetX: info.offset.x,
-      velocityX: info.velocity.x,
+      offsetX,
+      velocityX,
       slideWidth,
     });
 
@@ -172,26 +177,42 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
     animateTrackToSlide(nav.currentSlideIndex, nav.currentSlideIndex);
   };
 
+  const handleTrackDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    handleSwipeEnd(info.offset.x, info.velocity.x);
+  };
+
+  const summarySlidePointerSwipe = useStudySummarySlidePointerSwipe({
+    enabled: nav.currentSlideIndex === 0 && slideStride > 0,
+    currentSlideIndex: nav.currentSlideIndex,
+    slideStride,
+    lastSlideIndex: nav.lastSlideIndex,
+    trackX,
+    stopTrackAnimation,
+    onSwipeEnd: ({ offsetX, velocityX }) => handleSwipeEnd(offsetX, velocityX),
+  });
+
   const handleSummaryItemSelect = (itemIndex: number) => {
     pendingFocusSlideIndexRef.current = itemIndex + 1;
     nav.handleSelectItem(itemIndex);
   };
 
-  const trackWidth = slideWidth > 0 ? slideWidth * slides.length : `${slides.length * 100}%`;
+  const gapWidth = STUDY_SLIDES_GAP_PX * (slides.length - 1);
+
+  const trackWidth =
+    slideWidth > 0 ? slideWidth * slides.length + gapWidth : `${slides.length * 100}%`;
   const individualSlideWidth = slideWidth > 0 ? slideWidth : `${100 / slides.length}%`;
 
   return (
     <div
       ref={viewportRef}
-      className="relative flex flex-1 min-h-0 min-w-0 w-full overflow-hidden touch-pan-y"
+      className={cn('relative flex flex-1 min-h-0 min-w-0 w-full overflow-hidden')}
     >
-      <Panel className="h-full min-h-0 w-full p-2 overflow-hidden">
+      <div className="h-full min-h-0 w-full overflow-hidden">
         <motion.div
-          className="absolute inset-y-0 left-0 flex min-h-0 will-change-transform overflow-hidden"
+          className="absolute inset-y-0 left-0 flex min-h-0 overflow-hidden will-change-transform gap-p-spacing-6"
           style={{ x: trackX, width: trackWidth }}
           drag="x"
-          dragConstraints={{ left: -(nav.lastSlideIndex * slideWidth), right: 0 }}
-          dragDirectionLock
+          dragConstraints={{ left: -(nav.lastSlideIndex * slideStride), right: 0 }}
           dragElastic={0.08}
           dragMomentum={false}
           onDragStart={stopTrackAnimation}
@@ -210,26 +231,31 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
                 aria-label={
                   slide.kind === 'summary' ? 'Summary slide' : `Detail slide ${slide.itemIndex + 1}`
                 }
-                className="flex h-full min-h-0 min-w-0 shrink-0 overflow-hidden"
+                className="flex h-full min-h-0 min-w-0 shrink-0 p-1"
                 data-active={isActive ? 'true' : 'false'}
                 data-study-slide-index={slideIndex}
                 inert={!isActive}
                 style={{ width: individualSlideWidth }}
                 tabIndex={isActive ? -1 : undefined}
+                {...(slide.kind === 'summary' && isActive ? summarySlidePointerSwipe : {})}
               >
                 {slide.kind === 'summary' ? (
-                  <LetterStudySummarySlide
-                    items={nav.items}
-                    onSelectItem={handleSummaryItemSelect}
-                  />
+                  <Panel className="h-full min-h-0 w-full overflow-hidden">
+                    <LetterStudySummarySlide
+                      items={nav.items}
+                      onSelectItem={handleSummaryItemSelect}
+                    />
+                  </Panel>
                 ) : (
-                  <LetterStudyDetailSlide item={slide.item} />
+                  <Panel className="h-full min-h-0 w-full overflow-hidden">
+                    <LetterStudyDetailSlide item={slide.item} />
+                  </Panel>
                 )}
               </section>
             );
           })}
         </motion.div>
-      </Panel>
+      </div>
     </div>
   );
 }
