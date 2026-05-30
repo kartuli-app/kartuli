@@ -38,6 +38,7 @@ export function DockItem({
         active && 'bg-s-color-shell-action-selected-bg',
         active && 'text-s-color-shell-action-selected-content',
         active && 'focus-visible:ring-s-color-shell-action-selected-ring',
+        active && 'shadow-md',
         'rounded-p-radius-1',
         'outline-none',
         'uppercase',

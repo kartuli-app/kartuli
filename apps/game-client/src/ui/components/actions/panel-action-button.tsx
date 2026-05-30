@@ -27,6 +27,7 @@ const panelActionButtonClassName = cn(
   'size-11',
   'active:scale-95',
   'cursor-pointer',
+  'shadow-md',
 );
 
 export interface PanelActionButtonProps
