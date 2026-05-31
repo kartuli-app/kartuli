@@ -30,6 +30,7 @@ export function StudySummaryItemButton({
         'rounded-p-radius-3',
         'overflow-hidden',
         'h-30',
+        'active:scale-95',
         className,
       )}
     >

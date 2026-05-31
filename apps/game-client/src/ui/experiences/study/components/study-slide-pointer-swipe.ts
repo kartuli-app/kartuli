@@ -169,10 +169,21 @@ export function useStudySummarySlidePointerSwipe({
     resetGesture();
   };
 
+  const onPointerCancelCapture = (event: ReactPointerEvent<HTMLElement>) => {
+    const gesture = gestureRef.current;
+    if (!enabled || event.pointerId !== gesture.pointerId) return;
+
+    if (gesture.mode === 'horizontal') {
+      onSwipeEnd({ offsetX: 0, velocityX: 0 });
+    }
+
+    resetGesture();
+  };
+
   return {
     onPointerDownCapture,
     onPointerMoveCapture,
     onPointerUpCapture,
-    onPointerCancelCapture: onPointerUpCapture,
+    onPointerCancelCapture,
   };
 }

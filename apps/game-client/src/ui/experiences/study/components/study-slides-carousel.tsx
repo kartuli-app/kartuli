@@ -194,7 +194,9 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
   return (
     <div
       ref={viewportRef}
-      className={cn('relative flex flex-1 min-h-0 min-w-0 w-full overflow-hidden')}
+      className={cn(
+        'relative flex flex-1 min-h-0 min-w-0 w-full overflow-hidden rounded-p-radius-3',
+      )}
     >
       <div className="h-full min-h-0 w-full overflow-hidden">
         <motion.div

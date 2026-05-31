@@ -13,8 +13,6 @@ export function LetterStudySummaryItemPreview({
       <div
         className={cn(
           'flex h-full w-full max-w-full items-center justify-center @container',
-
-          'group-active:scale-95',
           'flex-col gap-p-spacing-1',
         )}
       >
