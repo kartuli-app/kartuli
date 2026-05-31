@@ -2,6 +2,7 @@
 
 import type { StudyNavigationState } from '@game-client/ui/experiences/study/components/study-screen.types';
 import { cn } from '@kartuli/ui/utils/cn';
+import { useTranslation } from 'react-i18next';
 
 export interface StudyStatusPillProps
   extends Pick<StudyNavigationState, 'currentItem' | 'totalItems'> {
@@ -13,6 +14,7 @@ export function StudyStatusPill({
   currentItem,
   totalItems,
 }: Readonly<StudyStatusPillProps>) {
+  const { t } = useTranslation('study');
   return (
     <div
       className={cn(
@@ -34,7 +36,7 @@ export function StudyStatusPill({
     >
       {currentItem === 'summary' ? (
         <div className="flex items-center justify-center gap-1 text-xs">
-          <span className="font-bold">{totalItems}</span> letters
+          <span className="font-bold">{totalItems}</span> {t('status.letters')}
         </div>
       ) : (
         <div className="flex items-center justify-center gap-1 text-base">

@@ -3,6 +3,7 @@
 import { StudyNavigationButton } from '@game-client/ui/experiences/study/components/study-navigation-button';
 import type { StudyNavigationModel } from '@game-client/ui/experiences/study/components/study-screen.types';
 import { StudyStatusPill } from '@game-client/ui/experiences/study/components/study-status-pill';
+import { useTranslation } from 'react-i18next';
 import { PiCaretLeft, PiCaretRight, PiHouseLight } from 'react-icons/pi';
 
 export function NavigationBar(props: Readonly<StudyNavigationModel>) {
@@ -16,13 +17,14 @@ export function NavigationBar(props: Readonly<StudyNavigationModel>) {
     handleNext,
     handleGoToSummary,
   } = props;
+  const { t } = useTranslation('study');
 
   return (
     <div className="hidden w-full grid-cols-[minmax(0,1fr)_auto_auto_minmax(0,1fr)] items-center gap-3 md:grid px-1">
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
           className="w-full min-w-0"
-          label="Previous"
+          label={t('nav.previous')}
           icon={PiCaretLeft}
           disabled={!canGoPrevious}
           onClick={handlePrevious}
@@ -30,7 +32,7 @@ export function NavigationBar(props: Readonly<StudyNavigationModel>) {
       </div>
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
-          label="Summary"
+          label={t('nav.summary')}
           icon={PiHouseLight}
           disabled={!canGoToSummary}
           onClick={handleGoToSummary}
@@ -43,7 +45,7 @@ export function NavigationBar(props: Readonly<StudyNavigationModel>) {
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
           className="w-full min-w-0"
-          label="Next"
+          label={t('nav.next')}
           icon={PiCaretRight}
           disabled={!canGoNext}
           onClick={handleNext}
@@ -65,14 +67,15 @@ export function MobileInfoBar(props: Readonly<StudyNavigationModel>) {
     handleNext,
     handleGoToSummary,
   } = props;
+  const { t } = useTranslation('study');
 
   return (
     <div className="grid w-full grid-cols-[minmax(0,1fr)_auto_auto_minmax(0,1fr)] items-center gap-2 md:hidden px-1">
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
           className="w-full"
-          label="Previous"
-          visualLabel="Prev"
+          label={t('nav.previous')}
+          visualLabel={t('nav.prev_short')}
           icon={PiCaretLeft}
           disabled={!canGoPrevious}
           onClick={handlePrevious}
@@ -80,7 +83,7 @@ export function MobileInfoBar(props: Readonly<StudyNavigationModel>) {
       </div>
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
-          label="Summary"
+          label={t('nav.summary')}
           icon={PiHouseLight}
           disabled={!canGoToSummary}
           onClick={handleGoToSummary}
@@ -93,8 +96,7 @@ export function MobileInfoBar(props: Readonly<StudyNavigationModel>) {
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
           className="w-full"
-          label="Next"
-          visualLabel="Next"
+          label={t('nav.next')}
           icon={PiCaretRight}
           disabled={!canGoNext}
           onClick={handleNext}

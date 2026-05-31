@@ -3,13 +3,18 @@
 import type { LetterItem } from '@game-client/learning-content/library/library';
 import { StudySummaryItemButton } from '@game-client/ui/experiences/study/components/summary/study-summary-item-button';
 import { cn } from '@kartuli/ui/utils/cn';
+import { useTranslation } from 'react-i18next';
 
 export function LetterStudySummaryItemPreview({
   item,
   onClick,
 }: Readonly<{ item: LetterItem; onClick: () => void }>) {
+  const { t } = useTranslation('study');
   return (
-    <StudySummaryItemButton label={`Open ${item.targetScript}`} onClick={onClick}>
+    <StudySummaryItemButton
+      label={t('summary.open_item', { letter: item.targetScript })}
+      onClick={onClick}
+    >
       <div
         className={cn(
           'flex h-full w-full max-w-full items-center justify-center @container',
