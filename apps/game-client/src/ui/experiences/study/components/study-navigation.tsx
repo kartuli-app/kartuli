@@ -97,7 +97,6 @@ export function MobileInfoBar(props: Readonly<StudyNavigationModel>) {
         <StudyNavigationButton
           className="w-full"
           label={t('nav.next')}
-          visualLabel={t('nav.next')}
           icon={PiCaretRight}
           disabled={!canGoNext}
           onClick={handleNext}
