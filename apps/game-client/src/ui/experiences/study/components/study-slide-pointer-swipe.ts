@@ -112,7 +112,9 @@ export function useStudySummarySlidePointerSwipe({
     gesture.velocityX = 0;
     gesture.mode = 'pending';
     gesture.captureTarget = event.currentTarget;
-    event.currentTarget.setPointerCapture(event.pointerId);
+    // Capture is deferred to the first horizontal move so that taps on child
+    // buttons still receive their click event (setPointerCapture re-targets
+    // pointerup — and therefore click — to the capturing element).
   };
 
   const onPointerMoveCapture = (event: ReactPointerEvent<HTMLElement>) => {
@@ -133,6 +135,8 @@ export function useStudySummarySlidePointerSwipe({
         resetGesture();
         return;
       }
+
+      gesture.captureTarget?.setPointerCapture(gesture.pointerId);
     }
 
     if (gesture.mode !== 'horizontal') return;
