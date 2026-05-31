@@ -56,26 +56,17 @@ function getStudySlideAnimationDuration(fromSlideIndex: number, toSlideIndex: nu
 export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationModel }>) {
   const slides = useMemo(() => getStudySlides(nav.items), [nav.items]);
   const viewportRef = useRef<HTMLDivElement | null>(null);
-  const slideRefs = useRef<Array<HTMLElement | null>>([]);
   const trackX = useMotionValue(0);
   const [slideWidth, setSlideWidth] = useState(0);
   const hasInitializedTrackRef = useRef(false);
   const previousSlideIndexRef = useRef(nav.currentSlideIndex);
   const previousSlideWidthRef = useRef(0);
   const trackAnimationRef = useRef<{ stop: () => void } | null>(null);
-  const pendingFocusSlideIndexRef = useRef<number | null>(null);
   const slideStride = slideWidth > 0 ? slideWidth + STUDY_SLIDES_GAP_PX : 0;
 
   const stopTrackAnimation = () => {
     trackAnimationRef.current?.stop();
     trackAnimationRef.current = null;
-  };
-
-  const focusSlideIfNeeded = (slideIndex: number) => {
-    if (pendingFocusSlideIndexRef.current !== slideIndex) return;
-
-    slideRefs.current[slideIndex]?.focus();
-    pendingFocusSlideIndexRef.current = null;
   };
 
   const animateTrackToSlide = (fromSlideIndex: number, toSlideIndex: number) => {
@@ -87,7 +78,6 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
       ease: 'easeOut',
       onComplete: () => {
         trackAnimationRef.current = null;
-        focusSlideIfNeeded(toSlideIndex);
       },
     });
   };
@@ -192,7 +182,6 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
   });
 
   const handleSummaryItemSelect = (itemIndex: number) => {
-    pendingFocusSlideIndexRef.current = itemIndex + 1;
     nav.handleSelectItem(itemIndex);
   };
 
@@ -224,9 +213,6 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
             return (
               <section
                 key={slide.key}
-                ref={(element) => {
-                  slideRefs.current[slideIndex] = element;
-                }}
                 aria-hidden={!isActive}
                 aria-label={
                   slide.kind === 'summary' ? 'Summary slide' : `Detail slide ${slide.itemIndex + 1}`
@@ -236,7 +222,6 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
                 data-study-slide-index={slideIndex}
                 inert={!isActive}
                 style={{ width: individualSlideWidth }}
-                tabIndex={isActive ? -1 : undefined}
                 {...(slide.kind === 'summary' && isActive ? summarySlidePointerSwipe : {})}
               >
                 {slide.kind === 'summary' ? (
