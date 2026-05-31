@@ -18,7 +18,7 @@ function TranslitInputStoryRender(args: ComponentProps<typeof TranslitInput>) {
   return (
     <Panel className="h-[20rem]">
       <PanelHeader context="Source" title="Georgian" variant="default" />
-      <PanelSection className={cn('h-full', 'px-4', 'py-4')}>
+      <PanelSection className={cn('h-full')}>
         <TranslitInput
           {...args}
           value={value}

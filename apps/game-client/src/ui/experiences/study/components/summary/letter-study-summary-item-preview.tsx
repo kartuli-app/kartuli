@@ -14,7 +14,7 @@ export function LetterStudySummaryItemPreview({
         className={cn(
           'flex h-full w-full max-w-full items-center justify-center @container',
 
-          'active:scale-95',
+          'group-active:scale-95',
           'flex-col gap-p-spacing-1',
         )}
       >

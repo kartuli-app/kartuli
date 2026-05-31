@@ -45,7 +45,7 @@ function TranslitPanelsPreview() {
               }
               variant="default"
             />
-            <PanelSection className={cn('h-full', 'px-4', 'py-4')}>
+            <PanelSection className={cn('h-full')}>
               <TranslitInput
                 ariaLabelledBy={`${inputContextId} ${inputTitleId}`}
                 className="text-2xl font-georgian"
