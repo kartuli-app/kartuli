@@ -7,6 +7,7 @@ import { PiStudent } from 'react-icons/pi';
 import { Surface } from '../surface/surface';
 import { Panel } from './panel';
 import { PanelHeader } from './panel-header';
+import { PanelLinkHoverFrame } from './panel-link-hover-frame';
 import { PanelSection } from './panel-section';
 
 type PanelHeaderLeadingMode = 'none' | 'icon';
@@ -114,7 +115,8 @@ function PanelStory({
   interactive,
 }: Readonly<PanelStoryProps>) {
   const panel = (
-    <Panel className={interactive ? 'hover:border-s-color-panel-border-hover' : undefined}>
+    <Panel className={interactive ? 'relative' : undefined}>
+      {interactive && <PanelLinkHoverFrame />}
       <PanelHeader
         context={context}
         title={title}

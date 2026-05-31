@@ -22,9 +22,15 @@ export function StudySummaryItemButton({
       aria-label={label}
       onClick={onClick}
       className={cn(
-        'group flex min-h-0 min-w-0 cursor-pointer items-center justify-center rounded-p-radius-1 outline-none',
+        'group flex min-h-0 min-w-0 cursor-pointer touch-pan-y items-center justify-center rounded-p-radius-1 outline-none',
         'focus-visible:ring-(length:--s-width-focus-ring)',
         'focus-visible:ring-s-color-panel-action-ghost-ring',
+        'hover:bg-s-color-panel-action-ghost-hover-bg',
+        'active:bg-s-color-panel-action-ghost-hover-bg',
+        'rounded-p-radius-3',
+        'overflow-hidden',
+        'h-30',
+        'active:scale-95',
         className,
       )}
     >

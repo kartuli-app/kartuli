@@ -52,7 +52,7 @@
   --p-spacing-3: 12px;
   --p-spacing-4: 16px;
   --p-spacing-5: 20px;
-  --p-spacing-6: 24px;
+  --p-spacing-6: 64px;
 
   /* Primitives: radius */
   --p-radius-none: 0px;
@@ -124,7 +124,8 @@
 
   /* panel */
   --s-color-panel-bg: var(--p-color-neutral-50);
-  --s-color-panel-border: transparent;
+  /* Match panel fill so rounded corners do not reveal the shell/detail surface behind the card */
+  --s-color-panel-border: var(--s-color-panel-bg);
   --s-color-panel-border-hover: var(--p-color-brand-600);
   --s-width-panel-border: 3px;
 
@@ -137,7 +138,7 @@
   /* panel header */
   --s-color-panel-header-bg: var(--p-color-neutral-50);
   --s-color-panel-header-content-primary: var(--p-color-brand-600);
-  --s-color-panel-header-content-secondary: var(--p-color-neutral-500);
+  --s-color-panel-header-content-secondary: var(--p-color-neutral-700);
   --s-color-panel-header-border: var(--p-color-brand-600);
 
   /* panel header inverted */
@@ -157,10 +158,12 @@
 
   /* panel action ghost */
   --s-color-panel-action-ghost-bg: transparent;
-  --s-color-panel-action-ghost-content: var(--p-color-neutral-500);
+  --s-color-panel-action-ghost-content-primary: var(--p-color-neutral-500);
+  --s-color-panel-action-ghost-content-secondary: var(--p-color-neutral-500);
   --s-color-panel-action-ghost-ring: var(--p-color-neutral-500);
   --s-color-panel-action-ghost-hover-bg: var(--p-color-neutral-500);
-  --s-color-panel-action-ghost-hover-content: var(--p-color-neutral-50);
+  --s-color-panel-action-ghost-hover-content-primary: var(--p-color-neutral-50);
+  --s-color-panel-action-ghost-hover-content-secondary: var(--p-color-neutral-200);
 
   /* panel control focus */
   --s-color-panel-control-ring: var(--p-color-neutral-500);
@@ -334,10 +337,20 @@
     --s-color-panel-content-transliteration-bracket
   );
   --color-s-color-panel-action-ghost-bg: var(--s-color-panel-action-ghost-bg);
-  --color-s-color-panel-action-ghost-content: var(--s-color-panel-action-ghost-content);
+  --color-s-color-panel-action-ghost-content-primary: var(
+    --s-color-panel-action-ghost-content-primary
+  );
+  --color-s-color-panel-action-ghost-content-secondary: var(
+    --s-color-panel-action-ghost-content-secondary
+  );
   --color-s-color-panel-action-ghost-ring: var(--s-color-panel-action-ghost-ring);
   --color-s-color-panel-action-ghost-hover-bg: var(--s-color-panel-action-ghost-hover-bg);
-  --color-s-color-panel-action-ghost-hover-content: var(--s-color-panel-action-ghost-hover-content);
+  --color-s-color-panel-action-ghost-hover-content-primary: var(
+    --s-color-panel-action-ghost-hover-content-primary
+  );
+  --color-s-color-panel-action-ghost-hover-content-secondary: var(
+    --s-color-panel-action-ghost-hover-content-secondary
+  );
 
   /* panel header */
   --color-s-color-panel-header-bg: var(--s-color-panel-header-bg);

@@ -12,21 +12,31 @@ export function LetterStudySummaryItemPreview({
     <StudySummaryItemButton label={`Open ${item.targetScript}`} onClick={onClick}>
       <div
         className={cn(
-          'flex h-full aspect-square max-w-full items-center justify-center @container',
-          'text-s-color-panel-action-ghost-content',
-          'group-hover:bg-s-color-panel-action-ghost-hover-bg',
-          'group-hover:text-s-color-panel-action-ghost-hover-content',
-          'group-active:bg-s-color-panel-action-ghost-hover-bg',
-          'group-active:text-s-color-panel-action-ghost-hover-content',
-          'active:scale-95',
+          'flex h-full w-full max-w-full items-center justify-center @container',
+          'flex-col gap-p-spacing-1',
         )}
       >
         <div
           className={cn(
             'font-georgian text-2xl @[50px]:text-4xl @[100px]:text-5xl @[150px]:text-6xl',
+            'text-s-color-panel-action-ghost-content-primary',
+            'group-hover:text-s-color-panel-action-ghost-hover-content-primary',
+            'group-active:text-s-color-panel-action-ghost-hover-content-primary',
           )}
         >
           {item.targetScript}
+        </div>
+        <div
+          className={cn(
+            'flex items-center justify-center gap-1 text-lg',
+            'text-s-color-panel-action-ghost-content-secondary',
+            'group-hover:text-s-color-panel-action-ghost-hover-content-secondary',
+            'group-active:text-s-color-panel-action-ghost-hover-content-secondary',
+          )}
+        >
+          <span className="text-s-color-panel-content-transliteration-bracket">[</span>
+          <span className="flex">{item.transliteration}</span>
+          <span className="text-s-color-panel-content-transliteration-bracket">]</span>
         </div>
       </div>
     </StudySummaryItemButton>

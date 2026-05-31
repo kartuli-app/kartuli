@@ -14,7 +14,7 @@ export function LetterStudyDetailContent({ item }: Readonly<LetterStudyDetailCon
         <span className="absolute top-6/10 left-0 z-10 h-[1cqw] w-full bg-s-color-panel-content-notebook-line"></span>
         <span className="relative z-50 mx-auto">{item.targetScript}</span>
       </div>
-      <div className="flex items-center justify-center gap-1 text-[10cqw] text-s-color-panel-content-secondary">
+      <div className="flex items-center justify-center gap-1 text-[10cqw] text-s-color-panel-content-primary">
         <span className="text-s-color-panel-content-transliteration-bracket">[</span>
         <span className="flex">{item.transliteration}</span>
         <span className="text-s-color-panel-content-transliteration-bracket">]</span>
