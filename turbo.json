@@ -41,27 +41,11 @@
     },
     "lint": {
       "cache": true,
-      "inputs": [
-        "**/*.ts",
-        "**/*.tsx",
-        "**/*.js",
-        "**/*.jsx",
-        "**/*.json",
-        "biome.json",
-        "pnpm-lock.yaml"
-      ]
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/biome.json", "$TURBO_ROOT$/biome.root.json"]
     },
     "lint:all": {
       "cache": true,
-      "inputs": [
-        "**/*.ts",
-        "**/*.tsx",
-        "**/*.js",
-        "**/*.jsx",
-        "**/*.json",
-        "biome.json",
-        "pnpm-lock.yaml"
-      ]
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/biome.json", "$TURBO_ROOT$/biome.root.json"]
     },
     "typecheck": {
       "dependsOn": ["^typecheck"],
