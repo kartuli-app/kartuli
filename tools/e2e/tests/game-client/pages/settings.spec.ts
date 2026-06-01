@@ -11,7 +11,7 @@ test.describe('Settings page', () => {
     await page.goto(`${defaultLocaleBase}/settings`);
     await expect(page.getByRole('heading', { name: settingsTitle })).toBeVisible();
     await expect(page.getByText(settings.app_settings)).toBeVisible();
-    await expect(page.getByText(settings.language_section)).toBeVisible();
+    await expect(page.getByText(settings.language_section).first()).toBeVisible();
   });
 
   test('renders language options as radio buttons with current locale selected', async ({
