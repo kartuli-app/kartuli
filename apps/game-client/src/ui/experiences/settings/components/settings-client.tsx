@@ -7,34 +7,21 @@ import {
   supportedLocales,
 } from '@game-client/i18n';
 import { useCurrentRouteLocale, useNavigation } from '@game-client/navigation';
+import { RadioButton } from '@game-client/ui/components/inputs/radio-button';
+import { Panel } from '@game-client/ui/components/panel/panel';
+import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
+import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
-
-function LanguageSwitchButton({
-  locale,
-  label,
-  onClick,
-}: Readonly<{
-  locale: SupportedLocale;
-  label: string;
-  onClick: (locale: SupportedLocale) => void;
-}>) {
-  return (
-    <button type="button" onClick={() => onClick(locale)} className="border p-2" aria-label={label}>
-      {label}
-    </button>
-  );
-}
 
 export function SettingsClient() {
   const { t } = useTranslation('settings');
   const { i18n } = useTranslation('common');
   const { localizedPathname, navigate } = useNavigation();
   const currentLocale = useCurrentRouteLocale();
-  const currentLanguageLabel = t(`languages.${currentLocale}`);
-  const switchableLocales = supportedLocales.filter((locale) => locale !== currentLocale);
 
   const handleLanguageSwitch = (locale: SupportedLocale) => {
+    if (locale === currentLocale) return;
     Cookies.set(PREFERRED_LOCALE_KEY, locale, { path: '/' });
     const newPath = getLocalizedPathnameForLocale(localizedPathname, locale);
     i18n.changeLanguage(locale).then(() => {
@@ -43,20 +30,25 @@ export function SettingsClient() {
   };
 
   return (
-    <main>
-      <h1>{t('language_section')}</h1>
-      <p>{t('current_language', { language: currentLanguageLabel })}</p>
-      <ul aria-label={t('language_section')}>
-        {switchableLocales.map((locale) => (
-          <li key={locale}>
-            <LanguageSwitchButton
-              locale={locale}
-              label={t(`languages.${locale}`)}
-              onClick={handleLanguageSwitch}
-            />
-          </li>
-        ))}
-      </ul>
+    <main className="flex flex-col h-full">
+      <Panel>
+        <PanelHeader context={t('app_settings')} title={t('language_section')} variant="default" />
+        <PanelSection>
+          <fieldset className="border-none p-0">
+            <legend className="sr-only">{t('language_section')}</legend>
+            {supportedLocales.map((locale) => (
+              <RadioButton
+                key={locale}
+                name="language"
+                value={locale}
+                label={t(`languages.${locale}`)}
+                checked={locale === currentLocale}
+                onChange={() => handleLanguageSwitch(locale)}
+              />
+            ))}
+          </fieldset>
+        </PanelSection>
+      </Panel>
     </main>
   );
 }
