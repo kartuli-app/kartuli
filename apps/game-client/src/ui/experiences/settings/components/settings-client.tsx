@@ -12,6 +12,7 @@ import { Panel } from '@game-client/ui/components/panel/panel';
 import { PanelHeader } from '@game-client/ui/components/panel/panel-header';
 import { PanelSection } from '@game-client/ui/components/panel/panel-section';
 import Cookies from 'js-cookie';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export function SettingsClient() {
@@ -19,14 +20,21 @@ export function SettingsClient() {
   const { i18n } = useTranslation('common');
   const { localizedPathname, navigate } = useNavigation();
   const currentLocale = useCurrentRouteLocale();
+  const [isSwitching, setIsSwitching] = useState(false);
 
   const handleLanguageSwitch = (locale: SupportedLocale) => {
-    if (locale === currentLocale) return;
-    Cookies.set(PREFERRED_LOCALE_KEY, locale, { path: '/' });
+    if (locale === currentLocale || isSwitching) return;
+    setIsSwitching(true);
     const newPath = getLocalizedPathnameForLocale(localizedPathname, locale);
-    i18n.changeLanguage(locale).then(() => {
-      navigate(newPath);
-    });
+    i18n
+      .changeLanguage(locale)
+      .then(() => {
+        Cookies.set(PREFERRED_LOCALE_KEY, locale, { path: '/' });
+        navigate(newPath);
+      })
+      .catch(() => {
+        setIsSwitching(false);
+      });
   };
 
   return (
@@ -43,6 +51,7 @@ export function SettingsClient() {
                 value={locale}
                 label={t(`languages.${locale}`)}
                 checked={locale === currentLocale}
+                disabled={isSwitching}
                 onChange={() => handleLanguageSwitch(locale)}
               />
             ))}
