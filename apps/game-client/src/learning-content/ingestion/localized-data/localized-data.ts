@@ -1,3 +1,5 @@
+import type { LocalizedLetterNote } from '@game-client/learning-content/letter-notes';
+
 export interface LocalizedModule {
   id: string;
   title: string;
@@ -12,7 +14,7 @@ export interface LocalizedLesson {
 
 export interface LocalizedLetterItem {
   id: string;
-  pronunciationHint: string;
+  notes?: LocalizedLetterNote[];
   source: string;
   type: 'letter';
 }

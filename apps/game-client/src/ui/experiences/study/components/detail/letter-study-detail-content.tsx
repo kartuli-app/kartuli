@@ -1,6 +1,7 @@
 'use client';
 
 import type { LetterItem } from '@game-client/learning-content/library/library';
+import { LetterStudyNotes } from '@game-client/ui/experiences/study/components/detail/letter-study-notes';
 
 interface LetterStudyDetailContentProps {
   item: LetterItem;
@@ -19,9 +20,7 @@ export function LetterStudyDetailContent({ item }: Readonly<LetterStudyDetailCon
         <span className="flex">{item.transliteration}</span>
         <span className="text-s-color-panel-content-transliteration-bracket">]</span>
       </div>
-      <div className="max-w-[90%] text-center text-xl text-s-color-panel-content-secondary">
-        {item.pronunciationHint}
-      </div>
+      <LetterStudyNotes notes={item.notes} />
     </>
   );
 }

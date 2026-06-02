@@ -10,9 +10,15 @@ const localizedLessonJsonSchema = z.object({
   title: z.string(),
 });
 
+const pronunciationHintNoteJsonSchema = z.object({
+  kind: z.literal('pronunciation_hint'),
+  highlight: z.string().trim().min(1),
+  examples: z.array(z.string().trim().min(1)).min(1),
+});
+
 const localizedLetterItemJsonSchema = z.object({
   id: z.string(),
-  pronunciationHint: z.string(),
+  notes: z.array(pronunciationHintNoteJsonSchema).optional(),
 });
 
 const localizedWordItemJsonSchema = z.object({

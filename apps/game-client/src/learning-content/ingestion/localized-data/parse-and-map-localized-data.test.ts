@@ -4,7 +4,18 @@ import { parseAndMapLocalizedData } from './parse-and-map-localized-data';
 const validFakeLocalizedJson = {
   localizedModules: [{ id: 'm1', title: 'Module One' }],
   localizedLessons: [{ id: 'l1', title: 'Lesson One' }],
-  localizedLetterItems: [{ id: 'letter-a', pronunciationHint: 'like a in father' }],
+  localizedLetterItems: [
+    {
+      id: 'letter-a',
+      notes: [
+        {
+          kind: 'pronunciation_hint',
+          highlight: 'a',
+          examples: ['father', 'spa'],
+        },
+      ],
+    },
+  ],
   localizedWordItems: [{ id: 'word-x', translation: 'Georgian' }],
 };
 
@@ -27,7 +38,13 @@ describe('parseAndMapLocalizedtData', () => {
 
     expect(result.localizedLetterItems[0]).toEqual({
       id: 'letter-a',
-      pronunciationHint: 'like a in father',
+      notes: [
+        {
+          kind: 'pronunciation_hint',
+          highlight: 'a',
+          examples: ['father', 'spa'],
+        },
+      ],
       source: 'my-source',
       type: 'letter',
     });
@@ -42,10 +59,65 @@ describe('parseAndMapLocalizedtData', () => {
   it('throws when JSON is invalid (missing required field)', () => {
     const invalid = {
       ...validFakeLocalizedJson,
-      localizedLetterItems: [{ id: 'x' }], // missing pronunciationHint
+      localizedWordItems: [{ id: 'word-x' }], // missing translation
     };
 
     expect(() => parseAndMapLocalizedData(invalid, 'src')).toThrow();
+  });
+
+  it('allows letter items without notes', () => {
+    const result = parseAndMapLocalizedData(
+      {
+        ...validFakeLocalizedJson,
+        localizedLetterItems: [{ id: 'letter-a' }],
+      },
+      'src',
+    );
+
+    expect(result.localizedLetterItems[0]).toEqual({
+      id: 'letter-a',
+      source: 'src',
+      type: 'letter',
+    });
+  });
+
+  it('throws when a letter note kind is unknown', () => {
+    const invalid = {
+      ...validFakeLocalizedJson,
+      localizedLetterItems: [
+        {
+          id: 'letter-a',
+          notes: [{ kind: 'other_kind', highlight: 'a', examples: ['father'] }],
+        },
+      ],
+    };
+
+    expect(() => parseAndMapLocalizedData(invalid, 'src')).toThrow();
+  });
+
+  it('throws when a letter note is missing a non-empty highlight or examples', () => {
+    const invalidMissingHighlight = {
+      ...validFakeLocalizedJson,
+      localizedLetterItems: [
+        {
+          id: 'letter-a',
+          notes: [{ kind: 'pronunciation_hint', highlight: '', examples: ['father'] }],
+        },
+      ],
+    };
+
+    const invalidEmptyExample = {
+      ...validFakeLocalizedJson,
+      localizedLetterItems: [
+        {
+          id: 'letter-a',
+          notes: [{ kind: 'pronunciation_hint', highlight: 'a', examples: [''] }],
+        },
+      ],
+    };
+
+    expect(() => parseAndMapLocalizedData(invalidMissingHighlight, 'src')).toThrow();
+    expect(() => parseAndMapLocalizedData(invalidEmptyExample, 'src')).toThrow();
   });
 
   it('throws when JSON is invalid (wrong type)', () => {

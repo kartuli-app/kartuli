@@ -13,4 +13,13 @@ export default {
     tap_hint: 'TAP ANY ITEM FOR DETAILS',
     open_item: 'Open {{letter}}',
   },
+  notes: {
+    kinds: {
+      pronunciation_hint: 'Pronunciation hint',
+    },
+    pronunciation_hint: {
+      like: 'Like',
+      in: 'in',
+    },
+  },
 } as const;

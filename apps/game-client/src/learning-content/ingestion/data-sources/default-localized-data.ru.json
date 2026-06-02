@@ -38,135 +38,333 @@
   "localizedLetterItems": [
     {
       "id": "letter-ani",
-      "pronunciationHint": "(ru) like 'a' in 'father'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "а",
+          "examples": ["мама", "лапа", "трава"]
+        }
+      ]
     },
     {
       "id": "letter-bani",
-      "pronunciationHint": "(ru) like 'b' in 'bed'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "б",
+          "examples": ["банк", "рыба", "облако"]
+        }
+      ]
     },
     {
       "id": "letter-gani",
-      "pronunciationHint": "(ru) like 'g' in 'go'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "г",
+          "examples": ["гора", "берег", "огонь"]
+        }
+      ]
     },
     {
       "id": "letter-doni",
-      "pronunciationHint": "(ru) like 'd' in 'dog'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "д",
+          "examples": ["дом", "вода", "след"]
+        }
+      ]
     },
     {
       "id": "letter-eni",
-      "pronunciationHint": "(ru) like 'e' in 'bed'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "э",
+          "examples": ["это", "мэр", "поэт"]
+        }
+      ]
     },
     {
       "id": "letter-vini",
-      "pronunciationHint": "(ru) like 'v' in 'voice'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "в",
+          "examples": ["ваза", "трава", "сова"]
+        }
+      ]
     },
     {
       "id": "letter-zeni",
-      "pronunciationHint": "(ru) like 'z' in 'zoo'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "з",
+          "examples": ["зал", "ваза", "коза"]
+        }
+      ]
     },
     {
       "id": "letter-tani",
-      "pronunciationHint": "(ru) like 't' in 'top' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "т",
+          "examples": ["том", "метро", "старт"]
+        }
+      ]
     },
     {
       "id": "letter-ini",
-      "pronunciationHint": "(ru) like 'ee' in 'see'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "и",
+          "examples": ["мир", "сила", "кино"]
+        }
+      ]
     },
     {
       "id": "letter-kani",
-      "pronunciationHint": "(ru) like 'k' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "к",
+          "examples": ["скала", "скоро", "скрип"]
+        }
+      ]
     },
     {
       "id": "letter-lasi",
-      "pronunciationHint": "(ru) like 'l' in 'love'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "л",
+          "examples": ["луна", "мыло", "стол"]
+        }
+      ]
     },
     {
       "id": "letter-mani",
-      "pronunciationHint": "(ru) like 'm' in 'mom'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "м",
+          "examples": ["мама", "дом", "зима"]
+        }
+      ]
     },
     {
       "id": "letter-nari",
-      "pronunciationHint": "(ru) like 'n' in 'no'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "н",
+          "examples": ["нос", "луна", "сон"]
+        }
+      ]
     },
     {
       "id": "letter-oni",
-      "pronunciationHint": "(ru) like 'o' in 'or'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "о",
+          "examples": ["дом", "окно", "сон"]
+        }
+      ]
     },
     {
       "id": "letter-pari",
-      "pronunciationHint": "(ru) like 'p' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "п",
+          "examples": ["спорт", "спать", "спор"]
+        }
+      ]
     },
     {
       "id": "letter-zhani",
-      "pronunciationHint": "(ru) like 's' in 'pleasure'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ж",
+          "examples": ["жук", "ножи", "лужа"]
+        }
+      ]
     },
     {
       "id": "letter-rae",
-      "pronunciationHint": "(ru) rolled 'r' (like in Spanish)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "р",
+          "examples": ["река", "гора", "двор"]
+        }
+      ]
     },
     {
       "id": "letter-sani",
-      "pronunciationHint": "(ru) like 's' in 'sun'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "с",
+          "examples": ["сок", "лиса", "нос"]
+        }
+      ]
     },
     {
       "id": "letter-tari",
-      "pronunciationHint": "(ru) like 't' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "т",
+          "examples": ["стол", "место", "старт"]
+        }
+      ]
     },
     {
       "id": "letter-uni",
-      "pronunciationHint": "(ru) like 'u' in 'put'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "у",
+          "examples": ["лук", "суп", "утро"]
+        }
+      ]
     },
     {
       "id": "letter-pari-aspirated",
-      "pronunciationHint": "(ru) like 'p' in 'pot' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "п",
+          "examples": ["папа", "поле", "тропа"]
+        }
+      ]
     },
     {
       "id": "letter-kani-aspirated",
-      "pronunciationHint": "(ru) like 'k' in 'kit' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "к",
+          "examples": ["кот", "кино", "рука"]
+        }
+      ]
     },
     {
       "id": "letter-ghani",
-      "pronunciationHint": "(ru) gargly 'gh' sound (like French 'r')"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "г",
+          "examples": ["гора", "берег", "огонь"]
+        }
+      ]
     },
     {
       "id": "letter-qari",
-      "pronunciationHint": "(ru) deep 'k' sound with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "к",
+          "examples": ["кот", "рука", "окно"]
+        }
+      ]
     },
     {
       "id": "letter-shini",
-      "pronunciationHint": "(ru) like 'sh' in 'ship'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ш",
+          "examples": ["шар", "кошка", "душ"]
+        }
+      ]
     },
     {
       "id": "letter-chini",
-      "pronunciationHint": "(ru) like 'ch' in 'church' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ч",
+          "examples": ["час", "мечта", "ночь"]
+        }
+      ]
     },
     {
       "id": "letter-tsani",
-      "pronunciationHint": "(ru) like 'ts' in 'cats' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ц",
+          "examples": ["цвет", "отец", "улица"]
+        }
+      ]
     },
     {
       "id": "letter-dzili",
-      "pronunciationHint": "(ru) like 'ds' in 'beds'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "дз",
+          "examples": ["дзюдо", "дзынь", "дзот"]
+        }
+      ]
     },
     {
       "id": "letter-tsili",
-      "pronunciationHint": "(ru) like 'ts' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ц",
+          "examples": ["кольцо", "лицо", "овца"]
+        }
+      ]
     },
     {
       "id": "letter-chari",
-      "pronunciationHint": "(ru) like 'ch' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ч",
+          "examples": ["чай", "печь", "мяч"]
+        }
+      ]
     },
     {
       "id": "letter-khani",
-      "pronunciationHint": "(ru) like 'ch' in Scottish 'loch'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "х",
+          "examples": ["хлеб", "тихо", "ухо"]
+        }
+      ]
     },
     {
       "id": "letter-jani",
-      "pronunciationHint": "(ru) like 'j' in 'jump' or 'dg' in 'hedge'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "дж",
+          "examples": ["джаз", "джем", "джин"]
+        }
+      ]
     },
     {
       "id": "letter-hae",
-      "pronunciationHint": "(ru) like 'h' in 'hello'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "х",
+          "examples": ["хобби", "хит", "халат"]
+        }
+      ]
     }
   ],
   "localizedWordItems": []

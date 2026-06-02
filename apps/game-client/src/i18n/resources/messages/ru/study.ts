@@ -13,4 +13,13 @@ export default {
     tap_hint: 'НАЖМИТЕ НА ЛЮБОЙ ЭЛЕМЕНТ',
     open_item: 'Открыть {{letter}}',
   },
+  notes: {
+    kinds: {
+      pronunciation_hint: 'Подсказка по произношению',
+    },
+    pronunciation_hint: {
+      like: 'Как',
+      in: 'в',
+    },
+  },
 } as const;
