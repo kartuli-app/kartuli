@@ -5,19 +5,25 @@ import { defaultLocaleBase } from '../../helpers/locale-url';
 
 const settingsTitle = enResources.common.dock.settings;
 const settings = enResources.settings;
-const current_language = settings.current_language.replace('{{language}}', settings.languages.en);
 
 test.describe('Settings page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`${defaultLocaleBase}/settings`);
     await expect(page.getByRole('heading', { name: settingsTitle })).toBeVisible();
-    await expect(page.getByRole('heading', { name: settings.language_section })).toBeVisible();
+    await expect(page.getByText(settings.app_settings)).toBeVisible();
+    await expect(page.getByText(settings.language_section).first()).toBeVisible();
   });
 
-  test('renders current language and the alternate language action', async ({ page }) => {
-    await expect(page.getByText(current_language)).toBeVisible();
-    await expect(page.getByRole('button', { name: settings.languages.ru })).toBeVisible();
-    await expect(page.getByRole('button', { name: settings.languages.en })).toHaveCount(0);
+  test('renders language options as radio buttons with current locale selected', async ({
+    page,
+  }) => {
+    const enRadio = page.getByRole('radio', { name: settings.languages.en });
+    const ruRadio = page.getByRole('radio', { name: settings.languages.ru });
+
+    await expect(enRadio).toBeVisible();
+    await expect(enRadio).toBeChecked();
+    await expect(ruRadio).toBeVisible();
+    await expect(ruRadio).not.toBeChecked();
   });
 
   test('has no a11y violations on initial load', async ({ page }) => {
