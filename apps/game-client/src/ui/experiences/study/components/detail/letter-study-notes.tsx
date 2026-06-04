@@ -124,10 +124,10 @@ function StudyNoteBadge({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full px-p-spacing-4 py-p-spacing-1',
+        'inline-flex items-center rounded-p-radius-full px-p-spacing-4 py-p-spacing-1',
         'bg-s-color-shell-status-bg text-s-color-shell-status-content-primary',
         'font-bold uppercase',
-        'text-xs md:text-xl',
+        'text-sm md:text-xl',
       )}
     >
       {children}
@@ -149,7 +149,7 @@ function LetterStudyNoteCell({
       className={cn(
         //
         // 'border',
-        'flex flex-col items-center gap-p-spacing-1',
+        'flex flex-col items-center gap-p-spacing-2',
         className,
       )}
     >
@@ -178,7 +178,7 @@ function PronunciationHintNoteDetail({
         'w-full',
         'gap-p-spacing-2',
         'gap-y-p-spacing-1',
-        'text-sm md:text-xl',
+        'text-md md:text-xl',
         'text-s-color-panel-content-secondary',
       )}
     >
@@ -210,7 +210,7 @@ function ExampleNoteDetail({
         'px-p-spacing-1',
         'gap-p-spacing-2',
         'gap-y-p-spacing-1',
-        'text-sm md:text-xl',
+        'text-md md:text-xl',
         'text-s-color-panel-content-secondary',
         'uppercase',
       )}
@@ -241,8 +241,7 @@ function InfoNoteDetail({
         'justify-center',
         'w-full',
         'gap-p-spacing-2',
-        'gap-y-p-spacing-1',
-        'text-sm md:text-xl',
+        'text-md md:text-xl',
         'text-s-color-panel-content-secondary',
         // 'border',
         // isFallback && 'opacity-70',
@@ -270,11 +269,11 @@ export function LetterStudyNotes({
   // const notesToRender = infoNotes.length > 0 ? infoNotes : [undefined];
   const noteMock1: InfoNote = {
     kind: 'info',
-    text: 'გამარჯობა',
+    text: 'Its pronounced like this and that and those',
   };
   const noteMock2: InfoNote = {
     kind: 'info',
-    text: 'ნახვამდის',
+    text: 'You can also find this written as',
   };
   const notesToRender = [noteMock1, noteMock2];
 
@@ -282,11 +281,12 @@ export function LetterStudyNotes({
     <LetterStudyNoteCell
       className={cn(
         //
-        'min-h-0 w-full h-16 md:h-22 items-center justify-center',
+        'min-h-0 w-full h-16 md:h-22 items-start justify-start',
         // 'border',
+        'max-w-[500px] mx-auto',
       )}
     >
-      <div className="flex w-full flex-col gap-p-spacing-4">
+      <div className="flex w-full flex-col gap-p-spacing-2">
         {notesToRender.map((note, index) => (
           <InfoNoteDetail
             key={note ? `${note.kind}-${note.text}` : `fallback-note-${index}`}
@@ -310,7 +310,7 @@ export function LetterStudyExamples({
     <div
       className={cn(
         //
-        'grid min-h-0 w-full grid-cols-2 gap-p-spacing-1',
+        'grid min-h-0 w-full grid-cols-2 gap-p-spacing-2',
         // 'border',
       )}
     >

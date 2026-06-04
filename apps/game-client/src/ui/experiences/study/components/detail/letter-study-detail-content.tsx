@@ -28,10 +28,10 @@ function DetailBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full px-p-spacing-2 py-p-spacing-1',
+        'inline-flex items-center rounded-p-radius-1 px-p-spacing-4 py-p-spacing-2',
         'bg-s-color-shell-status-bg text-s-color-shell-status-content-primary',
-        'font-bold uppercase tracking-[0.08em]',
-        'text-xs md:text-sm',
+        'font-bold uppercase',
+        'text-md md:text-2xl',
         className,
       )}
     >
@@ -79,8 +79,7 @@ function DetailMetaBar() {
       )}
     >
       <div className={cn('flex min-w-0 flex-1 flex-wrap items-center gap-p-spacing-2')}>
-        <DetailBadge>{t('detail.badges.item_type_letter')}</DetailBadge>
-        <DetailBadge className="bg-s-color-panel-content-secondary/10 text-s-color-panel-content-secondary">
+        <DetailBadge className="bg-green-700 text-green-300">
           {t('detail.badges.status_new')}
         </DetailBadge>
       </div>
