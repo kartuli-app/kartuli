@@ -22,7 +22,7 @@ export default {
   notes: {
     badges: {
       like_in: 'like in',
-      examples: 'examples',
+      examples: 'example',
       audio: 'audio',
       notes: 'notes',
     },
