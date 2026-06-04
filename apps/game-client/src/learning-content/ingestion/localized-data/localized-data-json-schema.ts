@@ -16,9 +16,16 @@ const pronunciationHintNoteJsonSchema = z.object({
   examples: z.array(z.string().trim().min(1)).min(1),
 });
 
+const infoNoteJsonSchema = z.object({
+  kind: z.literal('info'),
+  text: z.string().trim().min(1),
+});
+
 const localizedLetterItemJsonSchema = z.object({
   id: z.string(),
-  notes: z.array(pronunciationHintNoteJsonSchema).optional(),
+  notes: z
+    .array(z.discriminatedUnion('kind', [pronunciationHintNoteJsonSchema, infoNoteJsonSchema]))
+    .optional(),
 });
 
 const localizedWordItemJsonSchema = z.object({

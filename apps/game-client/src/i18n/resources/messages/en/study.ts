@@ -14,12 +14,20 @@ export default {
     open_item: 'Open {{letter}}',
   },
   notes: {
-    kinds: {
-      pronunciation_hint: 'Pronunciation hint',
+    badges: {
+      like_in: 'like in',
+      examples: 'examples',
+      audio: 'audio',
+      notes: 'notes',
     },
-    pronunciation_hint: {
-      like: 'Like',
-      in: 'in',
+    default_text: 'More notes soon.',
+    audio: {
+      play_label: 'Play audio',
+      stop_label: 'Stop audio',
+    },
+    favorite: {
+      add_label: 'Add favorite',
+      remove_label: 'Remove favorite',
     },
   },
 } as const;

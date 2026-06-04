@@ -1,33 +1,54 @@
-import { render, screen } from '@testing-library/react';
+import type { LetterItem } from '@game-client/learning-content/library/library';
+import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { LetterStudyNotes } from './letter-study-notes';
+import { LetterStudyExamples, LetterStudyNotes } from './letter-study-notes';
+
+const item: Pick<LetterItem, 'id' | 'targetScript' | 'notes'> = {
+  id: 'letter-ani',
+  targetScript: 'ა',
+  notes: [
+    {
+      kind: 'pronunciation_hint',
+      highlight: 't',
+      examples: ['top', 'tattoo', 'metro'],
+    },
+  ],
+};
 
 describe('LetterStudyNotes', () => {
-  it('renders the pronunciation hint badge and detail sentence with bolded matches', () => {
+  it('renders the like-in and examples sections with highlighted content', () => {
     const { container } = render(
-      <LetterStudyNotes
-        notes={[
-          {
-            kind: 'pronunciation_hint',
-            highlight: 't',
-            examples: ['top', 'tattoo', 'metro'],
-          },
-        ]}
+      <LetterStudyExamples
+        item={{
+          ...item,
+          notes: [
+            ...item.notes,
+            {
+              kind: 'info',
+              text: 'A short pronunciation note.',
+            },
+          ],
+        }}
       />,
     );
 
-    expect(screen.getByText('Pronunciation hint')).not.toBeNull();
-    expect(container.textContent).toContain('Like t in top, tattoo, metro');
+    expect(screen.getByText('like in')).not.toBeNull();
+    expect(screen.getByText('examples')).not.toBeNull();
+    expect(container.textContent).toContain('toptattoometro');
+    expect(container.textContent).toContain('გამარჯობა');
+    expect(container.textContent).toContain('სასიამოვნოა');
 
     const strongContents = Array.from(container.querySelectorAll('strong')).map(
       (element) => element.textContent,
     );
-    expect(strongContents).toEqual(['t', 't', 't', 't', 't', 't']);
+    expect(strongContents.slice(0, 5)).toEqual(['t', 't', 't', 't', 't']);
+    expect(strongContents.slice(5).every((content) => content === 'ა')).toBe(true);
   });
 
-  it('hides the notes block when no notes exist', () => {
-    const { container } = render(<LetterStudyNotes notes={[]} />);
+  it('keeps the notes row visible with fallback copy when content has no info note', () => {
+    const { container } = render(<LetterStudyNotes item={{ ...item, notes: [] }} />);
 
-    expect(container.textContent).toBe('');
+    expect(within(container).getByText('notes')).not.toBeNull();
+    expect(container.textContent).toContain('More notes soon.');
   });
 });

@@ -14,12 +14,20 @@ export default {
     open_item: 'Открыть {{letter}}',
   },
   notes: {
-    kinds: {
-      pronunciation_hint: 'Подсказка по произношению',
+    badges: {
+      like_in: 'как в',
+      examples: 'примеры',
+      audio: 'аудио',
+      notes: 'заметки',
     },
-    pronunciation_hint: {
-      like: 'Как',
-      in: 'в',
+    default_text: 'Скоро здесь появятся заметки.',
+    audio: {
+      play_label: 'Воспроизвести аудио',
+      stop_label: 'Остановить аудио',
+    },
+    favorite: {
+      add_label: 'Добавить в избранное',
+      remove_label: 'Убрать из избранного',
     },
   },
 } as const;

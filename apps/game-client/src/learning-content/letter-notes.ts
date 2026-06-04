@@ -4,4 +4,9 @@ export interface PronunciationHintNote {
   examples: string[];
 }
 
-export type LocalizedLetterNote = PronunciationHintNote;
+export interface InfoNote {
+  kind: 'info';
+  text: string;
+}
+
+export type LocalizedLetterNote = InfoNote | PronunciationHintNote;

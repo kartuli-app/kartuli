@@ -42,7 +42,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "a",
-          "examples": ["father", "palm", "spa"]
+          "examples": ["Georgia", "family", "Russia", "occupant"]
         }
       ]
     },
@@ -52,7 +52,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "b",
-          "examples": ["bed", "bubble", "cabin"]
+          "examples": ["Batumi", "breakfast", "beach", "bed"]
         }
       ]
     },
@@ -62,7 +62,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "g",
-          "examples": ["go", "garden", "bag"]
+          "examples": ["big", "dogs", "good", "guys", "great", "games"]
         }
       ]
     },
@@ -72,7 +72,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "d",
-          "examples": ["dog", "ladder", "sand"]
+          "examples": ["day", "date", "dinner", "drink", "dance"]
         }
       ]
     },
@@ -82,7 +82,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "e",
-          "examples": ["bed", "ten", "met"]
+          "examples": ["Georgia", "forever", "independent"]
         }
       ]
     },
@@ -92,7 +92,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "v",
-          "examples": ["voice", "seven", "river"]
+          "examples": ["travel", "village", "visit", "massive", "river"]
         }
       ]
     },
@@ -102,7 +102,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "z",
-          "examples": ["zoo", "lazy", "zone"]
+          "examples": ["zoom", "zoo", "zero", "zebra", "lizard"]
         }
       ]
     },
@@ -112,7 +112,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "t",
-          "examples": ["top", "metal", "water"]
+          "examples": ["taxi", "tiny", "tomato", "top", "water"]
         }
       ]
     },
@@ -121,8 +121,8 @@
       "notes": [
         {
           "kind": "pronunciation_hint",
-          "highlight": "ee",
-          "examples": ["seed", "green", "see"]
+          "highlight": "i",
+          "examples": ["Georgia", "will", "resist", "indefinitely"]
         }
       ]
     },
@@ -132,7 +132,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "k",
-          "examples": ["skill", "skate", "skin"]
+          "examples": ["skill", "skate", "skin", "snake", "bike"]
         }
       ]
     },
@@ -142,7 +142,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "l",
-          "examples": ["love", "yellow", "bell"]
+          "examples": ["live", "learn", "laugh", "loud", "call", "love"]
         }
       ]
     },
@@ -152,7 +152,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "m",
-          "examples": ["mom", "summer", "team"]
+          "examples": ["family", "man", "market", "milk", "mom"]
         }
       ]
     },
@@ -162,7 +162,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "n",
-          "examples": ["no", "sunny", "ten"]
+          "examples": ["now", "want", "friends", "not", "enemies"]
         }
       ]
     },
@@ -172,7 +172,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "o",
-          "examples": ["or", "more", "story"]
+          "examples": ["Georgia", "freedom", "no", "oppression"]
         }
       ]
     },
@@ -182,7 +182,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "p",
-          "examples": ["spin", "speak", "spot"]
+          "examples": ["spin", "speak", "spot", "capital", "pin"]
         }
       ]
     },
@@ -202,7 +202,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "r",
-          "examples": ["red", "around", "story"]
+          "examples": ["run", "road", "rabbit", "red", "carrot"]
         }
       ]
     },
@@ -212,7 +212,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "s",
-          "examples": ["sun", "lesson", "bus"]
+          "examples": ["start", "sunset", "summer", "sand", "sea"]
         }
       ]
     },
@@ -222,7 +222,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "t",
-          "examples": ["stop", "stand", "steam"]
+          "examples": ["stop", "stand", "tattoo", "train", "truck"]
         }
       ]
     },
@@ -232,7 +232,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "u",
-          "examples": ["put", "full", "push"]
+          "examples": ["support", "Ukraine", "humanity", "united"]
         }
       ]
     },
@@ -242,7 +242,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "p",
-          "examples": ["pot", "paper", "happy"]
+          "examples": ["pool", "party", "plenty", "happy", "people"]
         }
       ]
     },
@@ -252,7 +252,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "k",
-          "examples": ["kit", "kite", "cookie"]
+          "examples": ["kitchen", "ketchup", "cookie", "cake"]
         }
       ]
     },
@@ -262,7 +262,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "gh",
-          "examples": ["afghan", "ghazal", "baghdad"]
+          "examples": ["Afghanistan", "ghost", "laughter", "ghetto"]
         }
       ]
     },
@@ -272,7 +272,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "q",
-          "examples": ["qatar", "quran", "iraq"]
+          "examples": ["queen", "quick", "quiz", "question"]
         }
       ]
     },
@@ -282,7 +282,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "sh",
-          "examples": ["ship", "brush", "shock"]
+          "examples": ["ship", "brush", "shock", "shop", "shoe"]
         }
       ]
     },
@@ -292,7 +292,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "ch",
-          "examples": ["chair", "chime", "match"]
+          "examples": ["chair", "match", "chocolate", "chess"]
         }
       ]
     },
@@ -362,7 +362,7 @@
         {
           "kind": "pronunciation_hint",
           "highlight": "h",
-          "examples": ["hello", "ahead", "hill"]
+          "examples": ["hello", "hard", "hill", "happy", "hero"]
         }
       ]
     }

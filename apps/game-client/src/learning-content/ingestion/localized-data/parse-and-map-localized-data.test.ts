@@ -13,6 +13,10 @@ const validFakeLocalizedJson = {
           highlight: 'a',
           examples: ['father', 'spa'],
         },
+        {
+          kind: 'info',
+          text: 'Short note',
+        },
       ],
     },
   ],
@@ -43,6 +47,10 @@ describe('parseAndMapLocalizedtData', () => {
           kind: 'pronunciation_hint',
           highlight: 'a',
           examples: ['father', 'spa'],
+        },
+        {
+          kind: 'info',
+          text: 'Short note',
         },
       ],
       source: 'my-source',
@@ -118,6 +126,20 @@ describe('parseAndMapLocalizedtData', () => {
 
     expect(() => parseAndMapLocalizedData(invalidMissingHighlight, 'src')).toThrow();
     expect(() => parseAndMapLocalizedData(invalidEmptyExample, 'src')).toThrow();
+  });
+
+  it('throws when an info note text is empty', () => {
+    const invalid = {
+      ...validFakeLocalizedJson,
+      localizedLetterItems: [
+        {
+          id: 'letter-a',
+          notes: [{ kind: 'info', text: '' }],
+        },
+      ],
+    };
+
+    expect(() => parseAndMapLocalizedData(invalid, 'src')).toThrow();
   });
 
   it('throws when JSON is invalid (wrong type)', () => {

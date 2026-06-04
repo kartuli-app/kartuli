@@ -30,7 +30,7 @@ Every item belongs to one content family.
 
 An alphabet item.
 
-A letter carries Georgian script, transliteration, and a pronunciation hint.
+A letter carries Georgian script, transliteration, and structured localized notes.
 
 ### Word
 
