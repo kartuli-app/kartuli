@@ -130,7 +130,7 @@ function DetailIdentityHero({
         // 'border',
       )}
     >
-      <div className="flex items-center justify-center w-full h-full @container-size relative">
+      <div className="flex items-center justify-center w-full h-full @container-size relative max-w-[60%] mx-auto">
         <span className="absolute top-6/20 left-0 z-10 h-[2cqh] w-full bg-s-color-panel-content-notebook-line"></span>
         <span className="absolute top-13/20 left-0 z-10 h-[2cqh] w-full bg-s-color-panel-content-notebook-line"></span>
         <span className="font-georgian text-[70cqh] leading-none z-20 h-full w-full items-center justify-center flex">
