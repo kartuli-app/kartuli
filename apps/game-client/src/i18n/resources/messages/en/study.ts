@@ -34,6 +34,8 @@ export default {
     favorite: {
       add_label: 'Add favorite',
       remove_label: 'Remove favorite',
+      toast_added: 'Letter {{letter}} added to favorites',
+      toast_removed: 'Letter {{letter}} removed from favorites',
     },
   },
 } as const;

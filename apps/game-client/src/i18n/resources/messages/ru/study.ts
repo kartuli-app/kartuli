@@ -34,6 +34,8 @@ export default {
     favorite: {
       add_label: 'Добавить в избранное',
       remove_label: 'Убрать из избранного',
+      toast_added: 'Буква {{letter}} добавлена в избранное',
+      toast_removed: 'Буква {{letter}} убрана из избранного',
     },
   },
 } as const;

@@ -46,9 +46,10 @@ describe('LetterStudyNotes', () => {
     expect(strongContents.slice(4).every((content) => content === 'ა')).toBe(true);
   });
 
-  it('keeps the notes row visible with fallback copy when content has no info note', () => {
+  it('keeps the notes row visible with the current mocked copy when content has no info note', () => {
     const { container } = render(<LetterStudyNotes item={{ ...item, notes: [] }} />);
 
-    expect(container.textContent).toContain('More notes soon.');
+    expect(container.textContent).toContain('Its pronounced like this and that and those');
+    expect(container.textContent).toContain('You can also find this written as');
   });
 });

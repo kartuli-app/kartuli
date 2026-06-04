@@ -42,6 +42,11 @@
   --p-color-accent-900: oklch(0.278 0.055 71.12);
   --p-color-accent-950: oklch(0.207 0.04 71.03);
 
+  --p-color-success-300: #86efac;
+  --p-color-success-700: #15803d;
+  --p-color-danger-600: #dc2626;
+  --p-color-danger-700: #b91c1c;
+
   --p-color-notebook-line: oklch(88.2% 0.059 254.128);
   --p-color-transliteration-bracket: oklch(75% 0.183 55.934);
 
@@ -134,6 +139,13 @@
   --s-color-panel-content-secondary: var(--p-color-neutral-500);
   --s-color-panel-content-notebook-line: var(--p-color-notebook-line);
   --s-color-panel-content-transliteration-bracket: var(--p-color-transliteration-bracket);
+  --s-color-panel-status-badge-bg: var(--p-color-neutral-300);
+  --s-color-panel-status-badge-content-primary: var(--p-color-neutral-900);
+  --s-color-panel-status-badge-content-secondary: var(--p-color-neutral-600);
+  --s-color-panel-detail-status-new-bg: var(--p-color-success-700);
+  --s-color-panel-detail-status-new-content: var(--p-color-success-300);
+  --s-color-panel-detail-favorite-content: var(--p-color-danger-600);
+  --s-color-panel-detail-favorite-hover-content: var(--p-color-danger-700);
 
   /* panel header */
   --s-color-panel-header-bg: var(--p-color-neutral-50);
@@ -242,6 +254,10 @@
   --color-p-color-accent-800: var(--p-color-accent-800);
   --color-p-color-accent-900: var(--p-color-accent-900);
   --color-p-color-accent-950: var(--p-color-accent-950);
+  --color-p-color-success-300: var(--p-color-success-300);
+  --color-p-color-success-700: var(--p-color-success-700);
+  --color-p-color-danger-600: var(--p-color-danger-600);
+  --color-p-color-danger-700: var(--p-color-danger-700);
 
   /* Primitive: spacing */
   --spacing-p-spacing-0: var(--p-spacing-0);
@@ -335,6 +351,19 @@
   --color-s-color-panel-content-notebook-line: var(--s-color-panel-content-notebook-line);
   --color-s-color-panel-content-transliteration-bracket: var(
     --s-color-panel-content-transliteration-bracket
+  );
+  --color-s-color-panel-status-badge-bg: var(--s-color-panel-status-badge-bg);
+  --color-s-color-panel-status-badge-content-primary: var(
+    --s-color-panel-status-badge-content-primary
+  );
+  --color-s-color-panel-status-badge-content-secondary: var(
+    --s-color-panel-status-badge-content-secondary
+  );
+  --color-s-color-panel-detail-status-new-bg: var(--s-color-panel-detail-status-new-bg);
+  --color-s-color-panel-detail-status-new-content: var(--s-color-panel-detail-status-new-content);
+  --color-s-color-panel-detail-favorite-content: var(--s-color-panel-detail-favorite-content);
+  --color-s-color-panel-detail-favorite-hover-content: var(
+    --s-color-panel-detail-favorite-hover-content
   );
   --color-s-color-panel-action-ghost-bg: var(--s-color-panel-action-ghost-bg);
   --color-s-color-panel-action-ghost-content-primary: var(

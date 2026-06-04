@@ -1,8 +1,8 @@
 'use client';
 
 import type { LetterItem } from '@game-client/learning-content/library/library';
-import { ShellActionButton } from '@game-client/ui/components/actions/shell-action';
-import { Tooltip } from '@game-client/ui/components/overlay/tooltip';
+import { PanelActionButton } from '@game-client/ui/components/actions/panel-action-button';
+import { showNotification } from '@game-client/ui/components/feedback/notifications';
 import {
   LetterStudyExamples,
   LetterStudyNotes,
@@ -28,8 +28,8 @@ function DetailBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-p-radius-1 px-p-spacing-4 h-11',
-        'bg-s-color-shell-status-bg text-s-color-shell-status-content-primary',
+        'inline-flex items-center rounded-p-radius-1 px-p-spacing-4 h-7 md:h-11',
+        'bg-s-color-panel-status-badge-bg text-s-color-panel-status-badge-content-primary',
         'font-bold uppercase',
         'text-md md:text-xl',
         className,
@@ -40,7 +40,11 @@ function DetailBadge({
   );
 }
 
-function DetailMetaBar() {
+function DetailMetaBar({
+  item,
+}: Readonly<{
+  item: Pick<LetterItem, 'targetScript'>;
+}>) {
   const { t } = useTranslation('study');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -65,6 +69,17 @@ function DetailMetaBar() {
   const favoriteLabel = isFavorite
     ? t('notes.favorite.remove_label')
     : t('notes.favorite.add_label');
+  const favoriteToastDescription = isFavorite
+    ? t('notes.favorite.toast_removed', { letter: item.targetScript })
+    : t('notes.favorite.toast_added', { letter: item.targetScript });
+
+  const handleFavoriteToggle = () => {
+    setIsFavorite((currentValue) => !currentValue);
+    showNotification({
+      description: favoriteToastDescription,
+      timeout: 2200,
+    });
+  };
 
   return (
     <div
@@ -84,35 +99,38 @@ function DetailMetaBar() {
         </DetailBadge>
       </div>
 
-      <div className={cn('flex items-center justify-end gap-p-spacing-4')}>
-        <Tooltip content={audioLabel} side="bottom">
-          <ShellActionButton
-            aria-label={audioLabel}
-            aria-pressed={isPlaying}
-            className="size-11"
-            size="icon"
-            variant="secondary"
-            onClick={() => setIsPlaying((currentValue) => !currentValue)}
-          >
-            <AudioIcon
-              className={cn('size-5 text-inherit', isPlaying && 'animate-pulse')}
-              aria-hidden="true"
-            />
-          </ShellActionButton>
-        </Tooltip>
+      <div className={cn('flex items-center justify-end gap-p-spacing-5')}>
+        <PanelActionButton
+          aria-label={audioLabel}
+          aria-pressed={isPlaying}
+          className="size-11 md:size-14"
+          side="bottom"
+          tooltipLabel={audioLabel}
+          variant="ghost"
+          onClick={() => setIsPlaying((currentValue) => !currentValue)}
+        >
+          <AudioIcon
+            className={cn('size-14 text-inherit', isPlaying && 'animate-pulse')}
+            aria-hidden="true"
+          />
+        </PanelActionButton>
 
-        <Tooltip content={favoriteLabel} side="bottom">
-          <ShellActionButton
-            aria-label={favoriteLabel}
-            aria-pressed={isFavorite}
-            className="size-11"
-            size="icon"
-            variant="secondary"
-            onClick={() => setIsFavorite((currentValue) => !currentValue)}
-          >
-            <FavoriteIcon className="size-5 text-inherit" aria-hidden="true" />
-          </ShellActionButton>
-        </Tooltip>
+        <PanelActionButton
+          aria-label={favoriteLabel}
+          aria-pressed={isFavorite}
+          className={cn(
+            'size-11 md:size-14',
+            'text-s-color-panel-detail-favorite-content',
+            'hover:text-s-color-panel-detail-favorite-hover-content',
+            'active:text-s-color-panel-detail-favorite-hover-content',
+          )}
+          side="bottom"
+          tooltipLabel={favoriteLabel}
+          variant="ghost"
+          onClick={handleFavoriteToggle}
+        >
+          <FavoriteIcon className="size-14 text-inherit" aria-hidden="true" />
+        </PanelActionButton>
       </div>
     </div>
   );
@@ -156,7 +174,7 @@ export function LetterStudyDetailContent({ item }: Readonly<LetterStudyDetailCon
         'p-p-spacing-2',
       )}
     >
-      <DetailMetaBar />
+      <DetailMetaBar item={item} />
       <DetailIdentityHero targetScript={item.targetScript} transliteration={item.transliteration} />
       <LetterStudyNotes item={item} />
       <LetterStudyExamples item={item} />

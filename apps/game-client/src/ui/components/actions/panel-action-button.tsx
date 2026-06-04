@@ -16,10 +16,19 @@ const basePanelActionButtonClassName = cn(
   'size-11',
   'active:scale-95',
   'cursor-pointer',
-  'shadow-md',
+  // 'shadow-md',
 );
 
 const panelActionButtonVariantClassName = {
+  ghost: cn(
+    'bg-s-color-panel-action-ghost-bg',
+    'text-s-color-panel-action-ghost-content-primary',
+    'focus-visible:ring-s-color-panel-action-ghost-ring',
+    'hover:bg-s-color-panel-action-ghost-hover-bg',
+    'hover:text-s-color-panel-action-ghost-hover-content-primary',
+    'active:bg-s-color-panel-action-ghost-hover-bg',
+    'active:text-s-color-panel-action-ghost-hover-content-primary',
+  ),
   outline: cn(
     'border-(length:--s-width-panel-action-outline-border) solid',
     'border-s-color-panel-action-outline-border',

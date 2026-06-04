@@ -125,7 +125,7 @@ function StudyNoteBadge({ children }: Readonly<{ children: ReactNode }>) {
     <span
       className={cn(
         'inline-flex items-center rounded-p-radius-full px-p-spacing-4 py-p-spacing-1',
-        'bg-s-color-shell-status-bg text-s-color-shell-status-content-primary',
+        'bg-s-color-panel-status-badge-bg text-s-color-panel-status-badge-content-primary',
         'font-bold uppercase',
         'text-sm md:text-xl',
       )}
@@ -256,12 +256,12 @@ function getPronunciationHintNote(notes: ReadonlyArray<LetterItem['notes'][numbe
   return notes.find((note) => note.kind === 'pronunciation_hint');
 }
 
-function getInfoNotes(notes: ReadonlyArray<LetterItem['notes'][number]>) {
+function _getInfoNotes(notes: ReadonlyArray<LetterItem['notes'][number]>) {
   return notes.filter((note): note is InfoNote => note.kind === 'info').slice(0, 2);
 }
 
 export function LetterStudyNotes({
-  item,
+  item: _item,
 }: Readonly<{
   item: Pick<LetterItem, 'id' | 'targetScript' | 'notes'>;
 }>) {
