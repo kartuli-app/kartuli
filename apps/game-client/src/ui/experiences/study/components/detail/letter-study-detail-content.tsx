@@ -8,7 +8,7 @@ import {
   LetterStudyNotes,
 } from '@game-client/ui/experiences/study/components/detail/letter-study-notes';
 import { cn } from '@kartuli/ui/utils/cn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PiHeart, PiHeartFill, PiPauseFill, PiPlayFill } from 'react-icons/pi';
 
@@ -16,12 +16,48 @@ interface LetterStudyDetailContentProps {
   item: LetterItem;
 }
 
-function LetterDetailTargetScriptSection({
-  targetScript,
-}: Readonly<Pick<LetterItem, 'targetScript'>>) {
+const MOCK_AUDIO_DURATION_MS = 1200;
+
+function DetailBadge({
+  children,
+  className,
+}: Readonly<{
+  children: string;
+  className?: string;
+}>) {
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center rounded-full px-p-spacing-2 py-p-spacing-1',
+        'bg-s-color-shell-status-bg text-s-color-shell-status-content-primary',
+        'font-bold uppercase tracking-[0.08em]',
+        'text-xs md:text-sm',
+        className,
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+function DetailMetaBar() {
   const { t } = useTranslation('study');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    if (!isPlaying) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsPlaying(false);
+    }, MOCK_AUDIO_DURATION_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isPlaying]);
 
   const AudioIcon = isPlaying ? PiPauseFill : PiPlayFill;
   const FavoriteIcon = isFavorite ? PiHeartFill : PiHeart;
@@ -33,63 +69,28 @@ function LetterDetailTargetScriptSection({
   return (
     <div
       className={cn(
-        'row-span-9',
-        'grid',
+        'flex',
+        'items-center',
+        'justify-between',
+        'gap-p-spacing-2',
         'w-full',
         'min-h-0',
-        'grid-cols-20',
-        'grid-rows-2',
-        // 'gap-x-p-spacing-2',
-        // 'gap-y-p-spacing-2',
-        'border',
+        // 'border',
       )}
     >
-      <div
-        aria-hidden="true"
-        className={cn(
-          //
-          'row-span-2 col-span-4',
-        )}
-      />
-
-      <div
-        className={cn(
-          'row-span-2',
-          'col-span-12',
-          'relative',
-          'grid',
-          'h-full',
-          'place-items-center',
-          'w-full',
-          // 'max-w-[80%] mx-auto',
-          '@container-size',
-          'border',
-        )}
-      >
-        <span className="absolute top-3/10 left-0 z-10 h-[4cqh] w-full bg-s-color-panel-content-notebook-line"></span>
-        <span className="absolute top-6/10 left-0 z-10 h-[4cqh] w-full bg-s-color-panel-content-notebook-line"></span>
-        <span className="relative z-50 block font-georgian text-[56cqh] leading-none text-s-color-panel-content-primary">
-          {targetScript}
-        </span>
+      <div className={cn('flex min-w-0 flex-1 flex-wrap items-center gap-p-spacing-2')}>
+        <DetailBadge>{t('detail.badges.item_type_letter')}</DetailBadge>
+        <DetailBadge className="bg-s-color-panel-content-secondary/10 text-s-color-panel-content-secondary">
+          {t('detail.badges.status_new')}
+        </DetailBadge>
       </div>
 
-      <div
-        className={cn(
-          'row-span-2',
-          'col-span-4',
-          'grid',
-          'min-h-0',
-          'grid-rows-2',
-          'justify-items-center',
-          'gap-p-spacing-2',
-          'border',
-        )}
-      >
+      <div className={cn('flex items-center justify-end gap-p-spacing-2')}>
         <Tooltip content={audioLabel}>
           <ShellActionButton
             aria-label={audioLabel}
             aria-pressed={isPlaying}
-            className="self-center size-11 md:size-12"
+            className="size-11"
             size="icon"
             variant="secondary"
             onClick={() => setIsPlaying((currentValue) => !currentValue)}
@@ -105,7 +106,7 @@ function LetterDetailTargetScriptSection({
           <ShellActionButton
             aria-label={favoriteLabel}
             aria-pressed={isFavorite}
-            className="self-center size-11 md:size-12"
+            className="size-11"
             size="icon"
             variant="secondary"
             onClick={() => setIsFavorite((currentValue) => !currentValue)}
@@ -118,51 +119,48 @@ function LetterDetailTargetScriptSection({
   );
 }
 
+function DetailIdentityHero({
+  targetScript,
+  transliteration,
+}: Readonly<Pick<LetterItem, 'targetScript' | 'transliteration'>>) {
+  return (
+    <div
+      className={cn(
+        'grid min-h-0 w-full flex-1 grid-rows-[minmax(0,7fr)_minmax(0,2fr)] overflow-hidden',
+        // 'border',
+      )}
+    >
+      <div className="flex items-center justify-center w-full h-full @container-size relative">
+        <span className="absolute top-6/20 left-0 z-10 h-[2cqh] w-full bg-s-color-panel-content-notebook-line"></span>
+        <span className="absolute top-13/20 left-0 z-10 h-[2cqh] w-full bg-s-color-panel-content-notebook-line"></span>
+        <span className="font-georgian text-[70cqh] leading-none z-20 h-full w-full items-center justify-center flex">
+          {targetScript}
+        </span>
+      </div>
+      <div className="relative z-20 flex min-h-0 items-start justify-center @container-size">
+        <div className="flex items-center justify-center text-[70cqh] leading-none">
+          <span className="text-s-color-panel-content-transliteration-bracket">[</span>
+          <span>{transliteration}</span>
+          <span className="text-s-color-panel-content-transliteration-bracket">]</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function LetterStudyDetailContent({ item }: Readonly<LetterStudyDetailContentProps>) {
   return (
     <div
-      className={cn('grid h-full w-full min-h-0 grid-rows-20', 'gap-p-spacing-2', 'p-p-spacing-2')}
+      className={cn(
+        'grid h-full w-full min-h-0 grid-rows-[auto_minmax(0,1.35fr)_auto_auto]',
+        'gap-p-spacing-2',
+        'p-p-spacing-2',
+      )}
     >
-      <LetterDetailTargetScriptSection targetScript={item.targetScript} />
-      <div
-        className={cn(
-          'row-span-3',
-          'flex',
-          'items-center',
-          'justify-center',
-          'text-s-color-panel-content-primary',
-          '@container-size',
-          'border',
-        )}
-      >
-        <span className="text-s-color-panel-content-transliteration-bracket text-[60cqh]">[</span>
-        <span className="flex text-[60cqh]">{item.transliteration}</span>
-        <span className="text-s-color-panel-content-transliteration-bracket text-[60cqh]">]</span>
-      </div>
-      <div
-        className={cn(
-          //
-          'row-span-4',
-          'flex',
-          'min-h-0',
-          'w-full',
-          'border',
-        )}
-      >
-        <LetterStudyNotes item={item} />
-      </div>
-      <div
-        className={cn(
-          //
-          'row-span-6',
-          'flex',
-          'min-h-0',
-          'w-full',
-          'border',
-        )}
-      >
-        <LetterStudyExamples item={item} />
-      </div>
+      <DetailMetaBar />
+      <DetailIdentityHero targetScript={item.targetScript} transliteration={item.transliteration} />
+      <LetterStudyNotes item={item} />
+      <LetterStudyExamples item={item} />
     </div>
   );
 }

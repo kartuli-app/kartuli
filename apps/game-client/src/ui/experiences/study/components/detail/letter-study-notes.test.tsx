@@ -1,5 +1,5 @@
 import type { LetterItem } from '@game-client/learning-content/library/library';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { LetterStudyExamples, LetterStudyNotes } from './letter-study-notes';
 
@@ -34,21 +34,21 @@ describe('LetterStudyNotes', () => {
 
     expect(screen.getByText('like in')).not.toBeNull();
     expect(screen.getByText('examples')).not.toBeNull();
-    expect(container.textContent).toContain('toptattoometro');
+    expect(container.textContent).toContain('toptattoo');
+    expect(container.textContent).not.toContain('metro');
     expect(container.textContent).toContain('გამარჯობა');
-    expect(container.textContent).toContain('სასიამოვნოა');
+    expect(container.textContent).not.toContain('სასიამოვნოა');
 
     const strongContents = Array.from(container.querySelectorAll('strong')).map(
       (element) => element.textContent,
     );
-    expect(strongContents.slice(0, 5)).toEqual(['t', 't', 't', 't', 't']);
-    expect(strongContents.slice(5).every((content) => content === 'ა')).toBe(true);
+    expect(strongContents.slice(0, 4)).toEqual(['t', 't', 't', 't']);
+    expect(strongContents.slice(4).every((content) => content === 'ა')).toBe(true);
   });
 
   it('keeps the notes row visible with fallback copy when content has no info note', () => {
     const { container } = render(<LetterStudyNotes item={{ ...item, notes: [] }} />);
 
-    expect(within(container).getByText('notes')).not.toBeNull();
     expect(container.textContent).toContain('More notes soon.');
   });
 });

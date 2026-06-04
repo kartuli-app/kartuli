@@ -13,6 +13,12 @@ export default {
     tap_hint: 'TAP ANY ITEM FOR DETAILS',
     open_item: 'Open {{letter}}',
   },
+  detail: {
+    badges: {
+      item_type_letter: 'Letter',
+      status_new: 'New',
+    },
+  },
   notes: {
     badges: {
       like_in: 'like in',

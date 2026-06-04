@@ -1,7 +1,7 @@
 import type { LetterItem } from '@game-client/learning-content/library/library';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { act } from 'react';
+import { describe, expect, it, vi } from 'vitest';
 import { LetterStudyDetailSlide } from './letter-study-detail-slide';
 
 const item: LetterItem = {
@@ -22,25 +22,34 @@ const item: LetterItem = {
 };
 
 describe('LetterStudyDetailSlide', () => {
-  it('renders the target-script action rail and toggles mocked audio and favorite states', async () => {
-    const user = userEvent.setup();
+  it('renders the meta bar and handles mocked audio and favorite states', async () => {
+    vi.useFakeTimers();
 
     render(<LetterStudyDetailSlide item={item} />);
+
+    expect(screen.getByText('Letter')).not.toBeNull();
+    expect(screen.getByText('New')).not.toBeNull();
+    expect(screen.getAllByText('ა').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('a').length).toBeGreaterThan(0);
 
     const audioButton = screen.getByRole('button', { name: 'Play audio' });
     expect(audioButton.className).toContain('size-11');
 
-    await user.click(audioButton);
+    fireEvent.click(audioButton);
     expect(screen.getByRole('button', { name: 'Stop audio' })).not.toBeNull();
 
-    await user.click(screen.getByRole('button', { name: 'Stop audio' }));
+    act(() => {
+      vi.advanceTimersByTime(1200);
+    });
     expect(screen.getByRole('button', { name: 'Play audio' })).not.toBeNull();
 
     const favoriteButton = screen.getByRole('button', { name: 'Add favorite' });
-    await user.click(favoriteButton);
+    fireEvent.click(favoriteButton);
     expect(screen.getByRole('button', { name: 'Remove favorite' })).not.toBeNull();
 
-    await user.click(screen.getByRole('button', { name: 'Remove favorite' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Remove favorite' }));
     expect(screen.getByRole('button', { name: 'Add favorite' })).not.toBeNull();
+
+    vi.useRealTimers();
   });
 });

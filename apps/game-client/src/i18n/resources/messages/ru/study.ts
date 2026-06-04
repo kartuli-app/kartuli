@@ -13,6 +13,12 @@ export default {
     tap_hint: 'НАЖМИТЕ НА ЛЮБОЙ ЭЛЕМЕНТ',
     open_item: 'Открыть {{letter}}',
   },
+  detail: {
+    badges: {
+      item_type_letter: 'Буква',
+      status_new: 'Новая',
+    },
+  },
   notes: {
     badges: {
       like_in: 'как в',

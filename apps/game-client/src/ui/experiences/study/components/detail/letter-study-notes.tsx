@@ -77,15 +77,37 @@ const PHRASES_IN_GEORGIANFOR_EXAMPLES = [
   'სად',
 ];
 
-const maxNumberOfCharactersForExamples = 19;
+const MAX_NUMBER_OF_CHARACTERS_FOR_EXAMPLES = 15;
+const MINIMUM_NUMBER_OF_EXAMPLES = 1;
+const EXAMPLE_SEPARATOR_CHARACTER_COST = 1;
 
-// this function will try to get 2 or 3 example words for the given Georgian letter
-// 1 split phrases into words (by space)
-// 2 unify repeated words (set)
-// 3 find the words that contain the letter
-// 4 sort the words by ourrences count
-// 5 get the 3 first words, if the sum of characters is bigger than maxNumberOfCharactersForExamples, return the 2 first words
-const getExampleWordsForGeorgianLetter = (letter: string) => {
+function getExamplesThatFitCharacterLimit(
+  examples: ReadonlyArray<string>,
+  maxNumberOfCharacters = MAX_NUMBER_OF_CHARACTERS_FOR_EXAMPLES,
+) {
+  const fittingExamples: string[] = [];
+  let currentCharacterCount = 0;
+
+  for (const example of examples) {
+    const separatorCharacterCount =
+      fittingExamples.length > 0 ? EXAMPLE_SEPARATOR_CHARACTER_COST : 0;
+    const nextCharacterCount = currentCharacterCount + separatorCharacterCount + example.length;
+
+    if (
+      fittingExamples.length >= MINIMUM_NUMBER_OF_EXAMPLES &&
+      nextCharacterCount > maxNumberOfCharacters
+    ) {
+      break;
+    }
+
+    fittingExamples.push(example);
+    currentCharacterCount = nextCharacterCount;
+  }
+
+  return fittingExamples;
+}
+
+function getExampleWordsForGeorgianLetter(letter: string) {
   const words = PHRASES_IN_GEORGIANFOR_EXAMPLES.flatMap((phrase) => phrase.split(' '));
   const uniqueWords = [...new Set(words)];
   const wordsThatContainTheLetter = uniqueWords.filter((word) => word.includes(letter));
@@ -94,19 +116,15 @@ const getExampleWordsForGeorgianLetter = (letter: string) => {
     const bCount = b.split(letter).length - 1;
     return bCount - aCount;
   });
-  const exampleWords = sortedWords.slice(0, 3);
-  const totalNumberOfCharacters = exampleWords.reduce((acc, word) => acc + word.length, 0);
-  if (totalNumberOfCharacters > maxNumberOfCharactersForExamples) {
-    return exampleWords.slice(0, 2);
-  }
-  return exampleWords;
-};
+
+  return getExamplesThatFitCharacterLimit(sortedWords);
+}
 
 function StudyNoteBadge({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full px-p-spacing-2 py-p-spacing-1',
+        'inline-flex items-center rounded-full px-p-spacing-4 py-p-spacing-1',
         'bg-s-color-shell-status-bg text-s-color-shell-status-content-primary',
         'font-bold uppercase',
         'text-xs md:text-xl',
@@ -150,20 +168,21 @@ function PronunciationHintNoteDetail({
     return <div className="h-full w-full" />;
   }
 
+  const examples = getExamplesThatFitCharacterLimit(note.examples);
+
   return (
     <div
       className={cn(
         'flex flex-wrap',
         'justify-center',
         'w-full',
-        'gap-p-spacing-3',
+        'gap-p-spacing-2',
         'gap-y-p-spacing-1',
-        'text-md md:text-3xl',
+        'text-sm md:text-xl',
         'text-s-color-panel-content-secondary',
-        // 'border',
       )}
     >
-      {note.examples.map((example) => (
+      {examples.map((example) => (
         <div key={`${note.kind}-${example}`} className="flex">
           <span key={`${note.kind}-${note.highlight}-${example}`}>
             <HighlightedText highlight={note.highlight} text={example} />
@@ -188,12 +207,11 @@ function ExampleNoteDetail({
         'flex flex-wrap',
         'justify-center',
         'w-full',
-        'px-p-spacing-2',
-        'gap-p-spacing-3',
+        'px-p-spacing-1',
+        'gap-p-spacing-2',
         'gap-y-p-spacing-1',
-        'text-md md:text-3xl',
+        'text-sm md:text-xl',
         'text-s-color-panel-content-secondary',
-        // 'border',
         'uppercase',
       )}
     >
@@ -214,21 +232,18 @@ function InfoNoteDetail({
   note?: InfoNote;
 }>) {
   const { t } = useTranslation('study');
-  const isFallback = !note;
   const text = note?.text ?? t('notes.default_text');
 
   return (
     <div
       className={cn(
+        'flex flex-wrap',
+        'justify-center',
         'w-full',
-        'overflow-hidden',
-        'px-4',
-        'text-center',
-        'text-sm',
-        'leading-5',
-        'text-ellipsis',
+        'gap-p-spacing-2',
+        'gap-y-p-spacing-1',
+        'text-sm md:text-xl',
         'text-s-color-panel-content-secondary',
-        'whitespace-nowrap',
         // 'border',
         // isFallback && 'opacity-70',
       )}
@@ -242,8 +257,8 @@ function getPronunciationHintNote(notes: ReadonlyArray<LetterItem['notes'][numbe
   return notes.find((note) => note.kind === 'pronunciation_hint');
 }
 
-function getInfoNote(notes: ReadonlyArray<LetterItem['notes'][number]>) {
-  return notes.find((note) => note.kind === 'info');
+function getInfoNotes(notes: ReadonlyArray<LetterItem['notes'][number]>) {
+  return notes.filter((note): note is InfoNote => note.kind === 'info').slice(0, 2);
 }
 
 export function LetterStudyNotes({
@@ -251,14 +266,33 @@ export function LetterStudyNotes({
 }: Readonly<{
   item: Pick<LetterItem, 'id' | 'targetScript' | 'notes'>;
 }>) {
-  const { t } = useTranslation('study');
-  const infoNote = getInfoNote(item.notes);
+  // const infoNotes = getInfoNotes(item.notes);
+  // const notesToRender = infoNotes.length > 0 ? infoNotes : [undefined];
+  const noteMock1: InfoNote = {
+    kind: 'info',
+    text: 'გამარჯობა',
+  };
+  const noteMock2: InfoNote = {
+    kind: 'info',
+    text: 'ნახვამდის',
+  };
+  const notesToRender = [noteMock1, noteMock2];
 
   return (
-    <LetterStudyNoteCell className="min-h-0 w-full">
-      <div className="flex flex-col gap-p-spacing-2 w-full">
-        <InfoNoteDetail note={infoNote} />
-        <InfoNoteDetail note={infoNote} />
+    <LetterStudyNoteCell
+      className={cn(
+        //
+        'min-h-0 w-full h-16 md:h-22 items-center justify-center',
+        // 'border',
+      )}
+    >
+      <div className="flex w-full flex-col gap-p-spacing-4">
+        {notesToRender.map((note, index) => (
+          <InfoNoteDetail
+            key={note ? `${note.kind}-${note.text}` : `fallback-note-${index}`}
+            note={note}
+          />
+        ))}
       </div>
     </LetterStudyNoteCell>
   );
@@ -273,11 +307,17 @@ export function LetterStudyExamples({
   const pronunciationHintNote = getPronunciationHintNote(item.notes);
 
   return (
-    <div className="grid min-h-0 w-full grid-cols-2 gap-p-spacing-2">
-      <LetterStudyNoteCell badge={t('notes.badges.like_in')}>
+    <div
+      className={cn(
+        //
+        'grid min-h-0 w-full grid-cols-2 gap-p-spacing-1',
+        // 'border',
+      )}
+    >
+      <LetterStudyNoteCell badge={t('notes.badges.like_in')} className="min-w-0">
         <PronunciationHintNoteDetail note={pronunciationHintNote} />
       </LetterStudyNoteCell>
-      <LetterStudyNoteCell badge={t('notes.badges.examples')}>
+      <LetterStudyNoteCell badge={t('notes.badges.examples')} className="min-w-0">
         <ExampleNoteDetail item={item} />
       </LetterStudyNoteCell>
     </div>
