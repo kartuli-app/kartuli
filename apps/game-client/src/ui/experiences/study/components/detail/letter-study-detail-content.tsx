@@ -28,10 +28,10 @@ function DetailBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-p-radius-1 px-p-spacing-4 py-p-spacing-2',
+        'inline-flex items-center rounded-p-radius-1 px-p-spacing-4 h-11',
         'bg-s-color-shell-status-bg text-s-color-shell-status-content-primary',
         'font-bold uppercase',
-        'text-md md:text-2xl',
+        'text-md md:text-xl',
         className,
       )}
     >
@@ -84,8 +84,8 @@ function DetailMetaBar() {
         </DetailBadge>
       </div>
 
-      <div className={cn('flex items-center justify-end gap-p-spacing-2')}>
-        <Tooltip content={audioLabel}>
+      <div className={cn('flex items-center justify-end gap-p-spacing-4')}>
+        <Tooltip content={audioLabel} side="bottom">
           <ShellActionButton
             aria-label={audioLabel}
             aria-pressed={isPlaying}
@@ -101,7 +101,7 @@ function DetailMetaBar() {
           </ShellActionButton>
         </Tooltip>
 
-        <Tooltip content={favoriteLabel}>
+        <Tooltip content={favoriteLabel} side="bottom">
           <ShellActionButton
             aria-label={favoriteLabel}
             aria-pressed={isFavorite}
