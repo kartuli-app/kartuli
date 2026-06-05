@@ -41,6 +41,10 @@ describe('buildLibrary', () => {
               highlight: 'a',
               examples: ['father', 'spa'],
             },
+            {
+              kind: 'info_text',
+              text: 'Short note',
+            },
           ],
           source: 'localized',
           type: 'letter',
@@ -62,6 +66,10 @@ describe('buildLibrary', () => {
         kind: 'pronunciation_hint',
         highlight: 'a',
         examples: ['father', 'spa'],
+      },
+      {
+        kind: 'info_text',
+        text: 'Short note',
       },
     ]);
     expect(library.letterItemsById.get('letter-bani')?.notes).toEqual([]);

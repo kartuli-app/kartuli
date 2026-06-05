@@ -14,7 +14,7 @@ const validFakeLocalizedJson = {
           examples: ['father', 'spa'],
         },
         {
-          kind: 'info',
+          kind: 'info_text',
           text: 'Short note',
         },
       ],
@@ -49,7 +49,7 @@ describe('parseAndMapLocalizedtData', () => {
           examples: ['father', 'spa'],
         },
         {
-          kind: 'info',
+          kind: 'info_text',
           text: 'Short note',
         },
       ],
@@ -128,13 +128,32 @@ describe('parseAndMapLocalizedtData', () => {
     expect(() => parseAndMapLocalizedData(invalidEmptyExample, 'src')).toThrow();
   });
 
-  it('throws when an info note text is empty', () => {
+  it('accepts letters with only info_text notes', () => {
+    const result = parseAndMapLocalizedData(
+      {
+        ...validFakeLocalizedJson,
+        localizedLetterItems: [
+          {
+            id: 'letter-a',
+            notes: [{ kind: 'info_text', text: 'Authored note' }],
+          },
+        ],
+      },
+      'src',
+    );
+
+    expect(result.localizedLetterItems[0]?.notes).toEqual([
+      { kind: 'info_text', text: 'Authored note' },
+    ]);
+  });
+
+  it('throws when an info_text note text is empty', () => {
     const invalid = {
       ...validFakeLocalizedJson,
       localizedLetterItems: [
         {
           id: 'letter-a',
-          notes: [{ kind: 'info', text: '' }],
+          notes: [{ kind: 'info_text', text: '' }],
         },
       ],
     };

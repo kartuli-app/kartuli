@@ -17,7 +17,7 @@ const pronunciationHintNoteJsonSchema = z.object({
 });
 
 const infoNoteJsonSchema = z.object({
-  kind: z.literal('info'),
+  kind: z.literal('info_text'),
   text: z.string().trim().min(1),
 });
 

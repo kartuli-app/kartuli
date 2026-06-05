@@ -43,6 +43,14 @@
           "kind": "pronunciation_hint",
           "highlight": "a",
           "examples": ["Georgia", "family", "Russia", "occupant"]
+        },
+        {
+          "kind": "info_text",
+          "text": "This is the first Georgian letter and one of the five vowels."
+        },
+        {
+          "kind": "info_text",
+          "text": "Its sound is steady and open, without shifting into a diphthong."
         }
       ]
     },
@@ -53,6 +61,10 @@
           "kind": "pronunciation_hint",
           "highlight": "b",
           "examples": ["Batumi", "breakfast", "beach", "bed"]
+        },
+        {
+          "kind": "info_text",
+          "text": "This is a voiced stop, close to the English b sound."
         }
       ]
     },

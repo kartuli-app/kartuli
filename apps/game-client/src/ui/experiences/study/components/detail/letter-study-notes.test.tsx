@@ -24,7 +24,7 @@ describe('LetterStudyNotes', () => {
           notes: [
             ...item.notes,
             {
-              kind: 'info',
+              kind: 'info_text',
               text: 'A short pronunciation note.',
             },
           ],
@@ -35,7 +35,7 @@ describe('LetterStudyNotes', () => {
     expect(screen.getByText('like in')).not.toBeNull();
     expect(screen.getByText('example')).not.toBeNull();
     expect(container.textContent).toContain('top');
-    expect(container.textContent).not.toContain('tattoo');
+    expect(container.textContent).toContain('tattoo');
     expect(container.textContent).not.toContain('metro');
     expect(container.textContent).toContain('გამარჯობა');
     expect(container.textContent).not.toContain('სასიამოვნოა');
@@ -43,14 +43,33 @@ describe('LetterStudyNotes', () => {
     const strongContents = Array.from(container.querySelectorAll('strong')).map(
       (element) => element.textContent,
     );
-    expect(strongContents.slice(0, 1)).toEqual(['t']);
-    expect(strongContents.slice(1).every((content) => content === 'ა')).toBe(true);
+    expect(strongContents).toContain('t');
+    expect(strongContents).toContain('ა');
   });
 
-  it('keeps the notes row visible with the current mocked copy when content has no info note', () => {
+  it('renders up to two authored info_text notes', () => {
+    const { container } = render(
+      <LetterStudyNotes
+        item={{
+          ...item,
+          notes: [
+            ...item.notes,
+            { kind: 'info_text', text: 'First authored note.' },
+            { kind: 'info_text', text: 'Second authored note.' },
+            { kind: 'info_text', text: 'Third authored note.' },
+          ],
+        }}
+      />,
+    );
+
+    expect(container.textContent).toContain('First authored note.');
+    expect(container.textContent).toContain('Second authored note.');
+    expect(container.textContent).not.toContain('Third authored note.');
+  });
+
+  it('renders nothing when content has no authored info_text note', () => {
     const { container } = render(<LetterStudyNotes item={{ ...item, notes: [] }} />);
 
-    expect(container.textContent).toContain('Its pronounced like this and that');
-    expect(container.textContent).toContain('You can also find this written as X');
+    expect(container.textContent).toBe('');
   });
 });

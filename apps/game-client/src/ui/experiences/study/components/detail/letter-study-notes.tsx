@@ -231,11 +231,8 @@ function ExampleNoteDetail({
 function InfoNoteDetail({
   note,
 }: Readonly<{
-  note?: InfoNote;
+  note: InfoNote;
 }>) {
-  const { t } = useTranslation('study');
-  const text = note?.text ?? t('notes.default_text');
-
   return (
     <div
       className={cn(
@@ -246,10 +243,9 @@ function InfoNoteDetail({
         'text-md md:text-xl',
         'text-s-color-panel-content-secondary',
         // 'border',
-        // isFallback && 'opacity-70',
       )}
     >
-      {text}
+      {note.text}
     </div>
   );
 }
@@ -258,46 +254,48 @@ function getPronunciationHintNote(notes: ReadonlyArray<LetterItem['notes'][numbe
   return notes.find((note) => note.kind === 'pronunciation_hint');
 }
 
-function _getInfoNotes(notes: ReadonlyArray<LetterItem['notes'][number]>) {
-  return notes.filter((note): note is InfoNote => note.kind === 'info').slice(0, 2);
+function getInfoTextNotes(notes: ReadonlyArray<LetterItem['notes'][number]>) {
+  return notes.filter((note): note is InfoNote => note.kind === 'info_text').slice(0, 2);
 }
 
-export function LetterStudyNotes({
-  item: _item,
-}: Readonly<{
-  item: Pick<LetterItem, 'id' | 'targetScript' | 'notes'>;
-}>) {
-  // const infoNotes = getInfoNotes(item.notes);
-  // const notesToRender = infoNotes.length > 0 ? infoNotes : [undefined];
-  const noteMock1: InfoNote = {
-    kind: 'info',
-    text: 'Its pronounced like this and that',
-  };
-  const noteMock2: InfoNote = {
-    kind: 'info',
-    text: 'You can also find this written as X',
-  };
-  const notesToRender = [noteMock1, noteMock2];
+function renderPronunciationHintNote(note?: PronunciationHintNote) {
+  return <PronunciationHintNoteDetail note={note} />;
+}
 
+function renderRuntimeExamples(item: Pick<LetterItem, 'id' | 'targetScript'>) {
+  return <ExampleNoteDetail item={item} />;
+}
+
+function renderInfoTextNotes(notes: ReadonlyArray<InfoNote>) {
   return (
     <LetterStudyNoteCell
       className={cn(
         //
-        'min-h-0 w-full h-16 md:h-22 items-start justify-start',
         // 'border',
-        'max-w-[500px] mx-auto',
+        'min-h-0',
+        'h-16',
+        'md:h-22',
+        'w-full mx-auto ',
+        'max-w-[500px]',
+        'items-start',
+        'justify-start',
       )}
     >
       <div className="flex w-full flex-col gap-p-spacing-2">
-        {notesToRender.map((note, index) => (
-          <InfoNoteDetail
-            key={note ? `${note.kind}-${note.text}` : `fallback-note-${index}`}
-            note={note}
-          />
+        {notes.map((note) => (
+          <InfoNoteDetail key={`${note.kind}-${note.text}`} note={note} />
         ))}
       </div>
     </LetterStudyNoteCell>
   );
+}
+
+export function LetterStudyNotes({
+  item,
+}: Readonly<{
+  item: Pick<LetterItem, 'id' | 'targetScript' | 'notes'>;
+}>) {
+  return renderInfoTextNotes(getInfoTextNotes(item.notes));
 }
 
 export function LetterStudyExamples({
@@ -317,10 +315,10 @@ export function LetterStudyExamples({
       )}
     >
       <LetterStudyNoteCell badge={t('notes.badges.like_in')} className="min-w-0">
-        <PronunciationHintNoteDetail note={pronunciationHintNote} />
+        {renderPronunciationHintNote(pronunciationHintNote)}
       </LetterStudyNoteCell>
       <LetterStudyNoteCell badge={t('notes.badges.examples')} className="min-w-0">
-        <ExampleNoteDetail item={item} />
+        {renderRuntimeExamples(item)}
       </LetterStudyNoteCell>
     </div>
   );

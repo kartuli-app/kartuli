@@ -5,7 +5,7 @@ export interface PronunciationHintNote {
 }
 
 export interface InfoNote {
-  kind: 'info';
+  kind: 'info_text';
   text: string;
 }
 
