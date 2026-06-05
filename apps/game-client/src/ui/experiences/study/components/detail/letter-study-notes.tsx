@@ -77,7 +77,7 @@ const PHRASES_IN_GEORGIANFOR_EXAMPLES = [
   'სად',
 ];
 
-const MAX_NUMBER_OF_CHARACTERS_FOR_EXAMPLES = 18;
+const MAX_NUMBER_OF_CHARACTERS_FOR_EXAMPLES = 15;
 const MINIMUM_NUMBER_OF_EXAMPLES = 1;
 const EXAMPLE_SEPARATOR_CHARACTER_COST = 1;
 
@@ -104,7 +104,7 @@ function getExamplesThatFitCharacterLimit(
     currentCharacterCount = nextCharacterCount;
   }
 
-  return fittingExamples.slice(0, 1);
+  return fittingExamples.slice(0, 2);
 }
 
 function getExampleWordsForGeorgianLetter(letter: string) {
