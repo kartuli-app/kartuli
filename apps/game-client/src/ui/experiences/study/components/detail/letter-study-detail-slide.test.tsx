@@ -32,7 +32,7 @@ describe('LetterStudyDetailSlide', () => {
     expect(screen.getAllByText('a').length).toBeGreaterThan(0);
 
     const audioButton = screen.getByRole('button', { name: 'Play audio' });
-    expect(audioButton.className).toContain('bg-s-color-panel-action-ghost-bg');
+    expect(audioButton.className).toContain('bg-s-color-panel-action-default-bg');
 
     fireEvent.click(audioButton);
     expect(screen.getByRole('button', { name: 'Stop audio' })).not.toBeNull();
@@ -43,10 +43,12 @@ describe('LetterStudyDetailSlide', () => {
     expect(screen.getByRole('button', { name: 'Play audio' })).not.toBeNull();
 
     const favoriteButton = screen.getByRole('button', { name: 'Add favorite' });
-    expect(favoriteButton.className).toContain('bg-s-color-panel-action-ghost-bg');
-    expect(favoriteButton.className).toContain('text-s-color-panel-detail-favorite-content');
+    expect(favoriteButton.className).toContain('bg-s-color-panel-action-default-bg');
     fireEvent.click(favoriteButton);
     expect(screen.getByRole('button', { name: 'Remove favorite' })).not.toBeNull();
+    expect(screen.getByRole('button', { name: 'Remove favorite' }).className).toContain(
+      'text-s-color-panel-detail-favorite-content',
+    );
     expect(screen.getByText('Letter ა added to favorites')).not.toBeNull();
 
     fireEvent.click(screen.getByRole('button', { name: 'Remove favorite' }));

@@ -10,7 +10,8 @@ import {
 import { cn } from '@kartuli/ui/utils/cn';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PiHeart, PiHeartFill, PiPauseFill, PiPlayFill } from 'react-icons/pi';
+import { LuAudioLines } from 'react-icons/lu';
+import { PiHeartFill, PiPauseFill } from 'react-icons/pi';
 
 interface LetterStudyDetailContentProps {
   item: LetterItem;
@@ -28,10 +29,10 @@ function DetailBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-p-radius-1 px-p-spacing-4 h-7 md:h-11',
+        'inline-flex items-center rounded-p-radius-1 px-p-spacing-4 py-p-spacing-1',
         'bg-s-color-panel-status-badge-bg text-s-color-panel-status-badge-content-primary',
         'font-bold uppercase',
-        'text-md md:text-xl',
+        'text-sm md:text-xl',
         className,
       )}
     >
@@ -54,17 +55,17 @@ function DetailMetaBar({
       return;
     }
 
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = globalThis.setTimeout(() => {
       setIsPlaying(false);
     }, MOCK_AUDIO_DURATION_MS);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, [isPlaying]);
 
-  const AudioIcon = isPlaying ? PiPauseFill : PiPlayFill;
-  const FavoriteIcon = isFavorite ? PiHeartFill : PiHeart;
+  const AudioIcon = isPlaying ? PiPauseFill : LuAudioLines;
+  const FavoriteIcon = PiHeartFill;
   const audioLabel = isPlaying ? t('notes.audio.stop_label') : t('notes.audio.play_label');
   const favoriteLabel = isFavorite
     ? t('notes.favorite.remove_label')
@@ -85,7 +86,7 @@ function DetailMetaBar({
     <div
       className={cn(
         'flex',
-        'items-center',
+        'items-start',
         'justify-between',
         'gap-p-spacing-2',
         'w-full',
@@ -93,24 +94,24 @@ function DetailMetaBar({
         // 'border',
       )}
     >
-      <div className={cn('flex min-w-0 flex-1 flex-wrap items-center gap-p-spacing-2')}>
-        <DetailBadge className="bg-green-700 text-green-300">
+      <div className={cn('flex min-w-0 flex-1 items-start justify-start gap-p-spacing-2')}>
+        <DetailBadge className="bg-s-color-panel-detail-status-new-bg text-s-color-panel-detail-status-new-content">
           {t('detail.badges.status_new')}
         </DetailBadge>
       </div>
 
-      <div className={cn('flex items-center justify-end gap-p-spacing-5')}>
+      <div className={cn('flex items-center justify-end gap-p-spacing-2')}>
         <PanelActionButton
           aria-label={audioLabel}
           aria-pressed={isPlaying}
           className="size-11 md:size-14"
           side="bottom"
           tooltipLabel={audioLabel}
-          variant="ghost"
+          variant="default"
           onClick={() => setIsPlaying((currentValue) => !currentValue)}
         >
           <AudioIcon
-            className={cn('size-14 text-inherit', isPlaying && 'animate-pulse')}
+            className={cn('size-5 md:size-8 text-inherit', isPlaying && 'animate-pulse')}
             aria-hidden="true"
           />
         </PanelActionButton>
@@ -120,16 +121,15 @@ function DetailMetaBar({
           aria-pressed={isFavorite}
           className={cn(
             'size-11 md:size-14',
-            'text-s-color-panel-detail-favorite-content',
-            'hover:text-s-color-panel-detail-favorite-hover-content',
-            'active:text-s-color-panel-detail-favorite-hover-content',
+            isFavorite &&
+              'text-s-color-panel-detail-favorite-content hover:text-s-color-panel-detail-favorite-hover-content active:text-s-color-panel-detail-favorite-hover-content',
           )}
           side="bottom"
           tooltipLabel={favoriteLabel}
-          variant="ghost"
+          variant="default"
           onClick={handleFavoriteToggle}
         >
-          <FavoriteIcon className="size-14 text-inherit" aria-hidden="true" />
+          <FavoriteIcon className="size-5 md:size-8 text-inherit" aria-hidden="true" />
         </PanelActionButton>
       </div>
     </div>

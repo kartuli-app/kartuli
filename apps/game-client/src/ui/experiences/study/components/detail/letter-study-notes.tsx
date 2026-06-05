@@ -77,7 +77,7 @@ const PHRASES_IN_GEORGIANFOR_EXAMPLES = [
   'სად',
 ];
 
-const MAX_NUMBER_OF_CHARACTERS_FOR_EXAMPLES = 14;
+const MAX_NUMBER_OF_CHARACTERS_FOR_EXAMPLES = 18;
 const MINIMUM_NUMBER_OF_EXAMPLES = 1;
 const EXAMPLE_SEPARATOR_CHARACTER_COST = 1;
 
@@ -104,7 +104,7 @@ function getExamplesThatFitCharacterLimit(
     currentCharacterCount = nextCharacterCount;
   }
 
-  return fittingExamples;
+  return fittingExamples.slice(0, 1);
 }
 
 function getExampleWordsForGeorgianLetter(letter: string) {
@@ -213,6 +213,8 @@ function ExampleNoteDetail({
         'text-md md:text-xl',
         'text-s-color-panel-content-secondary',
         'uppercase',
+        'mt-p-spacing-1',
+        'font-georgian',
       )}
     >
       {examples.map((example) => (
@@ -269,11 +271,11 @@ export function LetterStudyNotes({
   // const notesToRender = infoNotes.length > 0 ? infoNotes : [undefined];
   const noteMock1: InfoNote = {
     kind: 'info',
-    text: 'Its pronounced like this and that and those',
+    text: 'Its pronounced like this and that',
   };
   const noteMock2: InfoNote = {
     kind: 'info',
-    text: 'You can also find this written as',
+    text: 'You can also find this written as X',
   };
   const notesToRender = [noteMock1, noteMock2];
 

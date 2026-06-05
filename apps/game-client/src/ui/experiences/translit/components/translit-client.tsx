@@ -244,6 +244,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     side="bottom"
                     onClick={clearInput}
                     aria-label={clearTextLabel}
+                    variant="outline"
                   >
                     {showEmptyClearIcon ? (
                       <RiDeleteBin6Line className="size-5" />
@@ -257,6 +258,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                     onClick={toggleDirection}
                     aria-label={switchDirectionLabel}
                     aria-controls="translit-input translit-output"
+                    variant="outline"
                   >
                     <HiOutlineSwitchHorizontal className="size-5" />
                   </PanelActionButton>

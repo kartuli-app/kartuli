@@ -168,6 +168,15 @@
   --s-color-panel-action-outline-hover-border: var(--p-color-neutral-500);
   --s-color-panel-action-outline-hover-content: var(--p-color-neutral-900);
 
+  /* panel action default */
+  --s-color-panel-action-default-bg: var(--p-color-neutral-500);
+  --s-color-panel-action-default-content-primary: var(--p-color-neutral-50);
+  --s-color-panel-action-default-content-secondary: var(--p-color-neutral-200);
+  --s-color-panel-action-default-ring: var(--p-color-neutral-500);
+  --s-color-panel-action-default-hover-bg: var(--p-color-neutral-700);
+  --s-color-panel-action-default-hover-content-primary: var(--p-color-neutral-200);
+  --s-color-panel-action-default-hover-content-secondary: var(--p-color-neutral-400);
+
   /* panel action ghost */
   --s-color-panel-action-ghost-bg: transparent;
   --s-color-panel-action-ghost-content-primary: var(--p-color-neutral-500);
@@ -364,6 +373,21 @@
   --color-s-color-panel-detail-favorite-content: var(--s-color-panel-detail-favorite-content);
   --color-s-color-panel-detail-favorite-hover-content: var(
     --s-color-panel-detail-favorite-hover-content
+  );
+  --color-s-color-panel-action-default-bg: var(--s-color-panel-action-default-bg);
+  --color-s-color-panel-action-default-content-primary: var(
+    --s-color-panel-action-default-content-primary
+  );
+  --color-s-color-panel-action-default-content-secondary: var(
+    --s-color-panel-action-default-content-secondary
+  );
+  --color-s-color-panel-action-default-ring: var(--s-color-panel-action-default-ring);
+  --color-s-color-panel-action-default-hover-bg: var(--s-color-panel-action-default-hover-bg);
+  --color-s-color-panel-action-default-hover-content-primary: var(
+    --s-color-panel-action-default-hover-content-primary
+  );
+  --color-s-color-panel-action-default-hover-content-secondary: var(
+    --s-color-panel-action-default-hover-content-secondary
   );
   --color-s-color-panel-action-ghost-bg: var(--s-color-panel-action-ghost-bg);
   --color-s-color-panel-action-ghost-content-primary: var(

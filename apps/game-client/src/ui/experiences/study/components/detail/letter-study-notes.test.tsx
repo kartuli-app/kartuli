@@ -33,8 +33,9 @@ describe('LetterStudyNotes', () => {
     );
 
     expect(screen.getByText('like in')).not.toBeNull();
-    expect(screen.getByText('examples')).not.toBeNull();
-    expect(container.textContent).toContain('toptattoo');
+    expect(screen.getByText('example')).not.toBeNull();
+    expect(container.textContent).toContain('top');
+    expect(container.textContent).not.toContain('tattoo');
     expect(container.textContent).not.toContain('metro');
     expect(container.textContent).toContain('გამარჯობა');
     expect(container.textContent).not.toContain('სასიამოვნოა');
@@ -42,14 +43,14 @@ describe('LetterStudyNotes', () => {
     const strongContents = Array.from(container.querySelectorAll('strong')).map(
       (element) => element.textContent,
     );
-    expect(strongContents.slice(0, 4)).toEqual(['t', 't', 't', 't']);
-    expect(strongContents.slice(4).every((content) => content === 'ა')).toBe(true);
+    expect(strongContents.slice(0, 1)).toEqual(['t']);
+    expect(strongContents.slice(1).every((content) => content === 'ა')).toBe(true);
   });
 
   it('keeps the notes row visible with the current mocked copy when content has no info note', () => {
     const { container } = render(<LetterStudyNotes item={{ ...item, notes: [] }} />);
 
-    expect(container.textContent).toContain('Its pronounced like this and that and those');
-    expect(container.textContent).toContain('You can also find this written as');
+    expect(container.textContent).toContain('Its pronounced like this and that');
+    expect(container.textContent).toContain('You can also find this written as X');
   });
 });

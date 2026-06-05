@@ -20,14 +20,14 @@ const basePanelActionButtonClassName = cn(
 );
 
 const panelActionButtonVariantClassName = {
-  ghost: cn(
-    'bg-s-color-panel-action-ghost-bg',
-    'text-s-color-panel-action-ghost-content-primary',
-    'focus-visible:ring-s-color-panel-action-ghost-ring',
-    'hover:bg-s-color-panel-action-ghost-hover-bg',
-    'hover:text-s-color-panel-action-ghost-hover-content-primary',
-    'active:bg-s-color-panel-action-ghost-hover-bg',
-    'active:text-s-color-panel-action-ghost-hover-content-primary',
+  default: cn(
+    'bg-s-color-panel-action-default-bg',
+    'text-s-color-panel-action-default-content-primary',
+    'focus-visible:ring-s-color-panel-action-default-ring',
+    'hover:bg-s-color-panel-action-default-hover-bg',
+    'hover:text-s-color-panel-action-default-hover-content-primary',
+    'active:bg-s-color-panel-action-default-hover-bg',
+    'active:text-s-color-panel-action-default-hover-content-primary',
   ),
   outline: cn(
     'border-(length:--s-width-panel-action-outline-border) solid',
@@ -41,18 +41,6 @@ const panelActionButtonVariantClassName = {
     'active:bg-s-color-panel-action-outline-hover-bg',
     'active:border-s-color-panel-action-outline-hover-border',
     'active:text-s-color-panel-action-outline-hover-content',
-  ),
-  primary: cn(
-    'border border-s-color-shell-action-primary-border',
-    'bg-s-color-shell-action-primary-bg',
-    'text-s-color-shell-action-primary-content',
-    'focus-visible:ring-s-color-shell-action-primary-ring',
-    'hover:border-s-color-shell-action-primary-hover-border',
-    'hover:bg-s-color-shell-action-primary-hover-bg',
-    'hover:text-s-color-shell-action-primary-hover-content',
-    'active:border-s-color-shell-action-primary-hover-border',
-    'active:bg-s-color-shell-action-primary-hover-bg',
-    'active:text-s-color-shell-action-primary-hover-content',
   ),
 } as const;
 
