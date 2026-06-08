@@ -20,14 +20,14 @@ const basePanelActionButtonClassName = cn(
 );
 
 const panelActionButtonVariantClassName = {
-  default: cn(
-    'bg-s-color-panel-action-default-bg',
-    'text-s-color-panel-action-default-content-primary',
-    'focus-visible:ring-s-color-panel-action-default-ring',
-    'hover:bg-s-color-panel-action-default-hover-bg',
-    'hover:text-s-color-panel-action-default-hover-content-primary',
-    'active:bg-s-color-panel-action-default-hover-bg',
-    'active:text-s-color-panel-action-default-hover-content-primary',
+  secondary: cn(
+    'bg-s-color-panel-action-secondary-bg',
+    'text-s-color-panel-action-secondary-content-primary',
+    'focus-visible:ring-s-color-panel-action-secondary-ring',
+    'hover:bg-s-color-panel-action-secondary-hover-bg',
+    'hover:text-s-color-panel-action-secondary-hover-content-primary',
+    'active:bg-s-color-panel-action-secondary-hover-bg',
+    'active:text-s-color-panel-action-secondary-hover-content-primary',
   ),
   outline: cn(
     'border-(length:--s-width-panel-action-outline-border) solid',

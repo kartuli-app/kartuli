@@ -46,7 +46,7 @@ const meta: Meta<typeof PanelActionButton> = {
     },
     variant: {
       control: 'radio',
-      options: ['outline', 'default'],
+      options: ['outline', 'secondary'],
       description: 'Visual style for panel-surface icon actions',
     },
     sideOffset: {
@@ -68,9 +68,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const FilledDefault: Story = {
+export const FilledSecondary: Story = {
   args: {
-    variant: 'default',
+    variant: 'secondary',
     tooltipLabel: 'Play audio',
     'aria-label': 'Play audio',
   },

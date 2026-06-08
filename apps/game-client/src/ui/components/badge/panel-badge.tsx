@@ -4,10 +4,10 @@ import { cn } from '@kartuli/ui/utils/cn';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 const panelBadgeVariantClassName = {
-  neutral: cn('bg-s-color-panel-accent-neutral-bg', 'text-s-color-panel-accent-neutral-content'),
-  positive: cn('bg-s-color-panel-accent-positive-bg', 'text-s-color-panel-accent-positive-content'),
-  danger: cn('bg-s-color-panel-accent-danger-bg', 'text-s-color-panel-accent-danger-content'),
-  accent: cn('bg-s-color-panel-accent-brand-bg', 'text-s-color-panel-accent-brand-content'),
+  neutral: cn('bg-s-color-panel-status-neutral-bg', 'text-s-color-panel-status-neutral-content'),
+  positive: cn('bg-s-color-panel-status-positive-bg', 'text-s-color-panel-status-positive-content'),
+  danger: cn('bg-s-color-panel-status-favorite-bg', 'text-s-color-panel-status-favorite-content'),
+  accent: cn('bg-s-color-panel-status-brand-bg', 'text-s-color-panel-status-brand-content'),
 } as const;
 
 const panelBadgeSizeClassName = {

@@ -137,20 +137,20 @@
   /* panel content */
   --s-color-panel-content-primary: var(--p-color-neutral-700);
   --s-color-panel-content-secondary: var(--p-color-neutral-500);
-  --s-color-panel-content-danger: var(--p-color-danger-600);
-  --s-color-panel-content-danger-strong: var(--p-color-danger-700);
+  --s-color-panel-content-favorite: var(--p-color-danger-600);
+  --s-color-panel-content-favorite-strong: var(--p-color-danger-700);
   --s-color-panel-content-notebook-line: var(--p-color-notebook-line);
   --s-color-panel-content-transliteration-bracket: var(--p-color-transliteration-bracket);
 
-  /* panel accent */
-  --s-color-panel-accent-neutral-bg: var(--p-color-neutral-300);
-  --s-color-panel-accent-neutral-content: var(--p-color-neutral-900);
-  --s-color-panel-accent-positive-bg: var(--p-color-success-700);
-  --s-color-panel-accent-positive-content: var(--p-color-success-300);
-  --s-color-panel-accent-danger-bg: var(--p-color-danger-700);
-  --s-color-panel-accent-danger-content: var(--p-color-neutral-50);
-  --s-color-panel-accent-brand-bg: var(--p-color-brand-600);
-  --s-color-panel-accent-brand-content: var(--p-color-neutral-50);
+  /* panel status */
+  --s-color-panel-status-neutral-bg: var(--p-color-neutral-300);
+  --s-color-panel-status-neutral-content: var(--p-color-neutral-900);
+  --s-color-panel-status-positive-bg: var(--p-color-success-700);
+  --s-color-panel-status-positive-content: var(--p-color-success-300);
+  --s-color-panel-status-favorite-bg: var(--p-color-danger-700);
+  --s-color-panel-status-favorite-content: var(--p-color-neutral-50);
+  --s-color-panel-status-brand-bg: var(--p-color-brand-600);
+  --s-color-panel-status-brand-content: var(--p-color-neutral-50);
 
   /* panel header */
   --s-color-panel-header-bg: var(--p-color-neutral-50);
@@ -173,14 +173,14 @@
   --s-color-panel-action-outline-hover-border: var(--p-color-neutral-500);
   --s-color-panel-action-outline-hover-content: var(--p-color-neutral-900);
 
-  /* panel action default */
-  --s-color-panel-action-default-bg: var(--p-color-neutral-500);
-  --s-color-panel-action-default-content-primary: var(--p-color-neutral-50);
-  --s-color-panel-action-default-content-secondary: var(--p-color-neutral-200);
-  --s-color-panel-action-default-ring: var(--p-color-neutral-500);
-  --s-color-panel-action-default-hover-bg: var(--p-color-neutral-700);
-  --s-color-panel-action-default-hover-content-primary: var(--p-color-neutral-200);
-  --s-color-panel-action-default-hover-content-secondary: var(--p-color-neutral-400);
+  /* panel action secondary */
+  --s-color-panel-action-secondary-bg: var(--p-color-neutral-500);
+  --s-color-panel-action-secondary-content-primary: var(--p-color-neutral-50);
+  --s-color-panel-action-secondary-content-secondary: var(--p-color-neutral-200);
+  --s-color-panel-action-secondary-ring: var(--p-color-neutral-500);
+  --s-color-panel-action-secondary-hover-bg: var(--p-color-neutral-700);
+  --s-color-panel-action-secondary-hover-content-primary: var(--p-color-neutral-200);
+  --s-color-panel-action-secondary-hover-content-secondary: var(--p-color-neutral-400);
 
   /* panel action ghost */
   --s-color-panel-action-ghost-bg: transparent;
@@ -362,34 +362,34 @@
   /* panel content */
   --color-s-color-panel-content-primary: var(--s-color-panel-content-primary);
   --color-s-color-panel-content-secondary: var(--s-color-panel-content-secondary);
-  --color-s-color-panel-content-danger: var(--s-color-panel-content-danger);
-  --color-s-color-panel-content-danger-strong: var(--s-color-panel-content-danger-strong);
+  --color-s-color-panel-content-favorite: var(--s-color-panel-content-favorite);
+  --color-s-color-panel-content-favorite-strong: var(--s-color-panel-content-favorite-strong);
   --color-s-color-panel-content-notebook-line: var(--s-color-panel-content-notebook-line);
   --color-s-color-panel-content-transliteration-bracket: var(
     --s-color-panel-content-transliteration-bracket
   );
-  --color-s-color-panel-accent-neutral-bg: var(--s-color-panel-accent-neutral-bg);
-  --color-s-color-panel-accent-neutral-content: var(--s-color-panel-accent-neutral-content);
-  --color-s-color-panel-accent-positive-bg: var(--s-color-panel-accent-positive-bg);
-  --color-s-color-panel-accent-positive-content: var(--s-color-panel-accent-positive-content);
-  --color-s-color-panel-accent-danger-bg: var(--s-color-panel-accent-danger-bg);
-  --color-s-color-panel-accent-danger-content: var(--s-color-panel-accent-danger-content);
-  --color-s-color-panel-accent-brand-bg: var(--s-color-panel-accent-brand-bg);
-  --color-s-color-panel-accent-brand-content: var(--s-color-panel-accent-brand-content);
-  --color-s-color-panel-action-default-bg: var(--s-color-panel-action-default-bg);
-  --color-s-color-panel-action-default-content-primary: var(
-    --s-color-panel-action-default-content-primary
+  --color-s-color-panel-status-neutral-bg: var(--s-color-panel-status-neutral-bg);
+  --color-s-color-panel-status-neutral-content: var(--s-color-panel-status-neutral-content);
+  --color-s-color-panel-status-positive-bg: var(--s-color-panel-status-positive-bg);
+  --color-s-color-panel-status-positive-content: var(--s-color-panel-status-positive-content);
+  --color-s-color-panel-status-favorite-bg: var(--s-color-panel-status-favorite-bg);
+  --color-s-color-panel-status-favorite-content: var(--s-color-panel-status-favorite-content);
+  --color-s-color-panel-status-brand-bg: var(--s-color-panel-status-brand-bg);
+  --color-s-color-panel-status-brand-content: var(--s-color-panel-status-brand-content);
+  --color-s-color-panel-action-secondary-bg: var(--s-color-panel-action-secondary-bg);
+  --color-s-color-panel-action-secondary-content-primary: var(
+    --s-color-panel-action-secondary-content-primary
   );
-  --color-s-color-panel-action-default-content-secondary: var(
-    --s-color-panel-action-default-content-secondary
+  --color-s-color-panel-action-secondary-content-secondary: var(
+    --s-color-panel-action-secondary-content-secondary
   );
-  --color-s-color-panel-action-default-ring: var(--s-color-panel-action-default-ring);
-  --color-s-color-panel-action-default-hover-bg: var(--s-color-panel-action-default-hover-bg);
-  --color-s-color-panel-action-default-hover-content-primary: var(
-    --s-color-panel-action-default-hover-content-primary
+  --color-s-color-panel-action-secondary-ring: var(--s-color-panel-action-secondary-ring);
+  --color-s-color-panel-action-secondary-hover-bg: var(--s-color-panel-action-secondary-hover-bg);
+  --color-s-color-panel-action-secondary-hover-content-primary: var(
+    --s-color-panel-action-secondary-hover-content-primary
   );
-  --color-s-color-panel-action-default-hover-content-secondary: var(
-    --s-color-panel-action-default-hover-content-secondary
+  --color-s-color-panel-action-secondary-hover-content-secondary: var(
+    --s-color-panel-action-secondary-hover-content-secondary
   );
   --color-s-color-panel-action-ghost-bg: var(--s-color-panel-action-ghost-bg);
   --color-s-color-panel-action-ghost-content-primary: var(

@@ -76,7 +76,7 @@ export function DetailMetaBar({
           className="size-11 md:size-14"
           side="bottom"
           tooltipLabel={audioLabel}
-          variant="default"
+          variant="secondary"
           onClick={() => setIsPlaying((currentValue) => !currentValue)}
         >
           <AudioIcon
@@ -91,11 +91,11 @@ export function DetailMetaBar({
           className={cn(
             'size-11 md:size-14',
             isFavorite &&
-              'text-s-color-panel-content-danger hover:text-s-color-panel-content-danger-strong active:text-s-color-panel-content-danger-strong',
+              'text-s-color-panel-content-favorite hover:text-s-color-panel-content-favorite-strong active:text-s-color-panel-content-favorite-strong',
           )}
           side="bottom"
           tooltipLabel={favoriteLabel}
-          variant="default"
+          variant="secondary"
           onClick={handleFavoriteToggle}
         >
           <FavoriteIcon className="size-5 text-inherit md:size-8" aria-hidden="true" />

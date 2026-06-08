@@ -292,6 +292,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                   side="top"
                   onClick={copyOutput}
                   aria-label={copyTransliterationLabel}
+                  variant="secondary"
                 >
                   {isCopySuccess ? (
                     <FaCheck className="size-5" />

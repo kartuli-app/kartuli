@@ -67,7 +67,7 @@ export const AllVariants: Story = {
         New
       </PanelBadge>
       <PanelBadge variant="danger">Favorite</PanelBadge>
-      <PanelBadge variant="accent">Featured</PanelBadge>
+      <PanelBadge variant="accent">Brand</PanelBadge>
     </div>
   ),
 };
