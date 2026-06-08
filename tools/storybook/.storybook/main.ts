@@ -31,9 +31,11 @@ function getAbsolutePath(value: string): string {
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const optimizeDepsInclude = [
   'next/link',
+  'react-i18next',
   'react-icons/fa6',
   'react-icons/hi',
   'react-icons/io5',
+  'react-icons/lu',
   'react-icons/pi',
   'react-icons/ri',
 ];

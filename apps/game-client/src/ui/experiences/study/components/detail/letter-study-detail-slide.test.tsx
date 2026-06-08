@@ -47,7 +47,7 @@ describe('LetterStudyDetailSlide', () => {
     fireEvent.click(favoriteButton);
     expect(screen.getByRole('button', { name: 'Remove favorite' })).not.toBeNull();
     expect(screen.getByRole('button', { name: 'Remove favorite' }).className).toContain(
-      'text-s-color-panel-detail-favorite-content',
+      'text-s-color-panel-content-danger',
     );
     expect(screen.getByText('Letter ა added to favorites')).not.toBeNull();
 
