@@ -6,7 +6,7 @@ import { StudyNoteSection } from '@game-client/ui/experiences/study/components/d
 import { cn } from '@kartuli/ui/utils/cn';
 import { HighlightedText } from './highlighted-text';
 
-const PHRASES_IN_GEORGIANFOR_EXAMPLES = [
+const PHRASES_IN_GEORGIAN_FOR_EXAMPLES = [
   'გამარჯობა',
   'ნახვამდის',
   'თუ შეიძლება',
@@ -68,6 +68,7 @@ const PHRASES_IN_GEORGIANFOR_EXAMPLES = [
 ];
 
 const MAX_NUMBER_OF_CHARACTERS_FOR_EXAMPLES = 15;
+const MAX_NUMBER_OF_EXAMPLES = 2;
 const MINIMUM_NUMBER_OF_EXAMPLES = 1;
 const EXAMPLE_SEPARATOR_CHARACTER_COST = 1;
 
@@ -79,6 +80,10 @@ function getExamplesThatFitCharacterLimit(
   let currentCharacterCount = 0;
 
   for (const example of examples) {
+    if (fittingExamples.length >= MAX_NUMBER_OF_EXAMPLES) {
+      break;
+    }
+
     const separatorCharacterCount =
       fittingExamples.length > 0 ? EXAMPLE_SEPARATOR_CHARACTER_COST : 0;
     const nextCharacterCount = currentCharacterCount + separatorCharacterCount + example.length;
@@ -94,11 +99,11 @@ function getExamplesThatFitCharacterLimit(
     currentCharacterCount = nextCharacterCount;
   }
 
-  return fittingExamples.slice(0, 2);
+  return fittingExamples;
 }
 
 function getExampleWordsForGeorgianLetter(letter: string) {
-  const words = PHRASES_IN_GEORGIANFOR_EXAMPLES.flatMap((phrase) => phrase.split(' '));
+  const words = PHRASES_IN_GEORGIAN_FOR_EXAMPLES.flatMap((phrase) => phrase.split(' '));
   const uniqueWords = [...new Set(words)];
   const wordsThatContainTheLetter = uniqueWords.filter((word) => word.includes(letter));
   const sortedWords = wordsThatContainTheLetter.toSorted((a, b) => {
@@ -124,7 +129,7 @@ function PronunciationHintNoteDetail({
   note?: PronunciationHintNote;
 }>) {
   if (!note) {
-    return <div className="h-full w-full" />;
+    return null;
   }
 
   const examples = getExamplesThatFitCharacterLimit(note.examples);

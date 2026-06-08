@@ -18,7 +18,7 @@ export function HighlightedText({
   return (
     <>
       {segments.map((segment, segmentIndex) => (
-        <Fragment key={`${text}-${segmentIndex}`}>
+        <Fragment key={segmentIndex}>
           {segment.highlighted ? (
             <strong className={cn('font-bold text-s-color-panel-content-primary', className)}>
               {segment.text}

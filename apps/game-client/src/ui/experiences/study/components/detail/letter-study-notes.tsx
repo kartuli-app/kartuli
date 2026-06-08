@@ -25,13 +25,7 @@ export function LetterStudyExamples({
   const { t } = useTranslation('study');
 
   return (
-    <div
-      className={cn(
-        //
-        'grid min-h-0 w-full grid-cols-2 gap-p-spacing-2',
-        // 'border',
-      )}
-    >
+    <div className={cn('grid min-h-0 w-full grid-cols-2 gap-p-spacing-2')}>
       <PronunciationHintSection badgeLabel={t('notes.badges.like_in')} notes={item.notes} />
       <RuntimeExamplesSection badgeLabel={t('notes.badges.examples')} item={item} />
     </div>

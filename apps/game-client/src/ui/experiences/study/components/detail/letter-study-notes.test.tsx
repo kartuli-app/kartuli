@@ -1,6 +1,7 @@
 import type { LetterItem } from '@game-client/learning-content/library/library';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { PronunciationHintSection } from './letter-study-note-sections';
 import { LetterStudyExamples, LetterStudyNotes } from './letter-study-notes';
 
 const item: Pick<LetterItem, 'id' | 'targetScript' | 'notes'> = {
@@ -71,5 +72,12 @@ describe('LetterStudyNotes', () => {
     const { container } = render(<LetterStudyNotes item={{ ...item, notes: [] }} />);
 
     expect(container.textContent).toBe('');
+  });
+
+  it('does not render an empty filler node when there is no pronunciation hint note', () => {
+    const { container } = render(<PronunciationHintSection badgeLabel="like in" notes={[]} />);
+
+    expect(container.querySelector('.h-full.w-full')).toBeNull();
+    expect(within(container).getByText('like in')).not.toBeNull();
   });
 });

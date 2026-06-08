@@ -27,7 +27,7 @@ const meta: Meta<typeof PanelBadge> = {
   argTypes: {
     variant: {
       control: 'inline-radio',
-      options: ['neutral', 'positive', 'danger', 'accent'],
+      options: ['neutral', 'positive', 'favorite', 'accent'],
     },
     size: {
       control: 'inline-radio',
@@ -66,7 +66,7 @@ export const AllVariants: Story = {
       <PanelBadge variant="positive" shape="rounded">
         New
       </PanelBadge>
-      <PanelBadge variant="danger">Favorite</PanelBadge>
+      <PanelBadge variant="favorite">Favorite</PanelBadge>
       <PanelBadge variant="accent">Brand</PanelBadge>
     </div>
   ),

@@ -9,8 +9,8 @@ const studyNoteSectionAlignClassName = {
 } as const;
 
 const studyNoteSectionSizeClassName = {
-  compact: cn('gap-p-spacing-1'),
-  default: cn('gap-p-spacing-2'),
+  compact: 'gap-p-spacing-1',
+  default: 'gap-p-spacing-2',
 } as const;
 
 export interface StudyNoteSectionProps {

@@ -6,7 +6,7 @@ import type { HTMLAttributes, ReactNode } from 'react';
 const panelBadgeVariantClassName = {
   neutral: cn('bg-s-color-panel-status-neutral-bg', 'text-s-color-panel-status-neutral-content'),
   positive: cn('bg-s-color-panel-status-positive-bg', 'text-s-color-panel-status-positive-content'),
-  danger: cn('bg-s-color-panel-status-favorite-bg', 'text-s-color-panel-status-favorite-content'),
+  favorite: cn('bg-s-color-panel-status-favorite-bg', 'text-s-color-panel-status-favorite-content'),
   accent: cn('bg-s-color-panel-status-brand-bg', 'text-s-color-panel-status-brand-content'),
 } as const;
 
