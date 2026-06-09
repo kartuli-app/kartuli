@@ -1,3 +1,4 @@
+import type { LetterItem } from '@game-client/learning-content/library/library';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -159,12 +160,18 @@ class MockResizeObserver {
   }
 }
 
-const items = [
+const items: LetterItem[] = [
   {
     id: 'letter-ani',
     targetScript: 'ა',
     transliteration: 'a',
-    pronunciationHint: 'ah',
+    notes: [
+      {
+        kind: 'pronunciation_hint',
+        highlight: 'a',
+        examples: ['father', 'spa'],
+      },
+    ],
     soundCategory: 'vowel',
     type: 'letter' as const,
     commonSource: 'common',
@@ -174,7 +181,13 @@ const items = [
     id: 'letter-bani',
     targetScript: 'ბ',
     transliteration: 'b',
-    pronunciationHint: 'b as in bat',
+    notes: [
+      {
+        kind: 'pronunciation_hint',
+        highlight: 'b',
+        examples: ['bed', 'bubble'],
+      },
+    ],
     soundCategory: 'consonant',
     type: 'letter' as const,
     commonSource: 'common',
@@ -184,7 +197,13 @@ const items = [
     id: 'letter-gani',
     targetScript: 'გ',
     transliteration: 'g',
-    pronunciationHint: 'g as in go',
+    notes: [
+      {
+        kind: 'pronunciation_hint',
+        highlight: 'g',
+        examples: ['go', 'bag'],
+      },
+    ],
     soundCategory: 'consonant',
     type: 'letter' as const,
     commonSource: 'common',

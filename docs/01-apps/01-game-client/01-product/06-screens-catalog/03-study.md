@@ -102,8 +102,18 @@ Behavior:
 - larger letter display
 - Georgian letter
 - transliteration
-- `Pronunciation hint` note block
-- two example words with the current letter highlighted
+- target-script section uses a three-column layout:
+  - empty left gutter
+  - large centered Georgian glyph
+  - right action rail for audio and favorite actions
+- detail sections below transliteration:
+  - `Like in` and `Examples` share the upper row
+  - `Notes` keeps a dedicated full-width lower row
+- the lower `Notes` row remains present even when authored content has no extra note yet
+- upper row split into:
+  - `Like in` with learner-language pronunciation examples
+  - `Examples` with Georgian example words and highlighted current letter
+- full-width `Notes` row for short extra info or fallback copy
 
 ### Word Detail Card
 

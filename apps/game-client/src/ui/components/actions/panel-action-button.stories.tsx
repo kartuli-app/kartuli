@@ -44,6 +44,11 @@ const meta: Meta<typeof PanelActionButton> = {
       options: ['top', 'bottom'],
       description: 'Which side of the trigger the tooltip prefers',
     },
+    variant: {
+      control: 'radio',
+      options: ['outline', 'secondary'],
+      description: 'Visual style for panel-surface icon actions',
+    },
     sideOffset: {
       control: { type: 'number', min: 0, max: 32 },
     },
@@ -62,6 +67,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const FilledSecondary: Story = {
+  args: {
+    variant: 'secondary',
+    tooltipLabel: 'Play audio',
+    'aria-label': 'Play audio',
+  },
+};
 
 export const SideTop: Story = {
   name: 'Side: top (default)',

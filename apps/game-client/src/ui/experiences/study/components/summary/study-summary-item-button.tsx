@@ -29,7 +29,7 @@ export function StudySummaryItemButton({
         'active:bg-s-color-panel-action-ghost-hover-bg',
         'rounded-p-radius-3',
         'overflow-hidden',
-        'h-30',
+        'h-28',
         'active:scale-95',
         className,
       )}

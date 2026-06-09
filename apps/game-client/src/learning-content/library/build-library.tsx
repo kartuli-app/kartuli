@@ -75,7 +75,7 @@ const buildLetterItems = (
       id: commonLetterItem.id,
       targetScript: commonLetterItem.targetScript,
       transliteration: commonLetterItem.transliteration,
-      pronunciationHint: localizedLetterItem.pronunciationHint,
+      notes: localizedLetterItem.notes ?? [],
       soundCategory: commonLetterItem.soundCategory,
       type: 'letter',
       commonSource: commonLetterItem.source,

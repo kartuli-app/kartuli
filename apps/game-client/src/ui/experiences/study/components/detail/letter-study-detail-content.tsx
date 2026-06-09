@@ -1,27 +1,46 @@
 'use client';
 
 import type { LetterItem } from '@game-client/learning-content/library/library';
+import {
+  LetterStudyExamples,
+  LetterStudyNotes,
+} from '@game-client/ui/experiences/study/components/detail/letter-study-notes';
+import { cn } from '@kartuli/ui/utils/cn';
+import { useTranslation } from 'react-i18next';
+import { DetailIdentityHero } from './detail-identity-hero';
+import { DetailMetaBar } from './detail-meta-bar';
 
 interface LetterStudyDetailContentProps {
   item: LetterItem;
 }
 
 export function LetterStudyDetailContent({ item }: Readonly<LetterStudyDetailContentProps>) {
+  const { t } = useTranslation('study');
+
   return (
-    <>
-      <div className="relative flex w-full max-w-[70%] items-center justify-center font-georgian text-[35cqw] leading-none text-s-color-panel-content-primary">
-        <span className="absolute top-3/10 left-0 z-10 h-[1cqw] w-full bg-s-color-panel-content-notebook-line"></span>
-        <span className="absolute top-6/10 left-0 z-10 h-[1cqw] w-full bg-s-color-panel-content-notebook-line"></span>
-        <span className="relative z-50 mx-auto">{item.targetScript}</span>
-      </div>
-      <div className="flex items-center justify-center gap-1 text-[10cqw] text-s-color-panel-content-primary">
-        <span className="text-s-color-panel-content-transliteration-bracket">[</span>
-        <span className="flex">{item.transliteration}</span>
-        <span className="text-s-color-panel-content-transliteration-bracket">]</span>
-      </div>
-      <div className="max-w-[90%] text-center text-xl text-s-color-panel-content-secondary">
-        {item.pronunciationHint}
-      </div>
-    </>
+    <div
+      className={cn(
+        'grid h-full w-full min-h-0 grid-rows-[auto_minmax(0,1.35fr)_auto_auto]',
+        'gap-p-spacing-2',
+        'p-p-spacing-2',
+      )}
+    >
+      <DetailMetaBar
+        labels={{
+          addFavorite: t('notes.favorite.add_label'),
+          newBadge: t('detail.badges.status_new'),
+          playAudio: t('notes.audio.play_label'),
+          removeFavorite: t('notes.favorite.remove_label'),
+          stopAudio: t('notes.audio.stop_label'),
+        }}
+        messages={{
+          favoriteAdded: t('notes.favorite.toast_added', { letter: item.targetScript }),
+          favoriteRemoved: t('notes.favorite.toast_removed', { letter: item.targetScript }),
+        }}
+      />
+      <DetailIdentityHero targetScript={item.targetScript} transliteration={item.transliteration} />
+      <LetterStudyNotes item={item} />
+      <LetterStudyExamples item={item} />
+    </div>
   );
 }

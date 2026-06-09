@@ -4,31 +4,47 @@ import { Tooltip } from '@game-client/ui/components/overlay/tooltip';
 import { cn } from '@kartuli/ui/utils/cn';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-const panelActionButtonClassName = cn(
+const basePanelActionButtonClassName = cn(
   'inline-flex',
   'items-center',
   'justify-center',
-  'border-(length:--s-width-panel-action-outline-border) solid',
-  'border-s-color-panel-action-outline-border',
-  'bg-s-color-panel-action-outline-bg',
   'p-2',
-  'text-s-color-panel-action-outline-content',
   'focus-visible:ring-(length:--s-width-focus-ring)',
-  'focus-visible:ring-s-color-panel-action-outline-ring',
-  'hover:bg-s-color-panel-action-outline-hover-bg',
-  'hover:border-s-color-panel-action-outline-hover-border',
-  'hover:text-s-color-panel-action-outline-hover-content',
-  'active:bg-s-color-panel-action-outline-hover-bg',
-  'active:border-s-color-panel-action-outline-hover-border',
-  'active:text-s-color-panel-action-outline-hover-content',
   'disabled:opacity-50',
   'outline-none',
   'rounded-p-radius-full',
   'size-11',
   'active:scale-95',
   'cursor-pointer',
-  'shadow-md',
+  // 'shadow-md',
 );
+
+const panelActionButtonVariantClassName = {
+  secondary: cn(
+    'bg-s-color-panel-action-secondary-bg',
+    'text-s-color-panel-action-secondary-content-primary',
+    'focus-visible:ring-s-color-panel-action-secondary-ring',
+    'hover:bg-s-color-panel-action-secondary-hover-bg',
+    'hover:text-s-color-panel-action-secondary-hover-content-primary',
+    'active:bg-s-color-panel-action-secondary-hover-bg',
+    'active:text-s-color-panel-action-secondary-hover-content-primary',
+  ),
+  outline: cn(
+    'border-(length:--s-width-panel-action-outline-border) solid',
+    'border-s-color-panel-action-outline-border',
+    'bg-s-color-panel-action-outline-bg',
+    'text-s-color-panel-action-outline-content',
+    'focus-visible:ring-s-color-panel-action-outline-ring',
+    'hover:bg-s-color-panel-action-outline-hover-bg',
+    'hover:border-s-color-panel-action-outline-hover-border',
+    'hover:text-s-color-panel-action-outline-hover-content',
+    'active:bg-s-color-panel-action-outline-hover-bg',
+    'active:border-s-color-panel-action-outline-hover-border',
+    'active:text-s-color-panel-action-outline-hover-content',
+  ),
+} as const;
+
+export type PanelActionButtonVariant = keyof typeof panelActionButtonVariantClassName;
 
 export interface PanelActionButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'children'> {
@@ -38,6 +54,7 @@ export interface PanelActionButtonProps
   tooltipPopupClassName?: string;
   side?: 'top' | 'bottom' | 'left' | 'right';
   sideOffset?: number;
+  variant?: PanelActionButtonVariant;
 }
 
 export function PanelActionButton({
@@ -48,6 +65,7 @@ export function PanelActionButton({
   tooltipLabel,
   tooltipPopupClassName,
   type = 'button',
+  variant = 'outline',
   ...buttonProps
 }: Readonly<PanelActionButtonProps>) {
   return (
@@ -57,7 +75,15 @@ export function PanelActionButton({
       side={side}
       sideOffset={sideOffset}
     >
-      <button type={type} className={cn(panelActionButtonClassName, className)} {...buttonProps}>
+      <button
+        type={type}
+        className={cn(
+          basePanelActionButtonClassName,
+          panelActionButtonVariantClassName[variant],
+          className,
+        )}
+        {...buttonProps}
+      >
         {children}
       </button>
     </Tooltip>

@@ -1,4 +1,5 @@
 import type { CommonLetterItem } from '../ingestion/common-data/common-data';
+import type { LocalizedLetterNote } from '../letter-notes';
 
 export interface Library {
   totalLettersCount: number;
@@ -19,7 +20,7 @@ export interface LetterItem {
   id: string;
   targetScript: string;
   transliteration: string;
-  pronunciationHint: string;
+  notes: LocalizedLetterNote[];
   soundCategory: string;
   type: 'letter';
   commonSource: string;

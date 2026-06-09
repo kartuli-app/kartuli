@@ -38,135 +38,345 @@
   "localizedLetterItems": [
     {
       "id": "letter-ani",
-      "pronunciationHint": "like 'a' in 'father'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "a",
+          "examples": ["Georgia", "family", "Russia", "occupant"]
+        },
+        {
+          "kind": "info_text",
+          "text": "This is the first Georgian letter and one of the five vowels."
+        },
+        {
+          "kind": "info_text",
+          "text": "Its sound is steady and open, without shifting into a diphthong."
+        }
+      ]
     },
     {
       "id": "letter-bani",
-      "pronunciationHint": "like 'b' in 'bed'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "b",
+          "examples": ["Batumi", "breakfast", "beach", "bed"]
+        },
+        {
+          "kind": "info_text",
+          "text": "This is a voiced stop, close to the English b sound."
+        }
+      ]
     },
     {
       "id": "letter-gani",
-      "pronunciationHint": "like 'g' in 'go'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "g",
+          "examples": ["big", "dogs", "good", "guys", "great", "games"]
+        }
+      ]
     },
     {
       "id": "letter-doni",
-      "pronunciationHint": "like 'd' in 'dog'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "d",
+          "examples": ["day", "date", "dinner", "drink", "dance"]
+        }
+      ]
     },
     {
       "id": "letter-eni",
-      "pronunciationHint": "like 'e' in 'bed'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "e",
+          "examples": ["Georgia", "forever", "independent"]
+        }
+      ]
     },
     {
       "id": "letter-vini",
-      "pronunciationHint": "like 'v' in 'voice'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "v",
+          "examples": ["travel", "village", "visit", "massive", "river"]
+        }
+      ]
     },
     {
       "id": "letter-zeni",
-      "pronunciationHint": "like 'z' in 'zoo'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "z",
+          "examples": ["zoom", "zoo", "zero", "zebra", "lizard"]
+        }
+      ]
     },
     {
       "id": "letter-tani",
-      "pronunciationHint": "like 't' in 'top' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "t",
+          "examples": ["taxi", "tiny", "tomato", "top", "water"]
+        }
+      ]
     },
     {
       "id": "letter-ini",
-      "pronunciationHint": "like 'ee' in 'see'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "i",
+          "examples": ["Georgia", "will", "resist", "indefinitely"]
+        }
+      ]
     },
     {
       "id": "letter-kani",
-      "pronunciationHint": "like 'k' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "k",
+          "examples": ["skill", "skate", "skin", "snake", "bike"]
+        }
+      ]
     },
     {
       "id": "letter-lasi",
-      "pronunciationHint": "like 'l' in 'love'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "l",
+          "examples": ["live", "learn", "laugh", "loud", "call", "love"]
+        }
+      ]
     },
     {
       "id": "letter-mani",
-      "pronunciationHint": "like 'm' in 'mom'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "m",
+          "examples": ["family", "man", "market", "milk", "mom"]
+        }
+      ]
     },
     {
       "id": "letter-nari",
-      "pronunciationHint": "like 'n' in 'no'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "n",
+          "examples": ["now", "want", "friends", "not", "enemies"]
+        }
+      ]
     },
     {
       "id": "letter-oni",
-      "pronunciationHint": "like 'o' in 'or'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "o",
+          "examples": ["Georgia", "freedom", "no", "oppression"]
+        }
+      ]
     },
     {
       "id": "letter-pari",
-      "pronunciationHint": "like 'p' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "p",
+          "examples": ["spin", "speak", "spot", "capital", "pin"]
+        }
+      ]
     },
     {
       "id": "letter-zhani",
-      "pronunciationHint": "like 's' in 'pleasure'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ge",
+          "examples": ["beige", "garage", "mirage"]
+        }
+      ]
     },
     {
       "id": "letter-rae",
-      "pronunciationHint": "rolled 'r' (like in Spanish)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "r",
+          "examples": ["run", "road", "rabbit", "red", "carrot"]
+        }
+      ]
     },
     {
       "id": "letter-sani",
-      "pronunciationHint": "like 's' in 'sun'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "s",
+          "examples": ["start", "sunset", "summer", "sand", "sea"]
+        }
+      ]
     },
     {
       "id": "letter-tari",
-      "pronunciationHint": "like 't' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "t",
+          "examples": ["stop", "stand", "tattoo", "train", "truck"]
+        }
+      ]
     },
     {
       "id": "letter-uni",
-      "pronunciationHint": "like 'u' in 'put'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "u",
+          "examples": ["support", "Ukraine", "humanity", "united"]
+        }
+      ]
     },
     {
       "id": "letter-pari-aspirated",
-      "pronunciationHint": "like 'p' in 'pot' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "p",
+          "examples": ["pool", "party", "plenty", "happy", "people"]
+        }
+      ]
     },
     {
       "id": "letter-kani-aspirated",
-      "pronunciationHint": "like 'k' in 'kit' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "k",
+          "examples": ["kitchen", "ketchup", "cookie", "cake"]
+        }
+      ]
     },
     {
       "id": "letter-ghani",
-      "pronunciationHint": "gargly 'gh' sound (like French 'r')"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "gh",
+          "examples": ["Afghanistan", "ghost", "laughter", "ghetto"]
+        }
+      ]
     },
     {
       "id": "letter-qari",
-      "pronunciationHint": "deep 'k' sound with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "q",
+          "examples": ["queen", "quick", "quiz", "question"]
+        }
+      ]
     },
     {
       "id": "letter-shini",
-      "pronunciationHint": "like 'sh' in 'ship'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "sh",
+          "examples": ["ship", "brush", "shock", "shop", "shoe"]
+        }
+      ]
     },
     {
       "id": "letter-chini",
-      "pronunciationHint": "like 'ch' in 'church' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ch",
+          "examples": ["chair", "match", "chocolate", "chess"]
+        }
+      ]
     },
     {
       "id": "letter-tsani",
-      "pronunciationHint": "like 'ts' in 'cats' (with a puff of air)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ts",
+          "examples": ["cats", "boots", "hats"]
+        }
+      ]
     },
     {
       "id": "letter-dzili",
-      "pronunciationHint": "like 'ds' in 'beds'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ds",
+          "examples": ["beds", "hands", "birds"]
+        }
+      ]
     },
     {
       "id": "letter-tsili",
-      "pronunciationHint": "like 'ts' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ts",
+          "examples": ["bits", "boats", "gets"]
+        }
+      ]
     },
     {
       "id": "letter-chari",
-      "pronunciationHint": "like 'ch' but with a sharp pop (ejective)"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ch",
+          "examples": ["chalk", "lunch", "cheese"]
+        }
+      ]
     },
     {
       "id": "letter-khani",
-      "pronunciationHint": "like 'ch' in Scottish 'loch'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "ch",
+          "examples": ["loch", "bach", "chutzpah"]
+        }
+      ]
     },
     {
       "id": "letter-jani",
-      "pronunciationHint": "like 'j' in 'jump' or 'dg' in 'hedge'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "j",
+          "examples": ["jump", "jar", "joke"]
+        }
+      ]
     },
     {
       "id": "letter-hae",
-      "pronunciationHint": "like 'h' in 'hello'"
+      "notes": [
+        {
+          "kind": "pronunciation_hint",
+          "highlight": "h",
+          "examples": ["hello", "hard", "hill", "happy", "hero"]
+        }
+      ]
     }
   ],
   "localizedWordItems": []

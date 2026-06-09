@@ -47,6 +47,7 @@ function NotificationViewport() {
                 'p-2',
                 'rounded-p-radius-1',
                 'text-xl',
+                'font-georgian',
               )}
             >
               <Toast.Description />
