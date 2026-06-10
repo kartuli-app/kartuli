@@ -13,8 +13,12 @@ const commonLessonJsonSchema = z.object({
 const commonLetterItemJsonSchema = z.object({
   id: z.string(),
   targetScript: z.string(),
+  name: z.string(),
+  slug: z.string(),
   transliteration: z.string(),
+  ipa: z.string().optional(),
   soundCategory: z.string(),
+  audioKey: z.string().optional(),
 });
 
 const commonWordItemJsonSchema = z.object({

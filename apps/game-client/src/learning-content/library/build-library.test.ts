@@ -10,16 +10,23 @@ const commonData: CommonData = {
     {
       id: 'letter-ani',
       targetScript: 'ა',
+      name: 'ani',
+      slug: 'ani',
       transliteration: 'a',
+      ipa: '/a/',
       soundCategory: 'vowel',
+      audioKey: 'letter-ani',
       source: 'common',
       type: 'letter',
     },
     {
       id: 'letter-bani',
       targetScript: 'ბ',
+      name: 'bani',
+      slug: 'bani',
       transliteration: 'b',
       soundCategory: 'stop',
+      audioKey: 'letter-bani',
       source: 'common',
       type: 'letter',
     },
@@ -61,17 +68,25 @@ describe('buildLibrary', () => {
     const library = buildLibrary(commonData, localizedData);
 
     expect(library.letterItems).toHaveLength(2);
-    expect(library.letterItemsById.get('letter-ani')?.notes).toEqual([
-      {
-        kind: 'pronunciation_hint',
-        highlight: 'a',
-        examples: ['father', 'spa'],
-      },
-      {
-        kind: 'info_text',
-        text: 'Short note',
-      },
-    ]);
+    expect(library.letterItemsById.get('letter-ani')).toMatchObject({
+      id: 'letter-ani',
+      name: 'ani',
+      slug: 'ani',
+      transliteration: 'a',
+      ipa: '/a/',
+      audioKey: 'letter-ani',
+      notes: [
+        {
+          kind: 'pronunciation_hint',
+          highlight: 'a',
+          examples: ['father', 'spa'],
+        },
+        {
+          kind: 'info_text',
+          text: 'Short note',
+        },
+      ],
+    });
     expect(library.letterItemsById.get('letter-bani')?.notes).toEqual([]);
   });
 });

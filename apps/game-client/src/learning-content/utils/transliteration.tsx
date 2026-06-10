@@ -1,5 +1,10 @@
 import type { CommonLetterItem } from '@game-client/learning-content/ingestion/common-data/common-data';
 
+const APOSTROPHE_LIKE = /[\u2018\u2019\u02BC\u2032\u00B4`]/g;
+
+export const normalizeTransliterationKey = (string: string): string =>
+  string.replaceAll(APOSTROPHE_LIKE, "'").toLowerCase();
+
 export const getStringTransliterationFromTargetScript = (
   commonLetterItemsByTargetScript: Map<string, CommonLetterItem>,
   string: string,
@@ -17,8 +22,7 @@ export const getStringTransliterationFromLatin = (
   commonLetterItemsByTransliteration: Map<string, CommonLetterItem>,
   string: string,
 ): string => {
-  const apostropheLike = /[\u2018\u2019\u02BC\u2032\u00B4`]/g;
-  const normalizedString = string.replaceAll(apostropheLike, "'").toLowerCase();
+  const normalizedString = normalizeTransliterationKey(string);
 
   let transliteration = '';
   let cursor = 0;

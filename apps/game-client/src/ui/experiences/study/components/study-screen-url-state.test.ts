@@ -7,7 +7,7 @@ import {
   STUDY_ITEM_SEARCH_PARAM,
 } from './study-screen-url-state';
 
-const items = [{ id: 'letter-ani' }, { id: 'letter-bani' }, { id: 'letter-gani' }];
+const items = [{ id: 'letter-ani' }, { id: 'letter-bani' }, { id: 'letter-p-prime-ari' }];
 
 describe('getStudyScreenCurrentItem', () => {
   it('returns summary when no item is selected', () => {
@@ -59,8 +59,12 @@ describe('getStudyScreenUrl', () => {
 
   it('preserves unrelated search params when updating the current item', () => {
     expect(
-      getStudyScreenUrl('/en/study/module/module-1', 'foo=bar&item=letter-ani', 'letter-gani'),
-    ).toBe('/en/study/module/module-1?foo=bar&item=letter-gani');
+      getStudyScreenUrl(
+        '/en/study/module/module-1',
+        'foo=bar&item=letter-ani',
+        'letter-p-prime-ari',
+      ),
+    ).toBe('/en/study/module/module-1?foo=bar&item=letter-p-prime-ari');
   });
 
   it('removes the item param when returning to summary', () => {

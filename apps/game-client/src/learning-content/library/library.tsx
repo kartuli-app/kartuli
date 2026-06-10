@@ -19,9 +19,13 @@ export interface Library {
 export interface LetterItem {
   id: string;
   targetScript: string;
+  name: string;
+  slug: string;
   transliteration: string;
+  ipa?: string;
   notes: LocalizedLetterNote[];
   soundCategory: string;
+  audioKey?: string;
   type: 'letter';
   commonSource: string;
   localizedSource: string;

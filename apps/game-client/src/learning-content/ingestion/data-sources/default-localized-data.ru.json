@@ -139,7 +139,7 @@
       ]
     },
     {
-      "id": "letter-kani",
+      "id": "letter-k-prime-ani",
       "notes": [
         {
           "kind": "pronunciation_hint",
@@ -189,7 +189,7 @@
       ]
     },
     {
-      "id": "letter-pari",
+      "id": "letter-p-prime-ari",
       "notes": [
         {
           "kind": "pronunciation_hint",
@@ -229,7 +229,7 @@
       ]
     },
     {
-      "id": "letter-tari",
+      "id": "letter-t-prime-ari",
       "notes": [
         {
           "kind": "pronunciation_hint",
@@ -249,7 +249,7 @@
       ]
     },
     {
-      "id": "letter-pari-aspirated",
+      "id": "letter-pari",
       "notes": [
         {
           "kind": "pronunciation_hint",
@@ -259,7 +259,7 @@
       ]
     },
     {
-      "id": "letter-kani-aspirated",
+      "id": "letter-kani",
       "notes": [
         {
           "kind": "pronunciation_hint",
@@ -279,7 +279,7 @@
       ]
     },
     {
-      "id": "letter-qari",
+      "id": "letter-q-prime-ari",
       "notes": [
         {
           "kind": "pronunciation_hint",
@@ -329,7 +329,7 @@
       ]
     },
     {
-      "id": "letter-tsili",
+      "id": "letter-ts-prime-ili",
       "notes": [
         {
           "kind": "pronunciation_hint",
@@ -339,7 +339,7 @@
       ]
     },
     {
-      "id": "letter-chari",
+      "id": "letter-ch-prime-ari",
       "notes": [
         {
           "kind": "pronunciation_hint",

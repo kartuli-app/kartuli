@@ -13,7 +13,10 @@ import type {
   LocalizedWordItem,
 } from '@game-client/learning-content/ingestion/localized-data/localized-data';
 import { logger } from '@game-client/logging/dev-logger';
-import { getStringTransliterationFromTargetScript } from '../utils/transliteration';
+import {
+  getStringTransliterationFromTargetScript,
+  normalizeTransliterationKey,
+} from '../utils/transliteration';
 import type { Lesson, LetterItem, Library, Module, WordItem } from './library';
 
 const getWordTransliterationFromCommonLettersByTargetScript = (
@@ -55,7 +58,7 @@ const buildLetterItems = (
     commonLetterItemsByTargetScript.set(commonLetterItem.targetScript, commonLetterItem);
 
     const existingByTranslit = commonLetterItemsByTransliteration.get(
-      commonLetterItem.transliteration,
+      normalizeTransliterationKey(commonLetterItem.transliteration),
     );
     if (existingByTranslit && existingByTranslit.id !== commonLetterItem.id) {
       logger.error(
@@ -63,7 +66,10 @@ const buildLetterItems = (
         `Duplicate transliteration key "${commonLetterItem.transliteration}" for letter ids ${existingByTranslit.id} and ${commonLetterItem.id}; last write wins.`,
       );
     }
-    commonLetterItemsByTransliteration.set(commonLetterItem.transliteration, commonLetterItem);
+    commonLetterItemsByTransliteration.set(
+      normalizeTransliterationKey(commonLetterItem.transliteration),
+      commonLetterItem,
+    );
 
     const localizedLetterItem = localizedLetterItemsById.get(commonLetterItem.id);
     if (!localizedLetterItem) {
@@ -74,9 +80,13 @@ const buildLetterItems = (
     const letterItem: LetterItem = {
       id: commonLetterItem.id,
       targetScript: commonLetterItem.targetScript,
+      name: commonLetterItem.name,
+      slug: commonLetterItem.slug,
       transliteration: commonLetterItem.transliteration,
+      ipa: commonLetterItem.ipa,
       notes: localizedLetterItem.notes ?? [],
       soundCategory: commonLetterItem.soundCategory,
+      audioKey: commonLetterItem.audioKey,
       type: 'letter',
       commonSource: commonLetterItem.source,
       localizedSource: localizedLetterItem.source,

@@ -164,6 +164,8 @@ const items: LetterItem[] = [
   {
     id: 'letter-ani',
     targetScript: 'ა',
+    name: 'ani',
+    slug: 'ani',
     transliteration: 'a',
     notes: [
       {
@@ -173,6 +175,7 @@ const items: LetterItem[] = [
       },
     ],
     soundCategory: 'vowel',
+    audioKey: 'letter-ani',
     type: 'letter' as const,
     commonSource: 'common',
     localizedSource: 'localized',
@@ -180,6 +183,8 @@ const items: LetterItem[] = [
   {
     id: 'letter-bani',
     targetScript: 'ბ',
+    name: 'bani',
+    slug: 'bani',
     transliteration: 'b',
     notes: [
       {
@@ -189,22 +194,26 @@ const items: LetterItem[] = [
       },
     ],
     soundCategory: 'consonant',
+    audioKey: 'letter-bani',
     type: 'letter' as const,
     commonSource: 'common',
     localizedSource: 'localized',
   },
   {
-    id: 'letter-gani',
-    targetScript: 'გ',
-    transliteration: 'g',
+    id: 'letter-p-prime-ari',
+    targetScript: 'პ',
+    name: 'p’ari',
+    slug: 'p-prime-ari',
+    transliteration: 'p’',
     notes: [
       {
         kind: 'pronunciation_hint',
-        highlight: 'g',
-        examples: ['go', 'bag'],
+        highlight: 'p',
+        examples: ['spin', 'speak'],
       },
     ],
-    soundCategory: 'consonant',
+    soundCategory: 'ejective',
+    audioKey: 'letter-p-prime-ari',
     type: 'letter' as const,
     commonSource: 'common',
     localizedSource: 'localized',
@@ -306,15 +315,18 @@ describe('StudyScreen', () => {
     const user = userEvent.setup();
     const initialRender = renderStudyScreen();
 
-    await user.click(within(initialRender.container).getAllByRole('button', { name: 'Open გ' })[0]);
+    await user.click(within(initialRender.container).getAllByRole('button', { name: 'Open პ' })[0]);
 
     expect(routerPushMock).toHaveBeenCalledTimes(1);
-    expect(routerPushMock).toHaveBeenLastCalledWith('/en/study/lesson/lesson-1?item=letter-gani', {
-      scroll: false,
-    });
+    expect(routerPushMock).toHaveBeenLastCalledWith(
+      '/en/study/lesson/lesson-1?item=letter-p-prime-ari',
+      {
+        scroll: false,
+      },
+    );
 
     initialRender.unmount();
-    setMockRoute('/en/study/lesson/lesson-1?item=letter-gani');
+    setMockRoute('/en/study/lesson/lesson-1?item=letter-p-prime-ari');
     const detailRender = renderStudyScreen();
 
     await waitFor(() => {

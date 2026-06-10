@@ -35,21 +35,27 @@
     },
     {
       "id": "lesson-alphabet-puff-and-pop",
-      "itemIds": ["letter-tani", "letter-tari", "letter-pari-aspirated", "letter-pari"]
+      "itemIds": ["letter-tani", "letter-t-prime-ari", "letter-pari", "letter-p-prime-ari"]
     },
     {
       "id": "lesson-alphabet-k-family",
       "itemIds": [
-        "letter-kani-aspirated",
         "letter-kani",
+        "letter-k-prime-ani",
         "letter-ghani",
         "letter-khani",
-        "letter-qari"
+        "letter-q-prime-ari"
       ]
     },
     {
       "id": "lesson-alphabet-hissing-sounds",
-      "itemIds": ["letter-shini", "letter-chini", "letter-tsani", "letter-tsili", "letter-chari"]
+      "itemIds": [
+        "letter-shini",
+        "letter-chini",
+        "letter-tsani",
+        "letter-ts-prime-ili",
+        "letter-ch-prime-ari"
+      ]
     },
     {
       "id": "lesson-alphabet-buzzing-sounds",
@@ -60,200 +66,299 @@
     {
       "id": "letter-ani",
       "targetScript": "ა",
+      "name": "ani",
+      "slug": "ani",
       "transliteration": "a",
-      "soundCategory": "vowel"
+      "soundCategory": "vowel",
+      "audioKey": "letter-ani"
     },
     {
       "id": "letter-bani",
       "targetScript": "ბ",
+      "name": "bani",
+      "slug": "bani",
       "transliteration": "b",
-      "soundCategory": "stop"
+      "soundCategory": "stop",
+      "audioKey": "letter-bani"
     },
     {
       "id": "letter-gani",
       "targetScript": "გ",
+      "name": "gani",
+      "slug": "gani",
       "transliteration": "g",
-      "soundCategory": "stop"
+      "soundCategory": "stop",
+      "audioKey": "letter-gani"
     },
     {
       "id": "letter-doni",
       "targetScript": "დ",
+      "name": "doni",
+      "slug": "doni",
       "transliteration": "d",
-      "soundCategory": "stop"
+      "soundCategory": "stop",
+      "audioKey": "letter-doni"
     },
     {
       "id": "letter-eni",
       "targetScript": "ე",
+      "name": "eni",
+      "slug": "eni",
       "transliteration": "e",
-      "soundCategory": "vowel"
+      "soundCategory": "vowel",
+      "audioKey": "letter-eni"
     },
     {
       "id": "letter-vini",
       "targetScript": "ვ",
+      "name": "vini",
+      "slug": "vini",
       "transliteration": "v",
-      "soundCategory": "fricative"
+      "soundCategory": "fricative",
+      "audioKey": "letter-vini"
     },
     {
       "id": "letter-zeni",
       "targetScript": "ზ",
+      "name": "zeni",
+      "slug": "zeni",
       "transliteration": "z",
-      "soundCategory": "fricative"
+      "soundCategory": "fricative",
+      "audioKey": "letter-zeni"
     },
     {
       "id": "letter-tani",
       "targetScript": "თ",
+      "name": "tani",
+      "slug": "tani",
       "transliteration": "t",
-      "soundCategory": "aspirated"
+      "soundCategory": "aspirated",
+      "audioKey": "letter-tani"
     },
     {
       "id": "letter-ini",
       "targetScript": "ი",
+      "name": "ini",
+      "slug": "ini",
       "transliteration": "i",
-      "soundCategory": "vowel"
+      "soundCategory": "vowel",
+      "audioKey": "letter-ini"
     },
     {
-      "id": "letter-kani",
+      "id": "letter-k-prime-ani",
       "targetScript": "კ",
-      "transliteration": "k'",
-      "soundCategory": "ejective"
+      "name": "k’ani",
+      "slug": "k-prime-ani",
+      "transliteration": "k’",
+      "soundCategory": "ejective",
+      "audioKey": "letter-k-prime-ani"
     },
     {
       "id": "letter-lasi",
       "targetScript": "ლ",
+      "name": "lasi",
+      "slug": "lasi",
       "transliteration": "l",
-      "soundCategory": "sonorant"
+      "soundCategory": "sonorant",
+      "audioKey": "letter-lasi"
     },
     {
       "id": "letter-mani",
       "targetScript": "მ",
+      "name": "mani",
+      "slug": "mani",
       "transliteration": "m",
-      "soundCategory": "sonorant"
+      "soundCategory": "sonorant",
+      "audioKey": "letter-mani"
     },
     {
       "id": "letter-nari",
       "targetScript": "ნ",
+      "name": "nari",
+      "slug": "nari",
       "transliteration": "n",
-      "soundCategory": "sonorant"
+      "soundCategory": "sonorant",
+      "audioKey": "letter-nari"
     },
     {
       "id": "letter-oni",
       "targetScript": "ო",
+      "name": "oni",
+      "slug": "oni",
       "transliteration": "o",
-      "soundCategory": "vowel"
+      "soundCategory": "vowel",
+      "audioKey": "letter-oni"
     },
     {
-      "id": "letter-pari",
+      "id": "letter-p-prime-ari",
       "targetScript": "პ",
-      "transliteration": "p'",
-      "soundCategory": "ejective"
+      "name": "p’ari",
+      "slug": "p-prime-ari",
+      "transliteration": "p’",
+      "soundCategory": "ejective",
+      "audioKey": "letter-p-prime-ari"
     },
     {
       "id": "letter-zhani",
       "targetScript": "ჟ",
+      "name": "zhani",
+      "slug": "zhani",
       "transliteration": "zh",
-      "soundCategory": "fricative"
+      "soundCategory": "fricative",
+      "audioKey": "letter-zhani"
     },
     {
       "id": "letter-rae",
       "targetScript": "რ",
+      "name": "rae",
+      "slug": "rae",
       "transliteration": "r",
-      "soundCategory": "sonorant"
+      "soundCategory": "sonorant",
+      "audioKey": "letter-rae"
     },
     {
       "id": "letter-sani",
       "targetScript": "ს",
+      "name": "sani",
+      "slug": "sani",
       "transliteration": "s",
-      "soundCategory": "fricative"
+      "soundCategory": "fricative",
+      "audioKey": "letter-sani"
     },
     {
-      "id": "letter-tari",
+      "id": "letter-t-prime-ari",
       "targetScript": "ტ",
-      "transliteration": "t'",
-      "soundCategory": "ejective"
+      "name": "t’ari",
+      "slug": "t-prime-ari",
+      "transliteration": "t’",
+      "soundCategory": "ejective",
+      "audioKey": "letter-t-prime-ari"
     },
     {
       "id": "letter-uni",
       "targetScript": "უ",
+      "name": "uni",
+      "slug": "uni",
       "transliteration": "u",
-      "soundCategory": "vowel"
+      "soundCategory": "vowel",
+      "audioKey": "letter-uni"
     },
     {
-      "id": "letter-pari-aspirated",
+      "id": "letter-pari",
       "targetScript": "ფ",
+      "name": "pari",
+      "slug": "pari",
       "transliteration": "p",
-      "soundCategory": "aspirated"
+      "soundCategory": "aspirated",
+      "audioKey": "letter-pari"
     },
     {
-      "id": "letter-kani-aspirated",
+      "id": "letter-kani",
       "targetScript": "ქ",
+      "name": "kani",
+      "slug": "kani",
       "transliteration": "k",
-      "soundCategory": "aspirated"
+      "soundCategory": "aspirated",
+      "audioKey": "letter-kani"
     },
     {
       "id": "letter-ghani",
       "targetScript": "ღ",
+      "name": "ghani",
+      "slug": "ghani",
       "transliteration": "gh",
-      "soundCategory": "throat"
+      "soundCategory": "throat",
+      "audioKey": "letter-ghani"
     },
     {
-      "id": "letter-qari",
+      "id": "letter-q-prime-ari",
       "targetScript": "ყ",
-      "transliteration": "q'",
-      "soundCategory": "ejective"
+      "name": "q’ari",
+      "slug": "q-prime-ari",
+      "transliteration": "q’",
+      "soundCategory": "ejective",
+      "audioKey": "letter-q-prime-ari"
     },
     {
       "id": "letter-shini",
       "targetScript": "შ",
+      "name": "shini",
+      "slug": "shini",
       "transliteration": "sh",
-      "soundCategory": "fricative"
+      "soundCategory": "fricative",
+      "audioKey": "letter-shini"
     },
     {
       "id": "letter-chini",
       "targetScript": "ჩ",
+      "name": "chini",
+      "slug": "chini",
       "transliteration": "ch",
-      "soundCategory": "aspirated"
+      "soundCategory": "aspirated",
+      "audioKey": "letter-chini"
     },
     {
       "id": "letter-tsani",
       "targetScript": "ც",
+      "name": "tsani",
+      "slug": "tsani",
       "transliteration": "ts",
-      "soundCategory": "aspirated"
+      "soundCategory": "aspirated",
+      "audioKey": "letter-tsani"
     },
     {
       "id": "letter-dzili",
       "targetScript": "ძ",
+      "name": "dzili",
+      "slug": "dzili",
       "transliteration": "dz",
-      "soundCategory": "affricate"
+      "soundCategory": "affricate",
+      "audioKey": "letter-dzili"
     },
     {
-      "id": "letter-tsili",
+      "id": "letter-ts-prime-ili",
       "targetScript": "წ",
-      "transliteration": "ts'",
-      "soundCategory": "ejective"
+      "name": "ts’ili",
+      "slug": "ts-prime-ili",
+      "transliteration": "ts’",
+      "soundCategory": "ejective",
+      "audioKey": "letter-ts-prime-ili"
     },
     {
-      "id": "letter-chari",
+      "id": "letter-ch-prime-ari",
       "targetScript": "ჭ",
-      "transliteration": "ch'",
-      "soundCategory": "ejective"
+      "name": "ch’ari",
+      "slug": "ch-prime-ari",
+      "transliteration": "ch’",
+      "soundCategory": "ejective",
+      "audioKey": "letter-ch-prime-ari"
     },
     {
       "id": "letter-khani",
       "targetScript": "ხ",
+      "name": "khani",
+      "slug": "khani",
       "transliteration": "kh",
-      "soundCategory": "throat"
+      "soundCategory": "throat",
+      "audioKey": "letter-khani"
     },
     {
       "id": "letter-jani",
       "targetScript": "ჯ",
+      "name": "jani",
+      "slug": "jani",
       "transliteration": "j",
-      "soundCategory": "affricate"
+      "soundCategory": "affricate",
+      "audioKey": "letter-jani"
     },
     {
       "id": "letter-hae",
       "targetScript": "ჰ",
+      "name": "hae",
+      "slug": "hae",
       "transliteration": "h",
-      "soundCategory": "fricative"
+      "soundCategory": "fricative",
+      "audioKey": "letter-hae"
     }
   ],
   "commonWordItems": []
