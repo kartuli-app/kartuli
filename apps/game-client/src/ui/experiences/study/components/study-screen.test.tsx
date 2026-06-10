@@ -30,8 +30,50 @@ function renderStudyScreen() {
   return render(<StudyScreen key={createStudyScreenTestKey()} items={items} />);
 }
 
+function createLetterItem(
+  overrides: Pick<LetterItem, 'id' | 'targetScript' | 'name' | 'slug' | 'transliteration'> & {
+    highlight: string;
+    examples: string[];
+    soundCategory: string;
+    audioKey: string;
+  },
+): LetterItem {
+  return {
+    id: overrides.id,
+    targetScript: overrides.targetScript,
+    name: overrides.name,
+    slug: overrides.slug,
+    transliteration: overrides.transliteration,
+    notes: [
+      {
+        kind: 'pronunciation_hint',
+        highlight: overrides.highlight,
+        examples: overrides.examples,
+      },
+    ],
+    soundCategory: overrides.soundCategory,
+    audioKey: overrides.audioKey,
+    type: 'letter',
+    commonSource: 'common',
+    localizedSource: 'localized',
+  };
+}
+
 function hasExactTextContent(expectedText: string) {
   return (_unusedContent: string, element: Element | null) => element?.textContent === expectedText;
+}
+
+async function renderStudyScreenAtRouteAndWaitForCounter(href: string, counterLabel: string) {
+  setMockRoute(href);
+  const view = renderStudyScreen();
+
+  await waitFor(() => {
+    expect(
+      within(view.container).getAllByText(hasExactTextContent(counterLabel)).length,
+    ).toBeGreaterThan(0);
+  });
+
+  return view;
 }
 
 vi.mock('next/navigation', () => ({
@@ -161,63 +203,39 @@ class MockResizeObserver {
 }
 
 const items: LetterItem[] = [
-  {
+  createLetterItem({
     id: 'letter-ani',
     targetScript: 'ა',
     name: 'ani',
     slug: 'ani',
     transliteration: 'a',
-    notes: [
-      {
-        kind: 'pronunciation_hint',
-        highlight: 'a',
-        examples: ['father', 'spa'],
-      },
-    ],
+    highlight: 'a',
+    examples: ['father', 'spa'],
     soundCategory: 'vowel',
     audioKey: 'letter-ani',
-    type: 'letter' as const,
-    commonSource: 'common',
-    localizedSource: 'localized',
-  },
-  {
+  }),
+  createLetterItem({
     id: 'letter-bani',
     targetScript: 'ბ',
     name: 'bani',
     slug: 'bani',
     transliteration: 'b',
-    notes: [
-      {
-        kind: 'pronunciation_hint',
-        highlight: 'b',
-        examples: ['bed', 'bubble'],
-      },
-    ],
+    highlight: 'b',
+    examples: ['bed', 'bubble'],
     soundCategory: 'consonant',
     audioKey: 'letter-bani',
-    type: 'letter' as const,
-    commonSource: 'common',
-    localizedSource: 'localized',
-  },
-  {
+  }),
+  createLetterItem({
     id: 'letter-p-prime-ari',
     targetScript: 'პ',
     name: 'p’ari',
     slug: 'p-prime-ari',
     transliteration: 'p’',
-    notes: [
-      {
-        kind: 'pronunciation_hint',
-        highlight: 'p',
-        examples: ['spin', 'speak'],
-      },
-    ],
+    highlight: 'p',
+    examples: ['spin', 'speak'],
     soundCategory: 'ejective',
     audioKey: 'letter-p-prime-ari',
-    type: 'letter' as const,
-    commonSource: 'common',
-    localizedSource: 'localized',
-  },
+  }),
 ];
 
 describe('StudyScreen', () => {
@@ -256,14 +274,10 @@ describe('StudyScreen', () => {
     });
 
     initialRender.unmount();
-    setMockRoute('/en/study/lesson/lesson-1?item=letter-ani');
-    const detailRender = renderStudyScreen();
-
-    await waitFor(() => {
-      expect(
-        within(detailRender.container).getAllByText(hasExactTextContent('1/3')).length,
-      ).toBeGreaterThan(0);
-    });
+    const detailRender = await renderStudyScreenAtRouteAndWaitForCounter(
+      '/en/study/lesson/lesson-1?item=letter-ani',
+      '1/3',
+    );
 
     let slides = Array.from(
       detailRender.container.querySelectorAll<HTMLElement>('[data-study-slide-index]'),
@@ -278,14 +292,10 @@ describe('StudyScreen', () => {
     });
 
     detailRender.unmount();
-    setMockRoute('/en/study/lesson/lesson-1?item=letter-bani');
-    const secondDetailRender = renderStudyScreen();
-
-    await waitFor(() => {
-      expect(
-        within(secondDetailRender.container).getAllByText(hasExactTextContent('2/3')).length,
-      ).toBeGreaterThan(0);
-    });
+    const secondDetailRender = await renderStudyScreenAtRouteAndWaitForCounter(
+      '/en/study/lesson/lesson-1?item=letter-bani',
+      '2/3',
+    );
 
     await user.click(
       within(secondDetailRender.container).getAllByRole('button', { name: 'Summary' })[0],
@@ -296,14 +306,10 @@ describe('StudyScreen', () => {
     });
 
     secondDetailRender.unmount();
-    setMockRoute('/en/study/lesson/lesson-1');
-    const summaryRender = renderStudyScreen();
-
-    await waitFor(() => {
-      expect(
-        within(summaryRender.container).getAllByText(hasExactTextContent('3 letters')).length,
-      ).toBeGreaterThan(0);
-    });
+    const summaryRender = await renderStudyScreenAtRouteAndWaitForCounter(
+      '/en/study/lesson/lesson-1',
+      '3 letters',
+    );
 
     slides = Array.from(
       summaryRender.container.querySelectorAll<HTMLElement>('[data-study-slide-index]'),
@@ -326,18 +332,14 @@ describe('StudyScreen', () => {
     );
 
     initialRender.unmount();
-    setMockRoute('/en/study/lesson/lesson-1?item=letter-p-prime-ari');
-    const detailRender = renderStudyScreen();
+    const detailRender = await renderStudyScreenAtRouteAndWaitForCounter(
+      '/en/study/lesson/lesson-1?item=letter-p-prime-ari',
+      '3/3',
+    );
+    const slides = Array.from(
+      detailRender.container.querySelectorAll<HTMLElement>('[data-study-slide-index]'),
+    );
 
-    await waitFor(() => {
-      const slides = Array.from(
-        detailRender.container.querySelectorAll<HTMLElement>('[data-study-slide-index]'),
-      );
-
-      expect(
-        within(detailRender.container).getAllByText(hasExactTextContent('3/3')).length,
-      ).toBeGreaterThan(0);
-      expect(slides[3]?.dataset.active).toBe('true');
-    });
+    expect(slides[3]?.dataset.active).toBe('true');
   });
 });

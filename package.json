@@ -60,7 +60,7 @@
     "c:preview:web-docs-client": "turbo run preview --filter=@kartuli/web-docs-client"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.15",
+    "@biomejs/biome": "^2.4.16",
     "@lhci/cli": "^0.15.1",
     "@vitest/coverage-v8": "catalog:",
     "lefthook": "^2.1.8",
