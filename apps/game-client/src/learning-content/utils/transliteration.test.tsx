@@ -5,11 +5,8 @@ import { getStringTransliterationFromLatin, normalizeTransliterationKey } from '
 const ejectiveLetter: CommonLetterItem = {
   id: 'letter-p-prime-ari',
   targetScript: 'პ',
-  name: 'p’ari',
-  slug: 'p-prime-ari',
   transliteration: 'p’',
   soundCategory: 'ejective',
-  audioKey: 'letter-p-prime-ari',
   source: 'common',
   type: 'letter',
 };

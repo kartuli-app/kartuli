@@ -8,12 +8,8 @@ const validFakeSharedJson = {
     {
       id: 'letter-a',
       targetScript: 'ა',
-      name: 'ani',
-      slug: 'a',
       transliteration: 'a',
-      ipa: '/a/',
       soundCategory: 'vowel',
-      audioKey: 'letter-a',
     },
   ],
   commonWordItems: [{ id: 'word-x', targetScript: 'ქართული' }],
@@ -37,12 +33,8 @@ describe('parseAndMapCommonData', () => {
     expect(result.commonLetterItems[0]).toEqual({
       id: 'letter-a',
       targetScript: 'ა',
-      name: 'ani',
-      slug: 'a',
       transliteration: 'a',
-      ipa: '/a/',
       soundCategory: 'vowel',
-      audioKey: 'letter-a',
       source: 'my-source',
       type: 'letter',
     });
@@ -58,7 +50,7 @@ describe('parseAndMapCommonData', () => {
   it('throws when JSON is invalid (letter item missing required field)', () => {
     const invalid = {
       ...validFakeSharedJson,
-      commonLetterItems: [{ id: 'x', targetScript: 'x' }], // missing name, slug, transliteration, soundCategory
+      commonLetterItems: [{ id: 'x', targetScript: 'x' }], // missing transliteration, soundCategory
     };
 
     expect(() => parseAndMapCommonData(invalid, 'src')).toThrow();

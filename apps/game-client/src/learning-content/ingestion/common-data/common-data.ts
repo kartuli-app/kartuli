@@ -13,12 +13,8 @@ export interface CommonLesson {
 export interface CommonLetterItem {
   id: string;
   targetScript: string;
-  name: string;
-  slug: string;
   transliteration: string;
-  ipa?: string;
   soundCategory: string;
-  audioKey?: string;
   source: string;
   type: 'letter';
 }

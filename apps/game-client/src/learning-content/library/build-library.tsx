@@ -80,13 +80,9 @@ const buildLetterItems = (
     const letterItem: LetterItem = {
       id: commonLetterItem.id,
       targetScript: commonLetterItem.targetScript,
-      name: commonLetterItem.name,
-      slug: commonLetterItem.slug,
       transliteration: commonLetterItem.transliteration,
-      ipa: commonLetterItem.ipa,
       notes: localizedLetterItem.notes ?? [],
       soundCategory: commonLetterItem.soundCategory,
-      audioKey: commonLetterItem.audioKey,
       type: 'letter',
       commonSource: commonLetterItem.source,
       localizedSource: localizedLetterItem.source,

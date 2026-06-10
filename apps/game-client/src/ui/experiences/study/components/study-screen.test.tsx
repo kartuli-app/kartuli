@@ -31,18 +31,15 @@ function renderStudyScreen() {
 }
 
 function createLetterItem(
-  overrides: Pick<LetterItem, 'id' | 'targetScript' | 'name' | 'slug' | 'transliteration'> & {
+  overrides: Pick<LetterItem, 'id' | 'targetScript' | 'transliteration'> & {
     highlight: string;
     examples: string[];
     soundCategory: string;
-    audioKey: string;
   },
 ): LetterItem {
   return {
     id: overrides.id,
     targetScript: overrides.targetScript,
-    name: overrides.name,
-    slug: overrides.slug,
     transliteration: overrides.transliteration,
     notes: [
       {
@@ -52,7 +49,6 @@ function createLetterItem(
       },
     ],
     soundCategory: overrides.soundCategory,
-    audioKey: overrides.audioKey,
     type: 'letter',
     commonSource: 'common',
     localizedSource: 'localized',
@@ -206,35 +202,26 @@ const items: LetterItem[] = [
   createLetterItem({
     id: 'letter-ani',
     targetScript: 'ა',
-    name: 'ani',
-    slug: 'ani',
     transliteration: 'a',
     highlight: 'a',
     examples: ['father', 'spa'],
     soundCategory: 'vowel',
-    audioKey: 'letter-ani',
   }),
   createLetterItem({
     id: 'letter-bani',
     targetScript: 'ბ',
-    name: 'bani',
-    slug: 'bani',
     transliteration: 'b',
     highlight: 'b',
     examples: ['bed', 'bubble'],
     soundCategory: 'consonant',
-    audioKey: 'letter-bani',
   }),
   createLetterItem({
     id: 'letter-p-prime-ari',
     targetScript: 'პ',
-    name: 'p’ari',
-    slug: 'p-prime-ari',
     transliteration: 'p’',
     highlight: 'p',
     examples: ['spin', 'speak'],
     soundCategory: 'ejective',
-    audioKey: 'letter-p-prime-ari',
   }),
 ];
 

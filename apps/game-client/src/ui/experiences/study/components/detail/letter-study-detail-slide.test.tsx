@@ -7,8 +7,6 @@ import { LetterStudyDetailSlide } from './letter-study-detail-slide';
 const item: LetterItem = {
   id: 'letter-ani',
   targetScript: 'ა',
-  name: 'ani',
-  slug: 'ani',
   transliteration: 'a',
   notes: [
     {
@@ -18,7 +16,6 @@ const item: LetterItem = {
     },
   ],
   soundCategory: 'vowel',
-  audioKey: 'letter-ani',
   type: 'letter',
   commonSource: 'common',
   localizedSource: 'localized',
