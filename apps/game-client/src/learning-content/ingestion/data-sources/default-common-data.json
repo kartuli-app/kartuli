@@ -35,21 +35,27 @@
     },
     {
       "id": "lesson-alphabet-puff-and-pop",
-      "itemIds": ["letter-tani", "letter-tari", "letter-pari-aspirated", "letter-pari"]
+      "itemIds": ["letter-tani", "letter-t-prime-ari", "letter-pari", "letter-p-prime-ari"]
     },
     {
       "id": "lesson-alphabet-k-family",
       "itemIds": [
-        "letter-kani-aspirated",
         "letter-kani",
+        "letter-k-prime-ani",
         "letter-ghani",
         "letter-khani",
-        "letter-qari"
+        "letter-q-prime-ari"
       ]
     },
     {
       "id": "lesson-alphabet-hissing-sounds",
-      "itemIds": ["letter-shini", "letter-chini", "letter-tsani", "letter-tsili", "letter-chari"]
+      "itemIds": [
+        "letter-shini",
+        "letter-chini",
+        "letter-tsani",
+        "letter-ts-prime-ili",
+        "letter-ch-prime-ari"
+      ]
     },
     {
       "id": "lesson-alphabet-buzzing-sounds",
@@ -112,9 +118,9 @@
       "soundCategory": "vowel"
     },
     {
-      "id": "letter-kani",
+      "id": "letter-k-prime-ani",
       "targetScript": "კ",
-      "transliteration": "k'",
+      "transliteration": "k’",
       "soundCategory": "ejective"
     },
     {
@@ -142,9 +148,9 @@
       "soundCategory": "vowel"
     },
     {
-      "id": "letter-pari",
+      "id": "letter-p-prime-ari",
       "targetScript": "პ",
-      "transliteration": "p'",
+      "transliteration": "p’",
       "soundCategory": "ejective"
     },
     {
@@ -166,9 +172,9 @@
       "soundCategory": "fricative"
     },
     {
-      "id": "letter-tari",
+      "id": "letter-t-prime-ari",
       "targetScript": "ტ",
-      "transliteration": "t'",
+      "transliteration": "t’",
       "soundCategory": "ejective"
     },
     {
@@ -178,13 +184,13 @@
       "soundCategory": "vowel"
     },
     {
-      "id": "letter-pari-aspirated",
+      "id": "letter-pari",
       "targetScript": "ფ",
       "transliteration": "p",
       "soundCategory": "aspirated"
     },
     {
-      "id": "letter-kani-aspirated",
+      "id": "letter-kani",
       "targetScript": "ქ",
       "transliteration": "k",
       "soundCategory": "aspirated"
@@ -196,9 +202,9 @@
       "soundCategory": "throat"
     },
     {
-      "id": "letter-qari",
+      "id": "letter-q-prime-ari",
       "targetScript": "ყ",
-      "transliteration": "q'",
+      "transliteration": "q’",
       "soundCategory": "ejective"
     },
     {
@@ -226,15 +232,15 @@
       "soundCategory": "affricate"
     },
     {
-      "id": "letter-tsili",
+      "id": "letter-ts-prime-ili",
       "targetScript": "წ",
-      "transliteration": "ts'",
+      "transliteration": "ts’",
       "soundCategory": "ejective"
     },
     {
-      "id": "letter-chari",
+      "id": "letter-ch-prime-ari",
       "targetScript": "ჭ",
-      "transliteration": "ch'",
+      "transliteration": "ch’",
       "soundCategory": "ejective"
     },
     {
