@@ -27,6 +27,7 @@ const meta: Meta<typeof DetailMetaBar> = {
     ),
   ],
   args: {
+    audioSrc: '/sounds/speech/letters/letter-ani.mp3',
     labels: {
       addFavorite: 'Add favorite',
       newBadge: 'New',

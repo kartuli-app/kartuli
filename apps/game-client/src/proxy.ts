@@ -34,12 +34,12 @@ export function proxy(request: NextRequest) {
 // Matches / and any path whose first segment is:
 // - not a supported locale,
 // - not a Next.js internal,
-// - not a root public asset (so /og-image.png, /images/*, etc. stay on the bare URL for bots).
+// - not a root public asset (so /og-image.png, /images/*, /sounds/*, etc. stay on the bare URL for bots).
 // - not one of the supported locales (en , ru)
 // IMPORTANT: update the negative lookahead if supported locales or root public files change.
 export const config = {
   matcher: [
     // Matcher must be a string literal here — Next.js rejects non-literals (e.g. variables, String.raw).
-    '/((?!en(?:/|$)|ru(?:/|$)|_next/|favicon\\.|icon\\.|robots\\.|manifest\\.|og-image(?:\\.|$)|twitter-image(?:\\.|$)|apple-touch-icon(?:\\.|$)|browserconfig(?:\\.|$)|images(?:/|$)|fonts(?:/|$)).*)',
+    '/((?!en(?:/|$)|ru(?:/|$)|_next/|favicon\\.|icon\\.|robots\\.|manifest\\.|og-image(?:\\.|$)|twitter-image(?:\\.|$)|apple-touch-icon(?:\\.|$)|browserconfig(?:\\.|$)|images(?:/|$)|fonts(?:/|$)|sounds(?:/|$)).*)',
   ],
 };

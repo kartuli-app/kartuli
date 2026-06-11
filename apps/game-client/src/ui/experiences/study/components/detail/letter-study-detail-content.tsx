@@ -26,6 +26,7 @@ export function LetterStudyDetailContent({ item }: Readonly<LetterStudyDetailCon
       )}
     >
       <DetailMetaBar
+        audioSrc={`/sounds/speech/letters/${item.id}.mp3`}
         labels={{
           addFavorite: t('notes.favorite.add_label'),
           newBadge: t('detail.badges.status_new'),
