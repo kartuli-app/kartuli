@@ -11,7 +11,7 @@
       "matchStrings": ["{\"currentValue\": $split($.\"$schema\",(\"/\"))[-2]}"]
     }
   ],
-  "enabledManagers": ["npm", "custom.regex"],
+  "enabledManagers": ["npm", "custom.jsonata"],
   "ignorePaths": [".nvmrc"],
   "schedule": ["before 3am on Monday"],
   "labels": ["type:chore", "scope:global"],
@@ -30,6 +30,16 @@
   "separateMinorPatch": false,
   "separateMultipleMajor": false,
   "packageRules": [
+    {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7",
+      "description": "Next.js 16.2 requires the TypeScript JavaScript compiler API"
+    },
+    {
+      "matchPackageNames": ["vitest", "@vitest/**"],
+      "allowedVersions": "<5",
+      "description": "Keep the Vitest runner and its browser and coverage integrations on version 4"
+    },
     {
       "matchUpdateTypes": ["security"],
       "groupName": "security updates",
