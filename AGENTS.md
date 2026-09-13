@@ -29,7 +29,7 @@ Always use conventional commit format for all commits:
 - Runtime: Node.js 24
 - Package manager: pnpm 10
 - Build system: Turborepo
-- Language: TypeScript 6
+- Language: TypeScript 7
 - Framework: Next.js 16 + React 19
 - Testing: Vitest 4 + Playwright
 - Dependencies are declared in the `/pnpm-workspace.yaml` catalog
