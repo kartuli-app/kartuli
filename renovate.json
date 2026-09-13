@@ -32,8 +32,9 @@
   "packageRules": [
     {
       "matchPackageNames": ["typescript"],
+      "matchCurrentVersion": "<7",
       "allowedVersions": "<7",
-      "description": "Next.js 16.2 requires the TypeScript JavaScript compiler API"
+      "description": "Keep Storybook's legacy compiler on TypeScript 6 until docgen supports TypeScript 7"
     },
     {
       "matchPackageNames": ["vitest", "@vitest/**"],
