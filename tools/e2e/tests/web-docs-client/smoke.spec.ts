@@ -101,7 +101,10 @@ test.describe('Web Docs Client Smoke Tests', () => {
             );
           });
 
-          await page.waitForLoadState('networkidle');
+          const destinationContent = expectedUrl.pathname.endsWith('.txt')
+            ? page.locator('pre')
+            : page.locator('main');
+          await expect(destinationContent).toBeVisible({ timeout: 10000 });
           await expectNoCriticalErrors(page, {
             path: `${expectedUrl.pathname}${expectedUrl.search}`,
           });
