@@ -8,7 +8,6 @@ test.describe('Storybook Smoke Tests', () => {
 
   test('sidebar has at least one section', async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
 
     // Storybook sidebar typically has navigation or list of stories
     const sidebarNav = page.getByRole('navigation').first();

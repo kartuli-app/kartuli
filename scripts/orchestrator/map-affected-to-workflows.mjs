@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const configPath = join(__dirname, 'workflow-targets.json');
 
 function shortWorkspaceName(packageName) {
   const parts = packageName.split('/');
@@ -15,17 +16,6 @@ function uniqueSorted(names) {
 
 function readStdin() {
   return readFileSync(0, 'utf8').trim();
-}
-
-function parseArgs(argv) {
-  let configPath = join(__dirname, 'workflow-targets.json');
-  for (let i = 2; i < argv.length; i++) {
-    if (argv[i] === '--config' && argv[i + 1]) {
-      configPath = argv[i + 1];
-      i++;
-    }
-  }
-  return { configPath };
 }
 
 function requireWorkflowTargetsBucket(config, configPath, key) {
@@ -102,7 +92,10 @@ function writeGithubArtifacts(out) {
 }
 
 try {
-  const { configPath } = parseArgs(process.argv);
+  if (process.argv.length > 2) {
+    throw new Error('map-affected-to-workflows: command-line arguments are not supported');
+  }
+
   const raw = readStdin();
   if (!raw) {
     process.stderr.write('map-affected-to-workflows: expected JSON array on stdin\n');
