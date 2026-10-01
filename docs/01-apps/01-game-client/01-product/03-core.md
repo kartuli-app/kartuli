@@ -1,8 +1,12 @@
 ---
-description: Stable conceptual model and sectioned glossary for learning content, student activity, and app experience.
+description: Planned product specification — Stable conceptual model and sectioned glossary for learning content, student activity, and app experience.
+status: planned
+intent: specification
 ---
 
 # Core
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 This document owns the stable conceptual model of the product.
 

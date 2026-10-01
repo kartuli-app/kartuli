@@ -1,8 +1,12 @@
 ---
-description: First visible Play state after game generation and before the first round begins.
+description: Planned product specification — First visible Play state after game generation and before the first round begins.
+status: planned
+intent: specification
 ---
 
 # Play Lobby Screen
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../../../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 ## Purpose
 

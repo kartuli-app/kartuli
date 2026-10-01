@@ -1,6 +1,6 @@
 # GitHub Labels Configuration
 # This file defines all labels used in the repository
-# Sync with GitHub using the manual workflow: .github/workflows/sync-labels.yml
+# Sync with GitHub using the manual workflow: .github/workflows/labels-sync-available-on-github-from-repo-config.yml
 
 # Scope Labels - Define which part of the monorepo is affected
 - name: "scope:game-client"

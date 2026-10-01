@@ -85,10 +85,13 @@ getSortedMergedSectionEntries(mergedSectionsTyped).forEach(([sectionName, merged
 });
 
 const nav = [
-  ...getSortedMergedSectionEntries(mergedSectionsTyped).map(([sectionName]) => ({
-    text: sectionName,
-    link: sectionFirstItems[sectionName]?.link || '/',
-  })),
+  {
+    text: 'Documentation',
+    items: getSortedMergedSectionEntries(mergedSectionsTyped).map(([sectionName]) => ({
+      text: sectionName,
+      link: sectionFirstItems[sectionName]?.link || '/',
+    })),
+  },
   {
     text: 'llms.txt',
     link: llmBundleUrl,
@@ -160,7 +163,7 @@ sidebar.push({
   link: llmBundleUrl,
 });
 
-const socialLinks = [{ icon: 'github', link: 'https://github.com/rocescoca/kartuli' }];
+const socialLinks = [{ icon: 'github', link: 'https://github.com/kartuli-app/kartuli' }];
 
 const search = {
   provider: 'local' as const,

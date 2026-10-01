@@ -1,8 +1,12 @@
 ---
-description: Current implementation plan for finishing the MVP slice without mixing scope, refactors, and readiness work into one stream.
+description: Planned product specification — Current implementation plan for finishing the MVP slice without mixing scope, refactors, and readiness work into one stream.
+status: planned
+intent: specification
 ---
 
 # Delivery Plan
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 This document owns the current delivery plan for the game client MVP slice.
 

@@ -5,8 +5,8 @@ export default defineConfig({
     // `tools/storybook` is excluded on purpose: its vitest.config.ts runs
     // every story in browser mode (Chromium via Playwright) and boots a
     // Storybook dev server via `storybookScript: 'pnpm dev'`. That suite is
-    // opt-in via `pnpm --filter @kartuli/storybook test` (see
-    // new-docs/quality.md). Including it here would hang `test:all:coverage`
+    // independently runnable via `pnpm --filter @kartuli/storybook test` (see
+    // docs/06-quality/01-testing.md). Including it here would hang `test:all:coverage`
     // on CI waiting for the dev server.
     // `tools/e2e` is excluded because it's a Playwright suite (pnpm e2e),
     // not a Vitest suite.
