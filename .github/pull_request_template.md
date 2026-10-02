@@ -74,12 +74,13 @@ Closes #
 
 ---
 
-## Documentation Changes (if applicable)
-<!-- If you modified documentation in /docs/, check what applies -->
+## Documentation Impact
+<!-- Code/config/product behavior changes must update their canonical docs in the same PR. If unaffected, explain why. See docs/12-project/01-documentation/index.md. -->
 
 - [ ] Added or updated documentation files
 - [ ] Updated cross-references in other docs (if files were renamed/moved)
 - [ ] Verified all internal links still work
-- [ ] N/A - No documentation changes
+- [ ] Documentation is unaffected (explain why)
+- [ ] Built Web Docs and checked the generated kartuli-llm.txt index when docs changed
 
 

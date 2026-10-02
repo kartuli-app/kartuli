@@ -1,4 +1,4 @@
 # Code owners: used with branch protection "Require review from Code Owners".
-# See docs/providers/github-repo-management.md for collaborator setup.
+# See docs/10-services/01-github.md for governance evidence and settings requiring manual verification.
 
 * @kartuli-app/maintainers

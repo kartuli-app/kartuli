@@ -24,6 +24,13 @@ Always use conventional commit format for all commits:
 - Types: feat, fix, docs, style, refactor, perf, test, chore
 - Examples: `docs: add project overview`, `feat(auth): add social login`
 
+## Canonical Documentation
+
+- Use [AI Development](docs/11-ai-development/index.md) for context strategy and [Documentation Architecture](docs/12-project/01-documentation/index.md) to find canonical owners.
+- Update canonical docs in the same PR when code/config/product behavior changes; otherwise explain why documentation is unaffected.
+- For docs changes, also run `pnpm run c:build:web-docs-client` and inspect the generated `kartuli-llm.txt` index.
+- Distinguish implemented behavior from planned specifications and mark unverified external settings explicitly.
+
 ## Tech Stack
 
 - Runtime: Node.js 24
@@ -125,3 +132,5 @@ Run from the repo root unless specified.
 
 - Tests files live next to the file they are testing
 - Avoid separate test folder
+
+For substantial documentation pages, use the authoring prompts in `documentation-templates/README.md`; keep templates outside the published `docs/` tree. Catalogs should link to practical configuration/operating guides.

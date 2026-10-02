@@ -1,8 +1,12 @@
 ---
-description: High-level definition, promise, learning experience, and brand identity for kartuli.app.
+description: Planned product specification — High-level definition, promise, learning experience, and brand identity for kartuli.app.
+status: planned
+intent: specification
 ---
 
 # Product Overview
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 This document owns the high-level definition, promise, learning experience, and brand identity for `kartuli.app`.
 
