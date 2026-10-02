@@ -27,7 +27,7 @@ The product aims for free, accessible learning without required accounts. See th
 
 ### For AIs
 
-Use the [llms.txt index](https://kartuli-app.github.io/kartuli/assets/kartuli-llm.txt) to discover docs: it lists every page with a short description and URL so you can fetch only what you need. You can also browse the site like any other visitor.
+Use the <a href="/kartuli/assets/kartuli-llm.txt" target="_blank" rel="noopener">kartuli-llm.txt index</a> to discover docs: it lists every page with a short description and URL so you can fetch only what you need. You can also browse the site like any other visitor.
 
 ## Documentation map
 

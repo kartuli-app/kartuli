@@ -132,3 +132,5 @@ Run from the repo root unless specified.
 
 - Tests files live next to the file they are testing
 - Avoid separate test folder
+
+For substantial documentation pages, use the authoring prompts in `documentation-templates/README.md`; keep templates outside the published `docs/` tree. Catalogs should link to practical configuration/operating guides.

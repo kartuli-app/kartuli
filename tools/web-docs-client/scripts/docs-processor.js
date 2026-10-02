@@ -283,7 +283,9 @@ function addMarkdownFileToSections(sections, dirPath, relativePath, file, single
   const content = readFileSync(filePath, 'utf-8');
   const linkPath = relativePath ? posixJoin(relativePath, file) : file;
   const link = getLinkForPath(linkPath);
-  const displayName = getDisplayNameFromFile(file);
+  const displayName =
+    /^#\s+(.+)$/m.exec(removeFrontmatter(content))?.[1] ??
+    (file === 'index.md' ? 'Overview' : getDisplayNameFromFile(file));
   const relForWarn = relativePath ? `${relativePath}/${file}` : file;
   const meta = parseFrontmatter(content, relForWarn);
 

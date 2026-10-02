@@ -45,3 +45,13 @@ Write about Kartuli usage, constraints, consumers and source/config locations. L
 ## Before review
 
 Check canonical ownership, descriptions, visible status, relative links and the generated agent index. Run `pnpm run c:build:web-docs-client` and `pnpm run validate:all`; inspect the built site/index as described in [Web Docs Client](../../03-tools/03-web-docs-client.md). Do not commit generated `kartuli-llm.txt` or unrelated diagram/cache changes. A build passing with an existing invalid diagram asset does not mean that diagram has been repaired.
+
+## Authoring templates and depth
+
+Repository-only templates live under `documentation-templates/` (outside the published source tree). Choose technology/library, service, quality or runbook guidance. They are prompts to answer useful questions, not a schema requiring empty sections. Replace template descriptions/headings before publishing.
+
+A technology/library page should enable a maintainer to locate configuration, understand consumer boundaries, make a typical change and validate it. Catalog tables are discovery aids; they do not replace the dedicated guide. A service page must distinguish source-controlled integration from provider-console state and explain how to investigate failures without revealing credentials.
+
+Update the command/dependency inventories when manifests change. Use actual utility names and command behavior from source; do not repeat a misleading comment simply because it is already written down. H1 headings become navigation labels, while `index.md` is represented by the clickable section heading rather than an “Index” child.
+
+The templates are not part of the live site or `kartuli-llm.txt`. Maintain their conventions here so contributors can discover them from published docs without publishing the template placeholders.

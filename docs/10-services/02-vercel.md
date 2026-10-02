@@ -22,3 +22,13 @@ intent: reference
 ## Manual verification required
 
 Record nonsecret team/project mappings, project root/build/install settings, environment variables by environment, domain assignments, preview access policy, Git integration deployment behavior and credential scopes/rotation. Verify remote-cache account/team mapping, permissions and retention separately. Workflow variable names do not reveal or validate their configured values.
+
+## Deployment flow and failure investigation
+
+Staging uses a matrix containing `local` and `vercel` targets. The Vercel path selects the project secret for the app, deploys with the action and uses the resulting preview URL for subsequent work. Production app workflows provide `--prod` and use configured production URLs for smoke/Lighthouse checks. Native provider Git integration may also exist; its effective behavior must be verified separately from these Actions jobs.
+
+For a failed deployment, identify the app, environment and workflow run first. Check whether failure occurred during validation, provider deployment or post-deploy testing. Compare the selected secret **name**, project root and resulting deployment URL; do not print secret values to debug mapping. A successful deploy followed by failing smoke checks is still a failed release validation.
+
+Before changing project/build settings, record the verified current value, intended capability impact and how preview/production differ. Revalidate both applications if changing shared settings. Remote-cache credentials should be checked separately; a deployment token working does not prove cache authorization works.
+
+A provider rollback/promotion procedure is not established in repository source. Verify and document it before relying on it during an incident.

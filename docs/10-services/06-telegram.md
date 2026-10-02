@@ -23,3 +23,11 @@ Messages include workflow/PR/deployment links and actor/target information. Neve
 ## Manual verification required
 
 Verify bot ownership, group/topic mapping, membership/access, send permissions, delivery and credential rotation. Confirm intended recipients and retention in Telegram; YAML only proves which secret names are referenced.
+
+## Sender contract and failure handling
+
+The composite action accepts a prebuilt message; callers own its wording and event conditions. It uses `jq` to build JSON, optionally attaches a numeric `message_thread_id`, calls the Bot API with `curl -fsS`, then requires `.ok == true` in the response.
+
+An empty token causes a successful skip, so a green sender step does not prove delivery. A nonnumeric topic ID fails before sending. Missing chat permissions, invalid bot credentials and API errors must be distinguished from workflow conditions that never invoked the sender.
+
+To investigate, inspect the calling workflow's event/condition, the sender's skip/error state and the intended secret names. Verify destination and bot permissions through the provider with an authorized maintainer. Never log the request URL containing the token or send a test notification to an unknown destination. Rotation and membership changes must be coordinated with the verified owner.

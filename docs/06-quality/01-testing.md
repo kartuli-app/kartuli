@@ -23,3 +23,17 @@ Unit and integration are purposes, not separately enforced directory structures.
 The CI all-monorepo composite action runs root lint, then typecheck, lint, root coverage and Storybook tests in parallel and reports coverage. It does not replace app production smoke or E2E workflows. No repository-wide coverage percentage gate is asserted here; consult the current configs before introducing one.
 
 Use `pnpm run validate:all` as the local completion gate. Docs also require a [Web Docs build and index check](../03-tools/03-web-docs-client.md).
+
+## Choosing the right layer
+
+Start with the failure you want to prevent. Pure transformations and branching decisions fit unit tests. Collaboration between modules or React/provider behavior fits integration tests. Focus, real CSS, portals and animation require browser/component tests. Navigation across the assembled surface belongs in E2E; deployed availability belongs in production smoke tests.
+
+A change can require more than one layer, but repeating the same assertion everywhere adds maintenance without necessarily adding confidence. Each test should explain which boundary it verifies. Mocks should expose a boundary, not hide the behavior under review.
+
+- [Unit and integration](./04-testing/01-unit-integration.md): environments, setup, assertions and mocks.
+- [Component/browser](./04-testing/02-component-browser.md): stories, play functions and Chromium.
+- [E2E and production smoke](./04-testing/03-e2e-smoke.md): servers, targets, retries and artifacts.
+- [Coverage](./04-testing/04-coverage.md): reports, exclusions and interpretation.
+- [Accessibility](./02-accessibility.md): automated scans and manual interaction checks.
+
+For documentation tooling, the Web Docs workspace also runs Node's built-in tests for navigation contracts. These do not require Chromium and do not replace rendered-site verification.

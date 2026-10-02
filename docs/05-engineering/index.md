@@ -27,3 +27,7 @@ Use `pnpm` only. `.nvmrc` pins Node 24.13.1; root `package.json` pins pnpm 10.30
 Install with `pnpm install --frozen-lockfile`. Root `c:dev:*`, `c:build:*`, `c:preview:*` and `c:e2e:*` scripts target individual workspaces; `validate:all` is required for every change. [Quality](../06-quality/index.md) explains what that runs. Tests generally live beside source; E2E has a dedicated tool workspace.
 
 See the [Technology catalog](./01-technologies.md) and [Library catalog](./02-libraries.md). The [Game Client architecture](../01-apps/01-game-client/index.md) owns its routing, i18n and bundled learning content; [Data & Privacy](../09-data-and-privacy/index.md) owns storage and identifier policy.
+
+## Maintenance references
+
+[Command Reference](./04-commands.md) accounts for every root/workspace script, including differences between preview implementations. [Dependency Inventory](./06-dependency-inventory.md) accounts for every direct manifest dependency so the architectural catalogs do not conceal smaller tools or helpers.

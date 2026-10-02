@@ -21,3 +21,13 @@ The Game Client root layout supplies Manrope through `next/font/google` and loca
 React Icons and Motion are current app dependencies. Their usage is cataloged under [Libraries](../05-engineering/02-libraries.md); a comprehensive icon, motion and responsive-pattern specification remains planned. Do not infer a finished design system from individual components.
 
 [Accessibility](../06-quality/02-accessibility.md) owns keyboard, focus, semantics and contrast expectations. Add reusable visual contracts here; keep product-specific screen behavior in Apps.
+
+## Working guides
+
+- [Design tokens](./01-tokens.md): names, layers and exact utility mappings.
+- [Color and theming](./02-color-and-theming.md): semantic roles and preview overrides.
+- [Typography and fonts](./03-typography.md): loading, variables and script coverage.
+- [Layout, spacing and radius](./04-layout-and-spacing.md): actual scale and shell breakpoints.
+- [Components and interaction](./05-components-and-interaction.md): ownership, states and verification.
+
+These pages document current implementation and explicitly identify incomplete contracts. They are the starting point for token/component changes, not just an inventory of files.

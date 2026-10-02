@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { processDocs } from './docs-processor.js';
@@ -65,10 +65,13 @@ orderedDocuments.forEach(({ section, items }) => {
   bundle += '\n';
 });
 
-// Write the bundle to docs directory for git tracking
+// Generated source and public asset are ignored by git.
 const configDir = fileURLToPath(new URL('.', import.meta.url));
 const outputPath = join(configDir, '../../../docs', 'kartuli-llm.txt');
 writeFileSync(outputPath, bundle, 'utf-8');
+const publicAssets = join(configDir, '../public/assets');
+mkdirSync(publicAssets, { recursive: true });
+writeFileSync(join(publicAssets, 'kartuli-llm.txt'), bundle, 'utf-8');
 
 console.info('🤖 [generate-llm-bundle] 🤖 LLM bundle generated successfully:', outputPath);
 console.info(`🤖 [generate-llm-bundle] 🤖 Total sections: ${orderedDocuments.length}`);

@@ -38,3 +38,9 @@ Each top-level area has an `index.md` hub. Add detailed pages when there is usef
 Every implementation PR that changes documented behavior updates its canonical page and affected links in the same PR, or explicitly explains why documentation is unaffected. Keep bootstrap agent files concise. Preserve URLs when possible; when moving a page, update all links and account for published links before removing it.
 
 See [Writing Guide](./01-writing-guide.md) for metadata/status rules and [Web Docs Client](../../03-tools/03-web-docs-client.md) for generation/validation.
+
+## Coverage inventory
+
+The [command reference](../../05-engineering/04-commands.md) inventories all package scripts and the [dependency inventory](../../05-engineering/06-dependency-inventory.md) inventories all direct dependencies. Dedicated guides cover architectural technologies/libraries, quality layers, design contracts and current provider integrations.
+
+Before adding an app, tool or provider, update the relevant inventory and canonical guide in the same change. Depth means verified operating knowledge: configuration, common changes, expected outputs, failure diagnosis and known limits. It does not require fabricating missing provider settings or treating planned product behavior as shipped.

@@ -11,7 +11,7 @@ AI-assisted work uses a short bootstrap and canonical documentation rather than 
 ## Context strategy
 
 1. Read `AGENTS.md` and applicable agent-specific bootstrap (`CLAUDE.md`), plus any scoped instructions.
-2. Use [kartuli-llm.txt](/assets/kartuli-llm.txt) to discover relevant canonical pages. It is a links-only index: fetch the selected pages.
+2. Use <a href="/kartuli/assets/kartuli-llm.txt" target="_blank" rel="noopener">kartuli-llm.txt</a> to discover relevant canonical pages. It is a links-only index: fetch the selected pages.
 3. Use canonical docs for intent, boundaries and status.
 4. Inspect source/config for current implementation details and reconcile discrepancies explicitly.
 

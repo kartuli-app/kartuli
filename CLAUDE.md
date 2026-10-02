@@ -24,3 +24,5 @@ Start with the [agent documentation index](https://kartuli-app.github.io/kartuli
 - [Project workflow](docs/12-project/02-workflow.md): Git hooks, PRs and documentation impact.
 
 Update the canonical page in the same PR as behavior changes. Keep this bootstrap concise; do not duplicate long-form architecture here. Planned product specs and external provider settings are not evidence of implemented behavior.
+
+For substantial documentation pages, use the authoring prompts in `documentation-templates/README.md`; keep templates outside the published `docs/` tree. Catalogs should link to practical configuration/operating guides.

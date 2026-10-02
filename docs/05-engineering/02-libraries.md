@@ -29,3 +29,14 @@ Create a dedicated page when a dependency defines a system boundary, data lifecy
 | vitepress-plugin-diagrams | Build-time docs diagram integration; existing Kroki failure assets need follow-up | [Web Docs Client](../03-tools/03-web-docs-client.md) |
 
 Paths beginning `src/` in the table are relative to `apps/game-client`. Exact versions and direct consumers are in workspace manifests and `pnpm-workspace.yaml`; upstream API documentation should be consulted for implementation details.
+
+## Integration guides
+
+- [TanStack and IndexedDB](./05-libraries/01-tanstack-and-indexeddb.md)
+- [i18next and locale cookies](./05-libraries/02-i18next.md)
+- [Base UI](./05-libraries/03-base-ui.md)
+- [Zod](./05-libraries/04-zod.md)
+- [Serwist](./05-libraries/05-serwist.md)
+- [Motion, icons and class helpers](./05-libraries/06-motion-and-ui-helpers.md)
+
+Testing-library usage is documented with [Unit and integration testing](../06-quality/04-testing/01-unit-integration.md); browser/axe integrations with [Component testing](../06-quality/04-testing/02-component-browser.md) and [E2E](../06-quality/04-testing/03-e2e-smoke.md). The [declared dependency inventory](./06-dependency-inventory.md) covers smaller helpers, runtime peers and direct consumers without inventing architectural significance for each one.
