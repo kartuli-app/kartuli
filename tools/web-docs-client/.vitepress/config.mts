@@ -19,7 +19,7 @@ const diagramsDir = path.resolve(
 const { sections } = processDocs();
 const { sectionLinks, sidebar } = buildSiteNavigation(Object.values(sections).flat());
 const nav = [
-  { text: 'Documentation', items: sectionLinks },
+  ...sectionLinks,
   // Open the text asset as a document, not through the client-side page router.
   { text: 'kartuli-llm.txt', link: llmBundleUrl, target: '_blank', rel: 'noopener' },
 ];

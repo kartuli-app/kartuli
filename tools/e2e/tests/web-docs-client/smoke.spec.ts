@@ -43,6 +43,35 @@ async function getHeaderNavLinks(page: Page): Promise<HeaderNavLink[]> {
 }
 
 test.describe('Web Docs Client Smoke Tests', () => {
+  test('home and section pages retain the complete documentation sidebar', async ({ page }) => {
+    await page.goto('./');
+    const sidebar = page.locator('.VPSidebar');
+    await expect(sidebar).toBeVisible();
+    for (const name of [
+      'Apps',
+      'Packages',
+      'Tools',
+      'Design System',
+      'Engineering',
+      'Quality',
+      'Platform',
+      'Security',
+      'Data & Privacy',
+      'Services',
+      'AI Development',
+      'Project',
+    ]) {
+      await expect(sidebar.getByRole('link', { name, exact: true })).toBeVisible();
+    }
+    await expect(sidebar.getByRole('link', { name: 'Index', exact: true })).toHaveCount(0);
+    const nav = page.locator('header nav').first();
+    await expect(nav.getByRole('button', { name: 'Documentation', exact: true })).toHaveCount(0);
+    await nav.getByRole('link', { name: 'Packages', exact: true }).click();
+    await expect(page).toHaveURL(/\/02-packages\/(?:index\.html)?$/);
+    await expect(sidebar.getByRole('link', { name: 'Apps', exact: true })).toBeVisible();
+    await expect(sidebar.getByRole('link', { name: 'Project', exact: true })).toBeVisible();
+  });
+
   test('loads without critical console errors', async ({ page }) => {
     await expectNoCriticalErrors(page);
   });

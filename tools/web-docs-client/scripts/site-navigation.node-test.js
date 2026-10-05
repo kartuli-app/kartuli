@@ -8,7 +8,7 @@ test('a hub-only section is a direct link without an Index child or dropdown', (
     { text: 'Packages', link: '/02-packages/', isHub: true },
   ]);
   assert.deepEqual(sectionLinks, [{ text: 'Packages', link: '/02-packages/' }]);
-  assert.deepEqual(sidebar['/02-packages/'], [{ text: 'Packages', link: '/02-packages/' }]);
+  assert.deepEqual(sidebar, [{ text: 'Packages', link: '/02-packages/' }]);
 });
 
 test('nested hubs retain their destination while children remain independently reachable', () => {
@@ -17,7 +17,7 @@ test('nested hubs retain their destination while children remain independently r
     { text: 'Game Client', link: '/01-apps/01-game-client/', isHub: true },
     { text: 'Routes', link: '/01-apps/01-game-client/02-routes', isHub: false },
   ]);
-  const app = sidebar['/01-apps/'][0];
+  const app = sidebar[0];
   assert.equal(app.link, '/01-apps/');
   assert.equal(app.items[0].link, '/01-apps/01-game-client/');
   assert.equal(app.items[0].items[0].text, 'Routes');
@@ -33,7 +33,13 @@ test('every published page has exactly one sidebar destination with no Index lab
     if (item.link) links.push(item.link);
     for (const child of item.items ?? []) visit(child);
   }
-  Object.values(navigation.sidebar).flat().forEach(visit);
+  assert.ok(Array.isArray(navigation.sidebar), 'Use a global sidebar, including the root page');
+  assert.equal(navigation.sidebar.length, 12);
+  assert.deepEqual(
+    navigation.sidebar.map(({ text, link }) => ({ text, link })),
+    navigation.sectionLinks,
+  );
+  navigation.sidebar.forEach(visit);
   assert.equal(navigation.sectionLinks.length, 12);
   assert.deepEqual(links.sort(), docs.map((doc) => doc.link).sort());
 });

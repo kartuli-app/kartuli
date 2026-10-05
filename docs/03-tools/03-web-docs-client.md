@@ -39,7 +39,7 @@ Generation happens when dev starts; editing Markdown does not continuously regen
 
 ## Navigation and authoring
 
-`scripts/docs-processor.js` collects numbered folders/files and descriptions; H1 headings supply human labels. `site-navigation.js` turns `index.md` into its folder's clickable heading and removes duplicate hub children. A hub-only section is a link, not an expandable group containing “Index”. Sidebars are scoped by top-level section; the Documentation menu provides cross-section navigation.
+`scripts/docs-processor.js` collects numbered folders/files and descriptions; H1 headings supply human labels. `site-navigation.js` turns `index.md` into its folder's clickable heading and removes duplicate hub children. A hub-only section is a link, not an expandable group containing “Index”. One shared sidebar exposes all top-level sections on the home page and every documentation page. Sections with children are collapsible; hub-only sections are direct links. The top navbar links directly to each section overview, without a Documentation wrapper menu.
 
 Restart dev after adding/renaming pages or changing H1 labels so the configuration rescans navigation. Keep existing URLs stable. Templates live outside `docs/`, under `documentation-templates/`, and are neither published nor indexed. Add a nonempty description and visible implementation status to each page. See [Writing Guide](../12-project/01-documentation/01-writing-guide.md).
 

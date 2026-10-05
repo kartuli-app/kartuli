@@ -1,4 +1,4 @@
-/** Build section-local sidebars; folder hubs become clickable group headings. */
+/** Build a shared sidebar for the home page and every section; folder hubs become clickable group headings. */
 export function buildSiteNavigation(documents) {
   const root = { children: new Map() };
   for (const doc of documents) {
@@ -30,7 +30,7 @@ export function buildSiteNavigation(documents) {
     return {
       text,
       ...(node.hub ? { link: node.hub.link } : {}),
-      ...(items.length ? { collapsed: false, items } : {}),
+      ...(items.length ? { collapsed: true, items } : {}),
     };
   }
 
@@ -39,6 +39,6 @@ export function buildSiteNavigation(documents) {
     .map(([segment, node]) => ({ segment, item: toItem(node) }));
   return {
     sectionLinks: sections.map(({ item }) => ({ text: item.text, link: item.link })),
-    sidebar: Object.fromEntries(sections.map(({ segment, item }) => [`/${segment}/`, [item]])),
+    sidebar: sections.map(({ item }) => item),
   };
 }
