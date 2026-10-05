@@ -14,7 +14,7 @@ E2E verifies an assembled surface through browser navigation. Production smoke t
 
 ## Local workflow
 
-In one terminal run `pnpm run c:preview:game-client`; in another run `pnpm run c:e2e:game-client`. Equivalent target scripts exist for Backoffice, Storybook and Web Docs. Verify the actual server port before running tests; a port fallback can leave the runner pointing to the wrong service.
+In one terminal run `pnpm run c:preview:game-client`; in another run `pnpm run c:e2e:game-client`. Equivalent target scripts exist for Storybook and Web Docs. Verify the actual server port before running tests; a port fallback can leave the runner pointing to the wrong service.
 
 ```bash
 BASE_URL=http://localhost:3000 pnpm --filter @kartuli/e2e exec playwright test tests/game-client
@@ -23,7 +23,11 @@ pnpm --filter @kartuli/e2e run e2e:ui
 pnpm --filter @kartuli/e2e run e2e:debug
 ```
 
-The last two commands default to the configured base URL unless you supply one. Root `e2e` runs the configured suite; use target selection when testing one surface.
+Backoffice is currently exceptional: its dev server and convenience E2E command use port 3001, while
+its preview/start command uses port 3000. Against preview, set `BASE_URL=http://localhost:3000` and
+select `tests/backoffice-client` explicitly. The last two commands above default to the configured base
+URL unless you supply one. Root `e2e` runs the configured suite; use target selection when testing one
+surface.
 
 ## CI and diagnostics
 

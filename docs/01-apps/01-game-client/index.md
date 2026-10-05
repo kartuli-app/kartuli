@@ -29,6 +29,9 @@ There is also localized not-found handling. No Play, vocabulary, or `/explore` e
 
 `src/proxy.ts` redirects bare/unsupported-locale paths using a supported preferred-locale cookie, the first Accept-Language entry, then English. Supported locales are `en` and `ru`; the current root redirect is `/{locale}`, not the planned `/{locale}/explore`. `src/i18n` owns the app's translation resources and locale resolution.
 
+The [Game Client architecture](./02-architecture.md) follows the content and local activity-state
+flows end to end, including the implemented error/degradation behavior and change-specific validation.
+
 See [Data & Privacy](../../09-data-and-privacy/index.md) for persistence and identifiers, [Libraries](../../05-engineering/02-libraries.md) for the reactive data stack, and [Design System](../../04-design-system/index.md) for shared styling.
 
 ## Offline scope

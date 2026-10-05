@@ -21,6 +21,7 @@ This inventory describes repository usage, not upstream tutorials. Versions belo
 | [PostCSS](https://postcss.org/) | Next.js Tailwind integration through `@tailwindcss/postcss` | App `postcss.config.mjs` |
 | [Vite](https://vite.dev/guide/) | Storybook React build/test integration; VitePress uses its own dependency graph | Storybook and Web Docs manifests/config |
 | [VitePress](https://vitepress.dev/) / [Vue](https://vuejs.org/guide/introduction.html) | VitePress 1.6.4 and Vue 3 render docs, not product UI | [Web Docs Client](../03-tools/03-web-docs-client.md) |
+| [Biome](https://biomejs.dev/) | Root/workspace linting and formatting, including source accessibility rules | `biome.json`, `biome.root.json`, workspace lint scripts |
 
 Technology conventions belong here; capability policy belongs to its canonical area. For example, Git mechanics are a technology concern, but branch/review conventions belong to Project.
 
@@ -34,5 +35,6 @@ Technology conventions belong here; capability policy belongs to its canonical a
 - [Tailwind CSS and PostCSS](./03-technologies/06-tailwind-and-postcss.md): stylesheet and build integration.
 - [Vite and VitePress](./03-technologies/07-vite-and-vitepress.md): component and documentation pipelines.
 - [Git and Lefthook](./03-technologies/08-git-and-lefthook.md): local hooks and validation.
+- [Biome](./03-technologies/09-biome.md): configuration scope, lint/fix commands and failure diagnosis.
 
 Use the [complete command reference](./04-commands.md) for scripts and the [dependency inventory](./06-dependency-inventory.md) for declared consumers. These guides own Kartuli conventions; upstream links above cover APIs.

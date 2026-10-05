@@ -43,4 +43,8 @@ See [Writing Guide](./01-writing-guide.md) for metadata/status rules and [Web Do
 
 The [command reference](../../05-engineering/04-commands.md) inventories all package scripts and the [dependency inventory](../../05-engineering/06-dependency-inventory.md) inventories all direct dependencies. Dedicated guides cover architectural technologies/libraries, quality layers, design contracts and current provider integrations.
 
+The [documentation coverage map](./02-coverage-map.md) connects workspaces, configuration, workflows
+and implementation patterns to those canonical owners and keeps known gaps visible. Use it during an
+audit; do not interpret a checked mapping as proof that a provider or incomplete capability works.
+
 Before adding an app, tool or provider, update the relevant inventory and canonical guide in the same change. Depth means verified operating knowledge: configuration, common changes, expected outputs, failure diagnosis and known limits. It does not require fabricating missing provider settings or treating planned product behavior as shipped.

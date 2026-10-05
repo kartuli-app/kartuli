@@ -18,7 +18,15 @@ Keep browser APIs out of server execution; use client boundaries where state/eff
 
 ## Configuration
 
-App `next.config.ts` sets the Turbopack root to the monorepo. Game Client exposes `NEXT_PUBLIC_APP_VERSION`, falling back to its package version, disables the experimental development filesystem cache and wraps config with `withSerwist`. That wrapper does not establish complete offline operation; see [Serwist](../05-libraries/05-serwist.md).
+Game Client `next.config.ts` sets the Turbopack root to the monorepo, exposes `NEXT_PUBLIC_APP_VERSION`
+with its package version as fallback, disables the experimental development filesystem cache and wraps
+config with `withSerwist`. The monorepo root is necessary because source packages live outside the app
+directory. The cache override applies to the development compiler, not Turbo's task cache. The Serwist
+wrapper does not establish complete offline operation; see [Serwist](../05-libraries/05-serwist.md).
+
+Backoffice exposes the same version variable and defines a temporary redirect from `/` to `/en`; it
+does not configure the Game Client Turbopack root or Serwist. Review each app config independently
+rather than assuming parity.
 
 Game Client `src/proxy.ts` handles locale redirects with a literal matcher that excludes supported locales, Next internals and known public assets. When adding a root asset or locale, review the matcher and its tests. Shared TypeScript config provides bundler resolution; app configs add the Next plugin and generated types.
 
@@ -30,6 +38,8 @@ pnpm run c:build:game-client
 pnpm run c:preview:game-client
 ```
 
-Game Client uses port 3000; Backoffice equivalents use 3001. Preview builds then starts the production server. Building is distinct from lint/typecheck/unit tests; Next font downloads can introduce a network prerequisite.
+Game Client development/start/preview uses port 3000. Backoffice development uses 3001, but its
+`start` and `preview` scripts use 3000. Preview builds then starts the production server. Building is
+distinct from lint/typecheck/unit tests; Next font downloads can introduce a network prerequisite.
 
 Before changing Next.js implementation, `AGENTS.md` requires reading the installed docs under `apps/game-client/node_modules/next/dist/docs`. For framework upgrades, inspect those docs, catalog/lockfile, Serwist compatibility, type generation, routing tests and production build output. Check both apps and Storybook's imports of app components. Deployment provider specifics belong to [Vercel](../../10-services/02-vercel.md).

@@ -1,14 +1,14 @@
 ---
-description: Observed diagram service dependency, committed timeout asset and unresolved adoption decision.
+description: Diagram rendering dependency, cached-asset checks and unresolved public-service adoption decision.
 status: implemented
 intent: reference
 ---
 
 # Kroki
 
-The Web Docs VitePress configuration enables `vitepress-plugin-diagrams` and specifies its output/public paths without an explicit service endpoint. The committed file `tools/web-docs-client/public/diagrams/mermaid-01-product-overview-33-13e5535a422892af7eebf559fc7a42fc.svg` contains HTML with a `kroki.io | 504: Gateway time-out` title. This is evidence of an external rendering request/failure, not a valid diagram.
+The Web Docs VitePress configuration enables `vitepress-plugin-diagrams` and specifies its output/public paths without an explicit service endpoint. The repository currently contains both valid rendered SVGs and older `.svg` files whose content is a Kroki 504 HTML response. The October 2026 documentation build completed and generated valid assets, so the older response files are cache history rather than a current build blocker.
 
-The documentation-foundation build also attempted to resolve `kroki.io` and failed with `EAI_AGAIN` in the restricted execution environment. This confirms a build-time external dependency; it does not establish general service availability.
+The mixed cache still proves that rendering can cross an external service boundary and that an `.svg` extension alone is not a validity check. It does not establish Kroki's general availability or define an accepted provider policy.
 
 ## Manual verification required
 
@@ -18,7 +18,7 @@ The installed plugin uses `https://kroki.io` when no endpoint override is suppli
 
 ## Build behavior and operational diagnosis
 
-The installed diagram plugin derives filenames from diagram type/content and document position. Moving surrounding Markdown can produce a new asset path and a fresh request even when the diagram text is unchanged. Existing files may be reused, including an invalid HTML error response saved as SVG.
+The installed diagram plugin derives filenames from diagram type/content and document position. Moving surrounding Markdown can produce a new asset path and a fresh request even when the diagram text is unchanged. Existing files may be reused, including the two currently committed invalid HTML error responses saved as SVG. Treat those files as historical evidence, not successful render output.
 
 When inspecting a failure, check whether it is DNS/network access, an HTTP error, a placeholder or an invalid cached file. Verify the asset begins with actual SVG content and renders; file extension and a successful build are insufficient. Do not treat a copied historical error asset as a repaired diagram.
 

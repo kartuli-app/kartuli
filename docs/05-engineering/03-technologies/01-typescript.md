@@ -43,6 +43,28 @@ pnpm run typecheck:all
 
 A successful Vitest run proves runtime assertions, not that Vitest's optional typecheck mode ran. Workspace `typecheck` scripts are the normal static gate; inspect includes when adding test-only types.
 
+### Changing a TypeScript setting safely
+
+1. Choose the narrowest owner: root for every TypeScript consumer, an app/package config for one
+   workspace, `tsconfig.test.json` for test-only types, or `tsconfig.docgen.json` for Storybook docgen.
+2. Capture the effective config before and after. TypeScript object properties such as `paths` can
+   replace rather than merge inherited values.
+3. If the setting affects JSX, modules or aliases, verify the runtime transformer too: Next, app
+   Vitest, Storybook main config and Storybook Vitest keep related settings outside tsconfig.
+4. Run the workspace typecheck/build, then the full typecheck and validation gates.
+
+```bash
+pnpm --filter @kartuli/game-client exec tsc --showConfig > /tmp/kartuli-game-tsconfig.json
+pnpm --filter @kartuli/game-client run typecheck
+pnpm run c:build:game-client
+pnpm run typecheck:all
+pnpm run validate:all
+```
+
+`--showConfig` should include root strictness/aliases plus app DOM, incremental and generated-type
+settings. Do not commit the temporary output. If an alias typechecks but fails at runtime, the missing configuration is likely in
+the relevant bundler/test resolver rather than another compiler `paths` entry.
+
 ## Upgrade and troubleshooting
 
 Change the shared catalog range, update the lockfile using pnpm, and run full validation plus builds of the affected consumers. Verify Storybook's compiler API compatibility before removing its named catalog. An alias that works in Next but fails in a story usually points to differing Vite aliases or the JSX transform, not missing application code.

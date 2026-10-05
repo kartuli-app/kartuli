@@ -27,6 +27,13 @@ Run these from the repository root:
 
 The package's `preview` script already builds. A failed build prevents preview from starting; running a separate build first does not repair a failing diagram dependency. Check the terminal rather than assuming an older browser tab represents the new build.
 
+On ordinary PRs, the Web Docs reusable workflow builds/previews the site and runs its Playwright smoke
+suite, but its package-validation step is manual-dispatch only. The all-monorepo CI action runs root
+Vitest coverage rather than Turbo `test:all`, so it does not discover the `.node-test.js` navigation
+suite or invoke `check-docs`. Run both commands locally; production Docs CI does run the workspace test
+through package validation. This is an execution-coverage gap, not permission to describe the checks as
+universally enforced.
+
 ## LLM index lifecycle and URLs
 
 `generate-llm-bundle.js` writes identical generated content to `docs/kartuli-llm.txt` and `tools/web-docs-client/public/assets/kartuli-llm.txt`. Both are ignored by Git. The public copy makes the text available in dev and part of the static build; `copy-llm-bundle.js` also writes the final dist asset after a successful build.
@@ -57,8 +64,35 @@ Restart dev after adding/renaming pages or changing H1 labels so the configurati
 
 ## Diagram limitation and verification
 
-`vitepress-plugin-diagrams` renders fenced diagrams through its default public Kroki endpoint. Existing committed `.svg` assets include a Kroki 504 HTML response. Position-dependent asset names can cause a new request after surrounding Markdown changes. A successful build is not proof a cached diagram is valid.
+`vitepress-plugin-diagrams` renders fenced diagrams through its default public Kroki endpoint. Existing committed `.svg` assets include two older Kroki 504 HTML responses alongside valid SVGs. Position-dependent asset names can cause a new request after surrounding Markdown changes. The October 2026 documentation build generated valid assets successfully, but a successful build alone is not proof that every cached diagram is valid.
 
 The docs reference work does not replace this renderer. Diagnose failed builds honestly; do not commit generated placeholders/error responses. See [Kroki](../10-services/07-kroki.md). The dependency-cruiser/Graphviz [Diagram Generator](./04-diagram-generator.md) is separate.
 
 Before review: generate and check docs; run navigation tests, the full docs build, the built-index check and `pnpm run validate:all`. Inspect the section menus, hub links and text asset on desktop and narrow screens. `check-docs` checks file targets, not remote endpoints, every fragment anchor or visual layout. Record any blocked gate explicitly.
+
+## End-to-end documentation check
+
+The following sequence exercises source generation, static rendering, built-copy equality and browser
+delivery without relying on an older dev server:
+
+```bash
+pnpm --filter @kartuli/web-docs-client run generate-llm-bundle
+pnpm --filter @kartuli/web-docs-client run check-docs
+pnpm run c:build:web-docs-client
+pnpm --filter @kartuli/web-docs-client run check-docs -- --built
+pnpm --filter @kartuli/web-docs-client exec vitepress preview
+```
+
+With preview running, verify from another terminal:
+
+```bash
+curl -fsS http://localhost:4173/kartuli/ >/dev/null
+curl -fsS http://localhost:4173/kartuli/assets/kartuli-llm.txt | sed -n '1,20p'
+BASE_URL=http://localhost:4173/kartuli pnpm --filter @kartuli/e2e exec playwright test \
+  tests/web-docs-client
+```
+
+Expected results are a rendered home page, a plain-text index headed `# kartuli-llm.txt`, passing
+navigation/index smoke tests and no critical browser console errors. Inspect the visible sidebar at
+wide and narrow widths as well: automated link checks do not prove that navigation is readable or
+reachable at every viewport.

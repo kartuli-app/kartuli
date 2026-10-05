@@ -23,3 +23,16 @@ Motion currently supports study-carousel interactions. React Icons supplies app 
 Update the component, relevant stories and behavior tests together. Check interaction and accessibility in a real browser, then inspect the component in its route composition. A story can look correct with simplified content while failing with actual translations or application context.
 
 Review shared-token impact before adding another raw value. Use `cn` for conditional classes and inspect the final merged output for variants. Broader reduced-motion conventions and a curated icon catalog remain gaps to resolve explicitly, rather than claiming they are already standardized.
+
+For a new reusable component, decide ownership before implementation:
+
+- Put cross-app, product-neutral source in `packages/ui` and expose it through the existing wildcard
+  subpath contract; add colocated tests and a Storybook story.
+- Keep Game Client shell/panel/feature components under `apps/game-client/src/ui` when they depend on
+  app navigation, translations, learning data or product semantics.
+- Keep feature composition under `src/ui/experiences`; do not move it into a shared package merely to
+  make Storybook discover it.
+
+Verify a shared change with UI typecheck/tests, Storybook browser tests and at least one real consumer
+build. Verify an app-local component with its focused tests/story and the containing route. Use the full
+repository gate last; cached success is not a substitute for checking the changed interaction state.

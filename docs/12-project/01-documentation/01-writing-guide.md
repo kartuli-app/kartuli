@@ -54,4 +54,8 @@ A technology/library page should enable a maintainer to locate configuration, un
 
 Update the command/dependency inventories when manifests change. Use actual utility names and command behavior from source; do not repeat a misleading comment simply because it is already written down. H1 headings become navigation labels, while `index.md` is represented by the clickable section heading rather than an “Index” child.
 
+Use the [coverage map](./02-coverage-map.md) when a change adds a workspace, architectural dependency,
+cross-cutting configuration, workflow or implementation data boundary. The map identifies the
+canonical owner and intentional gaps; it is not a substitute for the substantive guide.
+
 The templates are not part of the live site or `kartuli-llm.txt`. Maintain their conventions here so contributors can discover them from published docs without publishing the template placeholders.

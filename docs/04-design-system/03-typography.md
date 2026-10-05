@@ -22,4 +22,18 @@ Update the app loader/source and associated style integration together. If varia
 
 Inspect network/font loading and computed styles in an app and Storybook. Test both locales, narrow layouts, headings, study content and icon/button alignment. A restricted build environment can fail while downloading a Google font; distinguish that network prerequisite from a CSS bug.
 
+Use a production build to exercise `next/font`, and use Storybook to verify its separately declared
+font faces/variables:
+
+```bash
+pnpm run c:build:game-client
+pnpm run c:build:storybook
+pnpm --filter @kartuli/storybook run test
+```
+
+Game Client receives hashed/generated font assets from Next; Storybook loads Manrope from Google Fonts
+at runtime and Mersad from the Game Client public directory. A Storybook preview can therefore fall back
+even when the Next production build is correct. Check the browser network panel and computed
+`font-family`, not only the class name.
+
 The repository does not yet define a complete independently versioned typography scale or all semantic text styles. Preserve existing usage while recording new shared decisions here rather than silently introducing a second scale inside a feature.
