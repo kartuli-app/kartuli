@@ -1,3 +1,16 @@
+function toItem(node) {
+  if (node.doc) return { text: node.doc.text, link: node.doc.link };
+  const items = [...node.children.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([, child]) => toItem(child));
+  const text = node.hub?.text ?? node.text.replace(/\b\w/g, (c) => c.toUpperCase());
+  return {
+    text,
+    ...(node.hub ? { link: node.hub.link } : {}),
+    ...(items.length ? { collapsed: true, items } : {}),
+  };
+}
+
 /** Build a shared sidebar for the home page and every section; folder hubs become clickable group headings. */
 export function buildSiteNavigation(documents) {
   const root = { children: new Map() };
@@ -19,19 +32,6 @@ export function buildSiteNavigation(documents) {
     } else {
       parent.children.set(segments.at(-1), { doc, children: new Map() });
     }
-  }
-
-  function toItem(node) {
-    if (node.doc) return { text: node.doc.text, link: node.doc.link };
-    const items = [...node.children.entries()]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([, child]) => toItem(child));
-    const text = node.hub?.text ?? node.text.replace(/\b\w/g, (c) => c.toUpperCase());
-    return {
-      text,
-      ...(node.hub ? { link: node.hub.link } : {}),
-      ...(items.length ? { collapsed: true, items } : {}),
-    };
   }
 
   const sections = [...root.children.entries()]

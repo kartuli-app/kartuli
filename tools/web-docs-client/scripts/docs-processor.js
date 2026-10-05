@@ -233,6 +233,19 @@ function getDisplayNameFromFile(file) {
   return humanizeSlug(slug);
 }
 
+/**
+ * @param {string} content - Markdown content without frontmatter
+ * @returns {string | undefined} - First level-one heading
+ */
+function getFirstLevelOneHeading(content) {
+  for (const line of content.split(/\r?\n/)) {
+    if (!line.startsWith('# ') && !line.startsWith('#\t')) continue;
+    const heading = line.slice(1).trim();
+    if (heading) return heading;
+  }
+  return undefined;
+}
+
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---/;
 
 const DESCRIPTION_LINE_PREFIX = 'description:';
@@ -284,7 +297,7 @@ function addMarkdownFileToSections(sections, dirPath, relativePath, file, single
   const linkPath = relativePath ? posixJoin(relativePath, file) : file;
   const link = getLinkForPath(linkPath);
   const displayName =
-    /^#\s+(.+)$/m.exec(removeFrontmatter(content))?.[1] ??
+    getFirstLevelOneHeading(removeFrontmatter(content)) ??
     (file === 'index.md' ? 'Overview' : getDisplayNameFromFile(file));
   const relForWarn = relativePath ? `${relativePath}/${file}` : file;
   const meta = parseFrontmatter(content, relForWarn);

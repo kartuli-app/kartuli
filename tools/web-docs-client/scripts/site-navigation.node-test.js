@@ -3,6 +3,8 @@ import test from 'node:test';
 import { processDocs } from './docs-processor.js';
 import { buildSiteNavigation } from './site-navigation.js';
 
+const compareLinks = (a, b) => a.localeCompare(b);
+
 test('a hub-only section is a direct link without an Index child or dropdown', () => {
   const { sectionLinks, sidebar } = buildSiteNavigation([
     { text: 'Packages', link: '/02-packages/', isHub: true },
@@ -41,5 +43,8 @@ test('every published page has exactly one sidebar destination with no Index lab
   );
   navigation.sidebar.forEach(visit);
   assert.equal(navigation.sectionLinks.length, 12);
-  assert.deepEqual(links.sort(), docs.map((doc) => doc.link).sort());
+  assert.deepEqual(
+    links.toSorted(compareLinks),
+    docs.map((doc) => doc.link).toSorted(compareLinks),
+  );
 });
