@@ -7,11 +7,13 @@ description: Root landing page for Kartuli documentation with navigation guidanc
 </p>
 
 <div style="text-align: center;">
- **Hi**, I'm Pipo, **welcome** to ~~Jackass~~ the kartuli.app documentation!
+
+**Hi**, I'm Pipo, **welcome** to ~~Jackass~~ the kartuli.app documentation!
 
 **gamarjoba**, me p’ip’o var, **k’etili** iq’os tkveni mobrdzaneba ~~Jackass~~ the kartuli.app dok’ument’atsiashi!
 
 **გამარჯობა**, მე პიპო ვარ, **კეთილი** იყოს თქვენი მობრძანება ~~Jackass~~ kartuli.app-ის დოკუმენტაციაში!
+
 </div>
 
 ## What is kartuli.app?
