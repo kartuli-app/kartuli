@@ -1,8 +1,12 @@
 ---
-description: Shared Browse screen for choosing alphabet or vocabulary lessons and module review sets.
+description: Planned product specification — Shared Browse screen for choosing alphabet or vocabulary lessons and module review sets.
+status: planned
+intent: specification
 ---
 
 # Browse Screen
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 ## Purpose
 

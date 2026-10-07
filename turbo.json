@@ -34,6 +34,10 @@
       "outputs": [".vitepress/dist/**"]
     },
     "test": { "cache": true },
+    "@kartuli/web-docs-client#test": {
+      "inputs": ["$TURBO_DEFAULT$", "../../docs/**", "!../../docs/kartuli-llm.txt"],
+      "outputs": []
+    },
     "@kartuli/storybook#test": {
       "dependsOn": ["@kartuli/ui#build"],
       "cache": true,

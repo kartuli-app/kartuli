@@ -1,0 +1,16 @@
+/* Keep direct section links reachable without overflowing narrower desktop headers. */
+.VPNavBar .content {
+  min-width: 0;
+}
+
+.VPNavBar .VPNavBarMenu {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+
+.VPNavBar .VPNavBarMenu > a {
+  flex-shrink: 0;
+}

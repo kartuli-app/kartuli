@@ -1,8 +1,12 @@
 ---
-description: End-of-game Play outcome screen with stable next-step actions and an optional entry into Mistakes review.
+description: Planned product specification — End-of-game Play outcome screen with stable next-step actions and an optional entry into Mistakes review.
+status: planned
+intent: specification
 ---
 
 # Play Results Screen
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../../../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 ## Purpose
 

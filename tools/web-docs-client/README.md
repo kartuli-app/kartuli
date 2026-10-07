@@ -1,27 +1,14 @@
 # @kartuli/web-docs-client
 
-VitePress-based docs site for Kartuli: builds from `docs/`, generates an LLM bundle, and deploys to GitHub Pages.
+The canonical [Web Docs operating guide](../../docs/03-tools/03-web-docs-client.md) covers dev/build/preview, the local LLM index, navigation, checks and troubleshooting.
 
-## Scripts
+From the repository root:
 
 ```bash
-# run from tools/web-docs-client
-pnpm dev # Start VitePress dev server (port 5173)
-pnpm build # generate the LLM bundle, build the docs site, and copy the LLM bundle into assets
-pnpm preview # build the docs site and preview it locally (port 4173)
-pnpm lint # lint the code
-pnpm generate-llm-bundle # Generate the LLM bundle
-pnpm copy-llm-bundle # Copy the LLM bundle into assets
+pnpm run c:dev:web-docs-client
+pnpm run c:preview:web-docs-client
 ```
 
-## Local development
+Dev generates the index before starting. Preview builds before serving; it does not start if the build fails. At the usual preview port, the index is `http://localhost:4173/kartuli/assets/kartuli-llm.txt`. Its page entries use canonical published URLs.
 
-The navbar is generated in the config.mts file using the docs processor scripts, so after adding or renaming docs or folders, **restart the dev server** so the navbar and sidebar update
-
-## Broken links
-
-The VitePress build **fails on dead links**. 
-
-The pr and main workflows run the docs build, so broken internal links are caught in CI. 
-
-Use correct relative paths between docs (e.g. from `docs/apps/game-client/` to `docs/product/` use `../../product/`, not `../product/`).
+Restart dev after adding/renaming pages or changing H1 navigation labels. Rerun `pnpm --filter @kartuli/web-docs-client run generate-llm-bundle` after content edits to refresh the text index. See the canonical guide for validation and the existing Kroki dependency.

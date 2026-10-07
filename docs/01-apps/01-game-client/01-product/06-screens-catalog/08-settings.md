@@ -1,7 +1,12 @@
-description: Utility screen for changing the app language.
+---
+description: Planned product specification — Utility screen for changing the app language.
+status: planned
+intent: specification
 ---
 
 # Settings Screen
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 ## Purpose
 

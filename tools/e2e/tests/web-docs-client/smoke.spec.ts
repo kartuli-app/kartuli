@@ -43,6 +43,35 @@ async function getHeaderNavLinks(page: Page): Promise<HeaderNavLink[]> {
 }
 
 test.describe('Web Docs Client Smoke Tests', () => {
+  test('home and section pages retain the complete documentation sidebar', async ({ page }) => {
+    await page.goto('./');
+    const sidebar = page.locator('.VPSidebar');
+    await expect(sidebar).toBeVisible();
+    for (const name of [
+      'Apps',
+      'Packages',
+      'Tools',
+      'Design System',
+      'Engineering',
+      'Quality',
+      'Platform',
+      'Security',
+      'Data & Privacy',
+      'Services',
+      'AI Development',
+      'Project',
+    ]) {
+      await expect(sidebar.getByRole('link', { name, exact: true })).toBeVisible();
+    }
+    await expect(sidebar.getByRole('link', { name: 'Index', exact: true })).toHaveCount(0);
+    const nav = page.locator('header nav').first();
+    await expect(nav.getByRole('button', { name: 'Documentation', exact: true })).toHaveCount(0);
+    await nav.getByRole('link', { name: 'Packages', exact: true }).click();
+    await expect(page).toHaveURL(/\/02-packages\/(?:index\.html)?$/);
+    await expect(sidebar.getByRole('link', { name: 'Apps', exact: true })).toBeVisible();
+    await expect(sidebar.getByRole('link', { name: 'Project', exact: true })).toBeVisible();
+  });
+
   test('loads without critical console errors', async ({ page }) => {
     await expectNoCriticalErrors(page);
   });
@@ -121,32 +150,26 @@ test.describe('Web Docs Client Smoke Tests', () => {
     }
   });
 
-  test('llms.txt is present in header nav and has expected structure', async ({ page }) => {
+  test('kartuli-llm.txt is present in header nav and has expected structure', async ({ page }) => {
     await page.goto('./');
     await page.waitForLoadState('domcontentloaded');
 
     const nav = page.locator('header nav').first();
     await expect(nav).toBeVisible({ timeout: 10000 });
 
-    const llmsLink = nav.getByRole('link', { name: 'llms.txt' }).first();
+    const llmsLink = nav.getByRole('link', { name: 'kartuli-llm.txt' }).first();
     await expect(llmsLink).toBeVisible({ timeout: 10000 });
 
     const llmsHref = await llmsLink.getAttribute('href');
     expect(llmsHref).toBeTruthy();
-    const preClickUrl = page.url();
-    const llmsUrl = new URL(llmsHref ?? '', preClickUrl).toString();
+    const llmsUrl = new URL(llmsHref ?? '', page.url()).toString();
 
+    const popupPromise = page.context().waitForEvent('page', { timeout: 10000 });
     await llmsLink.click();
-    await page.waitForURL(
-      (url) => url.pathname.endsWith('.txt') || url.pathname.includes('/assets/'),
-      {
-        timeout: 10000,
-      },
-    );
-
-    await expect(page).toHaveURL(
-      (url) => url.pathname.endsWith('.txt') || url.pathname.includes('/assets/'),
-    );
+    const popup = await popupPromise;
+    await popup.waitForLoadState('domcontentloaded');
+    expect(new URL(popup.url()).pathname).toMatch(/\/assets\/kartuli-llm\.txt$/);
+    await popup.close();
 
     const llmsResponse = await page.request.get(llmsUrl);
     expect(llmsResponse.ok()).toBeTruthy();

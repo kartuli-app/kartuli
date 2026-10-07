@@ -1,8 +1,12 @@
 ---
-description: Route catalog and internationalization rules for the game client.
+description: Planned product specification — Route catalog and internationalization rules for the game client.
+status: planned
+intent: specification
 ---
 
 # Routes
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 This document owns the route catalog and internationalization rules for the game client.
 

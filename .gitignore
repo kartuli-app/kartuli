@@ -73,3 +73,6 @@ lerna-debug.log*
 *.swp
 *.swo
 *~
+
+# Generated agent index served by VitePress dev/build
+tools/web-docs-client/public/assets/kartuli-llm.txt

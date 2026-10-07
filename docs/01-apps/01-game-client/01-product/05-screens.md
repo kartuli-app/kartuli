@@ -1,8 +1,12 @@
 ---
-description: Screen and experience index for the game client, with a few shared pattern notes.
+description: Planned product specification — Screen and experience index for the game client, with a few shared pattern notes.
+status: planned
+intent: specification
 ---
 
 # Screens
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 This document indexes route screens, route experiences, and Play flow screens.
 

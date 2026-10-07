@@ -1,8 +1,12 @@
 ---
-description: Top-level Learn entry screen for choosing Alphabet or Vocabulary.
+description: Planned product specification — Top-level Learn entry screen for choosing Alphabet or Vocabulary.
+status: planned
+intent: specification
 ---
 
 # Explore Entry Screen
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 ## Purpose
 

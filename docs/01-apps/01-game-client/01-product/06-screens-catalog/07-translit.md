@@ -1,8 +1,12 @@
 ---
-description: Utility screen for transliterating text between Georgian and Latin with live output and token inspection.
+description: Planned product specification — Utility screen for transliterating text between Georgian and Latin with live output and token inspection.
+status: planned
+intent: specification
 ---
 
 # Translit Screen
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 ## Purpose
 

@@ -1,8 +1,12 @@
 ---
-description: Play round lifecycle with immediate answer submission, corrective elimination, and a brief resolved pause before auto-advance.
+description: Planned product specification — Play round lifecycle with immediate answer submission, corrective elimination, and a brief resolved pause before auto-advance.
+status: planned
+intent: specification
 ---
 
 # Play Round Screen
+
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../../../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
 
 ## Purpose
 

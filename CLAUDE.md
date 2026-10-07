@@ -1,10 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## What this is
-
-Kartuli is a Georgian language learning platform. Students learn via a Next.js game client; collaborators manage content via a backoffice client. The platform is offline-capable and requires no account.
+Read [AGENTS.md](AGENTS.md) first for repository rules, commands and code conventions.
 
 ## Essential rules
 
@@ -15,87 +11,18 @@ Kartuli is a Georgian language learning platform. Students learn via a Next.js g
 - Use conventional commit format when asked to commit: `<type>[optional scope]: <description>`
 - Always read the relevant Next.js docs before writing Next.js code: `./apps/game-client/node_modules/next/dist/docs`. Training data is stale — the local docs are the source of truth.
 
-## Monorepo structure
+## Canonical context
 
-Managed with pnpm workspaces + Turborepo. All `pnpm run c:*` scripts target a single package.
+Start with the [agent documentation index](https://kartuli-app.github.io/kartuli/assets/kartuli-llm.txt), then fetch the relevant pages. If live docs are unavailable, read the checkout's `docs/` sources.
 
-| Path | Package name | Purpose |
-|------|-------------|---------|
-| `apps/game-client` | `@kartuli/game-client` | Student-facing Next.js app (port 3000) |
-| `apps/backoffice-client` | `@kartuli/backoffice-client` | Content management Next.js app (port 3001) |
-| `packages/ui` | `@kartuli/ui` | Shared React components and utilities |
-| `packages/tailwind-config` | `@kartuli/tailwind-config` | CSS variables + Tailwind base styles |
-| `tools/storybook` | `@kartuli/storybook` | UI component playground (port 6006) |
-| `tools/e2e` | `@kartuli/e2e` | Playwright end-to-end tests |
-| `tools/web-docs-client` | `@kartuli/web-docs-client` | VitePress live documentation site |
-| `docs` | — | Documentation source files |
+- [AI Development](docs/11-ai-development/index.md): context hierarchy and documentation workflow.
+- [Engineering](docs/05-engineering/index.md): workspaces, catalog, shared-code boundaries and development commands.
+- [Game Client](docs/01-apps/01-game-client/index.md): actual routes, i18n, content architecture and offline limitations.
+- [Data & Privacy](docs/09-data-and-privacy/index.md): local persistence and identifiers.
+- [Design System](docs/04-design-system/index.md) and [Packages](docs/02-packages/index.md): tokens, shared UI and exports.
+- [Testing](docs/06-quality/01-testing/index.md): Turbo tests include Storybook; root coverage excludes its browser suite.
+- [Project workflow](docs/12-project/02-workflow.md): Git hooks, PRs and documentation impact.
 
-Dependencies are pinned in the `pnpm-workspace.yaml` `catalog:` section — reference catalog versions when adding packages.
+Update the canonical page in the same PR as behavior changes. Keep this bootstrap concise; do not duplicate long-form architecture here. Planned product specs and external provider settings are not evidence of implemented behavior.
 
-## Key commands
-
-```bash
-pnpm install                        # install deps
-pnpm run validate:all               # lint + typecheck + test (run before considering work done)
-pnpm run lint:all:fix               # auto-fix lint/format issues
-
-# Single-package workflows (replace suffix with: game-client, backoffice-client, storybook, web-docs-client)
-pnpm run c:dev:game-client          # dev server
-pnpm run c:build:game-client        # build
-pnpm run c:preview:game-client      # build + serve
-
-# E2E (start the target app first, then run):
-pnpm run c:e2e:game-client          # BASE_URL=http://localhost:3000
-```
-
-**Run a single test file:**
-```bash
-pnpm --filter @kartuli/game-client exec vitest run src/path/to/file.test.ts
-```
-
-**Storybook tests** run in browser mode (Chromium + Playwright) and require a dev server — they are excluded from `test:all`. Run explicitly with `pnpm --filter @kartuli/storybook test`.
-
-## Architecture
-
-### Game client — routing and i18n
-
-All routes are nested under `app/[locale]/`. The Next.js middleware (`src/proxy.ts`) intercepts bare paths and redirects to the user's preferred locale (`en` or `ru`) using cookie → `Accept-Language` → default (`en`) priority order. Update the middleware `matcher` regex if supported locales change.
-
-i18n uses `i18next` + `react-i18next`. Translation namespaces live in `src/i18n/resources/`.
-
-### Game client — learning content
-
-Content flows: JSON data sources → ingestion layer → `Library` object → RSC server components.
-
-- **Common data** (`ingestion/data-sources/default-common-data.json`, `extended-common-data.json`): locale-independent letter/word definitions.
-- **Localized data** (`ingestion/data-sources/*.{en,ru}.json`): per-locale titles and translations.
-- `build-library.tsx` merges both into a typed `Library` (letters, words, lessons, modules with Map indexes).
-- `get-library-server.tsx` provides the server-side singleton. Content is never fetched from an API at runtime — it is bundled.
-
-### Game client — student state
-
-Student progress is persisted entirely client-side in **IndexedDB** via the `idb` library (`src/student/item-activity-device-states-collection/`). `@tanstack/react-db` provides a reactive collection layer on top. Student identity uses `deviceId` + `ownerId` (both generated and stored in localStorage). There is no backend or account system.
-
-### Shared tokens
-
-`packages/tailwind-config/shared-styles.css` is the current hand-maintained source of truth for shared CSS variables and Tailwind `@theme` tokens.
-
-Consumers continue to import `@kartuli/tailwind-config` via `@import "@kartuli/tailwind-config"`. The committed stylesheet is the artifact and the source for now, so token updates happen by editing `shared-styles.css` directly.
-
-### Shared UI
-
-`@kartuli/ui` exports components and the `cn` utility (wraps `clsx` + `tailwind-merge`) for conditional class merging. Always import `cn` from `@kartuli/ui` rather than using either library directly.
-
-## Code conventions
-
-- **Files:** `kebab-case.ts`
-- **Variables/functions:** `camelCase`
-- **Constants:** `SCREAMING_SNAKE_CASE`
-- **Exports:** named exports preferred over default exports
-- **TypeScript:** no `any` (use `unknown`); prefer `interface` over `type` for object shapes; no non-null assertions without a comment; use `@/` path aliases
-- **Styles:** Tailwind CSS utility classes; use `cn` from `@kartuli/ui` for conditionals
-- **Tests:** test files live next to the file they test, not in a separate folder
-
-## Git hooks (lefthook)
-
-Pre-commit runs lint (Biome) and checks for conflict markers and debug patterns (`console.log`, `debugger`, `alert`). Pre-push runs typecheck and tests on affected packages. Conventional commit format is enforced on commit messages.
+For substantial documentation pages, use the authoring prompts in `documentation-templates/README.md`; keep templates outside the published `docs/` tree. Catalogs should link to practical configuration/operating guides.

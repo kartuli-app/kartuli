@@ -1,11 +1,16 @@
-description: Current MVP scope and post-MVP candidates for the game client.
+---
+description: Planned product specification — Current MVP scope and post-MVP candidates for the game client.
+status: planned
+intent: specification
 ---
 
 # Roadmap
 
+> **Status: planned specification.** This page describes the target product; some elements already exist. See the [current implementation inventory](../index.md) for shipped routes, architecture and known gaps. Do not treat this specification as evidence that all described behavior is implemented.
+
 This document owns the current MVP scope for the game client.
 
-It should answer one question clearly: what is included in the MVP right now?
+It should answer one question clearly: what is the target MVP scope?
 
 This document defines scope only.
 The detailed behavior of included screens belongs in the screen docs.
