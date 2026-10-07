@@ -45,7 +45,7 @@ on `@kartuli/ui` and `@kartuli/tailwind-config`. Their app-specific paths remain
 | Shared workspaces | `packages/ui/**`, `packages/tailwind-config/**` | Same | Imported code and the shared CSS/token contract |
 | Root build configuration | `.nvmrc`, `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `tsconfig.json`, `turbo.json` | Same | Runtime/package-manager selection, workspace/catalog resolution, frozen dependency graph, inherited TypeScript configuration and Turbo task graph |
 | Production verification | `tools/e2e/**` | Same | Playwright package, shared helpers/configuration and production smoke tests executed after deployment |
-| Workflow definition | `production-w-app-game-client.yml` | `production-w-app-backoffice-client.yml` | A change to the owning production sequence exercises that sequence on `main` |
+| Workflow definition | `.github/workflows/production-w-app-game-client.yml` | `.github/workflows/production-w-app-backoffice-client.yml` | A change to the owning production sequence exercises that sequence on `main` |
 
 The filters intentionally do not include unrelated docs, tools, packages or validation-only root
 configuration. Manual dispatch remains available for an assessed release that is outside these paths.
