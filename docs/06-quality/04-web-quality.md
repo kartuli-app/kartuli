@@ -66,5 +66,5 @@ manual keyboard/screen-reader checks remain required where relevant. SEO audits 
 complete content or indexing policy. No repository-wide Web Vitals budget, bundle-size budget or
 longitudinal performance store is currently configured.
 
-See [Accessibility](./02-accessibility.md), [E2E and production smoke](./04-testing/03-e2e-smoke.md),
+See [Accessibility](./02-accessibility.md), [E2E and production smoke](./01-testing/03-e2e-smoke.md),
 [Deployment](../07-platform/02-deployment.md) and [Data & Privacy](../09-data-and-privacy/index.md).

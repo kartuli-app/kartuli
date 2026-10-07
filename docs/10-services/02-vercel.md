@@ -13,20 +13,17 @@ requested explicitly by Actions. These are distinct execution paths.
 
 ## Observed projects and environments
 
-The [Vercel bot comment on PR #166](https://github.com/kartuli-app/kartuli/pull/166#issuecomment-5937833908),
-read through the GitHub connector on **2026-10-06**, links both projects in the
-`vrocescocagmailcoms-projects` scope:
+Last verified project mapping: **2026-10-06**. Recheck the project root and domain in the
+[Vercel dashboard](https://vercel.com/dashboard) before changing deployment configuration.
 
 | Workspace | Provider project | Production URL configured in Actions |
 | --- | --- | --- |
-| `apps/game-client` | [kartuli-game-client](https://vercel.com/vrocescocagmailcoms-projects/kartuli-game-client) | `https://www.kartuli.app` |
-| `apps/backoffice-client` | [kartuli-backoffice-client](https://vercel.com/vrocescocagmailcoms-projects/kartuli-backoffice-client) | `https://backoffice.kartuli.app` |
+| `apps/game-client` | `kartuli-game-client` | `https://www.kartuli.app` |
+| `apps/backoffice-client` | `kartuli-backoffice-client` | `https://backoffice.kartuli.app` |
 
-The comment identifies matching app root directories. The two statuses at `700f639` are successful
-with description “Canceled by Ignored Build Step”, and the bot lists skipped deployments.
-This verifies the Git integration's presence and behavior for that commit, not the exact ignored-build
-command or all provider project settings. The Actions secret values were not read or compared with
-the provider IDs.
+A successful Git-integration status can mean “Canceled by Ignored Build Step”. Inspect the
+status description and Actions deployment output separately. Verify effective project settings and
+secret-to-project mapping with the project owner.
 
 ## Deployment paths
 
@@ -60,7 +57,7 @@ not pass that environment variable to the Vercel action as a build environment v
 | `TURBO_TEAM` variable | Separate remote-cache team selection |
 
 Provider environment variables, build/install commands, framework settings, domain assignments,
-preview access controls and credential scopes remain settings to inspect in the linked projects.
+preview access controls and credential scopes remain settings to inspect in the dashboard projects.
 A working deployment token does not prove Turbo cache access, and a public project link does not
 verify the configured secret value.
 
@@ -80,7 +77,7 @@ Both app production path filters currently name `packages/theme/**` and omit the
 Actions deployments. They also omit a standalone `pnpm-workspace.yaml` change, although a typical
 dependency update changes the watched lockfile. Native Vercel triggers remain separately configured.
 
-Read-only starting points are `gh pr checks 166`, the provider project links above, and
+Read-only starting points are `gh pr checks PR_NUMBER`, the Vercel dashboard, and
 `gh run view RUN_ID`. E2E failure artifacts retain three days and production Lighthouse artifacts
 seven. Staging Lighthouse uses warning assertions; production uses error assertions.
 

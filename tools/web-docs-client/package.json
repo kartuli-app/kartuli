@@ -6,12 +6,12 @@
   "scripts": {
     "lint": "biome check .",
     "dev": "pnpm generate-llm-bundle && vitepress dev",
-    "build": "pnpm generate-llm-bundle && cd ../.. && pnpm exec vitepress build tools/web-docs-client && cd tools/web-docs-client && pnpm copy-llm-bundle",
+    "build": "pnpm test && cd ../.. && pnpm exec vitepress build tools/web-docs-client && cd tools/web-docs-client && pnpm copy-llm-bundle && pnpm check-docs -- --built",
     "preview": "pnpm build && vitepress preview",
     "generate-llm-bundle": "node scripts/generate-llm-bundle.js",
     "copy-llm-bundle": "node scripts/copy-llm-bundle.js",
     "check-docs": "node scripts/check-docs.js",
-    "test": "node --test scripts/site-navigation.node-test.js"
+    "test": "pnpm generate-llm-bundle && pnpm check-docs && node --test scripts/site-navigation.node-test.js"
   },
   "dependencies": {
     "@kartuli/docs": "workspace:*",

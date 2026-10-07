@@ -22,4 +22,4 @@ Percentages describe executed code, not the strength of assertions. A module can
 
 When excluding code, state why its behavior is verified elsewhere or why it is non-executable/generated. Do not remove difficult application code from the denominator to satisfy an informal target. Keep root coverage configuration distinct from provider analysis exclusions in [SonarCloud](../../10-services/03-sonarcloud.md).
 
-Use [Testing strategy](../01-testing.md) to choose the right layer. Workspace tests and `validate:all` remain separate execution commands; running coverage is not automatically the same as executing every Turbo test task.
+Use [Testing strategy](./index.md) to choose the right layer. Workspace tests and `validate:all` remain separate execution commands; running coverage is not automatically the same as executing every Turbo test task.

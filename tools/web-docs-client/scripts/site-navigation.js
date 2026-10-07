@@ -1,8 +1,3 @@
-// Attach existing overview URLs to their guide folders without moving published pages.
-const FOLDER_OVERVIEWS = {
-  '/06-quality/01-testing': '/06-quality/04-testing/',
-};
-
 function toItem(node) {
   if (node.doc) return { text: node.doc.text, link: node.doc.link };
   const items = [...node.children.entries()]
@@ -20,9 +15,8 @@ function toItem(node) {
 export function buildSiteNavigation(documents) {
   const root = { children: new Map() };
   for (const doc of documents) {
-    const overviewFolder = FOLDER_OVERVIEWS[doc.link];
-    const isHub = doc.isHub || Boolean(overviewFolder);
-    const segments = (overviewFolder ?? doc.link).split('/').filter(Boolean);
+    const isHub = doc.isHub;
+    const segments = doc.link.split('/').filter(Boolean);
     const folders = isHub ? segments : segments.slice(0, -1);
     let parent = root;
     for (const segment of folders) {

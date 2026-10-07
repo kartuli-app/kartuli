@@ -35,23 +35,12 @@ queued requests. Kartuli does not configure that integration. Do not infer those
 presence of the dependency. Source evidence is the installed package's `dist/index.js`, especially
 the configured renderer near its placeholder/fetch path.
 
-## Current asset evidence
+## Cached assets and build success
 
-Inspecting the five committed assets found:
-
-| Asset name within `public/diagrams/` | Content |
-| --- | --- |
-| `mermaid-01-product-overview-33-13e5535a422892af7eebf559fc7a42fc.svg` | HTML Kroki 504 response |
-| `mermaid-01-product-overview-38-13e5535a422892af7eebf559fc7a42fc.svg` | Valid SVG markup displaying “Error 500: Internal Server Error” |
-| `mermaid-03-product-overview-33-e3462f93c0621de805781d039ad1dc64.svg` | HTML Kroki 504 response |
-| `mermaid-03-product-overview-30-e3462f93c0621de805781d039ad1dc64.svg` | Rendered flowchart |
-| `mermaid-pipeline-overview-118-048479a055c49b949dc22927eec46cea.svg` | Rendered flowchart |
-
-A successful docs build proves neither a fresh rendering request nor correct diagram content.
-In particular, the Error 500 asset passes a simple SVG-format check. Earlier wording that a
-successful build generated valid diagrams was too strong; cached files can satisfy the build while
-the displayed figure is an error. The table records existing assets, not a claim that every file is
-referenced by the current page.
+The committed cache includes historical HTML error responses and SVG error banners. A successful
+build proves neither a fresh request nor a correct diagram. Even an SVG-format check can accept an
+error banner. Match the rendered page's image URL to the cached asset and inspect its actual content;
+an unused historical file is different from a currently displayed error.
 
 ## Audit and recovery workflow
 

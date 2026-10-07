@@ -8,7 +8,7 @@ intent: reference
 
 These packages support compilation, testing and rendering. Their configuration owner matters more
 than whether a manifest labels them dependencies or devDependencies. The
-[dependency inventory](../06-dependency-inventory.md) records exact consumers and declaration kinds.
+[dependency inventory](../06-dependency-inventory.md) explains how to find current consumers and declaration kinds in manifests.
 
 ## Type declarations
 
@@ -32,8 +32,9 @@ browser provider. An app declaring browser-related packages does not make its te
 `@vitest/browser` is directly declared by Game Client, but no direct import or browser-mode
 configuration was found there. `@vitest/browser-playwright` is actively imported by
 `tools/storybook/vitest.config.ts`; that is the evidence for the real Chromium suite.
-`@vitest/coverage-v8` is declared at root for root coverage. Keep runner and integration versions
-compatible and preserve the Renovate family constraint below major 5.
+`@vitest/coverage-v8` is declared at root for root coverage. Keep runner, browser, Playwright adapter and coverage integration on the same exact release.
+The catalog pins these versions, and Renovate preserves pins with a constraint below major 5.
+Pinning individual packages does not itself enforce equality: review all four lockfile resolutions.
 
 `esbuild` is directly declared by Game Client and permitted to run install scripts. No repository
 source/config directly invokes its API or CLI. Storybook explicitly configures Oxc automatic JSX in
@@ -91,4 +92,4 @@ pnpm run validate:all
 
 Add the relevant build for a changed transform/runtime adapter. Use
 [Node.js and pnpm](../03-technologies/03-node-and-pnpm.md) for catalog/install conventions and
-[Testing](../../06-quality/01-testing.md) to distinguish unit, browser and E2E evidence.
+[Testing](../../06-quality/01-testing/index.md) to distinguish unit, browser and E2E evidence.

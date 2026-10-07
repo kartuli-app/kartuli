@@ -10,7 +10,7 @@ Quality is a shared capability. App specs define expected product behavior; tool
 
 `AGENTS.md` requires `pnpm run validate:all` for every change, including docs: root Biome, workspace lint, workspace typechecks, then Turbo tests. Report environment blockers explicitly; do not claim checks passed or silently substitute narrower checks.
 
-[Testing](./01-testing.md) owns layer selection and coverage. [Accessibility](./02-accessibility.md) owns cross-surface requirements. [Code Review](./03-code-review.md) owns review expectations.
+[Testing](./01-testing/index.md) owns layer selection and coverage. [Accessibility](./02-accessibility.md) owns cross-surface requirements. [Code Review](./03-code-review.md) owns review expectations.
 [Web Quality and Lighthouse](./04-web-quality.md) owns the current mobile audit profile, score
 thresholds, CI severity and report handling.
 

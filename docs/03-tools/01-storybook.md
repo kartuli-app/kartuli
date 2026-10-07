@@ -66,5 +66,5 @@ A Chromium download/executable failure is an environment prerequisite failure, n
 assertion. An isolated passing story does not prove route-level data, navigation or production behavior.
 
 Token stories visualize the [Design System](../04-design-system/index.md). See
-[Component/browser testing](../06-quality/04-testing/02-component-browser.md) and
+[Component/browser testing](../06-quality/01-testing/02-component-browser.md) and
 [Accessibility](../06-quality/02-accessibility.md) for evidence and policy.

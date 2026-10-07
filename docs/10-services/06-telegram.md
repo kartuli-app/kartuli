@@ -58,12 +58,10 @@ The action:
 No parse mode, retry/backoff loop or delivery-receipt storage is configured. A nonzero sender result
 can fail the calling job. API acceptance does not establish that a human read the notification.
 
-## Evidence and investigation
+## Investigation
 
-The GitHub connector observed
-[run 37441752811](https://github.com/kartuli-app/kartuli/actions/runs/37441752811) on **2026-10-06**:
-a check-suite-triggered CI-notification run was skipped. That observation proves event/condition
-processing, not a Telegram send. No real test message was sent during this audit.
+A skipped notification job proves condition evaluation, not delivery. A green sender step can also
+mean an empty token caused an intentional skip. Inspect the sender log and API result.
 
 For an expected message:
 

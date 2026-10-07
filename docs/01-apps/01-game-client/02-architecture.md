@@ -137,6 +137,6 @@ loading boundaries in the current route tree, and no account recovery or remote-
 | Shared shell/component | Colocated tests/stories, Storybook browser suite and route-level check |
 | Service worker/offline | Production build and explicit online-to-offline acceptance scenario; config wrapping alone is insufficient |
 
-Always finish with `pnpm run validate:all`. Use [Testing](../../06-quality/01-testing.md) to choose the
+Always finish with `pnpm run validate:all`. Use [Testing](../../06-quality/01-testing/index.md) to choose the
 additional layer and [Next.js](../../05-engineering/03-technologies/04-nextjs.md) for framework-specific
 configuration constraints.

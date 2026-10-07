@@ -62,5 +62,5 @@ together; a newer schema URL with an older binary can produce misleading configu
 | Large unrelated rewrite after a fix | Restore only unintended formatting with care, then run a focused check before the full gate |
 
 Biome catches source-level accessibility issues but does not render components or measure contrast.
-See [Accessibility](../../06-quality/02-accessibility.md), [Testing](../../06-quality/01-testing.md)
+See [Accessibility](../../06-quality/02-accessibility.md), [Testing](../../06-quality/01-testing/index.md)
 and [SonarCloud](../../10-services/03-sonarcloud.md) for complementary checks.

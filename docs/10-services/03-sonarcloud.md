@@ -36,12 +36,9 @@ On **2026-10-06**, the [active main ruleset](https://github.com/kartuli-app/kart
 required `SonarCloud Code Analysis` with strict status checking. This is the only status named in
 that retrieved ruleset. See [GitHub](./01-github.md) for bypass and review settings.
 
-The [report on PR #166](https://github.com/kartuli-app/kartuli/pull/166#issuecomment-5999522640),
-created on 2026-10-05 after head `700f639`, reports a passed gate, zero new issues, zero accepted
-issues, zero security hotspots, 0.0% new-code coverage and 0.0% new-code duplication.
-Those metrics describe that PR analysis. They do not establish whole-repository coverage or the
-absence of existing issues. In particular, a passed gate alongside 0.0% new-code coverage does not
-prove test coverage was imported or that a coverage threshold was applied to this change.
+Read the current PR report and its analysis revision to interpret gate results. New-code metrics
+do not establish whole-repository coverage or absence of existing issues. A passed gate does not
+prove coverage was imported or a coverage threshold applied.
 
 ## Investigating a finding
 
@@ -54,11 +51,6 @@ prove test coverage was imported or that a coverage threshold was applied to thi
 6. Push the authorized correction and wait for a fresh analysis. A local test pass alone does not
    clear the external gate.
 
-PR #166 provides a concrete example: two implicit string sorts, an in-expression mutating sort, a
-nested mapper and a backtracking heading regex produced five findings. Explicit comparators,
-`toSorted`, a module-level mapper and a line-based heading scan addressed them while navigation
-tests and the docs build checked behavior. The subsequent provider report passed.
-
 ## Common failure modes
 
 | Symptom | Next check |
@@ -70,7 +62,7 @@ tests and the docs build checked behavior. The subsequent provider report passed
 | Old finding persists after a fix | Confirm the analysis revision and whether the changed file was analyzed |
 | Gate passes but merge is blocked | Inspect strict up-to-date policy, review threads and other GitHub rules |
 
-`gh pr checks 166` is a read-only way to inspect the current check and its details link.
+`gh pr checks PR_NUMBER` is a read-only way to inspect the current check and its details link.
 Provider account ownership, installation scope, actual profile/gate, retention and accepted-issue
 policy remain external verification tasks. [Code Review](../06-quality/03-code-review.md) and
-[Testing](../06-quality/01-testing.md) describe the complementary review and test requirements.
+[Testing](../06-quality/01-testing/index.md) describe the complementary review and test requirements.

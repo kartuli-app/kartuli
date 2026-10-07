@@ -75,7 +75,7 @@ Working rules:
 
 - feature code should prefer semantic color tokens
 - raw primitive color tokens should stay mostly inside the shared token contract
-- spacing and radius should prefer token-backed utilities such as `p-spacing-*`, `gap-spacing-*`, `rounded-p-radius-*`
+- spacing and radius should prefer token-backed utilities such as `p-p-spacing-*`, `gap-p-spacing-*`, `rounded-p-radius-*`
 - raw Tailwind utilities remain fine for structure and layout behavior such as `flex`, `grid`, `overflow`, `absolute`, and breakpoints
 
 Priority order:

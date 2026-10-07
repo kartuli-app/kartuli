@@ -5,6 +5,11 @@ runs:
   using: composite
   steps:
 
+    # Root Vitest coverage does not discover Web Docs Node tests or documentation contracts.
+    - name: Validate documentation and navigation
+      run: pnpm --filter @kartuli/web-docs-client test
+      shell: bash
+
     - name: Run lint:root
       run: |
         pnpm run lint:root

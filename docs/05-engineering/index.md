@@ -30,4 +30,4 @@ See the [Technology catalog](./01-technologies.md) and [Library catalog](./02-li
 
 ## Maintenance references
 
-[Command Reference](./04-commands.md) accounts for every root/workspace script, including differences between preview implementations. [Dependency Inventory](./06-dependency-inventory.md) accounts for every direct manifest dependency so the architectural catalogs do not conceal smaller tools or helpers.
+[Command Reference](./04-commands.md) explains common workflows and script discovery. [Dependency Inventory](./06-dependency-inventory.md) explains how to inspect manifests/catalogs and audit their documentation coverage.

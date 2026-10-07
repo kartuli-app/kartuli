@@ -59,4 +59,4 @@ according to the workflow upload step (currently three days).
 Traces and screenshots may include page content and identifiers. Avoid logging secret URLs or using
 mutating production fixtures without a reviewed cleanup strategy.
 
-See [E2E and production smoke](../06-quality/04-testing/03-e2e-smoke.md) for layer selection and [Deployment](../07-platform/02-deployment.md) for production execution. Artifacts remain subject to [Data & Privacy](../09-data-and-privacy/index.md).
+See [E2E and production smoke](../06-quality/01-testing/03-e2e-smoke.md) for layer selection and [Deployment](../07-platform/02-deployment.md) for production execution. Artifacts remain subject to [Data & Privacy](../09-data-and-privacy/index.md).

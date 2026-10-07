@@ -13,22 +13,14 @@ Its GitHub integration operates separately from the repository's validation jobs
 [Code Review](../06-quality/03-code-review.md) owns acceptance policy. Provider suggestions need the
 same source, behavior and test review as other proposed changes.
 
-## Verified behavior and its scope
+## Interpreting review evidence
 
-The GitHub connector inspected PR #166 and commit `700f639` on **2026-10-06**.
+A successful check can mean “Review skipped: automatic reviews are disabled”. Read the description
+and compare the review comment's base/head commit range with the current PR before counting it as
+fresh analysis. Generated release notes are separate from actionable code review.
 
-| Evidence | What it establishes |
-| --- | --- |
-| [CodeRabbit review comment](https://github.com/kartuli-app/kartuli/pull/166#issuecomment-5937834675) | A review ran using Organization UI configuration, ASSERTIVE profile and an Advanced plan |
-| Commit range in that comment | That review covered the initial `10ce3d0` revision, not every later commit |
-| Review result | No actionable comments were generated in that review; additional informational comments and language feedback exist |
-| Status on `700f639` | Success with description “Review skipped: automatic reviews are disabled” |
-| Generated PR-body section | The bot maintains a release-note summary between its generated-comment markers |
-
-The earlier completed review and later skipped status are both valid observations. A green CodeRabbit
-status must not be described as a review of the latest change unless the comment's commit range
-supports that claim. The comment also records the allowance for that run; billing and quotas are
-time-specific and should not be copied as permanent repository limits.
+Last verified configuration owner: organization UI, **2026-10-06**. Review triggers, profile and plan
+are provider settings to inspect when needed; historical allowances are not repository limits.
 
 ## Configuration responsibility
 
@@ -36,8 +28,7 @@ The observed configuration owner is the organization UI. To change triggers, pro
 instructions, first inspect that effective configuration with an authorized owner. Introducing a local
 YAML file would be a policy/configuration change and needs its own review of precedence and scope.
 
-The existing review's additional-context section shows it consumed `CLAUDE.md` and repository
-documentation rules. Keep shared architecture in canonical docs and link it from agent bootstraps.
+Inspect the review's additional-context section to see which repository instructions it consumed. Keep shared architecture in canonical docs and link it from agent bootstraps.
 There is no evidence here for a complete list of provider instructions or ignored paths.
 
 ## Reviewing a PR with CodeRabbit
@@ -67,8 +58,8 @@ bot status enforcement are separate settings; neither should be inferred from th
 Read-only GitHub commands:
 
 ```bash
-gh pr view 166 --json headRefOid,comments,reviews,statusCheckRollup
-gh pr checks 166
+gh pr view PR_NUMBER --json headRefOid,comments,reviews,statusCheckRollup
+gh pr checks PR_NUMBER
 ```
 
 Installation permissions, current organization rules, data retention, model/provider processing and

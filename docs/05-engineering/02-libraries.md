@@ -20,7 +20,7 @@ Create a dedicated page when a dependency defines a system boundary, data lifecy
 | clsx / tailwind-merge | Wrapped by shared `cn`; prefer that helper | `packages/ui/src/utils/cn.tsx` |
 | js-cookie | Settings writes locale preference | [Data & Privacy](../09-data-and-privacy/index.md) |
 | react-icons | App icon components | Game Client `src/ui` |
-| Vitest / V8 coverage | Colocated tests and aggregate coverage | [Testing](../06-quality/01-testing.md) |
+| Vitest / V8 coverage | Colocated tests and aggregate coverage | [Testing](../06-quality/01-testing/index.md) |
 | Testing Library / Happy DOM | DOM assertions, interactions and lightweight test environment | App/UI test configs and setup |
 | Playwright / axe | Browser execution and accessibility scans | [E2E Runner](../03-tools/02-e2e-runner.md) |
 | Storybook addon-vitest / addon-a11y | Story interactions and accessibility failures | [Storybook](../03-tools/01-storybook.md) |
@@ -40,4 +40,4 @@ Paths beginning `src/` in the table are relative to `apps/game-client`. Exact ve
 - [Motion, icons and class helpers](./05-libraries/06-motion-and-ui-helpers.md)
 - [Toolchain support packages](./05-libraries/07-toolchain-support.md): types, React/test adapters, Storybook addons and declared-versus-used caveats.
 
-Testing-library usage is documented with [Unit and integration testing](../06-quality/04-testing/01-unit-integration.md); browser/axe integrations with [Component testing](../06-quality/04-testing/02-component-browser.md) and [E2E](../06-quality/04-testing/03-e2e-smoke.md). The [dependency inventory and catalog audit](./06-dependency-inventory.md) maps every direct package to its canonical guide and records catalog-only entries, lifecycle-script permissions and undeclared script dependencies.
+Testing-library usage is documented with [Unit and integration testing](../06-quality/01-testing/01-unit-integration.md); browser/axe integrations with [Component testing](../06-quality/01-testing/02-component-browser.md) and [E2E](../06-quality/01-testing/03-e2e-smoke.md). The [dependency inventory and catalog audit](./06-dependency-inventory.md) explains how to inspect current declarations and check coverage, including catalog-only entries, lifecycle-script permissions and undeclared script dependencies.

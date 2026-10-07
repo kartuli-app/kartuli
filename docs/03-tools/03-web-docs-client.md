@@ -17,22 +17,21 @@ Run these from the repository root:
 | Command | What it does | Expected result |
 | --- | --- | --- |
 | `pnpm run c:dev:web-docs-client` | Generates source/public LLM index, then starts VitePress dev | Live Markdown editing; use the URL/port printed by VitePress, with `/kartuli/` |
-| `pnpm run c:build:web-docs-client` | Turbo target build; on a miss generates index, builds site and copies index to dist | Static files in `tools/web-docs-client/.vitepress/dist` |
+| `pnpm run c:build:web-docs-client` | Turbo target build; on a miss validates source/navigation, builds the site and checks the dist index | Static files in `tools/web-docs-client/.vitepress/dist` |
 | `pnpm run c:preview:web-docs-client` | Runs the workspace preview script: build first, then VitePress preview | Built site, normally `http://localhost:4173/kartuli/` |
 | `pnpm --filter @kartuli/web-docs-client exec vitepress preview` | Serves existing dist only | Useful after a known successful build; does not regenerate anything |
 | `pnpm --filter @kartuli/web-docs-client run generate-llm-bundle` | Scans current Markdown and writes source/public index | Fresh index without building the site |
 | `pnpm --filter @kartuli/web-docs-client run check-docs` | Checks descriptions, local file links and index coverage/copies | Requires generation first |
 | `pnpm --filter @kartuli/web-docs-client run check-docs -- --built` | Also compares dist index with source | Requires a completed fresh build |
-| `pnpm --filter @kartuli/web-docs-client run test` | Tests navigation contracts using Node's test runner | No browser dependency |
+| `pnpm --filter @kartuli/web-docs-client run test` | Generates/checks the index and tests navigation contracts | No browser dependency |
 
 The package's `preview` script already builds. A failed build prevents preview from starting; running a separate build first does not repair a failing diagram dependency. Check the terminal rather than assuming an older browser tab represents the new build.
 
-On ordinary PRs, the Web Docs reusable workflow builds/previews the site and runs its Playwright smoke
-suite, but its package-validation step is manual-dispatch only. The all-monorepo CI action runs root
-Vitest coverage rather than Turbo `test:all`, so it does not discover the `.node-test.js` navigation
-suite or invoke `check-docs`. Run both commands locally; production Docs CI does run the workspace test
-through package validation. This is an execution-coverage gap, not permission to describe the checks as
-universally enforced.
+The Web Docs build runs the workspace test first: index generation, `check-docs` and Node navigation
+tests. After rendering/copying, it checks the built index too. Local `validate:all` runs that workspace
+test through Turbo; its cache inputs include `docs/**`. The all-monorepo PR action runs it explicitly,
+because root Vitest coverage does not discover the Node suite. PR preview and production builds
+therefore enforce the documentation contract as well.
 
 ## LLM index lifecycle and URLs
 
@@ -46,11 +45,8 @@ Generation happens when dev starts; editing Markdown does not continuously regen
 
 ## Navigation and authoring
 
-Testing has one clickable overview with its four guides nested underneath. The `FOLDER_OVERVIEWS`
-mapping in `site-navigation.js` attaches the existing `/06-quality/01-testing` page to the
-`/06-quality/04-testing/` guide folder. This preserves every published URL and avoids a duplicate
-overview/menu group. New areas should normally use a folder `index.md`; the explicit mapping handles
-this existing split without moving pages.
+Testing uses `docs/06-quality/01-testing/index.md` as its clickable overview, with all four guides
+in the same folder. Navigation follows the same folder-hub rule as every other area.
 
 `scripts/docs-processor.js` collects numbered folders/files and descriptions; H1 headings supply human labels. `site-navigation.js` turns `index.md` into its folder's clickable heading and removes duplicate hub children. A hub-only section is a link, not an expandable group containing “Index”. One shared sidebar exposes all top-level sections on the home page and every documentation page. Sections with children are collapsible; hub-only sections are direct links. The top navbar links directly to each section overview, without a Documentation wrapper menu.
 

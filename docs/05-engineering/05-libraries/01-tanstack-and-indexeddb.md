@@ -22,6 +22,15 @@ The IndexedDB database is version 1 with an owner index. Open is memoized and re
 
 Consequently, a UI update does not guarantee durable persistence. The row ID combines owner, device and item; changing that convention requires a migration design, not just a new concatenation. `AddItemActivityEvent` implements view/fail/success counters, while this batch function specifically applies view events.
 
+## Dependency compatibility
+
+Review `@tanstack/db`, `@tanstack/react-db` and `@tanstack/query-db-collection` together.
+Their package version numbers differ, but the adapters must use a compatible DB implementation.
+Inspect `pnpm why -r @tanstack/db` after an upgrade. Errors involving incompatible `Collection`,
+`RefBranch` or virtual-property types can indicate that an adapter still resolves an older DB
+generation. Align the adapter and direct dependency before changing application types or adding casts.
+Validate the Game Client and Storybook typechecks and builds.
+
 ## Common changes and checks
 
 When adding a field, review the TypeScript record, default state, event reducer, persistence reads/writes, summary selectors and migration requirements together. A schema version change needs an IndexedDB upgrade path for existing stores; current upgrade code only creates the initial store/index.

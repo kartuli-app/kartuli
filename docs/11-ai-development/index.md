@@ -25,4 +25,4 @@ Locate the concept's [canonical owner](../12-project/01-documentation/index.md),
 
 Run `pnpm run validate:all` for all changes. For documentation changes also build Web Docs and inspect the generated index and links. Report blockers rather than claiming completion. Commit only when the user explicitly requests it; use Conventional Commits. The user's request to deliver a PR authorizes the commits needed for that PR, but not a merge.
 
-See [Project workflow](../12-project/02-workflow.md) for PR mechanics and [Testing](../06-quality/01-testing.md) for the actual validation layers.
+See [Project workflow](../12-project/02-workflow.md) for PR mechanics and [Testing](../06-quality/01-testing/index.md) for the actual validation layers.

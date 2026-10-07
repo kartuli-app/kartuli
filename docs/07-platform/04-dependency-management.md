@@ -10,15 +10,16 @@ Declare shared dependency ranges in `pnpm-workspace.yaml` and reference catalogs
 
 [Renovate](../10-services/05-renovate.md) implements automated dependency PRs. Its current `enabledManagers` are `npm` and `custom.jsonata`; GitHub Actions updates are not enabled by this repository config. The custom manager tracks Biome schema versions in Biome JSON files.
 
-`renovate.json` requests routine updates before 3am Monday, groups dependency updates, disables automerge, retains TypeScript below 7 for existing pre-7 consumers and Vitest below 5, and disables engine/pnpm updates. Vulnerability alerts request immediate PR creation and the lowest fixing version; a security update rule requests any-time scheduling. Actual alert availability, schedule timezone and bot installation settings require provider verification.
+`renovate.json` requests routine updates before 3am Monday, groups dependency updates, disables automerge, retains TypeScript below 7 for existing pre-7 consumers and pins Vitest packages below 5, and disables engine/pnpm updates. Vulnerability alerts request immediate PR creation and the lowest fixing version; a security update rule requests any-time scheduling. Actual alert availability, schedule timezone and bot installation settings require provider verification.
 
 Review dependency changes with the normal [Quality](../06-quality/index.md) gates. Supply-chain and vulnerability policy belongs to [Security](../08-security/index.md); a bot rule alone does not establish a remediation SLA.
 
 ## Manual dependency change workflow
 
-1. Identify every direct consumer in workspace manifests and the [dependency inventory](../05-engineering/06-dependency-inventory.md).
+1. Identify direct consumers from workspace manifests using the [dependency audit procedure](../05-engineering/06-dependency-inventory.md).
 2. Change the shared catalog range when consumers use `catalog:`; retain named catalogs such as
    `catalog:storybook` when their compatibility boundary still applies.
+   Keep the Vitest runner/browser/Playwright/coverage pins on the same exact release; review TanStack DB adapters with their underlying DB dependency.
 3. Run pnpm to update the lockfile intentionally, then inspect manifest, catalog and lockfile diffs for
    unrelated resolution movement.
 4. Read migration/release notes for architectural dependencies and update their canonical guide when

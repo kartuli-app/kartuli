@@ -47,10 +47,8 @@ the retrieved ruleset names only SonarCloud.
 | Vercel app statuses | Vercel Git integration | Success can mean canceled by the Ignored Build Step |
 | Coverage / Lighthouse comments | GitHub Actions | Reports describe that run, not independent required checks |
 
-For example, [run 37347767983](https://github.com/kartuli-app/kartuli/actions/runs/37347767983)
-validated PR #166 at `700f639`: monorepo and docs jobs succeeded, while app/Storybook staging jobs
-were skipped. The separate provider statuses said CodeRabbit automatic reviews were disabled and
-both Vercel builds were ignored. Do not count those skipped activities as executed reviews/deployments.
+Skipped jobs and successful provider statuses do not establish that a review or deployment ran.
+Read each status description and the workflow's job conditions.
 
 ## Workflow events and permissions
 
@@ -86,8 +84,8 @@ the configured list and is a separate maintenance operation.
 Run from an authenticated checkout:
 
 ```bash
-gh pr checks 166
-gh run view 37347767983
+gh pr checks PR_NUMBER
+gh run view RUN_ID
 gh api repos/kartuli-app/kartuli/rulesets/9070716
 gh api repos/kartuli-app/kartuli --jq '{default_branch,allow_squash_merge,allow_merge_commit,allow_rebase_merge,allow_auto_merge}'
 ```

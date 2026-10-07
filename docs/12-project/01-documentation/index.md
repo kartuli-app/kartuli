@@ -41,7 +41,7 @@ See [Writing Guide](./01-writing-guide.md) for metadata/status rules and [Web Do
 
 ## Coverage inventory
 
-The [command reference](../../05-engineering/04-commands.md) inventories all package scripts and the [dependency inventory](../../05-engineering/06-dependency-inventory.md) inventories all direct dependencies. Dedicated guides cover architectural technologies/libraries, quality layers, design contracts and current provider integrations.
+The [command reference](../../05-engineering/04-commands.md) explains script discovery and common workflows and the [dependency inventory](../../05-engineering/06-dependency-inventory.md) explains how to audit manifests and catalogs. Dedicated guides cover architectural technologies/libraries, quality layers, design contracts and current provider integrations.
 
 The [documentation coverage map](./02-coverage-map.md) connects workspaces, configuration, workflows
 and implementation patterns to those canonical owners and keeps known gaps visible. Use it during an

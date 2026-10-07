@@ -20,7 +20,7 @@ Start with the [agent documentation index](https://kartuli-app.github.io/kartuli
 - [Game Client](docs/01-apps/01-game-client/index.md): actual routes, i18n, content architecture and offline limitations.
 - [Data & Privacy](docs/09-data-and-privacy/index.md): local persistence and identifiers.
 - [Design System](docs/04-design-system/index.md) and [Packages](docs/02-packages/index.md): tokens, shared UI and exports.
-- [Testing](docs/06-quality/01-testing.md): Turbo tests include Storybook; root coverage excludes its browser suite.
+- [Testing](docs/06-quality/01-testing/index.md): Turbo tests include Storybook; root coverage excludes its browser suite.
 - [Project workflow](docs/12-project/02-workflow.md): Git hooks, PRs and documentation impact.
 
 Update the canonical page in the same PR as behavior changes. Keep this bootstrap concise; do not duplicate long-form architecture here. Planned product specs and external provider settings are not evidence of implemented behavior.

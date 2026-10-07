@@ -12,8 +12,7 @@ or an explicitly recorded gap. It does not claim every page is complete.
 
 Update this map when adding a workspace, architectural dependency, cross-cutting configuration or CI
 workflow. The [dependency inventory](../../05-engineering/06-dependency-inventory.md) and
-[command reference](../../05-engineering/04-commands.md) remain the exhaustive manifest/script
-lists; this page maps those facts to useful explanations.
+[command reference](../../05-engineering/04-commands.md) explain how to inspect manifests and scripts at their source; this page maps their roles to useful explanations.
 
 ## Workspaces and maintained surfaces
 
@@ -38,7 +37,7 @@ lists; this page maps those facts to useful explanations.
 | `turbo.json`, `scripts/orchestrator` | [Turborepo](../../05-engineering/03-technologies/02-turborepo.md) and [CI](../../07-platform/01-ci.md) | Task dependencies, cache inputs/outputs and workflow mapping |
 | `biome.json`, `biome.root.json` | [Biome](../../05-engineering/03-technologies/09-biome.md) | Root/workspace ownership, lint/fix commands and exclusions |
 | App Next/PostCSS config | [Next.js](../../05-engineering/03-technologies/04-nextjs.md) and [Tailwind/PostCSS](../../05-engineering/03-technologies/06-tailwind-and-postcss.md) | App Router/Turbopack boundaries and CSS integration |
-| Vitest/Playwright/Storybook configs | [Testing](../../06-quality/01-testing.md) and its layer guides | What each runner proves, prerequisites and CI execution |
+| Vitest/Playwright/Storybook configs | [Testing](../../06-quality/01-testing/index.md) and its layer guides | What each runner proves, prerequisites and CI execution |
 | `lighthouserc.json` | [Web Quality and Lighthouse](../../06-quality/04-web-quality.md) | Mobile profile, thresholds, environment severity and public reports |
 | `renovate.json` | [Dependency Management](../../07-platform/04-dependency-management.md) and [Renovate](../../10-services/05-renovate.md) | Repository policy versus provider state |
 | `.github/workflows`, `.github/actions` | [CI](../../07-platform/01-ci.md), [Deployment](../../07-platform/02-deployment.md) and Services | Event flow, permissions, credentials by name, validation and notifications |
@@ -46,7 +45,7 @@ lists; this page maps those facts to useful explanations.
 
 ## Dependency coverage rule
 
-Every direct declaration appears in the [dependency inventory](../../05-engineering/06-dependency-inventory.md).
+Use the [dependency audit](../../05-engineering/06-dependency-inventory.md) to enumerate current declarations.
 Dependencies with recurring Kartuli conventions have a dedicated guide or capability page:
 
 - TypeScript, Turbo, Node/pnpm, Next.js, React, Tailwind/PostCSS, Vite/VitePress, Git/Lefthook and
@@ -57,8 +56,8 @@ Dependencies with recurring Kartuli conventions have a dedicated guide or capabi
 - dependency-cruiser, VitePress/diagram dependencies and provider integrations are owned by their
   Tool or Service pages.
 
-Small helpers, type packages and renderer/runtime peers remain inventory-only unless they acquire a
-project-specific lifecycle or boundary. A declaration is not proof of runtime use; guides name actual
+Small helpers, type packages and renderer/runtime peers can share the Toolchain Support guide unless they acquire a
+separate project-specific lifecycle or boundary. A declaration is not proof of runtime use; guides name actual
 consumers and call out declared-but-unverified roles.
 
 ## Workflow and service coverage
@@ -81,7 +80,7 @@ consumers and call out declared-but-unverified roles.
 | Browser identifiers, activity storage and logs | [Data & Privacy](../../09-data-and-privacy/index.md) | New field, retention, sync, telemetry or recovery behavior |
 | Locale routing and preference cookie | [i18next](../../05-engineering/05-libraries/02-i18next.md) and Game Client | Supported locale, proxy matcher, cookie or navigation changes |
 | Token layers and shared/app component boundary | [Design System](../../04-design-system/index.md) | Token, theme, font, responsive or shared-component changes |
-| Test selection and evidence | [Testing](../../06-quality/01-testing.md) | New runner, environment, exclusion, artifact or CI execution path |
+| Test selection and evidence | [Testing](../../06-quality/01-testing/index.md) | New runner, environment, exclusion, artifact or CI execution path |
 | Agent/document context hierarchy | [AI Development](../../11-ai-development/index.md) | Bootstrap, canonical owner or generated-index changes |
 
 ## Open coverage gaps
@@ -99,7 +98,7 @@ These are known incomplete capabilities, not undocumented implemented systems:
 ## Audit procedure
 
 1. Compare `pnpm-workspace.yaml` and every workspace manifest with the workspace and dependency tables.
-2. Compare every root/workspace script with the command reference.
+2. Inspect root/workspace scripts and check that their operational caveats have a canonical guide.
 3. Review root/scoped configs and `.github/workflows` for a canonical capability owner.
 4. Search source for new persistence, cookies, network calls, environment variables and provider SDKs.
 5. Add depth where a contributor cannot safely perform and verify a common change.
