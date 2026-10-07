@@ -72,10 +72,10 @@ verify the configured secret value.
    preview protection, redirects, domain propagation and application behavior.
 6. Read the final workflow result; the preview Telegram message is sent before E2E.
 
-Both app production path filters currently name `packages/theme/**` and omit the actual
-`packages/tailwind-config/**`. A token-only change therefore does not necessarily invoke these
-Actions deployments. They also omit a standalone `pnpm-workspace.yaml` change, although a typical
-dependency update changes the watched lockfile. Native Vercel triggers remain separately configured.
+Both app production path filters include their real shared workspace dependencies, including
+`packages/ui/**` and `packages/tailwind-config/**`, plus the root build/dependency inputs documented in
+[Deployment](../07-platform/02-deployment.md). The filters remain explicit and separate from staging's
+Turbo affected-workspace selection. Native Vercel triggers remain separately configured.
 
 Read-only starting points are `gh pr checks PR_NUMBER`, the Vercel dashboard, and
 `gh run view RUN_ID`. E2E failure artifacts retain three days and production Lighthouse artifacts
