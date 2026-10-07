@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION ?? pkg.version,
   },
-  async redirects() {
+  redirects() {
     return [{ source: '/', destination: '/en', permanent: false }];
   },
 };
