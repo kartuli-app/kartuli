@@ -54,10 +54,10 @@ not exist.
 ## Deployment and current gaps
 
 The production workflow deploys to the configured Vercel project and checks
-`https://backoffice.kartuli.app`. Account/project/domain settings require external verification. Its
-path filter currently names `packages/theme/**`, which does not exist, and omits the actual
-`packages/tailwind-config/**` path. A token-only change may therefore not start this production
-workflow; this is a documented implementation gap, not a guarantee supplied by the docs.
+`https://backoffice.kartuli.app`. Its path filter watches this app plus the shared UI, Tailwind,
+root build/dependency configuration and production E2E inputs documented in
+[Deployment](../../07-platform/02-deployment.md). Account/project/domain settings require external
+verification.
 
 Use [Engineering](../../05-engineering/index.md) for workspace conventions,
 [Design System](../../04-design-system/index.md) for shared styling, and

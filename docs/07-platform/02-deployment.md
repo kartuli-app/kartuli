@@ -15,7 +15,7 @@ intent: architecture
 | Production docs | Build artifact deployed to GitHub Pages, base `/kartuli/` | `production-w-tool-web-docs-client.yml` |
 | Storybook / docs staging | Local validation/build and E2E workflow paths | `staging-w-tool-storybook.yml`, `staging-w-tool-web-docs-client.yml` |
 
-Production workflows run on configured `main` push path filters or manual dispatch, with main-branch job guards. App workflows validate the target, call Vercel with `--prod`, run production E2E and Lighthouse, and notify Telegram. Docs builds include the LLM index, upload a Pages artifact, deploy through the `github-pages` environment and run follow-up checks. Consult the YAML for exact filters and steps; this page does not imply all shared-file changes currently trigger every consumer.
+Production workflows run on configured `main` push path filters or manual dispatch, with main-branch job guards. App workflows validate the target, call Vercel with `--prod`, run production E2E and Lighthouse, and notify Telegram. Docs builds include the LLM index, upload a Pages artifact, deploy through the `github-pages` environment and run follow-up checks. The app trigger boundary is documented below; the YAML remains the executable source of truth.
 
 ## Preview and production sequences
 
@@ -34,13 +34,21 @@ LLM asset for up to five minutes, then runs the Web Docs Playwright suite. Deplo
 by propagation/E2E failure leaves a deployed site but a failed workflow and sends the post-deploy
 failure notification.
 
-## Implemented trigger limitations
+## Production app trigger boundary
 
-Both production app workflows include `packages/theme/**`, but no such workspace exists. They do not
-include the actual `packages/tailwind-config/**` path. A commit that changes only shared tokens may not
-trigger app production deployment even though both apps consume that package. This is an implemented
-gap requiring a separate workflow change; manual dispatch is the current repository-defined escape
-hatch after assessing the intended release.
+Both production app workflows watch the same shared build boundary because both apps depend directly
+on `@kartuli/ui` and `@kartuli/tailwind-config`. Their app-specific paths remain separate.
+
+| Watched path | Game Client | Backoffice | Why it triggers production |
+| --- | --- | --- | --- |
+| App workspace | `apps/game-client/**` | `apps/backoffice-client/**` | App source, assets, manifest and app-scoped build configuration |
+| Shared workspaces | `packages/ui/**`, `packages/tailwind-config/**` | Same | Imported code and the shared CSS/token contract |
+| Root build configuration | `.nvmrc`, `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `tsconfig.json`, `turbo.json` | Same | Runtime/package-manager selection, workspace/catalog resolution, frozen dependency graph, inherited TypeScript configuration and Turbo task graph |
+| Production verification | `tools/e2e/**` | Same | Playwright package, shared helpers/configuration and production smoke tests executed after deployment |
+| Workflow definition | `production-w-app-game-client.yml` | `production-w-app-backoffice-client.yml` | A change to the owning production sequence exercises that sequence on `main` |
+
+The filters intentionally do not include unrelated docs, tools, packages or validation-only root
+configuration. Manual dispatch remains available for an assessed release that is outside these paths.
 
 Path filters are not dependency graphs. When adding a shared package or changing consumption, compare
 the Turbo graph, staging target map and every production workflow filter. Do not infer that successful

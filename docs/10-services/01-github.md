@@ -58,8 +58,10 @@ It fetches history, detects affected workspaces and maps them through
 Reusable app jobs receive PR-write permission to publish reports; read-only jobs use contents-read.
 
 Production workflows run on selected main-branch paths or manual dispatch, and guard their jobs with
-`github.ref == 'refs/heads/main'`. App and docs path filters differ: verify the relevant workflow
-before assuming a shared-package change triggers production.
+`github.ref == 'refs/heads/main'`. Each app filter watches its own workspace and workflow plus the
+shared UI, Tailwind, root build/dependency configuration and production E2E inputs listed in
+[Deployment](../07-platform/02-deployment.md). App and docs path filters differ, and production does
+not reuse staging's Turbo affected-workspace selection.
 
 GitHub Pages has a build job that uploads `tools/web-docs-client/.vitepress/dist`, followed by a
 deploy job in the `github-pages` environment with `pages: write` and `id-token: write`. The

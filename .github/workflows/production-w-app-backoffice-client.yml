@@ -5,11 +5,14 @@ on:
     branches: [main]
     paths:
       - 'apps/backoffice-client/**'
+      - 'packages/tailwind-config/**'
       - 'packages/ui/**'
-      - 'packages/theme/**'
       - 'tools/e2e/**'
+      - '.nvmrc'
       - 'package.json'
       - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'tsconfig.json'
       - 'turbo.json'
       - '.github/workflows/production-w-app-backoffice-client.yml'
   workflow_dispatch:
