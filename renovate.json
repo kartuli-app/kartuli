@@ -39,7 +39,8 @@
     {
       "matchPackageNames": ["vitest", "@vitest/**"],
       "allowedVersions": "<5",
-      "description": "Keep the Vitest runner and its browser and coverage integrations on version 4"
+      "rangeStrategy": "pin",
+      "description": "Keep the Vitest runner and its browser and coverage integrations on the same version 4 release"
     },
     {
       "matchUpdateTypes": ["security"],
