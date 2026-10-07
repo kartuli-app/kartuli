@@ -38,5 +38,6 @@ Paths beginning `src/` in the table are relative to `apps/game-client`. Exact ve
 - [Zod](./05-libraries/04-zod.md)
 - [Serwist](./05-libraries/05-serwist.md)
 - [Motion, icons and class helpers](./05-libraries/06-motion-and-ui-helpers.md)
+- [Toolchain support packages](./05-libraries/07-toolchain-support.md): types, React/test adapters, Storybook addons and declared-versus-used caveats.
 
-Testing-library usage is documented with [Unit and integration testing](../06-quality/04-testing/01-unit-integration.md); browser/axe integrations with [Component testing](../06-quality/04-testing/02-component-browser.md) and [E2E](../06-quality/04-testing/03-e2e-smoke.md). The [declared dependency inventory](./06-dependency-inventory.md) covers smaller helpers, runtime peers and direct consumers without inventing architectural significance for each one.
+Testing-library usage is documented with [Unit and integration testing](../06-quality/04-testing/01-unit-integration.md); browser/axe integrations with [Component testing](../06-quality/04-testing/02-component-browser.md) and [E2E](../06-quality/04-testing/03-e2e-smoke.md). The [dependency inventory and catalog audit](./06-dependency-inventory.md) maps every direct package to its canonical guide and records catalog-only entries, lifecycle-script permissions and undeclared script dependencies.

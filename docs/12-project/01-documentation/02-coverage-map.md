@@ -65,13 +65,13 @@ consumers and call out declared-but-unverified roles.
 
 | Capability | Repository evidence | Canonical owner | Known gap that remains visible |
 | --- | --- | --- | --- |
-| PR validation | Staging orchestrator, affected mapper, validation actions | [CI](../../07-platform/01-ci.md) | Required-check/ruleset state is external |
+| PR validation | Staging orchestrator, affected mapper, validation actions | [CI](../../07-platform/01-ci.md), [GitHub](../../10-services/01-github.md) | Main ruleset verified on 2026-10-06; changes require a fresh settings read |
 | App preview/production | Reusable staging and two production workflows | [Deployment](../../07-platform/02-deployment.md), [Vercel](../../10-services/02-vercel.md) | Production path filters omit the actual Tailwind package; rollback is undocumented |
 | Docs production | Pages build/deploy/post-deploy E2E | [Deployment](../../07-platform/02-deployment.md), [GitHub](../../10-services/01-github.md) | Pages environment/settings require verification |
 | Remote cache | Turbo config, Actions cache, `TURBO_*` names | [Remote Build Cache](../../07-platform/03-remote-build-cache.md) | Hit/auth/retention state is external |
-| Dependency updates | Catalog/lockfile and Renovate policy | [Dependency Management](../../07-platform/04-dependency-management.md) | App installation/timezone are external |
+| Dependency updates | Catalog/lockfile, Renovate policy and dashboard #28 | [Dependency Management](../../07-platform/04-dependency-management.md), [Renovate](../../10-services/05-renovate.md) | Discovery/PRs verified; inherited settings/timezone remain external |
 | Notifications | Telegram composite action and caller workflows | [Telegram](../../10-services/06-telegram.md) | Destination/permissions/delivery are external |
-| Static/review services | SonarCloud reference, CodeRabbit PR behavior | Service pages and [Code Review](../../06-quality/03-code-review.md) | Effective provider configuration is external |
+| Static/review services | SonarQube Cloud gate report, CodeRabbit review/status and GitHub ruleset | Service pages and [Code Review](../../06-quality/03-code-review.md) | Gate enforcement verified; provider settings and review freshness require separate evidence |
 
 ## Implementation-pattern coverage
 

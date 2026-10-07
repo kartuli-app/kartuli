@@ -46,6 +46,12 @@ Generation happens when dev starts; editing Markdown does not continuously regen
 
 ## Navigation and authoring
 
+Testing has one clickable overview with its four guides nested underneath. The `FOLDER_OVERVIEWS`
+mapping in `site-navigation.js` attaches the existing `/06-quality/01-testing` page to the
+`/06-quality/04-testing/` guide folder. This preserves every published URL and avoids a duplicate
+overview/menu group. New areas should normally use a folder `index.md`; the explicit mapping handles
+this existing split without moving pages.
+
 `scripts/docs-processor.js` collects numbered folders/files and descriptions; H1 headings supply human labels. `site-navigation.js` turns `index.md` into its folder's clickable heading and removes duplicate hub children. A hub-only section is a link, not an expandable group containing “Index”. One shared sidebar exposes all top-level sections on the home page and every documentation page. Sections with children are collapsible; hub-only sections are direct links. The top navbar links directly to each section overview, without a Documentation wrapper menu.
 
 Restart dev after adding/renaming pages or changing H1 labels so the configuration rescans navigation. Keep existing URLs stable. Templates live outside `docs/`, under `documentation-templates/`, and are neither published nor indexed. Add a nonempty description and visible implementation status to each page. See [Writing Guide](../12-project/01-documentation/01-writing-guide.md).
@@ -64,7 +70,7 @@ Restart dev after adding/renaming pages or changing H1 labels so the configurati
 
 ## Diagram limitation and verification
 
-`vitepress-plugin-diagrams` renders fenced diagrams through its default public Kroki endpoint. Existing committed `.svg` assets include two older Kroki 504 HTML responses alongside valid SVGs. Position-dependent asset names can cause a new request after surrounding Markdown changes. The October 2026 documentation build generated valid assets successfully, but a successful build alone is not proof that every cached diagram is valid.
+`vitepress-plugin-diagrams` renders fenced diagrams through its default public Kroki endpoint. Existing committed assets include two HTML 504 responses and an SVG displaying an Error 500 banner, alongside rendered flowcharts. Position-dependent asset names can cause a new request after surrounding Markdown changes. A successful build can reuse those errors: check the rendered page's actual asset and content, not just its extension or XML format. The configured plugin path writes response text without checking HTTP success.
 
 The docs reference work does not replace this renderer. Diagnose failed builds honestly; do not commit generated placeholders/error responses. See [Kroki](../10-services/07-kroki.md). The dependency-cruiser/Graphviz [Diagram Generator](./04-diagram-generator.md) is separate.
 

@@ -37,4 +37,4 @@ Technology conventions belong here; capability policy belongs to its canonical a
 - [Git and Lefthook](./03-technologies/08-git-and-lefthook.md): local hooks and validation.
 - [Biome](./03-technologies/09-biome.md): configuration scope, lint/fix commands and failure diagnosis.
 
-Use the [complete command reference](./04-commands.md) for scripts and the [dependency inventory](./06-dependency-inventory.md) for declared consumers. These guides own Kartuli conventions; upstream links above cover APIs.
+Use the [complete command reference](./04-commands.md) for scripts and the [dependency inventory](./06-dependency-inventory.md) for declared consumers and a coverage link for every package. The audit includes default/named catalogs, catalog-only entries and install-script policy; [toolchain support](./05-libraries/07-toolchain-support.md) explains compiler types and build/test adapters. These guides own Kartuli conventions; upstream links above cover APIs.

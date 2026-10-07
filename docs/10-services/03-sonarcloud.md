@@ -1,26 +1,76 @@
 ---
-description: Automatic analysis evidence and the non-executed Sonar configuration reference.
+description: SonarQube Cloud automatic analysis, enforced GitHub gate, issue triage and configuration ownership.
 status: implemented
 intent: reference
 ---
 
-# SonarCloud
+# SonarQube Cloud
 
-`sonar-project.properties` explicitly states it is **not consumed by the scanner**: SonarCloud uses GitHub App automatic analysis. It points to project key `kartuli-app_kartuli` and records desired exclusions:
+Kartuli uses the hosted SonarQube Cloud service at project
+[`kartuli-app_kartuli`](https://sonarcloud.io/dashboard?id=kartuli-app_kartuli).
+The repository filename and GitHub check still use the former SonarCloud name.
+There is no self-hosted SonarQube server or scanner job configured in this repository.
 
-- Source exclusions: `diagrams/output/**`, `**/i18n/resources/messages/**`.
-- Duplication exclusion: `**/tailwind-integration.test.ts`.
+## Analysis and configuration ownership
 
-These are reference values to compare with SonarCloud UI, not proof of effective configuration. [Quality](../06-quality/index.md) owns static-analysis expectations.
+`sonar-project.properties` explicitly documents GitHub App automatic analysis and says the scanner
+does not consume the file. No workflow invokes a Sonar scanner or uploads LCOV to it.
+Changes to this file therefore record desired settings; effective automatic-analysis settings live
+in the provider UI.
 
-## Manual verification required
+| Reference setting | Intended value | Verification location |
+| --- | --- | --- |
+| Source exclusions | `diagrams/output/**,**/i18n/resources/messages/**` | Project Analysis Scope / exclusions |
+| Duplication exclusions | `**/tailwind-integration.test.ts` | Project duplication exclusions |
+| Analysis project | `kartuli-app_kartuli` | Analysis link on the GitHub check |
+| Analysis mode | Automatic, according to the committed integration note | Provider project administration |
+| Merge check | `SonarCloud Code Analysis` | GitHub main ruleset, integration 12526 |
 
-Confirm the GitHub App installation, organization/project mapping, automatic-analysis mode, actual UI exclusions, quality gate/profile, branch/PR coverage and required-check enforcement. Record discrepancies without changing unrelated analysis infrastructure in a docs PR.
+Open the [project exclusion settings](https://sonarcloud.io/project/settings?category=exclusions&id=kartuli-app_kartuli)
+to compare effective patterns with the reference file. The GitHub connector can verify PR reports and
+branch enforcement; it cannot establish the provider's quality profile, gate thresholds or UI exclusions.
 
-## Maintaining configuration
+## What GitHub actually verifies
 
-When source exclusions change, update the reference file and have a maintainer reconcile the actual automatic-analysis UI settings. Record the verified date and discrepancy in this page or a linked decision; editing `sonar-project.properties` alone has no scanner effect in this mode.
+On **2026-10-06**, the [active main ruleset](https://github.com/kartuli-app/kartuli/rules/9070716)
+required `SonarCloud Code Analysis` with strict status checking. This is the only status named in
+that retrieved ruleset. See [GitHub](./01-github.md) for bypass and review settings.
 
-When a finding seems inconsistent, check analysis revision/branch, selected quality profile/gate and actual exclusions before adding suppression. Coverage emitted by Vitest and a GitHub coverage comment do not prove SonarCloud imported those reports; verify automatic-analysis coverage behavior independently.
+The [report on PR #166](https://github.com/kartuli-app/kartuli/pull/166#issuecomment-5999522640),
+created on 2026-10-05 after head `700f639`, reports a passed gate, zero new issues, zero accepted
+issues, zero security hotspots, 0.0% new-code coverage and 0.0% new-code duplication.
+Those metrics describe that PR analysis. They do not establish whole-repository coverage or the
+absence of existing issues. In particular, a passed gate alongside 0.0% new-code coverage does not
+prove test coverage was imported or that a coverage threshold was applied to this change.
 
-Use findings to review maintainability/correctness, not as evidence of a complete security audit. Check status enforcement through GitHub separately from whether SonarCloud produced a result.
+## Investigating a finding
+
+1. Open the failing check on the current PR head and verify the analysis branch/revision.
+2. Record rule, file, line, severity and whether it is new-code or existing-code scope.
+3. Read the surrounding implementation and its callers; reproduce the relevant behavior locally.
+4. Make the smallest correction that preserves intended behavior, or record a supported disposition
+   in the provider when a finding is intentionally accepted.
+5. Run `pnpm run validate:all`, plus a build/browser check when the affected behavior requires it.
+6. Push the authorized correction and wait for a fresh analysis. A local test pass alone does not
+   clear the external gate.
+
+PR #166 provides a concrete example: two implicit string sorts, an in-expression mutating sort, a
+nested mapper and a backtracking heading regex produced five findings. Explicit comparators,
+`toSorted`, a module-level mapper and a line-based heading scan addressed them while navigation
+tests and the docs build checked behavior. The subsequent provider report passed.
+
+## Common failure modes
+
+| Symptom | Next check |
+| --- | --- |
+| Properties edit has no effect | Compare provider UI settings; this integration does not read the file |
+| Local tests pass but the gate fails | Inspect the actual rule/metric; tests and static analysis have different scope |
+| Coverage comment differs from Sonar | GitHub's Vitest report and Sonar analysis are separate pipelines |
+| Check remains pending or absent | Verify the latest SHA, GitHub integration and provider analysis activity |
+| Old finding persists after a fix | Confirm the analysis revision and whether the changed file was analyzed |
+| Gate passes but merge is blocked | Inspect strict up-to-date policy, review threads and other GitHub rules |
+
+`gh pr checks 166` is a read-only way to inspect the current check and its details link.
+Provider account ownership, installation scope, actual profile/gate, retention and accepted-issue
+policy remain external verification tasks. [Code Review](../06-quality/03-code-review.md) and
+[Testing](../06-quality/01-testing.md) describe the complementary review and test requirements.

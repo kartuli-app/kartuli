@@ -26,6 +26,17 @@ test('nested hubs retain their destination while children remain independently r
   assert.equal(app.items[0].items.length, 1);
 });
 
+test('Testing has one clickable overview containing all four guides at their existing URLs', () => {
+  const docs = Object.values(processDocs().sections).flat();
+  const { sidebar } = buildSiteNavigation(docs);
+  const quality = sidebar.find((item) => item.link === '/06-quality/');
+  const testing = quality.items.filter((item) => item.text === 'Testing');
+  assert.equal(testing.length, 1);
+  assert.equal(testing[0].link, '/06-quality/01-testing');
+  assert.equal(testing[0].items.length, 4);
+  assert.ok(testing[0].items.every((item) => item.link.startsWith('/06-quality/04-testing/')));
+});
+
 test('every published page has exactly one sidebar destination with no Index labels', () => {
   const docs = Object.values(processDocs().sections).flat();
   const navigation = buildSiteNavigation(docs);

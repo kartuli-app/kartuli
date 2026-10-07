@@ -1,31 +1,105 @@
 ---
-description: Repository governance, Actions, Pages, labels and external settings to verify.
+description: Verified GitHub governance, required checks, Actions, Pages and label automation for Kartuli.
 status: implemented
 intent: reference
 ---
 
 # GitHub
 
-Repository: `kartuli-app/kartuli`. GitHub provides source hosting, PRs/reviews, issues and Actions. [Project workflow](../12-project/02-workflow.md) owns contributor conventions; [CI](../07-platform/01-ci.md) and [Deployment](../07-platform/02-deployment.md) own capability behavior.
+GitHub hosts [kartuli-app/kartuli](https://github.com/kartuli-app/kartuli), its issues, pull requests,
+automation and published documentation. [Project workflow](../12-project/02-workflow.md) owns
+contribution conventions; [CI](../07-platform/01-ci.md) owns validation and
+[Deployment](../07-platform/02-deployment.md) owns release flow.
 
-## Repository evidence
+## Verified repository and branch settings
 
-- `.github/CODEOWNERS` assigns `*` to `@kartuli-app/maintainers`.
-- `.github/ISSUE_TEMPLATE/feature_or_task.md` and `.github/pull_request_template.md` guide contributions.
-- `.github/labels.yml` defines labels. `labels-sync-available-on-github-from-repo-config.yml` syncs them; `labels-auto-apply-to-issues-from-template.yml` and `labels-propagate-to-pr-from-linked-issue.yml` automate assignment.
-- Actions use `GITHUB_TOKEN` with job-scoped permissions. Workflow artifact uploads include failure E2E results (typically three days) and app Lighthouse results (seven days); consult individual upload steps for exact retention.
-- Docs deploy through the `github-pages` environment using Pages artifact upload/deploy actions and `pages: write` / `id-token: write` permissions.
+The GitHub connector read repository metadata and the active
+[main ruleset](https://github.com/kartuli-app/kartuli/rules/9070716) on **2026-10-06**.
+These are dated observations; refresh them before changing merge policy.
 
-## Manual verification required
+| Setting | Observed value | Meaning for contributors |
+| --- | --- | --- |
+| Visibility / default branch | Public / `main` | PRs and published source are public |
+| Merge methods | Squash enabled; merge commits and rebase disabled | Prepare a meaningful final squash title/body |
+| Automatic merge | Disabled | A green PR does not merge automatically |
+| Ruleset target | Active, `refs/heads/main` | Other branch names are not covered by this ruleset |
+| Branch history | Deletion and non-fast-forward updates restricted; linear history required | Changes normally arrive through a PR |
+| PR approval | Zero required approvals; CODEOWNERS approval not required | Ownership metadata does not enforce review |
+| Review threads | Resolution required | Resolve outstanding conversations before merging |
+| Required status check | `SonarCloud Code Analysis`, integration ID 12526 | This is the only check named in the retrieved ruleset |
+| Strict status policy | Enabled | The branch must satisfy the up-to-date check policy |
+| Bypass | Repository-role actor ID 5 has always-bypass | The rule is not an absolute barrier for every actor |
 
-Check repository rulesets/branch protection, required status checks, code-owner review enforcement, maintainer team membership, merge permissions, GitHub App installations/permissions and Actions access policy. Capture GitHub Projects URL/owner, fields, views and automation; none is defined in source. Verify Pages source/environment protection/custom domain and artifact retention/access policies. Do not infer these settings from CODEOWNERS or workflow YAML.
+The ruleset also enables extra approval for unattributed changes. This does not turn its ordinary
+zero-approval requirement into a blanket approval requirement.
+`.github/CODEOWNERS` assigns all paths to `@kartuli-app/maintainers`; team membership and access were
+not exposed by this repository audit. Full validation remains a repository requirement even though
+the retrieved ruleset names only SonarCloud.
 
-## Integration flow and maintenance
+## PR checks and their owners
 
-A PR to main starts the staging orchestrator, which selects affected target workflows and runs all-monorepo validation. Label workflows synchronize the repository-defined vocabulary and propagate labels from linked issues. Pages receives a built static artifact; it does not compile the docs from Markdown on demand.
+| Result in GitHub | Who produces it | How to interpret it |
+| --- | --- | --- |
+| Validate all monorepo | Staging Orchestrator / local composite action | Lint, typecheck, root coverage and Storybook tests |
+| Staging CI target jobs | Orchestrator affected-package mapping | Empty target lists skip jobs; inspect the mapping summary |
+| SonarCloud Code Analysis | SonarQube Cloud GitHub integration | Open its analysis link for the gate and revision |
+| CodeRabbit | External review integration | Read the description: success can mean review skipped |
+| Vercel app statuses | Vercel Git integration | Success can mean canceled by the Ignored Build Step |
+| Coverage / Lighthouse comments | GitHub Actions | Reports describe that run, not independent required checks |
 
-When a check is missing, inspect workflow event/path filters, affected-target mapping and job conditions before changing branch rules. When a Pages URL is stale, inspect the build artifact, deployment job and returned environment URL. A successful source upload is not the same as a successful Pages deployment.
+For example, [run 37347767983](https://github.com/kartuli-app/kartuli/actions/runs/37347767983)
+validated PR #166 at `700f639`: monorepo and docs jobs succeeded, while app/Storybook staging jobs
+were skipped. The separate provider statuses said CodeRabbit automatic reviews were disabled and
+both Vercel builds were ignored. Do not count those skipped activities as executed reviews/deployments.
 
-For ownership changes, update CODEOWNERS and verify the referenced team has access and review enforcement is enabled. For labels, inspect the sync workflow's deletion policy before dispatching it: synchronization can remove labels outside the configured inventory. For Projects, capture the verified project and automation separately; no workflow here establishes its fields/views.
+## Workflow events and permissions
 
-Validate changes through the relevant workflow and recorded check results. Preserve least-needed workflow permissions and never infer admin settings from a passing build. Source locations: `.github/workflows`, `.github/actions`, CODEOWNERS, labels and templates.
+`.github/workflows/staging-orchestrator.yml` runs on PRs targeting main and manual dispatch.
+It fetches history, detects affected workspaces and maps them through
+`scripts/orchestrator/workflow-targets.json`. Concurrency cancels the older orchestrator run for a PR.
+Reusable app jobs receive PR-write permission to publish reports; read-only jobs use contents-read.
+
+Production workflows run on selected main-branch paths or manual dispatch, and guard their jobs with
+`github.ref == 'refs/heads/main'`. App and docs path filters differ: verify the relevant workflow
+before assuming a shared-package change triggers production.
+
+GitHub Pages has a build job that uploads `tools/web-docs-client/.vitepress/dist`, followed by a
+deploy job in the `github-pages` environment with `pages: write` and `id-token: write`. The
+post-deploy check waits for the site and text index, then runs browser smoke tests. The configured
+site is [Kartuli Docs](https://kartuli-app.github.io/kartuli/). Environment protection and custom-domain
+settings still need a provider-settings read.
+
+## Issue and label operations
+
+| Workflow | Trigger and exact behavior |
+| --- | --- |
+| `labels-auto-apply-to-issues-from-template.yml` | Issue opened/edited; parses checked labels in the Type/Scope area and adds missing labels; unchecking does not remove them |
+| `labels-propagate-to-pr-from-linked-issue.yml` | PR opened only; takes labels from the first closing-keyword issue reference; later body edits do not rerun it |
+| `labels-sync-available-on-github-from-repo-config.yml` | Manual; synchronizes `.github/labels.yml`; `delete-other-labels` defaults to false |
+
+Use the issue and PR templates under `.github/`. If labels are missing, inspect event timing and the
+first linked issue before editing the vocabulary. Enabling label deletion can remove labels beyond
+the configured list and is a separate maintenance operation.
+
+## Read-only investigation
+
+Run from an authenticated checkout:
+
+```bash
+gh pr checks 166
+gh run view 37347767983
+gh api repos/kartuli-app/kartuli/rulesets/9070716
+gh api repos/kartuli-app/kartuli --jq '{default_branch,allow_squash_merge,allow_merge_commit,allow_rebase_merge,allow_auto_merge}'
+```
+
+Substitute the current PR/run IDs. Start with the failing step, its event, SHA and job condition.
+A skipped workflow is different from a missing workflow and from an executed failure. E2E failure
+artifacts generally retain three days; production Lighthouse artifacts retain seven. Exact upload
+steps own retention and paths.
+
+## Remaining external settings
+
+GitHub Projects ownership, fields/views and automation, team membership, installation permissions,
+Actions policy, Pages environment protection and secret rotation are not established by the source
+or the reads above. Record their verified values and date when available. Do not infer them from
+CODEOWNERS, templates or successful CI.
