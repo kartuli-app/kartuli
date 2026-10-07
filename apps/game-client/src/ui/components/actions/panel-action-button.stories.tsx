@@ -104,7 +104,7 @@ export const ShowsTooltipOnHover: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Clear text' });
 
-    await step('Tooltip is not open before hovering', async () => {
+    await step('Tooltip is not open before hovering', () => {
       expect(trigger).not.toHaveAttribute('data-popup-open');
     });
 
@@ -137,7 +137,7 @@ export const ChangesBackgroundOnHover: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Copy transliteration' });
 
-    await step('The trigger keeps the semantic action token classes', async () => {
+    await step('The trigger keeps the semantic action token classes', () => {
       expect(trigger.className).toContain('hover:bg-s-color-panel-action-outline-hover-bg');
       expect(trigger.className).toContain('focus-visible:ring-s-color-panel-action-outline-ring');
     });

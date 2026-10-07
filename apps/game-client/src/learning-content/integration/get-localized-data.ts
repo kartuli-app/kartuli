@@ -24,7 +24,7 @@ function mergeLocalizedData(localizedDataSources: LocalizedData[]): LocalizedDat
   };
 }
 
-export async function getLocalizedData(locale: SupportedLocale): Promise<LocalizedData> {
+export function getLocalizedData(locale: SupportedLocale): LocalizedData {
   const defaultDataRepository = defaultLocalizedDataRepository();
   const extendedDataRepository = extendedLocalizedDataRepository();
   const defaultData = defaultDataRepository.get(locale);

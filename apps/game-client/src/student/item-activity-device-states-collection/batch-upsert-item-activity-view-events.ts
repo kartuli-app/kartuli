@@ -94,20 +94,19 @@ export async function batchUpsertItemActivityDeviceViewEvents({
   }
 
   const db = await getItemActivityStateDatabase();
-  const nextStates: ItemActivityState[] = [];
-
-  for (const itemId of uniqueItemIds) {
-    const { id: rowId } = getDefaultItemActivityState({ itemId });
-    const fromCollection = collection.get(rowId);
-    const fromIndexedDb =
-      fromCollection === undefined && db !== null ? await db.get(STORE_NAME, rowId) : undefined;
-    const previousState = fromCollection ?? fromIndexedDb ?? undefined;
-    const nextState = AddItemActivityEvent({
-      previousState,
-      event: { itemId, eventType: 'view' },
-    });
-    nextStates.push(nextState);
-  }
+  const nextStates = await Promise.all(
+    uniqueItemIds.map(async (itemId) => {
+      const { id: rowId } = getDefaultItemActivityState({ itemId });
+      const fromCollection = collection.get(rowId);
+      const fromIndexedDb =
+        fromCollection === undefined && db !== null ? await db.get(STORE_NAME, rowId) : undefined;
+      const previousState = fromCollection ?? fromIndexedDb ?? undefined;
+      return AddItemActivityEvent({
+        previousState,
+        event: { itemId, eventType: 'view' },
+      });
+    }),
+  );
 
   for (const row of nextStates) {
     collection.utils.writeUpsert(row as Partial<ItemActivityState>);
@@ -116,10 +115,8 @@ export async function batchUpsertItemActivityDeviceViewEvents({
   if (db !== null) {
     try {
       const tx = db.transaction(STORE_NAME, 'readwrite');
-      for (const row of nextStates) {
-        await tx.store.put(row);
-      }
-      await tx.done;
+      const writes = nextStates.map((row) => tx.store.put(row));
+      await Promise.all([...writes, tx.done]);
     } catch (error) {
       logger.error(
         'database',

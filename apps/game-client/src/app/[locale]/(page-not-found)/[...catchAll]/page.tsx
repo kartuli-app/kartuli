@@ -5,6 +5,6 @@ export function generateStaticParams() {
   return generateStaticParamsForSupportedLocales();
 }
 
-export default async function CatchAllPage() {
+export default function CatchAllPage() {
   notFound();
 }

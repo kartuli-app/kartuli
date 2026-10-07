@@ -20,7 +20,7 @@ function mergeCommonData(commonDataSources: CommonData[]): CommonData {
   };
 }
 
-export async function getCommonData(): Promise<CommonData> {
+export function getCommonData(): CommonData {
   const defaultDataRepository = defaultCommonDataRepository();
   const extendedDataRepository = extendedCommonDataRepository();
   const defaultData = defaultDataRepository.get();
