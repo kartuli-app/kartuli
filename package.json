@@ -3,7 +3,7 @@
   "name": "kartuli",
   "description": "Learn Georgian. No account needed. Free forever. Works offline.",
   "engines": {
-    "node": ">=24"
+    "node": ">=24 <25"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

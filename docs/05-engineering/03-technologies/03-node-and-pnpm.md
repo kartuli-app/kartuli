@@ -8,9 +8,29 @@ intent: reference
 
 ## Runtime and package manager
 
-`.nvmrc` pins Node 24.13.1; root `package.json` pins pnpm 10.30.2 with integrity metadata. Use pnpm only. Select the pinned Node with your local version manager and make the pinned pnpm available before installing. Check `node --version` and `pnpm --version` rather than assuming the shell inherited the expected tools.
+Node 24 is the repository's supported runtime major. The root `package.json` expresses that support as
+`engines.node: ">=24 <25"`: every stable Node 24 release satisfies the range, while Node 23 and Node
+25 do not. `.nvmrc` pins Node 24.13.1 as the exact release tested locally and in CI. Root
+`package.json` separately pins pnpm 10.30.2 with integrity metadata. Use pnpm only, select the `.nvmrc`
+release with your local version manager and check `node --version` and `pnpm --version` rather than
+assuming the shell inherited the expected tools.
 
-CI's `.github/actions/ci-setup-node/action.yml` reads these files, configures pnpm/Node, restores caches and runs `pnpm install --frozen-lockfile`. Root `prepare` installs Lefthook when inside Git. The allowed built dependencies are configured in root `package.json`; upgrades to pnpm that change configuration interpretation require deliberate migration.
+The engine value is a standard semver compatibility range, not an exact version-manager pin. npm treats
+`engines` as advisory unless strict engine checking is enabled; pnpm also reads this field and supports
+strict checking. Kartuli does not enable `engineStrict`, so `.nvmrc` remains the operational local/CI pin.
+See the [npm package manifest reference](https://docs.npmjs.com/cli/v11/configuring-npm/package-json/#engines)
+and [pnpm 10 manifest reference](https://pnpm.io/10.x/package_json#engines).
+
+CI's `.github/actions/ci-setup-node/action.yml` configures pnpm, asks `actions/setup-node` to read
+`.nvmrc`, restores caches and runs `pnpm install --frozen-lockfile`. No workflow declares an independent
+Node version. Root `prepare` installs Lefthook when inside Git. The allowed built dependencies are
+configured in root `package.json`; upgrades to pnpm that change configuration interpretation require
+deliberate migration.
+
+Vercel is a distinct managed runtime boundary. Both app projects select Node `24.x`; Vercel may advance
+the minor or patch release within that major independently of `.nvmrc`. That is compatible with the
+root supported-major range even when the provider's current Node 24 patch differs from 24.13.1. The
+verified project settings and engine precedence are documented under [Vercel](../../10-services/02-vercel.md).
 
 ## Workspaces and catalogs
 

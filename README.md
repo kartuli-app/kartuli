@@ -10,7 +10,8 @@ Georgian language learning platform
 
 ## Prerequisites
 
-- Node.js and pnpm (see repo root `package.json`: `engines.node` and `packageManager` for pinned versions; use `.nvmrc` and Corepack).
+- Node.js 24 and pnpm (root `package.json` declares the supported Node major and exact pnpm version;
+  `.nvmrc` pins the tested Node release for local and CI use).
 
 We recommend using [nvm](https://github.com/nvm-sh/nvm) to manage node versions.
 
