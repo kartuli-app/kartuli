@@ -16,7 +16,7 @@ thresholds, CI severity and report handling.
 
 ## Static analysis and web quality
 
-`biome.json` and `biome.root.json` configure formatting/lint, including accessibility checks. Workspace TypeScript configs provide static type validation. [SonarCloud](../10-services/03-sonarcloud.md) performs automatic analysis through its GitHub integration; a committed properties file is only a configuration reference.
+`biome.json` and `biome.root.json` configure formatting/lint, including accessibility checks. Workspace TypeScript configs provide static type validation. [SonarQube Cloud](../10-services/03-sonarcloud.md) performs automatic analysis through its GitHub integration. The [overall summary for `main`](https://sonarcloud.io/summary/overall?id=kartuli-app_kartuli&branch=main) is the live project overview; a committed properties file is only a configuration reference.
 
 `lighthouserc.json` configures one mobile-emulated run and minimum scores of 0.9 for performance, accessibility, best practices and SEO. Workflows supply `LIGHTHOUSE_ASSERT_LEVEL`; staging uses `warn` and production app workflows use `error`. Reports upload to temporary public storage. Configuration is an intended gate, not evidence every deployment meets it; inspect actual workflow results.
 
