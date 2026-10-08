@@ -20,7 +20,8 @@ and page state can move the score.
 
 ## Local execution
 
-Start a production-like app server first. App preview scripts build and serve on port 3000:
+Start a production-like app server first. Game Client preview serves on port 3000 and Backoffice
+preview serves on port 3001:
 
 ```bash
 pnpm run c:preview:game-client
@@ -31,6 +32,8 @@ In another terminal, run:
 ```bash
 LIGHTHOUSE_ASSERT_LEVEL=error pnpm exec lhci autorun --collect.url=http://localhost:3000
 ```
+
+Use `http://localhost:3001` when auditing Backoffice locally.
 
 Use the repository-pinned Node and pnpm versions. Lighthouse needs a usable Chrome/Chromium runtime;
 installing JavaScript dependencies alone may not provide the browser or its system libraries. The root

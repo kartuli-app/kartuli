@@ -66,7 +66,7 @@ jobs:
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       TARGET: ${{ inputs.target }}
       DEPLOY_TARGET: ${{ inputs.deploy_target }}
-      APP_URL: "http://localhost:3000"
+      APP_URL: ${{ inputs.target == 'backoffice-client' && 'http://localhost:3001' || 'http://localhost:3000' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -107,7 +107,7 @@ jobs:
         run: |
           pnpm --filter @kartuli/"$TARGET" run start &
           for i in $(seq 1 60); do
-            if curl -fsS "http://localhost:3000" >/dev/null 2>&1; then
+            if curl -fsS "$APP_URL" >/dev/null 2>&1; then
               echo "Server is up."
               exit 0
             fi
@@ -136,7 +136,7 @@ jobs:
         env:
           CI_AUDIT: "true"
           LIGHTHOUSE_ASSERT_LEVEL: "warn"
-          STEP_APP_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          STEP_APP_URL: ${{ inputs.deploy_target == 'local' && env.APP_URL || steps.deploy.outputs.preview-url }}
           STEP_DEPLOY_TARGET: ${{ inputs.deploy_target }}
         run: |
           URL="$STEP_APP_URL"
@@ -249,7 +249,7 @@ jobs:
 
       - name: Run E2E
         env:
-          BASE_URL: ${{ inputs.deploy_target == 'local' && 'http://localhost:3000' || steps.deploy.outputs.preview-url }}
+          BASE_URL: ${{ inputs.deploy_target == 'local' && env.APP_URL || steps.deploy.outputs.preview-url }}
         run: |
           if [ -z "$BASE_URL" ]; then
             echo "ERROR: BASE_URL is empty (deploy_target=$DEPLOY_TARGET)."

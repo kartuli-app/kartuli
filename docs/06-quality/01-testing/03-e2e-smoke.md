@@ -23,11 +23,11 @@ pnpm --filter @kartuli/e2e run e2e:ui
 pnpm --filter @kartuli/e2e run e2e:debug
 ```
 
-Backoffice is currently exceptional: its dev server and convenience E2E command use port 3001, while
-its preview/start command uses port 3000. Against preview, set `BASE_URL=http://localhost:3000` and
-select `tests/backoffice-client` explicitly. The last two commands above default to the configured base
-URL unless you supply one. Root `e2e` runs the configured suite; use target selection when testing one
-surface.
+Game Client uses local port 3000 and Backoffice uses local port 3001 for development, start and preview.
+The root `c:e2e:*` commands select the matching suite and set its local target through `BASE_URL`.
+Direct Playwright commands, including the last two commands above, default to the configured localhost
+3000 unless you supply `BASE_URL`. Root `e2e` runs the configured suite; use target selection when
+testing one surface.
 
 ## CI and diagnostics
 

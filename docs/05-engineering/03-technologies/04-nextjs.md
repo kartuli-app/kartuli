@@ -38,8 +38,9 @@ pnpm run c:build:game-client
 pnpm run c:preview:game-client
 ```
 
-Game Client development/start/preview uses port 3000. Backoffice development uses 3001, but its
-`start` and `preview` scripts use 3000. Preview builds then starts the production server. Building is
-distinct from lint/typecheck/unit tests; Next font downloads can introduce a network prerequisite.
+Game Client development/start/preview uses port 3000. Backoffice development/start/preview uses port
+3001, allowing both local apps to run side-by-side. Preview builds then starts the production server.
+Building is distinct from lint/typecheck/unit tests; Next font downloads can introduce a network
+prerequisite.
 
 Before changing Next.js implementation, `AGENTS.md` requires reading the installed docs under `apps/game-client/node_modules/next/dist/docs`. For framework upgrades, inspect those docs, catalog/lockfile, Serwist compatibility, type generation, routing tests and production build output. Check both apps and Storybook's imports of app components. Deployment provider specifics belong to [Vercel](../../10-services/02-vercel.md).

@@ -30,7 +30,7 @@ secret-to-project mapping with the project owner.
 | Path | Trigger and execution | Validation / evidence |
 | --- | --- | --- |
 | Vercel Git integration | Provider responds to repository changes | Provider check and bot comment; builds can be ignored |
-| Actions local staging | Affected app, `deploy_target: local` | Builds/starts on port 3000, Lighthouse and Playwright |
+| Actions local staging | Affected app, `deploy_target: local` | Builds/starts Game Client on port 3000 or Backoffice on port 3001, then runs Lighthouse and Playwright |
 | Actions Vercel staging | Affected app, `deploy_target: vercel` | Explicit preview deploy, Lighthouse and Playwright using `preview-url` |
 | Actions production | Matching main push paths or main manual dispatch | Explicit `--prod` deployment, smoke tests and Lighthouse against configured production domain |
 
