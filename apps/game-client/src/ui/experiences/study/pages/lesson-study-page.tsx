@@ -19,7 +19,7 @@ export async function LessonStudyPage({
 }>) {
   const { locale, lessonId } = await getLocalizedRouteParams(params);
   const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
-  const library = await getLibraryServer(locale);
+  const library = getLibraryServer(locale);
   const lesson = library.lessonsById.get(lessonId);
   if (!lesson) notFound();
 

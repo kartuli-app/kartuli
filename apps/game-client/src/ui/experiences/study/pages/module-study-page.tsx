@@ -19,7 +19,7 @@ export async function ModuleStudyPage({
 }>) {
   const { locale, moduleId } = await getLocalizedRouteParams(params);
   const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
-  const library = await getLibraryServer(locale);
+  const library = getLibraryServer(locale);
   const module = library.modulesById.get(moduleId);
   if (!module) notFound();
 

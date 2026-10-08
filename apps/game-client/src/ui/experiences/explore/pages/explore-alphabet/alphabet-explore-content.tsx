@@ -52,9 +52,9 @@ const linkPanelClassName = cn('relative border-0');
 
 const linkPanelHeaderClassName = 'rounded-t-[inherit]';
 
-export async function AlphabetExploreContent({ locale }: Readonly<{ locale: SupportedLocale }>) {
+export function AlphabetExploreContent({ locale }: Readonly<{ locale: SupportedLocale }>) {
   const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
-  const library = await getLibraryServer(locale);
+  const library = getLibraryServer(locale);
   const { lessons, allItemsDeduplicated, moduleId } = getDataFromLibrary(library);
   return (
     <ModuleCardsLayout
