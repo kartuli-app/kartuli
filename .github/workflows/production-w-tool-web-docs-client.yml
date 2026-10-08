@@ -104,18 +104,44 @@ jobs:
         uses: ./.github/actions/ci-setup-playwright
 
       - name: Wait for GitHub Pages propagation
+        timeout-minutes: 5
         env:
           BASE_URL: "https://kartuli-app.github.io/kartuli/"
         run: |
           set -euo pipefail
           ready=0
-          for i in $(seq 1 60); do
-            if curl -fsS "${BASE_URL}" >/dev/null 2>&1 && \
-               curl -fsS "${BASE_URL}assets/kartuli-llm.txt" | grep -qi "kartuli"; then
-              ready=1
+          attempt=0
+          index_file="$(mktemp)"
+          max_wait=300
+          request_timeout=10
+          # Match the saved index body. Do not pipe curl into grep -q: under
+          # pipefail, grep closing the pipe early is reported as a curl failure.
+          while [ "$SECONDS" -lt "$max_wait" ]; do
+            remaining=$((max_wait - SECONDS))
+            this_timeout=$request_timeout
+            if [ "$remaining" -lt "$this_timeout" ]; then
+              this_timeout=$remaining
+            fi
+            if [ "$this_timeout" -lt 1 ]; then
               break
             fi
-            sleep 5
+            attempt=$((attempt + 1))
+            if curl --connect-timeout 5 --max-time "$this_timeout" -fsS "${BASE_URL}" >/dev/null && \
+               curl --connect-timeout 5 --max-time "$this_timeout" -fsS "${BASE_URL}assets/kartuli-llm.txt" -o "${index_file}" && \
+               grep -qi "kartuli" "${index_file}"; then
+              ready=1
+              echo "GitHub Pages is ready (attempt ${attempt})."
+              break
+            fi
+            remaining=$((max_wait - SECONDS))
+            if [ "$remaining" -le 0 ]; then
+              break
+            fi
+            sleep_for=5
+            if [ "$remaining" -lt "$sleep_for" ]; then
+              sleep_for=$remaining
+            fi
+            sleep "$sleep_for"
           done
 
           if [ "$ready" -ne 1 ]; then
