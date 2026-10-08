@@ -4,10 +4,8 @@ import { getLocalizedData } from '@game-client/learning-content/integration/get-
 import { buildLibrary } from './build-library';
 import type { Library } from './library';
 
-export const getLibraryServer = async (locale: SupportedLocale): Promise<Library> => {
-  const [commonData, localizedData] = await Promise.all([
-    getCommonData(),
-    getLocalizedData(locale),
-  ]);
+export const getLibraryServer = (locale: SupportedLocale): Library => {
+  const commonData = getCommonData();
+  const localizedData = getLocalizedData(locale);
   return buildLibrary(commonData, localizedData);
 };

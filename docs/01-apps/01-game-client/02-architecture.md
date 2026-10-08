@@ -43,7 +43,7 @@ module, lesson and item structure. Localized files supply locale-specific titles
 notes. Repository adapters select English or Russian localized JSON and label every record with its
 `default` or `extended` source.
 
-`getLibraryServer(locale)` loads common and localized sets concurrently. `buildLibrary` joins them by
+`getLibraryServer(locale)` loads the common and localized sets, then `buildLibrary` joins them by
 ID and builds arrays plus lookup maps for items, lessons and modules. Word transliteration is derived
 from the common letter map. Module and lesson routes select their record from those maps; an unknown
 ID calls Next.js `notFound()`.

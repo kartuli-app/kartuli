@@ -17,7 +17,7 @@ export async function generateMetadata({
 }>) {
   const { locale, lessonId } = await getLocalizedRouteParams(params);
   const alphabetMessages = getMessagesForLocale(locale, 'alphabet');
-  const library = await getLibraryServer(locale);
+  const library = getLibraryServer(locale);
   const lesson = library.lessonsById.get(lessonId);
 
   return generateMetadataForSupportedLocale(locale, {

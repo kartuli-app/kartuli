@@ -17,7 +17,7 @@ export async function TranslitPage({
 }>) {
   const { locale } = await getLocalizedRouteParams(params);
   const commonMessages = getMessagesForLocale(locale, 'common');
-  const library = await getLibraryServer(locale);
+  const library = getLibraryServer(locale);
 
   return (
     <AppShell
