@@ -65,8 +65,9 @@ not reuse staging's Turbo affected-workspace selection.
 
 GitHub Pages has a build job that uploads `tools/web-docs-client/.vitepress/dist`, followed by a
 deploy job in the `github-pages` environment with `pages: write` and `id-token: write`. The
-post-deploy check waits for the site and text index, then runs browser smoke tests. The configured
-site is [Kartuli Docs](https://kartuli-app.github.io/kartuli/). Environment protection and custom-domain
+post-deploy check polls [Kartuli Docs](https://kartuli-app.github.io/kartuli/) every five seconds for
+up to five minutes. It is ready when that root responds and the downloaded `assets/kartuli-llm.txt`
+body contains `kartuli`. Browser smoke tests run after that. Environment protection and custom-domain
 settings still need a provider-settings read.
 
 ## Issue and label operations

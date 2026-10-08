@@ -109,10 +109,15 @@ jobs:
         run: |
           set -euo pipefail
           ready=0
+          index_file="$(mktemp)"
+          # Match the saved index body. Do not pipe curl into grep -q: under
+          # pipefail, grep closing the pipe early is reported as a curl failure.
           for i in $(seq 1 60); do
-            if curl -fsS "${BASE_URL}" >/dev/null 2>&1 && \
-               curl -fsS "${BASE_URL}assets/kartuli-llm.txt" | grep -qi "kartuli"; then
+            if curl -fsS "${BASE_URL}" >/dev/null && \
+               curl -fsS "${BASE_URL}assets/kartuli-llm.txt" -o "${index_file}" && \
+               grep -qi "kartuli" "${index_file}"; then
               ready=1
+              echo "GitHub Pages is ready (attempt ${i})."
               break
             fi
             sleep 5
