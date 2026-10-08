@@ -32,7 +32,7 @@ workflow. The [dependency inventory](../../05-engineering/06-dependency-inventor
 
 | Evidence | Canonical documentation | What a reviewer should find there |
 | --- | --- | --- |
-| `.nvmrc`, `packageManager`, `pnpm-workspace.yaml`, lockfile | [Node.js and pnpm](../../05-engineering/03-technologies/03-node-and-pnpm.md) | Pins, catalogs, workspace protocol, frozen install and upgrades |
+| `.nvmrc`, `engines.node`, `packageManager`, `pnpm-workspace.yaml`, lockfile | [Node.js and pnpm](../../05-engineering/03-technologies/03-node-and-pnpm.md) | Supported runtime range, exact pins, catalogs, workspace protocol, frozen install and upgrades |
 | Root/workspace `tsconfig*.json` | [TypeScript](../../05-engineering/03-technologies/01-typescript.md) | Inheritance, aliases, includes/excludes, transforms and Storybook TS 6 |
 | `turbo.json`, `scripts/orchestrator` | [Turborepo](../../05-engineering/03-technologies/02-turborepo.md) and [CI](../../07-platform/01-ci.md) | Task dependencies, cache inputs/outputs and workflow mapping |
 | `biome.json`, `biome.root.json` | [Biome](../../05-engineering/03-technologies/09-biome.md) | Root/workspace ownership, lint/fix commands and exclusions |

@@ -11,7 +11,7 @@ This inventory describes repository usage, not upstream tutorials. Versions belo
 | Technology | Kartuli usage and convention | Source |
 | --- | --- | --- |
 | [Git](https://git-scm.com/doc) | Source history and branches; Conventional Commits and Lefthook gates | `lefthook.yml`; [Git workflow](../12-project/02-workflow.md) |
-| [Node.js](https://nodejs.org/en/docs) | Runtime for builds, scripts and tests; pin 24.13.1 | `.nvmrc`, CI setup action |
+| [Node.js](https://nodejs.org/en/docs) | Runtime for builds, scripts and tests; supported major 24 with exact local/CI pin 24.13.1 | Root `engines.node`, `.nvmrc`, CI setup action |
 | [pnpm](https://pnpm.io/workspaces) | Version 10.30.2; workspaces, shared catalog and Storybook exception; no npm workflow | `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml` |
 | [Turborepo](https://turborepo.com/docs) | Task dependencies, affected selection and local/remote cache | `turbo.json`, `scripts/orchestrator` |
 | [TypeScript](https://www.typescriptlang.org/docs/) | Version 7 for app/shared code; version 6 retained for Storybook docgen | Root/workspace `tsconfig*`, catalogs |

@@ -31,6 +31,12 @@ Lighthouse run against the configured canonical domain, not necessarily the acti
 URL. DNS/domain propagation and provider aliasing can therefore fail after a successful deploy step.
 Local port identities do not change these configured production domains.
 
+GitHub Actions prepares deployments with the exact Node release from `.nvmrc`. The remote Vercel build
+and Node function runtime use each project's provider-managed Node `24.x` setting, so Vercel may run a
+newer Node 24 minor or patch than CI without crossing the supported major boundary. The root
+`package.json` engine range, project settings and manually verified build configuration are documented in
+[Vercel](../10-services/02-vercel.md).
+
 Docs production builds and uploads `.vitepress/dist`, deploys it through Pages, then polls the
 published site every five seconds. Each request is limited to 10 seconds, and the readiness step
 stops after five minutes. The poll is ready when the live root responds and the saved

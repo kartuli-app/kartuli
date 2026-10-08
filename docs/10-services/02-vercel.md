@@ -11,19 +11,43 @@ requested explicitly by Actions. These are distinct execution paths.
 [Deployment](../07-platform/02-deployment.md) owns the release sequence and
 [Remote Build Cache](../07-platform/03-remote-build-cache.md) owns Turbo cache behavior.
 
-## Observed projects and environments
+## Verified project contract
 
-Last verified project mapping: **2026-10-06**. Recheck the project root and domain in the
-[Vercel dashboard](https://vercel.com/dashboard) before changing deployment configuration.
+The following durable project settings were manually verified in the Vercel dashboard on
+**2026-10-08**. No provider changes were required.
 
 | Workspace | Provider project | Production URL configured in Actions |
 | --- | --- | --- |
 | `apps/game-client` | `kartuli-game-client` | `https://www.kartuli.app` |
 | `apps/backoffice-client` | `kartuli-backoffice-client` | `https://backoffice.kartuli.app` |
 
-A successful Git-integration status can mean “Canceled by Ignored Build Step”. Inspect the
-status description and Actions deployment output separately. Verify effective project settings and
-secret-to-project mapping with the project owner.
+| Setting | Game Client | Backoffice Client |
+| --- | --- | --- |
+| Framework | Next.js | Next.js |
+| Root directory | `apps/game-client` | `apps/backoffice-client` |
+| Build command | `pnpm turbo run build --filter=@kartuli/game-client` | `pnpm turbo run build --filter=@kartuli/backoffice-client` |
+| Install command | `pnpm install --frozen-lockfile --prod=false` | `pnpm install --frozen-lockfile --prod=false` |
+| Node.js Version | `24.x` | `24.x` |
+| Ignored Build Step | `exit 0` | `exit 0` |
+
+The ignored-build setting is intentional. Native Vercel Git builds stop successfully without building;
+GitHub Actions performs the explicit preview and production deployments described below. A successful
+Git-integration status can therefore mean “Canceled by Ignored Build Step”. Inspect the status description
+and Actions deployment output separately. Recheck these settings and the secret-to-project mapping with
+the project owner before changing deployment configuration.
+
+## Node runtime precedence
+
+Vercel exposes Node runtimes by supported major and automatically rolls minor and patch updates within
+that major. Its [Node version documentation](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions)
+also states that a valid `package.json#engines.node` range overrides the Project Settings selection. In
+Kartuli, both inputs select only Node 24: the provider projects use `24.x`, while the root repository
+manifest uses `>=24 <25`. Neither app workspace manifest declares a conflicting engine.
+
+`.nvmrc` is not the Vercel patch pin. It selects the exact Node 24.13.1 release used for local work and
+GitHub Actions; Vercel may deploy a different current Node 24 minor or patch. This is expected and remains
+within Kartuli's supported-major contract. Re-verify provider settings in the dashboard and inspect a
+deployment's build/runtime version when investigating drift.
 
 ## Deployment paths
 
@@ -56,10 +80,10 @@ not pass that environment variable to the Vercel action as a build environment v
 | `TURBO_TOKEN` secret | Separate remote-cache authorization |
 | `TURBO_TEAM` variable | Separate remote-cache team selection |
 
-Provider environment variables, build/install commands, framework settings, domain assignments,
-preview access controls and credential scopes remain settings to inspect in the dashboard projects.
-A working deployment token does not prove Turbo cache access, and a public project link does not
-verify the configured secret value.
+Provider environment variables, domain assignments, preview access controls and credential scopes remain
+settings to inspect in the dashboard projects. The durable framework, root, build/install, Node and
+ignored-build settings above are verified only as of the stated date. A working deployment token does not
+prove Turbo cache access, and a public project link does not verify the configured secret value.
 
 ## Diagnosing deployments
 
