@@ -26,17 +26,20 @@ pnpm run c:preview:game-client
 pnpm run c:e2e:game-client
 ```
 
-Equivalent root commands exist for Storybook and Web Docs. The Backoffice commands currently have a
-known mismatch: development and `c:e2e:backoffice-client` use port 3001, while `start`/preview use port
-3000. Against Backoffice preview, run the explicit form instead:
+Equivalent root commands exist for Backoffice, Storybook and Web Docs. Game Client uses local port
+3000 and Backoffice uses local port 3001 across development, start and preview. The target-specific root
+commands supply the matching `BASE_URL`; for example:
 
 ```bash
-BASE_URL=http://localhost:3000 pnpm --filter @kartuli/e2e exec playwright test \
-  tests/backoffice-client
+pnpm run c:preview:backoffice-client
+# in another terminal
+pnpm run c:e2e:backoffice-client
 ```
 
 Use `pnpm --filter @kartuli/e2e run e2e:ui` or `e2e:debug` for investigation and supply `BASE_URL`
-when the target is not localhost:3000. Browser binaries and Linux system libraries are prerequisites
+when the target is not the default localhost:3000. `BASE_URL` remains the E2E target contract for
+local, preview-deployment and production URLs; tests use relative navigation instead of embedding an
+environment address. Browser binaries and Linux system libraries are prerequisites
 outside pnpm installation.
 
 ## Authoring and assertions

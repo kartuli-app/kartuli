@@ -28,8 +28,8 @@ Start with [Node/pnpm](./03-technologies/03-node-and-pnpm.md) for the pinned too
 - `*:no-cache` scripts force Turbo execution; `turbo:cache:wipe` removes the local Turbo cache.
 - `lint:all:fix` and `lint:root:fix` modify files; ordinary lint checks do not.
 - `test:all` includes Storybook Chromium tests. Coverage has a different scope; see [Testing](../06-quality/01-testing/index.md).
-- App preview builds then starts. Backoffice development/E2E shortcuts use port 3001, but its preview
-  uses port 3000; set the E2E target explicitly when using preview.
+- App preview builds then starts. Game Client development/start/preview uses port 3000; Backoffice uses
+  port 3001 for the same local lifecycle. Each root E2E shortcut supplies its matching URL.
 - Storybook preview serves existing `storybook-static` through its current `npx http-server` script;
   it does not build first. See [Toolchain support](./05-libraries/07-toolchain-support.md) for that
   undeclared executable and the pnpm-only contributor convention.

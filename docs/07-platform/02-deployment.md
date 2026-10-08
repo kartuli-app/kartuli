@@ -19,15 +19,17 @@ Production workflows run on configured `main` push path filters or manual dispat
 
 ## Preview and production sequences
 
-App PR validation has two paths for each affected app. `local` builds and starts the Next server at
-port 3000; `vercel` deploys a preview using the app-specific project secret. Both audit the resolved URL
-with Lighthouse, comment results on the PR and run the app's full target E2E folder. Only the Vercel
-path sends a preview deployment notification.
+App PR validation has two paths for each affected app. `local` builds and starts Game Client at
+`http://localhost:3000` or Backoffice at `http://localhost:3001`; `vercel` deploys a preview using the
+app-specific project secret. Both pass the resolved target URL to Lighthouse and Playwright, comment
+results on the PR and run the app's full target E2E folder. Only the Vercel path sends a preview
+deployment notification.
 
 Production app workflows validate the target, deploy with `--prod`, run only
 `tests/<app>/production`, run Lighthouse with error-level assertions and notify on success. Tests and
 Lighthouse run against the configured canonical domain, not necessarily the action's returned deployment
 URL. DNS/domain propagation and provider aliasing can therefore fail after a successful deploy step.
+Local port identities do not change these configured production domains.
 
 Docs production builds and uploads `.vitepress/dist`, deploys it through Pages, then polls the
 published site every five seconds. Each request is limited to 10 seconds, and the readiness step
