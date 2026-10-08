@@ -30,9 +30,10 @@ Lighthouse run against the configured canonical domain, not necessarily the acti
 URL. DNS/domain propagation and provider aliasing can therefore fail after a successful deploy step.
 
 Docs production builds and uploads `.vitepress/dist`, deploys it through Pages, then polls the
-published site every five seconds for up to five minutes. The poll is ready when the live root
-responds and the saved `assets/kartuli-llm.txt` body contains `kartuli`. The workflow then runs the
-Web Docs Playwright suite. Deployment success followed by propagation/E2E failure leaves a deployed
+published site every five seconds. Each request is limited to 10 seconds, and the readiness step
+stops after five minutes. The poll is ready when the live root responds and the saved
+`assets/kartuli-llm.txt` body contains `kartuli`. The workflow then runs the Web Docs Playwright
+suite. Deployment success followed by propagation/E2E failure leaves a deployed
 site but a failed workflow and sends the post-deploy failure notification.
 
 ## Production app trigger boundary
