@@ -12,7 +12,7 @@ Service pages own provider-specific configuration; capabilities stay canonical i
 | --- | --- | --- |
 | [GitHub](./01-github.md) | Repository metadata and active main ruleset verified | Squash-only merge, required Sonar check, Actions/Pages and label operations; Projects/team settings remain external |
 | [Vercel](./02-vercel.md) | Project links and ignored Git deployments observed | Two app projects, separate Git/Actions deployment paths and remote-cache credentials |
-| [SonarQube Cloud](./03-sonarcloud.md) | PR gate report and GitHub enforcement verified | Automatic analysis described by source; effective provider exclusions/profile still unverified |
+| [SonarQube Cloud](./03-sonarcloud.md) | PR gate report and GitHub enforcement verified | Automatic analysis described by source; [overall summary for `main`](https://sonarcloud.io/summary/overall?id=kartuli-app_kartuli&branch=main); effective provider exclusions/profile still unverified |
 | [CodeRabbit](./04-coderabbit.md) | External review integration; freshness must be checked | Organization UI configuration; no repository YAML |
 | [Renovate](./05-renovate.md) | Dashboard #28 and update PRs verified | Catalog/schema discovery, grouped policy and blocked-update recovery |
 | [Telegram](./06-telegram.md) | Implemented workflow integration; routing unverified | PR, CI failure and deployment notifications |

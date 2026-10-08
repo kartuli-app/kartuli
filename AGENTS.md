@@ -103,7 +103,7 @@ Run from the repo root unless specified.
 
 - Prefer named exports over default exports
 - Follow Biome configuration for linting and formatting
-- Follow Sonar suggestions
+- Follow Sonar suggestions. The [overall summary for `main`](https://sonarcloud.io/summary/overall?id=kartuli-app_kartuli&branch=main) is the live project overview.
 
 ### Naming
 

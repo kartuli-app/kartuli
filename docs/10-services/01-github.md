@@ -42,7 +42,7 @@ the retrieved ruleset names only SonarCloud.
 | --- | --- | --- |
 | Validate all monorepo | Staging Orchestrator / local composite action | Lint, typecheck, root coverage and Storybook tests |
 | Staging CI target jobs | Orchestrator affected-package mapping | Empty target lists skip jobs; inspect the mapping summary |
-| SonarCloud Code Analysis | SonarQube Cloud GitHub integration | Open its analysis link for the gate and revision |
+| SonarCloud Code Analysis | SonarQube Cloud GitHub integration | Open its analysis link for the gate and revision. The [overall summary for `main`](https://sonarcloud.io/summary/overall?id=kartuli-app_kartuli&branch=main) is the branch overview |
 | CodeRabbit | External review integration | Read the description: success can mean review skipped |
 | Vercel app statuses | Vercel Git integration | Success can mean canceled by the Ignored Build Step |
 | Coverage / Lighthouse comments | GitHub Actions | Reports describe that run, not independent required checks |

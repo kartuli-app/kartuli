@@ -4,6 +4,8 @@
 
 :open_book: [Documentation website](https://kartuli-app.github.io/kartuli/)
 
+:mag: [SonarQube Cloud overall summary](https://sonarcloud.io/summary/overall?id=kartuli-app_kartuli&branch=main)
+
 Georgian language learning platform
 
 ## Prerequisites

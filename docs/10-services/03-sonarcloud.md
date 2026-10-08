@@ -6,9 +6,10 @@ intent: reference
 
 # SonarQube Cloud
 
-Kartuli uses the hosted SonarQube Cloud service at project
-[`kartuli-app_kartuli`](https://sonarcloud.io/dashboard?id=kartuli-app_kartuli).
-The repository filename and GitHub check still use the former SonarCloud name.
+Kartuli uses the hosted SonarQube Cloud service at project `kartuli-app_kartuli`.
+The [overall summary for `main`](https://sonarcloud.io/summary/overall?id=kartuli-app_kartuli&branch=main)
+is the current quality overview. The [project dashboard](https://sonarcloud.io/dashboard?id=kartuli-app_kartuli)
+is the same project without a branch filter. The repository filename and GitHub check still use the former SonarCloud name.
 There is no self-hosted SonarQube server or scanner job configured in this repository.
 
 ## Analysis and configuration ownership
@@ -22,7 +23,7 @@ in the provider UI.
 | --- | --- | --- |
 | Source exclusions | `diagrams/output/**,**/i18n/resources/messages/**` | Project Analysis Scope / exclusions |
 | Duplication exclusions | `**/tailwind-integration.test.ts` | Project duplication exclusions |
-| Analysis project | `kartuli-app_kartuli` | Analysis link on the GitHub check |
+| Analysis project | `kartuli-app_kartuli` | [Overall summary for `main`](https://sonarcloud.io/summary/overall?id=kartuli-app_kartuli&branch=main); analysis link on the GitHub check |
 | Analysis mode | Automatic, according to the committed integration note | Provider project administration |
 | Merge check | `SonarCloud Code Analysis` | GitHub main ruleset, integration 12526 |
 
