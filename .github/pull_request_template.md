@@ -75,7 +75,7 @@ Closes #
 ---
 
 ## Review Follow-ups
-<!-- State one: no actionable out-of-scope findings; follow-up issue link(s); or an observation intentionally not tracked, with the reason. -->
+<!-- State one or more as applicable: no actionable out-of-scope findings; follow-up issue link(s); observations intentionally not tracked, with reasons. -->
 
 Disposition:
 
