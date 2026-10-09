@@ -50,6 +50,26 @@ the retrieved ruleset names only SonarCloud.
 Skipped jobs and successful provider statuses do not establish that a review or deployment ran.
 Read each status description and the workflow's job conditions.
 
+## Hosted runner image policy
+
+Kartuli's GitHub-hosted Ubuntu jobs select `ubuntu-26.04` explicitly. The moving `ubuntu-latest` alias is
+not used because GitHub migrates that alias between operating-system releases over time. A versioned
+label makes an OS upgrade a reviewed repository change while still receiving GitHub's weekly updates
+within the selected Ubuntu line; it does not pin a transient VM image build number.
+
+Before changing the label, check the candidate in GitHub's
+[runner-images catalog](https://github.com/actions/runner-images#available-images), review its included
+software and lifecycle announcements, and follow the compatibility matrix in
+[CI](../07-platform/01-ci.md#github-hosted-runner-baseline). Inspect the `Set up job` log in an actual run
+to identify the exact image release used as evidence. If the candidate fails a Kartuli surface, retain
+the prior explicit OS label and record the concrete blocker and follow-up issue rather than falling back
+to `ubuntu-latest`.
+
+The later Renovate work in [#171](https://github.com/kartuli-app/kartuli/issues/171) may maintain the
+versioned runner reference, but it does not own the compatibility decision. Runner updates remain
+deliberate migrations. Likewise, the image's preinstalled Node does not replace `.nvmrc` or the shared
+Node setup action.
+
 ## Workflow events and permissions
 
 `.github/workflows/staging-orchestrator.yml` runs on PRs targeting main and manual dispatch.

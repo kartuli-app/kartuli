@@ -60,7 +60,7 @@ permissions:
 jobs:
   validate-build-and-quality:
     name: validate-build-and-quality
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}

@@ -27,7 +27,7 @@ concurrency:
 jobs:
   deploy:
     name: deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     if: github.ref == 'refs/heads/main'
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
