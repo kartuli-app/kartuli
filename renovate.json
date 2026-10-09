@@ -1,6 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":dependencyDashboard"],
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    "helpers:pinGitHubActionDigests",
+    "security:minimumReleaseAgeNpm",
+    ":configMigration"
+  ],
   "customManagers": [
     {
       "customType": "jsonata",
@@ -11,13 +17,15 @@
       "matchStrings": ["{\"currentValue\": $split($.\"$schema\",(\"/\"))[-2]}"]
     }
   ],
-  "enabledManagers": ["npm", "custom.jsonata"],
+  "enabledManagers": ["npm", "custom.jsonata", "github-actions"],
   "ignorePaths": [".nvmrc"],
-  "schedule": ["before 3am on Monday"],
+  "timezone": "Asia/Tbilisi",
+  "schedule": ["* 22-23 * * 6", "* 0-5 * * 0"],
   "labels": ["type:chore", "scope:global"],
   "vulnerabilityAlerts": {
     "labels": ["security", "type:chore", "scope:global"],
     "groupName": "security updates",
+    "minimumReleaseAge": null,
     "prCreation": "immediate",
     "vulnerabilityFixStrategy": "lowest"
   },
@@ -43,9 +51,39 @@
       "schedule": ["at any time"]
     },
     {
+      "description": "Group routine npm workspace, pnpm catalog, and Biome schema updates",
+      "matchManagers": ["npm", "custom.jsonata"],
       "matchUpdateTypes": ["major", "minor", "patch"],
       "groupName": "all dependencies",
       "groupSingleUpdates": false
+    },
+    {
+      "description": "Group routine external Action and reusable-workflow updates, including immutable SHA maintenance",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["action", "workflow"],
+      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest", "pinDigest"],
+      "groupName": "all dependencies",
+      "groupSingleUpdates": false
+    },
+    {
+      "description": "Keep GitHub-hosted runner migrations in a separate reviewable PR",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["github-runner"],
+      "groupName": "GitHub runner updates",
+      "groupSingleUpdates": false,
+      "dependencyDashboardApproval": false
+    },
+    {
+      "description": "Keep Action input versions such as runtime and tool pins under explicit repository control",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["uses-with"],
+      "enabled": false
+    },
+    {
+      "description": "Do not extend this policy to container dependencies discovered in GitHub Actions files",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["docker", "container", "service"],
+      "enabled": false
     },
     {
       "matchDepTypes": ["engines"],

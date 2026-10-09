@@ -65,10 +65,10 @@ to identify the exact image release used as evidence. If the candidate fails a K
 the prior explicit OS label and record the concrete blocker and follow-up issue rather than falling back
 to `ubuntu-latest`.
 
-The later Renovate work in [#171](https://github.com/kartuli-app/kartuli/issues/171) may maintain the
-versioned runner reference, but it does not own the compatibility decision. Runner updates remain
-deliberate migrations. Likewise, the image's preinstalled Node does not replace `.nvmrc` or the shared
-Node setup action.
+[Renovate](05-renovate.md#github-actions-and-runner-discovery) discovers the versioned runner reference
+and proposes OS-line changes in a separate runner-update PR. Automation provides the migration signal;
+it does not own the compatibility decision. Runner updates remain deliberate migrations. Likewise, the
+image's preinstalled Node does not replace `.nvmrc` or the shared Node setup action.
 
 ## Workflow events and permissions
 
@@ -88,8 +88,10 @@ such as `@v7`, `@main` and release branches are not allowed.
 Repository-relative composite Actions and reusable workflows, such as `./.github/actions/ci-setup-node`
 and `./.github/workflows/staging-w-app-nextjs.yml`, are local code from the checked-out revision and do not
 require an external commit pin. This policy prevents Sonar rule `githubactions:S7637` findings. GitHub
-Actions support planned for Renovate in [#171](https://github.com/kartuli-app/kartuli/issues/171) must
-preserve full-SHA pins and update verified release comments instead of replacing them with tags.
+Actions support in [Renovate](05-renovate.md#github-actions-and-runner-discovery) maintains the SHA and
+verified release comment together. Its digest-pinning preset can convert a newly introduced normal
+version tag to an immutable SHA; it must never normalize an existing SHA back to a floating tag. This
+repository keeps inline pins and does not use an `actions.lock` file.
 
 Production workflows run on selected main-branch paths or manual dispatch, and guard their jobs with
 `github.ref == 'refs/heads/main'`. Each app filter watches its own workspace and workflow plus the
