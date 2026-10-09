@@ -1,5 +1,4 @@
 name: Labels Propagate to PR from Linked Issue
-description: Automatically copies labels from linked issues to pull requests
 # Triggers: PR opened
 # Purpose: Maintain consistent labeling between issues and PRs
 
@@ -20,7 +19,7 @@ jobs:
     
     steps:
       - name: Propagate labels from linked issue
-        uses: actions/github-script@v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -69,4 +68,3 @@ jobs:
             } catch (error) {
               console.error(`Error propagating labels: ${error.message}`);
             }
-

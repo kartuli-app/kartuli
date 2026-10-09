@@ -1,5 +1,4 @@
 name: Labels Auto Apply to Issues from Template
-description: Automatically applies labels to issues based on template checkboxes
 # Triggers: issue opened/edited
 # Purpose: Parse issue template and apply checked labels automatically
 
@@ -16,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Extract and apply labels from issue body
-        uses: actions/github-script@v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const issueBody = context.payload.issue.body || '';
@@ -79,4 +78,3 @@ jobs:
             });
             
             console.log('Labels successfully added!');
-

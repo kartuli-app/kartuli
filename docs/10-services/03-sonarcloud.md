@@ -41,6 +41,11 @@ Read the current PR report and its analysis revision to interpret gate results. 
 do not establish whole-repository coverage or absence of existing issues. A passed gate does not
 prove coverage was imported or a coverage threshold applied.
 
+External Action and reusable-workflow references must follow the full-SHA supply-chain policy in
+[GitHub](./01-github.md#action-dependency-pinning). Keeping immutable pins prevents
+`githubactions:S7637` findings; fix a noncompliant reference rather than suppressing the rule without a
+documented exception.
+
 ## Investigating a finding
 
 1. Open the failing check on the current PR head and verify the analysis branch/revision.
