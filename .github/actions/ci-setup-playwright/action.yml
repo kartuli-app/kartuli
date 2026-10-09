@@ -1,5 +1,5 @@
 name: CI setup Playwright
-description: Cache and install Playwright browsers (chromium) for E2E. Use after build/preview, just before Run E2E.
+description: Cache and install Playwright Chromium for browser-mode tests and E2E. Run before any step that requires Playwright.
 
 runs:
   using: composite
