@@ -25,6 +25,19 @@ const meta: Meta<typeof StudyNoteSection> = {
       </div>
     ),
   ],
+  argTypes: {
+    align: {
+      control: 'inline-radio',
+      options: ['center', 'start'],
+    },
+    size: {
+      control: 'inline-radio',
+      options: ['compact', 'default'],
+    },
+    className: {
+      control: 'text',
+    },
+  },
   args: {
     align: 'center',
     size: 'default',
