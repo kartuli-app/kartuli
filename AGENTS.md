@@ -15,6 +15,7 @@ This project is a Georgian language learning platform.
 
 - Do not create commits unless the user explicitly asks.
 - When asked to commit, use conventional commit format.
+- During implementation or review, do not silently discard actionable out-of-scope findings. Fix in-scope findings in the current PR; otherwise create or link a follow-up issue before considering the review complete. If a finding is intentionally not tracked, state why. See [Code Review](docs/06-quality/03-code-review.md).
 - External GitHub Actions and reusable workflows must use full 40-character commit SHA pins. Keep a verified release comment when practical; never replace a SHA pin with a moving tag such as `@vN`. See [GitHub](docs/10-services/01-github.md#action-dependency-pinning).
 
 ### Commit Convention

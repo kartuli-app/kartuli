@@ -74,6 +74,15 @@ Closes #
 
 ---
 
+## Review Follow-ups
+<!-- State one or more as applicable: no actionable out-of-scope findings; follow-up issue link(s); observations intentionally not tracked, with reasons. -->
+
+Disposition:
+
+
+
+---
+
 ## Documentation Impact
 <!-- Code/config/product behavior changes must update their canonical docs in the same PR. If unaffected, explain why. See docs/12-project/01-documentation/index.md. -->
 
@@ -82,5 +91,4 @@ Closes #
 - [ ] Verified all internal links still work
 - [ ] Documentation is unaffected (explain why)
 - [ ] Built Web Docs and checked the generated kartuli-llm.txt index when docs changed
-
 
