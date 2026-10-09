@@ -13,7 +13,7 @@ concurrency:
 jobs:
   detect-affected:
     name: Detect modified apps
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     outputs:
@@ -89,7 +89,7 @@ jobs:
 
   validate-all-monorepo:
     name: Validate all monorepo
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       pull-requests: write
@@ -111,7 +111,7 @@ jobs:
   #   name: Commit dependency diagrams
   #   needs: validate-all-monorepo
   #   if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-  #   runs-on: ubuntu-latest
+  #   runs-on: ubuntu-26.04
   #   permissions:
   #     contents: write
   #   env:

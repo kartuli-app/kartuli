@@ -20,7 +20,7 @@ concurrency:
 jobs:
   build:
     name: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     if: github.ref == 'refs/heads/main'
     permissions:
       contents: read
@@ -58,7 +58,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: build
     if: github.ref == 'refs/heads/main'
     permissions:

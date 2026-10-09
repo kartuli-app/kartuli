@@ -18,7 +18,7 @@ on:
 jobs:
   notify-check-suite:
     name: Notify CI Failures (check suite)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     # Include GitHub Actions check suites so staging workflow failures notify too.
@@ -75,7 +75,7 @@ jobs:
 
   notify-production-workflow:
     name: Notify CI Failures (production workflow)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
