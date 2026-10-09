@@ -1,5 +1,4 @@
 name: Labels Sync Available on GitHub from Repo Config
-description: Syncs labels defined in .github/labels.yml with GitHub repository
 # Triggers: manual workflow_dispatch
 # Purpose: Keep GitHub labels in sync with configuration file
 
@@ -24,12 +23,11 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Sync labels
-        uses: EndBug/label-sync@52074158190acb45f3077f9099fea818aa43f97a
+        uses: EndBug/label-sync@5594ed7b544bfb68a18aa061740f5c2f726eb91a # Node 24 runtime (unreleased)
         with:
           config-file: .github/labels.yml
           token: ${{ secrets.GITHUB_TOKEN }}
           delete-other-labels: ${{ inputs.delete-other-labels }}
-

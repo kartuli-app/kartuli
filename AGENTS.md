@@ -15,6 +15,7 @@ This project is a Georgian language learning platform.
 
 - Do not create commits unless the user explicitly asks.
 - When asked to commit, use conventional commit format.
+- External GitHub Actions and reusable workflows must use full 40-character commit SHA pins. Keep a verified release comment when practical; never replace a SHA pin with a moving tag such as `@vN`. See [GitHub](docs/10-services/01-github.md#action-dependency-pinning).
 
 ### Commit Convention
 

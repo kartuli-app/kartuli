@@ -57,6 +57,20 @@ It fetches history, detects affected workspaces and maps them through
 `scripts/orchestrator/workflow-targets.json`. Concurrency cancels the older orchestrator run for a PR.
 Reusable app jobs receive PR-write permission to publish reports; read-only jobs use contents-read.
 
+## Action dependency pinning
+
+External GitHub Actions and reusable workflows are supply-chain dependencies. Every external `uses:`
+reference under `.github/workflows/` and `.github/actions/` must use the dependency's full 40-character
+immutable commit SHA. Add a verified release comment such as `# v7.0.1` where a release-to-SHA mapping
+exists so reviewers can identify the selected version without weakening the executable pin. Moving refs
+such as `@v7`, `@main` and release branches are not allowed.
+
+Repository-relative composite Actions and reusable workflows, such as `./.github/actions/ci-setup-node`
+and `./.github/workflows/staging-w-app-nextjs.yml`, are local code from the checked-out revision and do not
+require an external commit pin. This policy prevents Sonar rule `githubactions:S7637` findings. GitHub
+Actions support planned for Renovate in [#171](https://github.com/kartuli-app/kartuli/issues/171) must
+preserve full-SHA pins and update verified release comments instead of replacing them with tags.
+
 Production workflows run on selected main-branch paths or manual dispatch, and guard their jobs with
 `github.ref == 'refs/heads/main'`. Each app filter watches its own workspace and workflow plus the
 shared UI, Tailwind, root build/dependency configuration and production E2E inputs listed in
