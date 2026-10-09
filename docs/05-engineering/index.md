@@ -18,7 +18,7 @@ Shared packages should stay independent of app-specific domains. Apps may consum
 
 ## Dependencies and build graph
 
-Use `pnpm` only. `.nvmrc` pins Node 24.13.1; root `package.json` pins pnpm 10.30.2. Shared dependencies normally use `catalog:`; the named `storybook` catalog retains TypeScript 6 for docgen while application TypeScript is 7. The lockfile records resolved versions; catalog ranges are not exact installed versions.
+Use `pnpm` only. `.nvmrc` pins Node 24.13.1; root `package.json` pins pnpm 10.30.2. Shared dependencies use `catalog:`, including TypeScript 7. The lockfile records resolved versions; catalog ranges are not exact installed versions.
 
 `turbo.json` defines build tasks depending on upstream builds, uncached persistent dev/preview tasks, cached lint/test/typecheck and output paths. The Web Docs build includes `docs/**` as inputs. See [Platform](../07-platform/index.md) for CI and remote-cache credentials rather than duplicating them here.
 

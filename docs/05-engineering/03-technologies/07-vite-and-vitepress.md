@@ -12,9 +12,9 @@ Storybook uses the React/Vite framework with `@tailwindcss/vite`. Web Docs uses 
 
 ## Storybook integration
 
-`.storybook/main.ts` discovers UI and Game Client stories, configures docgen through `tsconfig.docgen.json`, merges source aliases, defines selected environment values, forces automatic JSX through Oxc and prebundles recurring imports such as Next links, i18n and icon modules. `vitest.config.ts` maintains corresponding aliases/optimization entries for browser tests.
+`.storybook/main.ts` discovers UI and Game Client stories, configures `react-docgen`, merges source aliases, defines selected environment values, forces automatic JSX through Oxc and prebundles recurring imports such as Next links, i18n and icon modules. `vitest.config.ts` maintains corresponding aliases/optimization entries for browser tests.
 
-When changing aliases or transforms, verify both `c:build:storybook` and browser tests. Do not remove existing array-form aliases while adding your own. The docgen TypeScript 6 exception is explained in [TypeScript](./01-typescript.md).
+When changing aliases or transforms, verify both `c:build:storybook` and browser tests. Do not remove existing array-form aliases while adding your own. Docgen behavior is described in [Storybook](../../03-tools/01-storybook.md).
 
 ## Documentation integration
 

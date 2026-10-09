@@ -34,7 +34,7 @@ verified project settings and engine precedence are documented under [Vercel](..
 
 ## Workspaces and catalogs
 
-`pnpm-workspace.yaml` includes apps, packages, tools and the docs content workspace. Cross-workspace dependencies use `workspace:*`. Shared external ranges use `catalog:`; Storybook's TypeScript uses `catalog:storybook`. Root-only development tools may have explicit ranges. `pnpm-lock.yaml` is the resolved dependency graph, not interchangeable with the catalog.
+`pnpm-workspace.yaml` includes apps, packages, tools and the docs content workspace. Cross-workspace dependencies use `workspace:*`. Shared external ranges use `catalog:`. Root-only development tools may have explicit ranges. `pnpm-lock.yaml` is the resolved dependency graph, not interchangeable with the catalog.
 
 To add a shared library, choose the direct consumer first, add the common range to the catalog and declare it in that consumer. Do not rely on a transitive dependency happening to be hoisted. Update the lockfile with pnpm and inspect the diff for unrelated resolution changes.
 

@@ -39,7 +39,6 @@ can invoke an undeclared executable.
 Current exceptions and their operating constraints are documented in
 [Toolchain Support Packages](./05-libraries/07-toolchain-support.md): catalog-only tools, type
 declarations, build/test adapters, lifecycle-script permissions and Storybook's preview executable.
-The named Storybook compiler catalog is explained in [TypeScript](./03-technologies/01-typescript.md).
 Renovate's [dashboard](../10-services/05-renovate.md) reports its own branch snapshot and discovery,
 not the installation in your checkout.
 
@@ -55,5 +54,5 @@ not the installation in your checkout.
 6. Run the [dependency change workflow](../07-platform/04-dependency-management.md) and docs checks.
 
 Transitive packages do not each need a guide. Document one when it imposes a project constraint,
-such as Storybook's compiler API requirement. The coverage audit remains a review responsibility;
+such as the Vitest family pin. The coverage audit remains a review responsibility;
 the docs validator checks links and metadata, not semantic coverage of every dependency.
