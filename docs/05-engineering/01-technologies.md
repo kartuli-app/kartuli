@@ -12,9 +12,9 @@ This inventory describes repository usage, not upstream tutorials. Versions belo
 | --- | --- | --- |
 | [Git](https://git-scm.com/doc) | Source history and branches; Conventional Commits and Lefthook gates | `lefthook.yml`; [Git workflow](../12-project/02-workflow.md) |
 | [Node.js](https://nodejs.org/en/docs) | Runtime for builds, scripts and tests; supported major 24 with exact local/CI pin 24.13.1 | Root `engines.node`, `.nvmrc`, CI setup action |
-| [pnpm](https://pnpm.io/workspaces) | Version 10.30.2; workspaces, shared catalog and Storybook exception; no npm workflow | `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml` |
+| [pnpm](https://pnpm.io/workspaces) | Version 10.30.2; workspaces and the shared catalog; no npm workflow | `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml` |
 | [Turborepo](https://turborepo.com/docs) | Task dependencies, affected selection and local/remote cache | `turbo.json`, `scripts/orchestrator` |
-| [TypeScript](https://www.typescriptlang.org/docs/) | Version 7 for app/shared code; version 6 retained for Storybook docgen | Root/workspace `tsconfig*`, catalogs |
+| [TypeScript](https://www.typescriptlang.org/docs/) | Version 7, including Storybook | Root/workspace `tsconfig*`, catalog |
 | [React](https://react.dev/) | Version 19; app UI, shared UI and component stories | App and UI manifests |
 | [Next.js](https://nextjs.org/docs) | Version 16; two app workspaces, App Router, server/client boundaries | App `next.config.ts`, `src/app`; read installed Next docs before coding |
 | [Tailwind CSS](https://tailwindcss.com/docs) | Version 4; utility styling and shared CSS token contract | `packages/tailwind-config/shared-styles.css` |
@@ -27,7 +27,7 @@ Technology conventions belong here; capability policy belongs to its canonical a
 
 ## Configuration and operating guides
 
-- [TypeScript](./03-technologies/01-typescript.md): configuration inheritance, aliases, builds and the Storybook exception.
+- [TypeScript](./03-technologies/01-typescript.md): configuration inheritance, aliases and builds.
 - [Turborepo](./03-technologies/02-turborepo.md): graph, cache contracts and affected selection.
 - [Node.js and pnpm](./03-technologies/03-node-and-pnpm.md): pinned toolchain, catalogs and installs.
 - [Next.js](./03-technologies/04-nextjs.md): application boundaries and configuration.

@@ -1,5 +1,5 @@
 ---
-description: Configuration inheritance, aliases, test/build boundaries and the Storybook compiler exception.
+description: Configuration inheritance, aliases and test/build boundaries.
 status: implemented
 intent: reference
 ---
@@ -8,7 +8,7 @@ intent: reference
 
 ## Role and consumers
 
-TypeScript checks app, UI and E2E code. Most workspaces consume `typescript: catalog:` (major 7); Storybook consumes `catalog:storybook` (major 6). The exception exists because its docgen integration requires the JavaScript compiler API. Keep the two catalog entries distinct when upgrading.
+TypeScript checks app, UI, Storybook and E2E code. Workspaces consume `typescript: catalog:` (major 7).
 
 ## Configuration map
 
@@ -20,7 +20,6 @@ TypeScript checks app, UI and E2E code. Most workspaces consume `typescript: cat
 | UI `tsconfig.json` | Root; automatic React JSX and Node types; excludes test files from its normal typecheck |
 | UI `tsconfig.build.json` | UI config; narrows includes/excludes for the `build:components` script |
 | Storybook `tsconfig.json` | Root; Storybook config and Vitest config, Vite client types |
-| Storybook `tsconfig.docgen.json` | Root; includes app/UI source for prop documentation |
 | E2E `tsconfig.json` | Root; browser test/tool checking |
 
 Root `noEmit: true` is inherited by UI's build configuration; do not assume `build:components` currently emits a distributable package. Its public exports point to source files. Next.js and Storybook perform their own transformations/bundling.
@@ -46,7 +45,7 @@ A successful Vitest run proves runtime assertions, not that Vitest's optional ty
 ### Changing a TypeScript setting safely
 
 1. Choose the narrowest owner: root for every TypeScript consumer, an app/package config for one
-   workspace, `tsconfig.test.json` for test-only types, or `tsconfig.docgen.json` for Storybook docgen.
+   workspace, or `tsconfig.test.json` for test-only types.
 2. Capture the effective config before and after. TypeScript object properties such as `paths` can
    replace rather than merge inherited values.
 3. If the setting affects JSX, modules or aliases, verify the runtime transformer too: Next, app
@@ -67,6 +66,6 @@ the relevant bundler/test resolver rather than another compiler `paths` entry.
 
 ## Upgrade and troubleshooting
 
-Change the shared catalog range, update the lockfile using pnpm, and run full validation plus builds of the affected consumers. Verify Storybook's compiler API compatibility before removing its named catalog. An alias that works in Next but fails in a story usually points to differing Vite aliases or the JSX transform, not missing application code.
+Change the shared catalog range, update the lockfile using pnpm, and run full validation plus builds of the affected consumers. An alias that works in Next but fails in a story usually points to differing Vite aliases or the JSX transform, not missing application code.
 
 The native TypeScript 7 executable needs normal OS facilities. A panic resolving `/proc/self/exe` in a restricted Linux sandbox is an environment failure; do not loosen types or downgrade the repository to hide it. Sources: root/workspace `tsconfig*.json`, package scripts, `pnpm-workspace.yaml`, Storybook `.storybook/main.ts`.

@@ -22,7 +22,7 @@ workflow. The [dependency inventory](../../05-engineering/06-dependency-inventor
 | `apps/backoffice-client` | [Backoffice Client](../../01-apps/02-backoffice-client/index.md) | Scaffold, ports, tests, shared styles, missing auth/data boundaries |
 | `packages/ui` | [Packages](../../02-packages/index.md) and [Design System](../../04-design-system/index.md) | Source-subpath export, consumers, `cn`, token story and current no-emit build |
 | `packages/tailwind-config` | [Packages](../../02-packages/index.md) and [Design Tokens](../../04-design-system/01-tokens.md) | CSS export, token layers, Tailwind mappings and change workflow |
-| `tools/storybook` | [Storybook](../../03-tools/01-storybook.md) | Story discovery, Vite aliases, docgen exception, themes, browser/a11y tests |
+| `tools/storybook` | [Storybook](../../03-tools/01-storybook.md) | Story discovery, Vite aliases, docgen, themes, browser/a11y tests |
 | `tools/e2e` | [E2E Runner](../../03-tools/02-e2e-runner.md) | Target selection, server prerequisite, artifacts, a11y helper and production scope |
 | `tools/web-docs-client` and `docs` | [Web Docs Client](../../03-tools/03-web-docs-client.md) | Generation/build/preview, navigation, LLM index, diagrams and verification |
 | `tools/diagram-generator` | [Diagram Generator](../../03-tools/04-diagram-generator.md) | Dependency-cruiser configs, Graphviz prerequisite and generated outputs |
@@ -33,7 +33,7 @@ workflow. The [dependency inventory](../../05-engineering/06-dependency-inventor
 | Evidence | Canonical documentation | What a reviewer should find there |
 | --- | --- | --- |
 | `.nvmrc`, `engines.node`, `packageManager`, `pnpm-workspace.yaml`, lockfile | [Node.js and pnpm](../../05-engineering/03-technologies/03-node-and-pnpm.md) | Supported runtime range, exact pins, catalogs, workspace protocol, frozen install and upgrades |
-| Root/workspace `tsconfig*.json` | [TypeScript](../../05-engineering/03-technologies/01-typescript.md) | Inheritance, aliases, includes/excludes, transforms and Storybook TS 6 |
+| Root/workspace `tsconfig*.json` | [TypeScript](../../05-engineering/03-technologies/01-typescript.md) | Inheritance, aliases, includes/excludes and transforms |
 | `turbo.json`, `scripts/orchestrator` | [Turborepo](../../05-engineering/03-technologies/02-turborepo.md) and [CI](../../07-platform/01-ci.md) | Task dependencies, cache inputs/outputs and workflow mapping |
 | `biome.json`, `biome.root.json` | [Biome](../../05-engineering/03-technologies/09-biome.md) | Root/workspace ownership, lint/fix commands and exclusions |
 | App Next/PostCSS config | [Next.js](../../05-engineering/03-technologies/04-nextjs.md) and [Tailwind/PostCSS](../../05-engineering/03-technologies/06-tailwind-and-postcss.md) | App Router/Turbopack boundaries and CSS integration |

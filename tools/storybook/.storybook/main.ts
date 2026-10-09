@@ -57,20 +57,7 @@ const config: StorybookConfig = {
   },
   docs: {},
   typescript: {
-    reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      exclude: [
-        '**/*.stories.tsx',
-        '../../apps/game-client/src/**/*.stories.tsx',
-        '../../packages/ui/src/**/*.stories.tsx',
-      ],
-      include: [
-        '.storybook/**/*.tsx',
-        '../../apps/game-client/src/**/*.tsx',
-        '../../packages/ui/src/**/*.tsx',
-      ],
-      tsconfigPath: './tsconfig.docgen.json',
-    },
+    reactDocgen: 'react-docgen',
   },
   viteFinal: async (config) => {
     const { default: tailwindcss } = await import('@tailwindcss/vite');

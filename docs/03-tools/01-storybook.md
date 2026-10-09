@@ -17,8 +17,7 @@ states. It merges `@game-client` and `@kartuli/ui` aliases, prebundles recurring
 and forces automatic JSX through Vite 8's Oxc path so Next's inherited `jsx: preserve` does not leak
 unparsed JSX into Storybook.
 
-Docgen reads `tsconfig.docgen.json` with the named TypeScript 6 catalog. Do not upgrade it to the root
-TypeScript 7 range until `react-docgen-typescript` works with the removed JavaScript compiler API.
+Docgen uses Storybook's `react-docgen` parser and the shared TypeScript catalog. It records display names and destructured default values. Stories that need specific Controls declare them in `argTypes`. The parser does not expand `Readonly<Props>` into prop types, so union metadata is not generated from those interfaces. See [TypeScript](../05-engineering/03-technologies/01-typescript.md) for the shared compiler catalog.
 
 ## Preview and test behavior
 

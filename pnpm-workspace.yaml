@@ -6,11 +6,6 @@ packages:
 
 autoInstallPeers: true
 
-# Storybook docgen still requires the JavaScript compiler API removed in TypeScript 7.
-catalogs:
-  storybook:
-    typescript: ^6.0.3
-
 catalog:
   '@axe-core/playwright': ^4.11.3
   '@base-ui/react': ^1.5.0
