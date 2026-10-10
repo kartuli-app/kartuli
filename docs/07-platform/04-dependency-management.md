@@ -8,9 +8,15 @@ intent: reference
 
 Declare shared dependency ranges in `pnpm-workspace.yaml` and reference catalogs from consumers. Keep `pnpm-lock.yaml` consistent and install with the frozen lockfile in CI. Runtime/package-manager upgrades must update their explicit pins deliberately.
 
-[Renovate](../10-services/05-renovate.md) implements automated dependency PRs. Its current `enabledManagers` are `npm` and `custom.jsonata`; GitHub Actions updates are not enabled by this repository config. The custom manager tracks Biome schema versions in Biome JSON files.
+[Renovate](../10-services/05-renovate.md) implements automated dependency PRs. The `npm` manager owns npm-compatible manifests, pnpm workspaces and the shared catalog; `custom.jsonata` tracks Biome schema versions in both Biome JSON files; and `github-actions` tracks external Actions, reusable workflows and explicit GitHub-hosted runner labels.
 
-`renovate.json` requests routine updates before 3am Monday, groups dependency updates, disables automerge, pins Vitest packages below 5, and disables engine/pnpm updates. Vulnerability alerts request immediate PR creation and the lowest fixing version; a security update rule requests any-time scheduling. Actual alert availability, schedule timezone and bot installation settings require provider verification.
+Routine npm/catalog, Biome schema and external Action updates share one `all dependencies` maintenance flow. Renovate may create it from Saturday 22:00 through Sunday 05:59 in the explicit `Asia/Tbilisi` timezone. This group includes Action major, minor, patch and immutable-SHA pin/digest maintenance. Automerge remains disabled, so strong CI and human review remain the upgrade safety mechanism.
+
+GitHub-hosted runner migrations are detected in the same weekend window but use a separate runner-update PR. An OS-line change requires the deliberate compatibility review described in [GitHub](../10-services/01-github.md#hosted-runner-image-policy); it is not ordinary package maintenance. Vulnerability-alert PRs remain separate and immediate, use the lowest fixing version and bypass the routine schedule. Ordinary npm releases must be at least three days old, while vulnerability alerts explicitly have no minimum release age.
+
+External Actions and reusable workflows remain executable only by full immutable commit SHA with a readable version comment. Renovate follows that comment when updating the SHA and can propose a digest pin if a future contribution uses a normal version tag. It must not normalize existing pins back to floating refs. See [Action dependency pinning](../10-services/01-github.md#action-dependency-pinning).
+
+Node and pnpm baselines remain manual toolchain decisions: `.nvmrc` is ignored, engine updates are disabled, and the `pnpm` package-manager dependency is disabled. Action `with:` versions are also disabled so runtime/tool inputs do not create a second update path around those repository-owned declarations. GitHub Actions container/service dependency types are not part of this policy. The floating Vercel CLI input remains tracked separately in [#197](https://github.com/kartuli-app/kartuli/issues/197).
 
 Review dependency changes with the normal [Quality](../06-quality/index.md) gates. Supply-chain and vulnerability policy belongs to [Security](../08-security/index.md); a bot rule alone does not establish a remediation SLA.
 
@@ -33,5 +39,6 @@ pnpm run validate:all
 ```
 
 CI uses `pnpm install --frozen-lockfile`; never “fix” a frozen-install failure by disabling the flag.
-For a Renovate PR, compare the bot's effective update with repository policy. The current managers do
-not update GitHub Actions, Node or pnpm, so those pins require deliberate manual work.
+For a Renovate PR, compare the bot's effective update with repository policy. Renovate maintains
+external Action SHAs and explicit runner labels, but Node, pnpm and Action input versions remain
+deliberate manual work.
