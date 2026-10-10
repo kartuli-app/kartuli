@@ -19,20 +19,20 @@ current update branches and blocked updates. Existing npm and Biome discovery wa
 be verified after this configuration reaches `main`.
 
 Confirm npm-manager discovery of workspace manifests and the catalog in `pnpm-workspace.yaml`,
-JSONata discovery of both Biome schemas, and `github-actions` discovery of external Actions plus the
-explicit `ubuntu-26.04` runner references. Dashboard versions describe its branch snapshot; compare
-them with the checkout and lockfile.
+JSONata discovery of both Biome schemas, regex discovery of the three Vercel CLI fields, and
+`github-actions` discovery of external Actions plus the explicit `ubuntu-26.04` runner references.
+Dashboard versions describe its branch snapshot; compare them with the checkout and lockfile.
 
 ## Committed policy
 
 | Configuration | Intended behavior in this repository |
 | --- | --- |
 | Presets | `config:recommended`, `:dependencyDashboard`, `helpers:pinGitHubActionDigests`, `security:minimumReleaseAgeNpm` and `:configMigration` |
-| Managers | `npm`, `custom.jsonata` and `github-actions` |
+| Managers | `npm`, `custom.jsonata`, `custom.regex` and `github-actions` |
 | Normal schedule | Saturday 22:00–23:59 and Sunday 00:00–05:59 in `Asia/Tbilisi`, expressed as two Renovate cron windows |
-| Normal grouping | npm/catalog and Biome major/minor/patch updates plus external Action/workflow major/minor/patch/pin/digest updates share `all dependencies`; separation flags are disabled |
+| Normal grouping | npm/catalog, Biome and the specifically matched Vercel CLI major/minor/patch updates plus external Action/workflow major/minor/patch/pin/digest updates share `all dependencies`; separation flags are disabled |
 | GitHub runners | Explicit GitHub-hosted runner labels are discovered as `github-runner` and use a separate `GitHub runner updates` PR without Dashboard approval |
-| Action inputs and containers | `uses-with`, `docker`, `container` and `service` are disabled; runtime/tool inputs and container policy remain deliberate decisions |
+| Action inputs and containers | Broad `uses-with`, `docker`, `container` and `service` extraction is disabled; the Vercel CLI is a narrow regex-managed exception |
 | Merge | `automerge: false`; GitHub repository auto-merge is also disabled in the observed metadata |
 | Labels | `type:chore`, `scope:global`; vulnerability alerts also request `security` |
 | Commit policy | Semantic chore commits with `update dependencies` action and dependency topic |
@@ -64,6 +64,12 @@ The JSONata manager matches `biome.json` and `biome.root.json`, splits each `$sc
 extracts its version for the `@biomejs/biome` npm datasource. The root executable declaration and both
 schema changes should be reviewed together. A schema bump does not by itself upgrade the binary.
 
+The regex manager matches only `vercel-version: <exact semver>` in the staging Next.js workflow and
+the two app production workflows. It extracts all three occurrences as the npm package `vercel` with
+npm versioning. A package-specific rule places that dependency in `all dependencies`; it does not make
+future regex-managed dependencies inherit Vercel policy. Because the datasource is npm, the existing
+three-day `security:minimumReleaseAgeNpm` rule applies to routine CLI upgrades without a second policy.
+
 The catalog also contains `@tailwindcss/cli` without a current manifest consumer. Renovate can detect
 that catalog entry even though no workspace script uses it. See the
 [dependency audit](../05-engineering/06-dependency-inventory.md#catalog-and-usage-audit).
@@ -79,24 +85,25 @@ the weekend schedule but use their own PR, providing a signal for runner-image c
 Do not replace the versioned label with `ubuntu-latest`.
 
 The manager can also extract selected Action input versions as `uses-with`. Kartuli disables that type
-because Node comes from `.nvmrc`, pnpm comes from the root `packageManager`, and other tool inputs need
-an explicit owner. In particular, `vercel-version: latest` remains owned by
-[#197](https://github.com/kartuli-app/kartuli/issues/197). No current workflow uses the manager's
-`docker`, `container` or `service` dependency types, and those types are disabled rather than silently
-expanding this policy.
+because Node comes from `.nvmrc`, pnpm comes from the root `packageManager`, and tool inputs need an
+explicit owner. The Vercel CLI is maintained through the narrow regex manager instead, so generic
+`uses-with` remains disabled and cannot create a second active update path. No current workflow uses
+the manager's `docker`, `container` or `service` dependency types, and those types are disabled rather
+than silently expanding this policy.
 
 ## Verifying extraction
 
 Before merge, validate `renovate.json` with the current Renovate config validator and run a local
 `platform=local`, `dry-run=extract` pass. Record the manager/file/dependency counts, Action names,
-runner label and any `uses-with` result in the PR. A local extraction proves how the checked-out config
-is parsed; it does not prove the Mend-hosted app has loaded a branch-only configuration.
+runner label, all three Vercel CLI occurrences and any disabled `uses-with` result in the PR. A local
+extraction proves how the checked-out config is parsed; it does not prove the Mend-hosted app has
+loaded a branch-only configuration.
 
 After merge, inspect Dependency Dashboard #28 and Mend provider output. Confirm that `github-actions`
 appears, all expected external Action/reusable-workflow references and `ubuntu-26.04` runners are
-listed, npm/catalog and both Biome schemas remain present, normal updates share `all dependencies`, and
-no full SHA is normalized to a moving tag. Treat a provider mismatch as an extraction problem to fix,
-not as a successful local-only verification.
+listed, npm/catalog, both Biome schemas and the Vercel CLI remain present, normal updates share
+`all dependencies`, and no full SHA is normalized to a moving tag. Treat a provider mismatch as an
+extraction problem to fix, not as a successful local-only verification.
 
 ## Reviewing and recovering updates
 

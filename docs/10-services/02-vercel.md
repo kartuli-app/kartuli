@@ -60,9 +60,17 @@ deployment's build/runtime version when investigating drift.
 
 `staging-orchestrator.yml` creates local/vercel matrix entries for affected apps.
 `staging-w-app-nextjs.yml` selects the app's project secret; both production workflows name their
-project explicitly. The action revision is pinned, but `vercel-version: latest` means its CLI version
-is not pinned in these workflows. There is no `working-directory` input selecting an app here;
-provider project configuration is therefore part of the build contract.
+project explicitly. All three paths use the same exact `vercel-version` value. The full
+`amondnet/vercel-action` commit SHA pins the Action implementation, while `vercel-version` separately
+pins the npm `vercel` CLI package that the Action invokes. Neither dependency can change between
+identical runs without a repository diff. There is no `working-directory` input selecting an app
+here; provider project configuration is therefore part of the build contract.
+
+The narrowly scoped `custom.regex` manager in `renovate.json` owns only these three
+`vercel-version` fields. It resolves `vercel` through the npm datasource, applies the routine npm
+release-age policy and groups eligible updates into `all dependencies`. Generic GitHub Action
+`uses-with` extraction remains disabled, so the CLI has one active Renovate owner. Review a proposed
+CLI upgrade separately from the pinned Action revision and validate both app previews before merge.
 
 Actions sets `github-deployment: false`, so absence of a GitHub Deployment object does not establish
 that this explicit action never deployed. Follow its output and provider URL.
@@ -91,6 +99,9 @@ prove Turbo cache access, and a public project link does not verify the configur
 2. For a skipped app job, inspect affected mapping. For an ignored provider deployment, inspect the
    provider's Ignored Build Step.
 3. For deploy failure, inspect the first provider/build error and the selected secret names and project.
+   The `Deploy to Vercel` log shows the requested `npx vercel@<version>` command and the installed
+   `Vercel CLI <version>`; the later remote `Running \"vercel build\"` line is provider-managed build
+   tooling and can report a different version.
 4. For an empty `preview-url`, inspect deployment output before debugging Lighthouse or E2E.
 5. For a successful deploy followed by failed tests, use that deployment's URL/artifacts and inspect
    preview protection, redirects, domain propagation and application behavior.
