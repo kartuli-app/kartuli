@@ -31,6 +31,10 @@ Lighthouse run against the configured canonical domain, not necessarily the acti
 URL. DNS/domain propagation and provider aliasing can therefore fail after a successful deploy step.
 Local port identities do not change these configured production domains.
 
+The preview and both production paths share an exact repository-owned Vercel CLI version in addition
+to the immutable Vercel Action revision. This makes the Actions-side deployment toolchain reproducible;
+provider-managed remote build tooling remains a separate boundary.
+
 GitHub Actions prepares deployments with the exact Node release from `.nvmrc`. The remote Vercel build
 and Node function runtime use each project's provider-managed Node `24.x` setting, so Vercel may run a
 newer Node 24 minor or patch than CI without crossing the supported major boundary. The root

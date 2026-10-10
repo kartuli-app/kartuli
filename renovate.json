@@ -15,9 +15,22 @@
       "fileFormat": "json",
       "managerFilePatterns": ["/(^|/)biome(?:\\.root)?\\.(json|jsonc)$/"],
       "matchStrings": ["{\"currentValue\": $split($.\"$schema\",(\"/\"))[-2]}"]
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "npm",
+      "depNameTemplate": "vercel",
+      "packageNameTemplate": "vercel",
+      "versioningTemplate": "npm",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/(?:staging-w-app-nextjs|production-w-app-(?:game-client|backoffice-client))\\.yml$/"
+      ],
+      "matchStrings": [
+        "(?:^|\\r?\\n)[ \\t]+vercel-version:[ \\t]*(?<currentValue>\\d+\\.\\d+\\.\\d+)[ \\t]*(?:\\r?\\n|$)"
+      ]
     }
   ],
-  "enabledManagers": ["npm", "custom.jsonata", "github-actions"],
+  "enabledManagers": ["npm", "custom.jsonata", "custom.regex", "github-actions"],
   "ignorePaths": [".nvmrc"],
   "timezone": "Asia/Tbilisi",
   "schedule": ["* 22-23 * * 6", "* 0-5 * * 0"],
@@ -47,6 +60,15 @@
     {
       "description": "Group routine npm workspace, pnpm catalog, and Biome schema updates",
       "matchManagers": ["npm", "custom.jsonata"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "groupName": "all dependencies",
+      "groupSingleUpdates": false
+    },
+    {
+      "description": "Group the regex-managed Vercel CLI with routine dependency maintenance",
+      "matchManagers": ["custom.regex"],
+      "matchDatasources": ["npm"],
+      "matchPackageNames": ["vercel"],
       "matchUpdateTypes": ["major", "minor", "patch"],
       "groupName": "all dependencies",
       "groupSingleUpdates": false
