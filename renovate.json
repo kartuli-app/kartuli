@@ -45,12 +45,6 @@
       "description": "Keep the Vitest runner and its browser and coverage integrations on the same version 4 release"
     },
     {
-      "matchUpdateTypes": ["security"],
-      "groupName": "security updates",
-      "groupSingleUpdates": false,
-      "schedule": ["at any time"]
-    },
-    {
       "description": "Group routine npm workspace, pnpm catalog, and Biome schema updates",
       "matchManagers": ["npm", "custom.jsonata"],
       "matchUpdateTypes": ["major", "minor", "patch"],

@@ -36,15 +36,11 @@ them with the checkout and lockfile.
 | Merge | `automerge: false`; GitHub repository auto-merge is also disabled in the observed metadata |
 | Labels | `type:chore`, `scope:global`; vulnerability alerts also request `security` |
 | Commit policy | Semantic chore commits with `update dependencies` action and dependency topic |
-| Vulnerability alerts | Immediate dedicated PR creation, `security updates` group, lowest fixing version strategy, any-time scheduling and no minimum release age |
+| Vulnerability alerts | Immediate dedicated PR creation, `security updates` group, lowest fixing version strategy, routine-schedule bypass and no minimum release age |
 | npm release age | Routine npm releases must be at least three days old; package-manager-controlled and unsupported update types retain the preset's documented exemptions |
 | Runtime/package manager | `.nvmrc` ignored; engine and pnpm updates disabled |
 | Vitest family | `vitest` and `@vitest/**` constrained below 5 with `rangeStrategy: pin`; keep runner/browser/Playwright/coverage on one exact release |
 | Node declarations | `@types/node` constrained below 25 |
-
-The file also contains a package rule matching `security` with an anytime schedule. Treat that as
-declared policy, not evidence that every inherited/security rule is effective; use the dashboard and
-provider configuration logs when behavior differs.
 
 `helpers:pinGitHubActionDigests` enables digest pinning for Action and reusable-workflow dependency
 types. A version-tagged Action can therefore be converted to an immutable SHA. For an existing SHA,
