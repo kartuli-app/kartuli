@@ -70,10 +70,6 @@ npm versioning. A package-specific rule places that dependency in `all dependenc
 future regex-managed dependencies inherit Vercel policy. Because the datasource is npm, the existing
 three-day `security:minimumReleaseAgeNpm` rule applies to routine CLI upgrades without a second policy.
 
-The catalog also contains `@tailwindcss/cli` without a current manifest consumer. Renovate can detect
-that catalog entry even though no workspace script uses it. See the
-[dependency audit](../05-engineering/06-dependency-inventory.md#catalog-and-usage-audit).
-
 ## GitHub Actions and runner discovery
 
 The `github-actions` manager scans workflow and composite-action YAML. Kartuli groups only dependency

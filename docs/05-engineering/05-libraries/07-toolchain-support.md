@@ -1,5 +1,5 @@
 ---
-description: Type declarations, build adapters, catalog-only entries and declared-versus-used dependency boundaries.
+description: Type declarations, build adapters, script-only tools and declared-versus-used dependency boundaries.
 status: implemented
 intent: reference
 ---
@@ -58,12 +58,7 @@ The Storybook configuration explicitly enables:
 configured framework. The `storybook` package supplies the executable and exported APIs.
 The [Storybook guide](../../03-tools/01-storybook.md) owns discovery, aliases, docgen and validation.
 
-## Catalog-only and script-only dependencies
-
-`@tailwindcss/cli` appears in the default catalog but no workspace manifest consumes it and no
-repository script invokes it. Current apps use `@tailwindcss/postcss`; Storybook uses
-`@tailwindcss/vite`. A catalog entry provides a reusable version, not an installation or an active
-build step. Document a consumer if one is added.
+## Script-only dependencies
 
 Storybook's current preview script invokes `npx http-server ./storybook-static -p 6006`.
 `http-server` is absent from manifests/catalog, so the preview command does not establish a

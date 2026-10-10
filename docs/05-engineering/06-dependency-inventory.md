@@ -37,8 +37,8 @@ a dependency as active or safe to remove. Catalog entries can have no manifest c
 can invoke an undeclared executable.
 
 Current exceptions and their operating constraints are documented in
-[Toolchain Support Packages](./05-libraries/07-toolchain-support.md): catalog-only tools, type
-declarations, build/test adapters, lifecycle-script permissions and Storybook's preview executable.
+[Toolchain Support Packages](./05-libraries/07-toolchain-support.md): type declarations, build/test
+adapters, lifecycle-script permissions and Storybook's script-only preview executable.
 Renovate's [dashboard](../10-services/05-renovate.md) reports its own branch snapshot and discovery,
 not the installation in your checkout.
 
