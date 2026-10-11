@@ -1,6 +1,5 @@
 import type { LetterItem } from '@game-client/learning-content/library/library';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { act } from 'react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { LetterStudyDetailSlide } from './letter-study-detail-slide';
 
