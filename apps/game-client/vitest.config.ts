@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@game-client': resolve(__dirname, 'src'),
-      '@kartuli/ui': resolve(__dirname, '../../packages/ui/src'),
+      '@game-client': resolve(import.meta.dirname, 'src'),
+      '@kartuli/ui': resolve(import.meta.dirname, '../../packages/ui/src'),
     },
   },
   test: {

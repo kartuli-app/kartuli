@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@kartuli/ui': resolve(__dirname, '../../packages/ui/src'),
+      '@kartuli/ui': resolve(import.meta.dirname, '../../packages/ui/src'),
     },
   },
   test: {
