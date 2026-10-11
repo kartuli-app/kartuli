@@ -8,7 +8,7 @@ pre-commit:
     # Lint everything
     lint:
       glob: "*"
-      run: CI=true TURBO_CI=1 pnpm turbo lint --concurrency=1 --no-daemon
+      run: CI=true TURBO_CI=1 pnpm turbo lint --concurrency=1
       fail_text: |
         ❌ Linting failed. Please fix the errors above.
         Run 'pnpm lint:all:fix' to auto-fix issues.
@@ -66,8 +66,8 @@ pre-push:
     typecheck:
       run: |
         echo "🔍 Running typecheck on affected packages..."
-        CI=true TURBO_CI=1 pnpm turbo run typecheck --filter='[HEAD^]' --filter=@kartuli/e2e --concurrency=1 --no-daemon || \
-        CI=true TURBO_CI=1 pnpm turbo run typecheck --concurrency=1 --no-daemon
+        CI=true TURBO_CI=1 pnpm turbo run typecheck --filter='[HEAD^]' --filter=@kartuli/e2e --concurrency=1 || \
+        CI=true TURBO_CI=1 pnpm turbo run typecheck --concurrency=1
       fail_text: |
         ❌ Typecheck failed.
         Run 'pnpm typecheck:all' locally to see the full errors.
@@ -76,8 +76,8 @@ pre-push:
     test:
       run: |
         echo "🧪 Running tests on affected packages..."
-        CI=true TURBO_CI=1 pnpm turbo run test --filter='[HEAD^]' --concurrency=1 --no-daemon || \
-        CI=true TURBO_CI=1 pnpm turbo run test --concurrency=1 --no-daemon
+        CI=true TURBO_CI=1 pnpm turbo run test --filter='[HEAD^]' --concurrency=1 || \
+        CI=true TURBO_CI=1 pnpm turbo run test --concurrency=1
       fail_text: |
         ❌ Tests failed.
         Run 'pnpm test' locally to see the full errors.
