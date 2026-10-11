@@ -5,7 +5,7 @@ describe.sequential('React Testing Library cleanup', () => {
   it('renders a marker for the current test', () => {
     render(<div>game-client cleanup marker</div>);
 
-    expect(screen.queryByText('game-client cleanup marker')).not.toBeNull();
+    expect(screen.getByText('game-client cleanup marker')).not.toBeNull();
   });
 
   it('starts the next test without the previous rendered DOM', () => {
