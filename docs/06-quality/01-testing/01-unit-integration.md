@@ -12,7 +12,7 @@ Use unit tests for isolated transformations and decisions, such as transliterati
 
 ## Environment and configuration
 
-Game Client's `vitest.config.ts` uses the React Vite plugin, Happy DOM with a localhost URL, explicit aliases and `setupTests.ts`, which initializes i18n. Its globals are disabled, so import test APIs. UI's config uses Happy DOM and enables globals. Do not copy setup assumptions between workspaces without reading their configuration.
+Game Client and Backoffice each use the React Vite plugin, Happy DOM with a localhost URL and a workspace-local `setupTests.ts`. Both app configs disable Vitest globals, so test APIs must be imported. Their setup files explicitly register React Testing Library's `cleanup` with Vitest's imported `afterEach`, ensuring every rendered tree is unmounted between tests without depending on a global lifecycle hook. Game Client's setup also initializes i18n. UI's config uses Happy DOM and enables globals. Do not copy setup assumptions between workspaces without reading their configuration.
 
 Testing Library DOM/React and user-event are available according to workspace declarations. Prefer assertions on behavior and accessible roles/names over private implementation structure. Test cleanup and mocks must prevent state leaking across cases, particularly module caches, locale state and browser identifiers.
 
