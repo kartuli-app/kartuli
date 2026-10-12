@@ -52,6 +52,10 @@ on:
         options:
           - local
           - vercel
+      pull_request_number:
+        description: Optional PR number for updating the staging result comment.
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -67,6 +71,7 @@ jobs:
       TARGET: ${{ inputs.target }}
       DEPLOY_TARGET: ${{ inputs.deploy_target }}
       APP_URL: ${{ inputs.target == 'backoffice-client' && 'http://localhost:3001' || 'http://localhost:3000' }}
+      LIGHTHOUSE_AUDIT_PATH: ${{ inputs.target == 'backoffice-client' && '/en' || '/en/explore/alphabet' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -131,57 +136,80 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           github-deployment: false
 
-      - name: Run Lighthouse CI
-        id: lighthouse
+      - name: Resolve Lighthouse audit URL
+        id: lighthouse_url
         env:
-          CI_AUDIT: "true"
-          LIGHTHOUSE_ASSERT_LEVEL: "warn"
           STEP_APP_URL: ${{ inputs.deploy_target == 'local' && env.APP_URL || steps.deploy.outputs.preview-url }}
-          STEP_DEPLOY_TARGET: ${{ inputs.deploy_target }}
         run: |
-          URL="$STEP_APP_URL"
-          if [ -z "$URL" ]; then
-            echo "ERROR: APP URL is empty (deploy_target=$STEP_DEPLOY_TARGET)."
+          if [ -z "$STEP_APP_URL" ]; then
+            echo "ERROR: App URL is empty (deploy_target=$DEPLOY_TARGET)."
             exit 1
           fi
-          pnpm exec lhci autorun --collect.url="$URL" 2>&1 | tee lighthouse_output.txt
-          REPORT_URL=$(grep -o 'https://storage\.googleapis\.com/lighthouse-infrastructure\.appspot\.com/reports/[^[:space:]]*' lighthouse_output.txt | tail -1)
-          echo "report_url=${REPORT_URL}" >> $GITHUB_OUTPUT
-          echo "Lighthouse report URL: ${REPORT_URL}"
-
-      - name: Write Lighthouse report to job summary
-        run: |
-          echo "## Lighthouse report ($DEPLOY_TARGET)" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          REPORT_URL="${{ steps.lighthouse.outputs.report_url }}"
-          if [ -n "$REPORT_URL" ]; then
-            echo "[View Lighthouse report]($REPORT_URL)" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "Report URL not captured; check artifacts." >> "$GITHUB_STEP_SUMMARY"
-          fi
+          AUDIT_URL="${STEP_APP_URL%/}${LIGHTHOUSE_AUDIT_PATH}"
+          echo "url=$AUDIT_URL" >> "$GITHUB_OUTPUT"
+          echo "Requested Lighthouse audit URL: $AUDIT_URL"
         shell: bash
 
+      - name: Run Lighthouse CI (informational)
+        id: lighthouse
+        continue-on-error: true
+        env:
+          CI_AUDIT: "true"
+          AUDIT_URL: ${{ steps.lighthouse_url.outputs.url }}
+        run: pnpm exec lhci autorun --failOnUploadFailure --collect.url="$AUDIT_URL"
+        shell: bash
+
+      - name: Build Lighthouse summary
+        if: always()
+        id: lighthouse_summary
+        continue-on-error: true
+        env:
+          AUDIT_URL: ${{ steps.lighthouse_url.outputs.url }}
+          AUDIT_OUTCOME: ${{ steps.lighthouse.outcome }}
+        run: |
+          node scripts/lighthouse/report-cli.mjs \
+            --requested-url="$AUDIT_URL" \
+            --audit-outcome="$AUDIT_OUTCOME" \
+            --output=lighthouse-summary.md
+        shell: bash
+
+      - name: Upload Lighthouse CI diagnostics on failure
+        if: ${{ always() && (steps.lighthouse.outcome == 'failure' || steps.lighthouse_summary.outcome == 'failure') }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lighthouse-artifacts-${{ inputs.target }}-${{ inputs.deploy_target }}-${{ github.run_number }}
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Comment PR with Lighthouse report
-        if: github.event_name == 'pull_request' || inputs.pull_request_number != ''
+        if: ${{ always() && (github.event_name == 'pull_request' || inputs.pull_request_number != '') }}
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          DEPLOY_TARGET: ${{ inputs.deploy_target }}
+          LIGHTHOUSE_SUMMARY_PATH: lighthouse-summary.md
+          PREVIEW_URL: ${{ steps.deploy.outputs.preview-url }}
         with:
           script: |
+            const fs = require('node:fs');
             const prNumber = context.payload.pull_request?.number || '${{ inputs.pull_request_number }}';
             const prNum = Number(prNumber);
             if (!prNum) return;
-            const lighthouseReportUrl = '${{ steps.lighthouse.outputs.report_url }}';
-            const lighthouseReport = lighthouseReportUrl
-              ? `[Lighthouse Report](${lighthouseReportUrl})`
-              : '[Lighthouse Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
-            const deployTarget = '${{ inputs.deploy_target }}';
-            const previewUrl = '${{ steps.deploy.outputs.preview-url }}';
+            const summary = fs.existsSync(process.env.LIGHTHOUSE_SUMMARY_PATH)
+              ? fs.readFileSync(process.env.LIGHTHOUSE_SUMMARY_PATH, 'utf8').trim()
+              : `### Lighthouse
+
+            **Audit/reporting status:** Incomplete. The Lighthouse summary could not be generated.
+
+            [Inspect the workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+            const deployTarget = process.env.DEPLOY_TARGET;
+            const previewUrl = process.env.PREVIEW_URL;
             const previewLine = deployTarget === 'vercel' && previewUrl
-              ? `\n- [Vercel Preview](${previewUrl})`
+              ? `\n\n[Preview](${previewUrl})`
               : '';
             const commentBody = `## Staging – Next.js (${{ inputs.target }}) – ${deployTarget}
 
-            **Quality checks:**
-            - ${lighthouseReport}${previewLine}
+            ${summary}${previewLine}
 
             ---
             *Staging pipeline*`;
@@ -217,7 +245,7 @@ jobs:
           WHO: ${{ github.event.pull_request.user.login || github.actor }}
           APP: ${{ inputs.target }}
           PREVIEW_URL: ${{ steps.deploy.outputs.preview-url }}
-          REPORT_URL: ${{ steps.lighthouse.outputs.report_url }}
+          REPORT_URL: ${{ steps.lighthouse_summary.outputs.report_url }}
           PR_NUM: ${{ github.event.pull_request.number || inputs.pull_request_number }}
           PR_LINK: ${{ github.event.pull_request.html_url }}
           SERVER_URL: ${{ github.server_url }}

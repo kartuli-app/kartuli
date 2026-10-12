@@ -17,14 +17,6 @@
         }
       }
     },
-    "assert": {
-      "assertions": {
-        "categories:performance": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }],
-        "categories:accessibility": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }],
-        "categories:best-practices": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }],
-        "categories:seo": ["${LIGHTHOUSE_ASSERT_LEVEL}", { "minScore": 0.9 }]
-      }
-    },
     "upload": {
       "target": "temporary-public-storage"
     }

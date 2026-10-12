@@ -54,9 +54,9 @@ deployment's build/runtime version when investigating drift.
 | Path | Trigger and execution | Validation / evidence |
 | --- | --- | --- |
 | Vercel Git integration | Provider responds to repository changes | Provider check and bot comment; builds can be ignored |
-| Actions local staging | Affected app, `deploy_target: local` | Builds/starts Game Client on port 3000 or Backoffice on port 3001, then runs Lighthouse and Playwright |
-| Actions Vercel staging | Affected app, `deploy_target: vercel` | Explicit preview deploy, Lighthouse and Playwright using `preview-url` |
-| Actions production | Matching main push paths or main manual dispatch | Explicit `--prod` deployment, smoke tests and Lighthouse against configured production domain |
+| Actions local staging | Affected app, `deploy_target: local` | Builds/starts Game Client on port 3000 or Backoffice on port 3001, then runs informational Lighthouse reporting and Playwright |
+| Actions Vercel staging | Affected app, `deploy_target: vercel` | Explicit preview deploy, informational Lighthouse reporting and Playwright using `preview-url` |
+| Actions production | Matching main push paths or main manual dispatch | Core `--prod` deployment, smoke tests and notification; separate informational Lighthouse job against the configured domain |
 
 `staging-orchestrator.yml` creates local/vercel matrix entries for affected apps.
 `staging-w-app-nextjs.yml` selects the app's project secret; both production workflows name their
@@ -109,12 +109,15 @@ prove Turbo cache access, and a public project link does not verify the configur
 
 Both app production path filters include their real shared workspace dependencies, including
 `packages/ui/**` and `packages/tailwind-config/**`, plus the root build/dependency inputs documented in
-[Deployment](../07-platform/02-deployment.md). The filters remain explicit and separate from staging's
-Turbo affected-workspace selection. Native Vercel triggers remain separately configured.
+[Deployment](../07-platform/02-deployment.md). Lighthouse configuration and reporter code are consumed
+by production audits after a real release trigger, but Lighthouse-only changes do not initiate an app
+deployment. The filters remain explicit and separate from staging's Turbo affected-workspace
+selection. Native Vercel triggers remain separately configured.
 
 Read-only starting points are `gh pr checks PR_NUMBER`, the Vercel dashboard, and
-`gh run view RUN_ID`. E2E failure artifacts retain three days and production Lighthouse artifacts
-seven. Staging Lighthouse uses warning assertions; production uses error assertions.
+`gh run view RUN_ID`. E2E failure artifacts retain three days. Failed staging and production
+Lighthouse execution/reporting uploads diagnostics for seven days; Lighthouse scores remain
+informational and assertion-free.
 
 ## Recovery and ownership gaps
 
