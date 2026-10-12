@@ -22,12 +22,16 @@ Start with [Node/pnpm](./03-technologies/03-node-and-pnpm.md) for the pinned too
 | Run a target's E2E | `pnpm run c:e2e:game-client` | Requires a running target and installed browser |
 | Build documentation | `pnpm run c:build:web-docs-client` | Validates source/navigation, renders and checks the built index |
 | Inspect dependency diagrams | `pnpm run diagrams:all` | Requires local Graphviz `dot` |
+| Run Lighthouse | `pnpm run lighthouse --collect.url=<public-url>` | One assertion-free mobile run; uploads to temporary public storage |
+| Render Lighthouse result | `pnpm run lighthouse:summary --requested-url=<public-url> --audit-outcome=success --output=lighthouse-summary.md` | Reads `.lighthouseci/` and fails on incomplete metrics or report-link mapping |
 
 ## Execution differences
 
 - `*:no-cache` scripts force Turbo execution; `turbo:cache:wipe` removes the local Turbo cache.
 - `lint:all:fix` and `lint:root:fix` modify files; ordinary lint checks do not.
-- `test:all` includes Storybook Chromium tests. Coverage has a different scope; see [Testing](../06-quality/01-testing/index.md).
+- `test:all` includes Storybook Chromium tests and the dependency-free Lighthouse reporter tests.
+  Coverage has a different UI-test scope but also runs the reporter tests; see
+  [Testing](../06-quality/01-testing/index.md).
 - App preview builds then starts. Game Client development/start/preview uses port 3000; Backoffice uses
   port 3001 for the same local lifecycle. Each root E2E shortcut supplies its matching URL.
 - Storybook preview serves existing `storybook-static` through its current `npx http-server` script;

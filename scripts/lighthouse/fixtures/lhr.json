@@ -1,0 +1,15 @@
+{
+  "requestedUrl": "https://example.com/en/explore/alphabet",
+  "finalUrl": "https://example.com/en/explore/alphabet",
+  "categories": {
+    "performance": { "score": 0.786 },
+    "accessibility": { "score": 1 },
+    "best-practices": { "score": 0.96 },
+    "seo": { "score": 0.92 }
+  },
+  "audits": {
+    "largest-contentful-paint": { "numericValue": 2749.2 },
+    "cumulative-layout-shift": { "numericValue": 0.0123 },
+    "total-blocking-time": { "numericValue": 119.6 }
+  }
+}

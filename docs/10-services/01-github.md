@@ -132,7 +132,7 @@ gh api repos/kartuli-app/kartuli --jq '{default_branch,allow_squash_merge,allow_
 
 Substitute the current PR/run IDs. Start with the failing step, its event, SHA and job condition.
 A skipped workflow is different from a missing workflow and from an executed failure. E2E failure
-artifacts generally retain three days; production Lighthouse artifacts retain seven. Exact upload
+artifacts generally retain three days; failed staging and production Lighthouse diagnostics retain seven. Exact upload
 steps own retention and paths.
 
 ## Remaining external settings

@@ -1,5 +1,5 @@
 ---
-description: Lighthouse CI configuration, staging versus production enforcement and report diagnosis.
+description: Informational Lighthouse CI configuration, output surfaces and report diagnosis.
 status: implemented
 intent: reference
 ---
@@ -9,14 +9,20 @@ intent: reference
 ## What the audit covers
 
 `lighthouserc.json` configures one mobile-emulated Lighthouse run at 375×667, device scale factor 2,
-150 ms round-trip latency, 1638.4 Kbps throughput and 4× CPU slowdown. It asserts minimum scores of
-0.9 for performance, accessibility, best practices and SEO. The assertion level comes from
-`LIGHTHOUSE_ASSERT_LEVEL` rather than being hardcoded in the file.
+150 ms round-trip latency, 1638.4 Kbps throughput and 4× CPU slowdown. It records performance,
+accessibility, best practices and SEO without assertions or minimum scores. The single run is useful
+lab evidence, not a stable benchmark or release gate: provider variance, page state and Lighthouse's
+simulated environment can move the result.
 
-The reusable staging app workflow sets the level to `warn` for both local and Vercel-preview targets.
-The two production app workflows set it to `error`, so a sub-threshold production audit fails the job.
-One run is useful smoke evidence but is not a stable performance benchmark; network/provider variance
-and page state can move the score.
+CI audits explicit public routes instead of relying on root redirects:
+
+| App | Audited path |
+| --- | --- |
+| Game Client | `/en/explore/alphabet` |
+| Backoffice | `/en` |
+
+The same path is used for local, Vercel-preview and production targets. Backoffice auditing remains
+limited to its public landing page; authenticated or private surfaces are out of scope.
 
 ## Local execution
 
@@ -27,42 +33,57 @@ preview serves on port 3001:
 pnpm run c:preview:game-client
 ```
 
-In another terminal, run:
+In another terminal, run the audit and render the same structured Markdown used by CI:
 
 ```bash
-LIGHTHOUSE_ASSERT_LEVEL=error pnpm exec lhci autorun --collect.url=http://localhost:3000
+pnpm run lighthouse --collect.url=http://localhost:3000/en/explore/alphabet
+pnpm run lighthouse:summary \
+  --requested-url=http://localhost:3000/en/explore/alphabet \
+  --audit-outcome=success \
+  --output=lighthouse-summary.md
 ```
 
-Use `http://localhost:3001` when auditing Backoffice locally.
+For Backoffice, use `pnpm run c:preview:backoffice-client`, port 3001 and `/en`.
 
 Use the repository-pinned Node and pnpm versions. Lighthouse needs a usable Chrome/Chromium runtime;
-installing JavaScript dependencies alone may not provide the browser or its system libraries. The root
-`pnpm run lighthouse` command invokes the same `lhci autorun` but does not supply a URL or assertion
-level, so use the explicit form when reproducing CI.
+installing JavaScript dependencies alone may not provide the browser or its system libraries.
+Generated local artifacts live under `.lighthouseci/` and are ignored.
 
-Expected output identifies the audited URL, category scores and assertion result. Generated local
-artifacts live under `.lighthouseci/` and are ignored. CI also extracts a temporary public report URL
-from command output and writes it to the job summary/PR comment.
+The reporter reads `lhr-*.json` for the requested/final URLs and metrics, then resolves the uploaded
+report from `links.json`. Its Markdown includes rounded category percentages plus LCP in seconds, CLS,
+TBT in milliseconds and the temporary report link. A valid LHR, every required metric and a matching
+upload link are all required for a complete result. Missing or malformed data produces an explicit
+infrastructure/reporting failure and a nonzero exit without inventing values.
 
-## CI flow and data handling
+## CI flow and output surfaces
 
-Staging audits the local server and the Vercel preview separately. Production deploys first, then audits
-the configured public URL. A green deployment followed by a red Lighthouse step is not a successful
-release-validation run.
+Staging audits the shared local server or Vercel preview in the existing app job. Lighthouse and its
+summary step are tolerated informational steps: failure does not suppress Playwright, but failed
+execution or parsing uploads `.lighthouseci/` diagnostics. The existing per-app/per-target PR comment
+is always updated with the readable report or explicit failure state and retains the preview link.
+Staging does not duplicate Lighthouse output in the Actions job summary.
 
-Reports upload to Lighthouse CI's `temporary-public-storage`. Do not audit pages containing private
-operator or user data unless that publication behavior has been reviewed. Production workflows retain
-`.lighthouseci/` artifacts for seven days on failure; provider-side retention for the temporary public
-report requires external verification.
+Each production app performs deployment, production E2E and release notification in its core job. A
+separate `Lighthouse audit (informational)` job runs afterward with
+[job-level `continue-on-error`](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idcontinue-on-error)
+and writes its readable report or failure state only to the production Actions summary. That boundary
+preserves failed-job evidence without blocking a successful deployment workflow or notification.
+
+[Temporary public storage](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md#target)
+remains appropriate only for these public routes. Reports are link-public, short-lived and hosted in
+Google Cloud Platform. They can contain screenshots, DOM snippets and request URLs, so do not audit
+private, authenticated or user-specific content with this target.
 
 ## Failure diagnosis
 
-1. Confirm the logged URL is nonempty and belongs to the intended app/environment.
-2. Separate navigation/server failures from score failures; inspect the first Lighthouse error.
-3. Open the report and identify the failing category/audit rather than optimizing only the aggregate.
-4. Reproduce against the same production-like build and mobile settings.
-5. For a variable score, compare multiple local runs before claiming a deterministic regression.
-6. Verify the actual workflow result; a posted report link is not proof every job step passed.
+1. Confirm the requested and final URLs identify the intended app, environment and explicit path.
+2. Inspect the Lighthouse execution before interpreting a reporter failure; browser, navigation and
+   upload failures are infrastructure evidence, not performance results.
+3. Check `.lighthouseci/lhr-*.json` for the metric source and `links.json` for the final-URL report
+   mapping. An empty mapping is a failed result even if LHCI itself exited successfully.
+4. Open the report for audit details; do not infer a product regression from a single lab run.
+5. Reproduce against the same production-like build and mobile settings, using multiple runs when
+   investigating variance.
 
 Lighthouse accessibility is an automated sample, not a conformance statement. Axe browser tests and
 manual keyboard/screen-reader checks remain required where relevant. SEO audits do not establish a

@@ -34,8 +34,8 @@ private chat IDs are not needed in documentation.
 | `notification-pr.yml` | PR opened, closed, reopened; submitted review with state approved | A merge is handled as a closed event with merged flag; comments/changes-requested reviews do not send |
 | `notification-ci-failure.yml`, check-suite job | Completed suite has conclusion failure | Main routes to production; other branches to staging; message links the commit and first associated PR |
 | Same workflow, production job | One of the three named production workflows completes with failure on main | Links the failed workflow run |
-| `staging-w-app-nextjs.yml` | Vercel deployment and preceding Lighthouse/report steps succeed | Sent before E2E; preview notification does not imply E2E passed |
-| Production app workflows | Deploy, production E2E and Lighthouse succeed | Sent at the end of successful app validation |
+| `staging-w-app-nextjs.yml` | A Vercel preview deployment exists | Sent before E2E; informational Lighthouse failure does not suppress it, and the notification does not imply E2E passed |
+| Production app workflows | Core deployment and production E2E succeed | Sent before the separate informational Lighthouse job, which cannot suppress release notification |
 | Production docs workflow | Pages deployment succeeds | Sent before propagation wait and browser E2E |
 | Production docs failure handler | A preceding deploy-job step fails | Wording says post-deploy E2E failed, but the broad `failure()` condition can include setup, propagation or notification failures |
 

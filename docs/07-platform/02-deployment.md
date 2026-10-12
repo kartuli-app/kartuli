@@ -15,21 +15,30 @@ intent: architecture
 | Production docs | Build artifact deployed to GitHub Pages, base `/kartuli/` | `production-w-tool-web-docs-client.yml` |
 | Storybook / docs staging | Local validation/build and E2E workflow paths | `staging-w-tool-storybook.yml`, `staging-w-tool-web-docs-client.yml` |
 
-Production workflows run on configured `main` push path filters or manual dispatch, with main-branch job guards. App workflows validate the target, call Vercel with `--prod`, run production E2E and Lighthouse, and notify Telegram. Docs builds include the LLM index, upload a Pages artifact, deploy through the `github-pages` environment and run follow-up checks. The app trigger boundary is documented below; the YAML remains the executable source of truth.
+Production workflows run on configured `main` push path filters or manual dispatch, with main-branch
+job guards. App workflows validate the target, call Vercel with `--prod`, run production E2E and notify
+Telegram in the core job. A separate allowed-failure job records informational Lighthouse evidence.
+Docs builds include the LLM index, upload a Pages artifact, deploy through the `github-pages`
+environment and run follow-up checks. The app trigger boundary is documented below; the YAML remains
+the executable source of truth.
 
 ## Preview and production sequences
 
 App PR validation has two paths for each affected app. `local` builds and starts Game Client at
 `http://localhost:3000` or Backoffice at `http://localhost:3001`; `vercel` deploys a preview using the
-app-specific project secret. Both pass the resolved target URL to Lighthouse and Playwright, comment
-results on the PR and run the app's full target E2E folder. Only the Vercel path sends a preview
+app-specific project secret. Playwright receives the deployment root, while Lighthouse receives the
+explicit public route: `/en/explore/alphabet` for Game Client and `/en` for Backoffice. The existing
+per-app/per-target PR comment is updated with the readable Lighthouse result and retained preview link;
+Lighthouse failure is informational and does not stop E2E. Only the Vercel path sends a preview
 deployment notification.
 
 Production app workflows validate the target, deploy with `--prod`, run only
-`tests/<app>/production`, run Lighthouse with error-level assertions and notify on success. Tests and
-Lighthouse run against the configured canonical domain, not necessarily the action's returned deployment
-URL. DNS/domain propagation and provider aliasing can therefore fail after a successful deploy step.
-Local port identities do not change these configured production domains.
+`tests/<app>/production` and notify on success in the core job. A separately named, job-level
+`continue-on-error` Lighthouse job then audits the explicit public path and writes its readable report
+or failure state only to the Actions summary. Lighthouse cannot suppress a successful-release
+notification. Tests and Lighthouse run against the configured canonical domain, not necessarily the
+action's returned deployment URL. DNS/domain propagation and provider aliasing can therefore fail after
+a successful deploy step. Local port identities do not change these configured production domains.
 
 The preview and both production paths share an exact repository-owned Vercel CLI version in addition
 to the immutable Vercel Action revision. This makes the Actions-side deployment toolchain reproducible;
@@ -59,6 +68,7 @@ on `@kartuli/ui` and `@kartuli/tailwind-config`. Their app-specific paths remain
 | Shared workspaces | `packages/ui/**`, `packages/tailwind-config/**` | Same | Imported code and the shared CSS/token contract |
 | Root build configuration | `.nvmrc`, `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `tsconfig.json`, `turbo.json` | Same | Runtime/package-manager selection, workspace/catalog resolution, frozen dependency graph, inherited TypeScript configuration and Turbo task graph |
 | Production verification | `tools/e2e/**` | Same | Playwright package, shared helpers/configuration and production smoke tests executed after deployment |
+| Lighthouse reporting | `lighthouserc.json`, `scripts/lighthouse/**` | Same | Shared mobile audit profile, structured report parsing and failure semantics |
 | Workflow definition | `.github/workflows/production-w-app-game-client.yml` | `.github/workflows/production-w-app-backoffice-client.yml` | A change to the owning production sequence exercises that sequence on `main` |
 
 The filters intentionally do not include unrelated docs, tools, packages or validation-only root
@@ -70,9 +80,10 @@ PR staging guarantees the corresponding main push workflow will start.
 
 ## Release verification and recovery
 
-For an app release, verify the deploy step, production smoke test, Lighthouse result and live canonical
-URL. For docs, verify the Pages environment URL, navigation and `assets/kartuli-llm.txt`. Record the
-workflow/run and deployed revision when investigating drift.
+For an app release, verify the core deploy/E2E job and notification independently from the
+informational Lighthouse job, including its requested/final URLs and reporting status. For docs,
+verify the Pages environment URL, navigation and `assets/kartuli-llm.txt`. Record the workflow/run and
+deployed revision when investigating drift.
 
 No repository runbook defines Vercel rollback/promotion, Pages rollback, incident ownership or recovery
 time. Confirm provider-side capabilities and authorization before an incident; do not improvise a

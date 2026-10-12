@@ -25,7 +25,11 @@ No TTL/automatic deletion policy appears in these storage helpers. Browser stora
 
 `logger.log` is development-only and can print identifiers. `logger.error` is active outside development and prints its message/cause. This is console logging, not evidence of a telemetry backend. [Platform](../07-platform/index.md) owns collection operations; this section owns permissible payloads and retention policy.
 
-CI artifacts can contain screenshots, videos and traces. Lighthouse uses temporary public report storage. Provider-side access logs, retention and account data cannot be inferred from client code and require manual verification. Do not equate absence of an analytics SDK with a claim that hosting providers collect no data.
+CI artifacts can contain screenshots, videos and traces. Lighthouse temporary reports are link-public,
+short-lived, hosted in Google Cloud Platform and can expose screenshots, DOM snippets and request URLs.
+Only the documented public app routes belong in that reporting path. Provider-side access logs,
+retention and account data cannot be inferred from client code and require manual verification. Do not
+equate absence of an analytics SDK with a claim that hosting providers collect no data.
 
 ## Planned / evaluating
 

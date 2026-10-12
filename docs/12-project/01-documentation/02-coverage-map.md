@@ -38,7 +38,7 @@ workflow. The [dependency inventory](../../05-engineering/06-dependency-inventor
 | `biome.json`, `biome.root.json` | [Biome](../../05-engineering/03-technologies/09-biome.md) | Root/workspace ownership, lint/fix commands and exclusions |
 | App Next/PostCSS config | [Next.js](../../05-engineering/03-technologies/04-nextjs.md) and [Tailwind/PostCSS](../../05-engineering/03-technologies/06-tailwind-and-postcss.md) | App Router/Turbopack boundaries and CSS integration |
 | Vitest/Playwright/Storybook configs | [Testing](../../06-quality/01-testing/index.md) and its layer guides | What each runner proves, prerequisites and CI execution |
-| `lighthouserc.json` | [Web Quality and Lighthouse](../../06-quality/04-web-quality.md) | Mobile profile, thresholds, environment severity and public reports |
+| `lighthouserc.json`, `scripts/lighthouse/**` | [Web Quality and Lighthouse](../../06-quality/04-web-quality.md) | Mobile profile, explicit routes, structured informational reporting and failure semantics |
 | `renovate.json` | [Dependency Management](../../07-platform/04-dependency-management.md) and [Renovate](../../10-services/05-renovate.md) | Repository policy versus provider state |
 | `.github/workflows`, `.github/actions` | [CI](../../07-platform/01-ci.md), [Deployment](../../07-platform/02-deployment.md) and Services | Event flow, permissions, credentials by name, validation and notifications |
 | VitePress config/scripts | [Web Docs Client](../../03-tools/03-web-docs-client.md) | Base path, content scan, navigation, LLM copies and Kroki limitation |
