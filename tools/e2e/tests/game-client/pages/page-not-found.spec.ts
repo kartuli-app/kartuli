@@ -18,12 +18,7 @@ async function expectLocalizedNotFoundPage(page: Page, path: string) {
   const response = await page.goto(`${defaultLocaleBase}/${path}`);
   expect(response?.status(), `${path} should return HTTP 404`).toBe(404);
 
-  const localizedHeading = page.getByRole('heading', { name: heading });
-
-  // Next.js restores the localized App Router not-found UI after the document's
-  // load event, so use that learner-visible UI as the readiness boundary.
-  await localizedHeading.waitFor({ state: 'visible' });
-  await expect(localizedHeading).toBeVisible();
+  await expect(page.getByRole('heading', { name: heading })).toBeVisible();
 }
 
 test.describe('Page not found', () => {
