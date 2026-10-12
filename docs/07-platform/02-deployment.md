@@ -68,11 +68,13 @@ on `@kartuli/ui` and `@kartuli/tailwind-config`. Their app-specific paths remain
 | Shared workspaces | `packages/ui/**`, `packages/tailwind-config/**` | Same | Imported code and the shared CSS/token contract |
 | Root build configuration | `.nvmrc`, `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `tsconfig.json`, `turbo.json` | Same | Runtime/package-manager selection, workspace/catalog resolution, frozen dependency graph, inherited TypeScript configuration and Turbo task graph |
 | Production verification | `tools/e2e/**` | Same | Playwright package, shared helpers/configuration and production smoke tests executed after deployment |
-| Lighthouse reporting | `lighthouserc.json`, `scripts/lighthouse/**` | Same | Shared mobile audit profile, structured report parsing and failure semantics |
 | Workflow definition | `.github/workflows/production-w-app-game-client.yml` | `.github/workflows/production-w-app-backoffice-client.yml` | A change to the owning production sequence exercises that sequence on `main` |
 
-The filters intentionally do not include unrelated docs, tools, packages or validation-only root
-configuration. Manual dispatch remains available for an assessed release that is outside these paths.
+Lighthouse configuration and reporter code are consumed whenever a real production workflow runs, but
+`lighthouserc.json` and `scripts/lighthouse/**` are not automatic application-release triggers. Use the
+existing manual dispatch only when production reporting itself needs deliberate production exercise.
+The filters otherwise intentionally exclude unrelated docs, tools, packages and validation-only root
+configuration.
 
 Path filters are not dependency graphs. When adding a shared package or changing consumption, compare
 the Turbo graph, staging target map and every production workflow filter. Do not infer that successful
