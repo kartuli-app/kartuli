@@ -37,4 +37,10 @@ Investigate the first failure and its target URL before treating retries as stab
 
 `page.goto()` resolves at the browser load event, but modern application UI can continue rendering afterward. Tests should use web-first assertions for the relevant learner-visible state; the configured 5-second assertion timeout remains the UI readiness contract. The localized Game Client not-found checks therefore assert that the expected heading becomes visible instead of waiting under the broader per-test timeout. They do not use a sleep, a network-idle heuristic, or a broader retry/expect timeout.
 
+The not-found suite also opens English and Russian generic/removed URLs with JavaScript and service
+workers disabled. Those checks assert HTTP 404, document language, localized heading/message and the
+requested pathname. This is initial-document coverage: serialized React payload text or later client
+restoration cannot make it pass. Keep this separate from the normal browser assertions and axe check,
+which verify the assembled interactive surface.
+
 Production app workflows select `tests/<app>/production` against configured production URLs after deployment; docs also have a production workflow. See [Deployment](../../07-platform/02-deployment.md) for ordering. Do not use production endpoints for exploratory mutating tests without an explicit safe test design.

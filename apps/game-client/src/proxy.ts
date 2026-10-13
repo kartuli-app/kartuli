@@ -2,7 +2,9 @@ import {
   getPathSuffixForBareLocaleRewrite,
   getPreferredSupportedLocale,
   PREFERRED_LOCALE_KEY,
+  supportedLocales,
 } from '@game-client/i18n';
+import { ROUTE_LOCALE_HEADER, ROUTE_PATHNAME_HEADER } from '@game-client/navigation/route-headers';
 import { type NextRequest, NextResponse } from 'next/server';
 import { logger } from './logging/dev-logger';
 
@@ -18,6 +20,16 @@ export function getPreferredLocaleFromRequestCookie(request: NextRequest): strin
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const requestedLocale = pathname.split('/')[1];
+  const supportedLocale = supportedLocales.find((locale) => locale === requestedLocale);
+
+  if (supportedLocale) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set(ROUTE_LOCALE_HEADER, supportedLocale);
+    requestHeaders.set(ROUTE_PATHNAME_HEADER, pathname);
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
+
   const locale = getPreferredSupportedLocale(
     getPreferredLocaleFromRequestCookie(request),
     getPreferredLocaleFromAcceptLanguageHeader(request),
@@ -31,15 +43,13 @@ export function proxy(request: NextRequest) {
   return NextResponse.redirect(url.toString());
 }
 
-// Matches / and any path whose first segment is:
-// - not a supported locale,
-// - not a Next.js internal,
-// - not a root public asset (so /og-image.png, /images/*, etc. stay on the bare URL for bots).
-// - not one of the supported locales (en , ru)
-// IMPORTANT: update the negative lookahead if supported locales or root public files change.
+// Matches application routes, including localized routes whose locale/path are
+// forwarded to the global not-found entry, while leaving Next.js internals and
+// root public assets (for example /og-image.png and /images/*) untouched.
+// IMPORTANT: update the negative lookahead if root public files change.
 export const config = {
   matcher: [
     // Matcher must be a string literal here — Next.js rejects non-literals (e.g. variables, String.raw).
-    '/((?!en(?:/|$)|ru(?:/|$)|_next/|favicon\\.|icon\\.|robots\\.|manifest\\.|og-image(?:\\.|$)|twitter-image(?:\\.|$)|apple-touch-icon(?:\\.|$)|browserconfig(?:\\.|$)|images(?:/|$)|fonts(?:/|$)).*)',
+    '/((?!_next/|favicon[.]|icon[.]|robots[.]|manifest[.]|og-image(?:[.]|$)|twitter-image(?:[.]|$)|apple-touch-icon(?:[.]|$)|browserconfig(?:[.]|$)|images(?:/|$)|fonts(?:/|$)).*)',
   ],
 };

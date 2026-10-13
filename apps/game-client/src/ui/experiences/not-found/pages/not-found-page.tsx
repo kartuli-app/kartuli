@@ -1,5 +1,12 @@
-import { NotFoundClient } from '@game-client/ui/experiences/not-found/components/not-found-client';
+import { getMessagesForLocale, type SupportedLocale } from '@game-client/i18n';
+import { NotFoundContent } from '@game-client/ui/experiences/not-found/components/not-found-content';
 
-export function NotFoundPage() {
-  return <NotFoundClient />;
+interface NotFoundPageProps {
+  readonly locale: SupportedLocale;
+  readonly pathname: string;
+}
+
+export function NotFoundPage({ locale, pathname }: NotFoundPageProps) {
+  const messages = getMessagesForLocale(locale, 'notFound');
+  return <NotFoundContent {...messages} pathname={pathname} />;
 }

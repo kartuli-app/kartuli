@@ -12,10 +12,13 @@ owns the current runtime and data-flow boundaries.
 
 ## Runtime composition
 
-The App Router entrypoints live under `src/app/[locale]`. Route files resolve parameters and metadata,
-then delegate composition to `src/ui/experiences`. `src/root-layout/root-layout.tsx` supplies fonts,
-shared CSS, the React Query client, browser-database initialization and i18n. The route group folders
-organize source without adding URL segments.
+The localized App Router entrypoints live under `src/app/[locale]`. Route files resolve parameters and
+metadata, then delegate composition to `src/ui/experiences`. The router-level
+`src/app/global-not-found.tsx` entry owns URLs that match no route. `src/root-layout/root-layout.tsx`
+separates the shared HTML/font/CSS document from the normal application providers; regular routes add
+the React Query client, browser-database initialization and i18n, while the global 404 renders only
+the shared document and recovery content. Route group folders organize source without adding URL
+segments.
 
 Server components load bundled learning content and pass serializable data into client experiences.
 Client components own navigation state, gestures, browser identifiers, IndexedDB access and locale
@@ -108,6 +111,14 @@ paths using the `preferred-locale` cookie, then the first `Accept-Language` entr
 Settings changes i18next first, writes the session cookie at `/`, and navigates to the equivalent
 localized path; a failed language change leaves the current route in place and re-enables the control.
 
+For supported localized paths, the same proxy forwards the trusted route locale and pathname through
+internal request headers. The global not-found Server Component uses those values with the canonical
+i18n resources, so unmatched localized URLs return HTTP 404 with explicit `noindex` metadata and the
+correct heading, pathname and recovery message already present in the initial document. This
+route-level 404 does not initialize the client i18n, database or query providers. Segment
+`not-found.tsx` remains the boundary for explicit `notFound()` calls such as unknown bundled lesson or
+module IDs.
+
 The Next navigation adapter backs the running app. A separate SPA adapter exists so isolated component
 contexts can use the same navigation contract. Hooks throw when used outside the appropriate provider,
 making provider placement an explicit integration requirement.
@@ -116,7 +127,8 @@ making provider placement an explicit integration requirement.
 
 | Failure | Implemented behavior | Operational implication |
 | --- | --- | --- |
-| Unknown lesson/module or catch-all route | Next localized not-found surface | Expected recovery path; verify both locales |
+| Unmatched localized route | Router-level localized not-found document with HTTP 404, `noindex` and server-rendered recovery content | Verify status and initial HTML in both locales; hydration must not be required |
+| Unknown lesson/module | Localized segment not-found boundary | Explicit `notFound()` recovery for a matched resource route |
 | Invalid bundled JSON | Zod throws during content assembly | Build/render failure; correct the source or schema |
 | Missing localized relation | Record is logged and omitted | UI may lose content without a hard failure; inspect development logs and tests |
 | IndexedDB unavailable/open failure | Empty persisted state and nonpersistent collection behavior | Learning can continue, but progress durability is not promised |
@@ -131,7 +143,7 @@ loading boundaries in the current route tree, and no account recovery or remote-
 
 | Change | Focused evidence before the full gate |
 | --- | --- |
-| Route or locale | Relevant `src/i18n/*.test.ts` plus `tools/e2e/tests/game-client/pages` |
+| Route or locale | Relevant `src/i18n/*.test.ts` plus `tools/e2e/tests/game-client/pages`; inspect status and initial HTML for not-found changes |
 | Bundled content/schema | Ingestion and `build-library.test.ts`, then Game Client build |
 | Activity persistence | Collection/database unit coverage where added, plus a real-browser reload check |
 | Shared shell/component | Colocated tests/stories, Storybook browser suite and route-level check |

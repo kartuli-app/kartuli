@@ -1,6 +1,7 @@
 'use client';
 
 import { useNavigation } from '@game-client/navigation/navigation-context';
+import { NotFoundContent } from '@game-client/ui/experiences/not-found/components/not-found-content';
 import { useTranslation } from 'react-i18next';
 
 export function NotFoundClient() {
@@ -8,10 +9,6 @@ export function NotFoundClient() {
   const { t } = useTranslation('notFound');
 
   return (
-    <main>
-      <h1>{t('heading')}</h1>
-      <p>{localizedPathname}</p>
-      <p>{t('message')}</p>
-    </main>
+    <NotFoundContent heading={t('heading')} message={t('message')} pathname={localizedPathname} />
   );
 }
