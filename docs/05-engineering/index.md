@@ -24,7 +24,7 @@ Use `pnpm` only. `.nvmrc` pins Node 24.13.1; root `package.json` pins pnpm 10.30
 
 ## Development
 
-Install with `pnpm install --frozen-lockfile`. Root `c:dev:*`, `c:build:*`, `c:preview:*` and `c:e2e:*` scripts target individual workspaces; `validate:all` is required for every change. [Quality](../06-quality/index.md) explains what that runs. Tests generally live beside source; E2E has a dedicated tool workspace.
+Install with `pnpm install --frozen-lockfile`. Root `c:dev:*`, `c:build:*` and `c:preview:*` scripts target individual workspaces. `pnpm e2e <target>` runs that surface's browser suite and can start its preview. `validate:all` is required for every change. [Quality](../06-quality/index.md) explains what that runs. Tests generally live beside source; E2E has a dedicated tool workspace.
 
 See the [Technology catalog](./01-technologies.md) and [Library catalog](./02-libraries.md). The [Game Client architecture](../01-apps/01-game-client/index.md) owns its routing, i18n and bundled learning content; [Data & Privacy](../09-data-and-privacy/index.md) owns storage and identifier policy.
 

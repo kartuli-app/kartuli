@@ -45,11 +45,12 @@ export function proxy(request: NextRequest) {
 
 // Matches application routes, including localized routes whose locale/path are
 // forwarded to the global not-found entry, while leaving Next.js internals and
-// root public assets (for example /og-image.png and /images/*) untouched.
+// root public assets (for example /og-image.png, /images/* and the E2E target
+// marker /kartuli-e2e-target.json) untouched.
 // IMPORTANT: update the negative lookahead if root public files change.
 export const config = {
   matcher: [
     // Matcher must be a string literal here — Next.js rejects non-literals (e.g. variables, String.raw).
-    '/((?!_next/|favicon[.]|icon[.]|robots[.]|manifest[.]|og-image(?:[.]|$)|twitter-image(?:[.]|$)|apple-touch-icon(?:[.]|$)|browserconfig(?:[.]|$)|images(?:/|$)|fonts(?:/|$)).*)',
+    '/((?!_next/|favicon[.]|icon[.]|robots[.]|manifest[.]|og-image(?:[.]|$)|twitter-image(?:[.]|$)|apple-touch-icon(?:[.]|$)|browserconfig(?:[.]|$)|images(?:/|$)|fonts(?:/|$)|kartuli-e2e-target(?:[.]|$)).*)',
   ],
 };

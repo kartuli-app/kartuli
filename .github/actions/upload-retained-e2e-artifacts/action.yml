@@ -1,0 +1,36 @@
+name: Upload retained E2E artifacts
+description: |
+  Upload Playwright traces, screenshots, video and the HTML report when a run
+  retained diagnostic output. Clean runs upload nothing. Artifacts expire after
+  three days and may contain rendered page content.
+
+inputs:
+  name:
+    description: Artifact name identifying the target and run.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Detect retained E2E artifacts
+      id: detect
+      shell: bash
+      run: |
+        set -euo pipefail
+        retained_file="$(find tools/e2e/test-results -mindepth 2 -type f -print -quit 2>/dev/null || true)"
+        if [ -n "$retained_file" ]; then
+          echo "found=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "found=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Upload retained E2E artifacts
+      if: steps.detect.outputs.found == 'true'
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: ${{ inputs.name }}
+        path: |
+          tools/e2e/test-results/
+          tools/e2e/playwright-report/
+        retention-days: 3
+        if-no-files-found: ignore

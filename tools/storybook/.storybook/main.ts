@@ -41,6 +41,7 @@ const optimizeDepsInclude = [
 ];
 
 const config: StorybookConfig = {
+  staticDirs: ['../public'],
   stories: [
     '../../../packages/ui/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     '../../../apps/game-client/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',

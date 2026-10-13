@@ -90,7 +90,7 @@ Run from the repo root unless specified.
 - Start dev server: `pnpm run c:dev:package-name`
 - Build: `pnpm run c:build:package-name`
 - Preview (build + start): `pnpm run c:preview:package-name`
-- Run e2e (preview / start dev server first): `pnpm run c:e2e:package-name`
+- Run e2e (starts the target preview): `pnpm e2e <target>`. External URL: `pnpm e2e <target> --url <url>`.
 
 ## Validation Matrix
 
@@ -136,3 +136,14 @@ Run from the repo root unless specified.
 - Avoid separate test folder
 
 For substantial documentation pages, use the authoring prompts in `documentation-templates/README.md`; keep templates outside the published `docs/` tree. Catalogs should link to practical configuration/operating guides.
+
+<!-- BEGIN:turborepo-agent-rules -->
+
+# This is NOT the Turborepo you know
+
+Turborepo configuration, task behavior, and CLI commands can vary between installed versions and may differ from your training data. Resolve the `turbo` package from this file's directory or relevant workspace; in monorepos, it may not be visible from the repository root. For example, run `node -p "require.resolve('turbo/package.json')"` from a workspace that depends on `turbo`.
+
+Read `docs/README.md` inside that installed package first, then read the relevant pages from its `docs/` directory before changing Turborepo configuration or commands. Heed deprecation notices. These bundled docs match the installed package version and are available without network access.
+
+This block is written and re-added by `turbo` before repository-scoped commands when an AI agent is detected. In the Turborepo source repository, its template is defined in `crates/turborepo-cli/src/cli/agent_guidance.rs`. Removing the managed block while updates are enabled means a later qualifying invocation will add it again. Set `"agentGuidance": false` in the root `turbo.json` or `turbo.jsonc` to opt out; this does not remove an existing block. Keep the block committed with your work to avoid an uncommitted change on the next agent invocation.
+<!-- END:turborepo-agent-rules -->

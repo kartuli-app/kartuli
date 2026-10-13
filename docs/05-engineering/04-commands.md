@@ -19,7 +19,7 @@ Start with [Node/pnpm](./03-technologies/03-node-and-pnpm.md) for the pinned too
 | Generate coverage | `pnpm run test:all:coverage` | Root Vitest projects; excludes Storybook and E2E |
 | Work on one surface | `pnpm run c:dev:game-client` | Equivalent scripts exist for Backoffice, Storybook and Web Docs |
 | Build or preview one surface | `pnpm run c:build:game-client`, `pnpm run c:preview:game-client` | Inspect target-specific preview behavior below |
-| Run a target's E2E | `pnpm run c:e2e:game-client` | Requires a running target and installed browser |
+| Run a target's E2E | `pnpm e2e game-client` | Builds and previews that target, then runs its suite. `--url` uses an existing server instead |
 | Build documentation | `pnpm run c:build:web-docs-client` | Validates source/navigation, renders and checks the built index |
 | Inspect dependency diagrams | `pnpm run diagrams:all` | Requires local Graphviz `dot` |
 | Run Lighthouse | `pnpm run lighthouse --collect.url=<public-url>` | One assertion-free mobile run; uploads to temporary public storage |
@@ -33,12 +33,14 @@ Start with [Node/pnpm](./03-technologies/03-node-and-pnpm.md) for the pinned too
   Coverage has a different UI-test scope but also runs the reporter tests; see
   [Testing](../06-quality/01-testing/index.md).
 - App preview builds then starts. Game Client development/start/preview uses port 3000; Backoffice uses
-  port 3001 for the same local lifecycle. Each root E2E shortcut supplies its matching URL.
+  port 3001 for the same local lifecycle. `pnpm e2e <target>` starts that preview itself. `--reuse-server`
+  attaches only when the process already identifies as the selected target.
 - Storybook preview serves existing `storybook-static` through its current `npx http-server` script;
-  it does not build first. See [Toolchain support](./05-libraries/07-toolchain-support.md) for that
+  it does not build first. `pnpm e2e storybook` builds and then serves. See [Toolchain support](./05-libraries/07-toolchain-support.md) for that
   undeclared executable and the pnpm-only contributor convention.
-- Docs preview builds first; direct `vitepress preview` serves an existing build only.
-- E2E commands select tests and URLs but do not start servers. See [E2E Runner](../03-tools/02-e2e-runner.md).
+- Docs preview builds first; direct `vitepress preview` serves an existing build only. `pnpm e2e web-docs-client`
+  uses the preview script, which builds. Its local base path is `/kartuli`.
+- E2E target, suite, URL and server lifecycle come from `pnpm e2e`. See [E2E Runner](../03-tools/02-e2e-runner.md).
 - Lighthouse can upload reports to temporary public storage; inspect its [quality guide](../06-quality/04-web-quality.md) before running against sensitive pages.
 
 Use the owning [tool guides](../03-tools/index.md) for prerequisites, expected output and failure

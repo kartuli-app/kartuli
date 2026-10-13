@@ -10,7 +10,7 @@ intent: reference
 | --- | --- | --- |
 | Unit/integration | Colocated Vitest tests in apps/shared packages; Testing Library and Happy DOM for DOM tests | Workspace `test` scripts through `pnpm run test:all` |
 | Component/browser | Storybook stories rendered in real Chromium, play functions and axe scans | Also included in Turbo `test:all`; explicit `pnpm --filter @kartuli/storybook test` available |
-| E2E | Playwright target suites and axe helper | [E2E Runner](../../03-tools/02-e2e-runner.md); separate from Vitest |
+| E2E | Playwright target suites, axe helper, and orchestration unit tests in `tools/e2e` | Browser suites via `pnpm e2e <target>`; orchestration tests via the package `test` script. See [E2E Runner](../../03-tools/02-e2e-runner.md) |
 | Production smoke | Target-specific `tests/<target>/production` suites | Production workflows against deployed URLs |
 | Coverage | Root Vitest project aggregation with V8 and text/HTML/JSON reports | `pnpm run test:all:coverage` |
 
@@ -18,7 +18,7 @@ Unit and integration are purposes, not separately enforced directory structures.
 
 ## Coverage and browser distinction
 
-`vitest.config.mts` excludes `tools/storybook` and `tools/e2e` from root coverage projects. This exclusion does **not** exclude Storybook from Turbo's `test:all`. `turbo.json` gives Storybook tests a dependency on the UI build. Browser binaries/system libraries are needed for full validation.
+`vitest.config.mts` excludes `tools/storybook` and `tools/e2e` from root coverage projects. This exclusion does **not** exclude Storybook from Turbo's `test:all`, and it does **not** skip the E2E package's orchestration unit tests: those run through `@kartuli/e2e`'s `test` script. Root coverage still does not collect Playwright specs. `turbo.json` gives Storybook tests a dependency on the UI build. Browser binaries/system libraries are needed for full validation.
 
 The CI all-monorepo composite action runs root lint, then typecheck, lint, root coverage and Storybook tests in parallel and reports coverage. It does not replace app production smoke or E2E workflows. No repository-wide coverage percentage gate is asserted here; consult the current configs before introducing one.
 
@@ -26,8 +26,8 @@ The CI all-monorepo composite action runs root lint, then typecheck, lint, root 
 
 | Entry point | Tests it currently executes | Important omission |
 | --- | --- | --- |
-| `pnpm run validate:all` | Turbo workspace `test` tasks, including app/UI Vitest, Storybook Chromium and Web Docs metadata/link/index checks and Node navigation tests | Builds and Playwright E2E are separate |
-| `pnpm run test:all:coverage` | Root Vitest projects with V8 coverage; apps/UI tests discovered by Vitest | Storybook, E2E and Web Docs `.node-test.js` are excluded/not discovered |
+| `pnpm run validate:all` | Turbo workspace `test` tasks, including app/UI Vitest, E2E orchestration tests, Storybook Chromium and Web Docs metadata/link/index checks and Node navigation tests | Builds and Playwright browser E2E are separate |
+| `pnpm run test:all:coverage` | Root Vitest projects with V8 coverage; apps/UI tests discovered by Vitest | Storybook, Playwright specs, E2E orchestration unit tests and Web Docs `.node-test.js` are excluded or not discovered |
 | PR `ci-validate-all-monorepo` | Explicit Web Docs validation/navigation tests, root coverage and Storybook browser tests | Builds and E2E belong to target workflows |
 | PR Web Docs reusable workflow | Build enforces docs validation/navigation and built-index checks; preview runs Playwright smoke | Remote links, fragment anchors and visual layout require separate inspection |
 | Production Web Docs workflow | Package lint/test, build/deploy and post-deploy Playwright | Full monorepo validation belongs to the earlier PR gate |

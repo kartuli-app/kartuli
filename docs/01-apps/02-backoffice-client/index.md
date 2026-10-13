@@ -39,11 +39,10 @@ pnpm run c:preview:backoffice-client
 
 Development, `start` and production-style preview all listen on `http://localhost:3001`. This is the
 Backoffice local app identity; Game Client uses `http://localhost:3000`, so both apps can run
-side-by-side. The root E2E convenience command selects the Backoffice suite and supplies the matching
-configurable Playwright target through `BASE_URL`:
+side-by-side. E2E selects the Backoffice suite and that URL together:
 
 ```bash
-pnpm run c:e2e:backoffice-client
+pnpm e2e backoffice-client
 ```
 
 The only local component tests currently cover the static home and Tailwind integration. The production
@@ -53,8 +52,8 @@ not exist.
 ## Deployment and current gaps
 
 The local port does not define the deployed address. The production workflow deploys to the configured
-Vercel project and passes `https://backoffice.kartuli.app` to production checks through `BASE_URL`. Its
-path filter watches this app plus the shared UI, Tailwind,
+Vercel project and runs `pnpm e2e backoffice-client --url https://backoffice.kartuli.app --production`.
+Its path filter watches this app plus the shared UI, Tailwind,
 root build/dependency configuration and production E2E inputs documented in
 [Deployment](../../07-platform/02-deployment.md). Account/project/domain settings require external
 verification.

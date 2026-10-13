@@ -8,39 +8,41 @@ intent: reference
 
 ## Execution contract
 
-`tools/e2e/playwright.config.ts` runs Chromium tests under `tests/`. `BASE_URL` selects the target and defaults to `http://localhost:3000`; the config does not start a web server. CI uses one worker, one retry and the GitHub reporter, with traces on first retry and failure screenshots/video. Local runs use available workers and the HTML reporter.
+`pnpm e2e <target>` is the entry point. Target definitions in `tools/e2e/src/targets.ts` select the suite, local URL, production preview command and identity file. `tools/e2e/playwright.config.ts` refuses to run until that selection is present, so a suite path and a URL are not chosen separately.
 
-Suites are grouped by surface. Game Client has page tests and a smaller production folder; Backoffice
-currently has only a production smoke test; Storybook and Web Docs have tool-specific smoke suites.
-`tests/helpers/expect-a11y.ts`, critical-error checks and locale URL helpers are shared test utilities,
-not production code.
+The managed local mode builds and starts the target's production-style preview, polls `kartuli-e2e-target.json` until it returns the expected target id, runs the suite and stops the process. Web Docs preview already includes its build. Storybook's managed command builds, then serves `storybook-static`. `c:preview:storybook` still only serves an existing build.
+
+`--url <absolute-http-url>` is the external mode. It does not start a server. Use it for Vercel previews, staging, production smoke and a server you started yourself. `--reuse-server` is only for the target's own local URL when that process is already up and the identity file matches.
+
+Current suites navigate against one named origin, `app`. Playwright `baseURL` is that URL. Tests should keep using relative navigation. Another named origin can be added beside `app` when a future scenario needs more than one service; do not encode a second product URL into `app`.
+
+CI uses one worker, one retry and the GitHub reporter together with an HTML report. Local runs use available workers, no retries, the list reporter and the HTML report on failure. Traces are retained for a failed attempt and its retry. Screenshots and video are retained on failure.
+
+Suites are grouped by surface. Game Client has page tests and a smaller production folder. Backoffice currently has only a production smoke test. Storybook has no production suite. Web Docs' production-safe suite is its whole smoke directory. `tests/helpers/expect-a11y.ts`, critical-error checks and locale URL helpers are shared test utilities, not production code.
 
 ## Local operation
 
-Install the exact lockfile-resolved browser and start the target before Playwright:
+Install the lockfile-resolved browser, then run a target:
 
 ```bash
 pnpm --filter @kartuli/e2e exec playwright install chromium
-pnpm run c:preview:game-client
-# in another terminal
-pnpm run c:e2e:game-client
+pnpm e2e game-client
+pnpm e2e backoffice-client --headed
+pnpm e2e storybook --ui
+pnpm e2e web-docs-client --debug
+pnpm e2e game-client --production
 ```
 
-Equivalent root commands exist for Backoffice, Storybook and Web Docs. Game Client uses local port
-3000 and Backoffice uses local port 3001 across development, start and preview. The target-specific root
-commands supply the matching `BASE_URL`; for example:
+Game Client uses port 3000 and Backoffice uses port 3001 for development, start and preview. A managed run fails if something is already listening, including the correct dev server, until you pass `--reuse-server` or stop that process. An identity mismatch names the other target instead of running the suite against it.
+
+Against an existing URL:
 
 ```bash
-pnpm run c:preview:backoffice-client
-# in another terminal
-pnpm run c:e2e:backoffice-client
+pnpm e2e game-client --url https://www.kartuli.app --production
+pnpm e2e web-docs-client --url http://localhost:4173/kartuli
 ```
 
-Use `pnpm --filter @kartuli/e2e run e2e:ui` or `e2e:debug` for investigation and supply `BASE_URL`
-when the target is not the default localhost:3000. `BASE_URL` remains the E2E target contract for
-local, preview-deployment and production URLs; tests use relative navigation instead of embedding an
-environment address. Browser binaries and Linux system libraries are prerequisites
-outside pnpm installation.
+Browser binaries and Linux system libraries are prerequisites outside pnpm installation. Unknown targets, malformed URLs, combined browser modes and a Storybook `--production` run fail before Playwright starts.
 
 ## Authoring and assertions
 
@@ -54,12 +56,10 @@ The Web Docs smoke suite verifies the complete global sidebar, header destinatio
 
 ## Failure diagnosis and artifacts
 
-Confirm the target URL and server readiness before interpreting an assertion. A connection refusal,
-wrong app at the configured port or missing browser executable is different from a product regression.
-On CI, inspect the first attempt plus retry trace; screenshots and videos are retained only on failure
-according to the workflow upload step (currently three days).
+The command prints the target, mode, suite and `app` URL before tests start. A refused connection, a timeout while the preview builds, or an identity mismatch is a configuration failure. A failed UI assertion comes after the identity check has passed.
 
-Traces and screenshots may include page content and identifiers. Avoid logging secret URLs or using
-mutating production fixtures without a reviewed cleanup strategy.
+CI retries once. Look for a flaky count in the Playwright summary and a warning annotation on the GitHub check. The failed attempt's trace is kept. Every E2E workflow uploads `e2e-artifacts-<target>-<context>-<run_number>` when those files exist, including when the retry passes and the job is green. Clean runs upload nothing. Retention is three days. The artifact includes `test-results` and the Playwright HTML report.
+
+Traces, screenshots, video and HTML reports may include page content and identifiers. Avoid logging secret URLs or using mutating production fixtures without a reviewed cleanup strategy.
 
 See [E2E and production smoke](../06-quality/01-testing/03-e2e-smoke.md) for layer selection and [Deployment](../07-platform/02-deployment.md) for production execution. Artifacts remain subject to [Data & Privacy](../09-data-and-privacy/index.md).
