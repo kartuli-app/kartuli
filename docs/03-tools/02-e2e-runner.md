@@ -42,6 +42,8 @@ pnpm e2e game-client --url https://www.kartuli.app --production
 pnpm e2e web-docs-client --url http://localhost:4173/kartuli
 ```
 
+A base-path URL keeps a trailing slash when one was supplied. `https://kartuli-app.github.io/kartuli/` stays a directory base, so relative navigation such as `./` remains under `/kartuli/`. Origin-only URLs such as `http://localhost:3000/` and `https://www.kartuli.app/` are stored without a trailing slash. A fragment is removed. A query string is kept.
+
 Browser binaries and Linux system libraries are prerequisites outside pnpm installation. Unknown targets, malformed URLs, combined browser modes and a Storybook `--production` run fail before Playwright starts.
 
 ## Authoring and assertions
