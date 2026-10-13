@@ -25,12 +25,20 @@ export function parseHttpUrl(value: string): URL {
   return url;
 }
 
+function withoutTrailingSlashes(pathname: string): string {
+  let end = pathname.length;
+  while (end > 1 && pathname.charAt(end - 1) === '/') {
+    end -= 1;
+  }
+  return pathname.slice(0, end);
+}
+
 /** Canonical Playwright baseURL. Origin-only URLs stay without a trailing slash. */
 export function normalizeBaseUrl(value: string): string {
   const url = parseHttpUrl(value);
   url.hash = '';
-  if (url.pathname.length > 1 && url.pathname.endsWith('/')) {
-    url.pathname = url.pathname.replace(/\/+$/, '');
+  if (url.pathname.length > 1) {
+    url.pathname = withoutTrailingSlashes(url.pathname);
   }
   if (url.pathname === '/' && url.search === '') {
     return url.origin;

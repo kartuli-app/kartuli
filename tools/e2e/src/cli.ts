@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { E2eConfigError } from './errors.ts';
 import { assertIdentifiedTarget, decideLocalServer, probeTargetIdentity } from './identity.ts';
 import { e2ePackageRoot } from './paths.ts';
@@ -34,15 +34,23 @@ async function prepareRun(input: E2eCliInput): Promise<ResolvedE2eRun> {
   return withServerReuse(run, decision === 'reuse');
 }
 
+function playwrightCliPath(): string {
+  return fileURLToPath(import.meta.resolve('@playwright/test/cli'));
+}
+
 function runPlaywright(run: ResolvedE2eRun): Promise<void> {
-  const child = spawn('pnpm', ['exec', 'playwright', 'test', run.testDir, ...run.playwrightArgs], {
-    cwd: e2ePackageRoot,
-    env: {
-      ...process.env,
-      ...selectionToEnv(selectionFromRun(run)),
+  const child = spawn(
+    process.execPath,
+    [playwrightCliPath(), 'test', run.testDir, ...run.playwrightArgs],
+    {
+      cwd: e2ePackageRoot,
+      env: {
+        ...process.env,
+        ...selectionToEnv(selectionFromRun(run)),
+      },
+      stdio: 'inherit',
     },
-    stdio: 'inherit',
-  });
+  );
 
   return new Promise((resolve, reject) => {
     child.once('error', reject);
@@ -70,19 +78,6 @@ export async function runE2eCli(argv: string[]): Promise<void> {
   await runPlaywright(run);
 }
 
-async function main(): Promise<void> {
-  try {
-    await runE2eCli(process.argv.slice(2));
-  } catch (error) {
-    if (error instanceof E2eConfigError) {
-      console.error(error.message);
-      process.exitCode = 1;
-      return;
-    }
-    throw error;
-  }
-}
-
 function isCliEntry(): boolean {
   const entry = process.argv[1];
   if (!entry) {
@@ -92,5 +87,14 @@ function isCliEntry(): boolean {
 }
 
 if (isCliEntry()) {
-  void main();
+  try {
+    await runE2eCli(process.argv.slice(2));
+  } catch (error) {
+    if (error instanceof E2eConfigError) {
+      console.error(error.message);
+      process.exitCode = 1;
+    } else {
+      throw error;
+    }
+  }
 }

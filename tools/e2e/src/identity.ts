@@ -182,13 +182,20 @@ export function decideLocalServer(
     );
   }
 
-  const detail =
-    probe.status === 'missing'
-      ? `it did not serve ${E2E_IDENTITY_FILE}`
-      : probe.status === 'redirected'
-        ? 'the identity URL redirected'
-        : probe.detail;
   throw new E2eConfigError(
-    `${appUrl} did not identify as ${expectedTargetId} (${detail}). Another service may be using this port.`,
+    `${appUrl} did not identify as ${expectedTargetId} (${localIdentityFailureDetail(probe)}). Another service may be using this port.`,
   );
+}
+
+function localIdentityFailureDetail(probe: IdentityProbe): string {
+  if (probe.status === 'missing') {
+    return `it did not serve ${E2E_IDENTITY_FILE}`;
+  }
+  if (probe.status === 'redirected') {
+    return 'the identity URL redirected';
+  }
+  if (probe.status === 'invalid') {
+    return probe.detail;
+  }
+  return probe.status;
 }

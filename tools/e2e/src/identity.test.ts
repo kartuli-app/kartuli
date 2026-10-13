@@ -40,6 +40,9 @@ describe('target identity URLs', () => {
     expect(normalizeBaseUrl('http://localhost:4173/kartuli/')).toBe(
       'http://localhost:4173/kartuli',
     );
+    expect(normalizeBaseUrl('http://localhost:4173/kartuli///')).toBe(
+      'http://localhost:4173/kartuli',
+    );
   });
 
   it('rejects malformed URLs', () => {

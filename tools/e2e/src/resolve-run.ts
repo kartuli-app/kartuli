@@ -204,8 +204,10 @@ export function describeE2eRun(run: ResolvedE2eRun): string {
     `URL (app): ${run.urls.app}`,
   ];
   if (run.server) {
-    lines.push(`Server: ${run.server.command}`);
-    lines.push(`Reuse existing server: ${run.server.reuseExistingServer ? 'yes' : 'no'}`);
+    lines.push(
+      `Server: ${run.server.command}`,
+      `Reuse existing server: ${run.server.reuseExistingServer ? 'yes' : 'no'}`,
+    );
   } else {
     lines.push('Local server: not started');
   }
