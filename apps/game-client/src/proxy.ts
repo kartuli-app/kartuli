@@ -50,6 +50,6 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Matcher must be a string literal here — Next.js rejects non-literals (e.g. variables, String.raw).
-    '/((?!_next/|favicon\\.|icon\\.|robots\\.|manifest\\.|og-image(?:\\.|$)|twitter-image(?:\\.|$)|apple-touch-icon(?:\\.|$)|browserconfig(?:\\.|$)|images(?:/|$)|fonts(?:/|$)).*)',
+    '/((?!_next/|favicon[.]|icon[.]|robots[.]|manifest[.]|og-image(?:[.]|$)|twitter-image(?:[.]|$)|apple-touch-icon(?:[.]|$)|browserconfig(?:[.]|$)|images(?:/|$)|fonts(?:/|$)).*)',
   ],
 };

@@ -1,7 +1,7 @@
 interface NotFoundContentProps {
-  heading: string;
-  message: string;
-  pathname: string;
+  readonly heading: string;
+  readonly message: string;
+  readonly pathname: string;
 }
 
 export function NotFoundContent({ heading, message, pathname }: NotFoundContentProps) {
