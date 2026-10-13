@@ -58,6 +58,9 @@ test.describe('Page not found', () => {
         expect(response?.status(), `${pathname} should return HTTP 404`).toBe(404);
         await expect(page.locator('html')).toHaveAttribute('lang', locale);
         await expect(page).toHaveTitle(messages.heading);
+        await expect(
+          page.locator('meta[name="robots"][content*="noindex"]').first(),
+        ).toBeAttached();
         await expect(page.getByRole('heading', { name: messages.heading })).toBeVisible();
         await expect(page.getByText(pathname, { exact: true })).toBeVisible();
         await expect(page.getByText(messages.message, { exact: true })).toBeVisible();

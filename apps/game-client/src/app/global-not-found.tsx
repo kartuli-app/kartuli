@@ -9,7 +9,10 @@ import { headers } from 'next/headers';
 export async function generateMetadata(): Promise<Metadata> {
   const locale = getCurrentSupportedLocale((await headers()).get(ROUTE_LOCALE_HEADER) ?? undefined);
 
-  return { title: getMessagesForLocale(locale, 'notFound').heading };
+  return {
+    title: getMessagesForLocale(locale, 'notFound').heading,
+    robots: { index: false, follow: false },
+  };
 }
 
 export default async function GlobalNotFound() {

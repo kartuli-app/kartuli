@@ -113,10 +113,11 @@ localized path; a failed language change leaves the current route in place and r
 
 For supported localized paths, the same proxy forwards the trusted route locale and pathname through
 internal request headers. The global not-found Server Component uses those values with the canonical
-i18n resources, so unmatched localized URLs return HTTP 404 with the correct heading, pathname and
-recovery message already present in the initial document. This route-level 404 does not initialize the
-client i18n, database or query providers. Segment `not-found.tsx` remains the boundary for explicit
-`notFound()` calls such as unknown bundled lesson or module IDs.
+i18n resources, so unmatched localized URLs return HTTP 404 with explicit `noindex` metadata and the
+correct heading, pathname and recovery message already present in the initial document. This
+route-level 404 does not initialize the client i18n, database or query providers. Segment
+`not-found.tsx` remains the boundary for explicit `notFound()` calls such as unknown bundled lesson or
+module IDs.
 
 The Next navigation adapter backs the running app. A separate SPA adapter exists so isolated component
 contexts can use the same navigation contract. Hooks throw when used outside the appropriate provider,
