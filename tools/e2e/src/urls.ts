@@ -25,20 +25,27 @@ export function parseHttpUrl(value: string): URL {
   return url;
 }
 
-function withoutTrailingSlashes(pathname: string): string {
+/** Collapse repeated trailing slashes to one so the path stays a directory. */
+function withSingleTrailingSlash(pathname: string): string {
   let end = pathname.length;
   while (end > 1 && pathname.charAt(end - 1) === '/') {
     end -= 1;
   }
-  return pathname.slice(0, end);
+  return `${pathname.slice(0, end)}/`;
 }
 
-/** Canonical Playwright baseURL. Origin-only URLs stay without a trailing slash. */
+/**
+ * Canonical Playwright baseURL.
+ * Origin-only URLs stay without a trailing slash.
+ * A non-root path that was supplied as a directory keeps one trailing slash.
+ * `https://kartuli-app.github.io/kartuli/` and `https://kartuli-app.github.io/kartuli`
+ * are different bases: only the first resolves `./` inside `/kartuli/`.
+ */
 export function normalizeBaseUrl(value: string): string {
   const url = parseHttpUrl(value);
   url.hash = '';
-  if (url.pathname.length > 1) {
-    url.pathname = withoutTrailingSlashes(url.pathname);
+  if (url.pathname.length > 1 && url.pathname.endsWith('/')) {
+    url.pathname = withSingleTrailingSlash(url.pathname);
   }
   if (url.pathname === '/' && url.search === '') {
     return url.origin;

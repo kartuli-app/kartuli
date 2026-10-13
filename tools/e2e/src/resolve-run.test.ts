@@ -106,7 +106,8 @@ describe('resolveE2eRun', () => {
       '--production',
     ]);
     expect(run.testDir).toBe('tests/web-docs-client');
-    expect(run.urls.app).toBe('https://kartuli-app.github.io/kartuli');
+    expect(run.urls.app).toBe('https://kartuli-app.github.io/kartuli/');
+    expect(new URL('./', run.urls.app).href).toBe('https://kartuli-app.github.io/kartuli/');
   });
 
   it('fails fast on unknown targets, missing targets and invalid mode combinations', () => {

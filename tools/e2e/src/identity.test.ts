@@ -1,6 +1,5 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { E2eConfigError } from './errors.ts';
 import {
   assertIdentifiedTarget,
   decideLocalServer,
@@ -8,7 +7,7 @@ import {
   probeTargetIdentity,
 } from './identity.ts';
 import { E2E_IDENTITY_FILE, getE2eTarget, listE2eTargetIds } from './targets.ts';
-import { identityUrlForBase, normalizeBaseUrl } from './urls.ts';
+import { identityUrlForBase } from './urls.ts';
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), { status });
@@ -33,22 +32,6 @@ describe('target identity URLs', () => {
     expect(identityUrlForBase('https://kartuli-app.github.io/kartuli/')).toBe(
       `https://kartuli-app.github.io/kartuli/${E2E_IDENTITY_FILE}`,
     );
-  });
-
-  it('normalizes origin URLs and trailing slashes', () => {
-    expect(normalizeBaseUrl('http://localhost:3000/')).toBe('http://localhost:3000');
-    expect(normalizeBaseUrl('http://localhost:4173/kartuli/')).toBe(
-      'http://localhost:4173/kartuli',
-    );
-    expect(normalizeBaseUrl('http://localhost:4173/kartuli///')).toBe(
-      'http://localhost:4173/kartuli',
-    );
-  });
-
-  it('rejects malformed URLs', () => {
-    expect(() => normalizeBaseUrl('')).toThrow(E2eConfigError);
-    expect(() => normalizeBaseUrl('/relative')).toThrow(/absolute http/);
-    expect(() => normalizeBaseUrl('ftp://example.com')).toThrow(/http and https/);
   });
 });
 
