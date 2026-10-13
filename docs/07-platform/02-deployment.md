@@ -26,14 +26,15 @@ the executable source of truth.
 
 App PR validation has two paths for each affected app. `local` builds and starts Game Client at
 `http://localhost:3000` or Backoffice at `http://localhost:3001`; `vercel` deploys a preview using the
-app-specific project secret. Playwright receives the deployment root, while Lighthouse receives the
-explicit public route: `/en/explore/alphabet` for Game Client and `/en` for Backoffice. The existing
+app-specific project secret. Playwright runs `pnpm e2e <target> --url <deployment-root>` and does not start
+another server. Lighthouse receives the explicit public route: `/en/explore/alphabet` for Game Client
+and `/en` for Backoffice. The existing
 per-app/per-target PR comment is updated with the readable Lighthouse result and retained preview link;
 Lighthouse failure is informational and does not stop E2E. Only the Vercel path sends a preview
 deployment notification.
 
-Production app workflows validate the target, deploy with `--prod`, run only
-`tests/<app>/production` and notify on success in the core job. A separately named, job-level
+Production app workflows validate the target, deploy with `--prod`, run
+`pnpm e2e <app> --url <production-url> --production` and notify on success in the core job. A separately named, job-level
 `continue-on-error` Lighthouse job then audits the explicit public path and writes its readable report
 or failure state only to the Actions summary. Lighthouse cannot suppress a successful-release
 notification. Tests and Lighthouse run against the configured canonical domain, not necessarily the
@@ -53,8 +54,8 @@ newer Node 24 minor or patch than CI without crossing the supported major bounda
 Docs production builds and uploads `.vitepress/dist`, deploys it through Pages, then polls the
 published site every five seconds. Each request is limited to 10 seconds, and the readiness step
 stops after five minutes. The poll is ready when the live root responds and the saved
-`assets/kartuli-llm.txt` body contains `kartuli`. The workflow then runs the Web Docs Playwright
-suite. Deployment success followed by propagation/E2E failure leaves a deployed
+`assets/kartuli-llm.txt` body contains `kartuli`. The workflow then runs
+`pnpm e2e web-docs-client --url <pages-url> --production`. Deployment success followed by propagation/E2E failure leaves a deployed
 site but a failed workflow and sends the post-deploy failure notification.
 
 ## Production app trigger boundary

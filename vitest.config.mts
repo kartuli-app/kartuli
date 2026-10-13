@@ -8,8 +8,8 @@ export default defineConfig({
     // independently runnable via `pnpm --filter @kartuli/storybook test` (see
     // docs/06-quality/01-testing/index.md). Including it here would hang `test:all:coverage`
     // on CI waiting for the dev server.
-    // `tools/e2e` is excluded because it's a Playwright suite (pnpm e2e),
-    // not a Vitest suite.
+    // `tools/e2e` is excluded so root Vitest does not collect Playwright specs.
+    // Orchestration unit tests run via that package's `test` script instead.
     projects: ['apps/*', 'packages/*', 'tools/*', '!tools/e2e', '!tools/storybook'],
     coverage: {
       provider: 'v8',

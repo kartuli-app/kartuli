@@ -90,8 +90,7 @@ With preview running, verify from another terminal:
 ```bash
 curl -fsS http://localhost:4173/kartuli/ >/dev/null
 curl -fsS http://localhost:4173/kartuli/assets/kartuli-llm.txt | sed -n '1,20p'
-BASE_URL=http://localhost:4173/kartuli pnpm --filter @kartuli/e2e exec playwright test \
-  tests/web-docs-client
+pnpm e2e web-docs-client --url http://localhost:4173/kartuli
 ```
 
 Expected results are a rendered home page, a plain-text index headed `# kartuli-llm.txt`, passing

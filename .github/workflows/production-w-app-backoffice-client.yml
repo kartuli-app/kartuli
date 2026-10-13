@@ -67,15 +67,13 @@ jobs:
       - name: Run E2E production tests
         env:
           BASE_URL: ${{ env.PRODUCTION_URL }}
-        run: pnpm --filter @kartuli/e2e exec playwright test tests/backoffice-client/production
+        run: pnpm e2e backoffice-client --url "$BASE_URL" --production
 
-      - name: Upload E2E artifacts on failure
-        if: failure()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      - name: Upload retained E2E artifacts
+        if: always()
+        uses: ./.github/actions/upload-retained-e2e-artifacts
         with:
           name: e2e-artifacts-backoffice-client-prod-${{ github.run_number }}
-          path: tools/e2e/test-results/
-          retention-days: 3
 
       - name: Build Telegram production deploy message
         if: success()

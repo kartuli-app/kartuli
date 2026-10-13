@@ -53,15 +53,11 @@ jobs:
         shell: bash
 
       - name: Run E2E
-        env:
-          BASE_URL: "http://localhost:6006"
-        run: pnpm --filter @kartuli/e2e exec playwright test tests/storybook
+        run: pnpm e2e storybook --url "http://localhost:6006"
         shell: bash
 
-      - name: Upload E2E artifacts on failure
-        if: failure()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      - name: Upload retained E2E artifacts
+        if: always()
+        uses: ./.github/actions/upload-retained-e2e-artifacts
         with:
-          name: e2e-artifacts-storybook-${{ github.run_number }}
-          path: tools/e2e/test-results/
-          retention-days: 3
+          name: e2e-artifacts-storybook-staging-${{ github.run_number }}
