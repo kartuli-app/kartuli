@@ -19,7 +19,7 @@ const defaultFont = Manrope({
   display: 'swap',
 });
 
-export function RootLayout({
+export function RootDocument({
   children,
   locale,
 }: Readonly<{
@@ -31,12 +31,24 @@ export function RootLayout({
       lang={locale}
       className={cn(georgianFont.variable, defaultFont.variable, defaultFont.className)}
     >
-      <body className="bg-s-color-shell-bg h-dvh flex">
-        <RootQueryClientProvider>
-          <RootDatabaseInitializer />
-          <I18nProvider locale={locale}>{children}</I18nProvider>
-        </RootQueryClientProvider>
-      </body>
+      <body className="bg-s-color-shell-bg h-dvh flex">{children}</body>
     </html>
+  );
+}
+
+export function RootLayout({
+  children,
+  locale,
+}: Readonly<{
+  locale: SupportedLocale;
+  children: React.ReactNode;
+}>) {
+  return (
+    <RootDocument locale={locale}>
+      <RootQueryClientProvider>
+        <RootDatabaseInitializer />
+        <I18nProvider locale={locale}>{children}</I18nProvider>
+      </RootQueryClientProvider>
+    </RootDocument>
   );
 }

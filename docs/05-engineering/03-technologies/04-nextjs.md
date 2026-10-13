@@ -20,15 +20,22 @@ Keep browser APIs out of server execution; use client boundaries where state/eff
 
 Game Client `next.config.ts` sets the Turbopack root to the monorepo, exposes `NEXT_PUBLIC_APP_VERSION`
 with its package version as fallback, disables the experimental development filesystem cache and wraps
-config with `withSerwist`. The monorepo root is necessary because source packages live outside the app
-directory. The cache override applies to the development compiler, not Turbo's task cache. The Serwist
-wrapper does not establish complete offline operation; see [Serwist](../05-libraries/05-serwist.md).
+config with `withSerwist`. It also enables Next.js's experimental `globalNotFound` entry because the
+Game Client starts with a dynamic `[locale]` root layout: unmatched URLs need a router-level 404 before
+rendering begins, while the global entry supplies its own complete document. The monorepo root is
+necessary because source packages live outside the app directory. The cache override applies to the
+development compiler, not Turbo's task cache. The Serwist wrapper does not establish complete offline
+operation; see [Serwist](../05-libraries/05-serwist.md).
 
 Backoffice exposes the same version variable and defines a temporary redirect from `/` to `/en`; it
 does not configure the Game Client Turbopack root or Serwist. Review each app config independently
 rather than assuming parity.
 
-Game Client `src/proxy.ts` handles locale redirects with a literal matcher that excludes supported locales, Next internals and known public assets. When adding a root asset or locale, review the matcher and its tests. Shared TypeScript config provides bundler resolution; app configs add the Next plugin and generated types.
+Game Client `src/proxy.ts` handles locale redirects and forwards the trusted locale/path headers used
+by the global not-found entry. Its literal matcher includes application routes and excludes Next
+internals and known public assets. When adding a root asset, review the matcher; when adding a locale,
+review the supported-locale resources and routing tests. Shared TypeScript config provides bundler
+resolution; app configs add the Next plugin and generated types.
 
 ## Development and verification
 
