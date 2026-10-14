@@ -8,9 +8,21 @@ intent: reference
 
 ## Source and layers
 
-`packages/tailwind-config/shared-styles.css` is both hand-maintained source and shipped CSS. `:root` defines primitive `--p-*`, semantic `--s-*` and component `--c-*` values. `@theme static` exposes Tailwind utility mappings. No external token generator must be run to update this contract.
+`packages/tailwind-config/index.css` is the public CSS entry point. It imports the hand-maintained
+`primitives.css`, `semantics.css` and `components.css` files in that order. Each layer owns both its
+runtime custom properties and its corresponding `@theme static` mappings. No external token generator,
+Style Dictionary/DTCG pipeline or custom token build step is required.
 
-Primitives are ingredients (raw colors, spacing, radii). Semantics give them roles in shell, panel and floating contexts. Component tokens define stable dimensions such as rail width, app-bar height and dock-item size. Prefer a role when styling a product component so a palette change does not require editing every feature.
+Primitives are ingredients: raw colors, spacing and radii. Semantics give UI meaning to colors and
+shared state values in the shell, panel and floating contexts. Component tokens define stable,
+component-owned contracts such as rail width, app-bar height and dock-item size; they may resolve to a
+primitive, semantic value or justified literal.
+
+Normal product and shared React components must not use primitive color utilities such as
+`bg-p-color-*`, `text-p-color-*` or `border-p-color-*`. Use a semantic role, adding the smallest role in
+an existing context only when no current role expresses the meaning. Intentional primitive token
+showcases and debug fixtures are exceptions. Primitive spacing and radius utilities are valid and
+preferred when the equivalent Kartuli value exists.
 
 ## Mapping examples
 
@@ -25,20 +37,25 @@ The spelling matters: existing utilities include the primitive `p-` prefix. Do n
 
 ## Changing a token
 
-Identify whether the change is a palette adjustment, a semantic role change or a component dimension. Reuse an existing role if its meaning matches; create a new semantic role when two meanings must vary independently. Add both the runtime variable and the correct Tailwind namespace mapping when a new utility is required.
+Identify whether the change is a palette adjustment, a semantic role change or a stable component
+contract. Reuse an existing role if its meaning matches; create a new semantic role when two meanings
+must vary independently. Do not introduce a new semantic surface without a concrete product need, and
+do not add component color aliases that merely duplicate semantic roles. Add both the runtime variable
+and the correct Tailwind namespace mapping when a new utility is required.
 
 Search consumers before changing or removing a name. Verify both apps' Tailwind integration tests, token/component stories, focused browser behavior and full validation. Inspect hover, focus, selected and disabled states, not just the default color. Update this contract when naming/layer conventions change.
 
 ### Practical workflow
 
 1. Search the runtime variable, `@theme` mapping and utility consumers before editing.
-2. Change `packages/tailwind-config/shared-styles.css`. Keep the primitive/semantic/component layer and
-   the Tailwind namespace mapping together.
+2. Change the owning layer under `packages/tailwind-config`. Keep the runtime value and Tailwind
+   namespace mapping together in that file.
 3. If the primitive catalog changed, update
    `packages/ui/src/components/design-system-tokens/design-system-tokens.tsx` so Storybook displays it.
 4. Update consuming components only when a role or utility name changed; a palette value change should
    normally flow through existing semantic mappings.
-5. Run both CSS compilation tests, then Storybook browser tests and the affected app build.
+5. Run both CSS compilation tests, verify development recompilation in all three consumers, then run
+   Storybook browser tests and the affected builds.
 
 ```bash
 rg -n -- '--s-color-panel-bg|bg-s-color-panel-bg' packages apps tools
@@ -48,12 +65,15 @@ pnpm --filter @kartuli/backoffice-client exec vitest run \
   src/domains/app-shell/tailwind-integration.test.ts
 pnpm --filter @kartuli/storybook run test
 pnpm run c:build:game-client
+pnpm run c:build:backoffice-client
+pnpm run c:build:storybook
 pnpm run validate:all
 ```
 
-The integration tests should show two passing assertions per app: the shared variables exist and their
-Tailwind mappings were emitted. They do not exercise every token, so inspect the token story and the
-actual component states before accepting a visual change.
+The integration tests verify import order, source registration, representative runtime variables and
+Tailwind mappings from all three layers. They do not exercise every token or prove watch behavior, so
+inspect the token story, actual component states and live development recompilation before accepting a
+visual change.
 
 ### Adding versus changing a role
 
@@ -66,6 +86,11 @@ For a new dimension, choose the Tailwind namespace from its use: spacing mapping
 height, margin, padding and gap utilities; radius mappings generate rounded utilities; color mappings
 generate foreground/background/border utilities. Confirm the emitted class rather than assuming a
 custom-property name creates it automatically.
+
+Application customization belongs in the app's `theme.css` and is currently limited to selected
+primitive color overrides. Shared semantic mappings, spacing, radius and component contracts remain in
+the package. The Game Client and Backoffice theme files are integration points, not runtime or
+user-selectable theme systems.
 
 ## Limits
 

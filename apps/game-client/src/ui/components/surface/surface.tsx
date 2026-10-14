@@ -4,7 +4,7 @@ const surfaceClasses = cn('w-full', 'p-10');
 
 interface SurfaceProps {
   children: React.ReactNode;
-  context: 'shell' | 'panel' | 'detail';
+  context: 'shell' | 'panel';
 }
 
 export function Surface({ children, context }: Readonly<SurfaceProps>) {
@@ -16,7 +16,6 @@ export function Surface({ children, context }: Readonly<SurfaceProps>) {
           surfaceClasses,
           context === 'shell' && 'bg-s-color-shell-bg',
           context === 'panel' && 'bg-s-color-panel-bg',
-          context === 'detail' && 'bg-s-color-detail-bg',
         )
       }
     >

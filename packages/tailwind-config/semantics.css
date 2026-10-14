@@ -1,85 +1,8 @@
 :root {
-  /*
-   * Primitive tokens
-   * Raw values. No UI meaning.
-   * These are the ingredients.
-   */
-
-  /* Primitives: color */
-  --p-color-neutral-50: oklch(98.5% 0.002 247.839);
-  --p-color-neutral-100: oklch(96.7% 0.003 264.542);
-  --p-color-neutral-200: oklch(92.8% 0.006 264.531);
-  --p-color-neutral-300: oklch(87.2% 0.01 258.338);
-  --p-color-neutral-400: oklch(70.7% 0.022 261.325);
-  --p-color-neutral-500: oklch(55.1% 0.027 264.364);
-  --p-color-neutral-600: oklch(44.6% 0.03 256.802);
-  --p-color-neutral-700: oklch(37.3% 0.034 259.733);
-  --p-color-neutral-800: oklch(27.8% 0.033 256.848);
-  --p-color-neutral-900: oklch(21% 0.034 264.665);
-  --p-color-neutral-950: oklch(13% 0.028 261.692);
-
-  --p-color-brand-50: oklch(96.9% 0.016 293.756);
-  --p-color-brand-100: oklch(94.3% 0.029 294.588);
-  --p-color-brand-200: oklch(89.4% 0.057 293.283);
-  --p-color-brand-300: oklch(81.1% 0.111 293.571);
-  --p-color-brand-400: oklch(70.2% 0.183 293.541);
-  --p-color-brand-500: oklch(60.6% 0.25 292.717);
-  --p-color-brand-600: oklch(54.1% 0.281 293.009);
-  --p-color-brand-700: oklch(49.1% 0.27 292.581);
-  --p-color-brand-800: oklch(43.2% 0.232 292.759);
-  --p-color-brand-900: oklch(38% 0.189 293.745);
-  --p-color-brand-950: oklch(28.3% 0.141 291.089);
-
-  --p-color-accent-50: oklch(0.983 0.009 52.18);
-  --p-color-accent-100: oklch(0.966 0.019 57.24);
-  --p-color-accent-200: oklch(0.933 0.04 58.79);
-  --p-color-accent-300: oklch(0.901 0.063 62.98);
-  --p-color-accent-400: oklch(0.867 0.089 65.66);
-  --p-color-accent-500: oklch(0.833 0.121 68.31);
-  --p-color-accent-600: oklch(0.695 0.137 72.23);
-  --p-color-accent-700: oklch(0.557 0.109 72.94);
-  --p-color-accent-800: oklch(0.417 0.082 72.75);
-  --p-color-accent-900: oklch(0.278 0.055 71.12);
-  --p-color-accent-950: oklch(0.207 0.04 71.03);
-
-  --p-color-success-300: oklch(87.1% 0.136 154.449);
-  --p-color-success-700: oklch(52.7% 0.137 150.069);
-  --p-color-danger-600: oklch(57.7% 0.215 27.325);
-  --p-color-danger-700: oklch(50.5% 0.19 27.518);
-
-  --p-color-notebook-line: oklch(88.2% 0.059 254.128);
-  --p-color-transliteration-bracket: oklch(75% 0.183 55.934);
-
-  /* Primitives: spacing */
-  --p-spacing-0: 0px;
-  --p-spacing-1: 4px;
-  --p-spacing-2: 8px;
-  --p-spacing-3: 12px;
-  --p-spacing-4: 16px;
-  --p-spacing-5: 20px;
-  --p-spacing-6: 64px;
-
-  /* Primitives: radius */
-  --p-radius-none: 0px;
-  --p-radius-1: 8px;
-  --p-radius-2: 16px;
-  --p-radius-3: 24px;
-  --p-radius-full: 9999px;
-
-  /*
-   * Semantic tokens
-   * UI meaning. These describe roles in the interface.
-   * There are 3 different contexts: shell, panel, floating.
-   */
-
-  /* focus ring */
+  /* Shared semantic dimensions. */
   --s-width-focus-ring: 4px;
 
-  /**
-   * Context: shell
-   */
-
-  /* shell */
+  /* Shell context. */
   --s-color-shell-bg: var(--p-color-brand-100);
   --s-color-shell-content-primary: var(--p-color-neutral-900);
   --s-color-shell-content-secondary: var(--p-color-neutral-700);
@@ -88,14 +11,14 @@
   --s-color-shell-border-mobile: var(--p-color-brand-500);
   --s-width-shell-border: 3px;
 
-  /* shell action ghost */
+  /* Shell action ghost. */
   --s-color-shell-action-ghost-bg: transparent;
   --s-color-shell-action-ghost-content: var(--p-color-neutral-700);
   --s-color-shell-action-ghost-ring: var(--p-color-neutral-500);
   --s-color-shell-action-ghost-hover-bg: var(--p-color-neutral-500);
   --s-color-shell-action-ghost-hover-content: var(--p-color-neutral-50);
 
-  /* shell action secondary */
+  /* Shell action secondary. */
   --s-color-shell-action-secondary-bg: var(--p-color-neutral-500);
   --s-color-shell-action-secondary-border: var(--p-color-neutral-500);
   --s-color-shell-action-secondary-content: var(--p-color-neutral-50);
@@ -104,7 +27,7 @@
   --s-color-shell-action-secondary-hover-border: var(--p-color-neutral-700);
   --s-color-shell-action-secondary-hover-content: var(--p-color-neutral-50);
 
-  /* shell action primary */
+  /* Shell action primary. */
   --s-color-shell-action-primary-bg: var(--p-color-brand-600);
   --s-color-shell-action-primary-border: var(--p-color-brand-600);
   --s-color-shell-action-primary-content: var(--p-color-neutral-50);
@@ -113,28 +36,24 @@
   --s-color-shell-action-primary-hover-border: var(--p-color-brand-700);
   --s-color-shell-action-primary-hover-content: var(--p-color-neutral-50);
 
-  /* shell action selected */
+  /* Shell action selected. */
   --s-color-shell-action-selected-bg: var(--p-color-brand-600);
   --s-color-shell-action-selected-content: var(--p-color-neutral-50);
   --s-color-shell-action-selected-ring: var(--p-color-accent-600);
 
-  /* shell status */
+  /* Shell status. */
   --s-color-shell-status-bg: var(--p-color-neutral-300);
   --s-color-shell-status-content-primary: var(--p-color-neutral-900);
   --s-color-shell-status-content-secondary: var(--p-color-neutral-600);
 
-  /**
-   * Context: panel
-   */
-
-  /* panel */
+  /* Panel context. */
   --s-color-panel-bg: var(--p-color-neutral-50);
-  /* Match panel fill so rounded corners do not reveal the shell/detail surface behind the card */
+  /* Match panel fill so rounded corners do not reveal the shell surface behind the card. */
   --s-color-panel-border: var(--s-color-panel-bg);
   --s-color-panel-border-hover: var(--p-color-brand-600);
   --s-width-panel-border: 3px;
 
-  /* panel content */
+  /* Panel content. */
   --s-color-panel-content-primary: var(--p-color-neutral-700);
   --s-color-panel-content-secondary: var(--p-color-neutral-500);
   --s-color-panel-content-favorite: var(--p-color-danger-600);
@@ -142,7 +61,7 @@
   --s-color-panel-content-notebook-line: var(--p-color-notebook-line);
   --s-color-panel-content-transliteration-bracket: var(--p-color-transliteration-bracket);
 
-  /* panel status */
+  /* Panel status. */
   --s-color-panel-status-neutral-bg: var(--p-color-neutral-300);
   --s-color-panel-status-neutral-content: var(--p-color-neutral-900);
   --s-color-panel-status-positive-bg: var(--p-color-success-700);
@@ -152,18 +71,18 @@
   --s-color-panel-status-brand-bg: var(--p-color-brand-600);
   --s-color-panel-status-brand-content: var(--p-color-neutral-50);
 
-  /* panel header */
+  /* Panel header. */
   --s-color-panel-header-bg: var(--p-color-neutral-50);
   --s-color-panel-header-content-primary: var(--p-color-brand-600);
   --s-color-panel-header-content-secondary: var(--p-color-neutral-700);
   --s-color-panel-header-border: var(--p-color-brand-600);
 
-  /* panel header inverted */
+  /* Panel header inverted. */
   --s-color-panel-header-inverted-bg: var(--p-color-brand-600);
   --s-color-panel-header-inverted-content-primary: var(--p-color-neutral-50);
   --s-color-panel-header-inverted-content-secondary: var(--p-color-neutral-200);
 
-  /* panel action outline */
+  /* Panel action outline. */
   --s-color-panel-action-outline-bg: transparent;
   --s-color-panel-action-outline-border: var(--p-color-neutral-700);
   --s-width-panel-action-outline-border: 1px;
@@ -173,7 +92,7 @@
   --s-color-panel-action-outline-hover-border: var(--p-color-neutral-500);
   --s-color-panel-action-outline-hover-content: var(--p-color-neutral-900);
 
-  /* panel action secondary */
+  /* Panel action secondary. */
   --s-color-panel-action-secondary-bg: var(--p-color-neutral-500);
   --s-color-panel-action-secondary-content-primary: var(--p-color-neutral-50);
   --s-color-panel-action-secondary-content-secondary: var(--p-color-neutral-200);
@@ -182,7 +101,7 @@
   --s-color-panel-action-secondary-hover-content-primary: var(--p-color-neutral-200);
   --s-color-panel-action-secondary-hover-content-secondary: var(--p-color-neutral-400);
 
-  /* panel action ghost */
+  /* Panel action ghost. */
   --s-color-panel-action-ghost-bg: transparent;
   --s-color-panel-action-ghost-content-primary: var(--p-color-neutral-500);
   --s-color-panel-action-ghost-content-secondary: var(--p-color-neutral-500);
@@ -191,115 +110,21 @@
   --s-color-panel-action-ghost-hover-content-primary: var(--p-color-neutral-50);
   --s-color-panel-action-ghost-hover-content-secondary: var(--p-color-neutral-200);
 
-  /* panel control focus */
+  /* Panel controls. */
+  --s-color-panel-control-bg: var(--p-color-neutral-200);
+  --s-color-panel-control-interactive-bg: var(--p-color-neutral-200);
+  --s-color-panel-control-selected-bg: var(--p-color-brand-600);
+  --s-color-panel-control-selected-border: var(--p-color-brand-600);
   --s-color-panel-control-ring: var(--p-color-neutral-500);
 
-  /**
-   * Context: floating
-   */
-
-  /* floating */
+  /* Floating context. */
   --s-color-floating-bg: var(--p-color-neutral-500);
   --s-color-floating-border: var(--p-color-neutral-700);
   --s-color-floating-content-primary: var(--p-color-neutral-50);
-
-  /*
-   * Component tokens
-   * Stable component contracts.
-   * These map component parts to semantic roles.
-   */
-
-  /* Component: shell rail */
-  --c-width-rail-compact: 6rem;
-  --c-width-rail-expanded: 14rem;
-
-  /* Component: appbar */
-  --c-height-appbar: 5rem;
-
-  /* Component: dock */
-  --c-height-dock-mobile: 5rem;
-
-  /* Component: dock item */
-  --c-width-dock-item-mobile: 4rem;
-  --c-height-dock-item-mobile: 4rem;
-  --c-width-dock-item-desktop: 100%;
-  --c-height-dock-item-desktop: 3rem;
 }
 
 @theme static {
-  /*
-   * Primitive utilities
-   * These map primitive tokens to utility classes.
-   */
-
-  /* Primitive: color */
-  --color-p-color-neutral-50: var(--p-color-neutral-50);
-  --color-p-color-neutral-100: var(--p-color-neutral-100);
-  --color-p-color-neutral-200: var(--p-color-neutral-200);
-  --color-p-color-neutral-300: var(--p-color-neutral-300);
-  --color-p-color-neutral-400: var(--p-color-neutral-400);
-  --color-p-color-neutral-500: var(--p-color-neutral-500);
-  --color-p-color-neutral-600: var(--p-color-neutral-600);
-  --color-p-color-neutral-700: var(--p-color-neutral-700);
-  --color-p-color-neutral-800: var(--p-color-neutral-800);
-  --color-p-color-neutral-900: var(--p-color-neutral-900);
-  --color-p-color-neutral-950: var(--p-color-neutral-950);
-
-  --color-p-color-brand-50: var(--p-color-brand-50);
-  --color-p-color-brand-100: var(--p-color-brand-100);
-  --color-p-color-brand-200: var(--p-color-brand-200);
-  --color-p-color-brand-300: var(--p-color-brand-300);
-  --color-p-color-brand-400: var(--p-color-brand-400);
-  --color-p-color-brand-500: var(--p-color-brand-500);
-  --color-p-color-brand-600: var(--p-color-brand-600);
-  --color-p-color-brand-700: var(--p-color-brand-700);
-  --color-p-color-brand-800: var(--p-color-brand-800);
-  --color-p-color-brand-900: var(--p-color-brand-900);
-  --color-p-color-brand-950: var(--p-color-brand-950);
-
-  --color-p-color-accent-50: var(--p-color-accent-50);
-  --color-p-color-accent-100: var(--p-color-accent-100);
-  --color-p-color-accent-200: var(--p-color-accent-200);
-  --color-p-color-accent-300: var(--p-color-accent-300);
-  --color-p-color-accent-400: var(--p-color-accent-400);
-  --color-p-color-accent-500: var(--p-color-accent-500);
-  --color-p-color-accent-600: var(--p-color-accent-600);
-  --color-p-color-accent-700: var(--p-color-accent-700);
-  --color-p-color-accent-800: var(--p-color-accent-800);
-  --color-p-color-accent-900: var(--p-color-accent-900);
-  --color-p-color-accent-950: var(--p-color-accent-950);
-  --color-p-color-success-300: var(--p-color-success-300);
-  --color-p-color-success-700: var(--p-color-success-700);
-  --color-p-color-danger-600: var(--p-color-danger-600);
-  --color-p-color-danger-700: var(--p-color-danger-700);
-
-  /* Primitive: spacing */
-  --spacing-p-spacing-0: var(--p-spacing-0);
-  --spacing-p-spacing-1: var(--p-spacing-1);
-  --spacing-p-spacing-2: var(--p-spacing-2);
-  --spacing-p-spacing-3: var(--p-spacing-3);
-  --spacing-p-spacing-4: var(--p-spacing-4);
-  --spacing-p-spacing-5: var(--p-spacing-5);
-  --spacing-p-spacing-6: var(--p-spacing-6);
-
-  /* Primitive: radius */
-  --radius-p-radius-none: var(--p-radius-none);
-  --radius-p-radius-1: var(--p-radius-1);
-  --radius-p-radius-2: var(--p-radius-2);
-  --radius-p-radius-3: var(--p-radius-3);
-  --radius-p-radius-full: var(--p-radius-full);
-
-  /*
-   * Semantic utilities
-   * These map semantic tokens to utility classes.
-   * There are 3 different contexts: shell, panel, floating.
-   */
-
-  /**
-   * Context: shell
-   */
-
-  /* shell */
+  /* Shell context. */
   --color-s-color-shell-bg: var(--s-color-shell-bg);
   --color-s-color-shell-content-primary: var(--s-color-shell-content-primary);
   --color-s-color-shell-content-secondary: var(--s-color-shell-content-secondary);
@@ -307,19 +132,16 @@
   --color-s-color-shell-border: var(--s-color-shell-border);
   --color-s-color-shell-border-mobile: var(--s-color-shell-border-mobile);
 
-  /* shell status */
   --color-s-color-shell-status-bg: var(--s-color-shell-status-bg);
   --color-s-color-shell-status-content-primary: var(--s-color-shell-status-content-primary);
   --color-s-color-shell-status-content-secondary: var(--s-color-shell-status-content-secondary);
 
-  /* shell action ghost */
   --color-s-color-shell-action-ghost-bg: var(--s-color-shell-action-ghost-bg);
   --color-s-color-shell-action-ghost-content: var(--s-color-shell-action-ghost-content);
   --color-s-color-shell-action-ghost-ring: var(--s-color-shell-action-ghost-ring);
   --color-s-color-shell-action-ghost-hover-bg: var(--s-color-shell-action-ghost-hover-bg);
   --color-s-color-shell-action-ghost-hover-content: var(--s-color-shell-action-ghost-hover-content);
 
-  /* shell action secondary */
   --color-s-color-shell-action-secondary-bg: var(--s-color-shell-action-secondary-bg);
   --color-s-color-shell-action-secondary-border: var(--s-color-shell-action-secondary-border);
   --color-s-color-shell-action-secondary-content: var(--s-color-shell-action-secondary-content);
@@ -332,7 +154,6 @@
     --s-color-shell-action-secondary-hover-content
   );
 
-  /* shell action primary */
   --color-s-color-shell-action-primary-bg: var(--s-color-shell-action-primary-bg);
   --color-s-color-shell-action-primary-border: var(--s-color-shell-action-primary-border);
   --color-s-color-shell-action-primary-content: var(--s-color-shell-action-primary-content);
@@ -345,21 +166,15 @@
     --s-color-shell-action-primary-hover-content
   );
 
-  /* shell action ghost selected */
   --color-s-color-shell-action-selected-bg: var(--s-color-shell-action-selected-bg);
   --color-s-color-shell-action-selected-content: var(--s-color-shell-action-selected-content);
   --color-s-color-shell-action-selected-ring: var(--s-color-shell-action-selected-ring);
 
-  /**
-   * Context: panel
-   */
-
-  /* panel */
+  /* Panel context. */
   --color-s-color-panel-bg: var(--s-color-panel-bg);
   --color-s-color-panel-border: var(--s-color-panel-border);
   --color-s-color-panel-border-hover: var(--s-color-panel-border-hover);
 
-  /* panel content */
   --color-s-color-panel-content-primary: var(--s-color-panel-content-primary);
   --color-s-color-panel-content-secondary: var(--s-color-panel-content-secondary);
   --color-s-color-panel-content-favorite: var(--s-color-panel-content-favorite);
@@ -368,6 +183,7 @@
   --color-s-color-panel-content-transliteration-bracket: var(
     --s-color-panel-content-transliteration-bracket
   );
+
   --color-s-color-panel-status-neutral-bg: var(--s-color-panel-status-neutral-bg);
   --color-s-color-panel-status-neutral-content: var(--s-color-panel-status-neutral-content);
   --color-s-color-panel-status-positive-bg: var(--s-color-panel-status-positive-bg);
@@ -376,6 +192,32 @@
   --color-s-color-panel-status-favorite-content: var(--s-color-panel-status-favorite-content);
   --color-s-color-panel-status-brand-bg: var(--s-color-panel-status-brand-bg);
   --color-s-color-panel-status-brand-content: var(--s-color-panel-status-brand-content);
+
+  --color-s-color-panel-header-bg: var(--s-color-panel-header-bg);
+  --color-s-color-panel-header-content-primary: var(--s-color-panel-header-content-primary);
+  --color-s-color-panel-header-content-secondary: var(--s-color-panel-header-content-secondary);
+  --color-s-color-panel-header-border: var(--s-color-panel-header-border);
+
+  --color-s-color-panel-header-inverted-bg: var(--s-color-panel-header-inverted-bg);
+  --color-s-color-panel-header-inverted-content-primary: var(
+    --s-color-panel-header-inverted-content-primary
+  );
+  --color-s-color-panel-header-inverted-content-secondary: var(
+    --s-color-panel-header-inverted-content-secondary
+  );
+
+  --color-s-color-panel-action-outline-bg: var(--s-color-panel-action-outline-bg);
+  --color-s-color-panel-action-outline-border: var(--s-color-panel-action-outline-border);
+  --color-s-color-panel-action-outline-content: var(--s-color-panel-action-outline-content);
+  --color-s-color-panel-action-outline-ring: var(--s-color-panel-action-outline-ring);
+  --color-s-color-panel-action-outline-hover-bg: var(--s-color-panel-action-outline-hover-bg);
+  --color-s-color-panel-action-outline-hover-border: var(
+    --s-color-panel-action-outline-hover-border
+  );
+  --color-s-color-panel-action-outline-hover-content: var(
+    --s-color-panel-action-outline-hover-content
+  );
+
   --color-s-color-panel-action-secondary-bg: var(--s-color-panel-action-secondary-bg);
   --color-s-color-panel-action-secondary-content-primary: var(
     --s-color-panel-action-secondary-content-primary
@@ -391,6 +233,7 @@
   --color-s-color-panel-action-secondary-hover-content-secondary: var(
     --s-color-panel-action-secondary-hover-content-secondary
   );
+
   --color-s-color-panel-action-ghost-bg: var(--s-color-panel-action-ghost-bg);
   --color-s-color-panel-action-ghost-content-primary: var(
     --s-color-panel-action-ghost-content-primary
@@ -407,69 +250,14 @@
     --s-color-panel-action-ghost-hover-content-secondary
   );
 
-  /* panel header */
-  --color-s-color-panel-header-bg: var(--s-color-panel-header-bg);
-  --color-s-color-panel-header-content-primary: var(--s-color-panel-header-content-primary);
-  --color-s-color-panel-header-content-secondary: var(--s-color-panel-header-content-secondary);
-  --color-s-color-panel-header-border: var(--s-color-panel-header-border);
-
-  /* panel header inverted */
-  --color-s-color-panel-header-inverted-bg: var(--s-color-panel-header-inverted-bg);
-  --color-s-color-panel-header-inverted-content-primary: var(
-    --s-color-panel-header-inverted-content-primary
-  );
-  --color-s-color-panel-header-inverted-content-secondary: var(
-    --s-color-panel-header-inverted-content-secondary
-  );
-
-  /* panel action outline */
-  --color-s-color-panel-action-outline-bg: var(--s-color-panel-action-outline-bg);
-  --color-s-color-panel-action-outline-border: var(--s-color-panel-action-outline-border);
-  --color-s-color-panel-action-outline-content: var(--s-color-panel-action-outline-content);
-  --color-s-color-panel-action-outline-ring: var(--s-color-panel-action-outline-ring);
-  --color-s-color-panel-action-outline-hover-bg: var(--s-color-panel-action-outline-hover-bg);
-  --color-s-color-panel-action-outline-hover-border: var(
-    --s-color-panel-action-outline-hover-border
-  );
-  --color-s-color-panel-action-outline-hover-content: var(
-    --s-color-panel-action-outline-hover-content
-  );
-
-  /* panel control focus */
+  --color-s-color-panel-control-bg: var(--s-color-panel-control-bg);
+  --color-s-color-panel-control-interactive-bg: var(--s-color-panel-control-interactive-bg);
+  --color-s-color-panel-control-selected-bg: var(--s-color-panel-control-selected-bg);
+  --color-s-color-panel-control-selected-border: var(--s-color-panel-control-selected-border);
   --color-s-color-panel-control-ring: var(--s-color-panel-control-ring);
 
-  /**
-   * Context: floating
-   */
-
-  /* floating */
+  /* Floating context. */
   --color-s-color-floating-bg: var(--s-color-floating-bg);
   --color-s-color-floating-border: var(--s-color-floating-border);
   --color-s-color-floating-content-primary: var(--s-color-floating-content-primary);
-
-  /*
-   * Component utilities
-   * These map component tokens to utility classes.
-   */
-  /* Component: shell rail */
-  --spacing-width-rail-compact: var(--c-width-rail-compact);
-  --spacing-width-rail-expanded: var(--c-width-rail-expanded);
-
-  /* Component: appbar */
-  --spacing-height-appbar: var(--c-height-appbar);
-
-  /* Component: dock */
-  --spacing-height-dock-mobile: var(--c-height-dock-mobile);
-
-  /* Component: dock item */
-  --spacing-width-dock-item-mobile: var(--c-width-dock-item-mobile);
-  --spacing-height-dock-item-mobile: var(--c-height-dock-item-mobile);
-  --spacing-width-dock-item-desktop: var(--c-width-dock-item-desktop);
-  --spacing-height-dock-item-desktop: var(--c-height-dock-item-desktop);
-
-  /*
-   * Georgian font and default font variables
-   */
-  --font-georgian: var(--font-georgian-family);
-  --font-default: var(--font-default-family);
 }

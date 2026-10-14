@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./shared-styles.css"
+    ".": "./index.css"
   },
   "files": [
-    "shared-styles.css"
+    "index.css",
+    "primitives.css",
+    "semantics.css",
+    "components.css"
   ],
   "scripts": {
     "lint": "biome check ."

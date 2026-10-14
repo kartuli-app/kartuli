@@ -1,0 +1,35 @@
+:root {
+  /* Shell rail. */
+  --c-width-rail-compact: 6rem;
+  --c-width-rail-expanded: 14rem;
+
+  /* App bar. */
+  --c-height-appbar: 5rem;
+
+  /* Dock. */
+  --c-height-dock-mobile: 5rem;
+
+  /* Dock item. */
+  --c-width-dock-item-mobile: 4rem;
+  --c-height-dock-item-mobile: 4rem;
+  --c-width-dock-item-desktop: 100%;
+  --c-height-dock-item-desktop: 3rem;
+}
+
+@theme static {
+  /* Shell rail utilities. */
+  --spacing-width-rail-compact: var(--c-width-rail-compact);
+  --spacing-width-rail-expanded: var(--c-width-rail-expanded);
+
+  /* App bar utilities. */
+  --spacing-height-appbar: var(--c-height-appbar);
+
+  /* Dock utilities. */
+  --spacing-height-dock-mobile: var(--c-height-dock-mobile);
+
+  /* Dock item utilities. */
+  --spacing-width-dock-item-mobile: var(--c-width-dock-item-mobile);
+  --spacing-height-dock-item-mobile: var(--c-height-dock-item-mobile);
+  --spacing-width-dock-item-desktop: var(--c-width-dock-item-desktop);
+  --spacing-height-dock-item-desktop: var(--c-height-dock-item-desktop);
+}

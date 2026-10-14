@@ -8,11 +8,21 @@ intent: reference
 
 ## Current palette and roles
 
-The shared stylesheet defines neutral, brand and accent ramps plus selected success/danger colors. Semantics organize shell, panel and floating surfaces and their content, border, action, hover, selected and focus roles. Component code should consume those roles instead of assuming a primitive brand shade always means a primary action.
+`primitives.css` defines neutral, brand and accent ramps plus selected success/danger colors.
+`semantics.css` organizes shell, panel and floating surfaces and their content, border, action, control,
+hover, selected and focus roles. Normal product/shared React code consumes those roles instead of
+assuming that a primitive palette shade has a fixed UI meaning.
 
 ## Theme integration
 
-Apps import the same stylesheet contract. Storybook supplies default, brand-emerald and brand-rose controls through `.storybook/preview.tsx` and `theme-wrappers.tsx`. Wrappers override primitive brand CSS variables on `document.documentElement`, record earlier inline values and restore them on cleanup.
+The Design System supplies complete defaults. Each app imports its `theme.css` after
+`@kartuli/tailwind-config`; an app may override selected primitive colors there while semantic mappings,
+spacing and radius remain shared. The Game Client currently uses an empty/default theme integration,
+and Backoffice's file is also an integration point rather than an implemented brand redesign.
+
+Storybook supplies default, brand-emerald and brand-rose controls through `.storybook/preview.tsx` and
+`theme-wrappers.tsx`. Wrappers override primitive brand CSS variables on `document.documentElement`,
+record earlier inline values and restore them on cleanup.
 
 These previews exercise how semantic roles follow primitives. They are not a persisted end-user theme chooser, a dark-mode contract or proof that every palette combination passes contrast checks.
 
@@ -35,4 +45,8 @@ axe reports some contrast failures but cannot validate the design intent of ever
 
 ## Verification and boundaries
 
-Use axe/browser checks and manual contrast/focus inspection in context. Do not declare a complete dark theme or alternate brand contract until its surfaces and states are specified and tested. Source: `shared-styles.css`, Storybook `preview.tsx`, `theme-wrappers.tsx`, token stories; [Design tokens](./01-tokens.md) owns naming conventions.
+Use axe/browser checks and manual contrast/focus inspection in context. Do not declare a complete dark
+theme, runtime theme switcher or alternate app brand contract until its surfaces and states are
+specified and tested. Sources: `packages/tailwind-config/primitives.css`, `semantics.css`, app
+`theme.css` files, Storybook `preview.tsx`, `theme-wrappers.tsx` and token stories; [Design
+tokens](./01-tokens.md) owns naming conventions.

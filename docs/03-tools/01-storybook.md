@@ -17,6 +17,11 @@ states. It merges `@game-client` and `@kartuli/ui` aliases, prebundles recurring
 and forces automatic JSX through Vite 8's Oxc path so Next's inherited `jsx: preserve` does not leak
 unparsed JSX into Storybook.
 
+`.storybook/storybook.css` imports Tailwind and the public `@kartuli/tailwind-config` CSS entry. Its
+explicit `@source` directives scan Storybook-local source, `packages/ui/src` and Game Client source
+because those are the React trees Storybook renders. It does not scan the Design System CSS package or
+Backoffice source.
+
 Docgen uses Storybook's `react-docgen` parser and the shared TypeScript catalog. It records display names and destructured default values. Stories that need specific Controls declare them in `argTypes`. The parser does not expand `Readonly<Props>` into prop types, so union metadata is not generated from those interfaces. See [TypeScript](../05-engineering/03-technologies/01-typescript.md) for the shared compiler catalog.
 
 ## Preview and test behavior
@@ -67,3 +72,7 @@ assertion. An isolated passing story does not prove route-level data, navigation
 Token stories visualize the [Design System](../04-design-system/index.md). See
 [Component/browser testing](../06-quality/01-testing/02-component-browser.md) and
 [Accessibility](../06-quality/02-accessibility.md) for evidence and policy.
+
+When changing the layered token CSS or source paths, verify a running Storybook session detects edits
+to primitive, semantic and component files, new token mappings, shared UI classes and Storybook-local
+classes without a server restart. The production build remains a separate required check.

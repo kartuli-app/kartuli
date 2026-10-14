@@ -22,13 +22,13 @@ const tokenTriggerClassName = cn(
   'cursor-help',
   'border-0',
   'bg-transparent',
-  'p-0',
+  'p-p-spacing-0',
   'text-left',
   'whitespace-pre-wrap',
   'break-words',
-  'hover:bg-gray-200',
-  'focus-visible:bg-gray-200',
-  'data-[popup-open]:bg-gray-200',
+  'hover:bg-s-color-panel-control-interactive-bg',
+  'focus-visible:bg-s-color-panel-control-interactive-bg',
+  'data-[popup-open]:bg-s-color-panel-control-interactive-bg',
 );
 
 export function TranslitOutput({
@@ -109,8 +109,8 @@ export function TranslitOutput({
         'whitespace-pre-wrap',
         'wrap-break-word',
         'rounded-p-radius-2',
-        'bg-p-color-neutral-200',
-        'p-2',
+        'bg-s-color-panel-control-bg',
+        'p-p-spacing-2',
         className,
       )}
       onScroll={handleScroll}
@@ -146,7 +146,10 @@ export function TranslitOutput({
               type="button"
               closeOnClick={false}
               disabled={usesTapInteraction}
-              className={cn(tokenTriggerClassName, isActive && 'bg-gray-200')}
+              className={cn(
+                tokenTriggerClassName,
+                isActive && 'bg-s-color-panel-control-interactive-bg',
+              )}
               style={{ color: 'inherit', font: 'inherit' }}
               aria-label={segment.outputText}
               aria-expanded={usesTapInteraction ? isActive : undefined}

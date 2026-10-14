@@ -1,0 +1,121 @@
+:root {
+  /* Primitive colors: raw palette values with no UI meaning. */
+  --p-color-neutral-50: oklch(98.5% 0.002 247.839);
+  --p-color-neutral-100: oklch(96.7% 0.003 264.542);
+  --p-color-neutral-200: oklch(92.8% 0.006 264.531);
+  --p-color-neutral-300: oklch(87.2% 0.01 258.338);
+  --p-color-neutral-400: oklch(70.7% 0.022 261.325);
+  --p-color-neutral-500: oklch(55.1% 0.027 264.364);
+  --p-color-neutral-600: oklch(44.6% 0.03 256.802);
+  --p-color-neutral-700: oklch(37.3% 0.034 259.733);
+  --p-color-neutral-800: oklch(27.8% 0.033 256.848);
+  --p-color-neutral-900: oklch(21% 0.034 264.665);
+  --p-color-neutral-950: oklch(13% 0.028 261.692);
+
+  --p-color-brand-50: oklch(96.9% 0.016 293.756);
+  --p-color-brand-100: oklch(94.3% 0.029 294.588);
+  --p-color-brand-200: oklch(89.4% 0.057 293.283);
+  --p-color-brand-300: oklch(81.1% 0.111 293.571);
+  --p-color-brand-400: oklch(70.2% 0.183 293.541);
+  --p-color-brand-500: oklch(60.6% 0.25 292.717);
+  --p-color-brand-600: oklch(54.1% 0.281 293.009);
+  --p-color-brand-700: oklch(49.1% 0.27 292.581);
+  --p-color-brand-800: oklch(43.2% 0.232 292.759);
+  --p-color-brand-900: oklch(38% 0.189 293.745);
+  --p-color-brand-950: oklch(28.3% 0.141 291.089);
+
+  --p-color-accent-50: oklch(0.983 0.009 52.18);
+  --p-color-accent-100: oklch(0.966 0.019 57.24);
+  --p-color-accent-200: oklch(0.933 0.04 58.79);
+  --p-color-accent-300: oklch(0.901 0.063 62.98);
+  --p-color-accent-400: oklch(0.867 0.089 65.66);
+  --p-color-accent-500: oklch(0.833 0.121 68.31);
+  --p-color-accent-600: oklch(0.695 0.137 72.23);
+  --p-color-accent-700: oklch(0.557 0.109 72.94);
+  --p-color-accent-800: oklch(0.417 0.082 72.75);
+  --p-color-accent-900: oklch(0.278 0.055 71.12);
+  --p-color-accent-950: oklch(0.207 0.04 71.03);
+
+  --p-color-success-300: oklch(87.1% 0.136 154.449);
+  --p-color-success-700: oklch(52.7% 0.137 150.069);
+  --p-color-danger-600: oklch(57.7% 0.215 27.325);
+  --p-color-danger-700: oklch(50.5% 0.19 27.518);
+
+  --p-color-notebook-line: oklch(88.2% 0.059 254.128);
+  --p-color-transliteration-bracket: oklch(75% 0.183 55.934);
+
+  /* Primitive spacing. */
+  --p-spacing-0: 0px;
+  --p-spacing-1: 4px;
+  --p-spacing-2: 8px;
+  --p-spacing-3: 12px;
+  --p-spacing-4: 16px;
+  --p-spacing-5: 20px;
+  --p-spacing-6: 64px;
+
+  /* Primitive radius. */
+  --p-radius-none: 0px;
+  --p-radius-1: 8px;
+  --p-radius-2: 16px;
+  --p-radius-3: 24px;
+  --p-radius-full: 9999px;
+}
+
+@theme static {
+  /* Primitive color utilities. */
+  --color-p-color-neutral-50: var(--p-color-neutral-50);
+  --color-p-color-neutral-100: var(--p-color-neutral-100);
+  --color-p-color-neutral-200: var(--p-color-neutral-200);
+  --color-p-color-neutral-300: var(--p-color-neutral-300);
+  --color-p-color-neutral-400: var(--p-color-neutral-400);
+  --color-p-color-neutral-500: var(--p-color-neutral-500);
+  --color-p-color-neutral-600: var(--p-color-neutral-600);
+  --color-p-color-neutral-700: var(--p-color-neutral-700);
+  --color-p-color-neutral-800: var(--p-color-neutral-800);
+  --color-p-color-neutral-900: var(--p-color-neutral-900);
+  --color-p-color-neutral-950: var(--p-color-neutral-950);
+
+  --color-p-color-brand-50: var(--p-color-brand-50);
+  --color-p-color-brand-100: var(--p-color-brand-100);
+  --color-p-color-brand-200: var(--p-color-brand-200);
+  --color-p-color-brand-300: var(--p-color-brand-300);
+  --color-p-color-brand-400: var(--p-color-brand-400);
+  --color-p-color-brand-500: var(--p-color-brand-500);
+  --color-p-color-brand-600: var(--p-color-brand-600);
+  --color-p-color-brand-700: var(--p-color-brand-700);
+  --color-p-color-brand-800: var(--p-color-brand-800);
+  --color-p-color-brand-900: var(--p-color-brand-900);
+  --color-p-color-brand-950: var(--p-color-brand-950);
+
+  --color-p-color-accent-50: var(--p-color-accent-50);
+  --color-p-color-accent-100: var(--p-color-accent-100);
+  --color-p-color-accent-200: var(--p-color-accent-200);
+  --color-p-color-accent-300: var(--p-color-accent-300);
+  --color-p-color-accent-400: var(--p-color-accent-400);
+  --color-p-color-accent-500: var(--p-color-accent-500);
+  --color-p-color-accent-600: var(--p-color-accent-600);
+  --color-p-color-accent-700: var(--p-color-accent-700);
+  --color-p-color-accent-800: var(--p-color-accent-800);
+  --color-p-color-accent-900: var(--p-color-accent-900);
+  --color-p-color-accent-950: var(--p-color-accent-950);
+  --color-p-color-success-300: var(--p-color-success-300);
+  --color-p-color-success-700: var(--p-color-success-700);
+  --color-p-color-danger-600: var(--p-color-danger-600);
+  --color-p-color-danger-700: var(--p-color-danger-700);
+
+  /* Primitive spacing utilities. */
+  --spacing-p-spacing-0: var(--p-spacing-0);
+  --spacing-p-spacing-1: var(--p-spacing-1);
+  --spacing-p-spacing-2: var(--p-spacing-2);
+  --spacing-p-spacing-3: var(--p-spacing-3);
+  --spacing-p-spacing-4: var(--p-spacing-4);
+  --spacing-p-spacing-5: var(--p-spacing-5);
+  --spacing-p-spacing-6: var(--p-spacing-6);
+
+  /* Primitive radius utilities. */
+  --radius-p-radius-none: var(--p-radius-none);
+  --radius-p-radius-1: var(--p-radius-1);
+  --radius-p-radius-2: var(--p-radius-2);
+  --radius-p-radius-3: var(--p-radius-3);
+  --radius-p-radius-full: var(--p-radius-full);
+}

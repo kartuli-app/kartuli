@@ -11,7 +11,7 @@ Packages are imported by workspace code; they do not own app product policy.
 | Package | Public contract and responsibility | Consumers / conventions |
 | --- | --- | --- |
 | `@kartuli/ui` | `packages/ui/package.json` exports source subpaths via `./*`; shared React components and `src/utils/cn.tsx` | Apps and Storybook; use `cn` for conditional class merging; do not assume a root barrel export |
-| `@kartuli/tailwind-config` | Root export is `shared-styles.css`, containing CSS variables and Tailwind theme mappings | Apps and Storybook import `@kartuli/tailwind-config`; edit the committed stylesheet directly |
+| `@kartuli/tailwind-config` | Root export is `index.css`, which imports the primitive, semantic and component CSS layers | Apps and Storybook import `@kartuli/tailwind-config`; edit the committed layer files directly |
 
 ## UI package boundary
 
@@ -28,10 +28,13 @@ components package API.
 
 ## Tailwind package boundary
 
-The Tailwind package exports exactly `shared-styles.css` and includes that file in its publishable file
-list. It has no generation/build step: primitives, semantic roles, component dimensions and `@theme`
-mappings are hand-maintained together. Both apps load it after `tailwindcss`; Storybook loads it from
-its own CSS entry through the Tailwind Vite plugin.
+The Tailwind package root exports `index.css` and publishes it with `primitives.css`, `semantics.css`
+and `components.css`. It has no generation/build step: each layer keeps its runtime variables and
+`@theme static` mappings together. Both apps load the package after `tailwindcss` and before their
+app-specific `theme.css`; Storybook loads it from its own CSS entry through the Tailwind Vite plugin.
+
+The CSS package is imported, not registered as a Tailwind `@source`. The apps and Storybook explicitly
+register the React source trees they render, including `packages/ui/src` where applicable.
 
 When changing a token, follow the [Design Tokens](../04-design-system/01-tokens.md) workflow and verify
 all three integrations. The package lint task checks source style but cannot prove a utility is emitted
