@@ -17,10 +17,11 @@ renders the static Backoffice home. `next.config.ts` redirects `/` to `/en` temp
 `NEXT_PUBLIC_APP_VERSION` with the package version as fallback. There are no route handlers, content
 repositories, persistence adapters, authentication checks or authorization rules in this workspace.
 
-The root layout fixes `lang="en"` and imports app CSS. Global CSS loads Tailwind, then
-`@kartuli/tailwind-config`, then an empty app-specific `theme.css` override file. The app declares
-`@kartuli/ui`, but the current scaffold does not import a shared React component. Treat the package
-declarations as available boundaries, not proof of active UI reuse.
+The root layout fixes `lang="en"` and imports app CSS. Global CSS loads Tailwind, then the layered
+`@kartuli/tailwind-config` public entry, then an empty app-specific `theme.css` override file. The body
+uses the shared shell background and primary-content semantic roles. The app declares `@kartuli/ui`,
+but the current scaffold does not import a shared React component. Treat the package declarations as
+available boundaries, not proof of active UI reuse or a completed Backoffice brand theme.
 
 Introducing privileged content operations requires an explicit authentication/authorization design,
 server-side enforcement and data/error flows. A client-only route guard would not be an adequate

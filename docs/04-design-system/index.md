@@ -6,13 +6,28 @@ intent: architecture
 
 # Design System
 
-The shared visual contract is implemented in `packages/tailwind-config/shared-styles.css`. It is hand-maintained source and the shipped artifact, not output from a separate token generator.
+The shared visual contract is implemented by the hand-authored CSS files in
+`packages/tailwind-config`. `index.css` is the public entry point and imports
+`primitives.css`, `semantics.css` and `components.css` in dependency order. These committed files are
+the shipped source, not output from a token generator.
 
 ## Token layers and styling
 
-Primitive tokens hold raw color, spacing and radius values. Semantic tokens assign visual roles. Component tokens capture recurring component decisions; Tailwind `@theme` mappings expose utilities. Prefer semantic roles in feature UI and token-backed spacing/radius utilities; ordinary layout utilities remain appropriate for flex, grid and positioning.
+Primitive tokens hold raw color, spacing and radius values. Semantic tokens assign visual roles in the
+shell, panel and floating contexts. Component tokens capture stable component-owned dimensions.
+Runtime custom properties and their Tailwind `@theme static` mappings live together in the owning
+layer file.
 
-Apps import Tailwind and `@kartuli/tailwind-config` in their stylesheets. Shared React code is in `@kartuli/ui`; app-specific patterns remain under the app's `src/ui`. Use the shared `cn` helper for conditional class merging. Package exports are owned by [Packages](../02-packages/index.md).
+Normal product and shared React components must use semantic color roles rather than primitive color
+utilities. Primitive colors remain available for theme overrides and intentional token/debug fixtures.
+Use Kartuli primitive spacing and radius utilities when an equivalent exists; ordinary layout utilities
+remain appropriate for flex, grid, positioning and other structural behavior.
+
+Apps import Tailwind, then `@kartuli/tailwind-config`, then their own `theme.css`. The shared package is
+part of the CSS import graph; it is not a Tailwind class-name source. Each compilation environment uses
+explicit `@source` directives for the React trees it renders. Shared React code is in `@kartuli/ui`;
+app-specific patterns remain under the app's source tree. Use the shared `cn` helper for conditional
+class merging. Package exports are owned by [Packages](../02-packages/index.md).
 
 ## Typography, themes and patterns
 

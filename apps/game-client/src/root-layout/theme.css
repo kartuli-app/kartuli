@@ -1,0 +1,8 @@
+/**
+ * Game Client Theme Overrides
+ *
+ * The Game Client currently uses the Design System defaults. Add selected
+ * primitive color overrides here when the application needs its own identity.
+ * Keep shared spacing, radius, semantic roles, and component contracts in
+ * @kartuli/tailwind-config.
+ */

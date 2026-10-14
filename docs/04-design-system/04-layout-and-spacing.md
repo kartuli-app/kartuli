@@ -10,6 +10,11 @@ intent: reference
 
 Primitive spacing is explicitly defined, not a uniform arithmetic scale: values 0–5 are 0, 4, 8, 12, 16 and 20 pixels, while spacing 6 is 64 pixels. Radius values include 0, 8, 16, 24 pixels and a full radius. Consult the stylesheet before interpreting a numeric suffix.
 
+Use Kartuli spacing and radius utilities such as `gap-p-spacing-2`, `p-p-spacing-4` and
+`rounded-p-radius-2` when the system already has the required design value. Generic or arbitrary values
+remain appropriate when no token is equivalent and the value is justified. Structural utilities such
+as flex/grid, positioning, alignment, overflow and growth do not need design tokens.
+
 Component dimensions include compact/expanded rails (6rem/14rem), app-bar height (5rem), mobile dock height (5rem), and mobile/desktop dock-item dimensions. [Tokens](./01-tokens.md) explains how these become utilities.
 
 ## Game Client shell conventions
@@ -22,4 +27,7 @@ Component dimensions include compact/expanded rails (6rem/14rem), app-bar height
 
 Use structure utilities for flex/grid/positioning and tokens for shared dimensions. Check widths around each active breakpoint, not only common device presets. Verify that fixed UI does not cover content or focused controls and that long localized labels do not force overflow.
 
-Source: shared stylesheet and `apps/game-client/src/ui/components/layout/shell`. A shared responsive pattern should be documented here when adopted by multiple surfaces; do not copy Game Client shell assumptions into Backoffice without evaluating its operator workflow.
+Sources: `packages/tailwind-config/primitives.css`, `components.css` and
+`apps/game-client/src/ui/components/layout/shell`. A shared responsive pattern should be documented here
+when adopted by multiple surfaces; do not copy Game Client shell assumptions into Backoffice without
+evaluating its operator workflow.
