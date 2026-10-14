@@ -1,20 +1,18 @@
-import { ContentContainer } from '@game-client/ui/components/layout/shell/content-container';
-import { cn } from '@kartuli/ui/utils/cn';
-import { AppBarTitle } from './app-bar-title';
+import type { ReactNode } from 'react';
+import { cn } from '../../../utils/cn';
+import { ContentContainer } from '../shell/content-container';
 
-type AppBarProps = {
-  leading?: React.ReactNode;
-  eyeBrow: string;
-  title: string;
-  trailingPrimary?: React.ReactNode;
-  trailingSecondary?: React.ReactNode;
-};
+export interface AppBarProps {
+  leading?: ReactNode;
+  title: ReactNode;
+  trailingPrimary?: ReactNode;
+  trailingSecondary?: ReactNode;
+}
 
 const actionSlotClassName = cn('flex', 'shrink-0', 'items-center', 'justify-center', 'size-12');
 
 export function AppBar({
   leading,
-  eyeBrow,
   title,
   trailingPrimary,
   trailingSecondary,
@@ -44,7 +42,7 @@ export function AppBar({
         >
           {leading ? <div className={actionSlotClassName}>{leading}</div> : null}
 
-          <AppBarTitle title={title} eyeBrow={eyeBrow} />
+          {title}
 
           <div className={cn('flex', 'shrink-0', 'flex-nowrap', 'items-center', 'gap-p-spacing-2')}>
             <div className={actionSlotClassName}>{trailingSecondary}</div>

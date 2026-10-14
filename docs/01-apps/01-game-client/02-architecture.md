@@ -123,6 +123,12 @@ The Next navigation adapter backs the running app. A separate SPA adapter exists
 contexts can use the same navigation contract. Hooks throw when used outside the appropriate provider,
 making provider placement an explicit integration requirement.
 
+The reusable shell geometry is imported from `@kartuli/ui`. `GameClientAppBar` keeps the mascot/back
+choice and passes the local `AppBarTitle` into the shared app-bar slot, preserving the title and eyebrow
+view transitions. `GameClientDock` keeps localized item definitions and active-route state, then injects
+the existing `NavigationLink` from this navigation context into the framework-neutral shared
+`DockItem`. The alphabet glyph rail remains Game Client decoration passed into the shared shell.
+
 ## Failure and recovery inventory
 
 | Failure | Implemented behavior | Operational implication |

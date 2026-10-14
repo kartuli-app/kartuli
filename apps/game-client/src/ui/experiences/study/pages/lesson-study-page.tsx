@@ -7,9 +7,9 @@ import { getLibraryServer } from '@game-client/learning-content/library/get-libr
 import type { LetterItem } from '@game-client/learning-content/library/library';
 import { GameClientAppBar } from '@game-client/ui/components/layout/app-bar/game-client-app-bar';
 import { GameClientDock } from '@game-client/ui/components/layout/dock/game-client-dock';
-import { AppShell } from '@game-client/ui/components/layout/shell/app-shell';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/shell/rail-pattern-alphabet';
 import { StudyScreen } from '@game-client/ui/experiences/study/components/study-screen';
+import { AppShell } from '@kartuli/ui/components/layout/shell/app-shell';
 import { notFound } from 'next/navigation';
 
 export async function LessonStudyPage({

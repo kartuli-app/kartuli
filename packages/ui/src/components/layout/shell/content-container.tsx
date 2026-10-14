@@ -1,7 +1,11 @@
-import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
+import { cn } from '../../../utils/cn';
 
-export function ContentContainer({ children }: Readonly<{ children: ReactNode }>) {
+export interface ContentContainerProps {
+  children: ReactNode;
+}
+
+export function ContentContainer({ children }: Readonly<ContentContainerProps>) {
   return (
     <div
       className={cn(

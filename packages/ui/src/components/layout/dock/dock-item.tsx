@@ -1,5 +1,21 @@
-import { cn } from '@kartuli/ui/utils/cn';
-import Link from 'next/link';
+import type { AriaAttributes, ComponentType, ReactNode, SVGProps } from 'react';
+import { cn } from '../../../utils/cn';
+
+export interface DockItemLinkProps {
+  href: string;
+  className?: string;
+  children: ReactNode;
+  'aria-current'?: AriaAttributes['aria-current'];
+}
+
+export interface DockItemProps {
+  href: string;
+  label: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  active?: boolean;
+  activeIcon: ComponentType<SVGProps<SVGSVGElement>>;
+  linkComponent: ComponentType<DockItemLinkProps>;
+}
 
 export function DockItem({
   href,
@@ -7,17 +23,12 @@ export function DockItem({
   icon,
   activeIcon,
   active,
-}: Readonly<{
-  href: string;
-  label: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  active?: boolean;
-  activeIcon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-}>) {
+  linkComponent: LinkComponent,
+}: Readonly<DockItemProps>) {
   const Icon = active ? activeIcon : icon;
 
   return (
-    <Link
+    <LinkComponent
       href={href}
       className={cn(
         'flex',
@@ -50,6 +61,6 @@ export function DockItem({
     >
       <Icon className={cn('shrink-0', 'size-6', 'text-inherit')} aria-hidden />
       <div className={cn('text-inherit')}>{label}</div>
-    </Link>
+    </LinkComponent>
   );
 }

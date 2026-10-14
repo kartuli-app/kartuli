@@ -1,8 +1,8 @@
 import { getMessagesForLocale, type SupportedLocale } from '@game-client/i18n';
 import { GameClientAppBar } from '@game-client/ui/components/layout/app-bar/game-client-app-bar';
 import { GameClientDock } from '@game-client/ui/components/layout/dock/game-client-dock';
-import { AppShell } from '@game-client/ui/components/layout/shell/app-shell';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/shell/rail-pattern-alphabet';
+import { AppShell } from '@kartuli/ui/components/layout/shell/app-shell';
 import { ExploreAlphabetScreen } from './explore-alphabet-screen';
 
 export function ExploreAlphabetPage({ locale }: Readonly<{ locale: SupportedLocale }>) {

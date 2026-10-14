@@ -17,17 +17,23 @@ as flex/grid, positioning, alignment, overflow and growth do not need design tok
 
 Component dimensions include compact/expanded rails (6rem/14rem), app-bar height (5rem), mobile dock height (5rem), and mobile/desktop dock-item dimensions. [Tokens](./01-tokens.md) explains how these become utilities.
 
-## Game Client shell conventions
+## Shared shell conventions
 
-`AppShell` offsets content beneath a fixed app bar. With start-rail content, it reserves compact rail space at `md`, expanded space at `xl` and mobile dock bottom padding below `md`. The end-rail layout has a `2xl` adjustment. These are current app conventions, not a universal requirement for every future app.
+`@kartuli/ui` owns the implemented shell geometry. `AppShell` offsets content beneath a fixed app bar.
+With start-rail content, it reserves compact rail space at `md`, expanded space at `xl` and mobile dock
+bottom padding below `md`. The end-rail layout has a `2xl` adjustment. `ShellRail`, `AppBar`, `Dock` and
+`DockItem` use the corresponding component dimensions and semantic shell roles.
 
-`ContentContainer` uses full width, `max-w-5xl`, automatic horizontal margins and primitive padding that changes at `sm`. Keep the shell's reserved geometry synchronized with the actual rail/dock components when changing dimensions.
+`ContentContainer` uses full width, `max-w-5xl`, automatic horizontal margins and primitive padding that
+changes at `sm`. Keep the shell's reserved geometry synchronized with the actual rail/dock components
+when changing dimensions. Applications compose these primitives with their own navigation, title,
+identity and decorative content; the current geometry is a shared contract but is not a requirement
+for unrelated future layouts.
 
 ## Changing layout
 
 Use structure utilities for flex/grid/positioning and tokens for shared dimensions. Check widths around each active breakpoint, not only common device presets. Verify that fixed UI does not cover content or focused controls and that long localized labels do not force overflow.
 
 Sources: `packages/design-system/primitives.css`, `components.css` and
-`apps/game-client/src/ui/components/layout/shell`. A shared responsive pattern should be documented here
-when adopted by multiple surfaces; do not copy Game Client shell assumptions into Backoffice without
-evaluating its operator workflow.
+`packages/ui/src/components/layout`. Reusing the contract in Backoffice still requires evaluating its
+operator composition rather than moving Game Client product content into shared UI.

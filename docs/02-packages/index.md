@@ -10,7 +10,7 @@ Packages are imported by workspace code; they do not own app product policy.
 
 | Package | Public contract and responsibility | Consumers / conventions |
 | --- | --- | --- |
-| `@kartuli/ui` | `packages/ui/package.json` exports source subpaths via `./*`; shared React components and `src/utils/cn.tsx` | Apps and Storybook; use `cn` for conditional class merging; do not assume a root barrel export |
+| `@kartuli/ui` | `packages/ui/package.json` exports source subpaths via `./*`; shared React shell/layout components and `src/utils/cn.tsx` | Apps and Storybook; use `cn` for conditional class merging; do not assume a root barrel export |
 | `@kartuli/design-system` | CSS-first shared Design System contract; the root export is `index.css`, which imports the primitive, semantic and component CSS layers | Apps and Storybook import `@kartuli/design-system`; edit the committed layer files directly |
 
 ## UI package boundary
@@ -25,6 +25,13 @@ Only move code here when it has a stable cross-surface contract. Game Client rou
 translation or navigation dependencies belong in the app. Keep exports named and add tests beside
 shared behavior. Storybook can import app-local components for inspection; that does not make those
 components package API.
+
+The shared layout surface under `src/components/layout` exports `AppShell`, `AppBar`,
+`ContentContainer`, `ShellRail`, `Dock` and `DockItem` through source subpaths. `AppBar` accepts generic
+leading, title and trailing content so applications retain identity and transition behavior. `DockItem`
+accepts a link component instead of importing a router; each application supplies its existing
+navigation adapter. The package remains framework-agnostic and does not import the global Design
+System stylesheet. Applications and Storybook own that CSS environment and scan this source tree.
 
 ## Design System package boundary
 

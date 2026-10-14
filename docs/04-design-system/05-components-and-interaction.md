@@ -8,7 +8,12 @@ intent: reference
 
 ## Ownership
 
-`@kartuli/ui` supplies shared source exports and utilities. Game Client's `src/ui/components` owns its shell, panels, surfaces, actions, feedback and overlays; `src/ui/experiences` owns feature composition. A component can be reused inside an app without becoming a cross-app package contract.
+`@kartuli/ui` supplies shared source exports and utilities. Its layout package owns `AppShell`,
+`AppBar`, `ContentContainer`, `ShellRail`, `Dock` and `DockItem`. Game Client's `src/ui/components`
+continues to own its app-bar and dock composition, navigation definitions, view-transition title,
+mascot/back behavior, alphabet rail decoration, panels, surfaces, actions, feedback and overlays;
+`src/ui/experiences` owns feature composition. A component can be reused inside an app without becoming
+a cross-app package contract.
 
 Before moving a component into shared UI, identify its consumers, props and dependencies. Remove app-specific routing/content assumptions from the shared boundary or keep it app-local. Source aliases used by Storybook are an inspection mechanism, not proof that a component belongs in the package.
 
@@ -28,8 +33,9 @@ For a new reusable component, decide ownership before implementation:
 
 - Put cross-app, product-neutral source in `packages/ui` and expose it through the existing wildcard
   subpath contract; add colocated tests and a Storybook story.
-- Keep Game Client shell/panel/feature components under `apps/game-client/src/ui` when they depend on
-  app navigation, translations, learning data or product semantics.
+- Keep Game Client composition/panel/feature components under `apps/game-client/src/ui` when they depend
+  on app navigation, translations, learning data, view transitions or product semantics. Inject these
+  concerns through shared slots or adapter props instead of teaching `@kartuli/ui` about the app.
 - Keep feature composition under `src/ui/experiences`; do not move it into a shared package merely to
   make Storybook discover it.
 

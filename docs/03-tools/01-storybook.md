@@ -12,6 +12,10 @@ Storybook is the real-browser component playground for `packages/ui` and Game Cl
 a third application package and does not establish that every displayed app-local component is shared.
 Stories are discovered beside source through the two globs in `.storybook/main.ts`.
 
+Shared `AppShell`, `AppBar`, `Dock` and `DockItem` stories live beside their source in `packages/ui` and
+use framework-neutral fixtures. Game Client title, icon-action and product stories remain in the app
+tree when they require app identity, transitions, navigation or other local composition.
+
 `main.ts` configures React/Vite, Tailwind's Vite plugin, addon-docs, addon-a11y, addon-vitest and pseudo
 states. It merges `@game-client` and `@kartuli/ui` aliases, prebundles recurring Next/i18n/icon imports
 and forces automatic JSX through Vite 8's Oxc path so Next's inherited `jsx: preserve` does not leak
