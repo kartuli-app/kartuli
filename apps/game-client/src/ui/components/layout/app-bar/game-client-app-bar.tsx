@@ -1,6 +1,7 @@
-import { AppBar } from '@game-client/ui/components/layout/app-bar/app-bar';
+import { AppBarTitle } from '@game-client/ui/components/layout/app-bar/app-bar-title';
 import { BackButton } from '@game-client/ui/components/layout/app-bar/back-button';
 import { MascotLogo } from '@game-client/ui/components/layout/app-bar/mascot-logo';
+import { AppBar } from '@kartuli/ui/components/layout/app-bar/app-bar';
 import type { ReactNode } from 'react';
 
 export interface GameClientAppBarProps {
@@ -21,8 +22,7 @@ export function GameClientAppBar({
   return (
     <AppBar
       leading={backHref ? <BackButton href={backHref} /> : <MascotLogo />}
-      eyeBrow={eyeBrow}
-      title={title}
+      title={<AppBarTitle title={title} eyeBrow={eyeBrow} />}
       trailingPrimary={trailingPrimary}
       trailingSecondary={trailingSecondary}
     />

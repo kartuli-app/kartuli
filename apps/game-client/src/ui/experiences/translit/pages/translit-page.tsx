@@ -6,9 +6,9 @@ import {
 import { getLibraryServer } from '@game-client/learning-content';
 import { GameClientAppBar } from '@game-client/ui/components/layout/app-bar/game-client-app-bar';
 import { GameClientDock } from '@game-client/ui/components/layout/dock/game-client-dock';
-import { AppShell } from '@game-client/ui/components/layout/shell/app-shell';
 import { RailPatternAlphabet } from '@game-client/ui/components/layout/shell/rail-pattern-alphabet';
 import { TranslitClient } from '@game-client/ui/experiences/translit/components/translit-client';
+import { AppShell } from '@kartuli/ui/components/layout/shell/app-shell';
 
 export async function TranslitPage({
   params,

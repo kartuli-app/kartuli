@@ -1,11 +1,13 @@
-import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
+import { cn } from '../../../utils/cn';
 
-export function Dock({
-  ariaLabel,
-  children,
-  className,
-}: Readonly<{ ariaLabel?: string; children?: ReactNode; className?: string }>) {
+export interface DockProps {
+  ariaLabel?: string;
+  children?: ReactNode;
+  className?: string;
+}
+
+export function Dock({ ariaLabel, children, className }: Readonly<DockProps>) {
   return (
     <nav
       aria-label={ariaLabel}

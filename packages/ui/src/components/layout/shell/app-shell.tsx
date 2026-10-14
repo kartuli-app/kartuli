@@ -1,12 +1,21 @@
-import { MainContent } from '@game-client/ui/components/layout/shell/main-content';
-import { ShellRail } from '@game-client/ui/components/layout/shell/shell-rail';
-import { cn } from '@kartuli/ui/utils/cn';
+import type { ReactNode } from 'react';
+import { cn } from '../../../utils/cn';
+import { ContentContainer } from './content-container';
+import { ShellRail } from './shell-rail';
 
-interface AppShellProps {
-  appBar: React.ReactNode;
-  startRailContent?: React.ReactNode;
-  endRailContent?: React.ReactNode;
-  children: React.ReactNode;
+export interface AppShellProps {
+  appBar: ReactNode;
+  startRailContent?: ReactNode;
+  endRailContent?: ReactNode;
+  children: ReactNode;
+}
+
+function MainContent({ children }: Readonly<{ children: ReactNode }>) {
+  return (
+    <div className="bg-s-color-shell-bg flex-1">
+      <ContentContainer>{children}</ContentContainer>
+    </div>
+  );
 }
 
 export function AppShell({

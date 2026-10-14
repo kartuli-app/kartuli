@@ -29,6 +29,11 @@ explicit `@source` directives for the React trees it renders. Shared React code 
 app-specific patterns remain under the app's source tree. Use the shared `cn` helper for conditional
 class merging. Package exports are owned by [Packages](../02-packages/index.md).
 
+The reusable application shell is implemented in `@kartuli/ui`: app-bar structure, content container,
+optional rails, responsive offsets, dock structure and dock-item presentation are shared. Applications
+still own navigation definitions, router adapters, localized labels, titles, identity, actions and
+decorative rail content.
+
 ## Typography, themes and patterns
 
 The Game Client root layout supplies Manrope through `next/font/google` and local Mersad for Georgian, binding font variables to the theme contract. App font loading is an integration detail, not proof every surface uses the same fonts. Storybook visualizes tokens and offers brand-ramp overrides; this is not an implemented end-user theme switcher.

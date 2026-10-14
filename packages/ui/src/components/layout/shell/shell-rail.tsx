@@ -1,5 +1,5 @@
-import { cn } from '@kartuli/ui/utils/cn';
 import type { ReactNode } from 'react';
+import { cn } from '../../../utils/cn';
 
 export interface ShellRailProps {
   placement: 'start' | 'end';
@@ -10,6 +10,7 @@ export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
   if (!children) {
     return null;
   }
+
   return (
     <div
       className={cn(
@@ -32,7 +33,7 @@ export function ShellRail({ placement, children }: Readonly<ShellRailProps>) {
         placement === 'end' && [
           'top-0',
           'bottom-0',
-          ' overflow-hidden',
+          'overflow-hidden',
           'h-full',
           'hidden 2xl:flex 2xl:fixed',
           'w-width-rail-expanded',
