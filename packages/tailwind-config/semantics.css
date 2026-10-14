@@ -112,6 +112,7 @@
 
   /* Panel controls. */
   --s-color-panel-control-bg: var(--p-color-neutral-200);
+  --s-color-panel-control-interactive-bg: var(--p-color-neutral-200);
   --s-color-panel-control-selected-bg: var(--p-color-brand-600);
   --s-color-panel-control-selected-border: var(--p-color-brand-600);
   --s-color-panel-control-ring: var(--p-color-neutral-500);
@@ -250,6 +251,7 @@
   );
 
   --color-s-color-panel-control-bg: var(--s-color-panel-control-bg);
+  --color-s-color-panel-control-interactive-bg: var(--s-color-panel-control-interactive-bg);
   --color-s-color-panel-control-selected-bg: var(--s-color-panel-control-selected-bg);
   --color-s-color-panel-control-selected-border: var(--s-color-panel-control-selected-border);
   --color-s-color-panel-control-ring: var(--s-color-panel-control-ring);

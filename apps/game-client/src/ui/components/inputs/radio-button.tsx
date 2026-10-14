@@ -37,7 +37,7 @@ export function RadioButton({
         disabled={disabled}
         onChange={onChange}
         className={cn(
-          'size-5',
+          'size-p-spacing-5',
           'shrink-0',
           'appearance-none',
           'rounded-p-radius-full',

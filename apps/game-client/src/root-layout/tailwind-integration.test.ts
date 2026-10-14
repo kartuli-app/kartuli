@@ -37,9 +37,12 @@ describe('tailwind integration (game-client)', () => {
 
   it('emits runtime variables from every token layer', () => {
     expect(css).toMatch(/--p-color-neutral-500: .+;/);
+    expect(css).toContain('--p-spacing-0: 0px;');
     expect(css).toMatch(/--p-spacing-3: .+;/);
+    expect(css).toContain('--p-spacing-5: 20px;');
     expect(css).toMatch(/--p-radius-1: .+;/);
     expect(css).toContain('--s-color-panel-control-bg: var(--p-color-neutral-200);');
+    expect(css).toContain('--s-color-panel-control-interactive-bg: var(--p-color-neutral-200);');
     expect(css).toContain('--c-height-appbar: 5rem;');
   });
 
@@ -48,6 +51,20 @@ describe('tailwind integration (game-client)', () => {
     expect(css).toContain('--spacing-p-spacing-3: var(--p-spacing-3);');
     expect(css).toContain('--radius-p-radius-1: var(--p-radius-1);');
     expect(css).toContain('--color-s-color-panel-control-bg: var(--s-color-panel-control-bg);');
+    expect(css).toContain(
+      '--color-s-color-panel-control-interactive-bg: var(--s-color-panel-control-interactive-bg);',
+    );
     expect(css).toContain('--spacing-height-appbar: var(--c-height-appbar);');
+  });
+
+  it('compiles the panel interaction and touched spacing utilities', () => {
+    expect(css).toContain('.bg-s-color-panel-control-interactive-bg');
+    expect(css).toContain('.hover\\:bg-s-color-panel-control-interactive-bg');
+    expect(css).toContain('.focus-visible\\:bg-s-color-panel-control-interactive-bg');
+    expect(css).toContain('.data-\\[popup-open\\]\\:bg-s-color-panel-control-interactive-bg');
+    expect(css).toMatch(
+      /\.size-p-spacing-5\s*\{[^}]*width: var\(--spacing-p-spacing-5\);[^}]*height: var\(--spacing-p-spacing-5\);[^}]*\}/s,
+    );
+    expect(css).toMatch(/\.p-p-spacing-0\s*\{[^}]*padding: var\(--spacing-p-spacing-0\);[^}]*\}/s);
   });
 });
