@@ -58,13 +58,27 @@ describe('tailwind integration (game-client)', () => {
   });
 
   it('compiles the panel interaction and touched spacing utilities', () => {
-    expect(css).toContain('.bg-s-color-panel-control-interactive-bg');
-    expect(css).toContain('.hover\\:bg-s-color-panel-control-interactive-bg');
-    expect(css).toContain('.focus-visible\\:bg-s-color-panel-control-interactive-bg');
-    expect(css).toContain('.data-\\[popup-open\\]\\:bg-s-color-panel-control-interactive-bg');
+    const interactiveBackground = ['bg', 's-color-panel-control-interactive-bg'].join('-');
+    const spacingFive = ['p', 'spacing-5'].join('-');
+    const spacingZero = ['p', 'spacing-0'].join('-');
+    const sharedUiBorder = ['border', 'p-color-neutral-300'].join('-');
+
+    expect(css).toContain(`.${interactiveBackground}`);
+    expect(css).toContain(`.hover\\:${interactiveBackground}`);
+    expect(css).toContain(`.focus-visible\\:${interactiveBackground}`);
+    expect(css).toContain(`.data-\\[popup-open\\]\\:${interactiveBackground}`);
+    expect(css).toContain(`.${sharedUiBorder}`);
     expect(css).toMatch(
-      /\.size-p-spacing-5\s*\{[^}]*width: var\(--spacing-p-spacing-5\);[^}]*height: var\(--spacing-p-spacing-5\);[^}]*\}/s,
+      new RegExp(
+        `\\.size-${spacingFive}\\s*\\{[^}]*width: var\\(--spacing-${spacingFive}\\);[^}]*height: var\\(--spacing-${spacingFive}\\);[^}]*\\}`,
+        's',
+      ),
     );
-    expect(css).toMatch(/\.p-p-spacing-0\s*\{[^}]*padding: var\(--spacing-p-spacing-0\);[^}]*\}/s);
+    expect(css).toMatch(
+      new RegExp(
+        `\\.p-${spacingZero}\\s*\\{[^}]*padding: var\\(--spacing-${spacingZero}\\);[^}]*\\}`,
+        's',
+      ),
+    );
   });
 });
