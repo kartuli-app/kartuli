@@ -22,7 +22,7 @@ describe('tailwind integration (backoffice-client)', () => {
   });
 
   it('imports the shared contract before the app theme', () => {
-    const sharedThemeImportIndex = entryCss.indexOf('@import "@kartuli/tailwind-config";');
+    const sharedThemeImportIndex = entryCss.indexOf('@import "@kartuli/design-system";');
     const appThemeImportIndex = entryCss.indexOf('@import "./theme.css";');
 
     expect(sharedThemeImportIndex).toBeGreaterThan(-1);

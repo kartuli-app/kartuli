@@ -191,9 +191,9 @@ importers:
 
   apps/backoffice-client:
     dependencies:
-      '@kartuli/tailwind-config':
+      '@kartuli/design-system':
         specifier: workspace:*
-        version: link:../../packages/tailwind-config
+        version: link:../../packages/design-system
       '@kartuli/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -252,9 +252,9 @@ importers:
       '@base-ui/react':
         specifier: 'catalog:'
         version: 1.8.0(@date-fns/tz@1.4.1)(@types/react@19.3.0)(date-fns@4.1.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@kartuli/tailwind-config':
+      '@kartuli/design-system':
         specifier: workspace:*
-        version: link:../../packages/tailwind-config
+        version: link:../../packages/design-system
       '@kartuli/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -367,7 +367,7 @@ importers:
 
   docs: {}
 
-  packages/tailwind-config: {}
+  packages/design-system: {}
 
   packages/ui:
     dependencies:
@@ -441,12 +441,12 @@ importers:
 
   tools/storybook:
     devDependencies:
+      '@kartuli/design-system':
+        specifier: workspace:*
+        version: link:../../packages/design-system
       '@kartuli/game-client':
         specifier: workspace:*
         version: link:../../apps/game-client
-      '@kartuli/tailwind-config':
-        specifier: workspace:*
-        version: link:../../packages/tailwind-config
       '@kartuli/ui':
         specifier: workspace:*
         version: link:../../packages/ui

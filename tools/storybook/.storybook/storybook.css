@@ -9,7 +9,7 @@
 @import "https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap";
 @import "tailwindcss";
 /* `@import` resolves package exports; this loads the shared token contract CSS. */
-@import "@kartuli/tailwind-config";
+@import "@kartuli/design-system";
 
 @font-face {
   font-family: Mersad;

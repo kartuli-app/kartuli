@@ -6,8 +6,8 @@ intent: architecture
 
 # Design System
 
-The shared visual contract is implemented by the hand-authored CSS files in
-`packages/tailwind-config`. `index.css` is the public entry point and imports
+The CSS-first shared Design System contract is implemented by the hand-authored files in
+`packages/design-system`. `index.css` is the public entry point and imports
 `primitives.css`, `semantics.css` and `components.css` in dependency order. These committed files are
 the shipped source, not output from a token generator.
 
@@ -23,7 +23,7 @@ utilities. Primitive colors remain available for theme overrides and intentional
 Use Kartuli primitive spacing and radius utilities when an equivalent exists; ordinary layout utilities
 remain appropriate for flex, grid, positioning and other structural behavior.
 
-Apps import Tailwind, then `@kartuli/tailwind-config`, then their own `theme.css`. The shared package is
+Apps import Tailwind, then `@kartuli/design-system`, then their own `theme.css`. The shared package is
 part of the CSS import graph; it is not a Tailwind class-name source. Each compilation environment uses
 explicit `@source` directives for the React trees it renders. Shared React code is in `@kartuli/ui`;
 app-specific patterns remain under the app's source tree. Use the shared `cn` helper for conditional

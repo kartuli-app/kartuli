@@ -23,7 +23,7 @@ pnpm test   # Run tests
 
 ## Theming in Storybook
 
-Storybook imports the layered shared token contract from the public `@kartuli/tailwind-config` entry
+Storybook imports the layered shared token contract from the public `@kartuli/design-system` entry
 through `.storybook/storybook.css`. That stylesheet explicitly scans Storybook-local source,
 `packages/ui/src`, and Game Client source for Tailwind classes; the CSS token package itself is imported,
 not scanned.

@@ -61,12 +61,12 @@ site but a failed workflow and sends the post-deploy failure notification.
 ## Production app trigger boundary
 
 Both production app workflows watch the same shared build boundary because both apps depend directly
-on `@kartuli/ui` and `@kartuli/tailwind-config`. Their app-specific paths remain separate.
+on `@kartuli/ui` and `@kartuli/design-system`. Their app-specific paths remain separate.
 
 | Watched path | Game Client | Backoffice | Why it triggers production |
 | --- | --- | --- | --- |
 | App workspace | `apps/game-client/**` | `apps/backoffice-client/**` | App source, assets, manifest and app-scoped build configuration |
-| Shared workspaces | `packages/ui/**`, `packages/tailwind-config/**` | Same | Imported code and the shared CSS/token contract |
+| Shared workspaces | `packages/ui/**`, `packages/design-system/**` | Same | Imported code and the shared CSS/token contract |
 | Root build configuration | `.nvmrc`, `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `tsconfig.json`, `turbo.json` | Same | Runtime/package-manager selection, workspace/catalog resolution, frozen dependency graph, inherited TypeScript configuration and Turbo task graph |
 | Production verification | `tools/e2e/**` | Same | Playwright package, shared helpers/configuration and production smoke tests executed after deployment |
 | Workflow definition | `.github/workflows/production-w-app-game-client.yml` | `.github/workflows/production-w-app-backoffice-client.yml` | A change to the owning production sequence exercises that sequence on `main` |

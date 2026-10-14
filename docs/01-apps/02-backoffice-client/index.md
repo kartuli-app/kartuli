@@ -18,7 +18,7 @@ renders the static Backoffice home. `next.config.ts` redirects `/` to `/en` temp
 repositories, persistence adapters, authentication checks or authorization rules in this workspace.
 
 The root layout fixes `lang="en"` and imports app CSS. Global CSS loads Tailwind, then the layered
-`@kartuli/tailwind-config` public entry, then an empty app-specific `theme.css` override file. The body
+`@kartuli/design-system` public entry, then an empty app-specific `theme.css` override file. The body
 uses the shared shell background and primary-content semantic roles. The app declares `@kartuli/ui`,
 but the current scaffold does not import a shared React component. Treat the package declarations as
 available boundaries, not proof of active UI reuse or a completed Backoffice brand theme.
@@ -54,7 +54,7 @@ not exist.
 
 The local port does not define the deployed address. The production workflow deploys to the configured
 Vercel project and runs `pnpm e2e backoffice-client --url https://backoffice.kartuli.app --production`.
-Its path filter watches this app plus the shared UI, Tailwind,
+Its path filter watches this app plus the shared UI, Design System,
 root build/dependency configuration and production E2E inputs documented in
 [Deployment](../../07-platform/02-deployment.md). Account/project/domain settings require external
 verification.

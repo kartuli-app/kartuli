@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@kartuli/game-client": "workspace:*",
-    "@kartuli/tailwind-config": "workspace:*",
+    "@kartuli/design-system": "workspace:*",
     "@kartuli/ui": "workspace:*",
     "@storybook/addon-a11y": "catalog:",
     "@storybook/addon-docs": "catalog:",

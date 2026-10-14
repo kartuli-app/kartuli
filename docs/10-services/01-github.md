@@ -95,7 +95,7 @@ repository keeps inline pins and does not use an `actions.lock` file.
 
 Production workflows run on selected main-branch paths or manual dispatch, and guard their jobs with
 `github.ref == 'refs/heads/main'`. Each app filter watches its own workspace and workflow plus the
-shared UI, Tailwind, root build/dependency configuration and production E2E inputs listed in
+shared UI, Design System, root build/dependency configuration and production E2E inputs listed in
 [Deployment](../07-platform/02-deployment.md). App and docs path filters differ, and production does
 not reuse staging's Turbo affected-workspace selection.
 

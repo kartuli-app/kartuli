@@ -17,7 +17,7 @@ This inventory describes repository usage, not upstream tutorials. Versions belo
 | [TypeScript](https://www.typescriptlang.org/docs/) | Version 7, including Storybook | Root/workspace `tsconfig*`, catalog |
 | [React](https://react.dev/) | Version 19; app UI, shared UI and component stories | App and UI manifests |
 | [Next.js](https://nextjs.org/docs) | Version 16; two app workspaces, App Router, server/client boundaries | App `next.config.ts`, `src/app`; read installed Next docs before coding |
-| [Tailwind CSS](https://tailwindcss.com/docs) | Version 4; utility styling and shared CSS token contract | `packages/tailwind-config/index.css` and its three layer files |
+| [Tailwind CSS](https://tailwindcss.com/docs) | Version 4; utility styling and shared CSS token contract | `packages/design-system/index.css` and its three layer files |
 | [PostCSS](https://postcss.org/) | Next.js Tailwind integration through `@tailwindcss/postcss` | App `postcss.config.mjs` |
 | [Vite](https://vite.dev/guide/) | Storybook React build/test integration; VitePress uses its own dependency graph | Storybook and Web Docs manifests/config |
 | [VitePress](https://vitepress.dev/) / [Vue](https://vuejs.org/guide/introduction.html) | VitePress 1.6.4 and Vue 3 render docs, not product UI | [Web Docs Client](../03-tools/03-web-docs-client.md) |

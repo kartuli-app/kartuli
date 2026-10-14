@@ -8,9 +8,9 @@ intent: reference
 
 ## Role and configuration
 
-Tailwind 4 supplies utility generation; `@kartuli/tailwind-config` supplies the shared design contract. App `postcss.config.mjs` configures `@tailwindcss/postcss`. Storybook uses `@tailwindcss/vite` in `.storybook/main.ts`, so the two build paths must both understand the shared CSS.
+Tailwind 4 supplies utility generation; `@kartuli/design-system` supplies the CSS-first shared Design System contract. App `postcss.config.mjs` configures `@tailwindcss/postcss`. Storybook uses `@tailwindcss/vite` in `.storybook/main.ts`, so the two build paths must both understand the shared CSS.
 
-Every consumer imports CSS in this order: Tailwind, `@kartuli/tailwind-config`, then any consumer theme
+Every consumer imports CSS in this order: Tailwind, `@kartuli/design-system`, then any consumer theme
 or global rules. The package root resolves to `index.css`, which imports `primitives.css`,
 `semantics.css` and `components.css` in dependency order. Each layer keeps runtime custom properties
 under `:root` beside its Tailwind mappings under `@theme static`; there is no separate token build step.
@@ -46,6 +46,6 @@ consumer stylesheet import order. If Storybook differs from an app, inspect
 new shared/app-local class names in a running development consumer as well as in production builds.
 Avoid treating a typo or missing source path as a reason to duplicate raw colors in a component.
 
-Sources: `packages/tailwind-config/index.css` and its layer files, app PostCSS/global styles,
+Sources: `packages/design-system/index.css` and its layer files, app PostCSS/global styles,
 `tools/storybook/.storybook/storybook.css` and `.storybook/main.ts`. Visual roles and theme changes
 remain canonical in [Design System](../../04-design-system/index.md).

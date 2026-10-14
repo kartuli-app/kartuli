@@ -16,7 +16,7 @@ assuming that a primitive palette shade has a fixed UI meaning.
 ## Theme integration
 
 The Design System supplies complete defaults. Each app imports its `theme.css` after
-`@kartuli/tailwind-config`; an app may override selected primitive colors there while semantic mappings,
+`@kartuli/design-system`; an app may override selected primitive colors there while semantic mappings,
 spacing and radius remain shared. The Game Client currently uses an empty/default theme integration,
 and Backoffice's file is also an integration point rather than an implemented brand redesign.
 
@@ -47,6 +47,6 @@ axe reports some contrast failures but cannot validate the design intent of ever
 
 Use axe/browser checks and manual contrast/focus inspection in context. Do not declare a complete dark
 theme, runtime theme switcher or alternate app brand contract until its surfaces and states are
-specified and tested. Sources: `packages/tailwind-config/primitives.css`, `semantics.css`, app
+specified and tested. Sources: `packages/design-system/primitives.css`, `semantics.css`, app
 `theme.css` files, Storybook `preview.tsx`, `theme-wrappers.tsx` and token stories; [Design
 tokens](./01-tokens.md) owns naming conventions.
