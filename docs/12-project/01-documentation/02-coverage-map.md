@@ -21,7 +21,7 @@ workflow. The [dependency inventory](../../05-engineering/06-dependency-inventor
 | `apps/game-client` | [Game Client](../../01-apps/01-game-client/index.md) and [architecture](../../01-apps/01-game-client/02-architecture.md) | Routes, bundled content, i18n, local state, errors, offline boundary and operations |
 | `apps/backoffice-client` | [Backoffice Client](../../01-apps/02-backoffice-client/index.md) | Scaffold, ports, tests, shared styles, missing auth/data boundaries |
 | `packages/ui` | [Packages](../../02-packages/index.md) and [Design System](../../04-design-system/index.md) | Source-subpath export, consumers, `cn`, token story and current no-emit build |
-| `packages/tailwind-config` | [Packages](../../02-packages/index.md) and [Design Tokens](../../04-design-system/01-tokens.md) | CSS export, token layers, Tailwind mappings and change workflow |
+| `packages/design-system` | [Packages](../../02-packages/index.md) and [Design Tokens](../../04-design-system/01-tokens.md) | CSS export, token layers, Tailwind mappings and change workflow |
 | `tools/storybook` | [Storybook](../../03-tools/01-storybook.md) | Story discovery, Vite aliases, docgen, themes, browser/a11y tests |
 | `tools/e2e` | [E2E Runner](../../03-tools/02-e2e-runner.md) | Target selection, server prerequisite, artifacts, a11y helper and production scope |
 | `tools/web-docs-client` and `docs` | [Web Docs Client](../../03-tools/03-web-docs-client.md) | Generation/build/preview, navigation, LLM index, diagrams and verification |
@@ -65,7 +65,7 @@ consumers and call out declared-but-unverified roles.
 | Capability | Repository evidence | Canonical owner | Known gap that remains visible |
 | --- | --- | --- | --- |
 | PR validation | Staging orchestrator, affected mapper, validation actions | [CI](../../07-platform/01-ci.md), [GitHub](../../10-services/01-github.md) | Main ruleset verified on 2026-10-06; changes require a fresh settings read |
-| App preview/production | Reusable staging and two production workflows | [Deployment](../../07-platform/02-deployment.md), [Vercel](../../10-services/02-vercel.md) | Production path filters omit the actual Tailwind package; rollback is undocumented |
+| App preview/production | Reusable staging and two production workflows | [Deployment](../../07-platform/02-deployment.md), [Vercel](../../10-services/02-vercel.md) | Production path filters cover both shared packages; rollback is undocumented |
 | Docs production | Pages build/deploy/post-deploy E2E | [Deployment](../../07-platform/02-deployment.md), [GitHub](../../10-services/01-github.md) | Pages environment/settings require verification |
 | Remote cache | Turbo config, Actions cache, `TURBO_*` names | [Remote Build Cache](../../07-platform/03-remote-build-cache.md) | Hit/auth/retention state is external |
 | Dependency updates | Catalog/lockfile, Renovate policy and dashboard #28 | [Dependency Management](../../07-platform/04-dependency-management.md), [Renovate](../../10-services/05-renovate.md) | Discovery/PRs verified; inherited settings/timezone remain external |
@@ -92,8 +92,8 @@ These are known incomplete capabilities, not undocumented implemented systems:
 - Analytics policy, telemetry taxonomy, consent, retention and centralized observability are planned.
 - Release rollback/promotion, incident response, backup and recovery runbooks are not established.
 - Provider-console settings, ownership and secret rotation need authorized manual verification.
-- Production path-filter cleanup, Kroki rendering/privacy decisions and a local Backoffice preview/E2E
-  port alignment require implementation work outside this documentation-only continuation.
+- Kroki rendering/privacy decisions and a local Backoffice preview/E2E port alignment require
+  implementation work outside this documentation-only continuation.
 
 ## Audit procedure
 

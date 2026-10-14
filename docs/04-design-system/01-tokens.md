@@ -8,7 +8,7 @@ intent: reference
 
 ## Source and layers
 
-`packages/tailwind-config/index.css` is the public CSS entry point. It imports the hand-maintained
+`packages/design-system/index.css` is the public CSS entry point. It imports the hand-maintained
 `primitives.css`, `semantics.css` and `components.css` files in that order. Each layer owns both its
 runtime custom properties and its corresponding `@theme static` mappings. No external token generator,
 Style Dictionary/DTCG pipeline or custom token build step is required.
@@ -48,7 +48,7 @@ Search consumers before changing or removing a name. Verify both apps' Tailwind 
 ### Practical workflow
 
 1. Search the runtime variable, `@theme` mapping and utility consumers before editing.
-2. Change the owning layer under `packages/tailwind-config`. Keep the runtime value and Tailwind
+2. Change the owning layer under `packages/design-system`. Keep the runtime value and Tailwind
    namespace mapping together in that file.
 3. If the primitive catalog changed, update
    `packages/ui/src/components/design-system-tokens/design-system-tokens.tsx` so Storybook displays it.

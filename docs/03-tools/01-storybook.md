@@ -17,7 +17,7 @@ states. It merges `@game-client` and `@kartuli/ui` aliases, prebundles recurring
 and forces automatic JSX through Vite 8's Oxc path so Next's inherited `jsx: preserve` does not leak
 unparsed JSX into Storybook.
 
-`.storybook/storybook.css` imports Tailwind and the public `@kartuli/tailwind-config` CSS entry. Its
+`.storybook/storybook.css` imports Tailwind and the public `@kartuli/design-system` CSS entry. Its
 explicit `@source` directives scan Storybook-local source, `packages/ui/src` and Game Client source
 because those are the React trees Storybook renders. It does not scan the Design System CSS package or
 Backoffice source.

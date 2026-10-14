@@ -27,7 +27,7 @@ Component dimensions include compact/expanded rails (6rem/14rem), app-bar height
 
 Use structure utilities for flex/grid/positioning and tokens for shared dimensions. Check widths around each active breakpoint, not only common device presets. Verify that fixed UI does not cover content or focused controls and that long localized labels do not force overflow.
 
-Sources: `packages/tailwind-config/primitives.css`, `components.css` and
+Sources: `packages/design-system/primitives.css`, `components.css` and
 `apps/game-client/src/ui/components/layout/shell`. A shared responsive pattern should be documented here
 when adopted by multiple surfaces; do not copy Game Client shell assumptions into Backoffice without
 evaluating its operator workflow.

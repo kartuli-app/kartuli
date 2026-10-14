@@ -57,7 +57,7 @@ Always use conventional commit format for all commits:
 
 ### Packages
 
-- Tailwind config (css variables and Tailwind CSS utility classes): `/packages/tailwind-config`
+- Design System (shared CSS variables and Tailwind CSS utility mappings): `/packages/design-system`
 - UI (shared ui components and utilities): `/packages/ui`
 
 ### Tools

@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'apps/game-client/**'
-      - 'packages/tailwind-config/**'
+      - 'packages/design-system/**'
       - 'packages/ui/**'
       - 'tools/e2e/**'
       - '.nvmrc'

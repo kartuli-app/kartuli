@@ -11,7 +11,7 @@ Packages are imported by workspace code; they do not own app product policy.
 | Package | Public contract and responsibility | Consumers / conventions |
 | --- | --- | --- |
 | `@kartuli/ui` | `packages/ui/package.json` exports source subpaths via `./*`; shared React components and `src/utils/cn.tsx` | Apps and Storybook; use `cn` for conditional class merging; do not assume a root barrel export |
-| `@kartuli/tailwind-config` | Root export is `index.css`, which imports the primitive, semantic and component CSS layers | Apps and Storybook import `@kartuli/tailwind-config`; edit the committed layer files directly |
+| `@kartuli/design-system` | CSS-first shared Design System contract; the root export is `index.css`, which imports the primitive, semantic and component CSS layers | Apps and Storybook import `@kartuli/design-system`; edit the committed layer files directly |
 
 ## UI package boundary
 
@@ -26,9 +26,9 @@ translation or navigation dependencies belong in the app. Keep exports named and
 shared behavior. Storybook can import app-local components for inspection; that does not make those
 components package API.
 
-## Tailwind package boundary
+## Design System package boundary
 
-The Tailwind package root exports `index.css` and publishes it with `primitives.css`, `semantics.css`
+The Design System package root exports `index.css` and publishes it with `primitives.css`, `semantics.css`
 and `components.css`. It has no generation/build step: each layer keeps its runtime variables and
 `@theme static` mappings together. Both apps load the package after `tailwindcss` and before their
 app-specific `theme.css`; Storybook loads it from its own CSS entry through the Tailwind Vite plugin.
@@ -49,7 +49,7 @@ are planned possibilities, not existing workspaces.
 pnpm --filter @kartuli/ui run typecheck
 pnpm --filter @kartuli/ui run test
 pnpm --filter @kartuli/ui run build
-pnpm --filter @kartuli/tailwind-config run lint
+pnpm --filter @kartuli/design-system run lint
 pnpm run validate:all
 ```
 

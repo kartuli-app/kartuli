@@ -3,12 +3,12 @@
  *
  * Order matters:
  * 1. Tailwind directives
- * 2. Shared theme contract from @kartuli/tailwind-config
+ * 2. Shared theme contract from @kartuli/design-system
  * 3. App-specific value overrides
  */
 
 @import "tailwindcss";
-@import "@kartuli/tailwind-config";
+@import "@kartuli/design-system";
 @import "./theme.css";
 
 @source "./";

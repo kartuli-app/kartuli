@@ -108,7 +108,7 @@ prove Turbo cache access, and a public project link does not verify the configur
 6. Read the final workflow result; the preview Telegram message is sent before E2E.
 
 Both app production path filters include their real shared workspace dependencies, including
-`packages/ui/**` and `packages/tailwind-config/**`, plus the root build/dependency inputs documented in
+`packages/ui/**` and `packages/design-system/**`, plus the root build/dependency inputs documented in
 [Deployment](../07-platform/02-deployment.md). Lighthouse configuration and reporter code are consumed
 by production audits after a real release trigger, but Lighthouse-only changes do not initiate an app
 deployment. The filters remain explicit and separate from staging's Turbo affected-workspace

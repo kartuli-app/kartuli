@@ -3,7 +3,7 @@
  *
  * Order matters:
  * 1. Tailwind directives
- * 2. Theme contract from @kartuli/tailwind-config
+ * 2. Theme contract from @kartuli/design-system
  * 3. App-specific value overrides
  */
 
@@ -11,7 +11,7 @@
 @import "tailwindcss";
 
 /* `@import` resolves packages/modules (like Node resolution), so package names are correct here. */
-@import "@kartuli/tailwind-config";
+@import "@kartuli/design-system";
 
 /* Import app-specific theme overrides */
 @import "./theme.css";
