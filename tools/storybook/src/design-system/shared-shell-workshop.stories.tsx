@@ -231,22 +231,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Review: Story = {
   play: async ({ canvas }) => {
-    await userEvent.click(canvas.getByRole('link', { name: 'Library' }));
-    await expect(
-      await canvas.findByRole('link', { name: 'Library', current: 'page' }),
-    ).toBeVisible();
-    await expect(await canvas.findByRole('heading', { name: 'Library' })).toBeVisible();
-
-    await userEvent.click(canvas.getByRole('link', { name: 'Settings' }));
-    await expect(
-      await canvas.findByRole('link', { name: 'Settings', current: 'page' }),
-    ).toBeVisible();
-    await expect(await canvas.findByRole('heading', { name: 'Settings' })).toBeVisible();
-
-    await userEvent.click(canvas.getByRole('link', { name: 'Overview' }));
-    await expect(
-      await canvas.findByRole('link', { name: 'Overview', current: 'page' }),
-    ).toBeVisible();
-    await expect(await canvas.findByRole('heading', { name: 'Overview' })).toBeVisible();
+    for (const destination of ['Library', 'Settings', 'Overview']) {
+      await userEvent.click(canvas.getByRole('link', { name: destination }));
+      await expect(
+        await canvas.findByRole('link', { name: destination, current: 'page' }),
+      ).toBeVisible();
+      await expect(await canvas.findByRole('heading', { name: destination })).toBeVisible();
+    }
   },
 };
