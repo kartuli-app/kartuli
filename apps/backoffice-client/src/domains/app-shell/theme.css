@@ -1,7 +1,32 @@
 /**
  * Backoffice Client Theme Overrides
  *
- * Add backoffice-specific theme values here.
- * Import this after the shared theme in globals.css.
+ * Override primitive brand and accent values only. Shared semantic mappings,
+ * spacing, radius, and component geometry continue to come from the Design System.
  */
 
+:root {
+  --p-color-brand-50: #ecfdf5;
+  --p-color-brand-100: #d1fae5;
+  --p-color-brand-200: #a7f3d0;
+  --p-color-brand-300: #6ee7b7;
+  --p-color-brand-400: #34d399;
+  --p-color-brand-500: #059669;
+  --p-color-brand-600: #047857;
+  --p-color-brand-700: #065f46;
+  --p-color-brand-800: #064e3b;
+  --p-color-brand-900: #022c22;
+  --p-color-brand-950: #011c16;
+
+  --p-color-accent-50: #fff1f2;
+  --p-color-accent-100: #ffe4e6;
+  --p-color-accent-200: #fecdd3;
+  --p-color-accent-300: #fda4af;
+  --p-color-accent-400: #fb7185;
+  --p-color-accent-500: #f43f5e;
+  --p-color-accent-600: #e11d48;
+  --p-color-accent-700: #be123c;
+  --p-color-accent-800: #9f1239;
+  --p-color-accent-900: #881337;
+  --p-color-accent-950: #4c0519;
+}

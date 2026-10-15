@@ -19,7 +19,7 @@ workflow. The [dependency inventory](../../05-engineering/06-dependency-inventor
 | Repository surface | Canonical owner | Coverage check |
 | --- | --- | --- |
 | `apps/game-client` | [Game Client](../../01-apps/01-game-client/index.md) and [architecture](../../01-apps/01-game-client/02-architecture.md) | Routes, bundled content, i18n, local state, errors, offline boundary and operations |
-| `apps/backoffice-client` | [Backoffice Client](../../01-apps/02-backoffice-client/index.md) | Scaffold, ports, tests, shared styles, missing auth/data boundaries |
+| `apps/backoffice-client` | [Backoffice Client](../../01-apps/02-backoffice-client/index.md) | Home/About proof routes, shared shell, primitive theme overrides, ports/tests and missing auth/data boundaries |
 | `packages/ui` | [Packages](../../02-packages/index.md) and [Design System](../../04-design-system/index.md) | Source-subpath export, consumers, `cn`, token story and current no-emit build |
 | `packages/design-system` | [Packages](../../02-packages/index.md) and [Design Tokens](../../04-design-system/01-tokens.md) | CSS export, token layers, Tailwind mappings and change workflow |
 | `tools/storybook` | [Storybook](../../03-tools/01-storybook.md) | Story discovery, Vite aliases, docgen, themes, browser/a11y tests |

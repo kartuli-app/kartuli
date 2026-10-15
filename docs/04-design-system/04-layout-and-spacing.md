@@ -30,10 +30,14 @@ when changing dimensions. Applications compose these primitives with their own n
 identity and decorative content; the current geometry is a shared contract but is not a requirement
 for unrelated future layouts.
 
+Game Client and Backoffice are active consumers of this geometry. Backoffice supplies a Home/About dock
+through the start-rail slot, so it receives the same mobile bottom clearance and tablet/desktop offsets
+without app-specific breakpoints or dimensions.
+
 ## Changing layout
 
 Use structure utilities for flex/grid/positioning and tokens for shared dimensions. Check widths around each active breakpoint, not only common device presets. Verify that fixed UI does not cover content or focused controls and that long localized labels do not force overflow.
 
 Sources: `packages/design-system/primitives.css`, `components.css` and
-`packages/ui/src/components/layout`. Reusing the contract in Backoffice still requires evaluating its
-operator composition rather than moving Game Client product content into shared UI.
+`packages/ui/src/components/layout`. Backoffice reuse keeps operator composition app-local rather than
+moving Game Client product content into shared UI.
