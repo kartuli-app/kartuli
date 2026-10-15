@@ -231,12 +231,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Review: Story = {
   play: async ({ canvas }) => {
-    for (const destination of ['Library', 'Settings', 'Overview']) {
+    async function selectDestination(destination: string) {
       await userEvent.click(canvas.getByRole('link', { name: destination }));
       await expect(
         await canvas.findByRole('link', { name: destination, current: 'page' }),
       ).toBeVisible();
       await expect(await canvas.findByRole('heading', { name: destination })).toBeVisible();
     }
+
+    await selectDestination('Library');
+    await selectDestination('Settings');
+    await selectDestination('Overview');
   },
 };
