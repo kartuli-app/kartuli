@@ -1,9 +1,13 @@
 export function HomePage() {
   return (
-    <main data-testid="backoffice-home">
-      <h1>kartuli.app</h1>
-      <h2>Backoffice</h2>
-      <h3>Test for telegram notifications</h3>
+    <main className="flex max-w-2xl flex-col gap-p-spacing-4" data-testid="backoffice-home">
+      <p className="text-s-color-shell-content-secondary text-sm font-bold uppercase">
+        Kartuli Backoffice
+      </p>
+      <h1 className="text-s-color-shell-content-primary text-4xl font-black">Home</h1>
+      <p className="text-s-color-shell-content-secondary text-lg">
+        Shared shell integration proof.
+      </p>
     </main>
   );
 }

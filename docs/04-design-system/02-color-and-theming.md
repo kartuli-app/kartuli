@@ -17,14 +17,20 @@ assuming that a primitive palette shade has a fixed UI meaning.
 
 The Design System supplies complete defaults. Each app imports its `theme.css` after
 `@kartuli/design-system`; an app may override selected primitive colors there while semantic mappings,
-spacing and radius remain shared. The Game Client currently uses an empty/default theme integration,
-and Backoffice's file is also an integration point rather than an implemented brand redesign.
+spacing and radius remain shared. Game Client uses an empty/default theme integration. Backoffice
+implements an emerald brand ramp and rose accent ramp as a deliberately small application identity
+proof. It does not redefine semantic variables, spacing, radius or shared component dimensions.
 
 Storybook supplies default, brand-emerald and brand-rose controls through `.storybook/preview.tsx` and
 `theme-wrappers.tsx`. Wrappers override primitive brand CSS variables on `document.documentElement`,
 record earlier inline values and restore them on cleanup.
 
 These previews exercise how semantic roles follow primitives. They are not a persisted end-user theme chooser, a dark-mode contract or proof that every palette combination passes contrast checks.
+
+Backoffice's production theme is separate from the Storybook synthetic wrappers. Its darker emerald
+500/600 values preserve border visibility and selected-action text contrast in the current shell. The
+Backoffice Tailwind integration test verifies representative overrides and rejects declarations outside
+the permitted brand/accent primitive namespaces.
 
 ## Changing colors
 

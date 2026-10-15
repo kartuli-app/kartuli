@@ -1,5 +1,5 @@
 ---
-description: Backoffice scaffold, intended content-management role, and shared capability references.
+description: Backoffice shared-shell proof, routes, theming, operations, and deferred product boundaries.
 status: implemented
 intent: reference
 ---
@@ -7,21 +7,27 @@ intent: reference
 # Backoffice Client
 
 `apps/backoffice-client` is a Next.js 16 App Router application intended for collaborator content
-management. The implemented surface is a scaffold, not evidence of a completed editor, backend or
-authorization system.
+management. Its implemented Home/About surface proves shared shell and theme reuse; it is not evidence
+of a completed editor, backend or authorization system.
 
 ## Implemented surface and boundaries
 
-`src/app/layout.tsx` delegates to `src/domains/app-shell/root-layout.tsx`; `src/app/en/page.tsx`
-renders the static Backoffice home. `next.config.ts` redirects `/` to `/en` temporarily and exposes
-`NEXT_PUBLIC_APP_VERSION` with the package version as fallback. There are no route handlers, content
-repositories, persistence adapters, authentication checks or authorization rules in this workspace.
+`src/app/layout.tsx` delegates to `src/domains/app-shell/root-layout.tsx`; the nested `src/app/en`
+layout composes the shared application shell around Home at `/en` and About at `/en/about`.
+`next.config.ts` redirects `/` to `/en` temporarily and exposes `NEXT_PUBLIC_APP_VERSION` with the
+package version as fallback. There are no route handlers, content repositories, persistence adapters,
+authentication checks or authorization rules in this workspace.
 
 The root layout fixes `lang="en"` and imports app CSS. Global CSS loads Tailwind, then the layered
-`@kartuli/design-system` public entry, then an empty app-specific `theme.css` override file. The body
-uses the shared shell background and primary-content semantic roles. The app declares `@kartuli/ui`,
-but the current scaffold does not import a shared React component. Treat the package declarations as
-available boundaries, not proof of active UI reuse or a completed Backoffice brand theme.
+`@kartuli/design-system` public entry, then app-specific `theme.css`. That theme overrides only the
+primitive brand and accent ramps: semantic roles, spacing, radius and component geometry remain
+shared. Normal Backoffice React UI uses semantic colors.
+
+Backoffice composes `AppShell`, `AppBar`, `Dock` and `DockItem` from `@kartuli/ui`. It owns the two
+navigation definitions, exact active-route selection, static application title, inline icons and the
+small `next/link` adapter required by `DockItem`. Only the pathname-aware dock is a Client Component;
+the route layout, page content and app-bar composition remain Server Components. The shared shell
+provides the bottom dock below `md`, compact rail from `md`, and expanded rail from `xl`.
 
 Introducing privileged content operations requires an explicit authentication/authorization design,
 server-side enforcement and data/error flows. A client-only route guard would not be an adequate
@@ -46,9 +52,10 @@ side-by-side. E2E selects the Backoffice suite and that URL together:
 pnpm e2e backoffice-client
 ```
 
-The only local component tests currently cover the static home and Tailwind integration. The production
-Playwright suite is a smoke check; it does not prove editor, data or access-control behavior that does
-not exist.
+Local component tests cover Home/About content, shared shell composition, navigation destinations and
+active states, plus Tailwind/theme integration. The production Playwright suite covers the redirect,
+both direct routes, navigation, accessibility and console-error smoke boundaries; it does not prove
+editor, data or access-control behavior that does not exist.
 
 ## Deployment and current gaps
 

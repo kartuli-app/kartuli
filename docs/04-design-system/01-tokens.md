@@ -89,7 +89,8 @@ custom-property name creates it automatically.
 
 Application customization belongs in the app's `theme.css` and is currently limited to selected
 primitive color overrides. Shared semantic mappings, spacing, radius and component contracts remain in
-the package. The Game Client and Backoffice theme files are integration points, not runtime or
+the package. Game Client uses the defaults; Backoffice overrides its primitive brand/accent ramps to
+prove app identity through the shared semantic contract. These theme files are not runtime or
 user-selectable theme systems.
 
 ## Limits

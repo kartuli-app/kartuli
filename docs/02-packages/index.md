@@ -29,9 +29,11 @@ components package API.
 The shared layout surface under `src/components/layout` exports `AppShell`, `AppBar`,
 `ContentContainer`, `ShellRail`, `Dock` and `DockItem` through source subpaths. `AppBar` accepts generic
 leading, title and trailing content so applications retain identity and transition behavior. `DockItem`
-accepts a link component instead of importing a router; each application supplies its existing
-navigation adapter. The package remains framework-agnostic and does not import the global Design
-System stylesheet. Applications and Storybook own that CSS environment and scan this source tree.
+accepts a link component instead of importing a router; Game Client supplies its navigation-context
+adapter and Backoffice supplies a small local `next/link` adapter. Both apps compose the same responsive
+shell while retaining their own navigation definitions, titles and active-route selection. The package
+remains framework-agnostic and does not import the global Design System stylesheet. Applications and
+Storybook own that CSS environment and scan this source tree.
 
 ## Design System package boundary
 

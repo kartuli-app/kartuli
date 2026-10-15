@@ -1,0 +1,14 @@
+export function AboutPage() {
+  return (
+    <main className="flex max-w-2xl flex-col gap-p-spacing-4" data-testid="backoffice-about">
+      <p className="text-s-color-shell-content-secondary text-sm font-bold uppercase">
+        Kartuli Backoffice
+      </p>
+      <h1 className="text-s-color-shell-content-primary text-4xl font-black">About</h1>
+      <p className="text-s-color-shell-content-secondary text-lg">
+        This shared-shell proof does not define future authentication, administration, or content
+        management workflows.
+      </p>
+    </main>
+  );
+}
