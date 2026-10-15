@@ -21,16 +21,23 @@ spacing and radius remain shared. Game Client uses an empty/default theme integr
 implements an emerald brand ramp and rose accent ramp as a deliberately small application identity
 proof. It does not redefine semantic variables, spacing, radius or shared component dimensions.
 
-Storybook supplies default, brand-emerald and brand-rose controls through `.storybook/preview.tsx` and
-`theme-wrappers.tsx`. Wrappers override primitive brand CSS variables on `document.documentElement`,
-record earlier inline values and restore them on cleanup.
+Storybook supplies Game/default, Backoffice, Stress: Emerald and Stress: Rose controls through
+`.storybook/preview.tsx` and `theme-wrappers.tsx`. Game/default has no overrides. Backoffice duplicates
+the real app's 11 brand and 11 accent primitives, with exact parity enforced against production CSS.
+The two synthetic stress modes override only the 11 brand primitives. Their 600 slots use the next
+darker ramp value because that primitive backs selected surfaces paired with light text. Definitions
+may not introduce semantic, neutral, spacing, radius or component variables.
+
+One keyed wrapper applies a selected map to `document.documentElement`, recording previous inline
+values and priorities before the change. Cleanup restores pre-existing values and removes values that
+did not previously exist, preventing brand or accent state from leaking between stories.
 
 These previews exercise how semantic roles follow primitives. They are not a persisted end-user theme chooser, a dark-mode contract or proof that every palette combination passes contrast checks.
 
-Backoffice's production theme is separate from the Storybook synthetic wrappers. Its darker emerald
-500/600 values preserve border visibility and selected-action text contrast in the current shell. The
-Backoffice Tailwind integration test verifies representative overrides and rejects declarations outside
-the permitted brand/accent primitive namespaces.
+Backoffice's production theme remains application-owned even though Storybook duplicates it as a real
+review mode. Its darker emerald 500/600 values preserve border visibility and selected-action text
+contrast in the current shell. The Backoffice Tailwind integration test verifies representative
+overrides and rejects declarations outside the permitted brand/accent primitive namespaces.
 
 ## Changing colors
 
@@ -38,10 +45,11 @@ Change a primitive to alter the palette globally; change a semantic mapping to a
 
 Preview the affected components in each existing Storybook theme and in the app shell. Check computed styles if a portal inherits a different context. A custom property can exist while an incorrect mapping still prevents the intended utility from being generated.
 
-Use the Storybook toolbar to compare Default, Brand Emerald and Brand Rose without reloading. The
-alternate wrappers override only the brand primitive ramp; neutral/accent/success/danger values and
-semantic assignments remain shared. If an alternate preview does not change a component, inspect
-whether it uses a brand-derived semantic role or a raw unrelated value before changing the wrapper.
+Use the Storybook toolbar to compare Game/default, real Backoffice and both synthetic stress modes
+without reloading. Backoffice changes brand and accent; Emerald and Rose change only brand. Neutral,
+success, danger and semantic assignments remain shared in every mode. If an alternate preview does not
+change a component, inspect whether it uses the relevant primitive-derived semantic role or a raw
+unrelated value before changing the wrapper.
 
 For a semantic color change, list every state consuming the role before editing. A safe review set for
 an action includes default content/background/border, hover, focus ring, selected and disabled behavior
