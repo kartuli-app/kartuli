@@ -100,4 +100,20 @@ describe('Storybook theme wrappers', () => {
     expect(rootStyle.getPropertyValue('--p-color-brand-600')).toBe('sentinel');
     expect(rootStyle.getPropertyPriority('--p-color-brand-600')).toBe('important');
   });
+
+  it('restores shared root variables only after every concurrent wrapper releases them', () => {
+    const rootStyle = document.documentElement.style;
+    rootStyle.setProperty('--p-color-brand-600', 'sentinel', 'important');
+
+    const cleanupFirst = applyRootCssVariables(rootStyle, STORYBOOK_THEMES.backoffice.variables);
+    const cleanupSecond = applyRootCssVariables(rootStyle, STORYBOOK_THEMES.backoffice.variables);
+
+    cleanupFirst();
+    expect(rootStyle.getPropertyValue('--p-color-brand-600')).toBe('#047857');
+    expect(rootStyle.getPropertyPriority('--p-color-brand-600')).toBe('');
+
+    cleanupSecond();
+    expect(rootStyle.getPropertyValue('--p-color-brand-600')).toBe('sentinel');
+    expect(rootStyle.getPropertyPriority('--p-color-brand-600')).toBe('important');
+  });
 });

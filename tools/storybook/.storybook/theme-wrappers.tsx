@@ -18,6 +18,19 @@ export interface StorybookThemeDefinition {
   variables: CssVariableMap;
 }
 
+interface CssVariableOwner {
+  id: symbol;
+  value: string;
+}
+
+interface OwnedCssVariable {
+  originalPriority: string;
+  originalValue: string;
+  owners: CssVariableOwner[];
+}
+
+const rootVariableOwners = new WeakMap<CSSStyleDeclaration, Map<string, OwnedCssVariable>>();
+
 const BACKOFFICE_PRIMITIVES = {
   '--p-color-brand-50': '#ecfdf5',
   '--p-color-brand-100': '#d1fae5',
@@ -110,23 +123,52 @@ export function applyRootCssVariables(
   rootStyle: CSSStyleDeclaration,
   variables: CssVariableMap,
 ): () => void {
-  const previousValues = new Map<string, { value: string; priority: string }>();
+  const ownerId = Symbol('storybook-theme-wrapper');
+  const ownedVariables = rootVariableOwners.get(rootStyle) ?? new Map<string, OwnedCssVariable>();
+  rootVariableOwners.set(rootStyle, ownedVariables);
 
   for (const [name, value] of Object.entries(variables)) {
-    previousValues.set(name, {
-      value: rootStyle.getPropertyValue(name),
-      priority: rootStyle.getPropertyPriority(name),
-    });
+    const ownedVariable = ownedVariables.get(name) ?? {
+      originalValue: rootStyle.getPropertyValue(name),
+      originalPriority: rootStyle.getPropertyPriority(name),
+      owners: [],
+    };
+    ownedVariable.owners.push({ id: ownerId, value });
+    ownedVariables.set(name, ownedVariable);
     rootStyle.setProperty(name, value);
   }
 
+  let released = false;
+
   return () => {
-    for (const [name, previous] of previousValues) {
-      if (previous.value) {
-        rootStyle.setProperty(name, previous.value, previous.priority);
+    if (released) {
+      return;
+    }
+    released = true;
+
+    for (const name of Object.keys(variables)) {
+      const ownedVariable = ownedVariables.get(name);
+      if (!ownedVariable) {
         continue;
       }
-      rootStyle.removeProperty(name);
+
+      ownedVariable.owners = ownedVariable.owners.filter((owner) => owner.id !== ownerId);
+      const activeOwner = ownedVariable.owners.at(-1);
+
+      if (activeOwner) {
+        rootStyle.setProperty(name, activeOwner.value);
+      } else {
+        if (ownedVariable.originalValue) {
+          rootStyle.setProperty(name, ownedVariable.originalValue, ownedVariable.originalPriority);
+        } else {
+          rootStyle.removeProperty(name);
+        }
+        ownedVariables.delete(name);
+      }
+    }
+
+    if (ownedVariables.size === 0) {
+      rootVariableOwners.delete(rootStyle);
     }
   };
 }

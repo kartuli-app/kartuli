@@ -3,10 +3,37 @@ import { Dock } from '@kartuli/ui/components/layout/dock/dock';
 import { DockItem, type DockItemLinkProps } from '@kartuli/ui/components/layout/dock/dock-item';
 import { AppShell } from '@kartuli/ui/components/layout/shell/app-shell';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { SVGProps } from 'react';
+import { createContext, type SVGProps, useContext, useEffect, useState } from 'react';
+import { expect, userEvent } from 'storybook/test';
 
-function StoryLink({ children, ...props }: Readonly<DockItemLinkProps>) {
-  return <a {...props}>{children}</a>;
+interface SharedShellWorkshopProps {
+  activeItem: NavigationItemId;
+}
+
+type NavigationItemId = (typeof navigationItems)[number]['id'];
+
+const WorkshopNavigationContext = createContext<((activeItem: NavigationItemId) => void) | null>(
+  null,
+);
+
+function StoryLink({ children, href, ...props }: Readonly<DockItemLinkProps>) {
+  const setActiveItem = useContext(WorkshopNavigationContext);
+  const navigationItem = navigationItems.find((item) => `#${item.id}` === href);
+
+  return (
+    <a
+      {...props}
+      href={href}
+      onClick={(event) => {
+        event.preventDefault();
+        if (navigationItem) {
+          setActiveItem?.(navigationItem.id);
+        }
+      }}
+    >
+      {children}
+    </a>
+  );
 }
 
 function OverviewIcon(props: SVGProps<SVGSVGElement>) {
@@ -82,10 +109,6 @@ const navigationItems = [
   { id: 'settings', label: 'Settings', icon: SettingsIcon, activeIcon: SettingsActiveIcon },
 ] as const;
 
-interface SharedShellWorkshopProps {
-  activeItem: (typeof navigationItems)[number]['id'];
-}
-
 function ShellTitle() {
   return (
     <div className="flex min-w-0 flex-1 flex-col items-start justify-center uppercase">
@@ -112,65 +135,72 @@ function ShellAction({ label }: Readonly<{ label: string }>) {
 }
 
 function SharedShellWorkshop({ activeItem }: Readonly<SharedShellWorkshopProps>) {
-  const activeLabel = navigationItems.find((item) => item.id === activeItem)?.label ?? 'Overview';
+  const [selectedItem, setSelectedItem] = useState(activeItem);
+  const activeLabel = navigationItems.find((item) => item.id === selectedItem)?.label ?? 'Overview';
+
+  useEffect(() => {
+    setSelectedItem(activeItem);
+  }, [activeItem]);
 
   return (
-    <div className="flex h-dvh">
-      <AppShell
-        appBar={
-          <AppBar
-            leading={<ShellAction label="Menu" />}
-            title={<ShellTitle />}
-            trailingSecondary={<ShellAction label="Search" />}
-            trailingPrimary={<ShellAction label="Profile" />}
-          />
-        }
-        startRailContent={
-          <Dock ariaLabel="Workshop navigation">
-            {navigationItems.map((item) => (
-              <DockItem
-                key={item.id}
-                href={`#${item.id}`}
-                label={item.label}
-                icon={item.icon}
-                activeIcon={item.activeIcon}
-                active={item.id === activeItem}
-                linkComponent={StoryLink}
-              />
-            ))}
-          </Dock>
-        }
-        endRailContent={
-          <aside
-            aria-label="Review context"
-            className="flex h-full flex-col gap-p-spacing-2 p-p-spacing-4 text-s-color-shell-content-secondary"
-          >
-            <div className="font-bold uppercase text-s-color-shell-content-primary">
-              Review context
-            </div>
-            <p>Optional rail content remains product-owned.</p>
-          </aside>
-        }
-      >
-        <section
-          aria-labelledby="workshop-content-heading"
-          className="flex max-w-2xl flex-col gap-p-spacing-4 rounded-p-radius-2 border border-s-color-panel-border bg-s-color-panel-bg p-p-spacing-4 text-s-color-panel-content-primary"
+    <WorkshopNavigationContext.Provider value={setSelectedItem}>
+      <div className="flex h-dvh">
+        <AppShell
+          appBar={
+            <AppBar
+              leading={<ShellAction label="Menu" />}
+              title={<ShellTitle />}
+              trailingSecondary={<ShellAction label="Search" />}
+              trailingPrimary={<ShellAction label="Profile" />}
+            />
+          }
+          startRailContent={
+            <Dock ariaLabel="Workshop navigation">
+              {navigationItems.map((item) => (
+                <DockItem
+                  key={item.id}
+                  href={`#${item.id}`}
+                  label={item.label}
+                  icon={item.icon}
+                  activeIcon={item.activeIcon}
+                  active={item.id === selectedItem}
+                  linkComponent={StoryLink}
+                />
+              ))}
+            </Dock>
+          }
+          endRailContent={
+            <aside
+              aria-label="Review context"
+              className="flex h-full flex-col gap-p-spacing-2 p-p-spacing-4 text-s-color-shell-content-secondary"
+            >
+              <div className="font-bold uppercase text-s-color-shell-content-primary">
+                Review context
+              </div>
+              <p>Optional rail content remains product-owned.</p>
+            </aside>
+          }
         >
-          <div className="flex flex-col gap-p-spacing-1">
-            <div className="text-sm font-bold uppercase text-s-color-panel-content-secondary">
-              Selected destination
+          <section
+            aria-labelledby="workshop-content-heading"
+            className="flex max-w-2xl flex-col gap-p-spacing-4 rounded-p-radius-2 border border-s-color-panel-border bg-s-color-panel-bg p-p-spacing-4 text-s-color-panel-content-primary"
+          >
+            <div className="flex flex-col gap-p-spacing-1">
+              <div className="text-sm font-bold uppercase text-s-color-panel-content-secondary">
+                Selected destination
+              </div>
+              <h2 id="workshop-content-heading" className="text-2xl font-black">
+                {activeLabel}
+              </h2>
             </div>
-            <h2 id="workshop-content-heading" className="text-2xl font-black">
-              {activeLabel}
-            </h2>
-          </div>
-          <p className="text-s-color-panel-content-secondary">
-            This neutral fixture exposes the shared app bar, navigation, rails, content container,
-            and semantic states without representing an application product.
-          </p>
-        </section>
-      </AppShell>
-    </div>
+            <p className="text-s-color-panel-content-secondary">
+              This neutral fixture exposes the shared app bar, navigation, rails, content container,
+              and semantic states without representing an application product.
+            </p>
+          </section>
+        </AppShell>
+      </div>
+    </WorkshopNavigationContext.Provider>
   );
 }
 
@@ -199,4 +229,24 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Review: Story = {};
+export const Review: Story = {
+  play: async ({ canvas }) => {
+    await userEvent.click(canvas.getByRole('link', { name: 'Library' }));
+    await expect(
+      await canvas.findByRole('link', { name: 'Library', current: 'page' }),
+    ).toBeVisible();
+    await expect(await canvas.findByRole('heading', { name: 'Library' })).toBeVisible();
+
+    await userEvent.click(canvas.getByRole('link', { name: 'Settings' }));
+    await expect(
+      await canvas.findByRole('link', { name: 'Settings', current: 'page' }),
+    ).toBeVisible();
+    await expect(await canvas.findByRole('heading', { name: 'Settings' })).toBeVisible();
+
+    await userEvent.click(canvas.getByRole('link', { name: 'Overview' }));
+    await expect(
+      await canvas.findByRole('link', { name: 'Overview', current: 'page' }),
+    ).toBeVisible();
+    await expect(await canvas.findByRole('heading', { name: 'Overview' })).toBeVisible();
+  },
+};
