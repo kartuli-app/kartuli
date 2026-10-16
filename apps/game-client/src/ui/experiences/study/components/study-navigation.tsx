@@ -20,7 +20,7 @@ export function NavigationBar(props: Readonly<StudyNavigationModel>) {
   const { t } = useTranslation('study');
 
   return (
-    <div className="hidden w-full grid-cols-[minmax(0,1fr)_auto_auto_minmax(0,1fr)] items-center gap-3 md:grid px-1">
+    <div className="hidden w-full grid-cols-[minmax(0,1fr)_auto_auto_minmax(0,1fr)] items-center gap-p-spacing-3 px-p-spacing-1 md:grid">
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
           className="w-full min-w-0"
@@ -70,7 +70,7 @@ export function MobileInfoBar(props: Readonly<StudyNavigationModel>) {
   const { t } = useTranslation('study');
 
   return (
-    <div className="grid w-full grid-cols-[minmax(0,1fr)_auto_auto_minmax(0,1fr)] items-center gap-2 md:hidden px-1">
+    <div className="grid w-full grid-cols-[minmax(0,1fr)_auto_auto_minmax(0,1fr)] items-center gap-p-spacing-2 px-p-spacing-1 md:hidden">
       <div className="flex min-w-0 items-center justify-center">
         <StudyNavigationButton
           className="w-full"

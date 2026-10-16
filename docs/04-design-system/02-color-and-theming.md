@@ -13,6 +13,16 @@ intent: reference
 hover, selected and focus roles. Normal product/shared React code consumes those roles instead of
 assuming that a primitive palette shade has a fixed UI meaning.
 
+Do not use `bg-p-color-*`, `text-p-color-*`, `border-p-color-*`, raw CSS color literals, arbitrary
+colors or generic Tailwind palette colors in normal React UI when the Design System already expresses
+the meaning. Primitive colors are intentional only in token catalogs/showcases, Design System debug
+fixtures, theme definitions, token implementation and tests that inspect primitive output. A normal
+component story is not exempt merely because it is in Storybook.
+
+Regular CSS may consume runtime variables from the layer it implements. The React rule does not ban a
+semantic stylesheet from referencing primitives or an app theme from overriding permitted primitive
+colors.
+
 ## Theme integration
 
 The Design System supplies complete defaults. Each app imports its `theme.css` after
@@ -56,6 +66,10 @@ an action includes default content/background/border, hover, focus ring, selecte
 where implemented. For a surface, check content and border contrast plus any overlay rendered through a
 portal. Run the commands in [Design Tokens](./01-tokens.md), then perform manual contrast/focus review;
 axe reports some contrast failures but cannot validate the design intent of every token pairing.
+
+A plausible palette ramp does not prove accessible resolved states. Review actual semantic
+foreground/background pairings under every relevant theme, especially selected, hover and focus
+states.
 
 ## Verification and boundaries
 

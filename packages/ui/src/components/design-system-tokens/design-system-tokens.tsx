@@ -8,8 +8,8 @@ interface DesignSystemTokenSectionProps {
 
 function DesignSystemTokenSection({ title, children }: Readonly<DesignSystemTokenSectionProps>) {
   return (
-    <section className="flex flex-col gap-4 px-2">
-      <h2 className="text-3xl text-slate-500">{title}</h2>
+    <section className="flex flex-col gap-p-spacing-4 px-p-spacing-2">
+      <h2 className="text-3xl text-s-color-panel-content-secondary">{title}</h2>
       <div className="flex flex-col gap-8">{children}</div>
     </section>
   );
@@ -30,8 +30,8 @@ interface TokenBlockProps {
 
 function TokenBlock({ title, children }: Readonly<TokenBlockProps>) {
   return (
-    <div className="flex min-w-0 flex-col gap-3">
-      <h3 className="text-sm text-slate-500">{title}</h3>
+    <div className="flex min-w-0 flex-col gap-p-spacing-3">
+      <h3 className="text-sm text-s-color-panel-content-secondary">{title}</h3>
       {children}
     </div>
   );
@@ -140,9 +140,9 @@ function ColorTokens() {
     <DesignSystemTokenSection title="Primitive palettes">
       {COLOR_FAMILIES.map((family) => (
         <TokenBlock key={family.title} title={family.title}>
-          <div className="grid grid-cols-2 gap-4 min-[600px]:grid-cols-4 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-p-spacing-4 min-[600px]:grid-cols-4 lg:grid-cols-6">
             {family.tokens.map((token) => (
-              <div key={token.label} className="flex min-w-0 flex-col gap-2">
+              <div key={token.label} className="flex min-w-0 flex-col gap-p-spacing-2">
                 <Box
                   data-token-variable={token.tokenVariable}
                   className={cn('h-20 rounded-p-radius-1 border border-p-color-neutral-300')}

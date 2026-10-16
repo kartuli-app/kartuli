@@ -8,7 +8,7 @@ const basePanelActionButtonClassName = cn(
   'inline-flex',
   'items-center',
   'justify-center',
-  'p-2',
+  'p-p-spacing-2',
   'focus-visible:ring-(length:--s-width-focus-ring)',
   'disabled:opacity-50',
   'outline-none',

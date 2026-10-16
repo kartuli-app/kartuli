@@ -13,7 +13,17 @@ Primitive spacing is explicitly defined, not a uniform arithmetic scale: values 
 Use Kartuli spacing and radius utilities such as `gap-p-spacing-2`, `p-p-spacing-4` and
 `rounded-p-radius-2` when the system already has the required design value. Generic or arbitrary values
 remain appropriate when no token is equivalent and the value is justified. Structural utilities such
-as flex/grid, positioning, alignment, overflow and growth do not need design tokens.
+as flex/grid, positioning, alignment, overflow, growth, full-size constraints and automatic margins do
+not need design tokens.
+
+Default Tailwind spacing and radius utilities are not alternate token vocabularies. Prefer
+`gap-p-spacing-2`, `px-p-spacing-4`, `py-p-spacing-2` and `rounded-p-radius-1` over equivalent
+`gap-2`, `px-4`, `py-2` and `rounded-lg`. Do not mechanically replace a value without an equivalent,
+create a new primitive to remove every arbitrary value or turn structural CSS into tokens.
+
+Judge arbitrary values by ownership. Local values such as a route composition's maximum width,
+container-relative artwork geometry or a bounded story viewport may remain arbitrary. A repeated value
+that is part of a reusable component's stable public geometry should prompt a component-token review.
 
 Component dimensions include compact/expanded rails (6rem/14rem), app-bar height (5rem), mobile dock height (5rem), and mobile/desktop dock-item dimensions. [Tokens](./01-tokens.md) explains how these become utilities.
 

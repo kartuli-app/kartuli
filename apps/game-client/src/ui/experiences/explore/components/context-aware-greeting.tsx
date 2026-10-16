@@ -9,8 +9,8 @@ export function ContextAwareGreeting({ locale }: Readonly<{ locale: SupportedLoc
   ];
   const contextAwareGreeting = greetings[1];
   return (
-    <div className="flex justify-center py-4">
-      <div className="flex flex-col gap-2">
+    <div className="flex justify-center py-p-spacing-4">
+      <div className="flex flex-col gap-p-spacing-2">
         <h2 className="text-4xl text-center">👋</h2>
         <h2 className="text-4xl text-center text-s-color-shell-content-secondary">
           <span className="font-georgian">{contextAwareGreeting}</span>

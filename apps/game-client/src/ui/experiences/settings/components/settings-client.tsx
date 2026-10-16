@@ -42,7 +42,7 @@ export function SettingsClient() {
       <Panel>
         <PanelHeader context={t('app_settings')} title={t('language_section')} variant="default" />
         <PanelSection>
-          <fieldset className="border-none p-0">
+          <fieldset className="border-none p-p-spacing-0">
             <legend className="sr-only">{t('language_section')}</legend>
             {supportedLocales.map((locale) => (
               <RadioButton

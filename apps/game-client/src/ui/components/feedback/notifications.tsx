@@ -44,7 +44,7 @@ function NotificationViewport() {
               className={cn(
                 FLOATING_SURFACE_CLASS_NAMES,
                 'overflow-hidden',
-                'p-2',
+                'p-p-spacing-2',
                 'rounded-p-radius-1',
                 'text-xl',
                 'font-georgian',

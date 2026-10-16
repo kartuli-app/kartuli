@@ -125,6 +125,21 @@ Run from the repo root unless specified.
 - Use Tailwind CSS utility classes
 - For conditional class names, use `cn` from `/packages/ui/src/utils/cn.tsx`
 
+#### Design System UI guardrails
+
+- Read [Design System](docs/04-design-system/index.md) before substantial visual UI work and use its
+  [compliance checklist](docs/04-design-system/index.md#compliance-checklist) before committing.
+- Use semantic color roles in normal React UI. Primitive colors are reserved for intentional token
+  catalogs, Design System debug fixtures, theme definitions/implementation and tests of primitive
+  output.
+- Use Kartuli spacing and radius primitives when an equivalent exists. Structural Tailwind utilities
+  remain valid, and justified local composition values do not need speculative tokens.
+- Use component tokens for stable reusable component-owned contracts. Extend primitive → semantic →
+  component layers according to raw value, visual meaning and component ownership; do not add
+  arbitrary/raw values when the existing vocabulary fits.
+- Review reusable UI under the relevant Storybook real and stress themes, states and responsive
+  viewports. Keep application composition application-owned.
+
 ### Next.js conventions
 
 - ALWAYS read docs before coding

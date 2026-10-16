@@ -17,6 +17,11 @@ a cross-app package contract.
 
 Before moving a component into shared UI, identify its consumers, props and dependencies. Remove app-specific routing/content assumptions from the shared boundary or keep it app-local. Source aliases used by Storybook are an inspection mechanism, not proof that a component belongs in the package.
 
+Use a component token when stable reusable geometry belongs to the component contract. Keep local
+composition values local, and do not add component color aliases when an existing semantic role already
+owns the meaning. A potentially reusable Game Client component does not move into `@kartuli/ui` without
+cross-app evidence.
+
 ## States and interactions
 
 Document meaningful default, hover, focus, selected, disabled, loading and error states where they exist. Use semantic tokens for these roles, accessible control names for icon-only actions and keyboard alternatives for gestures. Base UI provides primitive behavior for overlays/feedback; app wrappers still own semantics and styling.
@@ -49,3 +54,9 @@ identity remain outside the shared package. Review each toolbar theme at 390x844
 1600x1000, checking bottom/compact/expanded navigation geometry, app-bar and content offsets, optional
 end-rail placement, hover, focus, selected state and readable contrast. The workshop is a review
 fixture—not a new shared component or evidence of runtime app theming.
+
+Reusable UI review should cover Game / Default, Backoffice, Stress: Emerald and Stress: Rose when the
+component consumes affected roles. Exercise implemented default, hover, focus, selected, disabled,
+loading and error states as relevant, and inspect meaningful semantic foreground/background pairings
+rather than palette shades alone. Storybook is the shared-component review surface; it does not replace
+route-level review of app-owned composition, real translations or product data.

@@ -24,6 +24,11 @@ an existing context only when no current role expresses the meaning. Intentional
 showcases and debug fixtures are exceptions. Primitive spacing and radius utilities are valid and
 preferred when the equivalent Kartuli value exists.
 
+Component tokens are for stable reusable component contracts, not every numeric class. Local content
+layout and one-off composition can use a justified literal or arbitrary utility when no token is
+equivalent. A component token may resolve to a primitive, a semantic token or a justified literal; do
+not create component color aliases that merely repeat semantic colors.
+
 ## Mapping examples
 
 | Runtime variable | Tailwind theme entry | Consumer example |
@@ -34,6 +39,18 @@ preferred when the equivalent Kartuli value exists.
 | `--c-height-appbar` | `--spacing-height-appbar` | `h-height-appbar`, `mt-height-appbar` |
 
 The spelling matters: existing utilities include the primitive `p-` prefix. Do not infer class names from prose examples without checking the mapping.
+
+## Extending the vocabulary
+
+Add a primitive only when real UI requires a genuinely new raw value, such as a missing shared color,
+spacing step or radius. Do not add primitives in anticipation of future work.
+
+Add a semantic token when the UI introduces a meaning that must vary independently. Reuse an existing
+role when the meaning is the same, avoid feature names disguised as semantic roles and do not add a new
+surface until product evidence shows that `shell`, `panel` and `floating` are insufficient.
+
+Add a component token when a reusable component owns a stable visual or layout value as part of its
+contract. Do not promote local composition values or every repeated number into the shared package.
 
 ## Changing a token
 

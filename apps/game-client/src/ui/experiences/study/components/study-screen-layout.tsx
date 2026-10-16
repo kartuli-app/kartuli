@@ -13,11 +13,11 @@ import { PiPlayFill } from 'react-icons/pi';
 export function StudyScreenLayout({ nav }: Readonly<{ nav: StudyNavigationModel }>) {
   const { t } = useTranslation('study');
   return (
-    <div className="flex flex-1 min-h-0 min-w-0 flex-col gap-2 h-full max-w-[600px] w-full mx-auto">
+    <div className="mx-auto flex h-full max-w-[600px] min-h-0 w-full min-w-0 flex-1 flex-col gap-p-spacing-2">
       <NavigationBar {...nav} />
       <StudySlidesCarousel nav={nav} />
       <MobileInfoBar {...nav} />
-      <div className="flex w-full px-1">
+      <div className="flex w-full px-p-spacing-1">
         <StudyCtaButton label={t('play_now')} icon={PiPlayFill} />
       </div>
     </div>

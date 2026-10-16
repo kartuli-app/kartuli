@@ -219,7 +219,7 @@ export function StudySlidesCarousel({ nav }: Readonly<{ nav: StudyNavigationMode
                 aria-label={
                   slide.kind === 'summary' ? 'Summary slide' : `Detail slide ${slide.itemIndex + 1}`
                 }
-                className="flex h-full min-h-0 min-w-0 shrink-0 p-1"
+                className="flex h-full min-h-0 min-w-0 shrink-0 p-p-spacing-1"
                 data-active={isActive ? 'true' : 'false'}
                 data-study-slide-index={slideIndex}
                 inert={!isActive}

@@ -22,7 +22,7 @@ function TranslitPanelsPreview() {
   return (
     <Tooltip.Provider delay={0} closeDelay={0}>
       <Surface context="shell">
-        <div className={cn('flex', 'w-[28rem]', 'flex-col', 'gap-4')}>
+        <div className={cn('flex', 'w-[28rem]', 'flex-col', 'gap-p-spacing-4')}>
           <Panel className="h-[18rem]">
             <PanelHeader
               context="Source"

@@ -23,10 +23,10 @@ function TooltipPreview({ content, side, surfaceContext }: Readonly<TooltipPrevi
                 'border',
                 'border-s-color-panel-header-border',
                 'bg-s-color-panel-bg',
-                'px-4',
-                'py-2',
+                'px-p-spacing-4',
+                'py-p-spacing-2',
                 'font-bold',
-                'text-p-color-neutral-900',
+                'text-s-color-panel-content-primary',
               )}
             >
               Hover or focus me

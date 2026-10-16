@@ -3,7 +3,7 @@ import { cn } from '@kartuli/ui/utils/cn';
 
 export function LetterPreview({ item }: Readonly<{ item: LetterItem }>) {
   return (
-    <div className={cn('aspect-square', 'justify-center', 'flex', 'flex-col', 'gap-1')}>
+    <div className={cn('aspect-square', 'justify-center', 'flex', 'flex-col', 'gap-p-spacing-1')}>
       <div
         className={cn(
           'relative',
