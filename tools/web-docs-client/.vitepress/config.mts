@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { withMermaid } from '@aether-labs/vitepress-mermaid';
 import { defineConfig } from 'vitepress';
-import { configureDiagramsPlugin } from 'vitepress-plugin-diagrams';
 import { processDocs } from '../scripts/docs-processor.js';
 import { buildSiteNavigation } from '../scripts/site-navigation.js';
 
@@ -9,11 +9,9 @@ const title = 'Kartuli Docs';
 const description = 'Kartuli Web Docs Client';
 const srcDir = '../../docs/';
 const llmBundleUrl = '/kartuli/assets/kartuli-llm.txt';
-
-/** Must match VitePress `public/diagrams` (not repo-root `public/`), regardless of `process.cwd()`. */
-const diagramsDir = path.resolve(
+const webDocsNodeModules = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  '../public/diagrams',
+  '../node_modules',
 );
 
 const { sections } = processDocs();
@@ -45,22 +43,29 @@ const ignoreDeadLinksList = [
   'http://localhost:6006',
 ];
 
-export default defineConfig({
-  title,
-  description,
-  srcDir,
-  base: '/kartuli/',
-  ignoreDeadLinks: ignoreDeadLinksList,
-  vite: {
-    publicDir: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../public'),
-  },
-  themeConfig,
-  markdown: {
-    config: (md) => {
-      configureDiagramsPlugin(md, {
-        diagramsDir,
-        publicPath: '/kartuli/diagrams',
-      });
+export default withMermaid(
+  defineConfig({
+    title,
+    description,
+    srcDir,
+    base: '/kartuli/',
+    ignoreDeadLinks: ignoreDeadLinksList,
+    vite: {
+      optimizeDeps: {
+        include: ['mermaid'],
+      },
+      resolve: {
+        alias: {
+          mermaid: path.resolve(webDocsNodeModules, 'mermaid/dist/mermaid.esm.mjs'),
+        },
+      },
+      publicDir: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../public'),
+    },
+    themeConfig,
+  }),
+  {
+    runtime: {
+      securityLevel: 'strict',
     },
   },
-});
+);

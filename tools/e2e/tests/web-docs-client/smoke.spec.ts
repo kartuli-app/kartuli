@@ -43,6 +43,40 @@ async function getHeaderNavLinks(page: Page): Promise<HeaderNavLink[]> {
 }
 
 test.describe('Web Docs Client Smoke Tests', () => {
+  test('renders the Product Overview Mermaid diagram in light and dark themes', async ({
+    page,
+  }) => {
+    await expectNoCriticalErrors(page, {
+      path: '/kartuli/01-apps/01-game-client/01-product/01-product-overview.html',
+    });
+
+    await expect(page.getByRole('heading', { name: 'Product Overview' })).toBeVisible();
+    const diagram = page.locator('figure.vp-mermaid-diagram');
+    const renderedSvg = diagram.locator('.vp-mermaid-container svg');
+
+    await expect(renderedSvg).toBeVisible({ timeout: 15000 });
+    await expect(diagram).toBeVisible();
+    await expect(diagram).toContainText('choose');
+    await expect(diagram).toContainText('study');
+    await expect(diagram).toContainText('play');
+    await expect(diagram).toContainText('repeat');
+    await expect(page.locator('.vp-mermaid-loading, .vp-mermaid-error')).toHaveCount(0);
+    await expect(page.locator('pre code.language-mermaid')).toHaveCount(0);
+
+    const appearanceSwitch = page.locator('.VPSwitchAppearance').first();
+    const wasDark = await page
+      .locator('html')
+      .evaluate((element) => element.classList.contains('dark'));
+
+    await appearanceSwitch.click();
+    await expect
+      .poll(() => page.locator('html').evaluate((element) => element.classList.contains('dark')))
+      .toBe(!wasDark);
+    await expect(renderedSvg).toBeVisible();
+    await expect(diagram).toContainText('choose');
+    await expect(page.locator('.vp-mermaid-loading, .vp-mermaid-error')).toHaveCount(0);
+  });
+
   test('home and section pages retain the complete documentation sidebar', async ({ page }) => {
     await page.goto('./');
     const sidebar = page.locator('.VPSidebar');

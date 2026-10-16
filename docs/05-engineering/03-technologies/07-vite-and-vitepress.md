@@ -24,4 +24,4 @@ The index generator runs before dev/build and creates a public text asset. The p
 
 ## Upgrade boundaries
 
-Upgrade the relevant pipeline deliberately: test the docs renderer, plugin and index delivery for VitePress; test component transformation, docgen and browser execution for Storybook. Do not assume one passing pipeline validates the other. Existing Kroki rendering remains an external docs-build dependency with known failure assets.
+Upgrade the relevant pipeline deliberately: test the Mermaid renderer, plugin and index delivery for VitePress; test component transformation, docgen and browser execution for Storybook. Do not assume one passing pipeline validates the other. Web Docs Mermaid rendering is client-side and has no external renderer dependency, so pair a production build with the Web Docs browser suite rather than treating compilation alone as rendering proof.

@@ -41,7 +41,7 @@ workflow. The [dependency inventory](../../05-engineering/06-dependency-inventor
 | `lighthouserc.json`, `scripts/lighthouse/**` | [Web Quality and Lighthouse](../../06-quality/04-web-quality.md) | Mobile profile, explicit routes, structured informational reporting and failure semantics |
 | `renovate.json` | [Dependency Management](../../07-platform/04-dependency-management.md) and [Renovate](../../10-services/05-renovate.md) | Repository policy versus provider state |
 | `.github/workflows`, `.github/actions` | [CI](../../07-platform/01-ci.md), [Deployment](../../07-platform/02-deployment.md) and Services | Event flow, permissions, credentials by name, validation and notifications |
-| VitePress config/scripts | [Web Docs Client](../../03-tools/03-web-docs-client.md) | Base path, content scan, navigation, LLM copies and Kroki limitation |
+| VitePress config/scripts | [Web Docs Client](../../03-tools/03-web-docs-client.md) | Base path, content scan, navigation, LLM copies and Mermaid rendering/verification |
 
 ## Dependency coverage rule
 
@@ -92,8 +92,8 @@ These are known incomplete capabilities, not undocumented implemented systems:
 - Analytics policy, telemetry taxonomy, consent, retention and centralized observability are planned.
 - Release rollback/promotion, incident response, backup and recovery runbooks are not established.
 - Provider-console settings, ownership and secret rotation need authorized manual verification.
-- Kroki rendering/privacy decisions and a local Backoffice preview/E2E port alignment require
-  implementation work outside this documentation-only continuation.
+- Local Backoffice preview/E2E port alignment requires implementation work outside this
+  documentation-only continuation.
 
 ## Audit procedure
 

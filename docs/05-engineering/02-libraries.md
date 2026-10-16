@@ -26,7 +26,7 @@ Create a dedicated page when a dependency defines a system boundary, data lifecy
 | Storybook addon-vitest / addon-a11y | Story interactions and accessibility failures | [Storybook](../03-tools/01-storybook.md) |
 | Biome / Lefthook / Lighthouse CI | Static checks, Git hooks and web quality audits | [Quality](../06-quality/index.md) |
 | dependency-cruiser | Source dependency inspection; local Graphviz renders output | [Diagram Generator](../03-tools/04-diagram-generator.md) |
-| vitepress-plugin-diagrams | Build-time docs diagram integration; existing Kroki failure assets need follow-up | [Web Docs Client](../03-tools/03-web-docs-client.md) |
+| Mermaid / `@aether-labs/vitepress-mermaid` | Browser-rendered Mermaid fences in Web Docs, with VitePress light/dark theme reactivity and no external renderer | [Web Docs Client](../03-tools/03-web-docs-client.md) |
 
 Paths beginning `src/` in the table are relative to `apps/game-client`. Exact versions and direct consumers are in workspace manifests and `pnpm-workspace.yaml`; upstream API documentation should be consulted for implementation details.
 

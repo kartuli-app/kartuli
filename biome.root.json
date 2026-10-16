@@ -32,8 +32,7 @@
       "!**/*.md",
       "!**/next-env.d.ts",
       "!generate-docs-for-llm.ts",
-      "!**/diagrams/output",
-      "!**/public/diagrams"
+      "!**/diagrams/output"
     ]
   }
 }

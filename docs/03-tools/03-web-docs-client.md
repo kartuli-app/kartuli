@@ -25,7 +25,7 @@ Run these from the repository root:
 | `pnpm --filter @kartuli/web-docs-client run check-docs -- --built` | Also compares dist index with source | Requires a completed fresh build |
 | `pnpm --filter @kartuli/web-docs-client run test` | Generates/checks the index and tests navigation contracts | No browser dependency |
 
-The package's `preview` script already builds. A failed build prevents preview from starting; running a separate build first does not repair a failing diagram dependency. Check the terminal rather than assuming an older browser tab represents the new build.
+The package's `preview` script already builds. A failed build prevents preview from starting; check the terminal rather than assuming an older browser tab represents the new build.
 
 The Web Docs build runs the workspace test first: index generation, `check-docs` and Node navigation
 tests. After rendering/copying, it checks the built index too. Local `validate:all` runs that workspace
@@ -62,13 +62,40 @@ Restart dev after adding/renaming pages or changing H1 labels so the configurati
 | Index omits a page | Check `.md` extension, description, H1, generation time and any `llm: skip` marker |
 | Build stops before copy | Read the first build error; no new dist index is guaranteed |
 | Stale result after cache hit | Regenerate intermediates or force `pnpm turbo run build --filter=@kartuli/web-docs-client --force` |
-| Diagrams fail or show an error page | Inspect generated assets and Kroki connectivity; see below |
+| Mermaid stays in a loading state | Check browser console errors and confirm `mermaid` and `@aether-labs/vitepress-mermaid` resolve from the Web Docs workspace |
+| Mermaid shows a render error | Check the fence syntax with the installed Mermaid version; the error state retains the source for diagnosis |
 
-## Diagram limitation and verification
+## Mermaid authoring and verification
 
-`vitepress-plugin-diagrams` renders fenced diagrams through its default public Kroki endpoint. Existing committed assets include two HTML 504 responses and an SVG displaying an Error 500 banner, alongside rendered flowcharts. Position-dependent asset names can cause a new request after surrounding Markdown changes. A successful build can reuse those errors: check the rendered page's actual asset and content, not just its extension or XML format. The configured plugin path writes response text without checking HTTP success.
+Web Docs renders standard `mermaid` fences in the browser through
+`@aether-labs/vitepress-mermaid` and the installed `mermaid` package:
 
-The docs reference work does not replace this renderer. Diagnose failed builds honestly; do not commit generated placeholders/error responses. See [Kroki](../10-services/07-kroki.md). The dependency-cruiser/Graphviz [Diagram Generator](./04-diagram-generator.md) is separate.
+````md
+```mermaid
+flowchart LR
+  choose --> study
+  study --> play
+  play --> repeat
+```
+````
+
+No external rendering service, generated SVG cache or manual renderer command is involved. VitePress
+dev hot updates use the same integration, so editing a fence does not require deleting cached assets
+or restarting for diagram output. The integration observes VitePress's light/dark state and rerenders
+Mermaid with the matching theme. Kartuli sets Mermaid's security level to `strict` and otherwise uses
+the integration's theme behavior. The renderer is registered explicitly through the package's
+VitePress theme wrapper so production and development use the same component. Because VitePress uses
+the shared `docs/` directory as its Vite root, the app also resolves and prebundles its direct Mermaid
+entry from the Web Docs workspace explicitly. This keeps Mermaid's runtime dependency graph compatible
+with the Vite development server.
+
+A successful build proves that the source compiled, not that client-side Mermaid initialized. Run the
+production preview and the Web Docs E2E suite, then inspect the Product Overview diagram. The browser
+test requires a visible SVG containing the expected learning-loop labels, rejects raw fenced source,
+loading and error states, and switches the VitePress appearance once to exercise both themes.
+
+This affects rendering only: authors or coding agents still write Mermaid source. The
+dependency-cruiser/Graphviz [Diagram Generator](./04-diagram-generator.md) remains a separate pipeline.
 
 Before review: generate and check docs; run navigation tests, the full docs build, the built-index check and `pnpm run validate:all`. Inspect the section menus, hub links and text asset on desktop and narrow screens. `check-docs` checks file targets, not remote endpoints, every fragment anchor or visual layout. Record any blocked gate explicitly.
 
@@ -93,7 +120,7 @@ curl -fsS http://localhost:4173/kartuli/assets/kartuli-llm.txt | sed -n '1,20p'
 pnpm e2e web-docs-client --url http://localhost:4173/kartuli
 ```
 
-Expected results are a rendered home page, a plain-text index headed `# kartuli-llm.txt`, passing
-navigation/index smoke tests and no critical browser console errors. Inspect the visible sidebar at
-wide and narrow widths as well: automated link checks do not prove that navigation is readable or
-reachable at every viewport.
+Expected results are a rendered home page, a plain-text index headed `# kartuli-llm.txt`, a visible
+Product Overview Mermaid SVG in both themes, passing navigation/index smoke tests and no critical
+browser console errors. Inspect the visible sidebar at wide and narrow widths as well: automated link
+checks do not prove that navigation is readable or reachable at every viewport.
