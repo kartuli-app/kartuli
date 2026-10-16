@@ -52,7 +52,7 @@ export function StudyNavigationButton({
         'min-w-0',
         'items-center',
         'justify-center',
-        rendersLabel && 'gap-1',
+        rendersLabel && 'gap-p-spacing-1',
         className,
       )}
       size={size}

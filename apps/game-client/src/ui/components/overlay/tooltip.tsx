@@ -7,7 +7,7 @@ import type { ReactElement, ReactNode, RefObject } from 'react';
 
 export const tooltipPopupClassName = cn(
   FLOATING_SURFACE_CLASS_NAMES,
-  'p-2',
+  'p-p-spacing-2',
   'rounded-p-radius-1',
   'uppercase',
 );

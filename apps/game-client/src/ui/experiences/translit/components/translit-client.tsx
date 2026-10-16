@@ -230,7 +230,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
   return (
     <Notifications>
       <Tooltip.Provider delay={300}>
-        <main className={cn('flex', 'flex-col', 'gap-4', 'p-0', 'h-full')}>
+        <main className={cn('flex', 'flex-col', 'gap-p-spacing-4', 'p-p-spacing-0', 'h-full')}>
           <Panel className="flex-1">
             <PanelHeader
               context={t('source')}
@@ -266,7 +266,9 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               }
               variant="default"
             />
-            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'p-2', 'h-full')}>
+            <PanelSection
+              className={cn('flex', 'flex-col', 'gap-p-spacing-2', 'p-p-spacing-2', 'h-full')}
+            >
               <TranslitInput
                 ariaLabelledBy={`${inputContextId} ${inputTitleId}`}
                 className={cn(surfaceTextSizeClassName, inputScriptClassName)}
@@ -303,7 +305,9 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
               }
               variant="default"
             />
-            <PanelSection className={cn('flex', 'flex-col', 'gap-2', 'p-2', 'h-full')}>
+            <PanelSection
+              className={cn('flex', 'flex-col', 'gap-p-spacing-2', 'p-p-spacing-2', 'h-full')}
+            >
               <TranslitOutput
                 ariaLabelledBy={`${outputContextId} ${outputLabelId}`}
                 className={cn(surfaceTextSizeClassName, outputScriptClassName)}
@@ -323,7 +327,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'wrap-break-word',
                 'text-2xl',
                 'leading-8',
-                'p-4',
+                'p-p-spacing-4',
                 inputScriptClassName,
               )}
             >
@@ -336,7 +340,7 @@ export function TranslitClient({ library }: Readonly<{ library: Library }>) {
                 'wrap-break-word',
                 'text-2xl',
                 'leading-8',
-                'p-4',
+                'p-p-spacing-4',
                 outputScriptClassName,
               )}
             >

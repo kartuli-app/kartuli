@@ -14,7 +14,7 @@ function Action({ label }: Readonly<{ label: string }>) {
     <button
       type="button"
       aria-label={label}
-      className="size-12 rounded-full border border-s-color-shell-border"
+      className="size-12 rounded-p-radius-full border border-s-color-shell-border"
     >
       {label.slice(0, 1)}
     </button>

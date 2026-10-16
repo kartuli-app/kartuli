@@ -33,7 +33,7 @@ export function LetterStudySummaryItemPreview({
         </div>
         <div
           className={cn(
-            'flex items-center justify-center gap-1 text-lg',
+            'flex items-center justify-center gap-p-spacing-1 text-lg',
             'text-s-color-panel-action-ghost-content-secondary',
             'group-hover:text-s-color-panel-action-ghost-hover-content-secondary',
             'group-active:text-s-color-panel-action-ghost-hover-content-secondary',

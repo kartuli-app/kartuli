@@ -37,15 +37,15 @@ function PanelActionButton({
         'justify-center',
         'rounded-p-radius-full',
         'border',
-        'p-2',
+        'p-p-spacing-2',
         variant === 'default' && 'border-s-color-panel-header-border',
         variant === 'default' && 'bg-s-color-panel-bg',
         variant === 'default' && 'text-s-color-panel-header-content-secondary',
-        variant === 'default' && 'hover:bg-p-color-neutral-200',
-        variant === 'inverted' && 'border-p-color-neutral-50',
-        variant === 'inverted' && 'bg-p-color-neutral-50',
-        variant === 'inverted' && 'text-p-color-brand-500',
-        variant === 'inverted' && 'hover:bg-p-color-neutral-200',
+        variant === 'default' && 'hover:bg-s-color-panel-action-outline-hover-bg',
+        variant === 'inverted' && 'border-s-color-panel-bg',
+        variant === 'inverted' && 'bg-s-color-panel-bg',
+        variant === 'inverted' && 'text-s-color-panel-header-content-primary',
+        variant === 'inverted' && 'hover:bg-s-color-panel-action-outline-hover-bg',
       )}
     >
       {children}
@@ -63,15 +63,15 @@ function PanelBadge({
         'inline-flex',
         'items-center',
         'rounded-p-radius-full',
-        'px-3',
-        'py-1',
+        'px-p-spacing-3',
+        'py-p-spacing-1',
         'text-sm',
         'font-bold',
         'uppercase',
-        variant === 'default' && 'bg-p-color-neutral-200',
-        variant === 'default' && 'text-p-color-neutral-900',
-        variant === 'inverted' && 'bg-p-color-neutral-50',
-        variant === 'inverted' && 'text-p-color-brand-500',
+        variant === 'default' && 'bg-s-color-panel-control-bg',
+        variant === 'default' && 'text-s-color-panel-status-neutral-content',
+        variant === 'inverted' && 'bg-s-color-panel-bg',
+        variant === 'inverted' && 'text-s-color-panel-header-content-primary',
       )}
     >
       {children}
@@ -124,12 +124,12 @@ function PanelStory({
         leading={renderLeading(leadingMode)}
         trailing={renderTrailing(trailingMode, variant)}
       />
-      <PanelSection className={cn('flex', 'flex-col', 'gap-4')}>
-        <div className={cn('h-4', 'w-2/3', 'rounded-p-radius-1', 'bg-p-color-neutral-200')} />
-        <div className={cn('grid', 'grid-cols-3', 'gap-2')}>
-          <div className={cn('h-10', 'rounded-p-radius-1', 'bg-p-color-neutral-100')} />
-          <div className={cn('h-10', 'rounded-p-radius-1', 'bg-p-color-neutral-100')} />
-          <div className={cn('h-10', 'rounded-p-radius-1', 'bg-p-color-neutral-100')} />
+      <PanelSection className={cn('flex', 'flex-col', 'gap-p-spacing-4')}>
+        <div className={cn('h-4', 'w-2/3', 'rounded-p-radius-1', 'bg-s-color-panel-control-bg')} />
+        <div className={cn('grid', 'grid-cols-3', 'gap-p-spacing-2')}>
+          <div className={cn('h-10', 'rounded-p-radius-1', 'bg-s-color-panel-control-bg')} />
+          <div className={cn('h-10', 'rounded-p-radius-1', 'bg-s-color-panel-control-bg')} />
+          <div className={cn('h-10', 'rounded-p-radius-1', 'bg-s-color-panel-control-bg')} />
         </div>
       </PanelSection>
     </Panel>

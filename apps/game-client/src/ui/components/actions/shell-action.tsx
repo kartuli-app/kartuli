@@ -38,8 +38,8 @@ const SHELL_ACTION_BASE_CLASS_NAME = cn(
 
 const SHELL_ACTION_SIZE_CLASS_NAMES = {
   icon: 'size-11',
-  pill: 'h-11 px-2',
-  cta: 'h-16 w-full gap-4 p-2 md:h-20',
+  pill: 'h-11 px-p-spacing-2',
+  cta: 'h-16 w-full gap-p-spacing-4 p-p-spacing-2 md:h-20',
 } as const satisfies Record<ShellActionSize, string>;
 
 const SHELL_ACTION_VARIANT_CLASS_NAMES = {

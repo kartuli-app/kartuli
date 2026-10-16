@@ -42,7 +42,7 @@ export function LettersPreviewGrid({
         size === 'full' && 'grid grid-cols-6 min-[600px]:grid-cols-12 lg:grid-cols-18',
         'w-full',
         'gap-y-8',
-        'py-4',
+        'py-p-spacing-4',
       )}
     >
       {items.map((item) => (

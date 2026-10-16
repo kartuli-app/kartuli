@@ -17,7 +17,7 @@ export function LetterStudySummarySlide({
   const { t } = useTranslation('study');
   return (
     <div className="flex min-h-0 flex-1 flex-col touch-pan-y gap-p-spacing-2 overflow-x-hidden overflow-y-auto p-p-spacing-2">
-      <div className="flex flex-col gap-1 p-p-spacing-4 text-center text-s-color-panel-content-secondary">
+      <div className="flex flex-col gap-p-spacing-1 p-p-spacing-4 text-center text-s-color-panel-content-secondary">
         {t('summary.tap_hint')}
       </div>
       <StudySummaryGrid>

@@ -25,9 +25,9 @@ export function StudyStatusPill({
         'min-w-0',
         'items-center',
         'justify-center',
-        'rounded-full',
+        'rounded-p-radius-full',
         'bg-s-color-shell-status-bg',
-        'px-3',
+        'px-p-spacing-3',
         'font-bold',
         'uppercase',
         'text-s-color-shell-status-content-primary',
@@ -35,11 +35,11 @@ export function StudyStatusPill({
       )}
     >
       {currentItem === 'summary' ? (
-        <div className="flex items-center justify-center gap-1 text-xs">
+        <div className="flex items-center justify-center gap-p-spacing-1 text-xs">
           <span className="font-bold">{totalItems}</span> {t('status.letters')}
         </div>
       ) : (
-        <div className="flex items-center justify-center gap-1 text-base">
+        <div className="flex items-center justify-center gap-p-spacing-1 text-base">
           <div className="w-6 text-right font-bold text-s-color-shell-status-content-primary">
             {currentItem + 1}
           </div>

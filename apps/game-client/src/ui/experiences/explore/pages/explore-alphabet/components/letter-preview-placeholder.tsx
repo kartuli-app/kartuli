@@ -9,7 +9,7 @@ export function LetterPreviewPlaceholder({ className }: Readonly<{ className?: s
         'justify-center',
         'flex',
         'flex-col',
-        'gap-0',
+        'gap-p-spacing-0',
         'pointer-events-none',
         className,
       )}
