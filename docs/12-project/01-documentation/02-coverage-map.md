@@ -92,8 +92,7 @@ These are known incomplete capabilities, not undocumented implemented systems:
 - Analytics policy, telemetry taxonomy, consent, retention and centralized observability are planned.
 - Release rollback/promotion, incident response, backup and recovery runbooks are not established.
 - Provider-console settings, ownership and secret rotation need authorized manual verification.
-- Local Backoffice preview/E2E port alignment requires implementation work outside this
-  documentation-only continuation.
+- Local Backoffice preview/E2E port alignment remains out of scope.
 
 ## Audit procedure
 
