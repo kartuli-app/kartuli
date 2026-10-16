@@ -76,7 +76,7 @@ Run this checklist before finishing normal React product or shared UI work:
 
 ## Typography, themes and patterns
 
-The Game Client root layout supplies Manrope through `next/font/google` and local Mersad for Georgian, binding font variables to the theme contract. App font loading is an integration detail, not proof every surface uses the same fonts. Storybook visualizes tokens and offers brand-ramp overrides; this is not an implemented end-user theme switcher.
+The Game Client root layout supplies Manrope through `next/font/google` and local Mersad for Georgian, binding font variables to the theme contract. App font loading is an integration detail, not proof every surface uses the same fonts. Storybook visualizes tokens and provides real-app and synthetic cross-theme review modes; this is not an implemented end-user theme switcher.
 
 React Icons and Motion are current app dependencies. Their usage is cataloged under [Libraries](../05-engineering/02-libraries.md); a comprehensive icon, motion and responsive-pattern specification remains planned. Do not infer a finished design system from individual components.
 
