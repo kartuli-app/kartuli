@@ -42,3 +42,10 @@ For a new reusable component, decide ownership before implementation:
 Verify a shared change with UI typecheck/tests, Storybook browser tests and at least one real consumer
 build. Verify an app-local component with its focused tests/story and the containing route. Use the full
 repository gate last; cached success is not a substitute for checking the changed interaction state.
+
+For cross-theme shell review, open `Design System/Workshop/Shared Shell`. It composes the real shared
+shell primitives with neutral Storybook-owned content, so product routing, localization and application
+identity remain outside the shared package. Review each toolbar theme at 390x844, 900x900 and
+1600x1000, checking bottom/compact/expanded navigation geometry, app-bar and content offsets, optional
+end-rail placement, hover, focus, selected state and readable contrast. The workshop is a review
+fixture—not a new shared component or evidence of runtime app theming.

@@ -1,7 +1,22 @@
 import '@game-client/ui/components/feedback/notifications';
 import type { Preview } from '@storybook/react-vite';
 import './storybook.css';
-import { BrandEmeraldThemeWrapper, BrandRoseThemeWrapper } from './theme-wrappers';
+import { resolveStorybookTheme, STORYBOOK_THEMES, StorybookThemeWrapper } from './theme-wrappers';
+
+const reviewViewports = {
+  'review-mobile': {
+    name: 'Mobile · 390 × 844',
+    styles: { width: '390px', height: '844px' },
+  },
+  'review-tablet': {
+    name: 'Tablet · 900 × 900',
+    styles: { width: '900px', height: '900px' },
+  },
+  'review-desktop': {
+    name: 'Desktop · 1600 × 1000',
+    styles: { width: '1600px', height: '1000px' },
+  },
+};
 
 const preview: Preview = {
   parameters: {
@@ -10,6 +25,9 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
+    },
+    viewport: {
+      options: reviewViewports,
     },
     a11y: {
       // Matches the tag set used in our Playwright + axe-core setup
@@ -35,19 +53,21 @@ const preview: Preview = {
   },
   globalTypes: {
     theme: {
-      description: 'Override the primitive brand ramp for component previews',
-      defaultValue: 'default',
+      description: 'Design System review theme',
       toolbar: {
         title: 'Theme',
         icon: 'paintbrush',
-        items: [
-          { value: 'default', title: 'Default', icon: 'circle' },
-          { value: 'brand-emerald', title: 'Brand Emerald', icon: 'graphbar' },
-          { value: 'brand-rose', title: 'Brand Rose', icon: 'admin' },
-        ],
+        items: Object.values(STORYBOOK_THEMES).map((theme) => ({
+          value: theme.id,
+          title: theme.label,
+          right: theme.kind === 'real' ? 'Real' : 'Stress',
+        })),
         dynamicTitle: true,
       },
     },
+  },
+  initialGlobals: {
+    theme: 'game-default',
   },
   decorators: [
     // Wrap every story canvas in a `<main>` landmark. Components are rendered
@@ -61,21 +81,14 @@ const preview: Preview = {
     // If a future story renders its own `<main>` internally, opt it out of
     // `landmark-no-duplicate-main` via `parameters.a11y.config.rules`.
     (Story, context) => {
-      const theme = context.globals.theme || 'default';
-      const content = (
-        <main>
-          <Story />
-        </main>
+      const theme = resolveStorybookTheme(context.globals.theme);
+      return (
+        <StorybookThemeWrapper key={theme.id} themeId={theme.id}>
+          <main>
+            <Story />
+          </main>
+        </StorybookThemeWrapper>
       );
-
-      switch (theme) {
-        case 'brand-emerald':
-          return <BrandEmeraldThemeWrapper>{content}</BrandEmeraldThemeWrapper>;
-        case 'brand-rose':
-          return <BrandRoseThemeWrapper>{content}</BrandRoseThemeWrapper>;
-        default:
-          return content;
-      }
     },
   ],
 };

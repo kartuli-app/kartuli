@@ -8,9 +8,10 @@ intent: reference
 
 ## Responsibility and consumers
 
-Storybook is the real-browser component playground for `packages/ui` and Game Client source. It is not
-a third application package and does not establish that every displayed app-local component is shared.
-Stories are discovered beside source through the two globs in `.storybook/main.ts`.
+Storybook is the real-browser component playground for `packages/ui`, Game Client source and
+Storybook-owned review fixtures. It is not a third application package and does not establish that
+every displayed app-local component is shared. Stories are discovered beside shared and Game Client
+source, plus `tools/storybook/src` for fixtures that belong to preview tooling itself.
 
 Shared `AppShell`, `AppBar`, `Dock` and `DockItem` stories live beside their source in `packages/ui` and
 use framework-neutral fixtures. Game Client title, icon-action and product stories remain in the app
@@ -31,14 +32,33 @@ Docgen uses Storybook's `react-docgen` parser and the shared TypeScript catalog.
 ## Preview and test behavior
 
 `preview.tsx` supplies theme controls and makes axe violations fail browser tests. Its global decorator
-provides a `<main>` landmark for isolated components; a story rendering its own main may need a narrow
-rule adjustment. The default, emerald and rose themes override the primitive brand ramp on the
-document root and restore prior values after unmount.
+provides a `<main>` landmark for isolated components; fullscreen workshop stories must not add a second
+main landmark. The toolbar exposes these private preview modes:
+
+- **Game / Default** is the real default theme and applies no overrides.
+- **Backoffice** is the real Backoffice identity, duplicating all 11 brand and 11 accent primitives so
+  Storybook does not import application runtime code. A browser test compares the map exactly with the
+  production `theme.css`, which is also a Turbo input for the test task.
+- **Stress: Emerald** and **Stress: Rose** are synthetic brand-only ramps used to expose raw-color or
+  semantic-mapping assumptions. Their 600 slots use the next darker ramp value so the shared selected
+  text pairing remains readable.
+
+All definitions are restricted to brand/accent primitives. One keyed wrapper records existing inline
+values and priorities, applies the selected map, and restores or removes them during cleanup. An unknown
+mode resolves to Game/default. This is preview tooling, not an application runtime theme switcher.
+
+The viewport toolbar includes exact 390x844, 900x900 and 1600x1000 review sizes. The
+`Design System/Workshop/Shared Shell` Review story composes the real shared `AppShell`, `AppBar`, `Dock`
+and `DockItem` with Storybook-owned labels, anchor links and optional neutral end-rail content. Use it to
+compare bottom-dock, compact-rail and expanded-rail geometry across all four modes. Focused
+`ShellRail` and `ContentContainer` stories cover rail placement and content width, padding and centering.
 
 `vitest.config.ts` uses addon-vitest and Playwright Chromium to render every story, execute `play`
-functions and apply preview annotations. Turbo makes the Storybook `test` task depend on the UI build
-and includes UI/Game Client source in its cache inputs. Root V8 coverage excludes this browser project,
-but `pnpm run test:all` and therefore `validate:all` do execute it.
+functions and apply preview annotations. `vitest.integration.config.ts` runs the theme-parity, cleanup
+and Tailwind integration guards in the same browser mode. Turbo makes the Storybook `test` task depend
+on the UI build and includes UI/Game Client source plus the production Backoffice theme in its cache
+inputs. Root V8 coverage excludes these browser projects, but `pnpm run test:all` and therefore
+`validate:all` do execute them.
 
 ## Commands and expected results
 
@@ -78,5 +98,7 @@ Token stories visualize the [Design System](../04-design-system/index.md). See
 [Accessibility](../06-quality/02-accessibility.md) for evidence and policy.
 
 When changing the layered token CSS or source paths, verify a running Storybook session detects edits
-to primitive, semantic and component files, new token mappings, shared UI classes and Storybook-local
-classes without a server restart. The production build remains a separate required check.
+to primitive, semantic and component files, new token mappings, shared UI classes and Game Client-local
+classes without a server restart. The production build remains a separate required check. The Tailwind
+integration test also checks emitted utilities from Storybook-local, shared UI and Game Client source
+while ensuring the test itself cannot seed discovery candidates.
