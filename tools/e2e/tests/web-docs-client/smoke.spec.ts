@@ -64,7 +64,10 @@ test.describe('Web Docs Client Smoke Tests', () => {
     await expect(page.locator('pre code.language-mermaid')).toHaveCount(0);
 
     const appearanceSwitch = page.locator('.VPSwitchAppearance').first();
-    const initialSvgMarkup = await renderedSvg.evaluate((element) => element.outerHTML);
+    const renderedNode = renderedSvg.locator('.node rect').first();
+    const initialNodeFill = await renderedNode.evaluate(
+      (element) => getComputedStyle(element).fill,
+    );
     const wasDark = await page
       .locator('html')
       .evaluate((element) => element.classList.contains('dark'));
@@ -74,8 +77,10 @@ test.describe('Web Docs Client Smoke Tests', () => {
       .poll(() => page.locator('html').evaluate((element) => element.classList.contains('dark')))
       .toBe(!wasDark);
     await expect
-      .poll(() => renderedSvg.evaluate((element) => element.outerHTML), { timeout: 15000 })
-      .not.toBe(initialSvgMarkup);
+      .poll(() => renderedNode.evaluate((element) => getComputedStyle(element).fill), {
+        timeout: 15000,
+      })
+      .not.toBe(initialNodeFill);
     await expect(renderedSvg).toBeVisible();
     await expect(diagram).toContainText('choose');
     await expect(page.locator('.vp-mermaid-loading, .vp-mermaid-error')).toHaveCount(0);
