@@ -14,10 +14,11 @@
     "test": "pnpm generate-llm-bundle && pnpm check-docs && node --test scripts/site-navigation.node-test.js"
   },
   "dependencies": {
+    "@aether-labs/vitepress-mermaid": "catalog:",
     "@kartuli/docs": "workspace:*",
+    "mermaid": "catalog:",
     "vitepress": "catalog:",
     "vue": "catalog:",
-    "@vue/server-renderer": "catalog:",
-    "vitepress-plugin-diagrams": "catalog:"
+    "@vue/server-renderer": "catalog:"
   }
 }

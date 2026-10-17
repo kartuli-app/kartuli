@@ -16,7 +16,6 @@ Service pages own provider-specific configuration; capabilities stay canonical i
 | [CodeRabbit](./04-coderabbit.md) | External review integration; freshness must be checked | Organization UI configuration; no repository YAML |
 | [Renovate](./05-renovate.md) | Dashboard #28 and update PRs verified | Catalog/schema discovery, grouped policy and blocked-update recovery |
 | [Telegram](./06-telegram.md) | Implemented workflow integration; routing unverified | PR, CI failure and deployment notifications |
-| [Kroki](./07-kroki.md) | Request/cache implementation and failed assets inspected | Public renderer and cache failure modes; policy and repair remain open |
 | Supabase | Evaluating | Possible backend/data/auth; no adopted integration |
 | PostHog | Evaluating | Possible product analytics; broader telemetry undecided |
 | Sentry | Evaluating | Possible errors/performance/logging |

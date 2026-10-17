@@ -44,7 +44,7 @@ Write about Kartuli usage, constraints, consumers and source/config locations. L
 
 ## Before review
 
-Check canonical ownership, descriptions, visible status, relative links and the generated agent index. Run `pnpm run c:build:web-docs-client` and `pnpm run validate:all`; inspect the built site/index as described in [Web Docs Client](../../03-tools/03-web-docs-client.md). Do not commit generated `kartuli-llm.txt` or unrelated diagram/cache changes. A build passing with an existing invalid diagram asset does not mean that diagram has been repaired.
+Check canonical ownership, descriptions, visible status, relative links and the generated agent index. Run `pnpm run c:build:web-docs-client` and `pnpm run validate:all`; inspect the built site/index as described in [Web Docs Client](../../03-tools/03-web-docs-client.md). Do not commit generated `kartuli-llm.txt`. A build passing does not prove that a client-rendered Mermaid diagram initialized; use the production-preview Web Docs browser suite when diagram rendering changes.
 
 ## Authoring templates and depth
 

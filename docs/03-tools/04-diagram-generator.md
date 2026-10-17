@@ -24,4 +24,4 @@ are legible and review dependency-cruiser warnings. Generated diagrams are revie
 configured categories; source/config remains authoritative. Do not commit refreshed output unless the
 task explicitly includes it and the diff is understood.
 
-This tool is distinct from the [Web Docs diagram plugin](./03-web-docs-client.md). Regenerate dependency diagrams when useful for an architecture review, without treating generated output as the canonical architecture specification.
+This tool is distinct from the Mermaid-native rendering documented by the [Web Docs Client](./03-web-docs-client.md). Regenerate dependency diagrams when useful for an architecture review, without treating generated output as the canonical architecture specification.
